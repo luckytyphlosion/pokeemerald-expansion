@@ -111,7 +111,7 @@ MAKEFLAGS += --no-print-directory
 # Secondary expansion is required for dependency variables in object rules.
 .SECONDEXPANSION:
 
-.PHONY: all rom clean compare tidy tools mostlyclean clean-tools $(TOOLDIRS) berry_fix libagbsyscall modern
+.PHONY: all rom clean compare tidy tools mostlyclean clean-tools $(TOOLDIRS) berry_fix libagbsyscall modern symtab
 
 infoshell = $(foreach line, $(shell $1 | sed "s/ /__SPACE__/g"), $(info $(subst __SPACE__, ,$(line))))
 
@@ -192,6 +192,13 @@ tidy:
 ifeq ($(MODERN),0)
 	@$(MAKE) tidy MODERN=1
 endif
+
+SYMTAB := pokeemerald_syms.dump
+
+symtab: $(SYMTAB)
+
+$(SYMTAB): $(ELF)
+	$(DEVKITARM)/arm-none-eabi/bin/objdump -t $< | perl -p -e 's/^([0-9a-f]{8}) (.).{4}(.)(.) ([^\t]+)\t0*([0-9a-f]{1,8}) (\S+)$$/0x\1 \2 \7 (size: 0x\6)/g' | sort -u > $@
 
 ifneq ($(MODERN),0)
 $(C_BUILDDIR)/berry_crush.o: override CFLAGS += -Wno-address-of-packed-member
