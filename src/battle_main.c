@@ -3715,6 +3715,27 @@ enum
     STATE_SELECTION_SCRIPT_MAY_RUN
 };
 
+void FillChooseMoveStruct(struct ChooseMoveStruct * moveInfo)
+{
+    int i;
+
+    moveInfo->mega = gBattleStruct->mega;
+    moveInfo->species = gBattleMons[gActiveBattler].species;
+    moveInfo->monType1 = gBattleMons[gActiveBattler].type1;
+    moveInfo->monType2 = gBattleMons[gActiveBattler].type2;
+    moveInfo->monType3 = gBattleMons[gActiveBattler].type3;
+
+    for (i = 0; i < MAX_MON_MOVES; i++)
+    {
+        moveInfo->moves[i] = gBattleMons[gActiveBattler].moves[i];
+        moveInfo->currentPp[i] = gBattleMons[gActiveBattler].pp[i];
+        moveInfo->maxPp[i] = CalculatePPWithBonus(
+                                        gBattleMons[gActiveBattler].moves[i],
+                                        gBattleMons[gActiveBattler].ppBonuses,
+                                        i);
+    }
+}
+
 static void HandleTurnActionSelectionState(void)
 {
     s32 i;
@@ -3783,7 +3804,8 @@ static void HandleTurnActionSelectionState(void)
                         gBattleCommunication[gActiveBattler] = STATE_SELECTION_SCRIPT;
                         *(gBattleStruct->selectionScriptFinished + gActiveBattler) = FALSE;
                         *(gBattleStruct->stateIdAfterSelScript + gActiveBattler) = STATE_WAIT_ACTION_CONFIRMED_STANDBY;
-                        *(gBattleStruct->moveTarget + gActiveBattler) = gBattleResources->bufferB[gActiveBattler][3];
+                        // doesn't actually do anything, overwritten later (see HandleAction_UseMove)
+                        // *(gBattleStruct->moveTarget + gActiveBattler) = gBattleResources->bufferB[gActiveBattler][3];
                         return;
                     }
                     else if (gDisableStructs[gActiveBattler].encoredMove != 0)
@@ -3797,21 +3819,7 @@ static void HandleTurnActionSelectionState(void)
                     {
                         struct ChooseMoveStruct moveInfo;
 
-                        moveInfo.mega = gBattleStruct->mega;
-                        moveInfo.species = gBattleMons[gActiveBattler].species;
-                        moveInfo.monType1 = gBattleMons[gActiveBattler].type1;
-                        moveInfo.monType2 = gBattleMons[gActiveBattler].type2;
-                        moveInfo.monType3 = gBattleMons[gActiveBattler].type3;
-
-                        for (i = 0; i < MAX_MON_MOVES; i++)
-                        {
-                            moveInfo.moves[i] = gBattleMons[gActiveBattler].moves[i];
-                            moveInfo.currentPp[i] = gBattleMons[gActiveBattler].pp[i];
-                            moveInfo.maxPp[i] = CalculatePPWithBonus(
-                                                            gBattleMons[gActiveBattler].moves[i],
-                                                            gBattleMons[gActiveBattler].ppBonuses,
-                                                            i);
-                        }
+                        FillChooseMoveStruct(&moveInfo);
 
                         BtlController_EmitChooseMove(0, (gBattleTypeFlags & BATTLE_TYPE_DOUBLE) != 0, FALSE, &moveInfo);
                         MarkBattlerForControllerExec(gActiveBattler);
@@ -3911,9 +3919,13 @@ static void HandleTurnActionSelectionState(void)
                     gBattleStruct->mega.toEvolve &= ~(gBitTable[BATTLE_PARTNER(GetBattlerPosition(gActiveBattler))]);
                     BtlController_EmitEndBounceEffect(0);
                     MarkBattlerForControllerExec(gActiveBattler);
-                    return;
+                    return;                
                 case B_ACTION_DEBUG:
                     BtlController_EmitDebugMenu(0);
+
+                // fallthrough
+                case B_ACTION_SAFARI_WATCH_CAREFULLY:
+                case B_ACTION_RUN:
                     MarkBattlerForControllerExec(gActiveBattler);
                     break;
                 }
