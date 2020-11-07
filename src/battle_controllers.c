@@ -31,12 +31,13 @@ static void Task_HandleCopyReceivedLinkBuffersData(u8 taskId);
 
 void HandleLinkBattleSetup(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-    {
-        if (gWirelessCommType)
+    if (gBattleTypeFlags & BATTLE_TYPE_LINK) {
+        if (gWirelessCommType) {
             SetWirelessCommType1();
-        if (!gReceivedRemoteLinkPlayers)
+        }
+        if (!gReceivedRemoteLinkPlayers) {
             OpenLink();
+        }
         CreateTask(Task_WaitForLinkPlayerConnection, 0);
         CreateTasksForSendRecvLinkBuffers();
     }
@@ -48,8 +49,7 @@ void SetUpBattleVarsAndBirchZigzagoon(void)
 
     gBattleMainFunc = nullsub_20;
 
-    for (i = 0; i < MAX_BATTLERS_COUNT; i++)
-    {
+    for (i = 0; i < MAX_BATTLERS_COUNT; i++) {
         gBattlerControllerFuncs[i] = nullsub_21;
         gBattlerPositions[i] = 0xFF;
         gActionSelectionCursor[i] = 0;
@@ -61,11 +61,10 @@ void SetUpBattleVarsAndBirchZigzagoon(void)
     ClearBattleAnimationVars();
     ClearBattleMonForms();
     BattleAI_SetupItems();
-	BattleAI_SetupFlags();
-	BattleAI_SetupAIData(0xF);
+    BattleAI_SetupFlags();
+    BattleAI_SetupAIData(0xF);
 
-    if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE)
-    {
+    if (gBattleTypeFlags & BATTLE_TYPE_FIRST_BATTLE) {
         ZeroEnemyPartyMons();
         CreateMon(&gEnemyParty[0], SPECIES_ZIGZAGOON, 2, 32, 0, 0, OT_ID_PLAYER_ID, 0);
         i = 0;
@@ -80,44 +79,47 @@ void sub_8032768(void)
 {
     s32 i;
 
-    if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
+    if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED)) {
         sub_8184DA4(1);
-    else
+    } else {
         sub_8184DA4(2);
+    }
 
-    if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED))
+    if (!(gBattleTypeFlags & BATTLE_TYPE_RECORDED)) {
         RecordedBattle_SaveParties();
+    }
 
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
+    if (gBattleTypeFlags & BATTLE_TYPE_LINK) {
         InitLinkBtlControllers();
-    else
+    } else {
         InitSinglePlayerBtlControllers();
+    }
 
     SetBattlePartyIds();
 
-    if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
-    {
-        for (i = 0; i < gBattlersCount; i++)
+    if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI)) {
+        for (i = 0; i < gBattlersCount; i++) {
             BufferBattlePartyCurrentOrderBySide(i, 0);
+        }
     }
 
-    for (i = 0; i < sizeof(gBattleStruct->tvMovePoints); i++)
+    for (i = 0; i < sizeof(gBattleStruct->tvMovePoints); i++) {
         *((u8*)(&gBattleStruct->tvMovePoints) + i) = 0;
+    }
 
-    for (i = 0; i < sizeof(gBattleStruct->tv); i++)
+    for (i = 0; i < sizeof(gBattleStruct->tv); i++) {
         *((u8*)(&gBattleStruct->tv) + i) = 0;
+    }
 }
 
 static void InitSinglePlayerBtlControllers(void)
 {
     s32 i;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER)
-    {
+    if (gBattleTypeFlags & BATTLE_TYPE_INGAME_PARTNER) {
         gBattleMainFunc = BeginBattleIntro;
 
-        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
-        {
+        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED) {
             gBattlerControllerFuncs[0] = SetControllerToRecordedPlayer;
             gBattlerPositions[0] = B_POSITION_PLAYER_LEFT;
 
@@ -129,9 +131,7 @@ static void InitSinglePlayerBtlControllers(void)
 
             gBattlerControllerFuncs[3] = SetControllerToOpponent;
             gBattlerPositions[3] = B_POSITION_OPPONENT_RIGHT;
-        }
-        else
-        {
+        } else {
             gBattlerControllerFuncs[0] = SetControllerToPlayer;
             gBattlerPositions[0] = B_POSITION_PLAYER_LEFT;
 
@@ -154,27 +154,23 @@ static void InitSinglePlayerBtlControllers(void)
 
         gBattlerPartyIndexes[0] = 0;
         gBattlerPartyIndexes[1] = 0;
-        if (BATTLE_TWO_VS_ONE_OPPONENT)
-        {
+        if (BATTLE_TWO_VS_ONE_OPPONENT) {
             gBattlerPartyIndexes[2] = 3;
             gBattlerPartyIndexes[3] = 1;
-        }
-        else
-        {
+        } else {
             gBattlerPartyIndexes[2] = 3;
             gBattlerPartyIndexes[3] = 3;
         }
-    }
-    else if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
-    {
+    } else if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE)) {
         gBattleMainFunc = BeginBattleIntro;
 
-        if (gBattleTypeFlags & BATTLE_TYPE_SAFARI)
+        if (gBattleTypeFlags & BATTLE_TYPE_SAFARI) {
             gBattlerControllerFuncs[0] = SetControllerToSafari;
-        else if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL)
+        } else if (gBattleTypeFlags & BATTLE_TYPE_WALLY_TUTORIAL) {
             gBattlerControllerFuncs[0] = SetControllerToWally;
-        else
+        } else {
             gBattlerControllerFuncs[0] = SetControllerToPlayer;
+        }
 
         gBattlerPositions[0] = B_POSITION_PLAYER_LEFT;
 
@@ -183,12 +179,9 @@ static void InitSinglePlayerBtlControllers(void)
 
         gBattlersCount = 2;
 
-        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
-        {
-            if (gBattleTypeFlags & BATTLE_TYPE_x2000000)
-            {
-                if (gBattleTypeFlags & BATTLE_TYPE_x80000000)
-                {
+        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED) {
+            if (gBattleTypeFlags & BATTLE_TYPE_x2000000) {
+                if (gBattleTypeFlags & BATTLE_TYPE_x80000000) {
                     gBattleMainFunc = BeginBattleIntro;
 
                     gBattlerControllerFuncs[0] = SetControllerToRecordedPlayer;
@@ -198,9 +191,7 @@ static void InitSinglePlayerBtlControllers(void)
                     gBattlerPositions[1] = B_POSITION_OPPONENT_LEFT;
 
                     gBattlersCount = 2;
-                }
-                else // see how the banks are switched
-                {
+                } else { // see how the banks are switched
                     gBattlerControllerFuncs[1] = SetControllerToRecordedPlayer;
                     gBattlerPositions[1] = B_POSITION_PLAYER_LEFT;
 
@@ -209,9 +200,7 @@ static void InitSinglePlayerBtlControllers(void)
 
                     gBattlersCount = 2;
                 }
-            }
-            else
-            {
+            } else {
                 gBattlerControllerFuncs[0] = SetControllerToRecordedPlayer;
                 gBattlerPositions[0] = B_POSITION_PLAYER_LEFT;
 
@@ -219,9 +208,7 @@ static void InitSinglePlayerBtlControllers(void)
                 gBattlerPositions[1] = B_POSITION_OPPONENT_LEFT;
             }
         }
-    }
-    else
-    {
+    } else {
         gBattleMainFunc = BeginBattleIntro;
 
         gBattlerControllerFuncs[0] = SetControllerToPlayer;
@@ -238,10 +225,8 @@ static void InitSinglePlayerBtlControllers(void)
 
         gBattlersCount = MAX_BATTLERS_COUNT;
 
-        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED)
-        {
-            if (gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
-            {
+        if (gBattleTypeFlags & BATTLE_TYPE_RECORDED) {
+            if (gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER) {
                 gBattleMainFunc = BeginBattleIntro;
 
                 gBattlerControllerFuncs[0] = SetControllerToRecordedPlayer;
@@ -267,15 +252,11 @@ static void InitSinglePlayerBtlControllers(void)
                 gBattlerPartyIndexes[1] = 0;
                 gBattlerPartyIndexes[2] = 3;
                 gBattlerPartyIndexes[3] = 3;
-            }
-            else if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-            {
+            } else if (gBattleTypeFlags & BATTLE_TYPE_MULTI) {
                 u8 var; // multiplayer Id in a recorded battle?
 
-                for (var = gUnknown_0203C7B4, i = 0; i < MAX_BATTLERS_COUNT; i++)
-                {
-                    switch (gLinkPlayers[i].id)
-                    {
+                for (var = gUnknown_0203C7B4, i = 0; i < MAX_BATTLERS_COUNT; i++) {
+                    switch (gLinkPlayers[i].id) {
                     case 0:
                     case 3:
                         BufferBattlePartyCurrentOrderBySide(gLinkPlayers[i].id, 0);
@@ -286,11 +267,9 @@ static void InitSinglePlayerBtlControllers(void)
                         break;
                     }
 
-                    if (i == var)
-                    {
+                    if (i == var) {
                         gBattlerControllerFuncs[gLinkPlayers[i].id] = SetControllerToRecordedPlayer;
-                        switch (gLinkPlayers[i].id)
-                        {
+                        switch (gLinkPlayers[i].id) {
                         case 0:
                         case 3:
                             gBattlerPositions[gLinkPlayers[i].id] = B_POSITION_PLAYER_LEFT;
@@ -302,13 +281,10 @@ static void InitSinglePlayerBtlControllers(void)
                             gBattlerPartyIndexes[gLinkPlayers[i].id] = 3;
                             break;
                         }
-                    }
-                    else if ((!(gLinkPlayers[i].id & 1) && !(gLinkPlayers[var].id & 1))
-                            || ((gLinkPlayers[i].id & 1) && (gLinkPlayers[var].id & 1)))
-                    {
+                    } else if ((!(gLinkPlayers[i].id & 1) && !(gLinkPlayers[var].id & 1))
+                               || ((gLinkPlayers[i].id & 1) && (gLinkPlayers[var].id & 1))) {
                         gBattlerControllerFuncs[gLinkPlayers[i].id] = SetControllerToRecordedPlayer;
-                        switch (gLinkPlayers[i].id)
-                        {
+                        switch (gLinkPlayers[i].id) {
                         case 0:
                         case 3:
                             gBattlerPositions[gLinkPlayers[i].id] = B_POSITION_PLAYER_LEFT;
@@ -320,12 +296,9 @@ static void InitSinglePlayerBtlControllers(void)
                             gBattlerPartyIndexes[gLinkPlayers[i].id] = 3;
                             break;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         gBattlerControllerFuncs[gLinkPlayers[i].id] = SetControllerToRecordedOpponent;
-                        switch (gLinkPlayers[i].id)
-                        {
+                        switch (gLinkPlayers[i].id) {
                         case 0:
                         case 3:
                             gBattlerPositions[gLinkPlayers[i].id] = B_POSITION_OPPONENT_LEFT;
@@ -339,50 +312,40 @@ static void InitSinglePlayerBtlControllers(void)
                         }
                     }
                 }
-            }
-            else if (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER)
-            {
+            } else if (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER) {
                 gBattlerControllerFuncs[0] = SetControllerToRecordedPlayer;
                 gBattlerPositions[0] = B_POSITION_PLAYER_LEFT;
 
                 gBattlerControllerFuncs[2] = SetControllerToRecordedPlayer;
                 gBattlerPositions[2] = B_POSITION_PLAYER_RIGHT;
 
-                if (gBattleTypeFlags & BATTLE_TYPE_x2000000)
-                {
-                  gBattlerControllerFuncs[1] = SetControllerToRecordedOpponent;
-                  gBattlerPositions[1] = B_POSITION_OPPONENT_LEFT;
+                if (gBattleTypeFlags & BATTLE_TYPE_x2000000) {
+                    gBattlerControllerFuncs[1] = SetControllerToRecordedOpponent;
+                    gBattlerPositions[1] = B_POSITION_OPPONENT_LEFT;
 
-                  gBattlerControllerFuncs[3] = SetControllerToRecordedOpponent;
-                  gBattlerPositions[3] = B_POSITION_OPPONENT_RIGHT;
-                }
-                else
-                {
-                  gBattlerControllerFuncs[1] = SetControllerToOpponent;
-                  gBattlerPositions[1] = B_POSITION_OPPONENT_LEFT;
+                    gBattlerControllerFuncs[3] = SetControllerToRecordedOpponent;
+                    gBattlerPositions[3] = B_POSITION_OPPONENT_RIGHT;
+                } else {
+                    gBattlerControllerFuncs[1] = SetControllerToOpponent;
+                    gBattlerPositions[1] = B_POSITION_OPPONENT_LEFT;
 
-                  gBattlerControllerFuncs[3] = SetControllerToOpponent;
-                  gBattlerPositions[3] = B_POSITION_OPPONENT_RIGHT;
+                    gBattlerControllerFuncs[3] = SetControllerToOpponent;
+                    gBattlerPositions[3] = B_POSITION_OPPONENT_RIGHT;
                 }
-            }
-            else
-            {
+            } else {
                 gBattlerControllerFuncs[1] = SetControllerToRecordedPlayer;
                 gBattlerPositions[1] = B_POSITION_PLAYER_LEFT;
 
                 gBattlerControllerFuncs[3] = SetControllerToRecordedPlayer;
                 gBattlerPositions[3] = B_POSITION_PLAYER_RIGHT;
 
-                if (gBattleTypeFlags & BATTLE_TYPE_x2000000)
-                {
+                if (gBattleTypeFlags & BATTLE_TYPE_x2000000) {
                     gBattlerControllerFuncs[0] = SetControllerToRecordedOpponent;
                     gBattlerPositions[0] = B_POSITION_OPPONENT_LEFT;
 
                     gBattlerControllerFuncs[2] = SetControllerToRecordedOpponent;
                     gBattlerPositions[2] = B_POSITION_OPPONENT_RIGHT;
-                }
-                else
-                {
+                } else {
                     gBattlerControllerFuncs[0] = SetControllerToOpponent;
                     gBattlerPositions[0] = B_POSITION_OPPONENT_LEFT;
 
@@ -399,10 +362,8 @@ static void InitLinkBtlControllers(void)
     s32 i;
     u8 multiplayerId;
 
-    if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE))
-    {
-        if (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER)
-        {
+    if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE)) {
+        if (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER) {
             gBattleMainFunc = BeginBattleIntro;
 
             gBattlerControllerFuncs[0] = SetControllerToPlayer;
@@ -412,9 +373,7 @@ static void InitLinkBtlControllers(void)
             gBattlerPositions[1] = B_POSITION_OPPONENT_LEFT;
 
             gBattlersCount = 2;
-        }
-        else
-        {
+        } else {
             gBattlerControllerFuncs[1] = SetControllerToPlayer;
             gBattlerPositions[1] = B_POSITION_PLAYER_LEFT;
 
@@ -423,11 +382,8 @@ static void InitLinkBtlControllers(void)
 
             gBattlersCount = 2;
         }
-    }
-    else if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && gBattleTypeFlags & BATTLE_TYPE_DOUBLE)
-    {
-        if (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER)
-        {
+    } else if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI) && gBattleTypeFlags & BATTLE_TYPE_DOUBLE) {
+        if (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER) {
             gBattleMainFunc = BeginBattleIntro;
 
             gBattlerControllerFuncs[0] = SetControllerToPlayer;
@@ -443,9 +399,7 @@ static void InitLinkBtlControllers(void)
             gBattlerPositions[3] = B_POSITION_OPPONENT_RIGHT;
 
             gBattlersCount = MAX_BATTLERS_COUNT;
-        }
-        else
-        {
+        } else {
             gBattlerControllerFuncs[1] = SetControllerToPlayer;
             gBattlerPositions[1] = B_POSITION_PLAYER_LEFT;
 
@@ -460,11 +414,8 @@ static void InitLinkBtlControllers(void)
 
             gBattlersCount = MAX_BATTLERS_COUNT;
         }
-    }
-    else if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
-    {
-        if (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER)
-        {
+    } else if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER) {
+        if (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER) {
             gBattleMainFunc = BeginBattleIntro;
 
             gBattlerControllerFuncs[0] = SetControllerToPlayer;
@@ -480,9 +431,7 @@ static void InitLinkBtlControllers(void)
             gBattlerPositions[3] = B_POSITION_OPPONENT_RIGHT;
 
             gBattlersCount = MAX_BATTLERS_COUNT;
-        }
-        else
-        {
+        } else {
             gBattlerControllerFuncs[0] = SetControllerToLinkPartner;
             gBattlerPositions[0] = B_POSITION_PLAYER_LEFT;
 
@@ -506,18 +455,15 @@ static void InitLinkBtlControllers(void)
         gBattlerPartyIndexes[1] = 0;
         gBattlerPartyIndexes[2] = 3;
         gBattlerPartyIndexes[3] = 3;
-    }
-    else
-    {
+    } else {
         multiplayerId = GetMultiplayerId();
 
-        if (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER)
+        if (gBattleTypeFlags & BATTLE_TYPE_IS_MASTER) {
             gBattleMainFunc = BeginBattleIntro;
+        }
 
-        for (i = 0; i < MAX_BATTLERS_COUNT; i++)
-        {
-            switch (gLinkPlayers[i].id)
-            {
+        for (i = 0; i < MAX_BATTLERS_COUNT; i++) {
+            switch (gLinkPlayers[i].id) {
             case 0:
             case 3:
                 BufferBattlePartyCurrentOrderBySide(gLinkPlayers[i].id, 0);
@@ -528,11 +474,9 @@ static void InitLinkBtlControllers(void)
                 break;
             }
 
-            if (i == multiplayerId)
-            {
+            if (i == multiplayerId) {
                 gBattlerControllerFuncs[gLinkPlayers[i].id] = SetControllerToPlayer;
-                switch (gLinkPlayers[i].id)
-                {
+                switch (gLinkPlayers[i].id) {
                 case 0:
                 case 3:
                     gBattlerPositions[gLinkPlayers[i].id] = B_POSITION_PLAYER_LEFT;
@@ -544,15 +488,11 @@ static void InitLinkBtlControllers(void)
                     gBattlerPartyIndexes[gLinkPlayers[i].id] = 3;
                     break;
                 }
-            }
-            else
-            {
+            } else {
                 if ((!(gLinkPlayers[i].id & 1) && !(gLinkPlayers[multiplayerId].id & 1))
-                 || ((gLinkPlayers[i].id & 1) && (gLinkPlayers[multiplayerId].id & 1)))
-                {
+                    || ((gLinkPlayers[i].id & 1) && (gLinkPlayers[multiplayerId].id & 1))) {
                     gBattlerControllerFuncs[gLinkPlayers[i].id] = SetControllerToLinkPartner;
-                    switch (gLinkPlayers[i].id)
-                    {
+                    switch (gLinkPlayers[i].id) {
                     case 0:
                     case 3:
                         gBattlerPositions[gLinkPlayers[i].id] = B_POSITION_PLAYER_LEFT;
@@ -564,12 +504,9 @@ static void InitLinkBtlControllers(void)
                         gBattlerPartyIndexes[gLinkPlayers[i].id] = 3;
                         break;
                     }
-                }
-                else
-                {
+                } else {
                     gBattlerControllerFuncs[gLinkPlayers[i].id] = SetControllerToLinkOpponent;
-                    switch (gLinkPlayers[i].id)
-                    {
+                    switch (gLinkPlayers[i].id) {
                     case 0:
                     case 3:
                         gBattlerPositions[gLinkPlayers[i].id] = B_POSITION_OPPONENT_LEFT;
@@ -593,59 +530,43 @@ static void SetBattlePartyIds(void)
 {
     s32 i, j;
 
-    if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI))
-    {
-        for (i = 0; i < gBattlersCount; i++)
-        {
-            for (j = 0; j < PARTY_SIZE; j++)
-            {
-                if (i < 2)
-                {
-                    if (GET_BATTLER_SIDE2(i) == B_SIDE_PLAYER)
-                    {
+    if (!(gBattleTypeFlags & BATTLE_TYPE_MULTI)) {
+        for (i = 0; i < gBattlersCount; i++) {
+            for (j = 0; j < PARTY_SIZE; j++) {
+                if (i < 2) {
+                    if (GET_BATTLER_SIDE2(i) == B_SIDE_PLAYER) {
                         if (GetMonData(&gPlayerParty[j], MON_DATA_HP) != 0
-                         && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES2) != SPECIES_NONE
-                         && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES2) != SPECIES_EGG
-                         && GetMonData(&gPlayerParty[j], MON_DATA_IS_EGG) == 0)
-                        {
+                            && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES2) != SPECIES_NONE
+                            && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES2) != SPECIES_EGG
+                            && GetMonData(&gPlayerParty[j], MON_DATA_IS_EGG) == 0) {
                             gBattlerPartyIndexes[i] = j;
                             break;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         if (GetMonData(&gEnemyParty[j], MON_DATA_HP) != 0
-                         && GetMonData(&gEnemyParty[j], MON_DATA_SPECIES2) != SPECIES_NONE
-                         && GetMonData(&gEnemyParty[j], MON_DATA_SPECIES2) != SPECIES_EGG
-                         && GetMonData(&gEnemyParty[j], MON_DATA_IS_EGG) == 0)
-                        {
+                            && GetMonData(&gEnemyParty[j], MON_DATA_SPECIES2) != SPECIES_NONE
+                            && GetMonData(&gEnemyParty[j], MON_DATA_SPECIES2) != SPECIES_EGG
+                            && GetMonData(&gEnemyParty[j], MON_DATA_IS_EGG) == 0) {
                             gBattlerPartyIndexes[i] = j;
                             break;
                         }
                     }
-                }
-                else
-                {
-                    if (GET_BATTLER_SIDE2(i) == B_SIDE_PLAYER)
-                    {
+                } else {
+                    if (GET_BATTLER_SIDE2(i) == B_SIDE_PLAYER) {
                         if (GetMonData(&gPlayerParty[j], MON_DATA_HP) != 0
-                         && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES) != SPECIES_NONE  // Probably a typo by Game Freak. The rest use SPECIES2.
-                         && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES2) != SPECIES_EGG
-                         && GetMonData(&gPlayerParty[j], MON_DATA_IS_EGG) == 0
-                         && gBattlerPartyIndexes[i - 2] != j)
-                        {
+                            && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES) != SPECIES_NONE // Probably a typo by Game Freak. The rest use SPECIES2.
+                            && GetMonData(&gPlayerParty[j], MON_DATA_SPECIES2) != SPECIES_EGG
+                            && GetMonData(&gPlayerParty[j], MON_DATA_IS_EGG) == 0
+                            && gBattlerPartyIndexes[i - 2] != j) {
                             gBattlerPartyIndexes[i] = j;
                             break;
                         }
-                    }
-                    else
-                    {
+                    } else {
                         if (GetMonData(&gEnemyParty[j], MON_DATA_HP) != 0
-                         && GetMonData(&gEnemyParty[j], MON_DATA_SPECIES2) != SPECIES_NONE
-                         && GetMonData(&gEnemyParty[j], MON_DATA_SPECIES2) != SPECIES_EGG
-                         && GetMonData(&gEnemyParty[j], MON_DATA_IS_EGG) == 0
-                         && gBattlerPartyIndexes[i - 2] != j)
-                        {
+                            && GetMonData(&gEnemyParty[j], MON_DATA_SPECIES2) != SPECIES_NONE
+                            && GetMonData(&gEnemyParty[j], MON_DATA_SPECIES2) != SPECIES_EGG
+                            && GetMonData(&gEnemyParty[j], MON_DATA_IS_EGG) == 0
+                            && gBattlerPartyIndexes[i - 2] != j) {
                             gBattlerPartyIndexes[i] = j;
                             break;
                         }
@@ -654,8 +575,9 @@ static void SetBattlePartyIds(void)
             }
         }
 
-        if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
+        if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS) {
             gBattlerPartyIndexes[1] = 0, gBattlerPartyIndexes[3] = 3;
+        }
     }
 }
 
@@ -663,24 +585,18 @@ static void PrepareBufferDataTransfer(u8 bufferId, u8 *data, u16 size)
 {
     s32 i;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-    {
+    if (gBattleTypeFlags & BATTLE_TYPE_LINK) {
         PrepareBufferDataTransferLink(bufferId, size, data);
-    }
-    else
-    {
-        switch (bufferId)
-        {
+    } else {
+        switch (bufferId) {
         case 0:
-            for (i = 0; i < size; i++)
-            {
+            for (i = 0; i < size; i++) {
                 gBattleResources->bufferA[gActiveBattler][i] = *data;
                 data++;
             }
             break;
         case 1:
-            for (i = 0; i < size; i++)
-            {
+            for (i = 0; i < size; i++) {
                 gBattleResources->bufferB[gActiveBattler][i] = *data;
                 data++;
             }
@@ -726,8 +642,7 @@ void PrepareBufferDataTransferLink(u8 bufferId, u16 size, u8 *data)
     s32 i;
 
     alignedSize = size - size % 4 + 4;
-    if (gTasks[sLinkSendTaskId].data[14] + alignedSize + LINK_BUFF_DATA + 1 > BATTLE_BUFFER_LINK_SIZE)
-    {
+    if (gTasks[sLinkSendTaskId].data[14] + alignedSize + LINK_BUFF_DATA + 1 > BATTLE_BUFFER_LINK_SIZE) {
         gTasks[sLinkSendTaskId].data[12] = gTasks[sLinkSendTaskId].data[14];
         gTasks[sLinkSendTaskId].data[14] = 0;
     }
@@ -740,8 +655,9 @@ void PrepareBufferDataTransferLink(u8 bufferId, u16 size, u8 *data)
     gLinkBattleSendBuffer[gTasks[sLinkSendTaskId].data[14] + LINK_BUFF_ABSENT_BATTLER_FLAGS] = gAbsentBattlerFlags;
     gLinkBattleSendBuffer[gTasks[sLinkSendTaskId].data[14] + LINK_BUFF_EFFECT_BATTLER] = gEffectBattler;
 
-    for (i = 0; i < size; i++)
+    for (i = 0; i < size; i++) {
         gLinkBattleSendBuffer[gTasks[sLinkSendTaskId].data[14] + LINK_BUFF_DATA + i] = data[i];
+    }
 
     gTasks[sLinkSendTaskId].data[14] = gTasks[sLinkSendTaskId].data[14] + alignedSize + LINK_BUFF_DATA;
 }
@@ -751,68 +667,56 @@ static void Task_HandleSendLinkBuffersData(u8 taskId)
     u16 var;
     u16 blockSize;
 
-    switch (gTasks[taskId].data[11])
-    {
+    switch (gTasks[taskId].data[11]) {
     case 0:
         gTasks[taskId].data[10] = 100;
         gTasks[taskId].data[11]++;
         break;
     case 1:
         gTasks[taskId].data[10]--;
-        if (gTasks[taskId].data[10] == 0)
-            gTasks[taskId].data[11]++;
-        break;
-    case 2:
-        if (gWirelessCommType)
-        {
+        if (gTasks[taskId].data[10] == 0) {
             gTasks[taskId].data[11]++;
         }
-        else
-        {
-            if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
+        break;
+    case 2:
+        if (gWirelessCommType) {
+            gTasks[taskId].data[11]++;
+        } else {
+            if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER) {
                 var = 2;
-            else
+            } else {
                 var = (gBattleTypeFlags & BATTLE_TYPE_MULTI) ? 4 : 2;
+            }
 
-            if (GetLinkPlayerCount_2() >= var)
-            {
-                if (IsLinkMaster())
-                {
+            if (GetLinkPlayerCount_2() >= var) {
+                if (IsLinkMaster()) {
                     CheckShouldAdvanceLinkState();
                     gTasks[taskId].data[11]++;
-                }
-                else
-                {
+                } else {
                     gTasks[taskId].data[11]++;
                 }
             }
         }
         break;
     case 3:
-        if (gTasks[taskId].data[15] != gTasks[taskId].data[14])
-        {
-            if (gTasks[taskId].data[13] == 0)
-            {
+        if (gTasks[taskId].data[15] != gTasks[taskId].data[14]) {
+            if (gTasks[taskId].data[13] == 0) {
                 if (gTasks[taskId].data[15] > gTasks[taskId].data[14]
-                 && gTasks[taskId].data[15] == gTasks[taskId].data[12])
-                {
+                    && gTasks[taskId].data[15] == gTasks[taskId].data[12]) {
                     gTasks[taskId].data[12] = 0;
                     gTasks[taskId].data[15] = 0;
                 }
                 blockSize = (gLinkBattleSendBuffer[gTasks[taskId].data[15] + LINK_BUFF_SIZE_LO] | (gLinkBattleSendBuffer[gTasks[taskId].data[15] + LINK_BUFF_SIZE_HI] << 8)) + LINK_BUFF_DATA;
                 SendBlock(bitmask_all_link_players_but_self(), &gLinkBattleSendBuffer[gTasks[taskId].data[15]], blockSize);
                 gTasks[taskId].data[11]++;
-            }
-            else
-            {
+            } else {
                 gTasks[taskId].data[13]--;
                 break;
             }
         }
         break;
     case 4:
-        if (IsLinkTaskFinished())
-        {
+        if (IsLinkTaskFinished()) {
             blockSize = gLinkBattleSendBuffer[gTasks[taskId].data[15] + LINK_BUFF_SIZE_LO] | (gLinkBattleSendBuffer[gTasks[taskId].data[15] + LINK_BUFF_SIZE_HI] << 8);
             gTasks[taskId].data[13] = 1;
             gTasks[taskId].data[15] = gTasks[taskId].data[15] + blockSize + LINK_BUFF_DATA;
@@ -821,8 +725,7 @@ static void Task_HandleSendLinkBuffersData(u8 taskId)
         break;
     case 5:
         gTasks[taskId].data[13]--;
-        if (gTasks[taskId].data[13] == 0)
-        {
+        if (gTasks[taskId].data[13] == 0) {
             gTasks[taskId].data[13] = 1;
             gTasks[taskId].data[11] = 3;
         }
@@ -836,21 +739,17 @@ void sub_8033648(void)
     s32 j;
     u8 *recvBuffer;
 
-    if (gReceivedRemoteLinkPlayers != 0 && (gBattleTypeFlags & BATTLE_TYPE_20))
-    {
+    if (gReceivedRemoteLinkPlayers != 0 && (gBattleTypeFlags & BATTLE_TYPE_20)) {
         DestroyTask_RfuIdle();
-        for (i = 0; i < GetLinkPlayerCount(); i++)
-        {
-            if (GetBlockReceivedStatus() & gBitTable[i])
-            {
+        for (i = 0; i < GetLinkPlayerCount(); i++) {
+            if (GetBlockReceivedStatus() & gBitTable[i]) {
                 ResetBlockReceivedFlag(i);
                 recvBuffer = (u8 *)gBlockRecvBuffer[i];
                 {
                     u8 *dest, *src;
                     u16 r6 = gBlockRecvBuffer[i][2];
 
-                    if (gTasks[sLinkReceiveTaskId].data[14] + 9 + r6 > 0x1000)
-                    {
+                    if (gTasks[sLinkReceiveTaskId].data[14] + 9 + r6 > 0x1000) {
                         gTasks[sLinkReceiveTaskId].data[12] = gTasks[sLinkReceiveTaskId].data[14];
                         gTasks[sLinkReceiveTaskId].data[14] = 0;
                     }
@@ -858,8 +757,9 @@ void sub_8033648(void)
                     dest = &gLinkBattleRecvBuffer[gTasks[sLinkReceiveTaskId].data[14]];
                     src = recvBuffer;
 
-                    for (j = 0; j < r6 + 8; j++)
+                    for (j = 0; j < r6 + 8; j++) {
                         dest[j] = src[j];
+                    }
 
                     gTasks[sLinkReceiveTaskId].data[14] = gTasks[sLinkReceiveTaskId].data[14] + r6 + 8;
                 }
@@ -874,28 +774,25 @@ static void Task_HandleCopyReceivedLinkBuffersData(u8 taskId)
     u8 battlerId;
     u8 var;
 
-    if (gTasks[taskId].data[15] != gTasks[taskId].data[14])
-    {
+    if (gTasks[taskId].data[15] != gTasks[taskId].data[14]) {
         if (gTasks[taskId].data[15] > gTasks[taskId].data[14]
-         && gTasks[taskId].data[15] == gTasks[taskId].data[12])
-        {
+            && gTasks[taskId].data[15] == gTasks[taskId].data[12]) {
             gTasks[taskId].data[12] = 0;
             gTasks[taskId].data[15] = 0;
         }
         battlerId = gLinkBattleRecvBuffer[gTasks[taskId].data[15] + LINK_BUFF_ACTIVE_BATTLER];
         blockSize = gLinkBattleRecvBuffer[gTasks[taskId].data[15] + LINK_BUFF_SIZE_LO] | (gLinkBattleRecvBuffer[gTasks[taskId].data[15] + LINK_BUFF_SIZE_HI] << 8);
 
-        switch (gLinkBattleRecvBuffer[gTasks[taskId].data[15] + 0])
-        {
+        switch (gLinkBattleRecvBuffer[gTasks[taskId].data[15] + 0]) {
         case 0:
-            if (gBattleControllerExecFlags & gBitTable[battlerId])
+            if (gBattleControllerExecFlags & gBitTable[battlerId]) {
                 return;
+            }
 
             memcpy(gBattleResources->bufferA[battlerId], &gLinkBattleRecvBuffer[gTasks[taskId].data[15] + LINK_BUFF_DATA], blockSize);
             sub_803F850(battlerId);
 
-            if (!(gBattleTypeFlags & BATTLE_TYPE_IS_MASTER))
-            {
+            if (!(gBattleTypeFlags & BATTLE_TYPE_IS_MASTER)) {
                 gBattlerAttacker = gLinkBattleRecvBuffer[gTasks[taskId].data[15] + LINK_BUFF_ATTACKER];
                 gBattlerTarget = gLinkBattleRecvBuffer[gTasks[taskId].data[15] + LINK_BUFF_TARGET];
                 gAbsentBattlerFlags = gLinkBattleRecvBuffer[gTasks[taskId].data[15] + LINK_BUFF_ABSENT_BATTLER_FLAGS];
@@ -940,8 +837,9 @@ void BtlController_EmitSetMonData(u8 bufferId, u8 requestId, u8 monToCheck, u8 b
     sBattleBuffersTransferData[0] = CONTROLLER_SETMONDATA;
     sBattleBuffersTransferData[1] = requestId;
     sBattleBuffersTransferData[2] = monToCheck;
-    for (i = 0; i < bytes; i++)
+    for (i = 0; i < bytes; i++) {
         sBattleBuffersTransferData[3 + i] = *(u8*)(data++);
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, 3 + bytes);
 }
 
@@ -952,8 +850,9 @@ void BtlController_EmitSetRawMonData(u8 bufferId, u8 monId, u8 bytes, void *data
     sBattleBuffersTransferData[0] = CONTROLLER_SETRAWMONDATA;
     sBattleBuffersTransferData[1] = monId;
     sBattleBuffersTransferData[2] = bytes;
-    for (i = 0; i < bytes; i++)
+    for (i = 0; i < bytes; i++) {
         sBattleBuffersTransferData[3 + i] = *(u8*)(data++);
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, bytes + 3);
 }
 
@@ -1049,8 +948,9 @@ void BtlController_EmitPause(u8 bufferId, u8 toWait, void *data)
 
     sBattleBuffersTransferData[0] = CONTROLLER_PAUSE;
     sBattleBuffersTransferData[1] = toWait;
-    for (i = 0; i < toWait * 3; i++)
+    for (i = 0; i < toWait * 3; i++) {
         sBattleBuffersTransferData[2 + i] = *(u8*)(data++);
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, toWait * 3 + 2);
 }
 
@@ -1068,13 +968,10 @@ void BtlController_EmitMoveAnimation(u8 bufferId, u16 move, u8 turnOfMove, u16 m
     sBattleBuffersTransferData[9] = (dmg & 0xFF000000) >> 24;
     sBattleBuffersTransferData[10] = friendship;
     sBattleBuffersTransferData[11] = multihit;
-    if (WEATHER_HAS_EFFECT)
-    {
+    if (WEATHER_HAS_EFFECT) {
         sBattleBuffersTransferData[12] = gBattleWeather;
         sBattleBuffersTransferData[13] = (gBattleWeather & 0xFF00) >> 8;
-    }
-    else
-    {
+    } else {
         sBattleBuffersTransferData[12] = 0;
         sBattleBuffersTransferData[13] = 0;
     }
@@ -1105,10 +1002,10 @@ void BtlController_EmitPrintString(u8 bufferId, u16 stringID)
     stringInfo->itemEffectBattler = gPotentialItemEffectBattler;
     stringInfo->moveType = gBattleMoves[gCurrentMove].type;
 
-    for (i = 0; i < MAX_BATTLERS_COUNT; i++)
+    for (i = 0; i < MAX_BATTLERS_COUNT; i++) {
         stringInfo->abilities[i] = gBattleMons[i].ability;
-    for (i = 0; i < TEXT_BUFF_ARRAY_COUNT; i++)
-    {
+    }
+    for (i = 0; i < TEXT_BUFF_ARRAY_COUNT; i++) {
         stringInfo->textBuffs[0][i] = gBattleTextBuff1[i];
         stringInfo->textBuffs[1][i] = gBattleTextBuff2[i];
         stringInfo->textBuffs[2][i] = gBattleTextBuff3[i];
@@ -1134,10 +1031,10 @@ void BtlController_EmitPrintSelectionString(u8 bufferId, u16 stringID)
     stringInfo->scrActive = gBattleScripting.battler;
     stringInfo->unk1605E = gBattleStruct->field_52;
 
-    for (i = 0; i < MAX_BATTLERS_COUNT; i++)
+    for (i = 0; i < MAX_BATTLERS_COUNT; i++) {
         stringInfo->abilities[i] = gBattleMons[i].ability;
-    for (i = 0; i < TEXT_BUFF_ARRAY_COUNT; i++)
-    {
+    }
+    for (i = 0; i < TEXT_BUFF_ARRAY_COUNT; i++) {
         stringInfo->textBuffs[0][i] = gBattleTextBuff1[i];
         stringInfo->textBuffs[1][i] = gBattleTextBuff2[i];
         stringInfo->textBuffs[2][i] = gBattleTextBuff3[i];
@@ -1171,8 +1068,9 @@ void BtlController_EmitChooseMove(u8 bufferId, bool8 isDoubleBattle, bool8 NoPpN
     sBattleBuffersTransferData[1] = isDoubleBattle;
     sBattleBuffersTransferData[2] = NoPpNumber;
     sBattleBuffersTransferData[3] = 0;
-    for (i = 0; i < sizeof(*movePpData); i++)
+    for (i = 0; i < sizeof(*movePpData); i++) {
         sBattleBuffersTransferData[4 + i] = *((u8*)(movePpData) + i);
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, sizeof(*movePpData) + 4);
 }
 
@@ -1181,8 +1079,9 @@ void BtlController_EmitChooseItem(u8 bufferId, u8 *arg1)
     s32 i;
 
     sBattleBuffersTransferData[0] = CONTROLLER_OPENBAG;
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; i++) {
         sBattleBuffersTransferData[1 + i] = arg1[i];
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, 4);
 }
 
@@ -1194,8 +1093,9 @@ void BtlController_EmitChoosePokemon(u8 bufferId, u8 caseId, u8 slotId, u8 abili
     sBattleBuffersTransferData[1] = caseId;
     sBattleBuffersTransferData[2] = slotId;
     sBattleBuffersTransferData[3] = abilityId;
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; i++) {
         sBattleBuffersTransferData[4 + i] = arg4[i];
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, 8);  // Only 7 bytes were written.
 }
 
@@ -1268,8 +1168,9 @@ void BtlController_EmitDataTransfer(u8 bufferId, u16 size, void *data)
     sBattleBuffersTransferData[1] = CONTROLLER_DATATRANSFER;
     sBattleBuffersTransferData[2] = size;
     sBattleBuffersTransferData[3] = (size & 0xFF00) >> 8;
-    for (i = 0; i < size; i++)
+    for (i = 0; i < size; i++) {
         sBattleBuffersTransferData[4 + i] = *(u8*)(data++);
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, size + 4);
 }
 
@@ -1284,8 +1185,9 @@ void BtlController_EmitDMA3Transfer(u8 bufferId, void *dst, u16 size, void *data
     sBattleBuffersTransferData[4] = ((u32)(dst) & 0xFF000000) >> 24;
     sBattleBuffersTransferData[5] = size;
     sBattleBuffersTransferData[6] = (size & 0xFF00) >> 8;
-    for (i = 0; i < size; i++)
+    for (i = 0; i < size; i++) {
         sBattleBuffersTransferData[7 + i] = *(u8*)(data++);
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, size + 7);
 }
 
@@ -1296,8 +1198,9 @@ void BtlController_EmitPlayBGM(u8 bufferId, u16 songId, void *unusedDumbDataPara
     sBattleBuffersTransferData[0] = CONTROLLER_31;
     sBattleBuffersTransferData[1] = songId;
     sBattleBuffersTransferData[2] = (songId & 0xFF00) >> 8;
-    for (i = 0; i < songId; i++) // ????
+    for (i = 0; i < songId; i++) { // ????
         sBattleBuffersTransferData[3 + i] = *(u8*)(unusedDumbDataParameter++);
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, songId + 3);
 }
 
@@ -1308,8 +1211,9 @@ void BtlController_EmitCmd32(u8 bufferId, u16 size, void *data)
     sBattleBuffersTransferData[0] = CONTROLLER_32;
     sBattleBuffersTransferData[1] = size;
     sBattleBuffersTransferData[2] = (size & 0xFF00) >> 8;
-    for (i = 0; i < size; i++)
+    for (i = 0; i < size; i++) {
         sBattleBuffersTransferData[3 + i] = *(u8*)(data++);
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, size + 3);
 }
 
@@ -1328,8 +1232,9 @@ void BtlController_EmitChosenMonReturnValue(u8 bufferId, u8 partyId, u8 *battleP
 
     sBattleBuffersTransferData[0] = CONTROLLER_CHOSENMONRETURNVALUE;
     sBattleBuffersTransferData[1] = partyId;
-    for (i = 0; i < (int)ARRAY_COUNT(gBattlePartyCurrentOrder); i++)
+    for (i = 0; i < (int)ARRAY_COUNT(gBattlePartyCurrentOrder); i++) {
         sBattleBuffersTransferData[2 + i] = battlePartyOrder[i];
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, 5);
 }
 
@@ -1454,8 +1359,9 @@ void BtlController_EmitDrawPartyStatusSummary(u8 bufferId, struct HpAndStatus* h
     sBattleBuffersTransferData[1] = arg2 & 0x7F;
     sBattleBuffersTransferData[2] = (arg2 & 0x80) >> 7;
     sBattleBuffersTransferData[3] = CONTROLLER_DRAWPARTYSTATUSSUMMARY;
-    for (i = 0; i < (s32)(sizeof(struct HpAndStatus) * PARTY_SIZE); i++)
+    for (i = 0; i < (s32)(sizeof(struct HpAndStatus) * PARTY_SIZE); i++) {
         sBattleBuffersTransferData[4 + i] = *(i + (u8*)(hpAndStatus));
+    }
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, sizeof(struct HpAndStatus) * PARTY_SIZE + 4);
 }
 
@@ -1501,10 +1407,11 @@ void BtlController_EmitLinkStandbyMsg(u8 bufferId, u8 arg1, bool32 arg2)
     sBattleBuffersTransferData[0] = CONTROLLER_LINKSTANDBYMSG;
     sBattleBuffersTransferData[1] = arg1;
 
-    if (arg2_)
+    if (arg2_) {
         sBattleBuffersTransferData[3] = sBattleBuffersTransferData[2] = sub_81850DC(&sBattleBuffersTransferData[4]);
-    else
+    } else {
         sBattleBuffersTransferData[3] = sBattleBuffersTransferData[2] = 0;
+    }
 
     PrepareBufferDataTransfer(bufferId, sBattleBuffersTransferData, sBattleBuffersTransferData[2] + 4);
 }

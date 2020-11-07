@@ -7,10 +7,10 @@ static bool32 IsCurMapInLocationList(const u16 *list)
     s32 i;
     u16 locSum = (gSaveBlock1Ptr->location.mapGroup << 8) + (gSaveBlock1Ptr->location.mapNum);
 
-    for (i = 0; list[i] != 0xFFFF; i++)
-    {
-        if (list[i] == locSum)
+    for (i = 0; list[i] != 0xFFFF; i++) {
+        if (list[i] == locSum) {
             return TRUE;
+        }
     }
 
     return FALSE;
@@ -88,27 +88,30 @@ static bool32 sub_81AFCEC(void)
 
 static void TrySetPokeCenterWarpStatus(void)
 {
-    if (IsCurMapPokeCenter() == FALSE)
+    if (IsCurMapPokeCenter() == FALSE) {
         gSaveBlock2Ptr->specialSaveWarpFlags &= ~(POKECENTER_SAVEWARP);
-    else
+    } else {
         gSaveBlock2Ptr->specialSaveWarpFlags |= POKECENTER_SAVEWARP;
+    }
 }
 
 static void TrySetReloadWarpStatus(void)
 {
-    if (!IsCurMapReloadLocation())
+    if (!IsCurMapReloadLocation()) {
         gSaveBlock2Ptr->specialSaveWarpFlags &= ~(LOBBY_SAVEWARP);
-    else
+    } else {
         gSaveBlock2Ptr->specialSaveWarpFlags |= LOBBY_SAVEWARP;
+    }
 }
 
 // this function definitely sets a warp status, but because the list is empty, it's unknown what this does yet.
 static void sub_81AFD5C(void)
 {
-    if (!sub_81AFCEC())
+    if (!sub_81AFCEC()) {
         gSaveBlock2Ptr->specialSaveWarpFlags &= ~(UNK_SPECIAL_SAVE_WARP_FLAG_3);
-    else
+    } else {
         gSaveBlock2Ptr->specialSaveWarpFlags |= UNK_SPECIAL_SAVE_WARP_FLAG_3;
+    }
 }
 
 void TrySetMapSaveWarpStatus(void)

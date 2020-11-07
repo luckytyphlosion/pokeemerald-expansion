@@ -26,11 +26,11 @@ void mevent_client_do_init(u32 arg)
 u32 mevent_client_do_exec(u16 * a0)
 {
     u32 result;
-    if (s_mevent_client_ptr == NULL)
+    if (s_mevent_client_ptr == NULL) {
         return 6;
+    }
     result = mevent_client_exec(s_mevent_client_ptr);
-    if (result == 6)
-    {
+    if (result == 6) {
         *a0 = s_mevent_client_ptr->param;
         mevent_client_free_resources(s_mevent_client_ptr);
         Free(s_mevent_client_ptr);
@@ -107,8 +107,7 @@ static u32 mainseq_1(struct mevent_client * svr)
 static u32 mainseq_2(struct mevent_client * svr)
 {
     // do recv
-    if (mevent_srv_sub_recv(&svr->manager))
-    {
+    if (mevent_srv_sub_recv(&svr->manager)) {
         svr->mainseqno = 4;
         svr->flag = 0;
     }
@@ -118,8 +117,7 @@ static u32 mainseq_2(struct mevent_client * svr)
 static u32 mainseq_3(struct mevent_client * svr)
 {
     // do send
-    if (mevent_srv_sub_send(&svr->manager))
-    {
+    if (mevent_srv_sub_send(&svr->manager)) {
         svr->mainseqno = 4;
         svr->flag = 0;
     }
@@ -131,8 +129,7 @@ static u32 mainseq_4(struct mevent_client * svr)
     // process command
     struct mevent_client_cmd * cmd = &svr->cmdBuffer[svr->cmdidx];
     ++svr->cmdidx;
-    switch (cmd->instr)
-    {
+    switch (cmd->instr) {
     case 0:
         break;
     case 1:
@@ -160,12 +157,14 @@ static u32 mainseq_4(struct mevent_client * svr)
         svr->flag = 0;
         break;
     case 6:
-        if (svr->param == 0)
+        if (svr->param == 0) {
             mevent_client_jmp_buffer(svr);
+        }
         break;
     case 7:
-        if (svr->param == 1)
+        if (svr->param == 1) {
             mevent_client_jmp_buffer(svr);
+        }
         break;
     case 4:
         mevent_client_jmp_buffer(svr);
@@ -200,13 +199,12 @@ static u32 mainseq_4(struct mevent_client * svr)
         sub_801B21C(svr->recvBuffer);
         break;
     case 9:
-        if (!sub_801B1A4(svr->recvBuffer))
-        {
+        if (!sub_801B1A4(svr->recvBuffer)) {
             sub_801B078(svr->recvBuffer);
             mevent_client_send_word(svr, 0x13, 0);
-        }
-        else
+        } else {
             mevent_client_send_word(svr, 0x13, 1);
+        }
         break;
     case 15:
         svr->mainseqno = 6;
@@ -235,8 +233,7 @@ static u32 mainseq_4(struct mevent_client * svr)
 static u32 mainseq_5(struct mevent_client * svr)
 {
     // wait flag
-    if (svr->flag)
-    {
+    if (svr->flag) {
         svr->mainseqno = 4;
         svr->flag = 0;
     }
@@ -246,15 +243,13 @@ static u32 mainseq_5(struct mevent_client * svr)
 static u32 mainseq_6(struct mevent_client * svr)
 {
     // ???
-    switch (svr->flag)
-    {
+    switch (svr->flag) {
     case 0:
         sub_8153870(svr->recvBuffer);
         ++svr->flag;
         break;
     case 1:
-        if (!sub_8153884(&svr->param))
-        {
+        if (!sub_8153884(&svr->param)) {
             svr->mainseqno = 4;
             svr->flag = 0;
         }
@@ -267,8 +262,7 @@ static u32 mainseq_7(struct mevent_client * svr)
 {
     // exec arbitrary code
     u32 (*func)(u32 *, struct SaveBlock2 *, struct SaveBlock1 *) = (void *)gDecompressionBuffer;
-    if (func(&svr->param, gSaveBlock2Ptr, gSaveBlock1Ptr) == 1)
-    {
+    if (func(&svr->param, gSaveBlock2Ptr, gSaveBlock1Ptr) == 1) {
         svr->mainseqno = 4;
         svr->flag = 0;
     }

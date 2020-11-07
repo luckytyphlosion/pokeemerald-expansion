@@ -213,27 +213,25 @@ bool8 sub_81D1C44(u8 count)
     u8 i;
 
     sUnknown_0203CF4C = Alloc(count * sizeof(*sUnknown_0203CF4C) + sizeof(*sUnknown_0203CF4C));
-    if (sUnknown_0203CF4C == NULL)
+    if (sUnknown_0203CF4C == NULL) {
         return FALSE;
+    }
 
-    for (i = 0; i < ARRAY_COUNT(sUnknown_0203CF48); i++)
+    for (i = 0; i < ARRAY_COUNT(sUnknown_0203CF48); i++) {
         sUnknown_0203CF48[i] = 0xFF;
+    }
 
     return TRUE;
 }
 
 u8 sub_81D1C84(u8 a0)
 {
-    if (sUnknown_0203CF48[a0] == 0xFF)
-    {
-        if (a0 == 2)
-        {
+    if (sUnknown_0203CF48[a0] == 0xFF) {
+        if (a0 == 2) {
             struct WindowTemplate template = sUnknown_086253E8[2];
             template.width = GetMaxWidthInMenuTable(&gMailboxMailOptions[0], 4);
             sUnknown_0203CF48[2] = AddWindow(&template);
-        }
-        else
-        {
+        } else {
             sUnknown_0203CF48[a0] = AddWindow(&sUnknown_086253E8[a0]);
         }
         SetStandardWindowBorderStyle(sUnknown_0203CF48[a0], 0);
@@ -259,22 +257,23 @@ static void sub_81D1D44(u8 windowId, s32 itemId, u8 y)
     u8 buffer[30];
     u16 length;
 
-    if (itemId == LIST_CANCEL)
+    if (itemId == LIST_CANCEL) {
         return;
+    }
 
     StringCopy(buffer, gSaveBlock1Ptr->mail[6 + itemId].playerName);
     sub_81DB52C(buffer);
     length = StringLength(buffer);
-    if (length <= 5)
+    if (length <= 5) {
         ConvertInternationalString(buffer, LANGUAGE_JAPANESE);
+    }
     AddTextPrinterParameterized4(windowId, 1, 8, y, 0, 0, sPlayerNameTextColors, -1, buffer);
 }
 
 u8 sub_81D1DC0(struct PlayerPCItemPageStruct *page)
 {
     u16 i;
-    for (i = 0; i < page->count; i++)
-    {
+    for (i = 0; i < page->count; i++) {
         sUnknown_0203CF4C[i].name = sEmptyItemName;
         sUnknown_0203CF4C[i].id = i;
     }
@@ -305,8 +304,9 @@ u8 sub_81D1DC0(struct PlayerPCItemPageStruct *page)
 
 static void sub_81D1E7C(s32 itemIndex, bool8 onInit, struct ListMenu *list)
 {
-    if (onInit != TRUE)
+    if (onInit != TRUE) {
         PlaySE(SE_SELECT);
+    }
 }
 
 void sub_81D1E90(struct PlayerPCItemPageStruct *page)
@@ -323,15 +323,12 @@ void InitConditionGraphData(struct ConditionGraph *graph)
 {
     u8 i, j;
 
-    for (j = 0; j < FLAVOR_COUNT; j++)
-    {
-        for (i = 0; i < 10; i++)
-        {
+    for (j = 0; j < FLAVOR_COUNT; j++) {
+        for (i = 0; i < 10; i++) {
             graph->unk64[i][j].unk0 = 0;
             graph->unk64[i][j].unk2 = 0;
         }
-        for (i = 0; i < 4; i++)
-        {
+        for (i = 0; i < 4; i++) {
             graph->stat[i][j] = 0;
             graph->unk14[i][j].unk0 = 155;
             graph->unk14[i][j].unk2 = 91;
@@ -350,12 +347,10 @@ void sub_81D1F84(struct ConditionGraph *graph, struct UnknownSubStruct_81D1ED4 *
     u16 i, j;
     s32 r5, r6;
 
-    for (i = 0; i < FLAVOR_COUNT; i++)
-    {
+    for (i = 0; i < FLAVOR_COUNT; i++) {
         r5 = arg1[i].unk0 << 8;
         r6 = ((arg2[i].unk0 - arg1[i].unk0) << 8) / 10;
-        for (j = 0; j < 9; j++)
-        {
+        for (j = 0; j < 9; j++) {
             graph->unk64[j][i].unk0 = (r5 >> 8) + ((r5 >> 7) & 1);
             r5 += r6;
         }
@@ -363,8 +358,7 @@ void sub_81D1F84(struct ConditionGraph *graph, struct UnknownSubStruct_81D1ED4 *
 
         r5 = arg1[i].unk2 << 8;
         r6 = ((arg2[i].unk2 - arg1[i].unk2) << 8) / 10;
-        for (j = 0; j < 9; j++)
-        {
+        for (j = 0; j < 9; j++) {
             graph->unk64[j][i].unk2 = (r5 >> 8) + ((r5 >> 7) & 1);
             r5 += r6;
         }
@@ -376,13 +370,10 @@ void sub_81D1F84(struct ConditionGraph *graph, struct UnknownSubStruct_81D1ED4 *
 
 bool32 TransitionConditionGraph(struct ConditionGraph *graph)
 {
-    if (graph->unk352 < 10)
-    {
+    if (graph->unk352 < 10) {
         sub_81D2230(graph);
-        return (++graph->unk352 != 10);
-    }
-    else
-    {
+        return(++graph->unk352 != 10);
+    } else {
         return FALSE;
     }
 }
@@ -396,8 +387,7 @@ bool8 SetupConditionGraphScanlineParams(struct ConditionGraph *graph)
 {
     struct ScanlineEffectParams params;
 
-    switch (graph->state)
-    {
+    switch (graph->state) {
     case 0:
         ScanlineEffect_Clear();
         graph->state++;
@@ -416,14 +406,14 @@ void sub_81D2108(struct ConditionGraph *graph)
 {
     u16 i;
 
-    if (graph->unk354 == 0)
+    if (graph->unk354 == 0) {
         return;
+    }
 
     sub_81D24A4(graph);
     sub_81D2634(graph);
 
-    for (i = 0; i < 66; i++)
-    {
+    for (i = 0; i < 66; i++) {
         gScanlineEffectRegBuffers[1][(i + 55) * 2]     = gScanlineEffectRegBuffers[0][(i + 55) * 2]     = (graph->unk140[i][0] << 8) | (graph->unk140[i][1]);
         gScanlineEffectRegBuffers[1][(i + 55) * 2 + 1] = gScanlineEffectRegBuffers[0][(i + 55) * 2 + 1] = (graph->unk248[i][0] << 8) | (graph->unk248[i][1]);
     }
@@ -435,14 +425,15 @@ void SetConditionGraphIOWindows(u8 bg)
 {
     u32 flags;
 
-    if (bg > 3)
+    if (bg > 3) {
         bg = 0;
+    }
 
     // Unset the WINOUT flag for the bg.
     flags = (WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ) & ~(1 << bg);
 
-    SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE( 0, DISPLAY_WIDTH));
-    SetGpuReg(REG_OFFSET_WIN1H, WIN_RANGE( 0, 155));
+    SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(0, DISPLAY_WIDTH));
+    SetGpuReg(REG_OFFSET_WIN1H, WIN_RANGE(0, 155));
     SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(56, 121));
     SetGpuReg(REG_OFFSET_WIN1V, WIN_RANGE(56, 121));
     SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR | WININ_WIN1_BG_ALL | WININ_WIN1_OBJ | WININ_WIN1_CLR);
@@ -452,8 +443,9 @@ void SetConditionGraphIOWindows(u8 bg)
 void sub_81D2230(struct ConditionGraph *graph)
 {
     u16 i;
-    for (i = 0; i < FLAVOR_COUNT; i++)
+    for (i = 0; i < FLAVOR_COUNT; i++) {
         graph->unk12C[i] = graph->unk64[graph->unk352][i];
+    }
 
     graph->unk354 = 1;
 }
@@ -465,69 +457,59 @@ static void sub_81D2278(struct ConditionGraph *graph, u16 *arg1, struct UnknownS
     s32 r4, var_2C;
 
     var_2C = 0;
-    if (arg2->unk2 < arg3->unk2)
-    {
+    if (arg2->unk2 < arg3->unk2) {
         r10 = arg2->unk2;
         r0 = arg3->unk2;
         r4 = arg2->unk0 << 10;
         var_30 = arg3->unk0;
         r8 = r0 - r10;
-        if (r8 != 0)
+        if (r8 != 0) {
             var_2C = ((var_30 - arg2->unk0) << 10) / r8;
-    }
-    else
-    {
+        }
+    } else {
         r0 = arg2->unk2;
         r10 = arg3->unk2;
         r4 = arg3->unk0 << 10;
         var_30 = arg2->unk0;
         r8 = r0 - r10;
-        if (r8 != 0)
+        if (r8 != 0) {
             var_2C = ((var_30 - arg3->unk0) << 10) / r8;
+        }
     }
 
     r8++;
-    if (arg5 == NULL)
-    {
+    if (arg5 == NULL) {
         arg1 += (r10 - 56) * 2;
-        for (i = 0; i < r8; i++)
-        {
+        for (i = 0; i < r8; i++) {
             arg1[arg4] = (r4 >> 10) + ((r4 >> 9) & 1) + arg4;
             r4 += var_2C;
             arg1 += 2;
         }
 
         ptr = arg1 - 2;
-    }
-    else if (var_2C > 0)
-    {
+    } else if (var_2C > 0) {
         arg5 += (r10 - 56) * 2;
         // Less readable than the other loops, but it has to be written this way to match.
-        for (i = 0; i < r8; arg5[arg4] = (r4 >> 10) + ((r4 >> 9) & 1) + arg4, r4 += var_2C, arg5 += 2, i++)
-        {
-            if (r4 >= (155 << 10))
+        for (i = 0; i < r8; arg5[arg4] = (r4 >> 10) + ((r4 >> 9) & 1) + arg4, r4 += var_2C, arg5 += 2, i++) {
+            if (r4 >= (155 << 10)) {
                 break;
+            }
         }
 
         graph->unk350 = r10 + i;
         arg1 += (graph->unk350 - 56) * 2;
-        for (; i < r8; i++)
-        {
+        for (; i < r8; i++) {
             arg1[arg4] = (r4 >> 10) + ((r4 >> 9) & 1) + arg4;
             r4 += var_2C;
             arg1 += 2;
         }
 
         ptr = arg1 - 2;
-    }
-    else if (var_2C < 0)
-    {
+    } else if (var_2C < 0) {
         arg1 += (r10 - 56) * 2;
-        for (i = 0; i < r8; i++)
-        {
+        for (i = 0; i < r8; i++) {
             arg1[arg4] = (r4 >> 10) + ((r4 >> 9) & 1) + arg4;
-            if (r4 < (155 << 10))
-            {
+            if (r4 < (155 << 10)) {
                 arg1[arg4] = 155;
                 break;
             }
@@ -537,17 +519,14 @@ static void sub_81D2278(struct ConditionGraph *graph, u16 *arg1, struct UnknownS
 
         graph->unk350 = r10 + i;
         arg5 += (graph->unk350 - 56) * 2;
-        for (; i < r8; i++)
-        {
+        for (; i < r8; i++) {
             arg5[arg4] = (r4 >> 10) + ((r4 >> 9) & 1) + arg4;
             r4 += var_2C;
             arg5 += 2;
         }
 
         ptr = arg5 - 2;
-    }
-    else
-    {
+    } else {
         graph->unk350 = r10;
         arg1 += (r10 - 56) * 2;
         arg5 += (r10 - 56) * 2;
@@ -564,13 +543,10 @@ static void sub_81D24A4(struct ConditionGraph *graph)
 {
     u16 i, r6, varMax;
 
-    if (graph->unk12C[0].unk2 < graph->unk12C[1].unk2)
-    {
+    if (graph->unk12C[0].unk2 < graph->unk12C[1].unk2) {
         r6 = graph->unk12C[0].unk2;
         sub_81D2278(graph, graph->unk140[0], &graph->unk12C[0], &graph->unk12C[1], 1, NULL);
-    }
-    else
-    {
+    } else {
         r6 = graph->unk12C[1].unk2;
         sub_81D2278(graph, graph->unk140[0], &graph->unk12C[1], &graph->unk12C[0], 0, NULL);
     }
@@ -579,26 +555,25 @@ static void sub_81D24A4(struct ConditionGraph *graph)
 
     i = (graph->unk12C[2].unk2 <= graph->unk12C[3].unk2);
     sub_81D2278(graph, graph->unk140[0], &graph->unk12C[2], &graph->unk12C[3], i, graph->unk248[0]);
-    for (i = 56; i < r6; i++)
-    {
+    for (i = 56; i < r6; i++) {
         graph->unk140[i - 56][0] = 0;
         graph->unk140[i - 56][1] = 0;
     }
 
-    for (i = graph->unk12C[0].unk2; i <= graph->unk350; i++)
+    for (i = graph->unk12C[0].unk2; i <= graph->unk350; i++) {
         graph->unk140[i - 56][0] = 155;
+    }
 
     varMax = max(graph->unk350, graph->unk12C[2].unk2);
-    for (i = varMax + 1; i < 122; i++)
-    {
+    for (i = varMax + 1; i < 122; i++) {
         graph->unk140[i - 56][0] = 0;
         graph->unk140[i - 56][1] = 0;
     }
 
-    for (i = 56; i < 122; i++)
-    {
-        if (graph->unk140[i - 56][0] == 0 && graph->unk140[i - 56][1] != 0)
+    for (i = 56; i < 122; i++) {
+        if (graph->unk140[i - 56][0] == 0 && graph->unk140[i - 56][1] != 0) {
             graph->unk140[i - 56][0] = 155;
+        }
     }
 }
 
@@ -606,39 +581,33 @@ static void sub_81D2634(struct ConditionGraph *graph)
 {
     s32 i, r6, varMax;
 
-    if (graph->unk12C[0].unk2 < graph->unk12C[4].unk2)
-    {
+    if (graph->unk12C[0].unk2 < graph->unk12C[4].unk2) {
         r6 = graph->unk12C[0].unk2;
         sub_81D2278(graph, graph->unk248[0], &graph->unk12C[0], &graph->unk12C[4], 0, NULL);
-    }
-    else
-    {
+    } else {
         r6 = graph->unk12C[4].unk2;
         sub_81D2278(graph, graph->unk248[0], &graph->unk12C[4], &graph->unk12C[0], 1, NULL);
     }
 
     sub_81D2278(graph, graph->unk248[0], &graph->unk12C[4], &graph->unk12C[3], 0, NULL);
 
-    for (i = 56; i < r6; i++)
-    {
+    for (i = 56; i < r6; i++) {
         graph->unk140[i + 10][0] = 0;
         graph->unk140[i + 10][1] = 0;
     }
 
-    for (i = graph->unk12C[0].unk2; i <= graph->unk350; i++)
+    for (i = graph->unk12C[0].unk2; i <= graph->unk350; i++) {
         graph->unk140[i + 10][1] = 155;
+    }
 
     varMax = max(graph->unk350, graph->unk12C[3].unk2 + 1);
-    for (i = varMax; i < 122; i++)
-    {
+    for (i = varMax; i < 122; i++) {
         graph->unk140[i + 10][0] = 0;
         graph->unk140[i + 10][1] = 0;
     }
 
-    for (i = 0; i < 66; i++)
-    {
-        if (graph->unk248[i][0] >= graph->unk248[i][1])
-        {
+    for (i = 0; i < 66; i++) {
+        if (graph->unk248[i][0] >= graph->unk248[i][1]) {
             graph->unk248[i][1] = 0;
             graph->unk248[i][0] = 0;
         }
@@ -657,21 +626,23 @@ void sub_81D2754(u8 *arg0, struct UnknownSubStruct_81D1ED4 *arg1)
 
     r7 = 64;
     r12 = 0;
-    for (i = 1; i < 5; i++)
-    {
+    for (i = 1; i < 5; i++) {
         r7 += 51;
-        if (--r12 < 0)
+        if (--r12 < 0) {
             r12 = 4;
+        }
 
-        if (r12 == 2)
+        if (r12 == 2) {
             r7++;
+        }
 
         r2 = sUnknown_08625410[*(arg0++)];
         arg1[r12].unk0 = 155 + ((r2 * gSineTable[64 + r7]) >> 8);
         arg1[r12].unk2 = 91  - ((r2 * gSineTable[r7]) >> 8);
 
-        if (r12 < 3 && (r2 != 32 || r12 != 2))
+        if (r12 < 3 && (r2 != 32 || r12 != 2)) {
             arg1[r12].unk0 = 156 + ((r2 * gSineTable[64 + r7]) >> 8);
+        }
     }
 }
 
@@ -684,18 +655,14 @@ void InitMoveRelearnerWindows(bool8 useContextWindow)
     LoadUserWindowBorderGfx(0, 1, 0xE0);
     LoadPalette(gUnknown_0860F074, 0xF0, 0x20);
 
-    for (i = 0; i < 5; i++)
-    {
+    for (i = 0; i < 5; i++) {
         FillWindowPixelBuffer(i, PIXEL_FILL(1));
     }
 
-    if (!useContextWindow)
-    {
+    if (!useContextWindow) {
         PutWindowTilemap(0);
         DrawStdFrameWithCustomTileAndPalette(0, 0, 0x1, 0xE);
-    }
-    else
-    {
+    } else {
         PutWindowTilemap(1);
         DrawStdFrameWithCustomTileAndPalette(1, 0, 1, 0xE);
     }
@@ -709,7 +676,6 @@ void InitMoveRelearnerWindows(bool8 useContextWindow)
 
 static void nullsub_79(void)
 {
-
 }
 
 u8 LoadMoveRelearnerMovesList(const struct ListMenuItem *items, u16 numChoices)
@@ -718,12 +684,9 @@ u8 LoadMoveRelearnerMovesList(const struct ListMenuItem *items, u16 numChoices)
     gMultiuseListMenuTemplate.totalItems = numChoices;
     gMultiuseListMenuTemplate.items = items;
 
-    if (numChoices < 6)
-    {
+    if (numChoices < 6) {
         gMultiuseListMenuTemplate.maxShowed = numChoices;
-    }
-    else
-    {
+    } else {
         gMultiuseListMenuTemplate.maxShowed = 6;
     }
     return gMultiuseListMenuTemplate.maxShowed;
@@ -751,8 +714,7 @@ static void MoveRelearnerLoadBattleMoveDescription(u32 chosenMove)
     str = gText_MoveRelearnerAccuracy;
     x = GetStringRightAlignXOffset(1, str, 0x6A);
     AddTextPrinterParameterized(0, 1, str, x, 0x29, TEXT_SPEED_FF, NULL);
-    if (chosenMove == LIST_CANCEL)
-    {
+    if (chosenMove == LIST_CANCEL) {
         CopyWindowToVram(0, 2);
         return;
     }
@@ -764,23 +726,17 @@ static void MoveRelearnerLoadBattleMoveDescription(u32 chosenMove)
     ConvertIntToDecimalStringN(buffer, move->pp, STR_CONV_MODE_LEFT_ALIGN, 2);
     AddTextPrinterParameterized(0, 1, buffer, x, 0x29, TEXT_SPEED_FF, NULL);
 
-    if (move->power < 2)
-    {
+    if (move->power < 2) {
         str = gText_ThreeDashes;
-    }
-    else
-    {
+    } else {
         ConvertIntToDecimalStringN(buffer, move->power, STR_CONV_MODE_LEFT_ALIGN, 3);
         str = buffer;
     }
     AddTextPrinterParameterized(0, 1, str, 0x6A, 0x19, TEXT_SPEED_FF, NULL);
 
-    if (move->accuracy == 0)
-    {
+    if (move->accuracy == 0) {
         str = gText_ThreeDashes;
-    }
-    else
-    {
+    } else {
         ConvertIntToDecimalStringN(buffer, move->accuracy, STR_CONV_MODE_LEFT_ALIGN, 3);
         str = buffer;
     }
@@ -810,8 +766,7 @@ static void MoveRelearnerMenuLoadContestMoveDescription(u32 chosenMove)
     x = GetStringRightAlignXOffset(1, str, 0x5C);
     AddTextPrinterParameterized(1, 1, str, x, 0x29, TEXT_SPEED_FF, NULL);
 
-    if (chosenMove == MENU_NOTHING_CHOSEN)
-    {
+    if (chosenMove == MENU_NOTHING_CHOSEN) {
         CopyWindowToVram(1, 2);
         return;
     }
@@ -828,8 +783,9 @@ static void MoveRelearnerMenuLoadContestMoveDescription(u32 chosenMove)
 
 static void MoveRelearnerCursorCallback(s32 itemIndex, bool8 onInit, struct ListMenu *list)
 {
-    if (onInit != TRUE)
+    if (onInit != TRUE) {
         PlaySE(SE_SELECT);
+    }
     MoveRelearnerLoadBattleMoveDescription(itemIndex);
     MoveRelearnerMenuLoadContestMoveDescription(itemIndex);
 }
@@ -859,26 +815,25 @@ s32 GetBoxOrPartyMonData(u16 boxId, u16 monId, s32 request, u8 *dst)
 {
     s32 ret;
 
-    if (boxId == TOTAL_BOXES_COUNT) // Party mon.
-    {
-        if (request == MON_DATA_NICKNAME || request == MON_DATA_OT_NAME)
+    if (boxId == TOTAL_BOXES_COUNT) { // Party mon.
+        if (request == MON_DATA_NICKNAME || request == MON_DATA_OT_NAME) {
             ret = GetMonData(&gPlayerParty[monId], request, dst);
-        else
+        } else {
             ret = GetMonData(&gPlayerParty[monId], request);
-    }
-    else
-    {
-        if (request == MON_DATA_NICKNAME || request == MON_DATA_OT_NAME)
+        }
+    } else {
+        if (request == MON_DATA_NICKNAME || request == MON_DATA_OT_NAME) {
             ret = GetAndCopyBoxMonDataAt(boxId, monId, request, dst);
-        else
+        } else {
             ret = GetBoxMonDataAt(boxId, monId, request);
+        }
     }
 
     return ret;
 }
 
 // Gets the name/gender/level string for the condition menu
-static u8 *GetConditionMenuMonString(u8 *dst, u16 boxId, u16 monId)
+static u8 * GetConditionMenuMonString(u8 *dst, u16 boxId, u16 monId)
 {
     u16 species, level, gender;
     struct BoxPokemon *boxMon;
@@ -889,20 +844,16 @@ static u8 *GetConditionMenuMonString(u8 *dst, u16 boxId, u16 monId)
     *(dst++) = TEXT_COLOR_BLUE;
     *(dst++) = TEXT_COLOR_TRANSPARENT;
     *(dst++) = TEXT_COLOR_LIGHT_BLUE;
-    if (GetBoxOrPartyMonData(boxId, monId, MON_DATA_IS_EGG, NULL))
-    {
+    if (GetBoxOrPartyMonData(boxId, monId, MON_DATA_IS_EGG, NULL)) {
         return StringCopyPadded(dst, gText_EggNickname, 0, 12);
     }
     GetBoxOrPartyMonData(boxId, monId, MON_DATA_NICKNAME, dst);
     StringGetEnd10(dst);
     species = GetBoxOrPartyMonData(boxId, monId, MON_DATA_SPECIES, NULL);
-    if (boxId == TOTAL_BOXES_COUNT) // Party mon.
-    {
+    if (boxId == TOTAL_BOXES_COUNT) { // Party mon.
         level = GetMonData(&gPlayerParty[monId], MON_DATA_LEVEL);
         gender = GetMonGender(&gPlayerParty[monId]);
-    }
-    else
-    {
+    } else {
         // Needed to match, feel free to remove.
         boxId++, boxId--;
         monId++, monId--;
@@ -912,18 +863,19 @@ static u8 *GetConditionMenuMonString(u8 *dst, u16 boxId, u16 monId)
         level = GetLevelFromBoxMonExp(boxMon);
     }
 
-    if ((species == SPECIES_NIDORAN_F || species == SPECIES_NIDORAN_M) && !StringCompare(dst, gSpeciesNames[species]))
+    if ((species == SPECIES_NIDORAN_F || species == SPECIES_NIDORAN_M) && !StringCompare(dst, gSpeciesNames[species])) {
         gender = MON_GENDERLESS;
+    }
 
-    for (str = dst; *str != EOS; str++)
+    for (str = dst; *str != EOS; str++) {
         ;
+    }
 
     *(str++) = EXT_CTRL_CODE_BEGIN;
     *(str++) = EXT_CTRL_CODE_SKIP;
     *(str++) = 60;
 
-    switch (gender)
-    {
+    switch (gender) {
     default:
         *(str++) = CHAR_SPACE;
         break;
@@ -963,15 +915,15 @@ static u8 *GetConditionMenuMonString(u8 *dst, u16 boxId, u16 monId)
 }
 
 // Buffers the string in src to dest up to n chars. If src is less than n chars, fill with spaces
-static u8 *BufferConditionMenuSpacedStringN(u8 *dst, const u8 *src, s16 n)
+static u8 * BufferConditionMenuSpacedStringN(u8 *dst, const u8 *src, s16 n)
 {
-    while (*src != EOS)
-    {
+    while (*src != EOS) {
         *(dst++) = *(src++);
         n--;
     }
-    while (n-- > 0)
+    while (n-- > 0) {
         *(dst++) = CHAR_SPACE;
+    }
 
     *dst = EOS;
     return dst;
@@ -984,34 +936,31 @@ void GetConditionMenuMonNameAndLocString(u8 *locationDst, u8 *nameDst, u16 boxId
     // In this and the below 2 functions, numMons is passed as the number of menu selections (which includes Cancel)
     // To indicate that the Cancel needs to be subtracted they pass an additional bool
     // Unclear why they didn't just subtract 1 when it gets passed instead
-    if (!excludesCancel)
+    if (!excludesCancel) {
         numMons--;
+    }
 
-    if (partyId != numMons)
-    {
+    if (partyId != numMons) {
         GetConditionMenuMonString(nameDst, boxId, monId);
         locationDst[0] = EXT_CTRL_CODE_BEGIN;
         locationDst[1] = EXT_CTRL_CODE_COLOR_HIGHLIGHT_SHADOW;
         locationDst[2] = TEXT_COLOR_BLUE;
         locationDst[3] = TEXT_COLOR_TRANSPARENT;
         locationDst[4] = TEXT_COLOR_LIGHT_BLUE;
-        if (boxId == TOTAL_BOXES_COUNT) // Party mon.
-        {
+        if (boxId == TOTAL_BOXES_COUNT) { // Party mon.
             BufferConditionMenuSpacedStringN(&locationDst[5], gText_InParty, 8);
-        }
-        else
-        {
-            boxId++;boxId--; // Again...Someone fix this maybe?
+        } else {
+            boxId++; boxId--; // Again...Someone fix this maybe?
             BufferConditionMenuSpacedStringN(&locationDst[5], GetBoxNamePtr(boxId), 8);
         }
-    }
-    else
-    {
-        for (i = 0; i < POKEMON_NAME_LENGTH + 2; i++)
+    } else {
+        for (i = 0; i < POKEMON_NAME_LENGTH + 2; i++) {
             nameDst[i] = CHAR_SPACE;
+        }
         nameDst[i] = EOS;
-        for (i = 0; i < 8; i++)
+        for (i = 0; i < 8; i++) {
             locationDst[i] = CHAR_SPACE;
+        }
         locationDst[i] = EOS;
     }
 }
@@ -1020,11 +969,11 @@ void GetConditionMenuMonConditions(struct ConditionGraph *graph, u8 *sheen, u16 
 {
     u16 i;
 
-    if (!excludesCancel)
+    if (!excludesCancel) {
         numMons--;
+    }
 
-    if (partyId != numMons)
-    {
+    if (partyId != numMons) {
         graph->stat[id][0] = GetBoxOrPartyMonData(boxId, monId, MON_DATA_COOL, NULL);
         graph->stat[id][1] = GetBoxOrPartyMonData(boxId, monId, MON_DATA_TOUGH, NULL);
         graph->stat[id][2] = GetBoxOrPartyMonData(boxId, monId, MON_DATA_SMART, NULL);
@@ -1036,11 +985,8 @@ void GetConditionMenuMonConditions(struct ConditionGraph *graph, u8 *sheen, u16 
                  : 9;
 
         sub_81D2754(graph->stat[id], graph->unk14[id]);
-    }
-    else
-    {
-        for (i = 0; i < FLAVOR_COUNT; i++)
-        {
+    } else {
+        for (i = 0; i < FLAVOR_COUNT; i++) {
             graph->stat[id][i] = 0;
             graph->unk14[id][i].unk0 = 155;
             graph->unk14[id][i].unk2 = 91;
@@ -1050,11 +996,11 @@ void GetConditionMenuMonConditions(struct ConditionGraph *graph, u8 *sheen, u16 
 
 void GetConditionMenuMonGfx(void *tilesDst, void *palDst, u16 boxId, u16 monId, u16 partyId, u16 numMons, bool8 excludesCancel)
 {
-    if (!excludesCancel)
+    if (!excludesCancel) {
         numMons--;
+    }
 
-    if (partyId != numMons)
-    {
+    if (partyId != numMons) {
         u16 species = GetBoxOrPartyMonData(boxId, monId, MON_DATA_SPECIES2, NULL);
         u32 trainerId = GetBoxOrPartyMonData(boxId, monId, MON_DATA_OT_ID, NULL);
         u32 personality = GetBoxOrPartyMonData(boxId, monId, MON_DATA_PERSONALITY, NULL);
@@ -1067,19 +1013,21 @@ void GetConditionMenuMonGfx(void *tilesDst, void *palDst, u16 boxId, u16 monId, 
 bool8 MoveConditionMonOnscreen(s16 *x)
 {
     *x += 24;
-    if (*x > 0)
+    if (*x > 0) {
         *x = 0;
+    }
 
-    return (*x != 0);
+    return(*x != 0);
 }
 
 bool8 MoveConditionMonOffscreen(s16 *x)
 {
     *x -= 24;
-    if (*x < -80)
+    if (*x < -80) {
         *x = -80;
+    }
 
-    return (*x != -80);
+    return(*x != -80);
 }
 
 bool8 TryUpdateConditionMonTransitionOn(struct ConditionGraph *graph, s16 *x)
@@ -1087,7 +1035,7 @@ bool8 TryUpdateConditionMonTransitionOn(struct ConditionGraph *graph, s16 *x)
     bool8 graphUpdating = TransitionConditionGraph(graph);
     bool8 monUpdating = MoveConditionMonOnscreen(x);
 
-    return (graphUpdating || monUpdating);
+    return(graphUpdating || monUpdating);
 }
 
 bool8 TryUpdateConditionMonTransitionOff(struct ConditionGraph *graph, s16 *x)
@@ -1095,7 +1043,7 @@ bool8 TryUpdateConditionMonTransitionOff(struct ConditionGraph *graph, s16 *x)
     bool8 graphUpdating = TransitionConditionGraph(graph);
     bool8 monUpdating = MoveConditionMonOffscreen(x);
 
-    return (graphUpdating || monUpdating);
+    return(graphUpdating || monUpdating);
 }
 
 static const u32 sConditionPokeball_Gfx[] = INCBIN_U32("graphics/pokenav/condition/pokeball.4bpp");
@@ -1209,13 +1157,15 @@ void LoadConditionSelectionIcons(struct SpriteSheet *sheets, struct SpriteTempla
         .callback = SpriteCallbackDummy,
     };
 
-    for (i = 0; i < ARRAY_COUNT(dataSheets); i++)
+    for (i = 0; i < ARRAY_COUNT(dataSheets); i++) {
         *(sheets++) = dataSheets[i];
+    }
 
     *template = dataTemplate;
 
-    for (i = 0; i < ARRAY_COUNT(dataPals); i++)
+    for (i = 0; i < ARRAY_COUNT(dataPals); i++) {
         *(pals++) = dataPals[i];
+    }
 }
 
 #define sSparkleId           data[0]
@@ -1236,8 +1186,7 @@ void LoadConditionSparkle(struct SpriteSheet *sheet, struct SpritePalette *pal)
 
 static void SpriteCB_ConditionSparkle_DoNextAfterDelay(struct Sprite *sprite)
 {
-    if (++sprite->sDelayTimer > 60)
-    {
+    if (++sprite->sDelayTimer > 60) {
         sprite->sDelayTimer = 0;
         SetNextConditionSparkle(sprite);
     }
@@ -1245,8 +1194,7 @@ static void SpriteCB_ConditionSparkle_DoNextAfterDelay(struct Sprite *sprite)
 
 static void SpriteCB_ConditionSparkle_WaitForAllAnim(struct Sprite *sprite)
 {
-    if (sprite->animEnded)
-    {
+    if (sprite->animEnded) {
         sprite->sDelayTimer = 0;
         sprite->callback = SpriteCB_ConditionSparkle_DoNextAfterDelay;
     }
@@ -1300,12 +1248,12 @@ static const struct SpriteTemplate sSpriteTemplate_ConditionSparkle =
 
 static const s16 sConditionSparkleCoords[MAX_CONDITION_SPARKLES][2] =
 {
-    {  0,  -35},
-    { 20,  -28},
-    { 33,  -10},
-    { 33,   10},
-    { 20,   28},
-    {  0,   35},
+    {0,  -35},
+    {20,  -28},
+    {33,  -10},
+    {33,   10},
+    {20,   28},
+    {0,   35},
     {-20,   28},
     {-33,   10},
     {-33,  -10},
@@ -1316,13 +1264,10 @@ static void SetConditionSparklePosition(struct Sprite *sprite)
 {
     struct Sprite *mon = &gSprites[sprite->sMonSpriteId];
 
-    if (mon != NULL)
-    {
+    if (mon != NULL) {
         sprite->pos1.x = mon->pos1.x + mon->pos2.x + sConditionSparkleCoords[sprite->sSparkleId][0];
         sprite->pos1.y = mon->pos1.y + mon->pos2.y + sConditionSparkleCoords[sprite->sSparkleId][1];
-    }
-    else
-    {
+    } else {
         sprite->pos1.x = sConditionSparkleCoords[sprite->sSparkleId][0] + 40;
         sprite->pos1.y = sConditionSparkleCoords[sprite->sSparkleId][1] + 104;
     }
@@ -1332,20 +1277,15 @@ static void InitConditionSparkles(u8 count, bool8 allowFirstShowAll, struct Spri
 {
     u16 i;
 
-    for (i = 0; i < MAX_CONDITION_SPARKLES; i++)
-    {
-        if (sprites[i] != NULL)
-        {
+    for (i = 0; i < MAX_CONDITION_SPARKLES; i++) {
+        if (sprites[i] != NULL) {
             sprites[i]->sSparkleId = i;
             sprites[i]->sDelayTimer = (i * 16) + 1;
             sprites[i]->sNumExtraSparkles = count;
             sprites[i]->sCurSparkleId = i;
-            if (!allowFirstShowAll || count != MAX_CONDITION_SPARKLES - 1)
-            {
+            if (!allowFirstShowAll || count != MAX_CONDITION_SPARKLES - 1) {
                 sprites[i]->callback = SpriteCB_ConditionSparkle;
-            }
-            else
-            {
+            } else {
                 SetConditionSparklePosition(sprites[i]);
                 ShowAllConditionSparkles(sprites[i]);
                 sprites[i]->callback = SpriteCB_ConditionSparkle_WaitForAllAnim;
@@ -1359,8 +1299,7 @@ static void SetNextConditionSparkle(struct Sprite *sprite)
 {
     u16 i;
     u8 id = sprite->sNextSparkleSpriteId;
-    for (i = 0; i < sprite->sNumExtraSparkles + 1; i++)
-    {
+    for (i = 0; i < sprite->sNumExtraSparkles + 1; i++) {
         gSprites[id].sDelayTimer = (gSprites[id].sSparkleId * 16) + 1;
         gSprites[id].callback = SpriteCB_ConditionSparkle;
         id = gSprites[id].sNextSparkleSpriteId;
@@ -1371,8 +1310,9 @@ void ResetConditionSparkleSprites(struct Sprite **sprites)
 {
     u8 i;
 
-    for (i = 0; i < MAX_CONDITION_SPARKLES; i++)
+    for (i = 0; i < MAX_CONDITION_SPARKLES; i++) {
         sprites[i] = NULL;
+    }
 }
 
 void CreateConditionSparkleSprites(struct Sprite **sprites, u8 monSpriteId, u8 _count)
@@ -1380,21 +1320,18 @@ void CreateConditionSparkleSprites(struct Sprite **sprites, u8 monSpriteId, u8 _
     u16 i, spriteId, firstSpriteId = 0;
     u8 count = _count;
 
-    for (i = 0; i < count + 1; i++)
-    {
+    for (i = 0; i < count + 1; i++) {
         spriteId = CreateSprite(&sSpriteTemplate_ConditionSparkle, 0, 0, 0);
-        if (spriteId != MAX_SPRITES)
-        {
+        if (spriteId != MAX_SPRITES) {
             sprites[i] = &gSprites[spriteId];
             sprites[i]->invisible = TRUE;
             sprites[i]->sMonSpriteId = monSpriteId;
-            if (i != 0)
+            if (i != 0) {
                 sprites[i - 1]->sNextSparkleSpriteId = spriteId;
-            else
+            } else {
                 firstSpriteId = spriteId;
-        }
-        else
-        {
+            }
+        } else {
             break;
         }
     }
@@ -1407,15 +1344,11 @@ void DestroyConditionSparkleSprites(struct Sprite **sprites)
 {
     u16 i;
 
-    for (i = 0; i < MAX_CONDITION_SPARKLES; i++)
-    {
-        if (sprites[i] != NULL)
-        {
+    for (i = 0; i < MAX_CONDITION_SPARKLES; i++) {
+        if (sprites[i] != NULL) {
             DestroySprite(sprites[i]);
             sprites[i] = NULL;
-        }
-        else
-        {
+        } else {
             break;
         }
     }
@@ -1431,10 +1364,10 @@ void FreeConditionSparkles(struct Sprite **sprites)
 static void SpriteCB_ConditionSparkle(struct Sprite *sprite)
 {
     // Delay, then do sparkle anim
-    if (sprite->sDelayTimer != 0)
-    {
-        if (--sprite->sDelayTimer != 0)
+    if (sprite->sDelayTimer != 0) {
+        if (--sprite->sDelayTimer != 0) {
             return;
+        }
 
         SeekSpriteAnim(sprite, 0);
         sprite->invisible = FALSE;
@@ -1443,23 +1376,16 @@ static void SpriteCB_ConditionSparkle(struct Sprite *sprite)
     SetConditionSparklePosition(sprite);
 
     // Set up next sparkle
-    if (sprite->animEnded)
-    {
+    if (sprite->animEnded) {
         sprite->invisible = TRUE;
-        if (sprite->sCurSparkleId == sprite->sNumExtraSparkles)
-        {
-            if (sprite->sCurSparkleId == MAX_CONDITION_SPARKLES - 1)
-            {
+        if (sprite->sCurSparkleId == sprite->sNumExtraSparkles) {
+            if (sprite->sCurSparkleId == MAX_CONDITION_SPARKLES - 1) {
                 ShowAllConditionSparkles(sprite);
                 sprite->callback = SpriteCB_ConditionSparkle_WaitForAllAnim;
-            }
-            else
-            {
+            } else {
                 sprite->callback = SpriteCB_ConditionSparkle_DoNextAfterDelay;
             }
-        }
-        else
-        {
+        } else {
             sprite->callback = SpriteCallbackDummy;
         }
     }
@@ -1469,8 +1395,7 @@ static void ShowAllConditionSparkles(struct Sprite *sprite)
 {
     u8 i, id = sprite->sNextSparkleSpriteId;
 
-    for (i = 0; i < sprite->sNumExtraSparkles + 1; i++)
-    {
+    for (i = 0; i < sprite->sNumExtraSparkles + 1; i++) {
         SeekSpriteAnim(&gSprites[id], 0);
         gSprites[id].invisible = FALSE;
         id = gSprites[id].sNextSparkleSpriteId;
@@ -1514,9 +1439,7 @@ void DrawLevelUpWindowPg1(u16 windowId, u16 *statsBefore, u16 *statsAfter, u8 bg
     color[1] = fgClr;
     color[2] = shadowClr;
 
-    for (i = 0; i < NUM_STATS; i++)
-    {
-
+    for (i = 0; i < NUM_STATS; i++) {
         AddTextPrinterParameterized3(windowId,
                                      1,
                                      0,
@@ -1533,10 +1456,11 @@ void DrawLevelUpWindowPg1(u16 windowId, u16 *statsBefore, u16 *statsAfter, u8 bg
                                      color,
                                      -1,
                                      text);
-        if (abs(statsDiff[i]) <= 9)
+        if (abs(statsDiff[i]) <= 9) {
             x = 18;
-        else
+        } else {
             x = 12;
+        }
 
         ConvertIntToDecimalStringN(text, abs(statsDiff[i]), STR_CONV_MODE_LEFT_ALIGN, 2);
         AddTextPrinterParameterized3(windowId,
@@ -1569,14 +1493,14 @@ void DrawLevelUpWindowPg2(u16 windowId, u16 *currStats, u8 bgClr, u8 fgClr, u8 s
     color[1] = fgClr;
     color[2] = shadowClr;
 
-    for (i = 0; i < NUM_STATS; i++)
-    {
-        if (stats[i] > 99)
+    for (i = 0; i < NUM_STATS; i++) {
+        if (stats[i] > 99) {
             numDigits = 3;
-        else if (stats[i] > 9)
+        } else if (stats[i] > 9) {
             numDigits = 2;
-        else
+        } else {
             numDigits = 1;
+        }
 
         ConvertIntToDecimalStringN(text, stats[i], STR_CONV_MODE_LEFT_ALIGN, numDigits);
         x = 6 * (4 - numDigits);

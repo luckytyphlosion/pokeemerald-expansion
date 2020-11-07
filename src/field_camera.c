@@ -108,17 +108,17 @@ static void DrawWholeMapViewInternal(int x, int y, const struct MapLayout *mapLa
     u32 r6;
     u8 temp;
 
-    for (i = 0; i < 32; i += 2)
-    {
+    for (i = 0; i < 32; i += 2) {
         temp = sFieldCameraOffset.yTileOffset + i;
-        if (temp >= 32)
+        if (temp >= 32) {
             temp -= 32;
+        }
         r6 = temp * 32;
-        for (j = 0; j < 32; j += 2)
-        {
+        for (j = 0; j < 32; j += 2) {
             temp = sFieldCameraOffset.xTileOffset + j;
-            if (temp >= 32)
+            if (temp >= 32) {
                 temp -= 32;
+            }
             DrawMetatileAt(mapLayout, r6 + temp, x + j / 2, y + i / 2);
         }
     }
@@ -128,14 +128,18 @@ static void RedrawMapSlicesForCameraUpdate(struct FieldCameraOffset *cameraOffse
 {
     const struct MapLayout *mapLayout = gMapHeader.mapLayout;
 
-    if (x > 0)
+    if (x > 0) {
         RedrawMapSliceWest(cameraOffset, mapLayout);
-    if (x < 0)
+    }
+    if (x < 0) {
         RedrawMapSliceEast(cameraOffset, mapLayout);
-    if (y > 0)
+    }
+    if (y > 0) {
         RedrawMapSliceNorth(cameraOffset, mapLayout);
-    if (y < 0)
+    }
+    if (y < 0) {
         RedrawMapSliceSouth(cameraOffset, mapLayout);
+    }
     cameraOffset->copyBGToVRAM = TRUE;
 }
 
@@ -146,14 +150,15 @@ static void RedrawMapSliceNorth(struct FieldCameraOffset *cameraOffset, const st
     u32 r7;
 
     temp = cameraOffset->yTileOffset + 28;
-    if (temp >= 32)
+    if (temp >= 32) {
         temp -= 32;
+    }
     r7 = temp * 32;
-    for (i = 0; i < 32; i += 2)
-    {
+    for (i = 0; i < 32; i += 2) {
         temp = cameraOffset->xTileOffset + i;
-        if (temp >= 32)
+        if (temp >= 32) {
             temp -= 32;
+        }
         DrawMetatileAt(mapLayout, r7 + temp, gSaveBlock1Ptr->pos.x + i / 2, gSaveBlock1Ptr->pos.y + 14);
     }
 }
@@ -164,11 +169,11 @@ static void RedrawMapSliceSouth(struct FieldCameraOffset *cameraOffset, const st
     u8 temp;
     u32 r7 = cameraOffset->yTileOffset * 32;
 
-    for (i = 0; i < 32; i += 2)
-    {
+    for (i = 0; i < 32; i += 2) {
         temp = cameraOffset->xTileOffset + i;
-        if (temp >= 32)
+        if (temp >= 32) {
             temp -= 32;
+        }
         DrawMetatileAt(mapLayout, r7 + temp, gSaveBlock1Ptr->pos.x + i / 2, gSaveBlock1Ptr->pos.y);
     }
 }
@@ -179,11 +184,11 @@ static void RedrawMapSliceEast(struct FieldCameraOffset *cameraOffset, const str
     u8 temp;
     u32 r6 = cameraOffset->xTileOffset;
 
-    for (i = 0; i < 32; i += 2)
-    {
+    for (i = 0; i < 32; i += 2) {
         temp = cameraOffset->yTileOffset + i;
-        if (temp >= 32)
+        if (temp >= 32) {
             temp -= 32;
+        }
         DrawMetatileAt(mapLayout, temp * 32 + r6, gSaveBlock1Ptr->pos.x, gSaveBlock1Ptr->pos.y + i / 2);
     }
 }
@@ -194,13 +199,14 @@ static void RedrawMapSliceWest(struct FieldCameraOffset *cameraOffset, const str
     u8 temp;
     u8 r5 = cameraOffset->xTileOffset + 28;
 
-    if (r5 >= 32)
+    if (r5 >= 32) {
         r5 -= 32;
-    for (i = 0; i < 32; i += 2)
-    {
+    }
+    for (i = 0; i < 32; i += 2) {
         temp = cameraOffset->yTileOffset + i;
-        if (temp >= 32)
+        if (temp >= 32) {
             temp -= 32;
+        }
         DrawMetatileAt(mapLayout, temp * 32 + r5, gSaveBlock1Ptr->pos.x + 14, gSaveBlock1Ptr->pos.y + i / 2);
     }
 }
@@ -209,8 +215,7 @@ void CurrentMapDrawMetatileAt(int x, int y)
 {
     int offset = MapPosToBgTilemapOffset(&sFieldCameraOffset, x, y);
 
-    if (offset >= 0)
-    {
+    if (offset >= 0) {
         DrawMetatileAt(gMapHeader.mapLayout, offset, x, y);
         sFieldCameraOffset.copyBGToVRAM = TRUE;
     }
@@ -220,8 +225,7 @@ void DrawDoorMetatileAt(int x, int y, u16 *arr)
 {
     int offset = MapPosToBgTilemapOffset(&sFieldCameraOffset, x, y);
 
-    if (offset >= 0)
-    {
+    if (offset >= 0) {
         DrawMetatile(1, arr, offset);
         sFieldCameraOffset.copyBGToVRAM = TRUE;
     }
@@ -232,12 +236,12 @@ static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x,
     u16 metatileId = MapGridGetMetatileIdAt(x, y);
     u16 *metatiles;
 
-    if (metatileId > NUM_METATILES_TOTAL)
+    if (metatileId > NUM_METATILES_TOTAL) {
         metatileId = 0;
-    if (metatileId < NUM_METATILES_IN_PRIMARY)
+    }
+    if (metatileId < NUM_METATILES_IN_PRIMARY) {
         metatiles = mapLayout->primaryTileset->metatiles;
-    else
-    {
+    } else {
         metatiles = mapLayout->secondaryTileset->metatiles;
         metatileId -= NUM_METATILES_IN_PRIMARY;
     }
@@ -246,8 +250,7 @@ static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x,
 
 static void DrawMetatile(s32 metatileLayerType, u16 *metatiles, u16 offset)
 {
-    switch (metatileLayerType)
-    {
+    switch (metatileLayerType) {
     case 2: // LAYER_TYPE_
         // Draw metatile's bottom layer to the bottom background layer.
         gBGTilemapBuffers3[offset] = metatiles[0];
@@ -315,26 +318,29 @@ static s32 MapPosToBgTilemapOffset(struct FieldCameraOffset *cameraOffset, s32 x
 {
     x -= gSaveBlock1Ptr->pos.x;
     x *= 2;
-    if (x >= 32 || x < 0)
+    if (x >= 32 || x < 0) {
         return -1;
+    }
     x = x + cameraOffset->xTileOffset;
-    if (x >= 32)
+    if (x >= 32) {
         x -= 32;
+    }
 
     y = (y - gSaveBlock1Ptr->pos.y) * 2;
-    if (y >= 32 || y < 0)
+    if (y >= 32 || y < 0) {
         return -1;
+    }
     y = y + cameraOffset->yTileOffset;
-    if (y >= 32)
+    if (y >= 32) {
         y -= 32;
+    }
 
     return y * 32 + x;
 }
 
 static void CameraUpdateCallback(struct CameraObject *fieldCamera)
 {
-    if (fieldCamera->spriteId != 0)
-    {
+    if (fieldCamera->spriteId != 0) {
         fieldCamera->movementSpeedX = gSprites[fieldCamera->spriteId].data[2];
         fieldCamera->movementSpeedY = gSprites[fieldCamera->spriteId].data[3];
     }
@@ -352,8 +358,9 @@ void ResetCameraUpdateInfo(void)
 
 u32 InitCameraUpdateCallback(u8 trackedSpriteId)
 {
-    if (gFieldCamera.spriteId != 0)
+    if (gFieldCamera.spriteId != 0) {
         DestroySprite(&gSprites[gFieldCamera.spriteId]);
+    }
     gFieldCamera.spriteId = AddCameraObject(trackedSpriteId);
     gFieldCamera.callback = CameraUpdateCallback;
     return 0;
@@ -368,8 +375,9 @@ void CameraUpdate(void)
     int movementSpeedX;
     int movementSpeedY;
 
-    if (gFieldCamera.callback != NULL)
+    if (gFieldCamera.callback != NULL) {
         gFieldCamera.callback(&gFieldCamera);
+    }
     movementSpeedX = gFieldCamera.movementSpeedX;
     movementSpeedY = gFieldCamera.movementSpeedY;
     deltaX = 0;
@@ -378,33 +386,33 @@ void CameraUpdate(void)
     curMovementOffsetY = gFieldCamera.y;
 
 
-    if (curMovementOffsetX == 0 && movementSpeedX != 0)
-    {
-        if (movementSpeedX > 0)
+    if (curMovementOffsetX == 0 && movementSpeedX != 0) {
+        if (movementSpeedX > 0) {
             deltaX = 1;
-        else
+        } else {
             deltaX = -1;
+        }
     }
-    if (curMovementOffsetY == 0 && movementSpeedY != 0)
-    {
-        if (movementSpeedY > 0)
+    if (curMovementOffsetY == 0 && movementSpeedY != 0) {
+        if (movementSpeedY > 0) {
             deltaY = 1;
-        else
+        } else {
             deltaY = -1;
+        }
     }
-    if (curMovementOffsetX != 0 && curMovementOffsetX == -movementSpeedX)
-    {
-        if (movementSpeedX > 0)
+    if (curMovementOffsetX != 0 && curMovementOffsetX == -movementSpeedX) {
+        if (movementSpeedX > 0) {
             deltaX = 1;
-        else
+        } else {
             deltaX = -1;
+        }
     }
-    if (curMovementOffsetY != 0 && curMovementOffsetY == -movementSpeedY)
-    {
-        if (movementSpeedY > 0)
+    if (curMovementOffsetY != 0 && curMovementOffsetY == -movementSpeedY) {
+        if (movementSpeedY > 0) {
             deltaX = 1;
-        else
+        } else {
             deltaX = -1;
+        }
     }
 
     gFieldCamera.x += movementSpeedX;
@@ -412,8 +420,7 @@ void CameraUpdate(void)
     gFieldCamera.y += movementSpeedY;
     gFieldCamera.y = gFieldCamera.y - 16 * (gFieldCamera.y / 16);
 
-    if (deltaX != 0 || deltaY != 0)
-    {
+    if (deltaX != 0 || deltaY != 0) {
         CameraMove(deltaX, deltaY);
         UpdateObjectEventsForCameraUpdate(deltaX, deltaY);
         RotatingGatePuzzleCameraUpdate(deltaX, deltaY);
@@ -457,8 +464,9 @@ void InstallCameraPanAheadCallback(void)
 
 void UpdateCameraPanning(void)
 {
-    if (sFieldCameraPanningCallback != NULL)
+    if (sFieldCameraPanningCallback != NULL) {
         sFieldCameraPanningCallback();
+    }
     //Update sprite offset of overworld objects
     gSpriteCoordOffsetX = gTotalCameraPixelOffsetX - sHorizontalCameraPan;
     gSpriteCoordOffsetY = gTotalCameraPixelOffsetY - sVerticalCameraPan - 8;
@@ -468,41 +476,31 @@ static void CameraPanningCB_PanAhead(void)
 {
     u8 var;
 
-    if (gUnusedBikeCameraAheadPanback == FALSE)
-    {
+    if (gUnusedBikeCameraAheadPanback == FALSE) {
         InstallCameraPanAheadCallback();
-    }
-    else
-    {
+    } else {
         // this code is never reached.
-        if (gPlayerAvatar.tileTransitionState == T_TILE_TRANSITION)
-        {
+        if (gPlayerAvatar.tileTransitionState == T_TILE_TRANSITION) {
             gUnknown_03000E2C ^= 1;
-            if (gUnknown_03000E2C == FALSE)
+            if (gUnknown_03000E2C == FALSE) {
                 return;
-        }
-        else
-        {
+            }
+        } else {
             gUnknown_03000E2C = FALSE;
         }
 
         var = GetPlayerMovementDirection();
-        if (var == 2)
-        {
-            if (sVerticalCameraPan > -8)
+        if (var == 2) {
+            if (sVerticalCameraPan > -8) {
                 sVerticalCameraPan -= 2;
-        }
-        else if (var == 1)
-        {
-            if (sVerticalCameraPan < 72)
+            }
+        } else if (var == 1) {
+            if (sVerticalCameraPan < 72) {
                 sVerticalCameraPan += 2;
-        }
-        else if (sVerticalCameraPan < 32)
-        {
+            }
+        } else if (sVerticalCameraPan < 32) {
             sVerticalCameraPan += 2;
-        }
-        else if (sVerticalCameraPan > 32)
-        {
+        } else if (sVerticalCameraPan > 32) {
             sVerticalCameraPan -= 2;
         }
     }

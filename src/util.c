@@ -6,37 +6,37 @@
 const u32 gBitTable[] =
 {
     1 << 0,
-    1 << 1,
-    1 << 2,
-    1 << 3,
-    1 << 4,
-    1 << 5,
-    1 << 6,
-    1 << 7,
-    1 << 8,
-    1 << 9,
-    1 << 10,
-    1 << 11,
-    1 << 12,
-    1 << 13,
-    1 << 14,
-    1 << 15,
-    1 << 16,
-    1 << 17,
-    1 << 18,
-    1 << 19,
-    1 << 20,
-    1 << 21,
-    1 << 22,
-    1 << 23,
-    1 << 24,
-    1 << 25,
-    1 << 26,
-    1 << 27,
-    1 << 28,
-    1 << 29,
-    1 << 30,
-    1 << 31,
+        1 << 1,
+        1 << 2,
+        1 << 3,
+        1 << 4,
+        1 << 5,
+        1 << 6,
+        1 << 7,
+        1 << 8,
+        1 << 9,
+        1 << 10,
+        1 << 11,
+        1 << 12,
+        1 << 13,
+        1 << 14,
+        1 << 15,
+        1 << 16,
+        1 << 17,
+        1 << 18,
+        1 << 19,
+        1 << 20,
+        1 << 21,
+        1 << 22,
+        1 << 23,
+        1 << 24,
+        1 << 25,
+        1 << 26,
+        1 << 27,
+        1 << 28,
+        1 << 29,
+        1 << 30,
+        1 << 31,
 };
 
 static const struct SpriteTemplate sInvisibleSpriteTemplate =
@@ -161,39 +161,29 @@ void CopySpriteTiles(u8 shape, u8 size, u8 *tiles, u16 *tilemap, u8 *output)
     u8 h = sSpriteDimensions[shape][size][1];
     u8 w = sSpriteDimensions[shape][size][0];
 
-    for (y = 0; y < h; y++)
-    {
-        for (x = 0; x < w; x++)
-        {
+    for (y = 0; y < h; y++) {
+        for (x = 0; x < w; x++) {
             int tile = (*tilemap & 0x3ff) * 32;
 
-            if ((*tilemap & 0xc00) == 0)
-            {
+            if ((*tilemap & 0xc00) == 0) {
                 CpuCopy32(tiles + tile, output, 32);
-            }
-            else if ((*tilemap & 0xc00) == 0x800)  // yflip
-            {
-                for (i = 0; i < 8; i++)
+            } else if ((*tilemap & 0xc00) == 0x800) { // yflip
+                for (i = 0; i < 8; i++) {
                     CpuCopy32(tiles + (tile + (7 - i) * 4), output + i * 4, 4);
-            }
-            else  // xflip
-            {
-                for (i = 0; i < 8; i++)
-                {
-                    for (j = 0; j < 4; j++)
-                    {
+                }
+            } else { // xflip
+                for (i = 0; i < 8; i++) {
+                    for (j = 0; j < 4; j++) {
                         u8 i2 = i * 4;
-                        xflip[i2 + (3-j)] = (tiles[tile + i2 + j] & 0xf) << 4;
-                        xflip[i2 + (3-j)] |= tiles[tile + i2 + j] >> 4;
+                        xflip[i2 + (3 - j)] = (tiles[tile + i2 + j] & 0xf) << 4;
+                        xflip[i2 + (3 - j)] |= tiles[tile + i2 + j] >> 4;
                     }
                 }
-                if (*tilemap & 0x800)  // yflip
-                {
-                    for (i = 0; i < 8; i++)
+                if (*tilemap & 0x800) { // yflip
+                    for (i = 0; i < 8; i++) {
                         CpuCopy32(xflip + (7 - i) * 4, output + i * 4, 4);
-                }
-                else
-                {
+                    }
+                } else {
                     CpuCopy32(xflip, output, 32);
                 }
             }
@@ -208,12 +198,12 @@ int CountTrailingZeroBits(u32 value)
 {
     u8 i;
 
-    for (i = 0; i < 32; i++)
-    {
-        if ((value & 1) == 0)
+    for (i = 0; i < 32; i++) {
+        if ((value & 1) == 0) {
             value >>= 1;
-        else
+        } else {
             return i;
+        }
     }
     return 0;
 }
@@ -223,15 +213,14 @@ u16 CalcCRC16(const u8 *data, s32 length)
     u16 i, j;
     u16 crc = 0x1121;
 
-    for (i = 0; i < length; i++)
-    {
+    for (i = 0; i < length; i++) {
         crc ^= data[i];
-        for (j = 0; j < 8; j++)
-        {
-            if (crc & 1)
+        for (j = 0; j < 8; j++) {
+            if (crc & 1) {
                 crc = (crc >> 1) ^ 0x8408;
-            else
+            } else {
                 crc >>= 1;
+            }
         }
     }
     return ~crc;
@@ -243,8 +232,7 @@ u16 CalcCRC16WithTable(const u8 *data, u32 length)
     u16 crc = 0x1121;
     u8 byte;
 
-    for (i = 0; i < length; i++)
-    {
+    for (i = 0; i < length; i++) {
         byte = crc >> 8;
         crc ^= data[i];
         crc = byte ^ sCrc16Table[(u8)crc];
@@ -255,16 +243,16 @@ u16 CalcCRC16WithTable(const u8 *data, u32 length)
 u32 CalcByteArraySum(const u8* data, u32 length)
 {
     u32 sum, i;
-    for (sum = 0, i = 0; i < length; i++)
+    for (sum = 0, i = 0; i < length; i++) {
         sum += data[i];
+    }
     return sum;
 }
 
 void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
 {
     u16 i;
-    for (i = 0; i < numEntries; i++)
-    {
+    for (i = 0; i < numEntries; i++) {
         u16 index = i + palOffset;
         struct PlttData *data1 = (struct PlttData *)&gPlttBufferUnfaded[index];
         s8 r = data1->r;
@@ -272,7 +260,7 @@ void BlendPalette(u16 palOffset, u16 numEntries, u8 coeff, u16 blendColor)
         s8 b = data1->b;
         struct PlttData *data2 = (struct PlttData *)&blendColor;
         gPlttBufferFaded[index] = ((r + (((data2->r - r) * coeff) >> 4)) << 0)
-                                | ((g + (((data2->g - g) * coeff) >> 4)) << 5)
-                                | ((b + (((data2->b - b) * coeff) >> 4)) << 10);
+                                  | ((g + (((data2->g - g) * coeff) >> 4)) << 5)
+                                  | ((b + (((data2->b - b) * coeff) >> 4)) << 10);
     }
 }

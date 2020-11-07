@@ -31,8 +31,7 @@ void InitMirageRnd(void)
 void UpdateMirageRnd(u16 days)
 {
     s32 rnd = GetMirageRnd();
-    while (days)
-    {
+    while (days) {
         rnd = ISO_RANDOMIZE2(rnd);
         days--;
     }
@@ -44,9 +43,11 @@ bool8 IsMirageIslandPresent(void)
     u16 rnd = GetMirageRnd() >> 16;
     int i;
 
-    for (i = 0; i < PARTY_SIZE; i++)
-        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && (GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY) & 0xFFFF) == rnd)
+    for (i = 0; i < PARTY_SIZE; i++) {
+        if (GetMonData(&gPlayerParty[i], MON_DATA_SPECIES) && (GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY) & 0xFFFF) == rnd) {
             return TRUE;
+        }
+    }
 
     return FALSE;
 }
@@ -81,20 +82,19 @@ void UpdateShoalTideFlag(void)
         1, // 23
     };
 
-    if (IsMapTypeOutdoors(GetLastUsedWarpMapType()))
-    {
+    if (IsMapTypeOutdoors(GetLastUsedWarpMapType())) {
         RtcCalcLocalTime();
-        if (tide[gLocalTime.hours])
+        if (tide[gLocalTime.hours]) {
             FlagSet(FLAG_SYS_SHOAL_TIDE);
-        else
+        } else {
             FlagClear(FLAG_SYS_SHOAL_TIDE);
+        }
     }
 }
 
 static void Task_WaitWeather(u8 taskId)
 {
-    if (IsWeatherChangeComplete())
-    {
+    if (IsWeatherChangeComplete()) {
         EnableBothScriptContexts();
         DestroyTask(taskId);
     }

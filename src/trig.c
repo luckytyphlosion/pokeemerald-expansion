@@ -530,10 +530,11 @@ s16 Sin2(u16 angle)
     s32 negate = ((angle / 180) & 1);
     s16 value = gSineDegreeTable[angleMod];
 
-    if (negate)
+    if (negate) {
         return -value;
-    else
+    } else {
         return value;
+    }
 }
 
 // angle in degrees

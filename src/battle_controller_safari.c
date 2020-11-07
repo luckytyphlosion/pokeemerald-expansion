@@ -161,23 +161,21 @@ void SetControllerToSafari(void)
 
 static void SafariBufferRunCommand(void)
 {
-    if (gBattleControllerExecFlags & gBitTable[gActiveBattler])
-    {
-        if (gBattleResources->bufferA[gActiveBattler][0] < ARRAY_COUNT(sSafariBufferCommands))
+    if (gBattleControllerExecFlags & gBitTable[gActiveBattler]) {
+        if (gBattleResources->bufferA[gActiveBattler][0] < ARRAY_COUNT(sSafariBufferCommands)) {
             sSafariBufferCommands[gBattleResources->bufferA[gActiveBattler][0]]();
-        else
+        } else {
             SafariBufferExecCompleted();
+        }
     }
 }
 
 static void HandleInputChooseAction(void)
 {
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         PlaySE(SE_SELECT);
 
-        switch (gActionSelectionCursor[gActiveBattler])
-        {
+        switch (gActionSelectionCursor[gActiveBattler]) {
         case 0:
             BtlController_EmitTwoReturnValues(1, B_ACTION_SAFARI_BALL, 0);
             break;
@@ -192,41 +190,29 @@ static void HandleInputChooseAction(void)
             break;
         }
         SafariBufferExecCompleted();
-    }
-    else if (JOY_NEW(DPAD_LEFT))
-    {
-        if (gActionSelectionCursor[gActiveBattler] & 1)
-        {
+    } else if (JOY_NEW(DPAD_LEFT)) {
+        if (gActionSelectionCursor[gActiveBattler] & 1) {
             PlaySE(SE_SELECT);
             ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
             gActionSelectionCursor[gActiveBattler] ^= 1;
             ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
         }
-    }
-    else if (JOY_NEW(DPAD_RIGHT))
-    {
-        if (!(gActionSelectionCursor[gActiveBattler] & 1))
-        {
+    } else if (JOY_NEW(DPAD_RIGHT)) {
+        if (!(gActionSelectionCursor[gActiveBattler] & 1)) {
             PlaySE(SE_SELECT);
             ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
             gActionSelectionCursor[gActiveBattler] ^= 1;
             ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
         }
-    }
-    else if (JOY_NEW(DPAD_UP))
-    {
-        if (gActionSelectionCursor[gActiveBattler] & 2)
-        {
+    } else if (JOY_NEW(DPAD_UP)) {
+        if (gActionSelectionCursor[gActiveBattler] & 2) {
             PlaySE(SE_SELECT);
             ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
             gActionSelectionCursor[gActiveBattler] ^= 2;
             ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
         }
-    }
-    else if (JOY_NEW(DPAD_DOWN))
-    {
-        if (!(gActionSelectionCursor[gActiveBattler] & 2))
-        {
+    } else if (JOY_NEW(DPAD_DOWN)) {
+        if (!(gActionSelectionCursor[gActiveBattler] & 2)) {
             PlaySE(SE_SELECT);
             ActionSelectionDestroyCursorAt(gActionSelectionCursor[gActiveBattler]);
             gActionSelectionCursor[gActiveBattler] ^= 2;
@@ -237,26 +223,28 @@ static void HandleInputChooseAction(void)
 
 static void CompleteOnBattlerSpriteCallbackDummy(void)
 {
-    if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
+    if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy) {
         SafariBufferExecCompleted();
+    }
 }
 
 static void CompleteOnInactiveTextPrinter(void)
 {
-    if (!IsTextPrinterActive(0))
+    if (!IsTextPrinterActive(0)) {
         SafariBufferExecCompleted();
+    }
 }
 
 static void CompleteOnHealthboxSpriteCallbackDummy(void)
 {
-    if (gSprites[gHealthboxSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
+    if (gSprites[gHealthboxSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy) {
         SafariBufferExecCompleted();
+    }
 }
 
 static void sub_81595E4(void)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         gMain.inBattle = FALSE;
         gMain.callback1 = gPreBattleCallback1;
         SetMainCallback2(gMain.savedCallback);
@@ -265,14 +253,14 @@ static void sub_81595E4(void)
 
 static void CompleteOnSpecialAnimDone(void)
 {
-    if (!gDoingBattleAnim || !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive)
+    if (!gDoingBattleAnim || !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive) {
         SafariBufferExecCompleted();
+    }
 }
 
 static void SafariOpenPokeblockCase(void)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         gBattlerControllerFuncs[gActiveBattler] = CompleteWhenChosePokeblock;
         FreeAllWindowBuffers();
         OpenPokeblockCaseInBattle();
@@ -281,8 +269,7 @@ static void SafariOpenPokeblockCase(void)
 
 static void CompleteWhenChosePokeblock(void)
 {
-    if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active)
-    {
+    if (gMain.callback2 == BattleMainCB2 && !gPaletteFade.active) {
         BtlController_EmitOneReturnValue(1, gSpecialVar_ItemId);
         SafariBufferExecCompleted();
     }
@@ -290,30 +277,29 @@ static void CompleteWhenChosePokeblock(void)
 
 static void CompleteOnFinishedBattleAnimation(void)
 {
-    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animFromTableActive)
+    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animFromTableActive) {
         SafariBufferExecCompleted();
+    }
 }
 
 static void SafariBufferExecCompleted(void)
 {
     gBattlerControllerFuncs[gActiveBattler] = SafariBufferRunCommand;
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-    {
+    if (gBattleTypeFlags & BATTLE_TYPE_LINK) {
         u8 playerId = GetMultiplayerId();
 
         PrepareBufferDataTransferLink(2, 4, &playerId);
         gBattleResources->bufferA[gActiveBattler][0] = CONTROLLER_TERMINATOR_NOP;
-    }
-    else
-    {
+    } else {
         gBattleControllerExecFlags &= ~gBitTable[gActiveBattler];
     }
 }
 
 static void CompleteOnFinishedStatusAnimation(void)
 {
-    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].statusAnimActive)
+    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].statusAnimActive) {
         SafariBufferExecCompleted();
+    }
 }
 
 static void SafariHandleGetMonData(void)
@@ -356,10 +342,10 @@ static void SafariHandleDrawTrainerPic(void)
     DecompressTrainerBackPic(gSaveBlock2Ptr->playerGender, gActiveBattler);
     SetMultiuseSpriteTemplateToTrainerBack(gSaveBlock2Ptr->playerGender, GetBattlerPosition(gActiveBattler));
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(
-      &gMultiuseSpriteTemplate,
-      80,
-      (8 - gTrainerBackPicCoords[gSaveBlock2Ptr->playerGender].size) * 4 + 80,
-      30);
+        &gMultiuseSpriteTemplate,
+        80,
+        (8 - gTrainerBackPicCoords[gSaveBlock2Ptr->playerGender].size) * 4 + 80,
+        30);
     gSprites[gBattlerSpriteIds[gActiveBattler]].oam.paletteNum = gActiveBattler;
     gSprites[gBattlerSpriteIds[gActiveBattler]].pos2.x = 240;
     gSprites[gBattlerSpriteIds[gActiveBattler]].data[0] = -2;
@@ -429,16 +415,16 @@ static void SafariHandlePrintString(void)
 
 static void SafariHandlePrintSelectionString(void)
 {
-    if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
+    if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER) {
         SafariHandlePrintString();
-    else
+    } else {
         SafariBufferExecCompleted();
+    }
 }
 
 static void HandleChooseActionAfterDma3(void)
 {
-    if (!IsDma3ManagerBusyWithBgCopy())
-    {
+    if (!IsDma3ManagerBusyWithBgCopy()) {
         gBattle_BG0_X = 0;
         gBattle_BG0_Y = 160;
         gBattlerControllerFuncs[gActiveBattler] = HandleInputChooseAction;
@@ -452,8 +438,9 @@ static void SafariHandleChooseAction(void)
     gBattlerControllerFuncs[gActiveBattler] = HandleChooseActionAfterDma3;
     BattlePutTextOnWindow(gText_SafariZoneMenu, 2);
 
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 4; i++) {
         ActionSelectionDestroyCursorAt(i);
+    }
 
     ActionSelectionCreateCursorAt(gActionSelectionCursor[gActiveBattler], 0);
     BattleStringExpandPlaceholdersToDisplayedString(gText_WhatWillPkmnDo2);
@@ -589,10 +576,11 @@ static void SafariHandlePlaySE(void)
 {
     s8 pan;
 
-    if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
+    if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER) {
         pan = SOUND_PAN_ATTACKER;
-    else
+    } else {
         pan = SOUND_PAN_TARGET;
+    }
 
     PlaySE12WithPanning(gBattleResources->bufferA[gActiveBattler][1] | (gBattleResources->bufferA[gActiveBattler][2] << 8), pan);
     SafariBufferExecCompleted();
@@ -600,13 +588,10 @@ static void SafariHandlePlaySE(void)
 
 static void SafariHandlePlayFanfareOrBGM(void)
 {
-    if (gBattleResources->bufferA[gActiveBattler][3])
-    {
+    if (gBattleResources->bufferA[gActiveBattler][3]) {
         BattleStopLowHpSound();
         PlayBGM(gBattleResources->bufferA[gActiveBattler][1] | (gBattleResources->bufferA[gActiveBattler][2] << 8));
-    }
-    else
-    {
+    } else {
         PlayFanfare(gBattleResources->bufferA[gActiveBattler][1] | (gBattleResources->bufferA[gActiveBattler][2] << 8));
     }
 
@@ -661,10 +646,11 @@ static void SafariHandleBattleAnimation(void)
     u8 animationId = gBattleResources->bufferA[gActiveBattler][1];
     u16 argument = gBattleResources->bufferA[gActiveBattler][2] | (gBattleResources->bufferA[gActiveBattler][3] << 8);
 
-    if (TryHandleLaunchBattleTableAnimation(gActiveBattler, gActiveBattler, gActiveBattler, animationId, argument))
+    if (TryHandleLaunchBattleTableAnimation(gActiveBattler, gActiveBattler, gActiveBattler, animationId, argument)) {
         SafariBufferExecCompleted();
-    else
+    } else {
         gBattlerControllerFuncs[gActiveBattler] = CompleteOnFinishedBattleAnimation;
+    }
 }
 
 static void SafariHandleLinkStandbyMsg(void)
@@ -683,8 +669,9 @@ static void SafariHandleCmd55(void)
     FadeOutMapMusic(5);
     BeginFastPaletteFade(3);
     SafariBufferExecCompleted();
-    if ((gBattleTypeFlags & BATTLE_TYPE_LINK) && !(gBattleTypeFlags & BATTLE_TYPE_IS_MASTER))
+    if ((gBattleTypeFlags & BATTLE_TYPE_LINK) && !(gBattleTypeFlags & BATTLE_TYPE_IS_MASTER)) {
         gBattlerControllerFuncs[gActiveBattler] = sub_81595E4;
+    }
 }
 
 static void SafariHandleBattleDebug(void)

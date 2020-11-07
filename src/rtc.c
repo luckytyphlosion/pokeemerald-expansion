@@ -45,19 +45,22 @@ void RtcRestoreInterrupts(void)
 
 u32 ConvertBcdToBinary(u8 bcd)
 {
-    if (bcd > 0x9F)
+    if (bcd > 0x9F) {
         return 0xFF;
+    }
 
-    if ((bcd & 0xF) <= 9)
+    if ((bcd & 0xF) <= 9) {
         return (10 * ((bcd >> 4) & 0xF)) + (bcd & 0xF);
-    else
+    } else {
         return 0xFF;
+    }
 }
 
 bool8 IsLeapYear(u32 year)
 {
-    if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0))
+    if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
         return TRUE;
+    }
 
     return FALSE;
 }
@@ -67,19 +70,21 @@ u16 ConvertDateToDayCount(u8 year, u8 month, u8 day)
     s32 i;
     u16 dayCount = 0;
 
-    for (i = year - 1; i >= 0; i--)
-    {
+    for (i = year - 1; i >= 0; i--) {
         dayCount += 365;
 
-        if (IsLeapYear(i) == TRUE)
+        if (IsLeapYear(i) == TRUE) {
             dayCount++;
+        }
     }
 
-    for (i = 0; i < month - 1; i++)
+    for (i = 0; i < month - 1; i++) {
         dayCount += sNumDaysInMonths[i];
+    }
 
-    if (month > MONTH_FEB && IsLeapYear(year) == TRUE)
+    if (month > MONTH_FEB && IsLeapYear(year) == TRUE) {
         dayCount++;
+    }
 
     dayCount += day;
 
@@ -103,16 +108,16 @@ void RtcInit(void)
     sProbeResult = SiiRtcProbe();
     RtcRestoreInterrupts();
 
-    if ((sProbeResult & 0xF) != 1)
-    {
+    if ((sProbeResult & 0xF) != 1) {
         sErrorStatus = RTC_INIT_ERROR;
         return;
     }
 
-    if (sProbeResult & 0xF0)
+    if (sProbeResult & 0xF0) {
         sErrorStatus = RTC_INIT_WARNING;
-    else
+    } else {
         sErrorStatus = 0;
+    }
 
     RtcGetRawInfo(&sRtc);
     sErrorStatus = RtcCheckInfo(&sRtc);
@@ -125,10 +130,11 @@ u16 RtcGetErrorStatus(void)
 
 void RtcGetInfo(struct SiiRtcInfo *rtc)
 {
-    if (sErrorStatus & RTC_ERR_FLAG_MASK)
+    if (sErrorStatus & RTC_ERR_FLAG_MASK) {
         *rtc = sRtcDummy;
-    else
+    } else {
         RtcGetRawInfo(rtc);
+    }
 }
 
 void RtcGetDateTime(struct SiiRtcInfo *rtc)
@@ -158,52 +164,59 @@ u16 RtcCheckInfo(struct SiiRtcInfo *rtc)
     s32 month;
     s32 value;
 
-    if (rtc->status & SIIRTCINFO_POWER)
+    if (rtc->status & SIIRTCINFO_POWER) {
         errorFlags |= RTC_ERR_POWER_FAILURE;
+    }
 
-    if (!(rtc->status & SIIRTCINFO_24HOUR))
+    if (!(rtc->status & SIIRTCINFO_24HOUR)) {
         errorFlags |= RTC_ERR_12HOUR_CLOCK;
+    }
 
     year = ConvertBcdToBinary(rtc->year);
 
-    if (year == 0xFF)
+    if (year == 0xFF) {
         errorFlags |= RTC_ERR_INVALID_YEAR;
+    }
 
     month = ConvertBcdToBinary(rtc->month);
 
-    if (month == 0xFF || month == 0 || month > 12)
+    if (month == 0xFF || month == 0 || month > 12) {
         errorFlags |= RTC_ERR_INVALID_MONTH;
+    }
 
     value = ConvertBcdToBinary(rtc->day);
 
-    if (value == 0xFF)
+    if (value == 0xFF) {
         errorFlags |= RTC_ERR_INVALID_DAY;
-
-    if (month == MONTH_FEB)
-    {
-        if (value > IsLeapYear(year) + sNumDaysInMonths[month - 1])
-            errorFlags |= RTC_ERR_INVALID_DAY;
     }
-    else
-    {
-        if (value > sNumDaysInMonths[month - 1])
+
+    if (month == MONTH_FEB) {
+        if (value > IsLeapYear(year) + sNumDaysInMonths[month - 1]) {
             errorFlags |= RTC_ERR_INVALID_DAY;
+        }
+    } else {
+        if (value > sNumDaysInMonths[month - 1]) {
+            errorFlags |= RTC_ERR_INVALID_DAY;
+        }
     }
 
     value = ConvertBcdToBinary(rtc->hour);
 
-    if (value > 24)
+    if (value > 24) {
         errorFlags |= RTC_ERR_INVALID_HOUR;
+    }
 
     value = ConvertBcdToBinary(rtc->minute);
 
-    if (value > 60)
+    if (value > 60) {
         errorFlags |= RTC_ERR_INVALID_MINUTE;
+    }
 
     value = ConvertBcdToBinary(rtc->second);
 
-    if (value > 60)
+    if (value > 60) {
         errorFlags |= RTC_ERR_INVALID_SECOND;
+    }
 
     return errorFlags;
 }
@@ -268,20 +281,17 @@ void RtcCalcTimeDifference(struct SiiRtcInfo *rtc, struct Time *result, struct T
     result->hours = ConvertBcdToBinary(rtc->hour) - t->hours;
     result->days = days - t->days;
 
-    if (result->seconds < 0)
-    {
+    if (result->seconds < 0) {
         result->seconds += 60;
         --result->minutes;
     }
 
-    if (result->minutes < 0)
-    {
+    if (result->minutes < 0) {
         result->minutes += 60;
         --result->hours;
     }
 
-    if (result->hours < 0)
-    {
+    if (result->hours < 0) {
         result->hours += 24;
         --result->days;
     }
@@ -315,20 +325,17 @@ void CalcTimeDifference(struct Time *result, struct Time *t1, struct Time *t2)
     result->hours = t2->hours - t1->hours;
     result->days = t2->days - t1->days;
 
-    if (result->seconds < 0)
-    {
+    if (result->seconds < 0) {
         result->seconds += 60;
         --result->minutes;
     }
 
-    if (result->minutes < 0)
-    {
+    if (result->minutes < 0) {
         result->minutes += 60;
         --result->hours;
     }
 
-    if (result->hours < 0)
-    {
+    if (result->hours < 0) {
         result->hours += 24;
         --result->days;
     }

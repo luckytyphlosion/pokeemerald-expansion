@@ -25,8 +25,7 @@ static void InitTimeBasedEvents(void)
 
 void DoTimeBasedEvents(void)
 {
-    if (FlagGet(FLAG_SYS_CLOCK_SET) && !InPokemonCenter())
-    {
+    if (FlagGet(FLAG_SYS_CLOCK_SET) && !InPokemonCenter()) {
         RtcCalcLocalTime();
         UpdatePerDay(&gLocalTime);
         UpdatePerMinute(&gLocalTime);
@@ -38,8 +37,7 @@ static void UpdatePerDay(struct Time *localTime)
     u16 *days = GetVarPointer(VAR_DAYS);
     u16 daysSince;
 
-    if (*days != localTime->days && *days <= localTime->days)
-    {
+    if (*days != localTime->days && *days <= localTime->days) {
         daysSince = localTime->days - *days;
         ClearDailyFlags();
         UpdateDewfordTrendPerDay(daysSince);
@@ -63,10 +61,8 @@ static void UpdatePerMinute(struct Time *localTime)
 
     CalcTimeDifference(&difference, &gSaveBlock2Ptr->lastBerryTreeUpdate, localTime);
     minutes = 24 * 60 * difference.days + 60 * difference.hours + difference.minutes;
-    if (minutes != 0)
-    {
-        if (minutes >= 0)
-        {
+    if (minutes != 0) {
+        if (minutes >= 0) {
             BerryTreeTimeUpdate(minutes);
             gSaveBlock2Ptr->lastBerryTreeUpdate = *localTime;
         }

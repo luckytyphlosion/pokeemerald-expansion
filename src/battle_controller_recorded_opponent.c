@@ -176,31 +176,32 @@ void SetControllerToRecordedOpponent(void)
 
 static void RecordedOpponentBufferRunCommand(void)
 {
-    if (gBattleControllerExecFlags & gBitTable[gActiveBattler])
-    {
-        if (gBattleResources->bufferA[gActiveBattler][0] < ARRAY_COUNT(sRecordedOpponentBufferCommands))
+    if (gBattleControllerExecFlags & gBitTable[gActiveBattler]) {
+        if (gBattleResources->bufferA[gActiveBattler][0] < ARRAY_COUNT(sRecordedOpponentBufferCommands)) {
             sRecordedOpponentBufferCommands[gBattleResources->bufferA[gActiveBattler][0]]();
-        else
+        } else {
             RecordedOpponentBufferExecCompleted();
+        }
     }
 }
 
 static void CompleteOnBattlerSpriteCallbackDummy(void)
 {
-    if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
+    if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy) {
         RecordedOpponentBufferExecCompleted();
+    }
 }
 
 static void CompleteOnBankSpriteCallbackDummy2(void)
 {
-    if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
+    if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy) {
         RecordedOpponentBufferExecCompleted();
+    }
 }
 
 static void sub_81865C8(void)
 {
-    if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
-    {
+    if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy) {
         FreeTrainerFrontPicPalette(gSprites[gBattlerSpriteIds[gActiveBattler]].oam.affineParam);
         FreeSpriteOamMatrix(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
@@ -210,8 +211,7 @@ static void sub_81865C8(void)
 
 static void sub_8186630(void)
 {
-    if (--gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_9 == 0xFF)
-    {
+    if (--gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_9 == 0xFF) {
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_9 = 0;
         RecordedOpponentBufferExecCompleted();
     }
@@ -221,30 +221,28 @@ static void sub_8186678(void)
 {
     bool8 var = FALSE;
 
-    if (!IsDoubleBattle() || (IsDoubleBattle() && (gBattleTypeFlags & BATTLE_TYPE_MULTI)))
-    {
+    if (!IsDoubleBattle() || (IsDoubleBattle() && (gBattleTypeFlags & BATTLE_TYPE_MULTI))) {
         if (gSprites[gHealthboxSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy
-         && gSprites[gBattlerSpriteIds[gActiveBattler]].animEnded)
+            && gSprites[gBattlerSpriteIds[gActiveBattler]].animEnded) {
             var = TRUE;
-
-    }
-    else
-    {
+        }
+    } else {
         if (gSprites[gHealthboxSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy
-         && gSprites[gHealthboxSpriteIds[gActiveBattler ^ BIT_FLANK]].callback == SpriteCallbackDummy
-         && gSprites[gBattlerSpriteIds[gActiveBattler]].animEnded
-         && gSprites[gBattlerSpriteIds[gActiveBattler ^ BIT_FLANK]].animEnded)
-             var = TRUE;
+            && gSprites[gHealthboxSpriteIds[gActiveBattler ^ BIT_FLANK]].callback == SpriteCallbackDummy
+            && gSprites[gBattlerSpriteIds[gActiveBattler]].animEnded
+            && gSprites[gBattlerSpriteIds[gActiveBattler ^ BIT_FLANK]].animEnded) {
+            var = TRUE;
+        }
     }
 
-    if (var)
-    {
-        if (GetBattlerPosition(gActiveBattler) == B_POSITION_OPPONENT_LEFT)
-        {
-            if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].finishedShinyMonAnim)
+    if (var) {
+        if (GetBattlerPosition(gActiveBattler) == B_POSITION_OPPONENT_LEFT) {
+            if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].finishedShinyMonAnim) {
                 return;
-            if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler ^ BIT_FLANK].finishedShinyMonAnim)
+            }
+            if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler ^ BIT_FLANK].finishedShinyMonAnim) {
                 return;
+            }
 
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].triedShinyMonAnim = FALSE;
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].finishedShinyMonAnim = FALSE;
@@ -264,20 +262,19 @@ static void sub_818686C(void)
     bool32 r9 = FALSE;
     bool32 r8 = FALSE;
 
-    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].triedShinyMonAnim 
-     && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].ballAnimActive)
+    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].triedShinyMonAnim
+        && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].ballAnimActive) {
         TryShinyAnimation(gActiveBattler, &gEnemyParty[gBattlerPartyIndexes[gActiveBattler]]);
+    }
 
-    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler ^ BIT_FLANK].triedShinyMonAnim 
-     && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler ^ BIT_FLANK].ballAnimActive)
+    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler ^ BIT_FLANK].triedShinyMonAnim
+        && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler ^ BIT_FLANK].ballAnimActive) {
         TryShinyAnimation(gActiveBattler ^ BIT_FLANK, &gEnemyParty[gBattlerPartyIndexes[gActiveBattler ^ BIT_FLANK]]);
+    }
 
-    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].ballAnimActive && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler ^ BIT_FLANK].ballAnimActive)
-    {
-        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_1_x80)
-        {
-            if (IsDoubleBattle() && !(gBattleTypeFlags & BATTLE_TYPE_MULTI))
-            {
+    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].ballAnimActive && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler ^ BIT_FLANK].ballAnimActive) {
+        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_1_x80) {
+            if (IsDoubleBattle() && !(gBattleTypeFlags & BATTLE_TYPE_MULTI)) {
                 UpdateHealthboxAttribute(gHealthboxSpriteIds[gActiveBattler ^ BIT_FLANK], &gEnemyParty[gBattlerPartyIndexes[gActiveBattler ^ BIT_FLANK]], HEALTHBOX_ALL);
                 sub_8076918(gActiveBattler ^ BIT_FLANK);
                 SetHealthboxSpriteVisible(gHealthboxSpriteIds[gActiveBattler ^ BIT_FLANK]);
@@ -292,17 +289,13 @@ static void sub_818686C(void)
     if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_1_x40
         && gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_1_x80
         && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler ^ BIT_FLANK].field_1_x40
-        && !IsCryPlayingOrClearCrySongs())
-    {
-        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_1_x20)
-        {
-            if (gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_LINK)
-            {
-                if (GetBattlerPosition(gActiveBattler) == B_POSITION_OPPONENT_LEFT)
+        && !IsCryPlayingOrClearCrySongs()) {
+        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_1_x20) {
+            if (gBattleTypeFlags & BATTLE_TYPE_MULTI && gBattleTypeFlags & BATTLE_TYPE_LINK) {
+                if (GetBattlerPosition(gActiveBattler) == B_POSITION_OPPONENT_LEFT) {
                     m4aMPlayContinue(&gMPlayInfo_BGM);
-            }
-            else
-            {
+                }
+            } else {
                 m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x100);
             }
         }
@@ -310,29 +303,22 @@ static void sub_818686C(void)
         r9 = TRUE;
     }
 
-    if (!IsDoubleBattle())
-    {
+    if (!IsDoubleBattle()) {
         if (gSprites[gUnknown_03005D7C[gActiveBattler]].callback == SpriteCallbackDummy
-            && gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
-        {
+            && gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy) {
             r8 = TRUE;
         }
-    }
-    else
-    {
+    } else {
         if (gSprites[gUnknown_03005D7C[gActiveBattler]].callback == SpriteCallbackDummy
             && gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy
             && gSprites[gUnknown_03005D7C[gActiveBattler ^ BIT_FLANK]].callback == SpriteCallbackDummy
-            && gSprites[gBattlerSpriteIds[gActiveBattler ^ BIT_FLANK]].callback == SpriteCallbackDummy)
-        {
+            && gSprites[gBattlerSpriteIds[gActiveBattler ^ BIT_FLANK]].callback == SpriteCallbackDummy) {
             r8 = TRUE;
         }
     }
 
-    if (r9 && r8)
-    {
-        if (IsDoubleBattle() && !(gBattleTypeFlags & BATTLE_TYPE_MULTI))
-        {
+    if (r9 && r8) {
+        if (IsDoubleBattle() && !(gBattleTypeFlags & BATTLE_TYPE_MULTI)) {
             DestroySprite(&gSprites[gUnknown_03005D7C[gActiveBattler ^ BIT_FLANK]]);
             SetBattlerShadowSpriteCallback(gActiveBattler ^ BIT_FLANK, GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler ^ BIT_FLANK]], MON_DATA_SPECIES));
         }
@@ -351,16 +337,11 @@ static void sub_818686C(void)
 static void sub_8186C48(void)
 {
     if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy
-     && gSprites[gBattlerSpriteIds[gActiveBattler]].pos2.x == 0)
-    {
-        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].triedShinyMonAnim)
-        {
+        && gSprites[gBattlerSpriteIds[gActiveBattler]].pos2.x == 0) {
+        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].triedShinyMonAnim) {
             TryShinyAnimation(gActiveBattler, &gEnemyParty[gBattlerPartyIndexes[gActiveBattler]]);
-        }
-        else
-        {
-            if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].finishedShinyMonAnim)
-            {
+        } else {
+            if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].finishedShinyMonAnim) {
                 gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].triedShinyMonAnim = FALSE;
                 gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].finishedShinyMonAnim = FALSE;
                 FreeSpriteTilesByTag(0x27F9);
@@ -377,20 +358,16 @@ static void CompleteOnHealthbarDone(void)
 
     SetHealthboxSpriteVisible(gHealthboxSpriteIds[gActiveBattler]);
 
-    if (hpValue != -1)
-    {
+    if (hpValue != -1) {
         UpdateHpTextInHealthbox(gHealthboxSpriteIds[gActiveBattler], hpValue, HP_CURRENT);
-    }
-    else
-    {
+    } else {
         RecordedOpponentBufferExecCompleted();
     }
 }
 
 static void sub_8186D58(void)
 {
-    if (!gSprites[gBattlerSpriteIds[gActiveBattler]].inUse)
-    {
+    if (!gSprites[gBattlerSpriteIds[gActiveBattler]].inUse) {
         SetHealthboxSpriteInvisible(gHealthboxSpriteIds[gActiveBattler]);
         RecordedOpponentBufferExecCompleted();
     }
@@ -398,8 +375,7 @@ static void sub_8186D58(void)
 
 static void sub_8186D9C(void)
 {
-    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive)
-    {
+    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive) {
         FreeSpriteOamMatrix(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         HideBattlerShadowSprite(gActiveBattler);
@@ -410,35 +386,34 @@ static void sub_8186D9C(void)
 
 static void CompleteOnInactiveTextPrinter(void)
 {
-    if (!IsTextPrinterActive(0))
+    if (!IsTextPrinterActive(0)) {
         RecordedOpponentBufferExecCompleted();
+    }
 }
 
 static void DoHitAnimBlinkSpriteEffect(void)
 {
     u8 spriteId = gBattlerSpriteIds[gActiveBattler];
 
-    if (gSprites[spriteId].data[1] == 32)
-    {
+    if (gSprites[spriteId].data[1] == 32) {
         gSprites[spriteId].data[1] = 0;
         gSprites[spriteId].invisible = FALSE;
         gDoingBattleAnim = FALSE;
         RecordedOpponentBufferExecCompleted();
-    }
-    else
-    {
-        if ((gSprites[spriteId].data[1] % 4) == 0)
+    } else {
+        if ((gSprites[spriteId].data[1] % 4) == 0) {
             gSprites[spriteId].invisible ^= 1;
+        }
         gSprites[spriteId].data[1]++;
     }
 }
 
 static void sub_8186EA4(void)
 {
-    if (gSprites[gHealthboxSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
-    {
-        if (gBattleSpritesDataPtr->battlerData[gActiveBattler].behindSubstitute)
+    if (gSprites[gHealthboxSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy) {
+        if (gBattleSpritesDataPtr->battlerData[gActiveBattler].behindSubstitute) {
             InitAndLaunchSpecialAnimation(gActiveBattler, gActiveBattler, gActiveBattler, B_ANIM_MON_TO_SUBSTITUTE);
+        }
 
         gBattlerControllerFuncs[gActiveBattler] = sub_8186F14;
     }
@@ -447,11 +422,9 @@ static void sub_8186EA4(void)
 static void sub_8186F14(void)
 {
     if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive
-        && !IsCryPlayingOrClearCrySongs())
-    {
+        && !IsCryPlayingOrClearCrySongs()) {
         if (gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy
-            || gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy_2)
-        {
+            || gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy_2) {
             m4aMPlayVolumeControl(&gMPlayInfo_BGM, 0xFFFF, 0x100);
             RecordedOpponentBufferExecCompleted();
         }
@@ -461,8 +434,7 @@ static void sub_8186F14(void)
 static void sub_8186F94(void)
 {
     if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].finishedShinyMonAnim
-     && gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy)
-    {
+        && gSprites[gBattlerSpriteIds[gActiveBattler]].callback == SpriteCallbackDummy) {
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].triedShinyMonAnim = FALSE;
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].finishedShinyMonAnim = FALSE;
 
@@ -482,12 +454,12 @@ static void sub_8186F94(void)
 static void sub_8187084(void)
 {
     if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].ballAnimActive
-        && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].triedShinyMonAnim)
+        && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].triedShinyMonAnim) {
         TryShinyAnimation(gActiveBattler, &gEnemyParty[gBattlerPartyIndexes[gActiveBattler]]);
+    }
 
     if (gSprites[gUnknown_03005D7C[gActiveBattler]].callback == SpriteCallbackDummy
-        && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].ballAnimActive)
-    {
+        && !gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].ballAnimActive) {
         DestroySprite(&gSprites[gUnknown_03005D7C[gActiveBattler]]);
         SetBattlerShadowSpriteCallback(gActiveBattler, GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_SPECIES));
         gBattlerControllerFuncs[gActiveBattler] = sub_8186F94;
@@ -496,28 +468,27 @@ static void sub_8187084(void)
 
 static void CompleteOnFinishedStatusAnimation(void)
 {
-    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].statusAnimActive)
+    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].statusAnimActive) {
         RecordedOpponentBufferExecCompleted();
+    }
 }
 
 static void CompleteOnFinishedBattleAnimation(void)
 {
-    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animFromTableActive)
+    if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animFromTableActive) {
         RecordedOpponentBufferExecCompleted();
+    }
 }
 
 static void RecordedOpponentBufferExecCompleted(void)
 {
     gBattlerControllerFuncs[gActiveBattler] = RecordedOpponentBufferRunCommand;
-    if (gBattleTypeFlags & BATTLE_TYPE_LINK)
-    {
+    if (gBattleTypeFlags & BATTLE_TYPE_LINK) {
         u8 playerId = GetMultiplayerId();
 
         PrepareBufferDataTransferLink(2, 4, &playerId);
         gBattleResources->bufferA[gActiveBattler][0] = CONTROLLER_TERMINATOR_NOP;
-    }
-    else
-    {
+    } else {
         gBattleControllerExecFlags &= ~gBitTable[gActiveBattler];
     }
 }
@@ -529,17 +500,14 @@ static void RecordedOpponentHandleGetMonData(void)
     u8 monToCheck;
     s32 i;
 
-    if (gBattleResources->bufferA[gActiveBattler][2] == 0)
-    {
+    if (gBattleResources->bufferA[gActiveBattler][2] == 0) {
         size += CopyRecordedOpponentMonData(gBattlerPartyIndexes[gActiveBattler], monData);
-    }
-    else
-    {
+    } else {
         monToCheck = gBattleResources->bufferA[gActiveBattler][2];
-        for (i = 0; i < PARTY_SIZE; i++)
-        {
-            if (monToCheck & 1)
+        for (i = 0; i < PARTY_SIZE; i++) {
+            if (monToCheck & 1) {
                 size += CopyRecordedOpponentMonData(i, monData + size);
+            }
             monToCheck >>= 1;
         }
     }
@@ -557,13 +525,11 @@ static u32 CopyRecordedOpponentMonData(u8 monId, u8 *dst)
     u32 data32;
     s32 size = 0;
 
-    switch (gBattleResources->bufferA[gActiveBattler][1])
-    {
+    switch (gBattleResources->bufferA[gActiveBattler][1]) {
     case REQUEST_ALL_BATTLE:
         battleMon.species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES);
         battleMon.item = GetMonData(&gEnemyParty[monId], MON_DATA_HELD_ITEM);
-        for (size = 0; size < MAX_MON_MOVES; size++)
-        {
+        for (size = 0; size < MAX_MON_MOVES; size++) {
             battleMon.moves[size] = GetMonData(&gEnemyParty[monId], MON_DATA_MOVE1 + size);
             battleMon.pp[size] = GetMonData(&gEnemyParty[monId], MON_DATA_PP1 + size);
         }
@@ -592,8 +558,9 @@ static u32 CopyRecordedOpponentMonData(u8 monId, u8 *dst)
         StringCopy10(battleMon.nickname, nickname);
         GetMonData(&gEnemyParty[monId], MON_DATA_OT_NAME, battleMon.otName);
         src = (u8 *)&battleMon;
-        for (size = 0; size < sizeof(battleMon); size++)
+        for (size = 0; size < sizeof(battleMon); size++) {
             dst[size] = src[size];
+        }
         break;
     case REQUEST_SPECIES_BATTLE:
         data16 = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES);
@@ -608,15 +575,15 @@ static u32 CopyRecordedOpponentMonData(u8 monId, u8 *dst)
         size = 2;
         break;
     case REQUEST_MOVES_PP_BATTLE:
-        for (size = 0; size < MAX_MON_MOVES; size++)
-        {
+        for (size = 0; size < MAX_MON_MOVES; size++) {
             moveData.moves[size] = GetMonData(&gEnemyParty[monId], MON_DATA_MOVE1 + size);
             moveData.pp[size] = GetMonData(&gEnemyParty[monId], MON_DATA_PP1 + size);
         }
         moveData.ppBonuses = GetMonData(&gEnemyParty[monId], MON_DATA_PP_BONUSES);
         src = (u8*)(&moveData);
-        for (size = 0; size < sizeof(moveData); size++)
+        for (size = 0; size < sizeof(moveData); size++) {
             dst[size] = src[size];
+        }
         break;
     case REQUEST_MOVE1_BATTLE:
     case REQUEST_MOVE2_BATTLE:
@@ -628,8 +595,9 @@ static u32 CopyRecordedOpponentMonData(u8 monId, u8 *dst)
         size = 2;
         break;
     case REQUEST_PP_DATA_BATTLE:
-        for (size = 0; size < MAX_MON_MOVES; size++)
+        for (size = 0; size < MAX_MON_MOVES; size++) {
             dst[size] = GetMonData(&gEnemyParty[monId], MON_DATA_PP1 + size);
+        }
         dst[size] = GetMonData(&gEnemyParty[monId], MON_DATA_PP_BONUSES);
         size++;
         break;
@@ -862,17 +830,14 @@ static void RecordedOpponentHandleSetMonData(void)
     u8 monToCheck;
     u8 i;
 
-    if (gBattleResources->bufferA[gActiveBattler][2] == 0)
-    {
+    if (gBattleResources->bufferA[gActiveBattler][2] == 0) {
         SetRecordedOpponentMonData(gBattlerPartyIndexes[gActiveBattler]);
-    }
-    else
-    {
+    } else {
         monToCheck = gBattleResources->bufferA[gActiveBattler][2];
-        for (i = 0; i < PARTY_SIZE; i++)
-        {
-            if (monToCheck & 1)
+        for (i = 0; i < PARTY_SIZE; i++) {
+            if (monToCheck & 1) {
                 SetRecordedOpponentMonData(i);
+            }
             monToCheck >>= 1;
         }
     }
@@ -885,46 +850,44 @@ static void SetRecordedOpponentMonData(u8 monId)
     struct MovePpInfo *moveData = (struct MovePpInfo *)&gBattleResources->bufferA[gActiveBattler][3];
     s32 i;
 
-    switch (gBattleResources->bufferA[gActiveBattler][1])
-    {
+    switch (gBattleResources->bufferA[gActiveBattler][1]) {
     case REQUEST_ALL_BATTLE:
-        {
-            u8 iv;
+    {
+        u8 iv;
 
-            SetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, &battlePokemon->species);
-            SetMonData(&gEnemyParty[monId], MON_DATA_HELD_ITEM, &battlePokemon->item);
-            for (i = 0; i < MAX_MON_MOVES; i++)
-            {
-                SetMonData(&gEnemyParty[monId], MON_DATA_MOVE1 + i, &battlePokemon->moves[i]);
-                SetMonData(&gEnemyParty[monId], MON_DATA_PP1 + i, &battlePokemon->pp[i]);
-            }
-            SetMonData(&gEnemyParty[monId], MON_DATA_PP_BONUSES, &battlePokemon->ppBonuses);
-            SetMonData(&gEnemyParty[monId], MON_DATA_FRIENDSHIP, &battlePokemon->friendship);
-            SetMonData(&gEnemyParty[monId], MON_DATA_EXP, &battlePokemon->experience);
-            iv = battlePokemon->hpIV;
-            SetMonData(&gEnemyParty[monId], MON_DATA_HP_IV, &iv);
-            iv = battlePokemon->attackIV;
-            SetMonData(&gEnemyParty[monId], MON_DATA_ATK_IV, &iv);
-            iv = battlePokemon->defenseIV;
-            SetMonData(&gEnemyParty[monId], MON_DATA_DEF_IV, &iv);
-            iv = battlePokemon->speedIV;
-            SetMonData(&gEnemyParty[monId], MON_DATA_SPEED_IV, &iv);
-            iv = battlePokemon->spAttackIV;
-            SetMonData(&gEnemyParty[monId], MON_DATA_SPATK_IV, &iv);
-            iv = battlePokemon->spDefenseIV;
-            SetMonData(&gEnemyParty[monId], MON_DATA_SPDEF_IV, &iv);
-            SetMonData(&gEnemyParty[monId], MON_DATA_PERSONALITY, &battlePokemon->personality);
-            SetMonData(&gEnemyParty[monId], MON_DATA_STATUS, &battlePokemon->status1);
-            SetMonData(&gEnemyParty[monId], MON_DATA_LEVEL, &battlePokemon->level);
-            SetMonData(&gEnemyParty[monId], MON_DATA_HP, &battlePokemon->hp);
-            SetMonData(&gEnemyParty[monId], MON_DATA_MAX_HP, &battlePokemon->maxHP);
-            SetMonData(&gEnemyParty[monId], MON_DATA_ATK, &battlePokemon->attack);
-            SetMonData(&gEnemyParty[monId], MON_DATA_DEF, &battlePokemon->defense);
-            SetMonData(&gEnemyParty[monId], MON_DATA_SPEED, &battlePokemon->speed);
-            SetMonData(&gEnemyParty[monId], MON_DATA_SPATK, &battlePokemon->spAttack);
-            SetMonData(&gEnemyParty[monId], MON_DATA_SPDEF, &battlePokemon->spDefense);
+        SetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, &battlePokemon->species);
+        SetMonData(&gEnemyParty[monId], MON_DATA_HELD_ITEM, &battlePokemon->item);
+        for (i = 0; i < MAX_MON_MOVES; i++) {
+            SetMonData(&gEnemyParty[monId], MON_DATA_MOVE1 + i, &battlePokemon->moves[i]);
+            SetMonData(&gEnemyParty[monId], MON_DATA_PP1 + i, &battlePokemon->pp[i]);
         }
-        break;
+        SetMonData(&gEnemyParty[monId], MON_DATA_PP_BONUSES, &battlePokemon->ppBonuses);
+        SetMonData(&gEnemyParty[monId], MON_DATA_FRIENDSHIP, &battlePokemon->friendship);
+        SetMonData(&gEnemyParty[monId], MON_DATA_EXP, &battlePokemon->experience);
+        iv = battlePokemon->hpIV;
+        SetMonData(&gEnemyParty[monId], MON_DATA_HP_IV, &iv);
+        iv = battlePokemon->attackIV;
+        SetMonData(&gEnemyParty[monId], MON_DATA_ATK_IV, &iv);
+        iv = battlePokemon->defenseIV;
+        SetMonData(&gEnemyParty[monId], MON_DATA_DEF_IV, &iv);
+        iv = battlePokemon->speedIV;
+        SetMonData(&gEnemyParty[monId], MON_DATA_SPEED_IV, &iv);
+        iv = battlePokemon->spAttackIV;
+        SetMonData(&gEnemyParty[monId], MON_DATA_SPATK_IV, &iv);
+        iv = battlePokemon->spDefenseIV;
+        SetMonData(&gEnemyParty[monId], MON_DATA_SPDEF_IV, &iv);
+        SetMonData(&gEnemyParty[monId], MON_DATA_PERSONALITY, &battlePokemon->personality);
+        SetMonData(&gEnemyParty[monId], MON_DATA_STATUS, &battlePokemon->status1);
+        SetMonData(&gEnemyParty[monId], MON_DATA_LEVEL, &battlePokemon->level);
+        SetMonData(&gEnemyParty[monId], MON_DATA_HP, &battlePokemon->hp);
+        SetMonData(&gEnemyParty[monId], MON_DATA_MAX_HP, &battlePokemon->maxHP);
+        SetMonData(&gEnemyParty[monId], MON_DATA_ATK, &battlePokemon->attack);
+        SetMonData(&gEnemyParty[monId], MON_DATA_DEF, &battlePokemon->defense);
+        SetMonData(&gEnemyParty[monId], MON_DATA_SPEED, &battlePokemon->speed);
+        SetMonData(&gEnemyParty[monId], MON_DATA_SPATK, &battlePokemon->spAttack);
+        SetMonData(&gEnemyParty[monId], MON_DATA_SPDEF, &battlePokemon->spDefense);
+    }
+    break;
     case REQUEST_SPECIES_BATTLE:
         SetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, &gBattleResources->bufferA[gActiveBattler][3]);
         break;
@@ -932,8 +895,7 @@ static void SetRecordedOpponentMonData(u8 monId)
         SetMonData(&gEnemyParty[monId], MON_DATA_HELD_ITEM, &gBattleResources->bufferA[gActiveBattler][3]);
         break;
     case REQUEST_MOVES_PP_BATTLE:
-        for (i = 0; i < MAX_MON_MOVES; i++)
-        {
+        for (i = 0; i < MAX_MON_MOVES; i++) {
             SetMonData(&gEnemyParty[monId], MON_DATA_MOVE1 + i, &moveData->moves[i]);
             SetMonData(&gEnemyParty[monId], MON_DATA_PP1 + i, &moveData->pp[i]);
         }
@@ -1100,8 +1062,9 @@ static void RecordedOpponentHandleSetRawMonData(void)
     u8 *dst = (u8 *)&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]] + gBattleResources->bufferA[gActiveBattler][1];
     u8 i;
 
-    for (i = 0; i < gBattleResources->bufferA[gActiveBattler][2]; i++)
+    for (i = 0; i < gBattleResources->bufferA[gActiveBattler][2]; i++) {
         dst[i] = gBattleResources->bufferA[gActiveBattler][3 + i];
+    }
 
     RecordedOpponentBufferExecCompleted();
 }
@@ -1114,9 +1077,9 @@ static void RecordedOpponentHandleLoadMonSprite(void)
     SetMultiuseSpriteTemplateToPokemon(species, GetBattlerPosition(gActiveBattler));
 
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate,
-                                               GetBattlerSpriteCoord(gActiveBattler, 2),
-                                               GetBattlerSpriteDefault_Y(gActiveBattler),
-                                               GetBattlerSpriteSubpriority(gActiveBattler));
+                                                     GetBattlerSpriteCoord(gActiveBattler, 2),
+                                                     GetBattlerSpriteDefault_Y(gActiveBattler),
+                                                     GetBattlerSpriteSubpriority(gActiveBattler));
 
     gSprites[gBattlerSpriteIds[gActiveBattler]].pos2.x = -240;
     gSprites[gBattlerSpriteIds[gActiveBattler]].data[0] = gActiveBattler;
@@ -1147,9 +1110,9 @@ static void sub_81885D8(u8 battlerId, bool8 dontClearSubstituteBit)
     SetMultiuseSpriteTemplateToPokemon(species, GetBattlerPosition(battlerId));
 
     gBattlerSpriteIds[battlerId] = CreateSprite(&gMultiuseSpriteTemplate,
-                                        GetBattlerSpriteCoord(battlerId, 2),
-                                        GetBattlerSpriteDefault_Y(battlerId),
-                                        GetBattlerSpriteSubpriority(battlerId));
+                                                GetBattlerSpriteCoord(battlerId, 2),
+                                                GetBattlerSpriteDefault_Y(battlerId),
+                                                GetBattlerSpriteSubpriority(battlerId));
 
     gSprites[gUnknown_03005D7C[battlerId]].data[1] = gBattlerSpriteIds[battlerId];
     gSprites[gUnknown_03005D7C[battlerId]].data[2] = battlerId;
@@ -1168,13 +1131,10 @@ static void sub_81885D8(u8 battlerId, bool8 dontClearSubstituteBit)
 
 static void RecordedOpponentHandleReturnMonToBall(void)
 {
-    if (gBattleResources->bufferA[gActiveBattler][1] == 0)
-    {
+    if (gBattleResources->bufferA[gActiveBattler][1] == 0) {
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 0;
         gBattlerControllerFuncs[gActiveBattler] = DoSwitchOutAnimation;
-    }
-    else
-    {
+    } else {
         FreeSpriteOamMatrix(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         DestroySprite(&gSprites[gBattlerSpriteIds[gActiveBattler]]);
         HideBattlerShadowSprite(gActiveBattler);
@@ -1185,17 +1145,16 @@ static void RecordedOpponentHandleReturnMonToBall(void)
 
 static void DoSwitchOutAnimation(void)
 {
-    switch (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState)
-    {
+    switch (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState) {
     case 0:
-        if (gBattleSpritesDataPtr->battlerData[gActiveBattler].behindSubstitute)
+        if (gBattleSpritesDataPtr->battlerData[gActiveBattler].behindSubstitute) {
             InitAndLaunchSpecialAnimation(gActiveBattler, gActiveBattler, gActiveBattler, B_ANIM_SUBSTITUTE_TO_MON);
+        }
 
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 1;
         break;
     case 1:
-        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive)
-        {
+        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive) {
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 0;
             InitAndLaunchSpecialAnimation(gActiveBattler, gActiveBattler, gActiveBattler, B_ANIM_SWITCH_OUT_OPPONENT_MON);
             gBattlerControllerFuncs[gActiveBattler] = sub_8186D9C;
@@ -1209,34 +1168,27 @@ static void RecordedOpponentHandleDrawTrainerPic(void)
     s16 xPos;
     u32 trainerPicId;
 
-    if (gBattleTypeFlags & BATTLE_TYPE_MULTI)
-    {
-        if ((GetBattlerPosition(gActiveBattler) & BIT_FLANK) != 0) // second mon
+    if (gBattleTypeFlags & BATTLE_TYPE_MULTI) {
+        if ((GetBattlerPosition(gActiveBattler) & BIT_FLANK) != 0) { // second mon
             xPos = 152;
-        else // first mon
+        } else { // first mon
             xPos = 200;
-
-        if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER)
-        {
-            if (gActiveBattler == 1)
-                trainerPicId = GetFrontierTrainerFrontSpriteId(gTrainerBattleOpponent_A);
-            else
-                trainerPicId = GetFrontierTrainerFrontSpriteId(gTrainerBattleOpponent_B);
         }
-        else
-        {
+
+        if (gBattleTypeFlags & BATTLE_TYPE_BATTLE_TOWER) {
+            if (gActiveBattler == 1) {
+                trainerPicId = GetFrontierTrainerFrontSpriteId(gTrainerBattleOpponent_A);
+            } else {
+                trainerPicId = GetFrontierTrainerFrontSpriteId(gTrainerBattleOpponent_B);
+            }
+        } else {
             trainerPicId = PlayerGenderToFrontTrainerPicId(GetActiveBattlerLinkPlayerGender());
         }
-    }
-    else
-    {
+    } else {
         xPos = 176;
-        if (gTrainerBattleOpponent_A == TRAINER_UNION_ROOM)
-        {
+        if (gTrainerBattleOpponent_A == TRAINER_UNION_ROOM) {
             trainerPicId = GetUnionRoomTrainerPic();
-        }
-        else
-        {
+        } else {
             trainerPicId = PlayerGenderToFrontTrainerPicId(gLinkPlayers[gUnknown_0203C7B4 ^ BIT_SIDE].gender);
         }
     }
@@ -1244,9 +1196,9 @@ static void RecordedOpponentHandleDrawTrainerPic(void)
     DecompressTrainerFrontPic(trainerPicId, gActiveBattler);
     SetMultiuseSpriteTemplateToTrainerBack(trainerPicId, GetBattlerPosition(gActiveBattler));
     gBattlerSpriteIds[gActiveBattler] = CreateSprite(&gMultiuseSpriteTemplate,
-                                               xPos,
-                                               (8 - gTrainerFrontPicCoords[trainerPicId].size) * 4 + 40,
-                                               GetBattlerSpriteSubpriority(gActiveBattler));
+                                                     xPos,
+                                                     (8 - gTrainerFrontPicCoords[trainerPicId].size) * 4 + 40,
+                                                     GetBattlerSpriteSubpriority(gActiveBattler));
 
     gSprites[gBattlerSpriteIds[gActiveBattler]].pos2.x = -240;
     gSprites[gBattlerSpriteIds[gActiveBattler]].data[0] = 2;
@@ -1275,16 +1227,13 @@ static void RecordedOpponentHandleTrainerSlideBack(void)
 
 static void RecordedOpponentHandleFaintAnimation(void)
 {
-    if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState == 0)
-    {
-        if (gBattleSpritesDataPtr->battlerData[gActiveBattler].behindSubstitute)
+    if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState == 0) {
+        if (gBattleSpritesDataPtr->battlerData[gActiveBattler].behindSubstitute) {
             InitAndLaunchSpecialAnimation(gActiveBattler, gActiveBattler, gActiveBattler, B_ANIM_SUBSTITUTE_TO_MON);
+        }
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState++;
-    }
-    else
-    {
-        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive)
-        {
+    } else {
+        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive) {
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 0;
             PlaySE12WithPanning(SE_FAINT, SOUND_PAN_TARGET);
             gSprites[gBattlerSpriteIds[gActiveBattler]].callback = SpriteCB_FaintOpponentMon;
@@ -1315,8 +1264,7 @@ static void RecordedOpponentHandlePause(void)
 
 static void RecordedOpponentHandleMoveAnimation(void)
 {
-    if (!mplay_80342A4(gActiveBattler))
-    {
+    if (!mplay_80342A4(gActiveBattler)) {
         u16 move = gBattleResources->bufferA[gActiveBattler][1] | (gBattleResources->bufferA[gActiveBattler][2] << 8);
 
         gAnimMoveTurn = gBattleResources->bufferA[gActiveBattler][3];
@@ -1326,12 +1274,9 @@ static void RecordedOpponentHandleMoveAnimation(void)
         gWeatherMoveAnim = gBattleResources->bufferA[gActiveBattler][12] | (gBattleResources->bufferA[gActiveBattler][13] << 8);
         gAnimDisableStructPtr = (struct DisableStruct *)&gBattleResources->bufferA[gActiveBattler][16];
         gTransformedPersonalities[gActiveBattler] = gAnimDisableStructPtr->transformedMonPersonality;
-        if (IsMoveWithoutAnimation(move, gAnimMoveTurn)) // always returns FALSE
-        {
+        if (IsMoveWithoutAnimation(move, gAnimMoveTurn)) { // always returns FALSE
             RecordedOpponentBufferExecCompleted();
-        }
-        else
-        {
+        } else {
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 0;
             gBattlerControllerFuncs[gActiveBattler] = RecordedOpponentDoMoveAnimation;
         }
@@ -1343,20 +1288,17 @@ static void RecordedOpponentDoMoveAnimation(void)
     u16 move = gBattleResources->bufferA[gActiveBattler][1] | (gBattleResources->bufferA[gActiveBattler][2] << 8);
     u8 multihit = gBattleResources->bufferA[gActiveBattler][11];
 
-    switch (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState)
-    {
+    switch (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState) {
     case 0:
         if (gBattleSpritesDataPtr->battlerData[gActiveBattler].behindSubstitute
-            && !gBattleSpritesDataPtr->battlerData[gActiveBattler].flag_x8)
-        {
+            && !gBattleSpritesDataPtr->battlerData[gActiveBattler].flag_x8) {
             gBattleSpritesDataPtr->battlerData[gActiveBattler].flag_x8 = 1;
             InitAndLaunchSpecialAnimation(gActiveBattler, gActiveBattler, gActiveBattler, B_ANIM_SUBSTITUTE_TO_MON);
         }
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 1;
         break;
     case 1:
-        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive)
-        {
+        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive) {
             sub_805EB9C(ST_OAM_AFFINE_OFF);
             DoMoveAnim(move);
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 2;
@@ -1364,11 +1306,9 @@ static void RecordedOpponentDoMoveAnimation(void)
         break;
     case 2:
         gAnimScriptCallback();
-        if (!gAnimScriptActive)
-        {
+        if (!gAnimScriptActive) {
             sub_805EB9C(ST_OAM_AFFINE_NORMAL);
-            if (gBattleSpritesDataPtr->battlerData[gActiveBattler].behindSubstitute && multihit < 2)
-            {
+            if (gBattleSpritesDataPtr->battlerData[gActiveBattler].behindSubstitute && multihit < 2) {
                 InitAndLaunchSpecialAnimation(gActiveBattler, gActiveBattler, gActiveBattler, B_ANIM_MON_TO_SUBSTITUTE);
                 gBattleSpritesDataPtr->battlerData[gActiveBattler].flag_x8 = 0;
             }
@@ -1376,8 +1316,7 @@ static void RecordedOpponentDoMoveAnimation(void)
         }
         break;
     case 3:
-        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive)
-        {
+        if (!gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].specialAnimActive) {
             CopyAllBattleSpritesInvisibilities();
             TrySetBehindSubstituteSpriteBit(gActiveBattler, gBattleResources->bufferA[gActiveBattler][1] | (gBattleResources->bufferA[gActiveBattler][2] << 8));
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].animationState = 0;
@@ -1417,12 +1356,9 @@ static void RecordedOpponentHandleUnknownYesNoBox(void)
 
 static void RecordedOpponentHandleChooseMove(void)
 {
-    if (gBattleTypeFlags & BATTLE_TYPE_PALACE)
-    {
+    if (gBattleTypeFlags & BATTLE_TYPE_PALACE) {
         BtlController_EmitTwoReturnValues(1, 10, ChooseMoveAndTargetInBattlePalace());
-    }
-    else
-    {
+    } else {
         u8 moveId = RecordedBattle_GetBattlerAction(gActiveBattler);
         u8 target = RecordedBattle_GetBattlerAction(gActiveBattler);
         BtlController_EmitTwoReturnValues(1, 10, moveId | (target << 8));
@@ -1455,15 +1391,12 @@ static void RecordedOpponentHandleHealthBarUpdate(void)
     LoadBattleBarGfx(0);
     hpVal = gBattleResources->bufferA[gActiveBattler][2] | (gBattleResources->bufferA[gActiveBattler][3] << 8);
 
-    if (hpVal != INSTANT_HP_BAR_DROP)
-    {
+    if (hpVal != INSTANT_HP_BAR_DROP) {
         u32 maxHP = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_MAX_HP);
         u32 curHP = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_HP);
 
         SetBattleBarStruct(gActiveBattler, gHealthboxSpriteIds[gActiveBattler], maxHP, curHP, hpVal);
-    }
-    else
-    {
+    } else {
         u32 maxHP = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], MON_DATA_MAX_HP);
 
         SetBattleBarStruct(gActiveBattler, gHealthboxSpriteIds[gActiveBattler], maxHP, 0, hpVal);
@@ -1479,8 +1412,7 @@ static void RecordedOpponentHandleExpUpdate(void)
 
 static void RecordedOpponentHandleStatusIconUpdate(void)
 {
-    if (!mplay_80342A4(gActiveBattler))
-    {
+    if (!mplay_80342A4(gActiveBattler)) {
         u8 battlerId;
 
         UpdateHealthboxAttribute(gHealthboxSpriteIds[gActiveBattler], &gEnemyParty[gBattlerPartyIndexes[gActiveBattler]], HEALTHBOX_STATUS_ICON);
@@ -1492,10 +1424,9 @@ static void RecordedOpponentHandleStatusIconUpdate(void)
 
 static void RecordedOpponentHandleStatusAnimation(void)
 {
-    if (!mplay_80342A4(gActiveBattler))
-    {
+    if (!mplay_80342A4(gActiveBattler)) {
         InitAndLaunchChosenStatusAnimation(gBattleResources->bufferA[gActiveBattler][1],
-                        gBattleResources->bufferA[gActiveBattler][2] | (gBattleResources->bufferA[gActiveBattler][3] << 8) | (gBattleResources->bufferA[gActiveBattler][4] << 16) | (gBattleResources->bufferA[gActiveBattler][5] << 24));
+                                           gBattleResources->bufferA[gActiveBattler][2] | (gBattleResources->bufferA[gActiveBattler][3] << 8) | (gBattleResources->bufferA[gActiveBattler][4] << 16) | (gBattleResources->bufferA[gActiveBattler][5] << 24));
         gBattlerControllerFuncs[gActiveBattler] = CompleteOnFinishedStatusAnimation;
     }
 }
@@ -1571,12 +1502,9 @@ static void RecordedOpponentHandleCmd40(void)
 
 static void RecordedOpponentHandleHitAnimation(void)
 {
-    if (gSprites[gBattlerSpriteIds[gActiveBattler]].invisible == TRUE)
-    {
+    if (gSprites[gBattlerSpriteIds[gActiveBattler]].invisible == TRUE) {
         RecordedOpponentBufferExecCompleted();
-    }
-    else
-    {
+    } else {
         gDoingBattleAnim = TRUE;
         gSprites[gBattlerSpriteIds[gActiveBattler]].data[1] = 0;
         DoHitAnimHealthboxEffect(gActiveBattler);
@@ -1593,10 +1521,11 @@ static void RecordedOpponentHandlePlaySE(void)
 {
     s8 pan;
 
-    if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
+    if (GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER) {
         pan = SOUND_PAN_ATTACKER;
-    else
+    } else {
         pan = SOUND_PAN_TARGET;
+    }
 
     PlaySE12WithPanning(gBattleResources->bufferA[gActiveBattler][1] | (gBattleResources->bufferA[gActiveBattler][2] << 8), pan);
     RecordedOpponentBufferExecCompleted();
@@ -1604,13 +1533,10 @@ static void RecordedOpponentHandlePlaySE(void)
 
 static void RecordedOpponentHandlePlayFanfareOrBGM(void)
 {
-    if (gBattleResources->bufferA[gActiveBattler][3])
-    {
+    if (gBattleResources->bufferA[gActiveBattler][3]) {
         BattleStopLowHpSound();
         PlayBGM(gBattleResources->bufferA[gActiveBattler][1] | (gBattleResources->bufferA[gActiveBattler][2] << 8));
-    }
-    else
-    {
+    } else {
         PlayFanfare(gBattleResources->bufferA[gActiveBattler][1] | (gBattleResources->bufferA[gActiveBattler][2] << 8));
     }
 
@@ -1649,8 +1575,9 @@ static void RecordedOpponentHandleIntroTrainerBallThrow(void)
     taskId = CreateTask(sub_8189548, 5);
     gTasks[taskId].data[0] = gActiveBattler;
 
-    if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].partyStatusSummaryShown)
+    if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].partyStatusSummaryShown) {
         gTasks[gBattlerStatusSummaryTaskId[gActiveBattler]].func = Task_HidePartyStatusSummary;
+    }
 
     gBattleSpritesDataPtr->animationData->field_9_x1 = 1;
     gBattlerControllerFuncs[gActiveBattler] = nullsub_70;
@@ -1661,13 +1588,10 @@ static void sub_8189548(u8 taskId)
     u8 savedActiveBank = gActiveBattler;
 
     gActiveBattler = gTasks[taskId].data[0];
-    if (!IsDoubleBattle() || (gBattleTypeFlags & BATTLE_TYPE_MULTI))
-    {
+    if (!IsDoubleBattle() || (gBattleTypeFlags & BATTLE_TYPE_MULTI)) {
         gBattleResources->bufferA[gActiveBattler][1] = gBattlerPartyIndexes[gActiveBattler];
         sub_81885D8(gActiveBattler, FALSE);
-    }
-    else
-    {
+    } else {
         gBattleResources->bufferA[gActiveBattler][1] = gBattlerPartyIndexes[gActiveBattler];
         sub_81885D8(gActiveBattler, FALSE);
         gActiveBattler ^= BIT_FLANK;
@@ -1689,23 +1613,16 @@ static void sub_818962C(struct Sprite *sprite)
 
 static void RecordedOpponentHandleDrawPartyStatusSummary(void)
 {
-    if (gBattleResources->bufferA[gActiveBattler][1] != 0 && GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER)
-    {
+    if (gBattleResources->bufferA[gActiveBattler][1] != 0 && GetBattlerSide(gActiveBattler) == B_SIDE_PLAYER) {
         RecordedOpponentBufferExecCompleted();
-    }
-    else
-    {
+    } else {
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].partyStatusSummaryShown = 1;
 
-        if (gBattleResources->bufferA[gActiveBattler][2] != 0)
-        {
-            if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_1_x1E < 2)
-            {
+        if (gBattleResources->bufferA[gActiveBattler][2] != 0) {
+            if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_1_x1E < 2) {
                 gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_1_x1E++;
                 return;
-            }
-            else
-            {
+            } else {
                 gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_1_x1E = 0;
             }
         }
@@ -1713,8 +1630,9 @@ static void RecordedOpponentHandleDrawPartyStatusSummary(void)
         gBattlerStatusSummaryTaskId[gActiveBattler] = CreatePartyStatusSummarySprites(gActiveBattler, (struct HpAndStatus *)&gBattleResources->bufferA[gActiveBattler][4], gBattleResources->bufferA[gActiveBattler][1], gBattleResources->bufferA[gActiveBattler][2]);
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_5 = 0;
 
-        if (gBattleResources->bufferA[gActiveBattler][2] != 0)
+        if (gBattleResources->bufferA[gActiveBattler][2] != 0) {
             gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_5 = 0x5D;
+        }
 
         gBattlerControllerFuncs[gActiveBattler] = sub_818975C;
     }
@@ -1722,8 +1640,7 @@ static void RecordedOpponentHandleDrawPartyStatusSummary(void)
 
 static void sub_818975C(void)
 {
-    if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_5++ > 0x5C)
-    {
+    if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_5++ > 0x5C) {
         gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].field_5 = 0;
         RecordedOpponentBufferExecCompleted();
     }
@@ -1731,8 +1648,9 @@ static void sub_818975C(void)
 
 static void RecordedOpponentHandleHidePartyStatusSummary(void)
 {
-    if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].partyStatusSummaryShown)
+    if (gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].partyStatusSummaryShown) {
         gTasks[gBattlerStatusSummaryTaskId[gActiveBattler]].func = Task_HidePartyStatusSummary;
+    }
     RecordedOpponentBufferExecCompleted();
 }
 
@@ -1743,8 +1661,7 @@ static void RecordedOpponentHandleEndBounceEffect(void)
 
 static void RecordedOpponentHandleSpriteInvisibility(void)
 {
-    if (IsBattlerSpritePresent(gActiveBattler))
-    {
+    if (IsBattlerSpritePresent(gActiveBattler)) {
         gSprites[gBattlerSpriteIds[gActiveBattler]].invisible = gBattleResources->bufferA[gActiveBattler][1];
         CopyBattleSpriteInvisibility(gActiveBattler);
     }
@@ -1753,15 +1670,15 @@ static void RecordedOpponentHandleSpriteInvisibility(void)
 
 static void RecordedOpponentHandleBattleAnimation(void)
 {
-    if (!mplay_80342A4(gActiveBattler))
-    {
+    if (!mplay_80342A4(gActiveBattler)) {
         u8 animationId = gBattleResources->bufferA[gActiveBattler][1];
         u16 argument = gBattleResources->bufferA[gActiveBattler][2] | (gBattleResources->bufferA[gActiveBattler][3] << 8);
 
-        if (TryHandleLaunchBattleTableAnimation(gActiveBattler, gActiveBattler, gActiveBattler, animationId, argument))
+        if (TryHandleLaunchBattleTableAnimation(gActiveBattler, gActiveBattler, gActiveBattler, animationId, argument)) {
             RecordedOpponentBufferExecCompleted();
-        else
+        } else {
             gBattlerControllerFuncs[gActiveBattler] = CompleteOnFinishedBattleAnimation;
+        }
     }
 }
 
@@ -1777,10 +1694,11 @@ static void RecordedOpponentHandleResetActionMoveSelection(void)
 
 static void RecordedOpponentHandleCmd55(void)
 {
-    if (gBattleResources->bufferA[gActiveBattler][1] == B_OUTCOME_DREW)
+    if (gBattleResources->bufferA[gActiveBattler][1] == B_OUTCOME_DREW) {
         gBattleOutcome = gBattleResources->bufferA[gActiveBattler][1];
-    else
+    } else {
         gBattleOutcome = gBattleResources->bufferA[gActiveBattler][1] ^ B_OUTCOME_DREW;
+    }
 
     FadeOutMapMusic(5);
     BeginFastPaletteFade(3);

@@ -168,9 +168,9 @@ void SetContestWinnerForPainting(int contestWinnerId)
     // probably fakematching
     u8 *ptr1 = &gUnknown_02039F5D;
     u8 *ptr2 = &gUnknown_02039F5C;
-	gCurContestWinner = gSaveBlock1Ptr->contestWinners[contestWinnerId - 1];
-	*ptr1 = contestWinnerId - 1;
-	*ptr2 = FALSE;
+    gCurContestWinner = gSaveBlock1Ptr->contestWinners[contestWinnerId - 1];
+    *ptr1 = contestWinnerId - 1;
+    *ptr2 = FALSE;
 }
 
 void CB2_ContestPainting(void)
@@ -197,8 +197,7 @@ static void CB2_QuitContestPainting(void)
 
 static void ShowContestPainting(void)
 {
-    switch (gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
         ScanlineEffect_Stop();
         SetVBlankCallback(NULL);
@@ -239,29 +238,32 @@ static void ShowContestPainting(void)
 
 static void HoldContestPainting(void)
 {
-    switch (gContestPaintingState)
-    {
+    switch (gContestPaintingState) {
     case 0:
-        if (!gPaletteFade.active)
+        if (!gPaletteFade.active) {
             gContestPaintingState = 1;
-        if (gUnknown_030011F6 && gContestPaintingFadeCounter)
+        }
+        if (gUnknown_030011F6 && gContestPaintingFadeCounter) {
             gContestPaintingFadeCounter--;
+        }
         break;
     case 1:
-        if ((JOY_NEW(A_BUTTON)) || (JOY_NEW(B_BUTTON)))
-        {
+        if ((JOY_NEW(A_BUTTON)) || (JOY_NEW(B_BUTTON))) {
             gContestPaintingState++;
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB(0, 0, 0));
         }
 
-        if (gUnknown_030011F6)
+        if (gUnknown_030011F6) {
             gContestPaintingFadeCounter = 0;
+        }
         break;
     case 2:
-        if (!gPaletteFade.active)
+        if (!gPaletteFade.active) {
             SetMainCallback2(CB2_QuitContestPainting);
-        if (gUnknown_030011F6 && gContestPaintingFadeCounter < 30)
+        }
+        if (gUnknown_030011F6 && gContestPaintingFadeCounter < 30) {
             gContestPaintingFadeCounter++;
+        }
         break;
     }
 }
@@ -286,12 +288,12 @@ static void PrintContestPaintingCaption(u8 contestType, bool8 arg1)
     int x;
     u8 category;
 
-    if (arg1 == TRUE)
+    if (arg1 == TRUE) {
         return;
+    }
 
     category = gContestPaintingWinner->contestCategory;
-    if (contestType < 8)
-    {
+    if (contestType < 8) {
         BufferContestName(gStringVar1, category);
         StringAppend(gStringVar1, gText_Space);
         StringAppend(gStringVar1, sContestRankNames[gContestPaintingWinner->contestRank]);
@@ -299,9 +301,7 @@ static void PrintContestPaintingCaption(u8 contestType, bool8 arg1)
         sub_81DB5AC(gStringVar2);
         StringCopy(gStringVar3, gContestPaintingWinner->monName);
         StringExpandPlaceholders(gStringVar4, gUnknown_0827EA0C);
-    }
-    else
-    {
+    } else {
         StringCopy(gStringVar1, gContestPaintingWinner->monName);
         StringExpandPlaceholders(gStringVar4, sContestPaintingDescriptionPointers[category]);
     }
@@ -324,14 +324,11 @@ static void InitContestPaintingBg(void)
 
 static void InitContestPaintingVars(bool8 arg0)
 {
-    if (arg0 == FALSE)
-    {
+    if (arg0 == FALSE) {
         gUnknown_030011F6 = FALSE;
         gContestPaintingMosaicVal = 0;
         gContestPaintingFadeCounter = 0;
-    }
-    else
-    {
+    } else {
         gUnknown_030011F6 = TRUE;
         gContestPaintingMosaicVal = 15;
         gContestPaintingFadeCounter = 30;
@@ -340,12 +337,9 @@ static void InitContestPaintingVars(bool8 arg0)
 
 static void UpdateContestPaintingMosaicEffect(void)
 {
-    if (!gUnknown_030011F6)
-    {
+    if (!gUnknown_030011F6) {
         SetGpuReg(REG_OFFSET_MOSAIC, 0);
-    }
-    else
-    {
+    } else {
         SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_PRIORITY(1) | BGCNT_CHARBASE(1) | BGCNT_SCREENBASE(10) | BGCNT_MOSAIC | BGCNT_16COLOR | BGCNT_TXT256x256);
         gContestPaintingMosaicVal = gContestPaintingFadeCounter / 2;
         SetGpuReg(REG_OFFSET_MOSAIC, (gContestPaintingMosaicVal << 12) | (gContestPaintingMosaicVal << 8) | (gContestPaintingMosaicVal << 4) | (gContestPaintingMosaicVal << 0));
@@ -364,17 +358,14 @@ static void InitContestMonPixels(u16 species, u8 whichSprite)
 {
     const void *pal = GetMonSpritePalFromSpeciesAndPersonality(species, gContestPaintingWinner->trainerId, gContestPaintingWinner->personality);
     LZDecompressVram(pal, gContestPaintingMonPalette);
-    if (whichSprite == 0)
-    {
+    if (whichSprite == 0) {
         HandleLoadSpecialPokePic_DontHandleDeoxys(
             &gMonFrontPicTable[species],
             gMonSpritesGfxPtr->sprites[1],
             species,
             gContestPaintingWinner->personality);
         _InitContestMonPixels(gMonSpritesGfxPtr->sprites[1], gContestPaintingMonPalette, (void *)gContestMonPixels);
-    }
-    else
-    {
+    } else {
         HandleLoadSpecialPokePic_DontHandleDeoxys(
             &gMonBackPicTable[species],
             gMonSpritesGfxPtr->sprites[0],
@@ -389,24 +380,21 @@ static void _InitContestMonPixels(u8 *spriteGfx, u16 *palette, u16 (*destPixels)
     u16 tileY, tileX, pixelY, pixelX;
     u8 colorIndex;
 
-    for (tileY = 0; tileY < 8; tileY++)
-    {
-        for (tileX = 0; tileX < 8; tileX++)
-        {
-            for (pixelY = 0; pixelY < 8; pixelY++)
-            {
-                for (pixelX = 0; pixelX < 8; pixelX++)
-                {
+    for (tileY = 0; tileY < 8; tileY++) {
+        for (tileX = 0; tileX < 8; tileX++) {
+            for (pixelY = 0; pixelY < 8; pixelY++) {
+                for (pixelX = 0; pixelX < 8; pixelX++) {
                     colorIndex = spriteGfx[((tileY * 8) + tileX) * 32 + (pixelY << 2) + (pixelX >> 1)];
-                    if (pixelX & 1)
+                    if (pixelX & 1) {
                         colorIndex >>= 4;
-                    else
+                    } else {
                         colorIndex &= 0xF; // %=16 works here too. Both match
-
-                    if (colorIndex == 0)   // transparent pixel
+                    }
+                    if (colorIndex == 0) { // transparent pixel
                         (*destPixels)[tileY * 8 + pixelY][tileX * 8 + pixelX] = 0x8000;
-                    else
+                    } else {
                         (*destPixels)[tileY * 8 + pixelY][tileX * 8 + pixelX] = palette[colorIndex];
+                    }
                 }
             }
         }
@@ -420,10 +408,8 @@ static void LoadContestPaintingFrame(u8 contestWinnerId, bool8 arg1)
     u8 x, y;
 
     LoadPalette(gPictureFramePalettes, 0, 0x100);
-    if (arg1 == TRUE)
-    {
-        switch (gContestPaintingWinner->contestCategory / 3)
-        {
+    if (arg1 == TRUE) {
+        switch (gContestPaintingWinner->contestCategory / 3) {
         case CONTEST_CATEGORY_COOL:
             RLUnCompVram(gPictureFrameTiles_0, (void *)VRAM);
             RLUnCompWram(gPictureFrameTilemap_0, gContestMonPixels);
@@ -447,32 +433,28 @@ static void LoadContestPaintingFrame(u8 contestWinnerId, bool8 arg1)
         }
 
         // Set the background
-        for (y = 0; y < 20; y++)
-        {
-            for (x = 0; x < 32; x++)
+        for (y = 0; y < 20; y++) {
+            for (x = 0; x < 32; x++) {
                 VRAM_PICTURE_DATA(x, y) = 0x1015;
+            }
         }
 
         // Copy the image frame
-        for (y = 0; y < 10; y++)
-        {
-            for (x = 0; x < 18; x++)
+        for (y = 0; y < 10; y++) {
+            for (x = 0; x < 18; x++) {
                 VRAM_PICTURE_DATA(x + 6, y + 2) = (*gContestMonPixels)[y + 2][x + 6];
+            }
         }
 
         // Re-set the entire top row to the first top frame part
-        for (x = 0; x < 16; x++)
+        for (x = 0; x < 16; x++) {
             VRAM_PICTURE_DATA(x + 7, 2) = (*gContestMonPixels)[2][7];
-    }
-    else if (contestWinnerId < 8)
-    {
+        }
+    } else if (contestWinnerId < 8) {
         RLUnCompVram(gPictureFrameTiles_5, (void *)VRAM);
         RLUnCompVram(gPictureFrameTilemap_5, (void *)(BG_SCREEN_ADDR(12)));
-    }
-    else
-    {
-        switch (gContestPaintingWinner->contestCategory / 3)
-        {
+    } else {
+        switch (gContestPaintingWinner->contestCategory / 3) {
         case CONTEST_CATEGORY_COOL:
             RLUnCompVram(gPictureFrameTiles_0, (void *)VRAM);
             RLUnCompVram(gPictureFrameTilemap_0, (void *)(BG_SCREEN_ADDR(12)));
@@ -501,17 +483,13 @@ static void LoadContestPaintingFrame(u8 contestWinnerId, bool8 arg1)
 
 static void InitPaintingMonOamData(u8 contestWinnerId)
 {
-
     gMain.oamBuffer[0] = sContestPaintingMonOamData;
     gMain.oamBuffer[0].tileNum = 0;
 
-    if (contestWinnerId > 1)
-    {
+    if (contestWinnerId > 1) {
         gMain.oamBuffer[0].x = 88;
         gMain.oamBuffer[0].y = 24;
-    }
-    else
-    {
+    } else {
         gMain.oamBuffer[0].x = 88; // Duplicated Code
         gMain.oamBuffer[0].y = 24;
     }
@@ -521,13 +499,13 @@ static u8 GetImageEffectForContestWinner(u8 contestWinnerId)
 {
     u8 contestCategory;
 
-    if (contestWinnerId < 8)
+    if (contestWinnerId < 8) {
         contestCategory = gContestPaintingWinner->contestCategory;
-    else
+    } else {
         contestCategory = gContestPaintingWinner->contestCategory / 3;
+    }
 
-    switch (contestCategory)
-    {
+    switch (contestCategory) {
     case CONTEST_CATEGORY_COOL:
         return IMAGE_EFFECT_OUTLINE_COLORED;
     case CONTEST_CATEGORY_BEAUTY:
@@ -562,8 +540,7 @@ static void DoContestPaintingImageProcessing(u8 imageEffect)
     gImageProcessingContext.canvasWidth = 64;
     gImageProcessingContext.canvasHeight = 64;
 
-    switch (imageEffect)
-    {
+    switch (imageEffect) {
     case IMAGE_EFFECT_CHARCOAL:
     case IMAGE_EFFECT_GRAYSCALE_LIGHT:
         gImageProcessingContext.quantizeEffect = QUANTIZE_EFFECT_GRAYSCALE;

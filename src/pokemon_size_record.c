@@ -18,22 +18,22 @@ struct UnknownStruct
 
 static const struct UnknownStruct sBigMonSizeTable[] =
 {
-    {  290,   1,      0 },
-    {  300,   1,     10 },
-    {  400,   2,    110 },
-    {  500,   4,    310 },
-    {  600,  20,    710 },
-    {  700,  50,   2710 },
-    {  800, 100,   7710 },
-    {  900, 150,  17710 },
-    { 1000, 150,  32710 },
-    { 1100, 100, -17826 },
-    { 1200,  50,  -7826 },
-    { 1300,  20,  -2826 },
-    { 1400,   5,   -826 },
-    { 1500,   2,   -326 },
-    { 1600,   1,   -126 },
-    { 1700,   1,   -26 },
+    {290,   1,      0},
+    {300,   1,     10},
+    {400,   2,    110},
+    {500,   4,    310},
+    {600,  20,    710},
+    {700,  50,   2710},
+    {800, 100,   7710},
+    {900, 150,  17710},
+    {1000, 150,  32710},
+    {1100, 100, -17826},
+    {1200,  50,  -7826},
+    {1300,  20,  -2826},
+    {1400,   5,   -826},
+    {1500,   2,   -326},
+    {1600,   1,   -126},
+    {1700,   1,   -26},
 };
 
 static const u8 sGiftRibbonsMonDataIds[] =
@@ -67,10 +67,10 @@ static u8 TranslateBigMonSizeTableIndex(u16 a)
 {
     u8 i;
 
-    for (i = 1; i < 15; i++)
-    {
-        if (a < sBigMonSizeTable[i].unk4)
+    for (i = 1; i < 15; i++) {
+        if (a < sBigMonSizeTable[i].unk4) {
             return i - 1;
+        }
     }
     return i;
 }
@@ -106,20 +106,14 @@ static void FormatMonSizeRecord(u8 *string, u32 size)
 
 static u8 CompareMonSize(u16 species, u16 *sizeRecord)
 {
-    if (gSpecialVar_Result == 0xFF)
-    {
+    if (gSpecialVar_Result == 0xFF) {
         return 0;
-    }
-    else
-    {
+    } else {
         struct Pokemon *pkmn = &gPlayerParty[gSpecialVar_Result];
 
-        if (GetMonData(pkmn, MON_DATA_IS_EGG) == TRUE || GetMonData(pkmn, MON_DATA_SPECIES) != species)
-        {
+        if (GetMonData(pkmn, MON_DATA_IS_EGG) == TRUE || GetMonData(pkmn, MON_DATA_SPECIES) != species) {
             return 1;
-        }
-        else
-        {
+        } else {
             u32 oldSize;
             u32 newSize;
             u16 sizeParams;
@@ -128,12 +122,9 @@ static u8 CompareMonSize(u16 species, u16 *sizeRecord)
             newSize = GetMonSize(species, sizeParams);
             oldSize = GetMonSize(species, *sizeRecord);
             FormatMonSizeRecord(gStringVar2, newSize);
-            if (newSize <= oldSize)
-            {
+            if (newSize <= oldSize) {
                 return 2;
-            }
-            else
-            {
+            } else {
                 *sizeRecord = sizeParams;
                 return 3;
             }
@@ -148,10 +139,11 @@ static void GetMonSizeRecordInfo(u16 species, u16 *sizeRecord)
 
     FormatMonSizeRecord(gStringVar3, size);
     StringCopy(gStringVar1, gSpeciesNames[species]);
-    if (*sizeRecord == DEFAULT_MAX_SIZE)
+    if (*sizeRecord == DEFAULT_MAX_SIZE) {
         StringCopy(gStringVar2, gText_Marco);
-    else
+    } else {
         StringCopy(gStringVar2, gSaveBlock2Ptr->playerName);
+    }
 }
 
 void InitSeedotSizeRecord(void)
@@ -200,20 +192,18 @@ void GiveGiftRibbonToParty(u8 index, u8 ribbonId)
     u8 array[8];
     memcpy(array, sGiftRibbonsMonDataIds, sizeof(sGiftRibbonsMonDataIds));
 
-    if (index < 11 && ribbonId < 65)
-    {
+    if (index < 11 && ribbonId < 65) {
         gSaveBlock1Ptr->giftRibbons[index] = ribbonId;
-        for (i = 0; i < PARTY_SIZE; i++)
-        {
+        for (i = 0; i < PARTY_SIZE; i++) {
             struct Pokemon *mon = &gPlayerParty[i];
 
-            if (GetMonData(mon, MON_DATA_SPECIES) != 0 && GetMonData(mon, MON_DATA_SANITY_IS_EGG) == 0)
-            {
+            if (GetMonData(mon, MON_DATA_SPECIES) != 0 && GetMonData(mon, MON_DATA_SANITY_IS_EGG) == 0) {
                 SetMonData(mon, array[index], &data);
                 gotRibbon = TRUE;
             }
         }
-        if (gotRibbon)
+        if (gotRibbon) {
             FlagSet(FLAG_SYS_RIBBON_GET);
+        }
     }
 }

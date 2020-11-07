@@ -304,15 +304,13 @@ static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
 
     species = GetMonData(egg, MON_DATA_SPECIES);
 
-    for (i = 0; i < MAX_MON_MOVES; i++)
-    {
+    for (i = 0; i < MAX_MON_MOVES; i++) {
         moves[i] = GetMonData(egg, MON_DATA_MOVE1 + i);
     }
 
     personality = GetMonData(egg, MON_DATA_PERSONALITY);
 
-    for (i = 0; i < NUM_STATS; i++)
-    {
+    for (i = 0; i < NUM_STATS; i++) {
         ivs[i] = GetMonData(egg, MON_DATA_HP_IV + i);
     }
 
@@ -324,13 +322,11 @@ static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
 
     CreateMon(temp, species, EGG_HATCH_LEVEL, 32, TRUE, personality, OT_ID_PLAYER_ID, 0);
 
-    for (i = 0; i < MAX_MON_MOVES; i++)
-    {
+    for (i = 0; i < MAX_MON_MOVES; i++) {
         SetMonData(temp, MON_DATA_MOVE1 + i,  &moves[i]);
     }
 
-    for (i = 0; i < NUM_STATS; i++)
-    {
+    for (i = 0; i < NUM_STATS; i++) {
         SetMonData(temp, MON_DATA_HP_IV + i,  &ivs[i]);
     }
 
@@ -396,8 +392,7 @@ static bool8 _CheckDaycareMonReceivedMail(struct DayCare *daycare, u8 daycareId)
     GetBoxMonNickname(&daycareMon->mon, nickname);
     if (daycareMon->mail.message.itemId != ITEM_NONE
         && (StringCompareWithoutExtCtrlCodes(nickname, daycareMon->mail.monName) != 0
-            || StringCompareWithoutExtCtrlCodes(gSaveBlock2Ptr->playerName, daycareMon->mail.OT_name) != 0))
-    {
+            || StringCompareWithoutExtCtrlCodes(gSaveBlock2Ptr->playerName, daycareMon->mail.OT_name) != 0)) {
         StringCopy(gStringVar1, nickname);
         TVShowConvertInternationalString(gStringVar2, daycareMon->mail.OT_name, daycareMon->mail.gameLanguage);
         TVShowConvertInternationalString(gStringVar3, daycareMon->mail.monName, daycareMon->mail.monLanguage);
@@ -417,29 +412,26 @@ static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc
     u8 spriteID = 0;
     struct Pokemon* mon = NULL;
 
-    if (a0 == 0)
-    {
+    if (a0 == 0) {
         mon = &gPlayerParty[pokeID];
         r5 = 1;
     }
-    if (a0 == 1)
-    {
+    if (a0 == 1) {
         mon = &gPlayerParty[pokeID];
         r5 = 3;
     }
-    switch (switchID)
-    {
+    switch (switchID) {
     case 0:
-        {
-            u16 species = GetMonData(mon, MON_DATA_SPECIES);
-            u32 pid = GetMonData(mon, MON_DATA_PERSONALITY);
-            HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[species],
-                                                      gMonSpritesGfxPtr->sprites[(a0 * 2) + 1],
-                                                      species, pid);
-            LoadCompressedSpritePalette(GetMonSpritePalStruct(mon));
-            *speciesLoc = species;
-        }
-        break;
+    {
+        u16 species = GetMonData(mon, MON_DATA_SPECIES);
+        u32 pid = GetMonData(mon, MON_DATA_PERSONALITY);
+        HandleLoadSpecialPokePic_DontHandleDeoxys(&gMonFrontPicTable[species],
+                                                  gMonSpritesGfxPtr->sprites[(a0 * 2) + 1],
+                                                  species, pid);
+        LoadCompressedSpritePalette(GetMonSpritePalStruct(mon));
+        *speciesLoc = species;
+    }
+    break;
     case 1:
         SetMultiuseSpriteTemplateToPokemon(GetMonSpritePalStruct(mon)->tag, r5);
         spriteID = CreateSprite(&gMultiuseSpriteTemplate, 120, 75, 6);
@@ -466,8 +458,7 @@ void EggHatch(void)
 
 static void Task_EggHatch(u8 taskID)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         CleanupOverworldWindowsAndTilemaps();
         SetMainCallback2(CB2_EggHatch_0);
         gFieldCallback = FieldCB_ContinueScriptHandleMusic;
@@ -477,8 +468,7 @@ static void Task_EggHatch(u8 taskID)
 
 static void CB2_EggHatch_0(void)
 {
-    switch (gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
 
@@ -572,15 +562,14 @@ static void EggHatchSetMonNickname(void)
 
 static void Task_EggHatchPlayBGM(u8 taskID)
 {
-    if (gTasks[taskID].data[0] == 0)
-    {
+    if (gTasks[taskID].data[0] == 0) {
         StopMapMusic();
         PlayRainStoppingSoundEffect();
     }
-    if (gTasks[taskID].data[0] == 1)
+    if (gTasks[taskID].data[0] == 1) {
         PlayBGM(MUS_EVOLUTION_INTRO);
-    if (gTasks[taskID].data[0] > 60)
-    {
+    }
+    if (gTasks[taskID].data[0] > 60) {
         PlayBGM(MUS_EVOLUTION);
         DestroyTask(taskID);
         // UB: task is destroyed, yet the value is incremented
@@ -594,8 +583,7 @@ static void CB2_EggHatch_1(void)
     u8 gender;
     u32 personality;
 
-    switch (sEggHatchData->CB2_state)
-    {
+    switch (sEggHatchData->CB2_state) {
     case 0:
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0x10, 0, RGB_BLACK);
         sEggHatchData->eggSpriteID = CreateSprite(&sSpriteTemplate_EggHatch, 120, 75, 5);
@@ -605,31 +593,27 @@ static void CB2_EggHatch_1(void)
         CreateTask(Task_EggHatchPlayBGM, 5);
         break;
     case 1:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             FillWindowPixelBuffer(sEggHatchData->windowId, PIXEL_FILL(0));
             sEggHatchData->CB2_PalCounter = 0;
             sEggHatchData->CB2_state++;
         }
         break;
     case 2:
-        if (++sEggHatchData->CB2_PalCounter > 30)
-        {
+        if (++sEggHatchData->CB2_PalCounter > 30) {
             sEggHatchData->CB2_state++;
             gSprites[sEggHatchData->eggSpriteID].callback = SpriteCB_Egg_0;
         }
         break;
     case 3:
-        if (gSprites[sEggHatchData->eggSpriteID].callback == SpriteCallbackDummy)
-        {
+        if (gSprites[sEggHatchData->eggSpriteID].callback == SpriteCallbackDummy) {
             species = GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_SPECIES);
             DoMonFrontSpriteAnimation(&gSprites[sEggHatchData->pokeSpriteID], species, FALSE, 1);
             sEggHatchData->CB2_state++;
         }
         break;
     case 4:
-        if (gSprites[sEggHatchData->pokeSpriteID].callback == SpriteCallbackDummy)
-        {
+        if (gSprites[sEggHatchData->pokeSpriteID].callback == SpriteCallbackDummy) {
             sEggHatchData->CB2_state++;
         }
         break;
@@ -643,12 +627,14 @@ static void CB2_EggHatch_1(void)
         CopyWindowToVram(sEggHatchData->windowId, 3);
         break;
     case 6:
-        if (IsFanfareTaskInactive())
+        if (IsFanfareTaskInactive()) {
             sEggHatchData->CB2_state++;
+        }
         break;
     case 7:
-        if (IsFanfareTaskInactive())
+        if (IsFanfareTaskInactive()) {
             sEggHatchData->CB2_state++;
+        }
         break;
     case 8:
         GetMonNickname2(&gPlayerParty[sEggHatchData->eggPartyID], gStringVar1);
@@ -657,16 +643,14 @@ static void CB2_EggHatch_1(void)
         sEggHatchData->CB2_state++;
         break;
     case 9:
-        if (!IsTextPrinterActive(sEggHatchData->windowId))
-        {
+        if (!IsTextPrinterActive(sEggHatchData->windowId)) {
             LoadUserWindowBorderGfx(sEggHatchData->windowId, 0x140, 0xE0);
             CreateYesNoMenu(&sYesNoWinTemplate, 0x140, 0xE, 0);
             sEggHatchData->CB2_state++;
         }
         break;
     case 10:
-        switch (Menu_ProcessInputNoWrapClearOnChoose())
-        {
+        switch (Menu_ProcessInputNoWrapClearOnChoose()) {
         case 0:
             GetMonNickname2(&gPlayerParty[sEggHatchData->eggPartyID], gStringVar3);
             species = GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_SPECIES);
@@ -684,8 +668,7 @@ static void CB2_EggHatch_1(void)
         sEggHatchData->CB2_state++;
         break;
     case 12:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             FreeMonSpritesGfx();
             RemoveWindow(sEggHatchData->windowId);
             UnsetBgTilemapBuffer(0);
@@ -705,17 +688,13 @@ static void CB2_EggHatch_1(void)
 
 static void SpriteCB_Egg_0(struct Sprite* sprite)
 {
-    if (++sprite->data[0] > 20)
-    {
+    if (++sprite->data[0] > 20) {
         sprite->callback = SpriteCB_Egg_1;
         sprite->data[0] = 0;
-    }
-    else
-    {
+    } else {
         sprite->data[1] = (sprite->data[1] + 20) & 0xFF;
         sprite->pos2.x = Sin(sprite->data[1], 1);
-        if (sprite->data[0] == 15)
-        {
+        if (sprite->data[0] == 15) {
             PlaySE(SE_BALL);
             StartSpriteAnim(sprite, 1);
             CreateRandomEggShardSprite();
@@ -725,20 +704,15 @@ static void SpriteCB_Egg_0(struct Sprite* sprite)
 
 static void SpriteCB_Egg_1(struct Sprite* sprite)
 {
-    if (++sprite->data[2] > 30)
-    {
-        if (++sprite->data[0] > 20)
-        {
+    if (++sprite->data[2] > 30) {
+        if (++sprite->data[0] > 20) {
             sprite->callback = SpriteCB_Egg_2;
             sprite->data[0] = 0;
             sprite->data[2] = 0;
-        }
-        else
-        {
+        } else {
             sprite->data[1] = (sprite->data[1] + 20) & 0xFF;
             sprite->pos2.x = Sin(sprite->data[1], 2);
-            if (sprite->data[0] == 15)
-            {
+            if (sprite->data[0] == 15) {
                 PlaySE(SE_BALL);
                 StartSpriteAnim(sprite, 2);
             }
@@ -748,10 +722,8 @@ static void SpriteCB_Egg_1(struct Sprite* sprite)
 
 static void SpriteCB_Egg_2(struct Sprite* sprite)
 {
-    if (++sprite->data[2] > 30)
-    {
-        if (++sprite->data[0] > 38)
-        {
+    if (++sprite->data[2] > 30) {
+        if (++sprite->data[0] > 38) {
             u16 species;
 
             sprite->callback = SpriteCB_Egg_3;
@@ -759,28 +731,25 @@ static void SpriteCB_Egg_2(struct Sprite* sprite)
             species = GetMonData(&gPlayerParty[sEggHatchData->eggPartyID], MON_DATA_SPECIES);
             gSprites[sEggHatchData->pokeSpriteID].pos2.x = 0;
             gSprites[sEggHatchData->pokeSpriteID].pos2.y = 0;
-        }
-        else
-        {
+        } else {
             sprite->data[1] = (sprite->data[1] + 20) & 0xFF;
             sprite->pos2.x = Sin(sprite->data[1], 2);
-            if (sprite->data[0] == 15)
-            {
+            if (sprite->data[0] == 15) {
                 PlaySE(SE_BALL);
                 StartSpriteAnim(sprite, 2);
                 CreateRandomEggShardSprite();
                 CreateRandomEggShardSprite();
             }
-            if (sprite->data[0] == 30)
+            if (sprite->data[0] == 30) {
                 PlaySE(SE_BALL);
+            }
         }
     }
 }
 
 static void SpriteCB_Egg_3(struct Sprite* sprite)
 {
-    if (++sprite->data[0] > 50)
-    {
+    if (++sprite->data[0] > 50) {
         sprite->callback = SpriteCB_Egg_4;
         sprite->data[0] = 0;
     }
@@ -789,16 +758,16 @@ static void SpriteCB_Egg_3(struct Sprite* sprite)
 static void SpriteCB_Egg_4(struct Sprite* sprite)
 {
     s16 i;
-    if (sprite->data[0] == 0)
+    if (sprite->data[0] == 0) {
         BeginNormalPaletteFade(0xFFFFFFFF, -1, 0, 0x10, RGB_WHITEALPHA);
-    if (sprite->data[0] < 4u)
-    {
-        for (i = 0; i <= 3; i++)
+    }
+    if (sprite->data[0] < 4u) {
+        for (i = 0; i <= 3; i++) {
             CreateRandomEggShardSprite();
+        }
     }
     sprite->data[0]++;
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         PlaySE(SE_EGG_HATCH);
         sprite->invisible = TRUE;
         sprite->callback = SpriteCB_Egg_5;
@@ -808,17 +777,19 @@ static void SpriteCB_Egg_4(struct Sprite* sprite)
 
 static void SpriteCB_Egg_5(struct Sprite* sprite)
 {
-    if (sprite->data[0] == 0)
-    {
+    if (sprite->data[0] == 0) {
         gSprites[sEggHatchData->pokeSpriteID].invisible = FALSE;
         StartSpriteAffineAnim(&gSprites[sEggHatchData->pokeSpriteID], 1);
     }
-    if (sprite->data[0] == 8)
+    if (sprite->data[0] == 8) {
         BeginNormalPaletteFade(0xFFFFFFFF, -1, 0x10, 0, RGB_WHITEALPHA);
-    if (sprite->data[0] <= 9)
+    }
+    if (sprite->data[0] <= 9) {
         gSprites[sEggHatchData->pokeSpriteID].pos1.y -= 1;
-    if (sprite->data[0] > 40)
+    }
+    if (sprite->data[0] > 40) {
         sprite->callback = SpriteCallbackDummy;
+    }
     sprite->data[0]++;
 }
 
@@ -832,8 +803,9 @@ static void SpriteCB_EggShard(struct Sprite* sprite)
 
     sprite->data[2] += sprite->data[3];
 
-    if (sprite->pos1.y + sprite->pos2.y > sprite->pos1.y + 20 && sprite->data[2] > 0)
+    if (sprite->pos1.y + sprite->pos2.y > sprite->pos1.y + 20 && sprite->data[2] > 0) {
         DestroySprite(sprite);
+    }
 }
 
 static void CreateRandomEggShardSprite(void)
@@ -868,13 +840,12 @@ static void EggHatchPrintMessage(u8 windowId, u8* string, u8 x, u8 y, u8 speed)
 u8 GetEggCyclesToSubtract(void)
 {
     u8 count, i;
-    for (count = CalculatePlayerPartyCount(), i = 0; i < count; i++)
-    {
-        if (!GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_EGG))
-        {
+    for (count = CalculatePlayerPartyCount(), i = 0; i < count; i++) {
+        if (!GetMonData(&gPlayerParty[i], MON_DATA_SANITY_IS_EGG)) {
             u8 ability = GetMonAbility(&gPlayerParty[i]);
-            if (ability == ABILITY_MAGMA_ARMOR || ability == ABILITY_FLAME_BODY)
+            if (ability == ABILITY_MAGMA_ARMOR || ability == ABILITY_FLAME_BODY) {
                 return 2;
+            }
         }
     }
     return 1;

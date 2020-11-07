@@ -10,7 +10,7 @@
 
 #define ROTATE_COUNTERCLOCKWISE 0
 #define ROTATE_CLOCKWISE        1
-#define ROTATE_NONE             2 
+#define ROTATE_NONE             2
 
 struct RotatingTileObject
 {
@@ -91,8 +91,9 @@ EWRAM_DATA static struct RotatingTilePuzzle *sRotatingTilePuzzle = NULL;
 // code
 void InitRotatingTilePuzzle(bool8 isTrickHouse)
 {
-    if (sRotatingTilePuzzle == NULL)
+    if (sRotatingTilePuzzle == NULL) {
         sRotatingTilePuzzle = AllocZeroed(sizeof(*sRotatingTilePuzzle));
+    }
 
     sRotatingTilePuzzle->isTrickHouse = isTrickHouse;
 }
@@ -101,8 +102,9 @@ void FreeRotatingTilePuzzle(void)
 {
     u8 id;
 
-    if (sRotatingTilePuzzle != NULL)
+    if (sRotatingTilePuzzle != NULL) {
         FREE_AND_SET_NULL(sRotatingTilePuzzle);
+    }
 
     id = GetObjectEventIdByLocalIdAndMap(OBJ_EVENT_ID_PLAYER, 0, 0);
     ObjectEventClearHeldMovementIfFinished(&gObjectEvents[id]);
@@ -115,43 +117,44 @@ u16 MoveRotatingTileObjects(u8 puzzleNumber)
     struct ObjectEventTemplate *objectEvents = gSaveBlock1Ptr->objectEventTemplates;
     u16 localId = 0;
 
-    for (i = 0; i < OBJECT_EVENT_TEMPLATES_COUNT; i++)
-    {
+    for (i = 0; i < OBJECT_EVENT_TEMPLATES_COUNT; i++) {
         s32 puzzleTileStart;
         u8 puzzleTileNum;
         s16 x = objectEvents[i].x + 7;
         s16 y = objectEvents[i].y + 7;
         u16 metatile = MapGridGetMetatileIdAt(x, y);
 
-        if (!sRotatingTilePuzzle->isTrickHouse)
+        if (!sRotatingTilePuzzle->isTrickHouse) {
             puzzleTileStart = METATILE_MossdeepGym_YellowArrow_Right;
-        else
+        } else {
             puzzleTileStart = METATILE_TrickHousePuzzle_Arrow_YellowOnWhite_Right;
+        }
 
         // Object is on a metatile before the puzzle tile section
-        // UB: Because this is not if (metatile < puzzleTileStart), for the trick house (metatile - puzzleTileStart) below can result in casting a negative value to u8 
-        if (metatile < METATILE_MossdeepGym_YellowArrow_Right)
+        // UB: Because this is not if (metatile < puzzleTileStart), for the trick house (metatile - puzzleTileStart) below can result in casting a negative value to u8
+        if (metatile < METATILE_MossdeepGym_YellowArrow_Right) {
             continue;
+        }
 
         // Object is on a metatile after the puzzle tile section (never occurs, in both cases the puzzle tiles are last)
-        if ((u8)((metatile - puzzleTileStart) / 8) >= 5)
+        if ((u8)((metatile - puzzleTileStart) / 8) >= 5) {
             continue;
+        }
 
         // Object is on a metatile in puzzle tile section, but not one of the currently rotating color
-        if ((u8)((metatile - puzzleTileStart) / 8) != puzzleNumber)
+        if ((u8)((metatile - puzzleTileStart) / 8) != puzzleNumber) {
             continue;
+        }
 
         puzzleTileNum = (u8)((metatile - puzzleTileStart) % 8);
 
         // First 4 puzzle tiles are the colored arrows
-        if (puzzleTileNum < 4)
-        {
+        if (puzzleTileNum < 4) {
             s8 x = 0;
             s8 y = 0;
             const u8 *movementScript;
 
-            switch (puzzleTileNum)
-            {
+            switch (puzzleTileNum) {
             case 0: // Right Arrow
                 movementScript = sMovement_ShiftRight;
                 x = 1;
@@ -174,15 +177,13 @@ u16 MoveRotatingTileObjects(u8 puzzleNumber)
 
             objectEvents[i].x += x;
             objectEvents[i].y += y;
-            if (GetObjectEventIdByLocalIdAndMap(objectEvents[i].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup) != OBJECT_EVENTS_COUNT)
-            {
+            if (GetObjectEventIdByLocalIdAndMap(objectEvents[i].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup) != OBJECT_EVENTS_COUNT) {
                 SaveRotatingTileObject(i, puzzleTileNum);
                 localId = objectEvents[i].localId;
                 ScriptMovement_StartObjectMovementScript(localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, movementScript);
             }
             // Never reached in normal gameplay
-            else
-            {
+            else {
                 TurnUnsavedRotatingTileObject(i, puzzleTileNum);
             }
         }
@@ -197,17 +198,18 @@ void TurnRotatingTileObjects(void)
     s32 puzzleTileStart;
     struct ObjectEventTemplate *objectEvents;
 
-    if (sRotatingTilePuzzle == NULL)
+    if (sRotatingTilePuzzle == NULL) {
         return;
+    }
 
-    if (!sRotatingTilePuzzle->isTrickHouse)
+    if (!sRotatingTilePuzzle->isTrickHouse) {
         puzzleTileStart = METATILE_MossdeepGym_YellowArrow_Right;
-    else
+    } else {
         puzzleTileStart = METATILE_TrickHousePuzzle_Arrow_YellowOnWhite_Right;
+    }
 
     objectEvents = gSaveBlock1Ptr->objectEventTemplates;
-    for (i = 0; i < sRotatingTilePuzzle->numObjects; i++)
-    {
+    for (i = 0; i < sRotatingTilePuzzle->numObjects; i++) {
         s32 rotation;
         s8 tileDifference;
         u8 objectEventId;
@@ -223,33 +225,29 @@ void TurnRotatingTileObjects(void)
         // Which means tileDifference will always either be -1 or 3 after the below subtraction, and rotation will always be ROTATE_COUNTERCLOCKWISE after the following conditionals
         tileDifference = (u8)((metatile - puzzleTileStart) % 8);
         tileDifference -= (sRotatingTilePuzzle->objects[i].prevPuzzleTileNum);
-        
+
         // Always true, see above
-        if (tileDifference < 0 || tileDifference == 3)
-        {
+        if (tileDifference < 0 || tileDifference == 3) {
             // Always false, see above
-            if (tileDifference == -3)
+            if (tileDifference == -3) {
                 rotation = ROTATE_CLOCKWISE;
-            else
+            } else {
                 rotation = ROTATE_COUNTERCLOCKWISE;
-        }
-        else
-        {
-            if (tileDifference > 0)
+            }
+        } else {
+            if (tileDifference > 0) {
                 rotation = ROTATE_CLOCKWISE;
-            else
+            } else {
                 rotation = ROTATE_NONE;
+            }
         }
 
         objectEventId = GetObjectEventIdByLocalIdAndMap(objectEvents[sRotatingTilePuzzle->objects[i].eventTemplateId].localId, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
-        if (objectEventId != OBJECT_EVENTS_COUNT)
-        {
+        if (objectEventId != OBJECT_EVENTS_COUNT) {
             const u8 *movementScript;
             u8 direction = gObjectEvents[objectEventId].facingDirection;
-            if (rotation == ROTATE_COUNTERCLOCKWISE)
-            {
-                switch (direction)
-                {
+            if (rotation == ROTATE_COUNTERCLOCKWISE) {
+                switch (direction) {
                 case DIR_EAST:
                     movementScript = sMovement_FaceUp;
                     objectEvents[sRotatingTilePuzzle->objects[i].eventTemplateId].movementType = MOVEMENT_TYPE_FACE_UP;
@@ -275,10 +273,8 @@ void TurnRotatingTileObjects(void)
                                                          movementScript);
             }
             // Never reached
-            else if (rotation == ROTATE_CLOCKWISE)
-            {
-                switch (direction)
-                {
+            else if (rotation == ROTATE_CLOCKWISE) {
+                switch (direction) {
                 case DIR_EAST:
                     movementScript = sMovement_FaceDown;
                     objectEvents[sRotatingTilePuzzle->objects[i].eventTemplateId].movementType = MOVEMENT_TYPE_FACE_DOWN;
@@ -326,26 +322,26 @@ static void TurnUnsavedRotatingTileObject(u8 eventTemplateId, u8 puzzleTileNum)
     s16 y = objectEvents[eventTemplateId].y + 7;
     u16 metatile = MapGridGetMetatileIdAt(x, y);
 
-    if (!sRotatingTilePuzzle->isTrickHouse)
+    if (!sRotatingTilePuzzle->isTrickHouse) {
         puzzleTileStart = METATILE_MossdeepGym_YellowArrow_Right;
-    else
+    } else {
         puzzleTileStart = METATILE_TrickHousePuzzle_Arrow_YellowOnWhite_Right;
+    }
 
     tileDifference = (u8)((metatile - puzzleTileStart) % 8);
     tileDifference -= puzzleTileNum;
 
-    if (tileDifference < 0 || tileDifference == 3)
+    if (tileDifference < 0 || tileDifference == 3) {
         rotation = ROTATE_COUNTERCLOCKWISE;
-    else if (tileDifference > 0 || tileDifference == -3)
+    } else if (tileDifference > 0 || tileDifference == -3) {
         rotation = ROTATE_CLOCKWISE;
-    else
+    } else {
         rotation = ROTATE_NONE;
+    }
 
     movementType = objectEvents[eventTemplateId].movementType;
-    if (rotation == ROTATE_COUNTERCLOCKWISE)
-    {
-        switch (movementType)
-        {
+    if (rotation == ROTATE_COUNTERCLOCKWISE) {
+        switch (movementType) {
         case MOVEMENT_TYPE_FACE_RIGHT:
             objectEvents[eventTemplateId].movementType = MOVEMENT_TYPE_FACE_UP;
             break;
@@ -361,11 +357,8 @@ static void TurnUnsavedRotatingTileObject(u8 eventTemplateId, u8 puzzleTileNum)
         default:
             break;
         }
-    }
-    else if (rotation == ROTATE_CLOCKWISE)
-    {
-        switch (movementType)
-        {
+    } else if (rotation == ROTATE_CLOCKWISE) {
+        switch (movementType) {
         case MOVEMENT_TYPE_FACE_RIGHT:
             objectEvents[eventTemplateId].movementType = MOVEMENT_TYPE_FACE_DOWN;
             break;

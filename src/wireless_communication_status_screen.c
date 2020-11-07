@@ -145,8 +145,7 @@ static const u8 sActivityGroupInfo[][3] = {
 
 static void CB2_RunWirelessCommunicationScreen(void)
 {
-    if (!IsDma3ManagerBusyWithBgCopy())
-    {
+    if (!IsDma3ManagerBusyWithBgCopy()) {
         RunTasks();
         RunTextPrinters();
         AnimateSprites();
@@ -210,8 +209,7 @@ static void CB2_ExitWirelessCommunicationStatusScreen(void)
 {
     s32 i;
     FreeAllWindowBuffers();
-    for (i = 0; i < (int)ARRAY_COUNT(sBgTemplates); i++)
-    {
+    for (i = 0; i < (int)ARRAY_COUNT(sBgTemplates); i++) {
         Free(GetBgTilemapBuffer(i));
     }
     Free(sStatusScreen);
@@ -220,10 +218,10 @@ static void CB2_ExitWirelessCommunicationStatusScreen(void)
 
 static void WCSS_CyclePalette(s16 * counter, s16 * palIdx)
 {
-    if (++(*counter) > 5)
-    {
-        if (++(*palIdx) == 14)
+    if (++(*counter) > 5) {
+        if (++(*palIdx) == 14) {
             *palIdx = 0;
+        }
 
         *counter = 0;
     }
@@ -237,8 +235,7 @@ static void PrintHeaderTexts(void)
     FillWindowPixelBuffer(1, PIXEL_FILL(0));
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
     WCSS_AddTextPrinterParameterized(0, 1, sHeaderTexts[0], GetStringCenterAlignXOffset(1, sHeaderTexts[0], 0xC0), 6, COLORMODE_GREEN);
-    for (i = 0; i < (int)ARRAY_COUNT(sHeaderTexts[0]) - 1; i++)
-    {
+    for (i = 0; i < (int)ARRAY_COUNT(sHeaderTexts[0]) - 1; i++) {
         WCSS_AddTextPrinterParameterized(1, 1, sHeaderTexts[i + 1], 0, 30 * i + 8, COLORMODE_WHITE_LGRAY);
     }
     WCSS_AddTextPrinterParameterized(1, 1, sHeaderTexts[i + 1], 0, 30 * i + 8, COLORMODE_RED);
@@ -253,8 +250,7 @@ static void PrintHeaderTexts(void)
 static void Task_WirelessCommunicationScreen(u8 taskId)
 {
     s32 i;
-    switch (gTasks[taskId].tState)
-    {
+    switch (gTasks[taskId].tState) {
     case 0:
         PrintHeaderTexts();
         gTasks[taskId].tState++;
@@ -267,28 +263,25 @@ static void Task_WirelessCommunicationScreen(u8 taskId)
         gTasks[taskId].tState++;
         break;
     case 2:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             gTasks[taskId].tState++;
         }
         break;
     case 3:
-        if (UpdateCommunicationCounts(sStatusScreen->groupCounts, sStatusScreen->prevGroupCounts, sStatusScreen->activities, sStatusScreen->rfuTaskId))
-        {
+        if (UpdateCommunicationCounts(sStatusScreen->groupCounts, sStatusScreen->prevGroupCounts, sStatusScreen->activities, sStatusScreen->rfuTaskId)) {
             FillWindowPixelBuffer(2, PIXEL_FILL(0));
-            for (i = 0; i < NUM_GROUPTYPES; i++)
-            {
+            for (i = 0; i < NUM_GROUPTYPES; i++) {
                 ConvertIntToDecimalStringN(gStringVar4, sStatusScreen->groupCounts[i], STR_CONV_MODE_RIGHT_ALIGN, 2);
-                if (i != GROUPTYPE_TOTAL)
+                if (i != GROUPTYPE_TOTAL) {
                     WCSS_AddTextPrinterParameterized(2, 1, gStringVar4, 12, 30 * i + 8, COLORMODE_WHITE_LGRAY);
-                else
+                } else {
                     WCSS_AddTextPrinterParameterized(2, 1, gStringVar4, 12, 98, COLORMODE_RED);
+                }
             }
             PutWindowTilemap(2);
             CopyWindowToVram(2, 3);
         }
-        if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
-        {
+        if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)) {
             PlaySE(SE_SELECT);
             gTasks[sStatusScreen->rfuTaskId].data[15] = 0xFF;
             gTasks[taskId].tState++;
@@ -300,8 +293,7 @@ static void Task_WirelessCommunicationScreen(u8 taskId)
         gTasks[taskId].tState++;
         break;
     case 5:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             SetMainCallback2(CB2_ExitWirelessCommunicationStatusScreen);
             DestroyTask(taskId);
         }
@@ -315,8 +307,7 @@ static void WCSS_AddTextPrinterParameterized(u8 windowId, u8 fontId, const u8 * 
 {
     u8 color[3];
 
-    switch (mode)
-    {
+    switch (mode) {
     case COLORMODE_NORMAL:
         color[0] = TEXT_COLOR_TRANSPARENT;
         color[1] = TEXT_COLOR_DARK_GREY;
@@ -356,22 +347,18 @@ static u32 CountPlayersInGroupAndGetActivity(struct UnkStruct_x20 * unk20, u32 *
     #define group_type(i)     (sActivityGroupInfo[(i)][1])
     #define group_players(i)  (sActivityGroupInfo[(i)][2])
 
-    for (i = 0; i < ARRAY_COUNT(sActivityGroupInfo); i++)
-    {
-        if (activity == group_activity(i) && unk20->groupScheduledAnim == UNION_ROOM_SPAWN_IN)
-        {
-            if (group_players(i) == 0)
-            {
+    for (i = 0; i < ARRAY_COUNT(sActivityGroupInfo); i++) {
+        if (activity == group_activity(i) && unk20->groupScheduledAnim == UNION_ROOM_SPAWN_IN) {
+            if (group_players(i) == 0) {
                 k = 0; //Should just be 1 without the increment after the loop ends but that doesn't match.
-                for (j = 0; j < RFU_CHILD_MAX; j++)
-                {
-                    if (unk20->gname_uname.gname.child_sprite_gender[j] != 0) k++;
+                for (j = 0; j < RFU_CHILD_MAX; j++) {
+                    if (unk20->gname_uname.gname.child_sprite_gender[j] != 0) {
+                        k++;
+                    }
                 }
                 k++; //See above comment.
                 groupCounts[group_type(i)] += k;
-            }
-            else
-            {
+            } else {
                 groupCounts[group_type(i)] += group_players(i);
             }
         }
@@ -386,10 +373,10 @@ static u32 CountPlayersInGroupAndGetActivity(struct UnkStruct_x20 * unk20, u32 *
 static bool32 HaveCountsChanged(u32 * currCounts, u32 * prevCounts)
 {
     s32 i;
-    for (i = 0; i < NUM_GROUPTYPES; i++)
-    {
-        if (currCounts[i] != prevCounts[i])
+    for (i = 0; i < NUM_GROUPTYPES; i++) {
+        if (currCounts[i] != prevCounts[i]) {
             return TRUE;
+        }
     }
     return FALSE;
 }
@@ -401,32 +388,28 @@ static bool32 UpdateCommunicationCounts(u32 * groupCounts, u32 * prevGroupCounts
     struct UnkStruct_x20 ** data = (void *)gTasks[taskId].data;
     s32 i;
 
-    for (i = 0; i < NUM_TASK_DATA; i++)
-    {
+    for (i = 0; i < NUM_TASK_DATA; i++) {
         u32 activity = CountPlayersInGroupAndGetActivity(&(*data)[i], groupCountBuffer);
-        if (activity != activities[i])
-        {
+        if (activity != activities[i]) {
             activities[i] = activity;
             activitiesChanged = TRUE;
         }
     }
 
-    if (!HaveCountsChanged(groupCountBuffer, prevGroupCounts))
-    {
-        if (activitiesChanged == TRUE)
+    if (!HaveCountsChanged(groupCountBuffer, prevGroupCounts)) {
+        if (activitiesChanged == TRUE) {
             return TRUE;
-        else
+        } else {
             return FALSE;
-    }
-    else
-    {
+        }
+    } else {
         memcpy(groupCounts,     groupCountBuffer, sizeof(groupCountBuffer));
         memcpy(prevGroupCounts, groupCountBuffer, sizeof(groupCountBuffer));
 
-        groupCounts[GROUPTYPE_TOTAL] = groupCounts[GROUPTYPE_TRADE] 
-                                     + groupCounts[GROUPTYPE_BATTLE] 
-                                     + groupCounts[GROUPTYPE_UNION] 
-                                     + groupCounts[GROUPTYPE_TOTAL];
+        groupCounts[GROUPTYPE_TOTAL] = groupCounts[GROUPTYPE_TRADE]
+                                       + groupCounts[GROUPTYPE_BATTLE]
+                                       + groupCounts[GROUPTYPE_UNION]
+                                       + groupCounts[GROUPTYPE_TOTAL];
         return TRUE;
     }
 }

@@ -17,7 +17,7 @@
     3. The balls that make up the logo come together to form the full logo (B_TRANSITION_FRONTIER_CIRCLES_*)
 
     This file handles category 3. Functions for the other two are handled in battle_transition.c
-*/
+ */
 
 typedef bool8 (*TransitionStateFunc)(struct Task *task);
 
@@ -210,8 +210,7 @@ static u8 CreateSlidingLogoCircleSprite(s16 x, s16 y, u8 arg2, u8 arg3, s8 arg4,
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_LogoCircles, x, y, 0);
 
-    switch (spriteAnimNum)
-    {
+    switch (spriteAnimNum) {
     case 0:
         gSprites[spriteId].data[0] = 120;
         gSprites[spriteId].data[1] = 45;
@@ -243,29 +242,20 @@ static void SpriteCB_LogoCircleSlide(struct Sprite *sprite)
 {
     s16 *data = sprite->data;
 
-    if (sprite->pos1.x == data[0] && sprite->pos1.y == data[1])
-    {
+    if (sprite->pos1.x == data[0] && sprite->pos1.y == data[1]) {
         sprite->callback = SpriteCallbackDummy;
-    }
-    else
-    {
-        if (data[4] == data[6])
-        {
+    } else {
+        if (data[4] == data[6]) {
             sprite->pos1.x += data[2];
             data[4] = 0;
-        }
-        else
-        {
+        } else {
             data[4]++;
         }
 
-        if (data[5] == data[7])
-        {
+        if (data[5] == data[7]) {
             sprite->pos1.y += data[3];
             data[5] = 0;
-        }
-        else
-        {
+        } else {
             data[5]++;
         }
     }
@@ -275,8 +265,7 @@ static u8 CreateSpiralingLogoCircleSprite(s16 x, s16 y, s16 arg2, s16 arg3, s16 
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_LogoCircles, x, y, 0);
 
-    switch (spriteAnimNum)
-    {
+    switch (spriteAnimNum) {
     case 0:
         gSprites[spriteId].data[0] = 120;
         gSprites[spriteId].data[1] = 45;
@@ -310,10 +299,11 @@ static void SpriteCB_LogoCircleSpiral(struct Sprite *sprite)
 
     sprite->data[2] = (sprite->data[2] + sprite->data[3]) % 360;
 
-    if (sprite->data[4] != sprite->data[5])
+    if (sprite->data[4] != sprite->data[5]) {
         sprite->data[4] += sprite->data[6];
-    else
+    } else {
         sprite->callback = SpriteCallbackDummy;
+    }
 }
 
 #define tState          data[0]
@@ -332,25 +322,23 @@ static bool8 IsLogoCirclesAnimFinished(struct Task *task)
 {
     if (gSprites[task->data[4]].callback == SpriteCallbackDummy
         && gSprites[task->data[5]].callback == SpriteCallbackDummy
-        && gSprites[task->data[6]].callback == SpriteCallbackDummy)
+        && gSprites[task->data[6]].callback == SpriteCallbackDummy) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 static bool8 Circles_Init(struct Task *task)
 {
-    if (task->data[1] == 0)
-    {
+    if (task->data[1] == 0) {
         ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
         ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN1_ON);
         ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_BG0_ON);
 
         task->data[1]++;
         return FALSE;
-    }
-    else
-    {
+    } else {
         LoadLogoGfx();
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG0 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_ALL);
         SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 16));
@@ -366,23 +354,18 @@ static bool8 Circles_Init(struct Task *task)
 
 static bool8 FadeInCenterLogoCircle(struct Task *task)
 {
-    if (task->data[2] == 0)
+    if (task->data[2] == 0) {
         SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_BG0_ON);
+    }
 
-    if (task->data[2] == 16)
-    {
-        if (task->data[3] == 31)
-        {
+    if (task->data[2] == 16) {
+        if (task->data[3] == 31) {
             BeginNormalPaletteFade(0xFFFFFFFF, -1, 0, 0x10, RGB_BLACK);
             task->tState++;
-        }
-        else
-        {
+        } else {
             task->data[3]++;
         }
-    }
-    else
-    {
+    } else {
         u16 blnd;
 
         task->data[2]++;
@@ -395,15 +378,18 @@ static bool8 FadeInCenterLogoCircle(struct Task *task)
 
 static bool8 WaitForLogoCirclesAnim(struct Task *task)
 {
-    if (IsLogoCirclesAnimFinished(task) == TRUE)
+    if (IsLogoCirclesAnimFinished(task) == TRUE) {
         task->tState++;
+    }
 
     return FALSE;
 }
 
 void Phase2Task_FrontierCirclesMeet(u8 taskId)
 {
-    while (sPhase2_FrontierCirclesMeet_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
+    while (sPhase2_FrontierCirclesMeet_Funcs[gTasks[taskId].tState](&gTasks[taskId])) {
+        ;
+    }
 }
 
 static bool8 CirclesMeet_CreateSprites(struct Task *task)
@@ -418,8 +404,7 @@ static bool8 CirclesMeet_CreateSprites(struct Task *task)
 
 static bool8 CirclesMeet_End(struct Task *task)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         DestroyLogoCirclesGfx(task);
         DestroyTask(FindTaskIdByFunc(Phase2Task_FrontierCirclesMeet));
     }
@@ -429,7 +414,9 @@ static bool8 CirclesMeet_End(struct Task *task)
 
 void Phase2Task_FrontierCirclesCross(u8 taskId)
 {
-    while (sPhase2_FrontierCirclesCross_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
+    while (sPhase2_FrontierCirclesCross_Funcs[gTasks[taskId].tState](&gTasks[taskId])) {
+        ;
+    }
 }
 
 static bool8 CirclesCross_CreateSprites(struct Task *task)
@@ -444,8 +431,7 @@ static bool8 CirclesCross_CreateSprites(struct Task *task)
 
 static bool8 CirclesCross_End(struct Task *task)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         DestroyLogoCirclesGfx(task);
         DestroyTask(FindTaskIdByFunc(Phase2Task_FrontierCirclesCross));
     }
@@ -455,7 +441,9 @@ static bool8 CirclesCross_End(struct Task *task)
 
 void Phase2Task_FrontierCirclesAsymmetricSpiral(u8 taskId)
 {
-    while (sPhase2_FrontierCirclesAsymmetricSpiral_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
+    while (sPhase2_FrontierCirclesAsymmetricSpiral_Funcs[gTasks[taskId].tState](&gTasks[taskId])) {
+        ;
+    }
 }
 
 static bool8 CirclesAsymmetricSpiral_CreateSprites(struct Task *task)
@@ -470,8 +458,7 @@ static bool8 CirclesAsymmetricSpiral_CreateSprites(struct Task *task)
 
 static bool8 CirclesAsymmetricSpiral_End(struct Task *task)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         DestroyLogoCirclesGfx(task);
         DestroyTask(FindTaskIdByFunc(Phase2Task_FrontierCirclesAsymmetricSpiral));
     }
@@ -481,7 +468,9 @@ static bool8 CirclesAsymmetricSpiral_End(struct Task *task)
 
 void Phase2Task_FrontierCirclesSymmetricSpiral(u8 taskId)
 {
-    while (sPhase2_FrontierCirclesSymmetricSpiral_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
+    while (sPhase2_FrontierCirclesSymmetricSpiral_Funcs[gTasks[taskId].tState](&gTasks[taskId])) {
+        ;
+    }
 }
 
 static bool8 CirclesSymmetricSpiral_CreateSprites(struct Task *task)
@@ -496,8 +485,7 @@ static bool8 CirclesSymmetricSpiral_CreateSprites(struct Task *task)
 
 static bool8 CirclesSymmetricSpiral_End(struct Task *task)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         DestroyLogoCirclesGfx(task);
         DestroyTask(FindTaskIdByFunc(Phase2Task_FrontierCirclesSymmetricSpiral));
     }
@@ -507,21 +495,18 @@ static bool8 CirclesSymmetricSpiral_End(struct Task *task)
 
 void Phase2Task_FrontierCirclesMeetInSeq(u8 taskId)
 {
-    while (sPhase2_FrontierCirclesMeetInSeq_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
+    while (sPhase2_FrontierCirclesMeetInSeq_Funcs[gTasks[taskId].tState](&gTasks[taskId])) {
+        ;
+    }
 }
 
 static bool8 CirclesMeetInSeq_CreateSprites(struct Task *task)
 {
-    if (task->data[1] == 0)
-    {
+    if (task->data[1] == 0) {
         task->data[4] = CreateSlidingLogoCircleSprite(120, -51, 0, 0, 0, 4,  0);
-    }
-    else if (task->data[1] == 16)
-    {
+    } else if (task->data[1] == 16) {
         task->data[5] = CreateSlidingLogoCircleSprite(-7,  193, 0, 0, 4, -4, 1);
-    }
-    else if (task->data[1] == 32)
-    {
+    } else if (task->data[1] == 32) {
         task->data[6] = CreateSlidingLogoCircleSprite(247, 193, 0, 0, -4, -4, 2);
         task->tState++;
     }
@@ -532,8 +517,7 @@ static bool8 CirclesMeetInSeq_CreateSprites(struct Task *task)
 
 static bool8 CirclesMeetInSeq_End(struct Task *task)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         DestroyLogoCirclesGfx(task);
         DestroyTask(FindTaskIdByFunc(Phase2Task_FrontierCirclesMeetInSeq));
     }
@@ -543,21 +527,18 @@ static bool8 CirclesMeetInSeq_End(struct Task *task)
 
 void Phase2Task_FrontierCirclesCrossInSeq(u8 taskId)
 {
-    while (sPhase2_FrontierCirclesCrossInSeq_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
+    while (sPhase2_FrontierCirclesCrossInSeq_Funcs[gTasks[taskId].tState](&gTasks[taskId])) {
+        ;
+    }
 }
 
 static bool8 CirclesCrossInSeq_CreateSprites(struct Task *task)
 {
-    if (task->data[1] == 0)
-    {
+    if (task->data[1] == 0) {
         task->data[4] = CreateSlidingLogoCircleSprite(120, 197, 0, 0, 0, -8,  0);
-    }
-    else if (task->data[1] == 16)
-    {
+    } else if (task->data[1] == 16) {
         task->data[5] = CreateSlidingLogoCircleSprite(241, 78,  0, 0, -8, 1,  1);
-    }
-    else if (task->data[1] == 32)
-    {
+    } else if (task->data[1] == 32) {
         task->data[6] = CreateSlidingLogoCircleSprite(-1,  78,  0, 0, 8,  1,  2);
         task->tState++;
     }
@@ -568,8 +549,7 @@ static bool8 CirclesCrossInSeq_CreateSprites(struct Task *task)
 
 static bool8 CirclesCrossInSeq_End(struct Task *task)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         DestroyLogoCirclesGfx(task);
         DestroyTask(FindTaskIdByFunc(Phase2Task_FrontierCirclesCrossInSeq));
     }
@@ -579,21 +559,18 @@ static bool8 CirclesCrossInSeq_End(struct Task *task)
 
 void Phase2Task_FrontierCirclesAsymmetricSpiralInSeq(u8 taskId)
 {
-    while (sPhase2_FrontierCirclesAsymmetricSpiralInSeq_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
+    while (sPhase2_FrontierCirclesAsymmetricSpiralInSeq_Funcs[gTasks[taskId].tState](&gTasks[taskId])) {
+        ;
+    }
 }
 
 static bool8 CirclesAsymmetricSpiralInSeq_CreateSprites(struct Task *task)
 {
-    if (task->data[1] == 0)
-    {
+    if (task->data[1] == 0) {
         task->data[4] = CreateSpiralingLogoCircleSprite(120, 45, 12,  4, 128, 0, -4, 0);
-    }
-    else if (task->data[1] == 16)
-    {
+    } else if (task->data[1] == 16) {
         task->data[5] = CreateSpiralingLogoCircleSprite(89,  97, 252, 4, 128, 0, -4, 1);
-    }
-    else if (task->data[1] == 32)
-    {
+    } else if (task->data[1] == 32) {
         task->data[6] = CreateSpiralingLogoCircleSprite(151, 97, 132, 4, 128, 0, -4, 2);
         task->tState++;
     }
@@ -604,8 +581,7 @@ static bool8 CirclesAsymmetricSpiralInSeq_CreateSprites(struct Task *task)
 
 static bool8 CirclesAsymmetricSpiralInSeq_End(struct Task *task)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         DestroyLogoCirclesGfx(task);
         DestroyTask(FindTaskIdByFunc(Phase2Task_FrontierCirclesAsymmetricSpiralInSeq));
     }
@@ -615,21 +591,18 @@ static bool8 CirclesAsymmetricSpiralInSeq_End(struct Task *task)
 
 void Phase2Task_FrontierCirclesSymmetricSpiralInSeq(u8 taskId)
 {
-    while (sPhase2_FrontierCirclesSymmetricSpiralInSeq_Funcs[gTasks[taskId].tState](&gTasks[taskId]));
+    while (sPhase2_FrontierCirclesSymmetricSpiralInSeq_Funcs[gTasks[taskId].tState](&gTasks[taskId])) {
+        ;
+    }
 }
 
 static bool8 CirclesSymmetricSpiralInSeq_CreateSprites(struct Task *task)
 {
-    if (task->data[1] == 0)
-    {
+    if (task->data[1] == 0) {
         task->data[4] = CreateSpiralingLogoCircleSprite(120, 80, 284, 8, 131, 35, -3, 0);
-    }
-    else if (task->data[1] == 16)
-    {
+    } else if (task->data[1] == 16) {
         task->data[5] = CreateSpiralingLogoCircleSprite(120, 80, 44,  8, 131, 35, -3, 1);
-    }
-    else if (task->data[1] == 32)
-    {
+    } else if (task->data[1] == 32) {
         task->data[6] = CreateSpiralingLogoCircleSprite(121, 80, 164, 8, 131, 35, -3, 2);
         task->tState++;
     }
@@ -640,8 +613,7 @@ static bool8 CirclesSymmetricSpiralInSeq_CreateSprites(struct Task *task)
 
 static bool8 CirclesSymmetricSpiralInSeq_End(struct Task *task)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         DestroyLogoCirclesGfx(task);
         DestroyTask(FindTaskIdByFunc(Phase2Task_FrontierCirclesSymmetricSpiralInSeq));
     }

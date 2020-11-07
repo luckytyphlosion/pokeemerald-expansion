@@ -62,26 +62,19 @@ static void StartSweetScentFieldEffect(void)
 
 static void TrySweetScentEncounter(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         ClearMirageTowerPulseBlendEffect();
         BlendPalettes(0x00000040, 8, RGB_RED);
-        if (gTasks[taskId].data[0] == 64)
-        {
+        if (gTasks[taskId].data[0] == 64) {
             gTasks[taskId].data[0] = 0;
-            if (SweetScentWildEncounter() == TRUE)
-            {
+            if (SweetScentWildEncounter() == TRUE) {
                 DestroyTask(taskId);
-            }
-            else
-            {
+            } else {
                 gTasks[taskId].func = FailSweetScentEncounter;
                 BeginNormalPaletteFade(~(1 << (gSprites[GetPlayerAvatarObjectId()].oam.paletteNum + 16)), 4, 8, 0, RGB_RED);
                 TryStartMirageTowerPulseBlendEffect();
             }
-        }
-        else
-        {
+        } else {
             gTasks[taskId].data[0]++;
         }
     }
@@ -89,8 +82,7 @@ static void TrySweetScentEncounter(u8 taskId)
 
 static void FailSweetScentEncounter(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         CpuFastSet(gPaletteDecompressionBuffer, gPlttBufferUnfaded, 0x100);
         sub_80AC3E4();
         ScriptContext1_SetupScript(EventScript_FailSweetScent);

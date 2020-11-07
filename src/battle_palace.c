@@ -26,7 +26,7 @@ static void SetRandomPalacePrize(void);
 static void GivePalacePrize(void);
 
 // Const rom data.
-static void (* const sBattlePalaceFunctions[])(void) =
+static void (*const sBattlePalaceFunctions[])(void) =
 {
     [BATTLE_PALACE_FUNC_INIT]               = InitPalaceChallenge,
     [BATTLE_PALACE_FUNC_GET_DATA]           = GetPalaceData,
@@ -40,26 +40,26 @@ static void (* const sBattlePalaceFunctions[])(void) =
     [BATTLE_PALACE_FUNC_GIVE_PRIZE]         = GivePalacePrize,
 };
 
-static const u16 sBattlePalaceEarlyPrizes[] = 
+static const u16 sBattlePalaceEarlyPrizes[] =
 {
-    ITEM_HP_UP, 
-    ITEM_PROTEIN, 
-    ITEM_IRON, 
-    ITEM_CALCIUM, 
-    ITEM_CARBOS, 
+    ITEM_HP_UP,
+    ITEM_PROTEIN,
+    ITEM_IRON,
+    ITEM_CALCIUM,
+    ITEM_CARBOS,
     ITEM_ZINC
 };
 
-static const u16 sBattlePalaceLatePrizes[] = 
+static const u16 sBattlePalaceLatePrizes[] =
 {
-    ITEM_BRIGHT_POWDER, 
-    ITEM_WHITE_HERB, 
-    ITEM_QUICK_CLAW, 
-    ITEM_LEFTOVERS, 
-    ITEM_MENTAL_HERB, 
-    ITEM_KINGS_ROCK, 
-    ITEM_FOCUS_BAND, 
-    ITEM_SCOPE_LENS, 
+    ITEM_BRIGHT_POWDER,
+    ITEM_WHITE_HERB,
+    ITEM_QUICK_CLAW,
+    ITEM_LEFTOVERS,
+    ITEM_MENTAL_HERB,
+    ITEM_KINGS_ROCK,
+    ITEM_FOCUS_BAND,
+    ITEM_SCOPE_LENS,
     ITEM_CHOICE_BAND
 };
 
@@ -90,8 +90,9 @@ static void InitPalaceChallenge(void)
     gSaveBlock2Ptr->frontier.curChallengeBattleNum = 0;
     gSaveBlock2Ptr->frontier.challengePaused = FALSE;
     gSaveBlock2Ptr->frontier.disableRecordBattle = FALSE;
-    if (!(gSaveBlock2Ptr->frontier.winStreakActiveFlags & sWinStreakFlags[battleMode][lvlMode]))
+    if (!(gSaveBlock2Ptr->frontier.winStreakActiveFlags & sWinStreakFlags[battleMode][lvlMode])) {
         gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode] = 0;
+    }
 
     SetDynamicWarp(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, -1);
     gTrainerBattleOpponent_A = 0;
@@ -102,8 +103,7 @@ static void GetPalaceData(void)
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
 
-    switch (gSpecialVar_0x8005)
-    {
+    switch (gSpecialVar_0x8005) {
     case PALACE_DATA_PRIZE:
         gSpecialVar_Result = gSaveBlock2Ptr->frontier.palacePrize;
         break;
@@ -121,8 +121,7 @@ static void SetPalaceData(void)
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
 
-    switch (gSpecialVar_0x8005)
-    {
+    switch (gSpecialVar_0x8005) {
     case PALACE_DATA_PRIZE:
         gSaveBlock2Ptr->frontier.palacePrize = gSpecialVar_0x8006;
         break;
@@ -130,10 +129,11 @@ static void SetPalaceData(void)
         gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode] = gSpecialVar_0x8006;
         break;
     case PALACE_DATA_WIN_STREAK_ACTIVE:
-        if (gSpecialVar_0x8006)
+        if (gSpecialVar_0x8006) {
             gSaveBlock2Ptr->frontier.winStreakActiveFlags |= sWinStreakFlags[battleMode][lvlMode];
-        else
+        } else {
             gSaveBlock2Ptr->frontier.winStreakActiveFlags &= sWinStreakMasks[battleMode][lvlMode];
+        }
         break;
     }
 }
@@ -143,24 +143,26 @@ static void GetPalaceCommentId(void)
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
-    if (gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode] < 50)
+    if (gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode] < 50) {
         gSpecialVar_Result = Random() % 3;
-    else if (gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode] < 99)
+    } else if (gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode] < 99) {
         gSpecialVar_Result = 3;
-    else
+    } else {
         gSpecialVar_Result = 4;
+    }
 }
 
 static void SetPalaceOpponent(void)
 {
-    gTrainerBattleOpponent_A = 5 *(Random() % 255) / 64u;
+    gTrainerBattleOpponent_A = 5 * (Random() % 255) / 64u;
     SetBattleFacilityTrainerGfxId(gTrainerBattleOpponent_A, 0);
 }
 
 static void BufferOpponentIntroSpeech(void)
 {
-    if (gTrainerBattleOpponent_A < FRONTIER_TRAINERS_COUNT)
+    if (gTrainerBattleOpponent_A < FRONTIER_TRAINERS_COUNT) {
         FrontierSpeechToString(gFacilityTrainers[gTrainerBattleOpponent_A].speechBefore);
+    }
 }
 
 static void IncrementPalaceStreak(void)
@@ -168,13 +170,13 @@ static void IncrementPalaceStreak(void)
     u8 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u8 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
 
-    if (gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode] < MAX_STREAK)
-    {
+    if (gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode] < MAX_STREAK) {
         gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode]++;
 
         // Whatever GF planned to do here, they messed up big time.
-        if (gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][(lvlMode > gSaveBlock2Ptr->frontier.palaceRecordWinStreaks[battleMode][lvlMode]) ? 1 : 0])
+        if (gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][(lvlMode > gSaveBlock2Ptr->frontier.palaceRecordWinStreaks[battleMode][lvlMode]) ? 1 : 0]) {
             gSaveBlock2Ptr->frontier.palaceRecordWinStreaks[battleMode][lvlMode] = gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode];
+        }
     }
 }
 
@@ -191,22 +193,20 @@ static void SetRandomPalacePrize(void)
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
-    if (gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode] > 41)
+    if (gSaveBlock2Ptr->frontier.palaceWinStreaks[battleMode][lvlMode] > 41) {
         gSaveBlock2Ptr->frontier.palacePrize = sBattlePalaceLatePrizes[Random() % ARRAY_COUNT(sBattlePalaceLatePrizes)];
-    else
+    } else {
         gSaveBlock2Ptr->frontier.palacePrize = sBattlePalaceEarlyPrizes[Random() % ARRAY_COUNT(sBattlePalaceEarlyPrizes)];
+    }
 }
 
 static void GivePalacePrize(void)
 {
-    if (AddBagItem(gSaveBlock2Ptr->frontier.palacePrize, 1) == TRUE)
-    {
+    if (AddBagItem(gSaveBlock2Ptr->frontier.palacePrize, 1) == TRUE) {
         CopyItemName(gSaveBlock2Ptr->frontier.palacePrize, gStringVar1);
         gSaveBlock2Ptr->frontier.palacePrize = 0;
         gSpecialVar_Result = TRUE;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = FALSE;
     }
 }

@@ -57,13 +57,13 @@ bool8 AllocItemIconTemporaryBuffers(void)
 {
     gItemIconDecompressionBuffer = gItemIconDecompressionBuffer; // needed to match
     gItemIconDecompressionBuffer = Alloc(0x120);
-    if (gItemIconDecompressionBuffer == NULL)
+    if (gItemIconDecompressionBuffer == NULL) {
         return FALSE;
+    }
 
     gItemIcon4x4Buffer = gItemIcon4x4Buffer; // needed to match
     gItemIcon4x4Buffer = AllocZeroed(0x200);
-    if (gItemIcon4x4Buffer == NULL)
-    {
+    if (gItemIcon4x4Buffer == NULL) {
         Free(gItemIconDecompressionBuffer);
         return FALSE;
     }
@@ -81,18 +81,16 @@ void CopyItemIconPicTo4x4Buffer(const void *src, void *dest)
 {
     u8 i;
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; i++) {
         CpuCopy16(src + i * 96, dest + i * 128, 0x60);
+    }
 }
 
 u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
 {
-    if (!AllocItemIconTemporaryBuffers())
-    {
+    if (!AllocItemIconTemporaryBuffers()) {
         return MAX_SPRITES;
-    }
-    else
-    {
+    } else {
         u8 spriteId;
         struct SpriteSheet spriteSheet;
         struct CompressedSpritePalette spritePalette;
@@ -124,12 +122,9 @@ u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
 
 u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u16 tilesTag, u16 paletteTag, u16 itemId)
 {
-    if (!AllocItemIconTemporaryBuffers())
-    {
+    if (!AllocItemIconTemporaryBuffers()) {
         return MAX_SPRITES;
-    }
-    else
-    {
+    } else {
         u8 spriteId;
         struct SpriteSheet spriteSheet;
         struct CompressedSpritePalette spritePalette;
@@ -159,12 +154,13 @@ u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u1
     }
 }
 
-const void *GetItemIconPicOrPalette(u16 itemId, u8 which)
+const void * GetItemIconPicOrPalette(u16 itemId, u8 which)
 {
-    if (itemId == 0xFFFF)
+    if (itemId == 0xFFFF) {
         itemId = ITEM_FIELD_ARROW;
-    else if (itemId >= ITEMS_COUNT)
+    } else if (itemId >= ITEMS_COUNT) {
         itemId = 0;
+    }
 
     return gItemIconTable[itemId][which];
 }

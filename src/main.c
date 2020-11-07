@@ -54,7 +54,7 @@ const IntrFunc gIntrTableTemplate[] =
     IntrDummy,  // Game Pak interrupt
 };
 
-#define INTR_COUNT ((int)(sizeof(gIntrTableTemplate)/sizeof(IntrFunc)))
+#define INTR_COUNT ((int)(sizeof(gIntrTableTemplate) / sizeof(IntrFunc)))
 
 static u16 gUnknown_03000000;
 
@@ -87,20 +87,20 @@ void AgbMain()
     // Modern compilers are liberal with the stack on entry to this function,
     // so RegisterRamReset may crash if it resets IWRAM.
     RegisterRamReset(RESET_ALL & ~RESET_IWRAM);
-    asm("mov\tr1, #0xC0\n"
-        "\tlsl\tr1, r1, #0x12\n"
-        "\tmov r2, #0xFC\n"
-        "\tlsl r2, r2, #0x7\n"
-        "\tadd\tr2, r1, r2\n"
-        "\tmov\tr0, #0\n"
-        "\tmov\tr3, r0\n"
-        "\tmov\tr4, r0\n"
-        "\tmov\tr5, r0\n"
-        ".LCU0:\n"
-        "\tstmia r1!, {r0, r3, r4, r5}\n"
-        "\tcmp\tr1, r2\n"
-        "\tbcc\t.LCU0\n"
-    );
+    asm ("mov\tr1, #0xC0\n"
+         "\tlsl\tr1, r1, #0x12\n"
+         "\tmov r2, #0xFC\n"
+         "\tlsl r2, r2, #0x7\n"
+         "\tadd\tr2, r1, r2\n"
+         "\tmov\tr0, #0\n"
+         "\tmov\tr3, r0\n"
+         "\tmov\tr4, r0\n"
+         "\tmov\tr5, r0\n"
+         ".LCU0:\n"
+         "\tstmia r1!, {r0, r3, r4, r5}\n"
+         "\tcmp\tr1, r2\n"
+         "\tbcc\t.LCU0\n"
+         );
 #else
     RegisterRamReset(RESET_ALL);
 #endif //MODERN
@@ -124,40 +124,35 @@ void AgbMain()
 
     gSoftResetDisabled = FALSE;
 
-    if (gFlashMemoryPresent != TRUE)
+    if (gFlashMemoryPresent != TRUE) {
         SetMainCallback2(NULL);
+    }
 
     gLinkTransferringData = FALSE;
     gUnknown_03000000 = 0xFC0;
 
-    for (;;)
-    {
+    for (;;) {
         ReadKeys();
 
         if (!gSoftResetDisabled
-         && JOY_HELD_RAW(A_BUTTON)
-         && JOY_HELD_RAW(B_BUTTON)
-         && JOY_HELD_RAW(START_BUTTON)
-         && JOY_HELD_RAW(SELECT_BUTTON)) //The reset key combo A + B + START + SELECT
-        {
+            && JOY_HELD_RAW(A_BUTTON)
+            && JOY_HELD_RAW(B_BUTTON)
+            && JOY_HELD_RAW(START_BUTTON)
+            && JOY_HELD_RAW(SELECT_BUTTON)) { //The reset key combo A + B + START + SELECT
             rfu_REQ_stopMode();
             rfu_waitREQComplete();
             DoSoftReset();
         }
 
-        if (sub_8087634() == 1)
-        {
+        if (sub_8087634() == 1) {
             gLinkTransferringData = TRUE;
             UpdateLinkAndCallCallbacks();
             gLinkTransferringData = FALSE;
-        }
-        else
-        {
+        } else {
             gLinkTransferringData = FALSE;
             UpdateLinkAndCallCallbacks();
 
-            if (sub_80875C8() == 1)
-            {
+            if (sub_80875C8() == 1) {
                 gMain.newKeys = 0;
                 ClearSpriteCopyRequests();
                 gLinkTransferringData = TRUE;
@@ -174,8 +169,9 @@ void AgbMain()
 
 static void UpdateLinkAndCallCallbacks(void)
 {
-    if (!HandleLinkConnection())
+    if (!HandleLinkConnection()) {
         CallCallbacks();
+    }
 }
 
 static void InitMainCallbacks(void)
@@ -191,11 +187,13 @@ static void InitMainCallbacks(void)
 
 static void CallCallbacks(void)
 {
-    if (gMain.callback1)
+    if (gMain.callback1) {
         gMain.callback1();
+    }
 
-    if (gMain.callback2)
+    if (gMain.callback2) {
         gMain.callback2();
+    }
 }
 
 void SetMainCallback2(MainCallback callback)
@@ -260,16 +258,12 @@ static void ReadKeys(void)
     // because it compares the raw key input with the remapped held keys.
     // Note that newAndRepeatedKeys is never remapped either.
 
-    if (keyInput != 0 && gMain.heldKeys == keyInput)
-    {
-        if (--gMain.keyRepeatCounter == 0)
-        {
+    if (keyInput != 0 && gMain.heldKeys == keyInput) {
+        if (--gMain.keyRepeatCounter == 0) {
             gMain.newAndRepeatedKeys = keyInput;
             gMain.keyRepeatCounter = gKeyRepeatContinueDelay;
         }
-    }
-    else
-    {
+    } else {
         // If there is no input or the input has changed, reset the counter.
         gMain.keyRepeatCounter = gKeyRepeatStartDelay;
     }
@@ -278,25 +272,28 @@ static void ReadKeys(void)
     gMain.heldKeys = gMain.heldKeysRaw;
 
     // Remap L to A if the L=A option is enabled.
-    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A)
-    {
-        if (JOY_NEW(L_BUTTON))
+    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_L_EQUALS_A) {
+        if (JOY_NEW(L_BUTTON)) {
             gMain.newKeys |= A_BUTTON;
+        }
 
-        if (JOY_HELD(L_BUTTON))
+        if (JOY_HELD(L_BUTTON)) {
             gMain.heldKeys |= A_BUTTON;
+        }
     }
 
-    if (gMain.newKeys & gMain.watchedKeysMask)
+    if (gMain.newKeys & gMain.watchedKeysMask) {
         gMain.watchedKeysPressed = TRUE;
+    }
 }
 
 void InitIntrHandlers(void)
 {
     int i;
 
-    for (i = 0; i < INTR_COUNT; i++)
+    for (i = 0; i < INTR_COUNT; i++) {
         gIntrTable[i] = gIntrTableTemplate[i];
+    }
 
     DmaCopy32(3, IntrMain, IntrMain_Buffer, sizeof(IntrMain_Buffer));
 
@@ -339,18 +336,21 @@ void SetSerialCallback(IntrCallback callback)
 
 static void VBlankIntr(void)
 {
-    if (gWirelessCommType != 0)
+    if (gWirelessCommType != 0) {
         RfuVSync();
-    else if (!gLinkVSyncDisabled)
+    } else if (!gLinkVSyncDisabled) {
         LinkVSync();
+    }
 
     gMain.vblankCounter1++;
 
-    if (gTrainerHillVBlankCounter && *gTrainerHillVBlankCounter < 0xFFFFFFFF)
+    if (gTrainerHillVBlankCounter && *gTrainerHillVBlankCounter < 0xFFFFFFFF) {
         (*gTrainerHillVBlankCounter)++;
+    }
 
-    if (gMain.vblankCallback)
+    if (gMain.vblankCallback) {
         gMain.vblankCallback();
+    }
 
     gMain.vblankCounter2++;
 
@@ -362,8 +362,9 @@ static void VBlankIntr(void)
     m4aSoundMain();
     sub_8033648();
 
-    if (!gMain.inBattle || !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_RECORDED)))
+    if (!gMain.inBattle || !(gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_RECORDED))) {
         Random();
+    }
 
     UpdateWirelessStatusIndicatorSprite();
 
@@ -378,8 +379,9 @@ void InitFlashTimer(void)
 
 static void HBlankIntr(void)
 {
-    if (gMain.hblankCallback)
+    if (gMain.hblankCallback) {
         gMain.hblankCallback();
+    }
 
     INTR_CHECK |= INTR_FLAG_HBLANK;
     gMain.intrCheck |= INTR_FLAG_HBLANK;
@@ -387,8 +389,9 @@ static void HBlankIntr(void)
 
 static void VCountIntr(void)
 {
-    if (gMain.vcountCallback)
+    if (gMain.vcountCallback) {
         gMain.vcountCallback();
+    }
 
     m4aSoundVSync();
     INTR_CHECK |= INTR_FLAG_VCOUNT;
@@ -397,22 +400,25 @@ static void VCountIntr(void)
 
 static void SerialIntr(void)
 {
-    if (gMain.serialCallback)
+    if (gMain.serialCallback) {
         gMain.serialCallback();
+    }
 
     INTR_CHECK |= INTR_FLAG_SERIAL;
     gMain.intrCheck |= INTR_FLAG_SERIAL;
 }
 
 static void IntrDummy(void)
-{}
+{
+}
 
 static void WaitForVBlank(void)
 {
     gMain.intrCheck &= ~INTR_FLAG_VBLANK;
 
-    while (!(gMain.intrCheck & INTR_FLAG_VBLANK))
+    while (!(gMain.intrCheck & INTR_FLAG_VBLANK)) {
         ;
+    }
 }
 
 void SetTrainerHillVBlankCounter(u32 *counter)

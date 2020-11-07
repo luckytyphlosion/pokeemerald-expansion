@@ -22,8 +22,7 @@ void InitGpuRegManager(void)
 {
     s32 i;
 
-    for (i = 0; i < GPU_REG_BUF_SIZE; i++)
-    {
+    for (i = 0; i < GPU_REG_BUF_SIZE; i++) {
         sGpuRegBuffer[i] = 0;
         sGpuRegWaitingList[i] = EMPTY_SLOT;
     }
@@ -35,28 +34,24 @@ void InitGpuRegManager(void)
 
 static void CopyBufferedValueToGpuReg(u8 regOffset)
 {
-    if (regOffset == REG_OFFSET_DISPSTAT)
-    {
+    if (regOffset == REG_OFFSET_DISPSTAT) {
         REG_DISPSTAT &= ~(DISPSTAT_HBLANK_INTR | DISPSTAT_VBLANK_INTR);
         REG_DISPSTAT |= GPU_REG_BUF(REG_OFFSET_DISPSTAT);
-    }
-    else
-    {
+    } else {
         GPU_REG(regOffset) = GPU_REG_BUF(regOffset);
     }
 }
 
 void CopyBufferedValuesToGpuRegs(void)
 {
-    if (!sGpuRegBufferLocked)
-    {
+    if (!sGpuRegBufferLocked) {
         s32 i;
 
-        for (i = 0; i < GPU_REG_BUF_SIZE; i++)
-        {
+        for (i = 0; i < GPU_REG_BUF_SIZE; i++) {
             u8 regOffset = sGpuRegWaitingList[i];
-            if (regOffset == EMPTY_SLOT)
+            if (regOffset == EMPTY_SLOT) {
                 return;
+            }
             CopyBufferedValueToGpuReg(regOffset);
             sGpuRegWaitingList[i] = EMPTY_SLOT;
         }
@@ -65,27 +60,21 @@ void CopyBufferedValuesToGpuRegs(void)
 
 void SetGpuReg(u8 regOffset, u16 value)
 {
-    if (regOffset < GPU_REG_BUF_SIZE)
-    {
+    if (regOffset < GPU_REG_BUF_SIZE) {
         u16 vcount;
 
         GPU_REG_BUF(regOffset) = value;
         vcount = REG_VCOUNT & 0xFF;
 
-        if ((vcount >= 161 && vcount <= 225) || (REG_DISPCNT & DISPCNT_FORCED_BLANK))
-        {
+        if ((vcount >= 161 && vcount <= 225) || (REG_DISPCNT & DISPCNT_FORCED_BLANK)) {
             CopyBufferedValueToGpuReg(regOffset);
-        }
-        else
-        {
+        } else {
             s32 i;
 
             sGpuRegBufferLocked = TRUE;
 
-            for (i = 0; i < GPU_REG_BUF_SIZE && sGpuRegWaitingList[i] != EMPTY_SLOT; i++)
-            {
-                if (sGpuRegWaitingList[i] == regOffset)
-                {
+            for (i = 0; i < GPU_REG_BUF_SIZE && sGpuRegWaitingList[i] != EMPTY_SLOT; i++) {
+                if (sGpuRegWaitingList[i] == regOffset) {
                     sGpuRegBufferLocked = FALSE;
                     return;
                 }
@@ -99,24 +88,18 @@ void SetGpuReg(u8 regOffset, u16 value)
 
 void SetGpuReg_ForcedBlank(u8 regOffset, u16 value)
 {
-    if (regOffset < GPU_REG_BUF_SIZE)
-    {
+    if (regOffset < GPU_REG_BUF_SIZE) {
         GPU_REG_BUF(regOffset) = value;
 
-        if (REG_DISPCNT & DISPCNT_FORCED_BLANK)
-        {
+        if (REG_DISPCNT & DISPCNT_FORCED_BLANK) {
             CopyBufferedValueToGpuReg(regOffset);
-        }
-        else
-        {
+        } else {
             s32 i;
 
             sGpuRegBufferLocked = TRUE;
 
-            for (i = 0; i < GPU_REG_BUF_SIZE && sGpuRegWaitingList[i] != EMPTY_SLOT; i++)
-            {
-                if (sGpuRegWaitingList[i] == regOffset)
-                {
+            for (i = 0; i < GPU_REG_BUF_SIZE && sGpuRegWaitingList[i] != EMPTY_SLOT; i++) {
+                if (sGpuRegWaitingList[i] == regOffset) {
                     sGpuRegBufferLocked = FALSE;
                     return;
                 }
@@ -130,11 +113,13 @@ void SetGpuReg_ForcedBlank(u8 regOffset, u16 value)
 
 u16 GetGpuReg(u8 regOffset)
 {
-    if (regOffset == REG_OFFSET_DISPSTAT)
+    if (regOffset == REG_OFFSET_DISPSTAT) {
         return REG_DISPSTAT;
+    }
 
-    if (regOffset == REG_OFFSET_VCOUNT)
+    if (regOffset == REG_OFFSET_VCOUNT) {
         return REG_VCOUNT;
+    }
 
     return GPU_REG_BUF(regOffset);
 }
@@ -153,8 +138,7 @@ void ClearGpuRegBits(u8 regOffset, u16 mask)
 
 static void SyncRegIE(void)
 {
-    if (sShouldSyncRegIE)
-    {
+    if (sShouldSyncRegIE) {
         u16 temp = REG_IME;
         REG_IME = 0;
         REG_IE = sRegIE;
@@ -184,12 +168,15 @@ static void UpdateRegDispstatIntrBits(u16 regIE)
     u16 oldValue = GetGpuReg(REG_OFFSET_DISPSTAT) & (DISPSTAT_HBLANK_INTR | DISPSTAT_VBLANK_INTR);
     u16 newValue = 0;
 
-    if (regIE & INTR_FLAG_VBLANK)
+    if (regIE & INTR_FLAG_VBLANK) {
         newValue |= DISPSTAT_VBLANK_INTR;
+    }
 
-    if (regIE & INTR_FLAG_HBLANK)
+    if (regIE & INTR_FLAG_HBLANK) {
         newValue |= DISPSTAT_HBLANK_INTR;
+    }
 
-    if (oldValue != newValue)
+    if (oldValue != newValue) {
         SetGpuReg(REG_OFFSET_DISPSTAT, newValue);
+    }
 }

@@ -66,7 +66,10 @@ const u8 sTextColorTable[][3] = {
     {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY},
     {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY}
 };
-const u8 ALIGNED(4) gUnknown_082F0E18[3] = {7, 4, 7};
+const u8 ALIGNED(4) gUnknown_082F0E18[3] =
+{
+    7, 4, 7
+};
 const struct WindowTemplate gUnknown_082F0E1C[] = {
     {
         .bg = 1,
@@ -152,27 +155,31 @@ const struct UnkStruct_8467FB8 gUnknown_082F1D60[8] = {
 
 bool32 InitWonderCardResources(struct WonderCard * r5, struct MEventBuffer_3430_Sub * r6)
 {
-    if (r5 == NULL || r6 == NULL)
+    if (r5 == NULL || r6 == NULL) {
         return FALSE;
+    }
     sWonderCardData = AllocZeroed(sizeof(struct UnkStruct_203F3C8));
-    if (sWonderCardData == NULL)
+    if (sWonderCardData == NULL) {
         return FALSE;
+    }
     sWonderCardData->unk_0000 = *r5;
     sWonderCardData->unk_014C = *r6;
-    if (sWonderCardData->unk_0000.unk_08_2 >= ARRAY_COUNT(gUnknown_082F1D60))
+    if (sWonderCardData->unk_0000.unk_08_2 >= ARRAY_COUNT(gUnknown_082F1D60)) {
         sWonderCardData->unk_0000.unk_08_2 = 0;
-    if (sWonderCardData->unk_0000.unk_08_0 >= ARRAY_COUNT(gUnknown_082F0E18))
+    }
+    if (sWonderCardData->unk_0000.unk_08_0 >= ARRAY_COUNT(gUnknown_082F0E18)) {
         sWonderCardData->unk_0000.unk_08_0 = 0;
-    if (sWonderCardData->unk_0000.unk_09 > ARRAY_COUNT(sWonderCardData->unk_017D))
+    }
+    if (sWonderCardData->unk_0000.unk_09 > ARRAY_COUNT(sWonderCardData->unk_017D)) {
         sWonderCardData->unk_0000.unk_09 = 0;
+    }
     sWonderCardData->unk_0170 = &gUnknown_082F1D60[sWonderCardData->unk_0000.unk_08_2];
     return TRUE;
 }
 
 void DestroyWonderCardResources(void)
 {
-    if (sWonderCardData != NULL)
-    {
+    if (sWonderCardData != NULL) {
         *sWonderCardData = (struct UnkStruct_203F3C8){};
         Free(sWonderCardData);
         sWonderCardData = NULL;
@@ -181,64 +188,67 @@ void DestroyWonderCardResources(void)
 
 s32 FadeToWonderCardMenu(void)
 {
-    if (sWonderCardData == NULL)
+    if (sWonderCardData == NULL) {
         return -1;
-    switch(sWonderCardData->unk_0174)
-    {
-        case 0:
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-            break;
-        case 1:
-            if (UpdatePaletteFade())
-                return 0;
-            break;
-        case 2:
-            FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
-            FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
-            FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 20);
-            CopyBgTilemapBufferToVram(0);
-            CopyBgTilemapBufferToVram(1);
-            CopyBgTilemapBufferToVram(2);
-            DecompressAndCopyTileDataToVram(2, sWonderCardData->unk_0170->tiles, 0, 0x008, 0);
-            sWonderCardData->unk_0176[0] = AddWindow(&gUnknown_082F0E1C[0]);
-            sWonderCardData->unk_0176[1] = AddWindow(&gUnknown_082F0E1C[1]);
-            sWonderCardData->unk_0176[2] = AddWindow(&gUnknown_082F0E1C[2]);
-            break;
-        case 3:
-            if (FreeTempTileDataBuffersIfPossible())
-                return 0;
-            LoadPalette(GetTextWindowPalette(1), 0x20, 0x20);
-            gPaletteFade.bufferTransferDisabled = TRUE;
-            LoadPalette(sWonderCardData->unk_0170->pal, 0x10, 0x20);
-            LZ77UnCompWram(sWonderCardData->unk_0170->map, sWonderCardData->buffer_045C);
-            CopyRectToBgTilemapBufferRect(2, sWonderCardData->buffer_045C, 0, 0, 30, 20, 0, 0, 30, 20, 1, 0x008, 0);
-            CopyBgTilemapBufferToVram(2);
-            break;
-        case 4:
-            sub_801BEF8();
-            break;
-        case 5:
-            sub_801C178(0);
-            sub_801C178(1);
-            sub_801C178(2);
-            CopyBgTilemapBufferToVram(1);
-            break;
-        case 6:
-            LoadMonIconPalettes();
-            break;
-        case 7:
-            ShowBg(1);
-            ShowBg(2);
-            gPaletteFade.bufferTransferDisabled = FALSE;
-            sub_801C4C0();
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
-            UpdatePaletteFade();
-            break;
-        default:
-            if (UpdatePaletteFade())
-                return 0;
-            sWonderCardData->unk_0174 = 0;
-            return 1;
+    }
+    switch (sWonderCardData->unk_0174) {
+    case 0:
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+        break;
+    case 1:
+        if (UpdatePaletteFade()) {
+            return 0;
+        }
+        break;
+    case 2:
+        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 20);
+        CopyBgTilemapBufferToVram(0);
+        CopyBgTilemapBufferToVram(1);
+        CopyBgTilemapBufferToVram(2);
+        DecompressAndCopyTileDataToVram(2, sWonderCardData->unk_0170->tiles, 0, 0x008, 0);
+        sWonderCardData->unk_0176[0] = AddWindow(&gUnknown_082F0E1C[0]);
+        sWonderCardData->unk_0176[1] = AddWindow(&gUnknown_082F0E1C[1]);
+        sWonderCardData->unk_0176[2] = AddWindow(&gUnknown_082F0E1C[2]);
+        break;
+    case 3:
+        if (FreeTempTileDataBuffersIfPossible()) {
+            return 0;
+        }
+        LoadPalette(GetTextWindowPalette(1), 0x20, 0x20);
+        gPaletteFade.bufferTransferDisabled = TRUE;
+        LoadPalette(sWonderCardData->unk_0170->pal, 0x10, 0x20);
+        LZ77UnCompWram(sWonderCardData->unk_0170->map, sWonderCardData->buffer_045C);
+        CopyRectToBgTilemapBufferRect(2, sWonderCardData->buffer_045C, 0, 0, 30, 20, 0, 0, 30, 20, 1, 0x008, 0);
+        CopyBgTilemapBufferToVram(2);
+        break;
+    case 4:
+        sub_801BEF8();
+        break;
+    case 5:
+        sub_801C178(0);
+        sub_801C178(1);
+        sub_801C178(2);
+        CopyBgTilemapBufferToVram(1);
+        break;
+    case 6:
+        LoadMonIconPalettes();
+        break;
+    case 7:
+        ShowBg(1);
+        ShowBg(2);
+        gPaletteFade.bufferTransferDisabled = FALSE;
+        sub_801C4C0();
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+        UpdatePaletteFade();
+        break;
+    default:
+        if (UpdatePaletteFade()) {
+            return 0;
+        }
+        sWonderCardData->unk_0174 = 0;
+        return 1;
     }
     ++sWonderCardData->unk_0174;
     return 0;
@@ -246,46 +256,48 @@ s32 FadeToWonderCardMenu(void)
 
 s32 FadeOutFromWonderCard(bool32 flag)
 {
-    if (sWonderCardData == NULL)
+    if (sWonderCardData == NULL) {
         return -1;
-    switch (sWonderCardData->unk_0174)
-    {
-        case 0:
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-            break;
-        case 1:
-            if (UpdatePaletteFade())
-                return 0;
-            break;
-        case 2:
-            FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
-            FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
-            FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 20);
-            CopyBgTilemapBufferToVram(0);
-            CopyBgTilemapBufferToVram(1);
-            CopyBgTilemapBufferToVram(2);
-            break;
-        case 3:
-            HideBg(1);
-            HideBg(2);
-            RemoveWindow(sWonderCardData->unk_0176[2]);
-            RemoveWindow(sWonderCardData->unk_0176[1]);
-            RemoveWindow(sWonderCardData->unk_0176[0]);
-            break;
-        case 4:
-            sub_801C61C();
-            FreeMonIconPalettes();
-            break;
-        case 5:
-            PrintMysteryGiftOrEReaderTopMenu(gGiftIsFromEReader, flag);
-            CopyBgTilemapBufferToVram(0);
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
-            break;
-        default:
-            if (UpdatePaletteFade())
-                return 0;
-            sWonderCardData->unk_0174 = 0;
-            return 1;
+    }
+    switch (sWonderCardData->unk_0174) {
+    case 0:
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+        break;
+    case 1:
+        if (UpdatePaletteFade()) {
+            return 0;
+        }
+        break;
+    case 2:
+        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 20);
+        CopyBgTilemapBufferToVram(0);
+        CopyBgTilemapBufferToVram(1);
+        CopyBgTilemapBufferToVram(2);
+        break;
+    case 3:
+        HideBg(1);
+        HideBg(2);
+        RemoveWindow(sWonderCardData->unk_0176[2]);
+        RemoveWindow(sWonderCardData->unk_0176[1]);
+        RemoveWindow(sWonderCardData->unk_0176[0]);
+        break;
+    case 4:
+        sub_801C61C();
+        FreeMonIconPalettes();
+        break;
+    case 5:
+        PrintMysteryGiftOrEReaderTopMenu(gGiftIsFromEReader, flag);
+        CopyBgTilemapBufferToVram(0);
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+        break;
+    default:
+        if (UpdatePaletteFade()) {
+            return 0;
+        }
+        sWonderCardData->unk_0174 = 0;
+        return 1;
     }
     ++sWonderCardData->unk_0174;
     return 0;
@@ -301,61 +313,53 @@ void sub_801BEF8(void)
     sWonderCardData->unk_018B[40] = EOS;
     memcpy(sWonderCardData->unk_01B4, sWonderCardData->unk_0000.unk_32, 40);
     sWonderCardData->unk_01B4[40] = EOS;
-    if (sWonderCardData->unk_0000.unk_04 > 999999)
+    if (sWonderCardData->unk_0000.unk_04 > 999999) {
         sWonderCardData->unk_0000.unk_04 = 999999;
+    }
     ConvertIntToDecimalStringN(sWonderCardData->unk_01DD, sWonderCardData->unk_0000.unk_04, STR_CONV_MODE_LEFT_ALIGN, 6);
-    for (i = 0; i < 4; i++)
-    {
+    for (i = 0; i < 4; i++) {
         memcpy(sWonderCardData->unk_01E4[i], sWonderCardData->unk_0000.unk_5A[i], 40);
         sWonderCardData->unk_01E4[i][40] = EOS;
     }
     memcpy(sWonderCardData->unk_0288, sWonderCardData->unk_0000.unk_FA, 40);
     sWonderCardData->unk_0288[40] = EOS;
-    switch (sWonderCardData->unk_0000.unk_08_0)
-    {
-        case 0:
-            memcpy(sWonderCardData->unk_02B1, sWonderCardData->unk_0000.unk_122, 40);
-            sWonderCardData->unk_02B1[40] = EOS;
-            break;
-        case 1:
-            sWonderCardData->unk_02B1[00] = EOS;
-            break;
-        case 2:
-            sWonderCardData->unk_02B1[00] = EOS;
-            sp0[0] = sWonderCardData->unk_014C.unk_00 < 999 ? sWonderCardData->unk_014C.unk_00 : 999;
-            sp0[1] = sWonderCardData->unk_014C.unk_02 < 999 ? sWonderCardData->unk_014C.unk_02 : 999;
-            sp0[2] = sWonderCardData->unk_014C.unk_04 < 999 ? sWonderCardData->unk_014C.unk_04 : 999;
-            for (i = 0; i < 8; i++)
-            {
-                memset(sWonderCardData->unk_02DC[i].unk_42, EOS, 4);
-                memset(sWonderCardData->unk_02DC[i].unk_01, EOS, 41);
-            }
-            for (i = 0, r6 = 0; i < 40; i++)
-            {
-                if (sWonderCardData->unk_0000.unk_122[i] != 0xF7)
-                {
-                    sWonderCardData->unk_02DC[sWonderCardData->unk_0175].unk_01[r6] = sWonderCardData->unk_0000.unk_122[i];
-                    r6++;
-                }
-                else
-                {
-                    u8 r3 = sWonderCardData->unk_0000.unk_122[i + 1];
-                    if (r3 > 2)
-                    {
-                        i += 2;
+    switch (sWonderCardData->unk_0000.unk_08_0) {
+    case 0:
+        memcpy(sWonderCardData->unk_02B1, sWonderCardData->unk_0000.unk_122, 40);
+        sWonderCardData->unk_02B1[40] = EOS;
+        break;
+    case 1:
+        sWonderCardData->unk_02B1[00] = EOS;
+        break;
+    case 2:
+        sWonderCardData->unk_02B1[00] = EOS;
+        sp0[0] = sWonderCardData->unk_014C.unk_00 < 999 ? sWonderCardData->unk_014C.unk_00 : 999;
+        sp0[1] = sWonderCardData->unk_014C.unk_02 < 999 ? sWonderCardData->unk_014C.unk_02 : 999;
+        sp0[2] = sWonderCardData->unk_014C.unk_04 < 999 ? sWonderCardData->unk_014C.unk_04 : 999;
+        for (i = 0; i < 8; i++) {
+            memset(sWonderCardData->unk_02DC[i].unk_42, EOS, 4);
+            memset(sWonderCardData->unk_02DC[i].unk_01, EOS, 41);
+        }
+        for (i = 0, r6 = 0; i < 40; i++) {
+            if (sWonderCardData->unk_0000.unk_122[i] != 0xF7) {
+                sWonderCardData->unk_02DC[sWonderCardData->unk_0175].unk_01[r6] = sWonderCardData->unk_0000.unk_122[i];
+                r6++;
+            } else {
+                u8 r3 = sWonderCardData->unk_0000.unk_122[i + 1];
+                if (r3 > 2) {
+                    i += 2;
+                } else {
+                    ConvertIntToDecimalStringN(sWonderCardData->unk_02DC[sWonderCardData->unk_0175].unk_42, sp0[r3], STR_CONV_MODE_LEADING_ZEROS, 3);
+                    sWonderCardData->unk_02DC[sWonderCardData->unk_0175].unk_00 = sWonderCardData->unk_0000.unk_122[i + 2];
+                    sWonderCardData->unk_0175++;
+                    if (sWonderCardData->unk_0175 > 7) {
+                        break;
                     }
-                    else
-                    {
-                        ConvertIntToDecimalStringN(sWonderCardData->unk_02DC[sWonderCardData->unk_0175].unk_42, sp0[r3], STR_CONV_MODE_LEADING_ZEROS, 3);
-                        sWonderCardData->unk_02DC[sWonderCardData->unk_0175].unk_00 = sWonderCardData->unk_0000.unk_122[i + 2];
-                        sWonderCardData->unk_0175++;
-                        if (sWonderCardData->unk_0175 > 7)
-                            break;
-                        r6 = 0;
-                        i += 2;
-                    }
+                    r6 = 0;
+                    i += 2;
                 }
             }
+        }
     }
 }
 
@@ -365,51 +369,44 @@ void sub_801C178(u8 whichWindow)
     s32 windowId = sWonderCardData->unk_0176[whichWindow];
     PutWindowTilemap(windowId);
     FillWindowPixelBuffer(windowId, 0);
-    switch (whichWindow)
+    switch (whichWindow) {
+    case 0:
     {
-        case 0:
-        {
-            s32 x;
-            AddTextPrinterParameterized3(windowId, 3, 0, 1, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_018B);
-            x = 160 - GetStringWidth(3, sWonderCardData->unk_01B4, GetFontAttribute(3, 2));
-            if (x < 0)
-                x = 0;
-            AddTextPrinterParameterized3(windowId, 3, x, 17, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_01B4);
-            if (sWonderCardData->unk_0000.unk_04 != 0)
-            {
-                AddTextPrinterParameterized3(windowId, 1, 166, 17, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_01DD);
-            }
-            break;
+        s32 x;
+        AddTextPrinterParameterized3(windowId, 3, 0, 1, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_018B);
+        x = 160 - GetStringWidth(3, sWonderCardData->unk_01B4, GetFontAttribute(3, 2));
+        if (x < 0) {
+            x = 0;
         }
-        case 1:
-            for (; sp0C < 4; sp0C++)
-            {
-                AddTextPrinterParameterized3(windowId, 3, 0, 16 * sp0C + 2, sTextColorTable[sWonderCardData->unk_0170->textPal2], 0, sWonderCardData->unk_01E4[sp0C]);
-            }
-            break;
-        case 2:
-            AddTextPrinterParameterized3(windowId, 3, 0, gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0], sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_0288);
-            if (sWonderCardData->unk_0000.unk_08_0 != 2)
-            {
-                AddTextPrinterParameterized3(windowId, 3, 0, 16 + gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0], sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02B1);
-            }
-            else
-            {
-                s32 x = 0;
-                s32 y = gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0] + 16;
-                s32 spacing = GetFontAttribute(3, 2);
-                for (; sp0C < sWonderCardData->unk_0175; sp0C++)
-                {
-                    AddTextPrinterParameterized3(windowId, 3, x, y, sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02DC[sp0C].unk_01);
-                    if (sWonderCardData->unk_02DC[sp0C].unk_42[0] != EOS)
-                    {
-                        x += GetStringWidth(3, sWonderCardData->unk_02DC[sp0C].unk_01, spacing);
-                        AddTextPrinterParameterized3(windowId, 3, x, y, sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02DC[sp0C].unk_42);
-                        x += GetStringWidth(3, sWonderCardData->unk_02DC[sp0C].unk_42, spacing) + sWonderCardData->unk_02DC[sp0C].unk_00;
-                    }
+        AddTextPrinterParameterized3(windowId, 3, x, 17, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_01B4);
+        if (sWonderCardData->unk_0000.unk_04 != 0) {
+            AddTextPrinterParameterized3(windowId, 1, 166, 17, sTextColorTable[sWonderCardData->unk_0170->textPal1], 0, sWonderCardData->unk_01DD);
+        }
+        break;
+    }
+    case 1:
+        for (; sp0C < 4; sp0C++) {
+            AddTextPrinterParameterized3(windowId, 3, 0, 16 * sp0C + 2, sTextColorTable[sWonderCardData->unk_0170->textPal2], 0, sWonderCardData->unk_01E4[sp0C]);
+        }
+        break;
+    case 2:
+        AddTextPrinterParameterized3(windowId, 3, 0, gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0], sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_0288);
+        if (sWonderCardData->unk_0000.unk_08_0 != 2) {
+            AddTextPrinterParameterized3(windowId, 3, 0, 16 + gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0], sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02B1);
+        } else {
+            s32 x = 0;
+            s32 y = gUnknown_082F0E18[sWonderCardData->unk_0000.unk_08_0] + 16;
+            s32 spacing = GetFontAttribute(3, 2);
+            for (; sp0C < sWonderCardData->unk_0175; sp0C++) {
+                AddTextPrinterParameterized3(windowId, 3, x, y, sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02DC[sp0C].unk_01);
+                if (sWonderCardData->unk_02DC[sp0C].unk_42[0] != EOS) {
+                    x += GetStringWidth(3, sWonderCardData->unk_02DC[sp0C].unk_01, spacing);
+                    AddTextPrinterParameterized3(windowId, 3, x, y, sTextColorTable[sWonderCardData->unk_0170->textPal3], 0, sWonderCardData->unk_02DC[sp0C].unk_42);
+                    x += GetStringWidth(3, sWonderCardData->unk_02DC[sp0C].unk_42, spacing) + sWonderCardData->unk_02DC[sp0C].unk_00;
                 }
             }
-            break;
+        }
+        break;
     }
     CopyWindowToVram(windowId, 3);
 }
@@ -418,22 +415,18 @@ void sub_801C4C0(void)
 {
     u8 r7 = 0;
     sWonderCardData->unk_017C = 0xFF;
-    if (sWonderCardData->unk_014C.unk_06 != SPECIES_NONE)
-    {
+    if (sWonderCardData->unk_014C.unk_06 != SPECIES_NONE) {
         sWonderCardData->unk_017C = sub_80D2D78(sub_80D2E84(sWonderCardData->unk_014C.unk_06), SpriteCallbackDummy, 0xDC, 0x14, 0, FALSE);
         gSprites[sWonderCardData->unk_017C].oam.priority = 2;
     }
-    if (sWonderCardData->unk_0000.unk_09 != 0 && sWonderCardData->unk_0000.unk_08_0 == 1)
-    {
+    if (sWonderCardData->unk_0000.unk_09 != 0 && sWonderCardData->unk_0000.unk_08_0 == 1) {
         LoadCompressedSpriteSheetUsingHeap(&gUnknown_082F1D00);
         LoadSpritePalette(&gUnknown_082F1D08[sWonderCardData->unk_0170->textPal4]);
-        for (; r7 < sWonderCardData->unk_0000.unk_09; r7++)
-        {
+        for (; r7 < sWonderCardData->unk_0000.unk_09; r7++) {
             sWonderCardData->unk_017D[r7][0] = 0xFF;
             sWonderCardData->unk_017D[r7][1] = 0xFF;
             sWonderCardData->unk_017D[r7][0] = CreateSprite(&gUnknown_082F1D48, 0xd8 - 32 * r7, 0x90, 8);
-            if (sWonderCardData->unk_014C.unk_08[0][r7] != 0)
-            {
+            if (sWonderCardData->unk_014C.unk_08[0][r7] != 0) {
                 sWonderCardData->unk_017D[r7][1] = sub_80D2D78(sub_80D2E84(sWonderCardData->unk_014C.unk_08[0][r7]), SpriteCallbackDummy, 0xd8 - 32 * r7, 0x88, 0, 0);
             }
         }
@@ -443,18 +436,15 @@ void sub_801C4C0(void)
 void sub_801C61C(void)
 {
     u8 r6 = 0;
-    if (sWonderCardData->unk_017C != 0xFF)
+    if (sWonderCardData->unk_017C != 0xFF) {
         FreeAndDestroyMonIconSprite(&gSprites[sWonderCardData->unk_017C]);
-    if (sWonderCardData->unk_0000.unk_09 != 0 && sWonderCardData->unk_0000.unk_08_0 == 1)
-    {
-        for (; r6 < sWonderCardData->unk_0000.unk_09; r6++)
-        {
-            if (sWonderCardData->unk_017D[r6][0] != 0xFF)
-            {
+    }
+    if (sWonderCardData->unk_0000.unk_09 != 0 && sWonderCardData->unk_0000.unk_08_0 == 1) {
+        for (; r6 < sWonderCardData->unk_0000.unk_09; r6++) {
+            if (sWonderCardData->unk_017D[r6][0] != 0xFF) {
                 DestroySprite(&gSprites[sWonderCardData->unk_017D[r6][0]]);
             }
-            if (sWonderCardData->unk_017D[r6][1] != 0xFF)
-            {
+            if (sWonderCardData->unk_017D[r6][1] != 0xFF) {
                 FreeAndDestroyMonIconSprite(&gSprites[sWonderCardData->unk_017D[r6][1]]);
             }
         }
@@ -468,12 +458,12 @@ struct UnkStruct_203F3CC
     /*0000*/ struct WonderNews unk_0000;
     /*01bc*/ const struct UnkStruct_8467FB8 * unk_01BC;
     /*01c0*/ u8 unk_01C0_0:1;
-             u8 unk_01C0_1:7;
+    u8 unk_01C0_1:7;
     /*01c1*/ u8 unk_01C1;
     /*01c2*/ u8 unk_01C2_0:1;
-             u8 unk_01C2_1:7;
+    u8 unk_01C2_1:7;
     /*01c3*/ u8 unk_01C3_0:1;
-             u8 unk_01C3_1:7;
+    u8 unk_01C3_1:7;
     /*01c4*/ u16 unk_01C4;
     /*01c6*/ u16 unk_01C6;
     /*01c8*/ u16 unk_01C8[2];
@@ -544,14 +534,17 @@ const struct UnkStruct_8467FB8 gUnknown_082F24C8[] = {
 
 bool32 InitWonderNewsResources(const struct WonderNews * a0)
 {
-    if (a0 == NULL)
+    if (a0 == NULL) {
         return FALSE;
+    }
     sWonderNewsData = AllocZeroed(sizeof(struct UnkStruct_203F3CC));
-    if (sWonderNewsData == NULL)
+    if (sWonderNewsData == NULL) {
         return FALSE;
+    }
     sWonderNewsData->unk_0000 = *a0;
-    if (sWonderNewsData->unk_0000.unk_03 >= ARRAY_COUNT(gUnknown_082F24C8))
+    if (sWonderNewsData->unk_0000.unk_03 >= ARRAY_COUNT(gUnknown_082F24C8)) {
         sWonderNewsData->unk_0000.unk_03 = 0;
+    }
     sWonderNewsData->unk_01BC = &gUnknown_082F24C8[sWonderNewsData->unk_0000.unk_03];
     sWonderNewsData->unk_01C1 = 0xFF;
     return TRUE;
@@ -559,8 +552,7 @@ bool32 InitWonderNewsResources(const struct WonderNews * a0)
 
 void DestroyWonderNewsResources(void)
 {
-    if (sWonderNewsData != NULL)
-    {
+    if (sWonderNewsData != NULL) {
         *sWonderNewsData = (struct UnkStruct_203F3CC){};
         Free(sWonderNewsData);
         sWonderNewsData = NULL;
@@ -569,74 +561,77 @@ void DestroyWonderNewsResources(void)
 
 s32 FadeToWonderNewsMenu(void)
 {
-    if (sWonderNewsData == NULL)
+    if (sWonderNewsData == NULL) {
         return -1;
+    }
 
-    switch (sWonderNewsData->unk_01C0_1)
-    {
-        case 0:
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-            break;
-        case 1:
-            if (UpdatePaletteFade())
-                return 0;
-            ChangeBgY(0, 0, 0);
-            ChangeBgY(1, 0, 0);
-            ChangeBgY(2, 0, 0);
-            ChangeBgY(3, 0, 0);
-            SetGpuReg(REG_OFFSET_WIN0H, 0xF0);
-            SetGpuReg(REG_OFFSET_WIN0V, 0x1A98);
-            SetGpuReg(REG_OFFSET_WININ, 0x1F);
-            SetGpuReg(REG_OFFSET_WINOUT, 0x1B);
-            SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
-            break;
-        case 2:
-            FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
-            FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
-            FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 20);
-            FillBgTilemapBufferRect_Palette0(3, 0x000, 0, 0, 30, 20);
-            CopyBgTilemapBufferToVram(0);
-            CopyBgTilemapBufferToVram(1);
-            CopyBgTilemapBufferToVram(2);
-            CopyBgTilemapBufferToVram(3);
-            DecompressAndCopyTileDataToVram(3, sWonderNewsData->unk_01BC->tiles, 0, 8, 0);
-            sWonderNewsData->unk_01C8[0] = AddWindow(&gUnknown_082F1DE8[0]);
-            sWonderNewsData->unk_01C8[1] = AddWindow(&gUnknown_082F1DE8[1]);
-            break;
-        case 3:
-            if (FreeTempTileDataBuffersIfPossible())
-                return 0;
-            LoadPalette(GetTextWindowPalette(1), 0x20, 0x20);
-            gPaletteFade.bufferTransferDisabled = TRUE;
-            LoadPalette(sWonderNewsData->unk_01BC->pal, 0x10, 0x20);
-            LZ77UnCompWram(sWonderNewsData->unk_01BC->map, sWonderNewsData->buffer_03A4);
-            CopyRectToBgTilemapBufferRect(1, sWonderNewsData->buffer_03A4, 0, 0, 30, 3, 0, 0, 30, 3, 1, 8, 0);
-            CopyRectToBgTilemapBufferRect(3, sWonderNewsData->buffer_03A4, 0, 3, 30, 23, 0, 3, 30, 23, 1, 8, 0);
-            CopyBgTilemapBufferToVram(1);
-            CopyBgTilemapBufferToVram(3);
-            break;
-        case 4:
-            sub_801CDCC();
-            break;
-        case 5:
-            sub_801CE7C();
-            CopyBgTilemapBufferToVram(0);
-            CopyBgTilemapBufferToVram(2);
-            break;
-        case 6:
-            ShowBg(1);
-            ShowBg(2);
-            ShowBg(3);
-            gPaletteFade.bufferTransferDisabled = FALSE;
-            sWonderNewsData->unk_01C1 = AddScrollIndicatorArrowPair(&sWonderNewsData->unk_0394, &sWonderNewsData->unk_01C6);
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
-            UpdatePaletteFade();
-            break;
-        default:
-            if (UpdatePaletteFade())
-                return 0;
-            sWonderNewsData->unk_01C0_1 = 0;
-            return 1;
+    switch (sWonderNewsData->unk_01C0_1) {
+    case 0:
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+        break;
+    case 1:
+        if (UpdatePaletteFade()) {
+            return 0;
+        }
+        ChangeBgY(0, 0, 0);
+        ChangeBgY(1, 0, 0);
+        ChangeBgY(2, 0, 0);
+        ChangeBgY(3, 0, 0);
+        SetGpuReg(REG_OFFSET_WIN0H, 0xF0);
+        SetGpuReg(REG_OFFSET_WIN0V, 0x1A98);
+        SetGpuReg(REG_OFFSET_WININ, 0x1F);
+        SetGpuReg(REG_OFFSET_WINOUT, 0x1B);
+        SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
+        break;
+    case 2:
+        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(3, 0x000, 0, 0, 30, 20);
+        CopyBgTilemapBufferToVram(0);
+        CopyBgTilemapBufferToVram(1);
+        CopyBgTilemapBufferToVram(2);
+        CopyBgTilemapBufferToVram(3);
+        DecompressAndCopyTileDataToVram(3, sWonderNewsData->unk_01BC->tiles, 0, 8, 0);
+        sWonderNewsData->unk_01C8[0] = AddWindow(&gUnknown_082F1DE8[0]);
+        sWonderNewsData->unk_01C8[1] = AddWindow(&gUnknown_082F1DE8[1]);
+        break;
+    case 3:
+        if (FreeTempTileDataBuffersIfPossible()) {
+            return 0;
+        }
+        LoadPalette(GetTextWindowPalette(1), 0x20, 0x20);
+        gPaletteFade.bufferTransferDisabled = TRUE;
+        LoadPalette(sWonderNewsData->unk_01BC->pal, 0x10, 0x20);
+        LZ77UnCompWram(sWonderNewsData->unk_01BC->map, sWonderNewsData->buffer_03A4);
+        CopyRectToBgTilemapBufferRect(1, sWonderNewsData->buffer_03A4, 0, 0, 30, 3, 0, 0, 30, 3, 1, 8, 0);
+        CopyRectToBgTilemapBufferRect(3, sWonderNewsData->buffer_03A4, 0, 3, 30, 23, 0, 3, 30, 23, 1, 8, 0);
+        CopyBgTilemapBufferToVram(1);
+        CopyBgTilemapBufferToVram(3);
+        break;
+    case 4:
+        sub_801CDCC();
+        break;
+    case 5:
+        sub_801CE7C();
+        CopyBgTilemapBufferToVram(0);
+        CopyBgTilemapBufferToVram(2);
+        break;
+    case 6:
+        ShowBg(1);
+        ShowBg(2);
+        ShowBg(3);
+        gPaletteFade.bufferTransferDisabled = FALSE;
+        sWonderNewsData->unk_01C1 = AddScrollIndicatorArrowPair(&sWonderNewsData->unk_0394, &sWonderNewsData->unk_01C6);
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+        UpdatePaletteFade();
+        break;
+    default:
+        if (UpdatePaletteFade()) {
+            return 0;
+        }
+        sWonderNewsData->unk_01C0_1 = 0;
+        return 1;
     }
 
     ++sWonderNewsData->unk_01C0_1;
@@ -645,60 +640,61 @@ s32 FadeToWonderNewsMenu(void)
 
 s32 FadeOutFromWonderNews(bool32 flag)
 {
-    if (sWonderNewsData == NULL)
+    if (sWonderNewsData == NULL) {
         return -1;
-    switch (sWonderNewsData->unk_01C0_1)
-    {
-        case 0:
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-            break;
-        case 1:
-            if (UpdatePaletteFade())
-                return 0;
-            ChangeBgY(2, 0, 0);
-            SetGpuReg(REG_OFFSET_WIN0H, 0);
-            SetGpuReg(REG_OFFSET_WIN0V, 0);
-            SetGpuReg(REG_OFFSET_WININ, 0);
-            SetGpuReg(REG_OFFSET_WINOUT, 0);
-            ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
-            break;
-        case 2:
-            FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
-            FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
-            FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 24);
-            FillBgTilemapBufferRect_Palette0(3, 0x000, 0, 0, 30, 24);
-            CopyBgTilemapBufferToVram(0);
-            CopyBgTilemapBufferToVram(1);
-            CopyBgTilemapBufferToVram(2);
-            CopyBgTilemapBufferToVram(3);
-            break;
-        case 3:
-            HideBg(1);
-            HideBg(2);
-            RemoveWindow(sWonderNewsData->unk_01C8[1]);
-            RemoveWindow(sWonderNewsData->unk_01C8[0]);
-            break;
-        case 4:
-            ChangeBgY(2, 0, 0);
-            ChangeBgY(3, 0, 0);
-            if (sWonderNewsData->unk_01C1 != 0xFF)
-            {
-                RemoveScrollIndicatorArrowPair(sWonderNewsData->unk_01C1);
-                sWonderNewsData->unk_01C1 = 0xFF;
-            }
-            break;
-        case 5:
-            PrintMysteryGiftOrEReaderTopMenu(gGiftIsFromEReader, flag);
-            MG_DrawCheckerboardPattern(3);
-            CopyBgTilemapBufferToVram(0);
-            CopyBgTilemapBufferToVram(3);
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
-            break;
-        default:
-            if (UpdatePaletteFade())
-                return 0;
-            sWonderNewsData->unk_01C0_1 = 0;
-            return 1;
+    }
+    switch (sWonderNewsData->unk_01C0_1) {
+    case 0:
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+        break;
+    case 1:
+        if (UpdatePaletteFade()) {
+            return 0;
+        }
+        ChangeBgY(2, 0, 0);
+        SetGpuReg(REG_OFFSET_WIN0H, 0);
+        SetGpuReg(REG_OFFSET_WIN0V, 0);
+        SetGpuReg(REG_OFFSET_WININ, 0);
+        SetGpuReg(REG_OFFSET_WINOUT, 0);
+        ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
+        break;
+    case 2:
+        FillBgTilemapBufferRect_Palette0(0, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(1, 0x000, 0, 0, 30, 20);
+        FillBgTilemapBufferRect_Palette0(2, 0x000, 0, 0, 30, 24);
+        FillBgTilemapBufferRect_Palette0(3, 0x000, 0, 0, 30, 24);
+        CopyBgTilemapBufferToVram(0);
+        CopyBgTilemapBufferToVram(1);
+        CopyBgTilemapBufferToVram(2);
+        CopyBgTilemapBufferToVram(3);
+        break;
+    case 3:
+        HideBg(1);
+        HideBg(2);
+        RemoveWindow(sWonderNewsData->unk_01C8[1]);
+        RemoveWindow(sWonderNewsData->unk_01C8[0]);
+        break;
+    case 4:
+        ChangeBgY(2, 0, 0);
+        ChangeBgY(3, 0, 0);
+        if (sWonderNewsData->unk_01C1 != 0xFF) {
+            RemoveScrollIndicatorArrowPair(sWonderNewsData->unk_01C1);
+            sWonderNewsData->unk_01C1 = 0xFF;
+        }
+        break;
+    case 5:
+        PrintMysteryGiftOrEReaderTopMenu(gGiftIsFromEReader, flag);
+        MG_DrawCheckerboardPattern(3);
+        CopyBgTilemapBufferToVram(0);
+        CopyBgTilemapBufferToVram(3);
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+        break;
+    default:
+        if (UpdatePaletteFade()) {
+            return 0;
+        }
+        sWonderNewsData->unk_01C0_1 = 0;
+        return 1;
     }
     ++sWonderNewsData->unk_01C0_1;
     return 0;
@@ -706,8 +702,7 @@ s32 FadeOutFromWonderNews(bool32 flag)
 
 void MENews_RemoveScrollIndicatorArrowPair(void)
 {
-    if (!sWonderNewsData->unk_01C0_0 && sWonderNewsData->unk_01C1 != 0xFF)
-    {
+    if (!sWonderNewsData->unk_01C0_0 && sWonderNewsData->unk_01C1 != 0xFF) {
         RemoveScrollIndicatorArrowPair(sWonderNewsData->unk_01C1);
         sWonderNewsData->unk_01C1 = 0xFF;
         sWonderNewsData->unk_01C0_0 = TRUE;
@@ -717,8 +712,7 @@ void MENews_RemoveScrollIndicatorArrowPair(void)
 
 void MENews_AddScrollIndicatorArrowPair(void)
 {
-    if (sWonderNewsData->unk_01C0_0)
-    {
+    if (sWonderNewsData->unk_01C0_0) {
         sWonderNewsData->unk_01C1 = AddScrollIndicatorArrowPair(&sWonderNewsData->unk_0394, &sWonderNewsData->unk_01C6);
         sWonderNewsData->unk_01C0_0 = FALSE;
     }
@@ -726,41 +720,44 @@ void MENews_AddScrollIndicatorArrowPair(void)
 
 u32 MENews_GetInput(u16 input)
 {
-    if (sWonderNewsData->unk_01C2_0)
-    {
+    if (sWonderNewsData->unk_01C2_0) {
         sub_801CFA4();
         return 0xFF;
     }
-    switch (input)
-    {
-        case A_BUTTON:
-            return 0;
-        case B_BUTTON:
-            return 1;
-        case DPAD_UP:
-            if (sWonderNewsData->unk_01C6 == 0)
-                return 0xFF;
-            if (sWonderNewsData->unk_01C0_0)
-                return 0xFF;
-            sWonderNewsData->unk_01C3_0 = FALSE;
-            break;
-        case DPAD_DOWN:
-            if (sWonderNewsData->unk_01C6 == sWonderNewsData->unk_01C4)
-                return 0xFF;
-            if (sWonderNewsData->unk_01C0_0)
-                return 0xFF;
-            sWonderNewsData->unk_01C3_0 = TRUE;
-            break;
-        default:
+    switch (input) {
+    case A_BUTTON:
+        return 0;
+    case B_BUTTON:
+        return 1;
+    case DPAD_UP:
+        if (sWonderNewsData->unk_01C6 == 0) {
             return 0xFF;
+        }
+        if (sWonderNewsData->unk_01C0_0) {
+            return 0xFF;
+        }
+        sWonderNewsData->unk_01C3_0 = FALSE;
+        break;
+    case DPAD_DOWN:
+        if (sWonderNewsData->unk_01C6 == sWonderNewsData->unk_01C4) {
+            return 0xFF;
+        }
+        if (sWonderNewsData->unk_01C0_0) {
+            return 0xFF;
+        }
+        sWonderNewsData->unk_01C3_0 = TRUE;
+        break;
+    default:
+        return 0xFF;
     }
     sWonderNewsData->unk_01C2_0 = TRUE;
     sWonderNewsData->unk_01C2_1 = 2;
     sWonderNewsData->unk_01C3_1 = 0;
-    if (sWonderNewsData->unk_01C3_0 == FALSE)
+    if (sWonderNewsData->unk_01C3_0 == FALSE) {
         return 2;
-    else
+    } else {
         return 3;
+    }
 }
 
 void sub_801CDCC(void)
@@ -768,12 +765,12 @@ void sub_801CDCC(void)
     u8 i = 0;
     memcpy(sWonderNewsData->unk_01CE, sWonderNewsData->unk_0000.unk_04, 40);
     sWonderNewsData->unk_01CE[40] = EOS;
-    for (; i < 10; ++i)
-    {
+    for (; i < 10; ++i) {
         memcpy(sWonderNewsData->unk_01F7[i], sWonderNewsData->unk_0000.unk_2C[i], 40);
         sWonderNewsData->unk_01F7[i][40] = EOS;
-        if (i > 7 && sWonderNewsData->unk_01F7[i][0] != EOS)
+        if (i > 7 && sWonderNewsData->unk_01F7[i][0] != EOS) {
             ++sWonderNewsData->unk_01C4;
+        }
     }
     sWonderNewsData->unk_0394 = gUnknown_082F1DF8;
     sWonderNewsData->unk_0394.fullyDownThreshold = sWonderNewsData->unk_01C4;
@@ -788,11 +785,11 @@ void sub_801CE7C(void)
     FillWindowPixelBuffer(sWonderNewsData->unk_01C8[0], 0);
     FillWindowPixelBuffer(sWonderNewsData->unk_01C8[1], 0);
     x = (0xe0 - GetStringWidth(3, sWonderNewsData->unk_01CE, GetFontAttribute(3, 2))) / 2;
-    if (x < 0)
+    if (x < 0) {
         x = 0;
+    }
     AddTextPrinterParameterized3(sWonderNewsData->unk_01C8[0], 3, x, 6, gUnknown_082F1DE0[sWonderNewsData->unk_01BC->textPal1], 0, sWonderNewsData->unk_01CE);
-    for (; i < 10; ++i)
-    {
+    for (; i < 10; ++i) {
         AddTextPrinterParameterized3(sWonderNewsData->unk_01C8[1], 3, 0, 16 * i + 2, gUnknown_082F1DE0[sWonderNewsData->unk_01BC->textPal2], 0, sWonderNewsData->unk_01F7[i]);
     }
     CopyWindowToVram(sWonderNewsData->unk_01C8[0], 3);
@@ -803,23 +800,20 @@ void sub_801CFA4(void)
 {
     u16 r4 = sWonderNewsData->unk_01C2_1;
     r4 <<= 8;
-    if (sWonderNewsData->unk_01C3_0)
-    {
+    if (sWonderNewsData->unk_01C3_0) {
         ChangeBgY(2, r4, 1);
         ChangeBgY(3, r4, 1);
-    }
-    else
-    {
+    } else {
         ChangeBgY(2, r4, 2);
         ChangeBgY(3, r4, 2);
     }
     sWonderNewsData->unk_01C3_1 += sWonderNewsData->unk_01C2_1;
-    if (sWonderNewsData->unk_01C3_1 > 15)
-    {
-        if (sWonderNewsData->unk_01C3_0)
+    if (sWonderNewsData->unk_01C3_1 > 15) {
+        if (sWonderNewsData->unk_01C3_0) {
             ++sWonderNewsData->unk_01C6;
-        else
+        } else {
             --sWonderNewsData->unk_01C6;
+        }
         sWonderNewsData->unk_01C2_0 = FALSE;
         sWonderNewsData->unk_01C3_1 = 0;
     }

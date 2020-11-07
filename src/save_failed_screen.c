@@ -134,14 +134,14 @@ static const struct WindowTemplate gUnknown_085EFDA4[] =
 
 static const u8 sClockFrames[8][3] =
 {
-    { 1, 0, 0 },
-    { 5, 0, 0 },
-    { 9, 0, 0 },
-    { 5, 0, 1 },
-    { 1, 0, 1 },
-    { 5, 1, 1 },
-    { 9, 1, 0 },
-    { 5, 1, 0 },
+    {1, 0, 0},
+    {5, 0, 0},
+    {9, 0, 0},
+    {5, 0, 1},
+    {1, 0, 1},
+    {5, 1, 1},
+    {9, 1, 0},
+    {5, 1, 0},
 };
 
 static const u8 sSaveFailedClockPal[] = INCBIN_U8("graphics/misc/clock_small.gbapal");
@@ -186,8 +186,7 @@ static void VBlankCB(void)
 
 static void CB2_SaveFailedScreen(void)
 {
-    switch (gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
     default:
         SetVBlankCallback(NULL);
@@ -218,9 +217,9 @@ static void CB2_SaveFailedScreen(void)
         LoadBgTiles(0, gTextWindowFrame1_Gfx, 0x120, 0x214);
         InitWindows(gUnknown_085EFD94);
         gSaveFailedWindowIds[TEXT_WIN_ID] = AddWindowWithoutTileMap(gUnknown_085EFD9C);
-        SetWindowAttribute(gSaveFailedWindowIds[TEXT_WIN_ID], 7, (u32)&gDecompressionBuffer[0x2800]);
+        SetWindowAttribute(gSaveFailedWindowIds[TEXT_WIN_ID], 7, (u32) & gDecompressionBuffer[0x2800]);
         gSaveFailedWindowIds[CLOCK_WIN_ID] = AddWindowWithoutTileMap(gUnknown_085EFDA4);
-        SetWindowAttribute(gSaveFailedWindowIds[CLOCK_WIN_ID], 7, (u32)&gDecompressionBuffer[0x3D00]);
+        SetWindowAttribute(gSaveFailedWindowIds[CLOCK_WIN_ID], 7, (u32) & gDecompressionBuffer[0x3D00]);
         DeactivateAllTextPrinters();
         ResetSpriteData();
         ResetTasks();
@@ -246,8 +245,7 @@ static void CB2_SaveFailedScreen(void)
         gMain.state++;
         break;
     case 1:
-        if (!UpdatePaletteFade())
-        {
+        if (!UpdatePaletteFade()) {
             SetMainCallback2(CB2_WipeSave);
             SetVBlankCallback(VBlankCB_UpdateClockGraphics);
         }
@@ -261,10 +259,8 @@ static void CB2_WipeSave(void)
 
     gSaveFailedClockInfo[CLOCK_RUNNING] = TRUE;
 
-    while (gDamagedSaveSectors != 0 && wipeTries < 3)
-    {
-        if (WipeSectors(gDamagedSaveSectors) != FALSE)
-        {
+    while (gDamagedSaveSectors != 0 && wipeTries < 3) {
+        if (WipeSectors(gDamagedSaveSectors) != FALSE) {
             FillWindowPixelBuffer(gSaveFailedWindowIds[TEXT_WIN_ID], PIXEL_FILL(1));
             SaveFailedScreenTextPrint(gText_BackupMemoryDamaged, 1, 0);
             SetMainCallback2(CB2_GameplayCannotBeContinued);
@@ -275,8 +271,7 @@ static void CB2_WipeSave(void)
         SaveFailedScreenTextPrint(gText_CheckCompleted, 1, 0);
         HandleSavingData(gSaveFailedType);
 
-        if (gDamagedSaveSectors != 0)
-        {
+        if (gDamagedSaveSectors != 0) {
             FillWindowPixelBuffer(gSaveFailedWindowIds[TEXT_WIN_ID], PIXEL_FILL(1));
             SaveFailedScreenTextPrint(gText_SaveFailedCheckingBackup, 1, 0);
         }
@@ -284,19 +279,17 @@ static void CB2_WipeSave(void)
         wipeTries++;
     }
 
-    if (wipeTries == 3)
-    {
+    if (wipeTries == 3) {
         FillWindowPixelBuffer(gSaveFailedWindowIds[TEXT_WIN_ID], PIXEL_FILL(1));
         SaveFailedScreenTextPrint(gText_BackupMemoryDamaged, 1, 0);
-    }
-    else
-    {
+    } else {
         FillWindowPixelBuffer(gSaveFailedWindowIds[TEXT_WIN_ID], PIXEL_FILL(1));
 
-        if (gGameContinueCallback == NULL)
+        if (gGameContinueCallback == NULL) {
             SaveFailedScreenTextPrint(gText_SaveCompleteGameCannotContinue, 1, 0);
-        else
+        } else {
             SaveFailedScreenTextPrint(gText_SaveCompletePressA, 1, 0);
+        }
     }
 
     SetMainCallback2(CB2_FadeAndReturnToTitleScreen);
@@ -306,8 +299,7 @@ static void CB2_GameplayCannotBeContinued(void)
 {
     gSaveFailedClockInfo[CLOCK_RUNNING] = FALSE;
 
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         FillWindowPixelBuffer(gSaveFailedWindowIds[TEXT_WIN_ID], PIXEL_FILL(1));
         SaveFailedScreenTextPrint(gText_GamePlayCannotBeContinued, 1, 0);
         SetVBlankCallback(VBlankCB);
@@ -319,8 +311,7 @@ static void CB2_FadeAndReturnToTitleScreen(void)
 {
     gSaveFailedClockInfo[CLOCK_RUNNING] = FALSE;
 
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
         SetVBlankCallback(VBlankCB);
         SetMainCallback2(CB2_ReturnToTitleScreen);
@@ -329,14 +320,10 @@ static void CB2_FadeAndReturnToTitleScreen(void)
 
 static void CB2_ReturnToTitleScreen(void)
 {
-    if (!UpdatePaletteFade())
-    {
-        if (gGameContinueCallback == NULL) // no callback exists, so do a soft reset.
-        {
+    if (!UpdatePaletteFade()) {
+        if (gGameContinueCallback == NULL) { // no callback exists, so do a soft reset.
             DoSoftReset();
-        }
-        else
-        {
+        } else {
             SetMainCallback2((MainCallback)gGameContinueCallback);
             gGameContinueCallback = NULL;
         }
@@ -351,20 +338,18 @@ static void VBlankCB_UpdateClockGraphics(void)
     gMain.oamBuffer[0].x = 112;
     gMain.oamBuffer[0].y = (CLOCK_WIN_TOP + 1) * 8;
 
-    if (gSaveFailedClockInfo[CLOCK_RUNNING] != FALSE)
-    {
+    if (gSaveFailedClockInfo[CLOCK_RUNNING] != FALSE) {
         gMain.oamBuffer[0].tileNum = sClockFrames[n][0];
         gMain.oamBuffer[0].matrixNum = (sClockFrames[n][2] << 4) | (sClockFrames[n][1] << 3);
-    }
-    else
-    {
+    } else {
         gMain.oamBuffer[0].tileNum = 1;
     }
 
     CpuFastCopy(gMain.oamBuffer, (void *)OAM, 4);
 
-    if (gSaveFailedClockInfo[DEBUG_TIMER])
+    if (gSaveFailedClockInfo[DEBUG_TIMER]) {
         gSaveFailedClockInfo[DEBUG_TIMER]--;
+    }
 }
 
 static bool8 VerifySectorWipe(u16 sector)
@@ -374,9 +359,11 @@ static bool8 VerifySectorWipe(u16 sector)
 
     ReadFlash(sector, 0, (u8 *)ptr, 4096);
 
-    for (i = 0; i < 0x400; i++, ptr++)
-        if (*ptr)
+    for (i = 0; i < 0x400; i++, ptr++) {
+        if (*ptr) {
             return TRUE;
+        }
+    }
 
     return FALSE;
 }
@@ -386,10 +373,10 @@ static bool8 WipeSector(u16 sector)
     u16 i, j;
     bool8 failed = TRUE;
 
-    for (i = 0; failed && i < 130; i++)
-    {
-        for (j = 0; j < 0x1000; j++)
+    for (i = 0; failed && i < 130; i++) {
+        for (j = 0; j < 0x1000; j++) {
             ProgramFlashByte(sector, j, 0);
+        }
 
         failed = VerifySectorWipe(sector);
     }
@@ -401,12 +388,15 @@ static bool8 WipeSectors(u32 sectorBits)
 {
     u16 i;
 
-    for (i = 0; i < 0x20; i++)
-        if ((sectorBits & (1 << i)) && !WipeSector(i))
+    for (i = 0; i < 0x20; i++) {
+        if ((sectorBits & (1 << i)) && !WipeSector(i)) {
             sectorBits &= ~(1 << i);
+        }
+    }
 
-    if (sectorBits == 0)
+    if (sectorBits == 0) {
         return FALSE;
-    else
+    } else {
         return TRUE;
+    }
 }

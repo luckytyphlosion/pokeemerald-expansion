@@ -251,189 +251,189 @@ static const struct SpriteTemplate sSpriteTemplate_AM =
 
 static const s8 sClockHandCoords[][2] =
 {
-    { 0x00, -0x18},
-    { 0x01, -0x19},
-    { 0x01, -0x19},
-    { 0x02, -0x19},
-    { 0x02, -0x19},
-    { 0x02, -0x19},
-    { 0x03, -0x18},
-    { 0x03, -0x19},
-    { 0x04, -0x19},
-    { 0x04, -0x19},
-    { 0x04, -0x19},
-    { 0x05, -0x19},
-    { 0x05, -0x19},
-    { 0x06, -0x18},
-    { 0x06, -0x18},
-    { 0x06, -0x18},
-    { 0x07, -0x18},
-    { 0x07, -0x18},
-    { 0x07, -0x18},
-    { 0x08, -0x18},
-    { 0x08, -0x18},
-    { 0x09, -0x18},
-    { 0x09, -0x18},
-    { 0x0a, -0x17},
-    { 0x0a, -0x17},
-    { 0x0b, -0x16},
-    { 0x0b, -0x16},
-    { 0x0b, -0x16},
-    { 0x0c, -0x16},
-    { 0x0c, -0x15},
-    { 0x0d, -0x15},
-    { 0x0d, -0x15},
-    { 0x0d, -0x15},
-    { 0x0e, -0x15},
-    { 0x0e, -0x15},
-    { 0x0e, -0x14},
-    { 0x0e, -0x14},
-    { 0x0f, -0x14},
-    { 0x0f, -0x13},
-    { 0x10, -0x13},
-    { 0x10, -0x13},
-    { 0x10, -0x13},
-    { 0x10, -0x12},
-    { 0x10, -0x12},
-    { 0x11, -0x12},
-    { 0x11, -0x11},
-    { 0x11, -0x11},
-    { 0x12, -0x11},
-    { 0x12, -0x11},
-    { 0x12, -0x10},
-    { 0x12, -0x10},
-    { 0x13, -0x10},
-    { 0x13, -0x0f},
-    { 0x13, -0x0f},
-    { 0x14, -0x0f},
-    { 0x14, -0x0e},
-    { 0x14, -0x0e},
-    { 0x14, -0x0d},
-    { 0x14, -0x0d},
-    { 0x15, -0x0d},
-    { 0x15, -0x0d},
-    { 0x15, -0x0c},
-    { 0x16, -0x0c},
-    { 0x16, -0x0c},
-    { 0x16, -0x0b},
-    { 0x16, -0x0b},
-    { 0x16, -0x0a},
-    { 0x17, -0x0a},
-    { 0x17, -0x09},
-    { 0x17, -0x09},
-    { 0x17, -0x09},
-    { 0x17, -0x09},
-    { 0x17, -0x08},
-    { 0x17, -0x08},
-    { 0x17, -0x07},
-    { 0x17, -0x07},
-    { 0x17, -0x06},
-    { 0x18, -0x06},
-    { 0x18, -0x06},
-    { 0x19, -0x05},
-    { 0x19, -0x05},
-    { 0x18, -0x04},
-    { 0x19, -0x04},
-    { 0x18, -0x03},
-    { 0x19, -0x03},
-    { 0x19, -0x03},
-    { 0x19, -0x02},
-    { 0x19, -0x02},
-    { 0x18, -0x01},
-    { 0x19, -0x01},
-    { 0x18,  0x00},
-    { 0x18,  0x00},
-    { 0x18,  0x00},
-    { 0x18,  0x01},
-    { 0x18,  0x01},
-    { 0x19,  0x02},
-    { 0x18,  0x02},
-    { 0x19,  0x02},
-    { 0x18,  0x03},
-    { 0x18,  0x03},
-    { 0x19,  0x04},
-    { 0x18,  0x04},
-    { 0x18,  0x05},
-    { 0x18,  0x05},
-    { 0x18,  0x05},
-    { 0x18,  0x06},
-    { 0x17,  0x06},
-    { 0x17,  0x06},
-    { 0x17,  0x07},
-    { 0x17,  0x08},
-    { 0x17,  0x08},
-    { 0x17,  0x08},
-    { 0x17,  0x09},
-    { 0x17,  0x09},
-    { 0x17,  0x0a},
-    { 0x16,  0x0a},
-    { 0x16,  0x0a},
-    { 0x16,  0x0b},
-    { 0x16,  0x0b},
-    { 0x16,  0x0b},
-    { 0x16,  0x0c},
-    { 0x15,  0x0c},
-    { 0x15,  0x0c},
-    { 0x15,  0x0d},
-    { 0x14,  0x0d},
-    { 0x14,  0x0d},
-    { 0x13,  0x0d},
-    { 0x13,  0x0d},
-    { 0x13,  0x0e},
-    { 0x13,  0x0e},
-    { 0x13,  0x0f},
-    { 0x13,  0x0f},
-    { 0x12,  0x0f},
-    { 0x12,  0x10},
-    { 0x11,  0x10},
-    { 0x11,  0x10},
-    { 0x11,  0x11},
-    { 0x11,  0x11},
-    { 0x10,  0x11},
-    { 0x10,  0x12},
-    { 0x10,  0x12},
-    { 0x0f,  0x12},
-    { 0x0e,  0x12},
-    { 0x0f,  0x13},
-    { 0x0e,  0x13},
-    { 0x0e,  0x13},
-    { 0x0d,  0x13},
-    { 0x0d,  0x14},
-    { 0x0d,  0x14},
-    { 0x0d,  0x14},
-    { 0x0c,  0x14},
-    { 0x0c,  0x14},
-    { 0x0c,  0x15},
-    { 0x0b,  0x15},
-    { 0x0b,  0x15},
-    { 0x0b,  0x15},
-    { 0x0a,  0x15},
-    { 0x0a,  0x16},
-    { 0x0a,  0x16},
-    { 0x09,  0x16},
-    { 0x09,  0x16},
-    { 0x08,  0x16},
-    { 0x07,  0x16},
-    { 0x07,  0x17},
-    { 0x07,  0x17},
-    { 0x06,  0x17},
-    { 0x06,  0x17},
-    { 0x05,  0x17},
-    { 0x05,  0x17},
-    { 0x05,  0x18},
-    { 0x04,  0x18},
-    { 0x04,  0x18},
-    { 0x04,  0x18},
-    { 0x03,  0x18},
-    { 0x02,  0x18},
-    { 0x02,  0x18},
-    { 0x01,  0x18},
-    { 0x01,  0x18},
-    { 0x00,  0x18},
-    { 0x00,  0x18},
+    {0x00, -0x18},
+    {0x01, -0x19},
+    {0x01, -0x19},
+    {0x02, -0x19},
+    {0x02, -0x19},
+    {0x02, -0x19},
+    {0x03, -0x18},
+    {0x03, -0x19},
+    {0x04, -0x19},
+    {0x04, -0x19},
+    {0x04, -0x19},
+    {0x05, -0x19},
+    {0x05, -0x19},
+    {0x06, -0x18},
+    {0x06, -0x18},
+    {0x06, -0x18},
+    {0x07, -0x18},
+    {0x07, -0x18},
+    {0x07, -0x18},
+    {0x08, -0x18},
+    {0x08, -0x18},
+    {0x09, -0x18},
+    {0x09, -0x18},
+    {0x0a, -0x17},
+    {0x0a, -0x17},
+    {0x0b, -0x16},
+    {0x0b, -0x16},
+    {0x0b, -0x16},
+    {0x0c, -0x16},
+    {0x0c, -0x15},
+    {0x0d, -0x15},
+    {0x0d, -0x15},
+    {0x0d, -0x15},
+    {0x0e, -0x15},
+    {0x0e, -0x15},
+    {0x0e, -0x14},
+    {0x0e, -0x14},
+    {0x0f, -0x14},
+    {0x0f, -0x13},
+    {0x10, -0x13},
+    {0x10, -0x13},
+    {0x10, -0x13},
+    {0x10, -0x12},
+    {0x10, -0x12},
+    {0x11, -0x12},
+    {0x11, -0x11},
+    {0x11, -0x11},
+    {0x12, -0x11},
+    {0x12, -0x11},
+    {0x12, -0x10},
+    {0x12, -0x10},
+    {0x13, -0x10},
+    {0x13, -0x0f},
+    {0x13, -0x0f},
+    {0x14, -0x0f},
+    {0x14, -0x0e},
+    {0x14, -0x0e},
+    {0x14, -0x0d},
+    {0x14, -0x0d},
+    {0x15, -0x0d},
+    {0x15, -0x0d},
+    {0x15, -0x0c},
+    {0x16, -0x0c},
+    {0x16, -0x0c},
+    {0x16, -0x0b},
+    {0x16, -0x0b},
+    {0x16, -0x0a},
+    {0x17, -0x0a},
+    {0x17, -0x09},
+    {0x17, -0x09},
+    {0x17, -0x09},
+    {0x17, -0x09},
+    {0x17, -0x08},
+    {0x17, -0x08},
+    {0x17, -0x07},
+    {0x17, -0x07},
+    {0x17, -0x06},
+    {0x18, -0x06},
+    {0x18, -0x06},
+    {0x19, -0x05},
+    {0x19, -0x05},
+    {0x18, -0x04},
+    {0x19, -0x04},
+    {0x18, -0x03},
+    {0x19, -0x03},
+    {0x19, -0x03},
+    {0x19, -0x02},
+    {0x19, -0x02},
+    {0x18, -0x01},
+    {0x19, -0x01},
+    {0x18,  0x00},
+    {0x18,  0x00},
+    {0x18,  0x00},
+    {0x18,  0x01},
+    {0x18,  0x01},
+    {0x19,  0x02},
+    {0x18,  0x02},
+    {0x19,  0x02},
+    {0x18,  0x03},
+    {0x18,  0x03},
+    {0x19,  0x04},
+    {0x18,  0x04},
+    {0x18,  0x05},
+    {0x18,  0x05},
+    {0x18,  0x05},
+    {0x18,  0x06},
+    {0x17,  0x06},
+    {0x17,  0x06},
+    {0x17,  0x07},
+    {0x17,  0x08},
+    {0x17,  0x08},
+    {0x17,  0x08},
+    {0x17,  0x09},
+    {0x17,  0x09},
+    {0x17,  0x0a},
+    {0x16,  0x0a},
+    {0x16,  0x0a},
+    {0x16,  0x0b},
+    {0x16,  0x0b},
+    {0x16,  0x0b},
+    {0x16,  0x0c},
+    {0x15,  0x0c},
+    {0x15,  0x0c},
+    {0x15,  0x0d},
+    {0x14,  0x0d},
+    {0x14,  0x0d},
+    {0x13,  0x0d},
+    {0x13,  0x0d},
+    {0x13,  0x0e},
+    {0x13,  0x0e},
+    {0x13,  0x0f},
+    {0x13,  0x0f},
+    {0x12,  0x0f},
+    {0x12,  0x10},
+    {0x11,  0x10},
+    {0x11,  0x10},
+    {0x11,  0x11},
+    {0x11,  0x11},
+    {0x10,  0x11},
+    {0x10,  0x12},
+    {0x10,  0x12},
+    {0x0f,  0x12},
+    {0x0e,  0x12},
+    {0x0f,  0x13},
+    {0x0e,  0x13},
+    {0x0e,  0x13},
+    {0x0d,  0x13},
+    {0x0d,  0x14},
+    {0x0d,  0x14},
+    {0x0d,  0x14},
+    {0x0c,  0x14},
+    {0x0c,  0x14},
+    {0x0c,  0x15},
+    {0x0b,  0x15},
+    {0x0b,  0x15},
+    {0x0b,  0x15},
+    {0x0a,  0x15},
+    {0x0a,  0x16},
+    {0x0a,  0x16},
+    {0x09,  0x16},
+    {0x09,  0x16},
+    {0x08,  0x16},
+    {0x07,  0x16},
+    {0x07,  0x17},
+    {0x07,  0x17},
+    {0x06,  0x17},
+    {0x06,  0x17},
+    {0x05,  0x17},
+    {0x05,  0x17},
+    {0x05,  0x18},
+    {0x04,  0x18},
+    {0x04,  0x18},
+    {0x04,  0x18},
+    {0x03,  0x18},
+    {0x02,  0x18},
+    {0x02,  0x18},
+    {0x01,  0x18},
+    {0x01,  0x18},
+    {0x00,  0x18},
+    {0x00,  0x18},
     {-0x01,  0x17},
-    { 0x00,  0x18},
-    { 0x00,  0x18},
+    {0x00,  0x18},
+    {0x00,  0x18},
     {-0x01,  0x18},
     {-0x01,  0x18},
     {-0x02,  0x18},
@@ -610,7 +610,7 @@ static const s8 sClockHandCoords[][2] =
     {-0x02, -0x18},
     {-0x01, -0x19},
     {-0x01, -0x19},
-    { 0x00, -0x19}
+    {0x00, -0x19}
 };
 
 static void VBlankCB_WallClock(void)
@@ -641,10 +641,11 @@ static void LoadWallClockGraphics(void)
     DmaClear16(3, (void *)PLTT, PLTT_SIZE);
     LZ77UnCompVram(gWallClock_Gfx, (void *)VRAM);
 
-    if (gSpecialVar_0x8004 == MALE)
+    if (gSpecialVar_0x8004 == MALE) {
         LoadPalette(gWallClockMale_Pal, 0, 32);
-    else
+    } else {
         LoadPalette(gWallClockFemale_Pal, 0, 32);
+    }
 
     LoadPalette(GetOverworldTextboxPalettePtr(), 0xe0, 32);
     LoadPalette(sTextPrompt_Pal, 0xc0, 8);
@@ -732,13 +733,10 @@ void CB2_ViewWallClock(void)
 
     taskId = CreateTask(Task_ViewClock_WaitFadeIn, 0);
     InitClockWithRtc(taskId);
-    if (gTasks[taskId].tPeriod == PERIOD_AM)
-    {
+    if (gTasks[taskId].tPeriod == PERIOD_AM) {
         angle1 = 45;
         angle2 = 90;
-    }
-    else
-    {
+    } else {
         angle1 = 90;
         angle2 = 135;
     }
@@ -779,46 +777,39 @@ static void CB2_WallClock(void)
 
 static void Task_SetClock_WaitFadeIn(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         gTasks[taskId].func = Task_SetClock_HandleInput;
     }
 }
 
 static void Task_SetClock_HandleInput(u8 taskId)
 {
-    if (gTasks[taskId].tMinuteHandAngle % 6)
-    {
+    if (gTasks[taskId].tMinuteHandAngle % 6) {
         gTasks[taskId].tMinuteHandAngle = CalcNewMinHandAngle(gTasks[taskId].tMinuteHandAngle, gTasks[taskId].tMoveDir, gTasks[taskId].tMoveSpeed);
-    }
-    else
-    {
+    } else {
         gTasks[taskId].tMinuteHandAngle = gTasks[taskId].tMinutes * 6;
         gTasks[taskId].tHourHandAngle = (gTasks[taskId].tHours % 12) * 30 + (gTasks[taskId].tMinutes / 10) * 5;
-        if (JOY_NEW(A_BUTTON))
-        {
+        if (JOY_NEW(A_BUTTON)) {
             gTasks[taskId].func = Task_SetClock_AskConfirm;
-        }
-        else
-        {
+        } else {
             gTasks[taskId].tMoveDir = MOVE_NONE;
 
-            if (JOY_HELD(DPAD_LEFT))
+            if (JOY_HELD(DPAD_LEFT)) {
                 gTasks[taskId].tMoveDir = MOVE_BACKWARD;
+            }
 
-            if (JOY_HELD(DPAD_RIGHT))
+            if (JOY_HELD(DPAD_RIGHT)) {
                 gTasks[taskId].tMoveDir = MOVE_FORWARD;
+            }
 
-            if (gTasks[taskId].tMoveDir != MOVE_NONE)
-            {
-                if (gTasks[taskId].tMoveSpeed < 0xFF)
+            if (gTasks[taskId].tMoveDir != MOVE_NONE) {
+                if (gTasks[taskId].tMoveSpeed < 0xFF) {
                     gTasks[taskId].tMoveSpeed++;
+                }
 
                 gTasks[taskId].tMinuteHandAngle = CalcNewMinHandAngle(gTasks[taskId].tMinuteHandAngle, gTasks[taskId].tMoveDir, gTasks[taskId].tMoveSpeed);
                 AdvanceClock(taskId, gTasks[taskId].tMoveDir);
-            }
-            else
-            {
+            } else {
                 gTasks[taskId].tMoveSpeed = 0;
             }
         }
@@ -837,8 +828,7 @@ static void Task_SetClock_AskConfirm(u8 taskId)
 
 static void Task_SetClock_HandleConfirmInput(u8 taskId)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case 0: // YES
         PlaySE(SE_SELECT);
         gTasks[taskId].func = Task_SetClock_Confirmed;
@@ -862,8 +852,7 @@ static void Task_SetClock_Confirmed(u8 taskId)
 
 static void Task_SetClock_Exit(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         FreeAllWindowBuffers();
         SetMainCallback2(gMain.savedCallback);
     }
@@ -871,15 +860,17 @@ static void Task_SetClock_Exit(u8 taskId)
 
 static void Task_ViewClock_WaitFadeIn(u8 taskId)
 {
-    if (!gPaletteFade.active)
+    if (!gPaletteFade.active) {
         gTasks[taskId].func = Task_ViewClock_HandleInput;
+    }
 }
 
 static void Task_ViewClock_HandleInput(u8 taskId)
 {
     InitClockWithRtc(taskId);
-    if (JOY_NEW(A_BUTTON | B_BUTTON))
+    if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         gTasks[taskId].func = Task_ViewClock_FadeOut;
+    }
 }
 
 static void Task_ViewClock_FadeOut(u8 taskId)
@@ -890,18 +881,22 @@ static void Task_ViewClock_FadeOut(u8 taskId)
 
 static void Task_ViewClock_Exit(u8 taskId)
 {
-    if (!gPaletteFade.active)
+    if (!gPaletteFade.active) {
         SetMainCallback2(gMain.savedCallback);
+    }
 }
 
 static u8 CalcMinHandDelta(u16 speed)
 {
-    if (speed > 60)
+    if (speed > 60) {
         return 6;
-    if (speed > 30)
+    }
+    if (speed > 30) {
         return 3;
-    if (speed > 10)
+    }
+    if (speed > 10) {
         return 2;
+    }
 
     return 1;
 }
@@ -909,19 +904,20 @@ static u8 CalcMinHandDelta(u16 speed)
 static u16 CalcNewMinHandAngle(u16 angle, u8 direction, u8 speed)
 {
     u8 delta = CalcMinHandDelta(speed);
-    switch (direction)
-    {
+    switch (direction) {
     case MOVE_BACKWARD:
-        if (angle)
+        if (angle) {
             angle -= delta;
-        else
+        } else {
             angle = 360 - delta;
+        }
         break;
     case MOVE_FORWARD:
-        if (angle < 360 - delta)
+        if (angle < 360 - delta) {
             angle += delta;
-        else
+        } else {
             angle = 0;
+        }
         break;
     }
     return angle;
@@ -929,38 +925,33 @@ static u16 CalcNewMinHandAngle(u16 angle, u8 direction, u8 speed)
 
 static bool32 AdvanceClock(u8 taskId, u8 direction)
 {
-    switch (direction)
-    {
+    switch (direction) {
     case MOVE_BACKWARD:
-        if (gTasks[taskId].tMinutes > 0)
-        {
+        if (gTasks[taskId].tMinutes > 0) {
             gTasks[taskId].tMinutes--;
-        }
-        else
-        {
+        } else {
             gTasks[taskId].tMinutes = 59;
 
-            if (gTasks[taskId].tHours > 0)
+            if (gTasks[taskId].tHours > 0) {
                 gTasks[taskId].tHours--;
-            else
+            } else {
                 gTasks[taskId].tHours = 23;
+            }
 
             UpdateClockPeriod(taskId, direction);
         }
         break;
     case MOVE_FORWARD:
-        if (gTasks[taskId].tMinutes < 59)
-        {
+        if (gTasks[taskId].tMinutes < 59) {
             gTasks[taskId].tMinutes++;
-        }
-        else
-        {
+        } else {
             gTasks[taskId].tMinutes = 0;
 
-            if (gTasks[taskId].tHours < 23)
+            if (gTasks[taskId].tHours < 23) {
                 gTasks[taskId].tHours++;
-            else
+            } else {
                 gTasks[taskId].tHours = 0;
+            }
 
             UpdateClockPeriod(taskId, direction);
         }
@@ -972,11 +963,9 @@ static bool32 AdvanceClock(u8 taskId, u8 direction)
 static void UpdateClockPeriod(u8 taskId, u8 direction)
 {
     u8 hours = gTasks[taskId].tHours;
-    switch (direction)
-    {
+    switch (direction) {
     case MOVE_BACKWARD:
-        switch (hours)
-        {
+        switch (hours) {
         case 11:
             gTasks[taskId].tPeriod = PERIOD_AM;
             break;
@@ -986,8 +975,7 @@ static void UpdateClockPeriod(u8 taskId, u8 direction)
         }
         break;
     case MOVE_FORWARD:
-        switch (hours)
-        {
+        switch (hours) {
         case 0:
             gTasks[taskId].tPeriod = PERIOD_AM;
             break;
@@ -1007,10 +995,11 @@ static void InitClockWithRtc(u8 taskId)
     gTasks[taskId].tMinuteHandAngle = gTasks[taskId].tMinutes * 6;
     gTasks[taskId].tHourHandAngle = (gTasks[taskId].tHours % 12) * 30 + (gTasks[taskId].tMinutes / 10) * 5;
 
-    if (gLocalTime.hours < 12)
+    if (gLocalTime.hours < 12) {
         gTasks[taskId].tPeriod = PERIOD_AM;
-    else
+    } else {
         gTasks[taskId].tPeriod = PERIOD_PM;
+    }
 }
 
 static void SpriteCB_MinuteHand(struct Sprite *sprite)
@@ -1024,10 +1013,12 @@ static void SpriteCB_MinuteHand(struct Sprite *sprite)
     x = sClockHandCoords[angle][0];
     y = sClockHandCoords[angle][1];
 
-    if (x > 128)
+    if (x > 128) {
         x |= 0xff00;
-    if (y > 128)
+    }
+    if (y > 128) {
         y |= 0xff00;
+    }
 
     sprite->pos2.x = x;
     sprite->pos2.y = y;
@@ -1044,10 +1035,12 @@ static void SpriteCB_HourHand(struct Sprite *sprite)
     x = sClockHandCoords[angle][0];
     y = sClockHandCoords[angle][1];
 
-    if (x > 128)
+    if (x > 128) {
         x |= 0xff00;
-    if (y > 128)
+    }
+    if (y > 128) {
         y |= 0xff00;
+    }
 
     sprite->pos2.x = x;
     sprite->pos2.y = y;
@@ -1055,25 +1048,18 @@ static void SpriteCB_HourHand(struct Sprite *sprite)
 
 static void SpriteCB_PMIndicator(struct Sprite *sprite)
 {
-    if (gTasks[sprite->data[0]].tPeriod != PERIOD_AM)
-    {
-        if (sprite->data[1] >= 60 && sprite->data[1] < 90)
-        {
+    if (gTasks[sprite->data[0]].tPeriod != PERIOD_AM) {
+        if (sprite->data[1] >= 60 && sprite->data[1] < 90) {
             sprite->data[1] += 5;
         }
-        if (sprite->data[1] < 60)
-        {
+        if (sprite->data[1] < 60) {
             sprite->data[1]++;
         }
-    }
-    else
-    {
-        if (sprite->data[1] >= 46 && sprite->data[1] < 76)
-        {
+    } else {
+        if (sprite->data[1] >= 46 && sprite->data[1] < 76) {
             sprite->data[1] -= 5;
         }
-        if (sprite->data[1] > 75)
-        {
+        if (sprite->data[1] > 75) {
             sprite->data[1]--;
         }
     }
@@ -1083,25 +1069,18 @@ static void SpriteCB_PMIndicator(struct Sprite *sprite)
 
 static void SpriteCB_AMIndicator(struct Sprite *sprite)
 {
-    if (gTasks[sprite->data[0]].tPeriod != PERIOD_AM)
-    {
-        if (sprite->data[1] >= 105 && sprite->data[1] < 135)
-        {
+    if (gTasks[sprite->data[0]].tPeriod != PERIOD_AM) {
+        if (sprite->data[1] >= 105 && sprite->data[1] < 135) {
             sprite->data[1] += 5;
         }
-        if (sprite->data[1] < 105)
-        {
+        if (sprite->data[1] < 105) {
             sprite->data[1]++;
         }
-    }
-    else
-    {
-        if (sprite->data[1] >= 91 && sprite->data[1] < 121)
-        {
+    } else {
+        if (sprite->data[1] >= 91 && sprite->data[1] < 121) {
             sprite->data[1] -= 5;
         }
-        if (sprite->data[1] > 120)
-        {
+        if (sprite->data[1] > 120) {
             sprite->data[1]--;
         }
     }

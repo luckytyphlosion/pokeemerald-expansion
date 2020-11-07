@@ -210,7 +210,7 @@ static void sub_811DD84(void);
 static void sub_811D6F4(void);
 static void PrintEasyChatKeyboardText(void);
 static void sub_811D794(void);
-static const u8 *GetEasyChatWordGroupName(u8);
+static const u8 * GetEasyChatWordGroupName(u8);
 static void sub_811D864(u8, u8);
 static void sub_811D950(u8, u8);
 static void sub_811DADC(u8);
@@ -223,7 +223,7 @@ static bool8 EasyChatIsNationalPokedexEnabled(void);
 static u16 GetRandomUnlockedEasyChatPokemon(void);
 static void sub_811F2D4(void);
 static void sub_811F46C(void);
-static u8 *CopyEasyChatWordPadded(u8 *, u16, u16);
+static u8 * CopyEasyChatWordPadded(u8 *, u16, u16);
 static u8 sub_811F860(u16);
 static u16 sub_811F5C4(u16);
 static u16 sub_811F6B8(u16);
@@ -516,8 +516,8 @@ static const struct EasyChatScreenTemplate sEasyChatScreenTemplates[] = {
 };
 
 static const u8 sUnknown_08597748[][7] = {
-    { 1,  2,  3,  4,  5,  6,  0},
-    { 7,  8,  9, 10, 11, 12,  0},
+    {1,  2,  3,  4,  5,  6,  0},
+    {7,  8,  9, 10, 11, 12,  0},
     {13, 14, 15, 16, 17, 18, 19},
     {20, 21, 22, 23, 24, 25, 26},
 };
@@ -685,7 +685,7 @@ static const struct WindowTemplate sEasyChatWindowTemplates[] = {
     DUMMY_WIN_TEMPLATE,
 };
 
-static  const struct WindowTemplate sEasyChatYesNoWindowTemplate = {
+static const struct WindowTemplate sEasyChatYesNoWindowTemplate = {
     .bg = 0,
     .tilemapLeft = 22,
     .tilemapTop = 9,
@@ -697,7 +697,7 @@ static  const struct WindowTemplate sEasyChatYesNoWindowTemplate = {
 
 static const u8 sText_Clear17[] = _("{CLEAR 17}");
 
-static const u8 *const sEasyChatKeyboardText[] = 
+static const u8 *const sEasyChatKeyboardText[] =
 {
     gText_EasyChatKeyboard_ABCDEFothers,
     gText_EasyChatKeyboard_GHIJKL,
@@ -1117,14 +1117,12 @@ static void sub_811A2A4(u8 taskId, TaskFunc taskFunc)
 
 static void sub_811A2C0(u8 taskId)
 {
-    if (!IsUpdateLinkStateCBActive())
-    {
-        while (sub_811A428(taskId));
-    }
-    else
-    {
-        if (sub_811A428(taskId) == TRUE)
-        {
+    if (!IsUpdateLinkStateCBActive()) {
+        while (sub_811A428(taskId)) {
+            ;
+        }
+    } else {
+        if (sub_811A428(taskId) == TRUE) {
             return;
         }
     }
@@ -1137,8 +1135,7 @@ static void sub_811A2FC(u8 taskId)
     s16 *data;
 
     data = gTasks[taskId].data;
-    switch (data[EZCHAT_TASK_STATE])
-    {
+    switch (data[EZCHAT_TASK_STATE]) {
     case 0:
         SetVBlankCallback(VBlankCallback_EasyChatScreen);
         BlendPalettes(0xFFFFFFFF, 16, 0);
@@ -1147,39 +1144,38 @@ static void sub_811A2FC(u8 taskId)
         break;
     case 1:
         v0 = sub_811AAAC();
-        if (sub_811A88C(v0))
-        {
+        if (sub_811A88C(v0)) {
             BeginNormalPaletteFade(0xFFFFFFFF, -2, 0, 16, RGB_BLACK);
             data[EZCHAT_TASK_STATE] = 3;
             data[EZCHAT_TASK_UNK06] = v0;
-        }
-        else if (v0 == 0x18)
-        {
+        } else if (v0 == 0x18) {
             BeginNormalPaletteFade(0xFFFFFFFF, -1, 0, 16, RGB_BLACK);
             data[EZCHAT_TASK_STATE] = 4;
-        }
-        else if (v0 != 0)
-        {
+        } else if (v0 != 0) {
             PlaySE(SE_SELECT);
             sub_811C158(v0);
-            data[EZCHAT_TASK_STATE] ++;
+            data[EZCHAT_TASK_STATE]++;
         }
         break;
     case 2:
-        if (!sub_811C170())
+        if (!sub_811C170()) {
             data[EZCHAT_TASK_STATE] = 1;
+        }
         break;
     case 3:
-        if (!gPaletteFade.active)
+        if (!gPaletteFade.active) {
             sub_811A8A4(data[EZCHAT_TASK_UNK06]);
+        }
         break;
     case 4:
-        if (!gPaletteFade.active)
+        if (!gPaletteFade.active) {
             sub_811A4D0((MainCallback)GetWordTaskArg(taskId, EZCHAT_TASK_MAINCALLBACK));
+        }
         break;
     case 5:
-        if (!gPaletteFade.active)
+        if (!gPaletteFade.active) {
             data[EZCHAT_TASK_STATE] = 1;
+        }
         break;
     }
 }
@@ -1189,8 +1185,7 @@ static bool8 sub_811A428(u8 taskId)
     s16 *data;
 
     data = gTasks[taskId].data;
-    switch (data[EZCHAT_TASK_STATE])
-    {
+    switch (data[EZCHAT_TASK_STATE]) {
     case 0:
         SetVBlankCallback(NULL);
         ResetSpriteData();
@@ -1198,33 +1193,29 @@ static bool8 sub_811A428(u8 taskId)
         ResetPaletteFade();
         break;
     case 1:
-        if (!sub_811F28C())
-        {
+        if (!sub_811F28C()) {
             sub_811A4D0((MainCallback)GetWordTaskArg(taskId, EZCHAT_TASK_MAINCALLBACK));
         }
         break;
     case 2:
-        if (!EasyChat_AllocateResources(data[EZCHAT_TASK_TYPE], (u16 *)GetWordTaskArg(taskId, EZCHAT_TASK_WORDS), data[EZCHAT_TASK_SIZE]))
-        {
+        if (!EasyChat_AllocateResources(data[EZCHAT_TASK_TYPE], (u16 *)GetWordTaskArg(taskId, EZCHAT_TASK_WORDS), data[EZCHAT_TASK_SIZE])) {
             sub_811A4D0((MainCallback)GetWordTaskArg(taskId, EZCHAT_TASK_MAINCALLBACK));
         }
         break;
     case 3:
-        if (!sub_811BF8C())
-        {
+        if (!sub_811BF8C()) {
             sub_811A4D0((MainCallback)GetWordTaskArg(taskId, EZCHAT_TASK_MAINCALLBACK));
         }
         break;
     case 4:
-        if (sub_811BFA4())
-        {
+        if (sub_811BFA4()) {
             return TRUE;
         }
         break;
     default:
         return FALSE;
     }
-    data[EZCHAT_TASK_STATE] ++;
+    data[EZCHAT_TASK_STATE]++;
     return TRUE;
 }
 
@@ -1243,8 +1234,7 @@ void ShowEasyChatScreen(void)
     u16 *words;
     struct MauvilleManBard *bard;
     u8 displayedPersonType = EASY_CHAT_PERSON_DISPLAY_NONE;
-    switch (gSpecialVar_0x8004)
-    {
+    switch (gSpecialVar_0x8004) {
     case EASY_CHAT_TYPE_PROFILE:
         words = gSaveBlock1Ptr->easyChatProfile;
         break;
@@ -1262,8 +1252,9 @@ void ShowEasyChatScreen(void)
         break;
     case EASY_CHAT_TYPE_BARD_SONG:
         bard = &gSaveBlock1Ptr->oldMan.bard;
-        for (i = 0; i < BARD_SONG_LENGTH; i ++)
+        for (i = 0; i < BARD_SONG_LENGTH; i++) {
             bard->temporaryLyrics[i] = bard->songLyrics[i];
+        }
 
         words = bard->temporaryLyrics;
         break;
@@ -1336,14 +1327,12 @@ static void CB2_QuizLadyQuestion(void)
     LilycoveLady *lilycoveLady;
 
     UpdatePaletteFade();
-    switch (gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
         FadeScreen(FADE_TO_BLACK, 0);
         break;
     case 1:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             lilycoveLady = &gSaveBlock1Ptr->lilycoveLady;
             lilycoveLady->quiz.playerAnswer = -1;
             CleanupOverworldWindowsAndTilemaps();
@@ -1351,7 +1340,7 @@ static void CB2_QuizLadyQuestion(void)
         }
         return;
     }
-    gMain.state ++;
+    gMain.state++;
 }
 
 void QuizLadyShowQuizQuestion(void)
@@ -1363,10 +1352,10 @@ static int sub_811A868(u16 word)
 {
     int i;
 
-    for (i = 0; i < ARRAY_COUNT(sUnknown_08597530); i ++)
-    {
-        if (word == sUnknown_08597530[i].word)
+    for (i = 0; i < ARRAY_COUNT(sUnknown_08597530); i++) {
+        if (word == sUnknown_08597530[i].word) {
             return i;
+        }
     }
     return -1;
 }
@@ -1397,25 +1386,25 @@ static void DoQuizAnswerEasyChatScreen(void)
 static void DoQuizQuestionEasyChatScreen(void)
 {
     DoEasyChatScreen(EASY_CHAT_TYPE_QUIZ_QUESTION,
-        gSaveBlock1Ptr->lilycoveLady.quiz.question,
-        CB2_ReturnToFieldContinueScript,
-        EASY_CHAT_PERSON_DISPLAY_NONE);
+                     gSaveBlock1Ptr->lilycoveLady.quiz.question,
+                     CB2_ReturnToFieldContinueScript,
+                     EASY_CHAT_PERSON_DISPLAY_NONE);
 }
 
 static void DoQuizSetAnswerEasyChatScreen(void)
 {
     DoEasyChatScreen(EASY_CHAT_TYPE_QUIZ_SET_ANSWER,
-        &gSaveBlock1Ptr->lilycoveLady.quiz.correctAnswer,
-        CB2_ReturnToFieldContinueScript,
-        EASY_CHAT_PERSON_DISPLAY_NONE);
+                     &gSaveBlock1Ptr->lilycoveLady.quiz.correctAnswer,
+                     CB2_ReturnToFieldContinueScript,
+                     EASY_CHAT_PERSON_DISPLAY_NONE);
 }
 
 static void DoQuizSetQuestionEasyChatScreen(void)
 {
     DoEasyChatScreen(EASY_CHAT_TYPE_QUIZ_SET_QUESTION,
-        gSaveBlock1Ptr->lilycoveLady.quiz.question,
-        CB2_ReturnToFieldContinueScript,
-        EASY_CHAT_PERSON_DISPLAY_NONE);
+                     gSaveBlock1Ptr->lilycoveLady.quiz.question,
+                     CB2_ReturnToFieldContinueScript,
+                     EASY_CHAT_PERSON_DISPLAY_NONE);
 }
 
 static bool8 EasyChat_AllocateResources(u8 type, u16 *words, u8 displayedPersonType)
@@ -1424,8 +1413,9 @@ static bool8 EasyChat_AllocateResources(u8 type, u16 *words, u8 displayedPersonT
     int i;
 
     sEasyChatScreen = malloc(sizeof(*sEasyChatScreen));
-    if (sEasyChatScreen == NULL)
+    if (sEasyChatScreen == NULL) {
         return FALSE;
+    }
 
     sEasyChatScreen->type = type;
     sEasyChatScreen->words = words;
@@ -1435,14 +1425,11 @@ static bool8 EasyChat_AllocateResources(u8 type, u16 *words, u8 displayedPersonT
     sEasyChatScreen->displayedPersonType = displayedPersonType;
     sEasyChatScreen->unk_13 = 0;
     templateId = GetEachChatScreenTemplateId(type);
-    if (type == EASY_CHAT_TYPE_QUIZ_QUESTION)
-    {
+    if (type == EASY_CHAT_TYPE_QUIZ_QUESTION) {
         sub_811BDF0(sEasyChatScreen->unk_14);
         sEasyChatScreen->titleText = sEasyChatScreen->unk_14;
         sEasyChatScreen->state = 7;
-    }
-    else
-    {
+    } else {
         sEasyChatScreen->state = 0;
         sEasyChatScreen->titleText = sEasyChatScreenTemplates[templateId].titleText;
     }
@@ -1451,17 +1438,16 @@ static bool8 EasyChat_AllocateResources(u8 type, u16 *words, u8 displayedPersonT
     sEasyChatScreen->numRows = sEasyChatScreenTemplates[templateId].numRows;
     sEasyChatScreen->unk_07 = sEasyChatScreen->numColumns * sEasyChatScreen->numRows;
     sEasyChatScreen->templateId = templateId;
-    if (sEasyChatScreen->unk_07 > 9)
+    if (sEasyChatScreen->unk_07 > 9) {
         sEasyChatScreen->unk_07 = 9;
-
-    if (words != NULL)
-    {
-        CpuCopy16(words, sEasyChatScreen->ecWordBuffer, sEasyChatScreen->unk_07 * sizeof(u16));
     }
-    else
-    {
-        for (i = 0; i < sEasyChatScreen->unk_07; i ++)
+
+    if (words != NULL) {
+        CpuCopy16(words, sEasyChatScreen->ecWordBuffer, sEasyChatScreen->unk_07 * sizeof(u16));
+    } else {
+        for (i = 0; i < sEasyChatScreen->unk_07; i++) {
             sEasyChatScreen->ecWordBuffer[i] = -1;
+        }
 
         sEasyChatScreen->words = sEasyChatScreen->ecWordBuffer;
     }
@@ -1472,14 +1458,14 @@ static bool8 EasyChat_AllocateResources(u8 type, u16 *words, u8 displayedPersonT
 
 static void EasyChat_FreeResources(void)
 {
-    if (sEasyChatScreen != NULL)
+    if (sEasyChatScreen != NULL) {
         FREE_AND_SET_NULL(sEasyChatScreen);
+    }
 }
 
 static u16 sub_811AAAC(void)
 {
-    switch (sEasyChatScreen->state)
-    {
+    switch (sEasyChatScreen->state) {
     case 0:
         return sub_811AB68();
     case 1:
@@ -1508,8 +1494,7 @@ static u16 sub_811AAAC(void)
 
 bool32 sub_811AB44(void)
 {
-    switch (GetEasyChatScreenFrameId())
-    {
+    switch (GetEasyChatScreenFrameId()) {
     case 2:
     case 7:
     case 8:
@@ -1520,42 +1505,28 @@ bool32 sub_811AB44(void)
 
 static u16 sub_811AB68(void)
 {
-    do
-    {
-        if (JOY_NEW(A_BUTTON))
-        {
+    do {
+        if (JOY_NEW(A_BUTTON)) {
             sub_811BF78();
             sEasyChatScreen->state = 2;
             sEasyChatScreen->unk_0a = 0;
             sEasyChatScreen->unk_0b = 0;
             sEasyChatScreen->unk_0c = 0;
             return 9;
-        }
-        else if (JOY_NEW(B_BUTTON))
-        {
+        } else if (JOY_NEW(B_BUTTON)) {
             return sub_811B150();
-        }
-        else if (JOY_NEW(START_BUTTON))
-        {
+        } else if (JOY_NEW(START_BUTTON)) {
             return sub_811B1B4();
-        }
-        else if (JOY_NEW(DPAD_UP))
-        {
+        } else if (JOY_NEW(DPAD_UP)) {
             sEasyChatScreen->mainCursorRow--;
             break;
-        }
-        else if (JOY_NEW(DPAD_LEFT))
-        {
+        } else if (JOY_NEW(DPAD_LEFT)) {
             sEasyChatScreen->mainCursorColumn--;
             break;
-        }
-        else if (JOY_NEW(DPAD_DOWN))
-        {
+        } else if (JOY_NEW(DPAD_DOWN)) {
             sEasyChatScreen->mainCursorRow++;
             break;
-        }
-        else if (JOY_NEW(DPAD_RIGHT))
-        {
+        } else if (JOY_NEW(DPAD_RIGHT)) {
             sEasyChatScreen->mainCursorColumn++;
             break;
         }
@@ -1563,41 +1534,43 @@ static u16 sub_811AB68(void)
         return 0;
     } while (0);
 
-    if (sEasyChatScreen->mainCursorRow < 0)
+    if (sEasyChatScreen->mainCursorRow < 0) {
         sEasyChatScreen->mainCursorRow = sEasyChatScreenTemplates[sEasyChatScreen->templateId].numRows;
+    }
 
-    if (sEasyChatScreen->mainCursorRow > sEasyChatScreenTemplates[sEasyChatScreen->templateId].numRows)
+    if (sEasyChatScreen->mainCursorRow > sEasyChatScreenTemplates[sEasyChatScreen->templateId].numRows) {
         sEasyChatScreen->mainCursorRow = 0;
+    }
 
-    if (sEasyChatScreen->mainCursorRow == sEasyChatScreenTemplates[sEasyChatScreen->templateId].numRows)
-    {
-        if (sEasyChatScreen->mainCursorColumn > 2)
+    if (sEasyChatScreen->mainCursorRow == sEasyChatScreenTemplates[sEasyChatScreen->templateId].numRows) {
+        if (sEasyChatScreen->mainCursorColumn > 2) {
             sEasyChatScreen->mainCursorColumn = 2;
+        }
 
         sEasyChatScreen->state = 1;
         return 3;
     }
 
-    if (sEasyChatScreen->mainCursorColumn < 0)
+    if (sEasyChatScreen->mainCursorColumn < 0) {
         sEasyChatScreen->mainCursorColumn = sEasyChatScreenTemplates[sEasyChatScreen->templateId].numColumns - 1;
+    }
 
-    if (sEasyChatScreen->mainCursorColumn >= sEasyChatScreenTemplates[sEasyChatScreen->templateId].numColumns)
+    if (sEasyChatScreen->mainCursorColumn >= sEasyChatScreenTemplates[sEasyChatScreen->templateId].numColumns) {
         sEasyChatScreen->mainCursorColumn = 0;
+    }
 
-    if (sub_811AB44() && sEasyChatScreen->mainCursorColumn == 1 && sEasyChatScreen->mainCursorRow == 4)
+    if (sub_811AB44() && sEasyChatScreen->mainCursorColumn == 1 && sEasyChatScreen->mainCursorRow == 4) {
         sEasyChatScreen->mainCursorColumn = 0;
+    }
 
     return 2;
 }
 
 static u16 sub_811ACDC(void)
 {
-    do
-    {
-        if (JOY_NEW(A_BUTTON))
-        {
-            switch (sEasyChatScreen->mainCursorColumn)
-            {
+    do {
+        if (JOY_NEW(A_BUTTON)) {
+            switch (sEasyChatScreen->mainCursorColumn) {
             case 0:
                 return sub_811B184();
             case 1:
@@ -1609,31 +1582,25 @@ static u16 sub_811ACDC(void)
             }
         }
 
-        if (JOY_NEW(B_BUTTON))
-        {
+        if (JOY_NEW(B_BUTTON)) {
             return sub_811B150();
         }
-        if (JOY_NEW(START_BUTTON))
-        {
+        if (JOY_NEW(START_BUTTON)) {
             return sub_811B1B4();
         }
-        if (JOY_NEW(DPAD_UP))
-        {
+        if (JOY_NEW(DPAD_UP)) {
             sEasyChatScreen->mainCursorRow--;
             break;
         }
-        if (JOY_NEW(DPAD_LEFT))
-        {
+        if (JOY_NEW(DPAD_LEFT)) {
             sEasyChatScreen->mainCursorColumn--;
             break;
         }
-        if (JOY_NEW(DPAD_DOWN))
-        {
+        if (JOY_NEW(DPAD_DOWN)) {
             sEasyChatScreen->mainCursorRow = 0;
             break;
         }
-        if (JOY_NEW(DPAD_RIGHT))
-        {
+        if (JOY_NEW(DPAD_RIGHT)) {
             sEasyChatScreen->mainCursorColumn++;
             break;
         }
@@ -1641,23 +1608,26 @@ static u16 sub_811ACDC(void)
         return 0;
     } while (0);
 
-    if (sEasyChatScreen->mainCursorRow == sEasyChatScreenTemplates[sEasyChatScreen->templateId].numRows)
-    {
+    if (sEasyChatScreen->mainCursorRow == sEasyChatScreenTemplates[sEasyChatScreen->templateId].numRows) {
         int numFooterColumns = FooterHasFourOptions() ? 4 : 3;
-        if (sEasyChatScreen->mainCursorColumn < 0)
+        if (sEasyChatScreen->mainCursorColumn < 0) {
             sEasyChatScreen->mainCursorColumn = numFooterColumns - 1;
+        }
 
-        if (sEasyChatScreen->mainCursorColumn >= numFooterColumns)
+        if (sEasyChatScreen->mainCursorColumn >= numFooterColumns) {
             sEasyChatScreen->mainCursorColumn = 0;
+        }
 
         return 3;
     }
 
-    if (sEasyChatScreen->mainCursorColumn >= sEasyChatScreenTemplates[sEasyChatScreen->templateId].numColumns)
+    if (sEasyChatScreen->mainCursorColumn >= sEasyChatScreenTemplates[sEasyChatScreen->templateId].numColumns) {
         sEasyChatScreen->mainCursorColumn = sEasyChatScreenTemplates[sEasyChatScreen->templateId].numColumns - 1;
+    }
 
-    if (sub_811AB44() && sEasyChatScreen->mainCursorColumn == 1 && sEasyChatScreen->mainCursorRow == 4)
+    if (sub_811AB44() && sEasyChatScreen->mainCursorColumn == 1 && sEasyChatScreen->mainCursorRow == 4) {
         sEasyChatScreen->mainCursorColumn = 0;
+    }
 
     sEasyChatScreen->state = 0;
     return 2;
@@ -1665,16 +1635,16 @@ static u16 sub_811ACDC(void)
 
 static u16 sub_811AE44(void)
 {
-    if (JOY_NEW(B_BUTTON))
+    if (JOY_NEW(B_BUTTON)) {
         return sub_811B32C();
+    }
 
-    if (JOY_NEW(A_BUTTON))
-    {
-        if (sEasyChatScreen->unk_0a != -1)
+    if (JOY_NEW(A_BUTTON)) {
+        if (sEasyChatScreen->unk_0a != -1) {
             return sub_811B2B0();
+        }
 
-        switch (sEasyChatScreen->unk_0b)
-        {
+        switch (sEasyChatScreen->unk_0b) {
         case 0:
             return sub_811B33C();
         case 1:
@@ -1684,52 +1654,63 @@ static u16 sub_811AE44(void)
         }
     }
 
-    if (JOY_NEW(SELECT_BUTTON))
+    if (JOY_NEW(SELECT_BUTTON)) {
         return sub_811B33C();
+    }
 
-    if (JOY_REPEAT(DPAD_UP))
+    if (JOY_REPEAT(DPAD_UP)) {
         return sub_811B528(2);
+    }
 
-    if (JOY_REPEAT(DPAD_DOWN))
+    if (JOY_REPEAT(DPAD_DOWN)) {
         return sub_811B528(3);
+    }
 
-    if (JOY_REPEAT(DPAD_LEFT))
+    if (JOY_REPEAT(DPAD_LEFT)) {
         return sub_811B528(1);
+    }
 
-    if (JOY_REPEAT(DPAD_RIGHT))
+    if (JOY_REPEAT(DPAD_RIGHT)) {
         return sub_811B528(0);
+    }
 
     return 0;
 }
 
 static u16 sub_811AF00(void)
 {
-    if (JOY_NEW(B_BUTTON))
-    {
+    if (JOY_NEW(B_BUTTON)) {
         sEasyChatScreen->state = 2;
         return 14;
     }
 
-    if (JOY_NEW(A_BUTTON))
+    if (JOY_NEW(A_BUTTON)) {
         return sub_811B394();
+    }
 
-    if (JOY_NEW(START_BUTTON))
+    if (JOY_NEW(START_BUTTON)) {
         return sub_811B794(4);
+    }
 
-    if (JOY_NEW(SELECT_BUTTON))
+    if (JOY_NEW(SELECT_BUTTON)) {
         return sub_811B794(5);
+    }
 
-    if (JOY_REPEAT(DPAD_UP))
+    if (JOY_REPEAT(DPAD_UP)) {
         return sub_811B794(2);
+    }
 
-    if (JOY_REPEAT(DPAD_DOWN))
+    if (JOY_REPEAT(DPAD_DOWN)) {
         return sub_811B794(3);
+    }
 
-    if (JOY_REPEAT(DPAD_LEFT))
+    if (JOY_REPEAT(DPAD_LEFT)) {
         return sub_811B794(1);
+    }
 
-    if (JOY_REPEAT(DPAD_RIGHT))
+    if (JOY_REPEAT(DPAD_RIGHT)) {
         return sub_811B794(0);
+    }
 
     return 0;
 }
@@ -1738,8 +1719,7 @@ static u16 sub_811AF8C(void)
 {
     u8 var0;
 
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case MENU_B_PRESSED: // B Button
     case 1: // No
         sEasyChatScreen->state = sub_811B2A4();
@@ -1747,8 +1727,9 @@ static u16 sub_811AF8C(void)
     case 0: // Yes
         gSpecialVar_Result = 0;
         var0 = sEasyChatScreen->type - EASY_CHAT_TYPE_QUIZ_SET_QUESTION;
-        if (var0 < 2)
+        if (var0 < 2) {
             sub_811B3E4();
+        }
 
         return 24;
     default:
@@ -1758,8 +1739,7 @@ static u16 sub_811AF8C(void)
 
 static u16 sub_811AFEC(void)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case MENU_B_PRESSED: // B Button
     case 1: // No
         sEasyChatScreen->state = sub_811B2A4();
@@ -1776,8 +1756,7 @@ static u16 sub_811AFEC(void)
 
 static u16 sub_811B040(void)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case MENU_B_PRESSED: // B Button
     case 1: // No
         sEasyChatScreen->state = 1;
@@ -1793,19 +1772,20 @@ static u16 sub_811B040(void)
 
 static u16 sub_811B08C(void)
 {
-    if (JOY_NEW(A_BUTTON))
+    if (JOY_NEW(A_BUTTON)) {
         return 26;
+    }
 
-    if (JOY_NEW(B_BUTTON))
+    if (JOY_NEW(B_BUTTON)) {
         return sub_811B150();
+    }
 
     return 0;
 }
 
 static u16 sub_811B0BC(void)
 {
-    if (JOY_NEW(A_BUTTON | B_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         sEasyChatScreen->state = sub_811B2A4();
         return 7;
     }
@@ -1821,8 +1801,7 @@ static u16 sub_811B0E8(void)
 
 static u16 sub_811B0F8(void)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case MENU_B_PRESSED: // B Button
     case 1: // No
         sub_811B454();
@@ -1841,14 +1820,11 @@ static u16 sub_811B0F8(void)
 static u16 sub_811B150(void)
 {
     if (sEasyChatScreen->type == EASY_CHAT_TYPE_APPRENTICE
-     || sEasyChatScreen->type == EASY_CHAT_TYPE_CONTEST_INTERVIEW)
-    {
+        || sEasyChatScreen->type == EASY_CHAT_TYPE_CONTEST_INTERVIEW) {
         sEasyChatScreen->stateBackup = sEasyChatScreen->state;
         sEasyChatScreen->state = 8;
         return 34;
-    }
-    else
-    {
+    } else {
         sEasyChatScreen->stateBackup = sEasyChatScreen->state;
         sEasyChatScreen->state = 4;
         return 5;
@@ -1858,13 +1834,10 @@ static u16 sub_811B150(void)
 static int sub_811B184(void)
 {
     sEasyChatScreen->stateBackup = sEasyChatScreen->state;
-    if (sEasyChatScreen->type != EASY_CHAT_TYPE_BARD_SONG)
-    {
+    if (sEasyChatScreen->type != EASY_CHAT_TYPE_BARD_SONG) {
         sEasyChatScreen->state = 5;
         return 4;
-    }
-    else
-    {
+    } else {
         sEasyChatScreen->stateBackup = sEasyChatScreen->state;
         sEasyChatScreen->state = 8;
         return 32;
@@ -1874,73 +1847,55 @@ static int sub_811B184(void)
 static u16 sub_811B1B4(void)
 {
     sEasyChatScreen->stateBackup = sEasyChatScreen->state;
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_QUESTION)
-    {
-        if (sub_811BD64())
-        {
+    if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_QUESTION) {
+        if (sub_811BD64()) {
             sEasyChatScreen->state = 8;
             return 29;
         }
 
-        if (sub_811BDB0())
-        {
+        if (sub_811BDB0()) {
             sEasyChatScreen->state = 8;
             return 30;
         }
 
         sEasyChatScreen->state = 6;
         return 6;
-    }
-    else if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_ANSWER)
-    {
-        if (sub_811BDB0())
-        {
+    } else if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_ANSWER) {
+        if (sub_811BDB0()) {
             sEasyChatScreen->state = 8;
             return 30;
         }
 
-        if (sub_811BD64())
-        {
+        if (sub_811BD64()) {
             sEasyChatScreen->state = 8;
             return 29;
         }
 
         sEasyChatScreen->state = 6;
         return 6;
-    }
-    else if (sEasyChatScreen->type == EASY_CHAT_TYPE_TRENDY_PHRASE
-          || sEasyChatScreen->type == EASY_CHAT_TYPE_GOOD_SAYING)
-    {
-        if (!sub_811BD2C())
-        {
+    } else if (sEasyChatScreen->type == EASY_CHAT_TYPE_TRENDY_PHRASE
+               || sEasyChatScreen->type == EASY_CHAT_TYPE_GOOD_SAYING) {
+        if (!sub_811BD2C()) {
             sEasyChatScreen->state = 8;
             return 33;
         }
 
         sEasyChatScreen->state = 6;
         return 6;
-    }
-    else if (sEasyChatScreen->type == EASY_CHAT_TYPE_APPRENTICE
-          || sEasyChatScreen->type == EASY_CHAT_TYPE_CONTEST_INTERVIEW)
-    {
-        if (sub_811BCF4())
-        {
+    } else if (sEasyChatScreen->type == EASY_CHAT_TYPE_APPRENTICE
+               || sEasyChatScreen->type == EASY_CHAT_TYPE_CONTEST_INTERVIEW) {
+        if (sub_811BCF4()) {
             sEasyChatScreen->state = 8;
             return 34;
         }
 
         sEasyChatScreen->state = 6;
         return 6;
-    }
-    else if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUESTIONNAIRE)
-    {
+    } else if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUESTIONNAIRE) {
         sEasyChatScreen->state = 6;
         return 6;
-    }
-    else
-    {
-        if (sub_811BCF4() == 1 || !sub_811B4EC())
-        {
+    } else {
+        if (sub_811BCF4() == 1 || !sub_811B4EC()) {
             sEasyChatScreen->state = 4;
             return 5;
         }
@@ -1953,8 +1908,7 @@ static u16 sub_811B1B4(void)
 static int sub_811B264(void)
 {
     sEasyChatScreen->stateBackup = sEasyChatScreen->state;
-    switch (sEasyChatScreen->type)
-    {
+    switch (sEasyChatScreen->type) {
     case EASY_CHAT_TYPE_QUIZ_ANSWER:
         return 25;
     case EASY_CHAT_TYPE_QUIZ_SET_QUESTION:
@@ -1977,19 +1931,17 @@ static int sub_811B2B0(void)
 {
     u16 var1;
 
-    if (sEasyChatScreen->unk_09 == 0)
-    {
+    if (sEasyChatScreen->unk_09 == 0) {
         u8 groupId = sub_811F3B8(sub_811B8E8());
         sub_811F548(0, groupId);
-    }
-    else
-    {
+    } else {
         sub_811F548(1, sub_811B908());
     }
 
     var1 = sub_811F5B0();
-    if (var1 == 0)
+    if (var1 == 0) {
         return 0;
+    }
 
     sEasyChatScreen->unk_0f = (var1 - 1) / 2;
     sEasyChatScreen->unk_0e = 0;
@@ -2010,23 +1962,21 @@ static int sub_811B33C(void)
     sEasyChatScreen->unk_0a = 0;
     sEasyChatScreen->unk_0b = 0;
     sEasyChatScreen->unk_0c = 0;
-    if (!sEasyChatScreen->unk_09)
+    if (!sEasyChatScreen->unk_09) {
         sEasyChatScreen->unk_09 = 1;
-    else
+    } else {
         sEasyChatScreen->unk_09 = 0;
+    }
 
     return 23;
 }
 
 static int sub_811B368(void)
 {
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_BARD_SONG)
-    {
+    if (sEasyChatScreen->type == EASY_CHAT_TYPE_BARD_SONG) {
         PlaySE(SE_FAILURE);
         return 0;
-    }
-    else
-    {
+    } else {
         sub_811B488(0xFFFF);
         return 1;
     }
@@ -2035,21 +1985,15 @@ static int sub_811B368(void)
 static int sub_811B394(void)
 {
     u16 easyChatWord = sub_811F578(sub_811B940());
-    if (sub_811BF88(easyChatWord))
-    {
+    if (sub_811BF88(easyChatWord)) {
         PlaySE(SE_FAILURE);
         return 0;
-    }
-    else
-    {
+    } else {
         sub_811B488(easyChatWord);
-        if (sEasyChatScreen->type != EASY_CHAT_TYPE_BARD_SONG)
-        {
+        if (sEasyChatScreen->type != EASY_CHAT_TYPE_BARD_SONG) {
             sEasyChatScreen->state = 0;
             return 12;
-        }
-        else
-        {
+        } else {
             sEasyChatScreen->state = 9;
             return 13;
         }
@@ -2059,22 +2003,25 @@ static int sub_811B394(void)
 static void sub_811B3E4(void)
 {
     int i;
-    for (i = 0; i < sEasyChatScreen->unk_07; i++)
+    for (i = 0; i < sEasyChatScreen->unk_07; i++) {
         sEasyChatScreen->words[i] = sEasyChatScreen->ecWordBuffer[i];
+    }
 }
 
 static void sub_811B418(void)
 {
     int i;
-    for (i = 0; i < sEasyChatScreen->unk_07; i++)
+    for (i = 0; i < sEasyChatScreen->unk_07; i++) {
         sEasyChatScreen->ecWordBuffer[i] = 0xFFFF;
+    }
 }
 
 static void sub_811B454(void)
 {
     int i;
-    for (i = 0; i < sEasyChatScreen->unk_07; i++)
+    for (i = 0; i < sEasyChatScreen->unk_07; i++) {
         sEasyChatScreen->ecWordBuffer[i] = sEasyChatScreen->words[i];
+    }
 }
 
 static void sub_811B488(u16 easyChatWord)
@@ -2086,10 +2033,10 @@ static void sub_811B488(u16 easyChatWord)
 static u8 sub_811B4AC(void)
 {
     u16 i;
-    for (i = 0; i < sEasyChatScreen->unk_07; i++)
-    {
-        if (sEasyChatScreen->ecWordBuffer[i] != sEasyChatScreen->words[i])
+    for (i = 0; i < sEasyChatScreen->unk_07; i++) {
+        if (sEasyChatScreen->ecWordBuffer[i] != sEasyChatScreen->words[i]) {
             return 1;
+        }
     }
 
     return 0;
@@ -2098,67 +2045,55 @@ static u8 sub_811B4AC(void)
 static int sub_811B4EC(void)
 {
     u8 var0 = sEasyChatScreen->type - EASY_CHAT_TYPE_QUIZ_SET_QUESTION;
-    if (var0 < 2)
-    {
-        if (sub_811BD64())
+    if (var0 < 2) {
+        if (sub_811BD64()) {
             return 0;
+        }
 
-        if (sub_811BDB0())
+        if (sub_811BDB0()) {
             return 0;
+        }
 
         return 1;
-    }
-    else
-    {
+    } else {
         return sub_811B4AC();
     }
 }
 
 static u16 sub_811B528(int arg0)
 {
-    if (sEasyChatScreen->unk_0a != -1)
-    {
-        if (sEasyChatScreen->unk_09 == 0)
+    if (sEasyChatScreen->unk_0a != -1) {
+        if (sEasyChatScreen->unk_09 == 0) {
             return sub_811B568(arg0);
-        else
+        } else {
             return sub_811B634(arg0);
-    }
-    else
-    {
+        }
+    } else {
         return sub_811B6C4(arg0);
     }
 }
 
 static int sub_811B568(u32 arg0)
 {
-    switch (arg0)
-    {
+    switch (arg0) {
     case 2:
-        if (sEasyChatScreen->unk_0b != -sEasyChatScreen->unk_0c)
-        {
-            if (sEasyChatScreen->unk_0b)
-            {
+        if (sEasyChatScreen->unk_0b != -sEasyChatScreen->unk_0c) {
+            if (sEasyChatScreen->unk_0b) {
                 sEasyChatScreen->unk_0b--;
                 return 15;
-            }
-            else
-            {
+            } else {
                 sEasyChatScreen->unk_0c--;
                 return 17;
             }
         }
         break;
     case 3:
-        if (sEasyChatScreen->unk_0b + sEasyChatScreen->unk_0c < sEasyChatScreen->unk_0d - 1)
-        {
+        if (sEasyChatScreen->unk_0b + sEasyChatScreen->unk_0c < sEasyChatScreen->unk_0d - 1) {
             int var0;
-            if (sEasyChatScreen->unk_0b < 3)
-            {
+            if (sEasyChatScreen->unk_0b < 3) {
                 sEasyChatScreen->unk_0b++;
                 var0 = 15;
-            }
-            else
-            {
+            } else {
                 sEasyChatScreen->unk_0c++;
                 var0 = 16;
             }
@@ -2168,21 +2103,20 @@ static int sub_811B568(u32 arg0)
         }
         break;
     case 1:
-        if (sEasyChatScreen->unk_0a)
+        if (sEasyChatScreen->unk_0a) {
             sEasyChatScreen->unk_0a--;
-        else
+        } else {
             sub_811B744();
+        }
 
         return 15;
     case 0:
-        if (sEasyChatScreen->unk_0a < 1)
-        {
+        if (sEasyChatScreen->unk_0a < 1) {
             sEasyChatScreen->unk_0a++;
-            if (sub_811B9C8())
+            if (sub_811B9C8()) {
                 sub_811B744();
-        }
-        else
-        {
+            }
+        } else {
             sub_811B744();
         }
         return 15;
@@ -2193,34 +2127,37 @@ static int sub_811B568(u32 arg0)
 
 static int sub_811B634(u32 arg0)
 {
-    switch (arg0)
-    {
+    switch (arg0) {
     case 2:
-        if (sEasyChatScreen->unk_0b > 0)
+        if (sEasyChatScreen->unk_0b > 0) {
             sEasyChatScreen->unk_0b--;
-        else
+        } else {
             sEasyChatScreen->unk_0b = 3;
+        }
 
         sub_811B978();
         return 15;
     case 3:
-        if (sEasyChatScreen->unk_0b < 3)
+        if (sEasyChatScreen->unk_0b < 3) {
             sEasyChatScreen->unk_0b++;
-        else
+        } else {
             sEasyChatScreen->unk_0b = 0;
+        }
 
         sub_811B978();
         return 15;
     case 0:
         sEasyChatScreen->unk_0a++;
-        if (sub_811B9C8())
+        if (sub_811B9C8()) {
             sub_811B744();
+        }
 
         return 15;
     case 1:
         sEasyChatScreen->unk_0a--;
-        if (sEasyChatScreen->unk_0a < 0)
+        if (sEasyChatScreen->unk_0a < 0) {
             sub_811B744();
+        }
 
         return 15;
     }
@@ -2230,20 +2167,21 @@ static int sub_811B634(u32 arg0)
 
 static int sub_811B6C4(u32 arg0)
 {
-    switch (arg0)
-    {
+    switch (arg0) {
     case 2:
-        if (sEasyChatScreen->unk_0b)
+        if (sEasyChatScreen->unk_0b) {
             sEasyChatScreen->unk_0b--;
-        else
+        } else {
             sEasyChatScreen->unk_0b = 2;
+        }
 
         return 15;
     case 3:
-        if (sEasyChatScreen->unk_0b < 2)
+        if (sEasyChatScreen->unk_0b < 2) {
             sEasyChatScreen->unk_0b++;
-        else
+        } else {
             sEasyChatScreen->unk_0b = 0;
+        }
 
         return 15;
     case 1:
@@ -2262,19 +2200,17 @@ static int sub_811B6C4(u32 arg0)
 static void sub_811B744(void)
 {
     sEasyChatScreen->unk_0a = 0xFF;
-    if (sEasyChatScreen->unk_0b)
+    if (sEasyChatScreen->unk_0b) {
         sEasyChatScreen->unk_0b--;
+    }
 }
 
 static void sub_811B768(void)
 {
-    if (sEasyChatScreen->unk_09 == 0)
-    {
+    if (sEasyChatScreen->unk_09 == 0) {
         sEasyChatScreen->unk_0a = 1;
         sub_811B978();
-    }
-    else
-    {
+    } else {
         sEasyChatScreen->unk_0a = sub_811B960(sEasyChatScreen->unk_0b);
     }
 }
@@ -2282,18 +2218,13 @@ static void sub_811B768(void)
 static u16 sub_811B794(u32 arg0)
 {
     u16 result;
-    switch (arg0)
-    {
+    switch (arg0) {
     case 2:
-        if (sEasyChatScreen->unk_11 + sEasyChatScreen->unk_0e > 0)
-        {
-            if (sEasyChatScreen->unk_11 > 0)
-            {
+        if (sEasyChatScreen->unk_11 + sEasyChatScreen->unk_0e > 0) {
+            if (sEasyChatScreen->unk_11 > 0) {
                 sEasyChatScreen->unk_11--;
                 result = 18;
-            }
-            else
-            {
+            } else {
                 sEasyChatScreen->unk_0e--;
                 result = 19;
             }
@@ -2303,15 +2234,11 @@ static u16 sub_811B794(u32 arg0)
         }
         break;
     case 3:
-        if (sEasyChatScreen->unk_11 + sEasyChatScreen->unk_0e < sEasyChatScreen->unk_0f)
-        {
-            if (sEasyChatScreen->unk_11 < 3)
-            {
+        if (sEasyChatScreen->unk_11 + sEasyChatScreen->unk_0e < sEasyChatScreen->unk_0f) {
+            if (sEasyChatScreen->unk_11 < 3) {
                 sEasyChatScreen->unk_11++;
                 result = 18;
-            }
-            else
-            {
+            } else {
                 sEasyChatScreen->unk_0e++;
                 result = 20;
             }
@@ -2321,42 +2248,41 @@ static u16 sub_811B794(u32 arg0)
         }
         break;
     case 1:
-        if (sEasyChatScreen->unk_10 > 0)
+        if (sEasyChatScreen->unk_10 > 0) {
             sEasyChatScreen->unk_10--;
-        else
+        } else {
             sEasyChatScreen->unk_10 = 1;
+        }
 
         sub_811B9A0();
         return 18;
     case 0:
-        if (sEasyChatScreen->unk_10 < 1)
-        {
+        if (sEasyChatScreen->unk_10 < 1) {
             sEasyChatScreen->unk_10++;
-            if (sub_811BA1C())
+            if (sub_811BA1C()) {
                 sEasyChatScreen->unk_10 = 0;
-        }
-        else
-        {
+            }
+        } else {
             sEasyChatScreen->unk_10 = 0;
         }
         return 18;
     case 4:
-        if (sEasyChatScreen->unk_0e)
-        {
-            if (sEasyChatScreen->unk_0e > 3)
+        if (sEasyChatScreen->unk_0e) {
+            if (sEasyChatScreen->unk_0e > 3) {
                 sEasyChatScreen->unk_0e -= 4;
-            else
+            } else {
                 sEasyChatScreen->unk_0e = 0;
+            }
 
             return 21;
         }
         break;
     case 5:
-        if (sEasyChatScreen->unk_0e <= sEasyChatScreen->unk_0f - 4)
-        {
+        if (sEasyChatScreen->unk_0e <= sEasyChatScreen->unk_0f - 4) {
             sEasyChatScreen->unk_0e += 4;
-            if (sEasyChatScreen->unk_0e > sEasyChatScreen->unk_0f - 3)
+            if (sEasyChatScreen->unk_0e > sEasyChatScreen->unk_0f - 3) {
                 sEasyChatScreen->unk_0e = sEasyChatScreen->unk_0f + 0xFD;
+            }
 
             sub_811B9A0();
             return 22;
@@ -2391,8 +2317,7 @@ static u16 sub_811B940(void)
 
 static u8 sub_811B960(u8 arg0)
 {
-    switch (arg0)
-    {
+    switch (arg0) {
     case 0:
     default:
         return 6;
@@ -2403,32 +2328,33 @@ static u8 sub_811B960(u8 arg0)
 
 static void sub_811B978(void)
 {
-    while (sub_811B9C8())
-    {
-        if (sEasyChatScreen->unk_0a)
+    while (sub_811B9C8()) {
+        if (sEasyChatScreen->unk_0a) {
             sEasyChatScreen->unk_0a--;
-        else
+        } else {
             break;
+        }
     }
 }
 
 static void sub_811B9A0(void)
 {
-    while (sub_811BA1C())
-    {
-        if (sEasyChatScreen->unk_10)
+    while (sub_811BA1C()) {
+        if (sEasyChatScreen->unk_10) {
             sEasyChatScreen->unk_10--;
-        else
+        } else {
             break;
+        }
     }
 }
 
 static u8 sub_811B9C8(void)
 {
-    if (sEasyChatScreen->unk_09 == 0)
+    if (sEasyChatScreen->unk_09 == 0) {
         return sub_811B8E8() >= sub_811F3AC() ? 1 : 0;
-    else
+    } else {
         return sEasyChatScreen->unk_0a > sub_811B960(sEasyChatScreen->unk_0b) ? 1 : 0;
+    }
 }
 
 static u8 sub_811BA1C(void)
@@ -2451,12 +2377,12 @@ static u8 GetEasyChatScreenFrameId(void)
     return sEasyChatScreenTemplates[sEasyChatScreen->templateId].frameId;
 }
 
-const u8 *GetTitleText(void)
+const u8 * GetTitleText(void)
 {
     return sEasyChatScreen->titleText;
 }
 
-static u16 *GetEasyChatWordBuffer(void)
+static u16 * GetEasyChatWordBuffer(void)
 {
     return sEasyChatScreen->ecWordBuffer;
 }
@@ -2495,8 +2421,7 @@ static void GetEasyChatConfirmText(const u8 **str1, const u8 **str2)
 
 static void sub_811BB40(const u8 **str1, const u8 **str2)
 {
-    switch (sEasyChatScreen->type)
-    {
+    switch (sEasyChatScreen->type) {
     case EASY_CHAT_TYPE_MAIL:
         *str1 = gText_StopGivingPkmnMail;
         *str2 = NULL;
@@ -2511,7 +2436,6 @@ static void sub_811BB40(const u8 **str1, const u8 **str2)
         *str2 = NULL;
         break;
     }
-
 }
 
 static void GetEasyChatConfirmDeletionText(const u8 **str1, const u8 **str2)
@@ -2559,15 +2483,16 @@ static u8 unref_sub_811BBF4(void)
 
 int sub_811BBF8(void)
 {
-    switch (sEasyChatScreen->state)
-    {
+    switch (sEasyChatScreen->state) {
     case 2:
-        if (sEasyChatScreen->unk_09 == 0 && sEasyChatScreen->unk_0c)
+        if (sEasyChatScreen->unk_09 == 0 && sEasyChatScreen->unk_0c) {
             return 1;
+        }
         break;
     case 3:
-        if (sEasyChatScreen->unk_0e)
+        if (sEasyChatScreen->unk_0e) {
             return 1;
+        }
         break;
     }
 
@@ -2576,15 +2501,16 @@ int sub_811BBF8(void)
 
 int sub_811BC2C(void)
 {
-    switch (sEasyChatScreen->state)
-    {
+    switch (sEasyChatScreen->state) {
     case 2:
-        if (sEasyChatScreen->unk_09 == 0 && sEasyChatScreen->unk_0c + 4 <= sEasyChatScreen->unk_0d - 1)
+        if (sEasyChatScreen->unk_09 == 0 && sEasyChatScreen->unk_0c + 4 <= sEasyChatScreen->unk_0d - 1) {
             return 1;
+        }
         break;
     case 3:
-        if (sEasyChatScreen->unk_0e + 4 <= sEasyChatScreen->unk_0f)
+        if (sEasyChatScreen->unk_0e + 4 <= sEasyChatScreen->unk_0f) {
             return 1;
+        }
         break;
     }
 
@@ -2600,10 +2526,10 @@ static bool8 IsPhraseDifferentThanPlayerInput(const u16 *phrase, u8 phraseLength
 {
     u8 i;
 
-    for (i = 0; i < phraseLength; i++)
-    {
-        if (phrase[i] != sEasyChatScreen->ecWordBuffer[i])
+    for (i = 0; i < phraseLength; i++) {
+        if (phrase[i] != sEasyChatScreen->ecWordBuffer[i]) {
             return TRUE;
+        }
     }
 
     return FALSE;
@@ -2618,10 +2544,10 @@ static u8 GetEachChatScreenTemplateId(u8 type)
 {
     u32 i;
 
-    for (i = 0; i < ARRAY_COUNT(sEasyChatScreenTemplates); i++)
-    {
-        if (sEasyChatScreenTemplates[i].type == type)
+    for (i = 0; i < ARRAY_COUNT(sEasyChatScreenTemplates); i++) {
+        if (sEasyChatScreenTemplates[i].type == type) {
             return i;
+        }
     }
 
     return 0;
@@ -2631,10 +2557,10 @@ static int sub_811BCF4(void)
 {
     int i;
 
-    for (i = 0; i < sEasyChatScreen->unk_07; i++)
-    {
-        if (sEasyChatScreen->ecWordBuffer[i] != 0xFFFF)
+    for (i = 0; i < sEasyChatScreen->unk_07; i++) {
+        if (sEasyChatScreen->ecWordBuffer[i] != 0xFFFF) {
             return 0;
+        }
     }
 
     return 1;
@@ -2644,10 +2570,10 @@ static int sub_811BD2C(void)
 {
     int i;
 
-    for (i = 0; i < sEasyChatScreen->unk_07; i++)
-    {
-        if (sEasyChatScreen->ecWordBuffer[i] == 0xFFFF)
+    for (i = 0; i < sEasyChatScreen->unk_07; i++) {
+        if (sEasyChatScreen->ecWordBuffer[i] == 0xFFFF) {
             return 0;
+        }
     }
 
     return 1;
@@ -2658,14 +2584,15 @@ static int sub_811BD64(void)
     int i;
     struct SaveBlock1 *saveBlock1;
 
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_QUESTION)
+    if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_QUESTION) {
         return sub_811BCF4();
+    }
 
     saveBlock1 = gSaveBlock1Ptr;
-    for (i = 0; i < QUIZ_QUESTION_LEN; i++)
-    {
-        if (saveBlock1->lilycoveLady.quiz.question[i] != 0xFFFF)
+    for (i = 0; i < QUIZ_QUESTION_LEN; i++) {
+        if (saveBlock1->lilycoveLady.quiz.question[i] != 0xFFFF) {
             return 0;
+        }
     }
 
     return 1;
@@ -2674,8 +2601,9 @@ static int sub_811BD64(void)
 static int sub_811BDB0(void)
 {
     struct LilycoveLadyQuiz *quiz;
-    if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_ANSWER)
+    if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_ANSWER) {
         return sub_811BCF4();
+    }
 
     quiz = &gSaveBlock1Ptr->lilycoveLady.quiz;
     return quiz->correctAnswer == 0xFFFF ? 1 : 0;
@@ -2686,13 +2614,10 @@ static void sub_811BDF0(u8 *arg0)
     u8 name[32];
     struct SaveBlock1 *saveBlock1 = gSaveBlock1Ptr;
     DynamicPlaceholderTextUtil_Reset();
-    if (StringLength(saveBlock1->lilycoveLady.quiz.playerName) != 0)
-    {
+    if (StringLength(saveBlock1->lilycoveLady.quiz.playerName) != 0) {
         TVShowConvertInternationalString(name, saveBlock1->lilycoveLady.quiz.playerName, saveBlock1->lilycoveLady.quiz.language);
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, name);
-    }
-    else
-    {
+    } else {
         DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gText_Lady);
     }
 
@@ -2708,8 +2633,7 @@ static void sub_811BE54(void)
     ecWord = sEasyChatScreen->ecWordBuffer;
     str = gStringVar2;
     i = 0;
-    while (i < sEasyChatScreen->unk_07)
-    {
+    while (i < sEasyChatScreen->unk_07) {
         str = CopyEasyChatWordPadded(str, *ecWord, 0);
         *str = 0;
         str++;
@@ -2723,16 +2647,16 @@ static void sub_811BE54(void)
 
 static void sub_811BE9C(void)
 {
-    switch (sEasyChatScreen->type)
-    {
+    switch (sEasyChatScreen->type) {
     case EASY_CHAT_TYPE_PROFILE:
         FlagSet(FLAG_SYS_CHAT_USED);
         break;
     case EASY_CHAT_TYPE_QUESTIONNAIRE:
-        if (DidPlayerInputMysteryGiftPhrase())
+        if (DidPlayerInputMysteryGiftPhrase()) {
             gSpecialVar_0x8004 = 2;
-        else
+        } else {
             gSpecialVar_0x8004 = 0;
+        }
         break;
     case EASY_CHAT_TYPE_TRENDY_PHRASE:
         sub_811BE54();
@@ -2752,10 +2676,10 @@ static int DidPlayerInputMysteryGiftPhrase(void)
 static u16 DidPlayerInputABerryMasterWifePhrase(void)
 {
     int i;
-    for (i = 0; i < (int)ARRAY_COUNT(sBerryMasterWifePhrases); i++)
-    {
-        if (!IsPhraseDifferentThanPlayerInput(sBerryMasterWifePhrases[i], ARRAY_COUNT(*sBerryMasterWifePhrases)))
+    for (i = 0; i < (int)ARRAY_COUNT(sBerryMasterWifePhrases); i++) {
+        if (!IsPhraseDifferentThanPlayerInput(sBerryMasterWifePhrases[i], ARRAY_COUNT(*sBerryMasterWifePhrases))) {
             return i + 1;
+        }
     }
 
     return 0;
@@ -2773,16 +2697,16 @@ static int sub_811BF88(int easyChatWord)
 
 static bool8 sub_811BF8C(void)
 {
-    if (!sub_811CE94())
+    if (!sub_811CE94()) {
         return 0;
-    else
+    } else {
         return 1;
+    }
 }
 
 static bool8 sub_811BFA4(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         ResetBgsAndClearDma3BusyFlags(0);
         InitBgsFromTemplates(0, sEasyChatBgTemplates, ARRAY_COUNT(sEasyChatBgTemplates));
@@ -2815,23 +2739,21 @@ static bool8 sub_811BFA4(void)
         break;
     case 4:
         sub_811DE90();
-        if (GetEasyChatScreenType() != EASY_CHAT_TYPE_QUIZ_QUESTION)
+        if (GetEasyChatScreenType() != EASY_CHAT_TYPE_QUIZ_QUESTION) {
             sub_811DEC4();
+        }
         break;
     case 5:
-        if (IsDma3ManagerBusyWithBgCopy())
-        {
+        if (IsDma3ManagerBusyWithBgCopy()) {
             return TRUE;
-        }
-        else
-        {
+        } else {
             sub_811DE5C(0, 0, 0, 0);
             SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR);
             SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG0
-                                       | WINOUT_WIN01_BG1
-                                       | WINOUT_WIN01_BG3
-                                       | WINOUT_WIN01_OBJ
-                                       | WINOUT_WIN01_CLR);
+                      | WINOUT_WIN01_BG1
+                      | WINOUT_WIN01_BG3
+                      | WINOUT_WIN01_OBJ
+                      | WINOUT_WIN01_CLR);
             ShowBg(3);
             ShowBg(1);
             ShowBg(2);
@@ -2851,8 +2773,9 @@ static bool8 sub_811BFA4(void)
 
 static void sub_811C13C(void)
 {
-    if (sUnknown_0203A11C)
+    if (sUnknown_0203A11C) {
         FREE_AND_SET_NULL(sUnknown_0203A11C);
+    }
 }
 
 static void sub_811C158(u16 arg0)
@@ -2864,8 +2787,7 @@ static void sub_811C158(u16 arg0)
 
 static bool8 sub_811C170(void)
 {
-    switch (sUnknown_0203A11C->unk4)
-    {
+    switch (sUnknown_0203A11C->unk4) {
     case 0:  return FALSE;
     case 1:  return sub_811C2D4();
     case 2:  return sub_811C30C();
@@ -2907,8 +2829,7 @@ static bool8 sub_811C170(void)
 
 static bool8 sub_811C2D4(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811D2C8();
         sUnknown_0203A11C->unk0++;
@@ -2940,14 +2861,10 @@ static bool8 sub_811C30C(void)
     numColumns = GetNumColumns();
     ecWord = &ecWordBuffer[cursorRow * numColumns];
     var1 = 8 * sPhraseFrameDimensions[frameId].left + 13;
-    for (i = 0; i < cursorColumn; i++)
-    {
-        if (*ecWord == 0xFFFF)
-        {
+    for (i = 0; i < cursorColumn; i++) {
+        if (*ecWord == 0xFFFF) {
             stringWidth = 72;
-        }
-        else
-        {
+        } else {
             CopyEasyChatWord(str, *ecWord);
             stringWidth = GetStringWidth(1, str, 0);
         }
@@ -2971,8 +2888,7 @@ static bool8 sub_811C3E4(void)
 
 static bool8 sub_811C404(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DF90();
         sub_811D104(2);
@@ -2988,8 +2904,7 @@ static bool8 sub_811C404(void)
 
 static bool8 sub_811C448(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DF90();
         sub_811D104(3);
@@ -3005,8 +2920,7 @@ static bool8 sub_811C448(void)
 
 static bool8 sub_811C48C(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DF90();
         sub_811D104(1);
@@ -3022,8 +2936,7 @@ static bool8 sub_811C48C(void)
 
 static bool8 sub_811C4D0(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DFB0();
         sub_811D104(0);
@@ -3040,14 +2953,13 @@ static bool8 sub_811C4D0(void)
 
 static bool8 sub_811C518(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DFB0();
         sub_811D104(0);
         sub_811D2C8();
         sUnknown_0203A11C->unk0++;
-        // Fall through
+    // Fall through
     case 1:
         return IsDma3ManagerBusyWithBgCopy();
     }
@@ -3057,8 +2969,7 @@ static bool8 sub_811C518(void)
 
 static bool8 sub_811C554(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DF90();
         HideBg(0);
@@ -3067,26 +2978,24 @@ static bool8 sub_811C554(void)
         sUnknown_0203A11C->unk0++;
         break;
     case 1:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811D9CC(0);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 2:
-        if (!IsDma3ManagerBusyWithBgCopy() && !sub_811DAA4())
+        if (!IsDma3ManagerBusyWithBgCopy() && !sub_811DAA4()) {
             sUnknown_0203A11C->unk0++;
+        }
         break;
     case 3:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811E3AC();
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 4:
-        if (!sub_811E418())
-        {
+        if (!sub_811E418()) {
             sub_811DFC8();
             sub_811E6E0(0);
             sub_811E64C();
@@ -3103,8 +3012,7 @@ static bool8 sub_811C554(void)
 
 static bool8 sub_811C620(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811E050();
         sub_811E4AC();
@@ -3112,19 +3020,20 @@ static bool8 sub_811C620(void)
         sUnknown_0203A11C->unk0++;
         break;
     case 1:
-        if (sub_811E4D0() == TRUE)
+        if (sub_811E4D0() == TRUE) {
             break;
+        }
 
         sub_811D9CC(1);
         sUnknown_0203A11C->unk0++;
-        // Fall through
+    // Fall through
     case 2:
-        if (!sub_811DAA4())
+        if (!sub_811DAA4()) {
             sUnknown_0203A11C->unk0++;
+        }
         break;
     case 3:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811DFB0();
             ShowBg(0);
             sUnknown_0203A11C->unk0++;
@@ -3139,8 +3048,7 @@ static bool8 sub_811C620(void)
 
 static bool8 sub_811C6C0(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811E050();
         sub_811E6B0();
@@ -3149,23 +3057,20 @@ static bool8 sub_811C6C0(void)
         sUnknown_0203A11C->unk0++;
         break;
     case 1:
-        if (!sub_811DAA4() && !sub_811E5B8())
-        {
+        if (!sub_811DAA4() && !sub_811E5B8()) {
             sub_811D6D4();
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811D9CC(6);
             sub_811E578();
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 3:
-        if (!sub_811DAA4() && !sub_811E5B8())
-        {
+        if (!sub_811DAA4() && !sub_811E5B8()) {
             sub_811E64C();
             sub_811DFC8();
             sUnknown_0203A11C->unk0++;
@@ -3187,15 +3092,13 @@ static bool8 sub_811C780(void)
 
 static bool8 sub_811C78C(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DDAC(1, 4);
         sUnknown_0203A11C->unk0++;
-        // Fall through
+    // Fall through
     case 1:
-        if (!sub_811DE10())
-        {
+        if (!sub_811DE10()) {
             sub_811E088();
             sub_811E64C();
             return FALSE;
@@ -3208,15 +3111,13 @@ static bool8 sub_811C78C(void)
 
 static bool8 sub_811C7D4(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DDAC(-1, 4);
         sUnknown_0203A11C->unk0++;
-        // Fall through
+    // Fall through
     case 1:
-        if (!sub_811DE10())
-        {
+        if (!sub_811DE10()) {
             sub_811E64C();
             sUnknown_0203A11C->unk0++;
             return FALSE;
@@ -3231,8 +3132,7 @@ static bool8 sub_811C7D4(void)
 
 static bool8 sub_811C830(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811E050();
         sub_811E4AC();
@@ -3240,29 +3140,25 @@ static bool8 sub_811C830(void)
         sUnknown_0203A11C->unk0++;
         break;
     case 1:
-        if (!sub_811E4D0())
-        {
+        if (!sub_811E4D0()) {
             sub_811D9B4();
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811D9CC(2);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 3:
-        if (!sub_811DAA4())
-        {
+        if (!sub_811DAA4()) {
             sub_811D698(2);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 4:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811E288();
             sub_811E6E0(1);
             sub_811E64C();
@@ -3280,8 +3176,7 @@ static bool8 sub_811C830(void)
 
 static bool8 sub_811C8F0(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811D2C8();
         sUnknown_0203A11C->unk0++;
@@ -3294,22 +3189,19 @@ static bool8 sub_811C8F0(void)
         sUnknown_0203A11C->unk0++;
         break;
     case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811D9CC(3);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 3:
-        if (!sub_811DAA4())
-        {
+        if (!sub_811DAA4()) {
             ShowBg(0);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 4:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811DFB0();
             sUnknown_0203A11C->unk0++;
             return FALSE;
@@ -3324,8 +3216,7 @@ static bool8 sub_811C8F0(void)
 
 static bool8 sub_811C99C(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811D2C8();
         sUnknown_0203A11C->unk0++;
@@ -3338,29 +3229,25 @@ static bool8 sub_811C99C(void)
         sUnknown_0203A11C->unk0++;
         break;
     case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811D9CC(3);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 3:
-        if (!sub_811DAA4())
-        {
+        if (!sub_811DAA4()) {
             sub_811D104(3);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 4:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             ShowBg(0);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 5:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811DFB0();
             sUnknown_0203A11C->unk0++;
             return FALSE;
@@ -3375,8 +3262,7 @@ static bool8 sub_811C99C(void)
 
 static bool8 sub_811CA5C(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811E380();
         sub_811E6B0();
@@ -3385,29 +3271,25 @@ static bool8 sub_811CA5C(void)
         sUnknown_0203A11C->unk0++;
         break;
     case 1:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811D9CC(4);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 2:
-        if (!sub_811DAA4())
-        {
+        if (!sub_811DAA4()) {
             sub_811D6D4();
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 3:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811E3AC();
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 4:
-        if (!sub_811E418())
-        {
+        if (!sub_811E418()) {
             sub_811DFC8();
             sub_811E6E0(0);
             sub_811E64C();
@@ -3428,22 +3310,19 @@ static bool8 sub_811CB18(void)
 
 static bool8 sub_811CB24(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811D7A4();
         sUnknown_0203A11C->unk0++;
         break;
     case 1:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811DDAC(1, 4);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 2:
-        if (!sub_811DE10())
-        {
+        if (!sub_811DE10()) {
             sub_811E30C();
             sub_811E64C();
             sub_811E794();
@@ -3460,22 +3339,19 @@ static bool8 sub_811CB24(void)
 
 static bool8 sub_811CB98(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811D7C8();
         sUnknown_0203A11C->unk0++;
         break;
     case 1:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             sub_811DDAC(-1, 4);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 2:
-        if (!sub_811DE10())
-        {
+        if (!sub_811DE10()) {
             sub_811E64C();
             sub_811E794();
             sUnknown_0203A11C->unk0++;
@@ -3491,23 +3367,20 @@ static bool8 sub_811CB98(void)
 
 static bool8 sub_811CC08(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811D7EC();
         sUnknown_0203A11C->unk0++;
         break;
     case 1:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             s16 var0 = sub_811BBDC() - sub_811DE48();
             sub_811DDAC(var0, 8);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 2:
-        if (!sub_811DE10())
-        {
+        if (!sub_811DE10()) {
             sub_811E30C();
             sub_811E64C();
             sub_811E794();
@@ -3524,23 +3397,20 @@ static bool8 sub_811CC08(void)
 
 static bool8 sub_811CC90(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811D830();
         sUnknown_0203A11C->unk0++;
         break;
     case 1:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             s16 var0 = sub_811BBDC() - sub_811DE48();
             sub_811DDAC(var0, 8);
             sUnknown_0203A11C->unk0++;
         }
         break;
     case 2:
-        if (!sub_811DE10())
-        {
+        if (!sub_811DE10()) {
             sub_811E64C();
             sub_811E794();
             sUnknown_0203A11C->unk0++;
@@ -3556,8 +3426,7 @@ static bool8 sub_811CC90(void)
 
 static bool8 sub_811CD14(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DF90();
         sub_811D104(4);
@@ -3572,8 +3441,7 @@ static bool8 sub_811CD14(void)
 
 static bool8 sub_811CD54(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DF90();
         sub_811D104(5);
@@ -3588,8 +3456,7 @@ static bool8 sub_811CD54(void)
 
 static bool8 sub_811CD94(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DF90();
         sub_811D104(6);
@@ -3604,8 +3471,7 @@ static bool8 sub_811CD94(void)
 
 static bool8 sub_811CDD4(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DF90();
         sub_811D104(7);
@@ -3620,8 +3486,7 @@ static bool8 sub_811CDD4(void)
 
 static bool8 sub_811CE14(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DF90();
         sub_811D104(8);
@@ -3636,8 +3501,7 @@ static bool8 sub_811CE14(void)
 
 static bool8 sub_811CE54(void)
 {
-    switch (sUnknown_0203A11C->unk0)
-    {
+    switch (sUnknown_0203A11C->unk0) {
     case 0:
         sub_811DF90();
         sub_811D104(9);
@@ -3653,8 +3517,9 @@ static bool8 sub_811CE54(void)
 static bool8 sub_811CE94(void)
 {
     sUnknown_0203A11C = Alloc(sizeof(*sUnknown_0203A11C));
-    if (!sUnknown_0203A11C)
+    if (!sUnknown_0203A11C) {
         return FALSE;
+    }
 
     sUnknown_0203A11C->unk0 = 0;
     sUnknown_0203A11C->unk2D8 = NULL;
@@ -3700,8 +3565,9 @@ static void sub_811CFCC(void)
 {
     int xOffset;
     const u8 *titleText = GetTitleText();
-    if (!titleText)
+    if (!titleText) {
         return;
+    }
 
     xOffset = GetStringCenterAlignXOffset(1, titleText, 144);
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
@@ -3738,8 +3604,7 @@ static void sub_811D104(u8 arg0)
 {
     const u8 *text2 = NULL;
     const u8 *text1 = NULL;
-    switch (arg0)
-    {
+    switch (arg0) {
     case 0:
         GetEasyChatInstructionsText(&text1, &text2);
         break;
@@ -3775,11 +3640,13 @@ static void sub_811D104(u8 arg0)
     }
 
     FillWindowPixelBuffer(1, PIXEL_FILL(1));
-    if (text1)
+    if (text1) {
         sub_811D028(1, 1, text1, 0, 1, 0xFF, 0);
+    }
 
-    if (text2)
+    if (text2) {
         sub_811D028(1, 1, text2, 0, 17, 0xFF, 0);
+    }
 
     CopyWindowToVram(1, 3);
 }
@@ -3821,34 +3688,29 @@ static void sub_811D2C8(void)
     numRows = GetNumRows();
     frameId = GetEasyChatScreenFrameId();
     var1 = 0;
-    if (frameId == 7)
+    if (frameId == 7) {
         var1 = 1;
+    }
 
     FillWindowPixelBuffer(sUnknown_0203A11C->windowId, PIXEL_FILL(1));
-    for (i = 0; i < numRows; i++)
-    {
+    for (i = 0; i < numRows; i++) {
         memcpy(spC, sText_Clear17, sizeof(sText_Clear17));
-        if (var1)
+        if (var1) {
             spC[2] = 6;
+        }
 
         str = sUnknown_0203A11C->unkB;
         sUnknown_0203A11C->unkB[0] = EOS;
         str = StringAppend(str, spC);
-        for (j = 0; j < numColumns; j++)
-        {
-            if (*ecWord != 0xFFFF)
-            {
+        for (j = 0; j < numColumns; j++) {
+            if (*ecWord != 0xFFFF) {
                 str = CopyEasyChatWord(str, *ecWord);
                 ecWord++;
-            }
-            else
-            {
+            } else {
                 ecWord++;
-                if (!var1)
-                {
+                if (!var1) {
                     str = WriteColorChangeControlCode(str, 0, 4);
-                    for (k = 0; k < 12; k++)
-                    {
+                    for (k = 0; k < 12; k++) {
                         *str = CHAR_HYPHEN;
                         str++;
                     }
@@ -3857,14 +3719,15 @@ static void sub_811D2C8(void)
                 }
             }
 
-            if (var1)
+            if (var1) {
                 spC[2] = 3;
+            }
 
             str = StringAppend(str, spC);
-            if (frameId == 2 || frameId == 7 || frameId == 8)
-            {
-                if (j == 0 && i == 4)
+            if (frameId == 2 || frameId == 7 || frameId == 8) {
+                if (j == 0 && i == 4) {
                     break;
+                }
             }
         }
 
@@ -3883,50 +3746,49 @@ static void sub_811D424(u16 *tilemap)
 
     frameId = GetEasyChatScreenFrameId();
     CpuFastFill(0, tilemap, BG_SCREEN_SIZE);
-    if (frameId == 2 || frameId == 8)
-    {
+    if (frameId == 2 || frameId == 8) {
         right = sPhraseFrameDimensions[frameId].left + sPhraseFrameDimensions[frameId].width;
         bottom = sPhraseFrameDimensions[frameId].top + sPhraseFrameDimensions[frameId].height;
-        for (y = sPhraseFrameDimensions[frameId].top; y < bottom; y++)
-        {
+        for (y = sPhraseFrameDimensions[frameId].top; y < bottom; y++) {
             x = sPhraseFrameDimensions[frameId].left - 1;
             tilemap[y * 32 + x] = 0x1005;
             x++;
-            for (; x < right; x++)
+            for (; x < right; x++) {
                 tilemap[y * 32 + x] = 0x1000;
+            }
 
-            tilemap[y* 32 + x] = 0x1007;
+            tilemap[y * 32 + x] = 0x1007;
         }
-    }
-    else
-    {
+    } else {
         y = sPhraseFrameDimensions[frameId].top - 1;
         x = sPhraseFrameDimensions[frameId].left - 1;
         right = sPhraseFrameDimensions[frameId].left + sPhraseFrameDimensions[frameId].width;
         bottom = sPhraseFrameDimensions[frameId].top + sPhraseFrameDimensions[frameId].height;
         tilemap[y * 32 + x] = 0x1001;
         x++;
-        for (; x < right; x++)
+        for (; x < right; x++) {
             tilemap[y * 32 + x] = 0x1002;
+        }
 
         tilemap[y * 32 + x] = 0x1003;
         y++;
-        for (; y < bottom; y++)
-        {
+        for (; y < bottom; y++) {
             x = sPhraseFrameDimensions[frameId].left - 1;
             tilemap[y * 32 + x] = 0x1005;
             x++;
-            for (; x < right; x++)
+            for (; x < right; x++) {
                 tilemap[y * 32 + x] = 0x1000;
+            }
 
-            tilemap[y* 32 + x] = 0x1007;
+            tilemap[y * 32 + x] = 0x1007;
         }
 
         x = sPhraseFrameDimensions[frameId].left - 1;
         tilemap[y * 32 + x] = 0x1009;
         x++;
-        for (; x < right; x++)
+        for (; x < right; x++) {
             tilemap[y * 32 + x] = 0x100A;
+        }
 
         tilemap[y * 32 + x] = 0x100B;
     }
@@ -3939,8 +3801,7 @@ static void sub_811D60C(void)
 
     tilemap = GetBgTilemapBuffer(3);
     frameId = GetEasyChatScreenFrameId();
-    switch (sPhraseFrameDimensions[frameId].footerId)
-    {
+    switch (sPhraseFrameDimensions[frameId].footerId) {
     case 2:
         tilemap += 0x2A0;
         CopyToBgTilemapBufferRect(3, tilemap, 0, 11, 32, 2);
@@ -3965,8 +3826,7 @@ static void sub_811D698(u32 arg0)
 {
     sub_811DD84();
     FillWindowPixelBuffer(2, PIXEL_FILL(1));
-    switch (arg0)
-    {
+    switch (arg0) {
     case 0:
         sub_811D6F4();
         break;
@@ -3983,10 +3843,11 @@ static void sub_811D698(u32 arg0)
 
 static void sub_811D6D4(void)
 {
-    if (!sub_811BBB0())
+    if (!sub_811BBB0()) {
         sub_811D698(0);
-    else
+    } else {
         sub_811D698(1);
+    }
 }
 
 static void sub_811D6F4(void)
@@ -3996,13 +3857,10 @@ static void sub_811D6F4(void)
 
     i = 0;
     y = 97;
-    while (1)
-    {
-        for (x = 0; x < 2; x++)
-        {
+    while (1) {
+        for (x = 0; x < 2; x++) {
             u8 groupId = sub_811F3B8(i++);
-            if (groupId == EC_NUM_GROUPS)
-            {
+            if (groupId == EC_NUM_GROUPS) {
                 sub_811DDAC(sub_811BBBC(), 0);
                 return;
             }
@@ -4018,8 +3876,9 @@ static void PrintEasyChatKeyboardText(void)
 {
     u32 i;
 
-    for (i = 0; i < ARRAY_COUNT(sEasyChatKeyboardText); i++)
+    for (i = 0; i < ARRAY_COUNT(sEasyChatKeyboardText); i++) {
         sub_811D028(2, 1, sEasyChatKeyboardText[i], 10, 97 + i * 16, 0xFF, NULL);
+    }
 }
 
 static void sub_811D794(void)
@@ -4046,11 +3905,11 @@ static void sub_811D7EC(void)
     u8 var0 = sub_811BBDC();
     u8 var1 = var0 + 4;
     u8 var2 = sub_811BBE8() + 1;
-    if (var1 > var2)
+    if (var1 > var2) {
         var1 = var2;
+    }
 
-    if (var0 < var1)
-    {
+    if (var0 < var1) {
         u8 var3 = var1 - var0;
         sub_811D950(var0, var3);
         sub_811D864(var0, var3);
@@ -4061,8 +3920,7 @@ static void sub_811D830(void)
 {
     u8 var0 = sub_811BBDC();
     u8 var1 = sub_811DE48();
-    if (var0 < var1)
-    {
+    if (var0 < var1) {
         u8 var2 = var1 - var0;
         sub_811D950(var0, var2);
         sub_811D864(var0, var2);
@@ -4080,18 +3938,16 @@ static void sub_811D864(u8 arg0, u8 arg1)
     var0 = arg0 * 2;
     y = (arg0 * 16 + 96) & 0xFF;
     y++;
-    for (i = 0; i < arg1; i++)
-    {
-        for (j = 0; j < 2; j++)
-        {
+    for (i = 0; i < arg1; i++) {
+        for (j = 0; j < 2; j++) {
             easyChatWord = sub_811F578(var0++);
-            if (easyChatWord != 0xFFFF)
-            {
+            if (easyChatWord != 0xFFFF) {
                 CopyEasyChatWordPadded(sUnknown_0203A11C->unkCC, easyChatWord, 0);
-                if (!sub_811BF88(easyChatWord))
+                if (!sub_811BF88(easyChatWord)) {
                     sub_811D028(2, 1, sUnknown_0203A11C->unkCC, (j * 13 + 3) * 8, y, 0xFF, NULL);
-                else
+                } else {
                     sub_811D058(2, 1, sUnknown_0203A11C->unkCC, (j * 13 + 3) * 8, y, 0xFF, TEXT_COLOR_WHITE, TEXT_COLOR_LIGHT_RED, TEXT_COLOR_LIGHT_GREY);
+                }
             }
         }
 
@@ -4111,19 +3967,17 @@ static void sub_811D950(u8 arg0, u8 arg1)
     y = (arg0 * 16 + 96) & 0xFF;
     var2 = arg1 * 16;
     var0 = y + var2;
-    if (var0 > 255)
-    {
+    if (var0 > 255) {
         var1 = var0 - 256;
         var2 = 256 - y;
-    }
-    else
-    {
+    } else {
         var1 = 0;
     }
 
     FillWindowPixelRect(2, PIXEL_FILL(1), 0, y, 224, var2);
-    if (var1)
+    if (var1) {
         FillWindowPixelRect(2, PIXEL_FILL(1), 0, 0, 224, var1);
+    }
 }
 
 static void sub_811D9B4(void)
@@ -4134,8 +3988,7 @@ static void sub_811D9B4(void)
 
 static void sub_811D9CC(int arg0)
 {
-    switch (arg0)
-    {
+    switch (arg0) {
     case 0:
         sUnknown_0203A11C->unk6 = 0;
         sUnknown_0203A11C->unk7 = 10;
@@ -4172,8 +4025,9 @@ static void sub_811D9CC(int arg0)
 static bool8 sub_811DAA4(void)
 {
     u8 var0, var1;
-    if (sUnknown_0203A11C->unk6 == sUnknown_0203A11C->unk7)
+    if (sUnknown_0203A11C->unk6 == sUnknown_0203A11C->unk7) {
         return FALSE;
+    }
 
     sUnknown_0203A11C->unk6 += sUnknown_0203A11C->unk8;
     sub_811DADC(sUnknown_0203A11C->unk6);
@@ -4185,8 +4039,7 @@ static bool8 sub_811DAA4(void)
 static void sub_811DADC(u8 arg0)
 {
     FillBgTilemapBufferRect_Palette0(1, 0, 0, 10, 30, 10);
-    switch (arg0)
-    {
+    switch (arg0) {
     case 0:
         break;
     case 1:
@@ -4266,25 +4119,27 @@ static void sub_811DC28(int left, int top, int width, int height)
     y = top;
     tilemap[y * 32 + x] = 0x4001;
     x++;
-    for (; x < right; x++)
+    for (; x < right; x++) {
         tilemap[y * 32 + x] = 0x4002;
+    }
 
     tilemap[y * 32 + x] = 0x4003;
     y++;
-    for (; y < bottom; y++)
-    {
+    for (; y < bottom; y++) {
         tilemap[y * 32 + left] = 0x4005;
         x = left + 1;
-        for (; x < right; x++)
+        for (; x < right; x++) {
             tilemap[y * 32 + x] = 0x4000;
+        }
 
         tilemap[y * 32 + x] = 0x4007;
     }
 
     tilemap[y * 32 + left] = 0x4009;
     x = left + 1;
-    for (; x < right; x++)
+    for (; x < right; x++) {
         tilemap[y * 32 + x] = 0x400A;
+    }
 
     tilemap[y * 32 + x] = 0x400B;
     sub_811DE5C((left + 1) * 8, (top + 1) * 8, (width - 2) * 8, (height - 2) * 8);
@@ -4305,15 +4160,13 @@ static void sub_811DDAC(s16 arg0, u8 arg1)
     sUnknown_0203A11C->unk2CE += arg0;
     var0 = arg0 * 16;
     bgY += var0 << 8;
-    if (arg1)
-    {
+    if (arg1) {
         sUnknown_0203A11C->unk2D0 = bgY;
         sUnknown_0203A11C->unk2D4 = arg1 * 256;
-        if (var0 < 0)
+        if (var0 < 0) {
             sUnknown_0203A11C->unk2D4 = -sUnknown_0203A11C->unk2D4;
-    }
-    else
-    {
+        }
+    } else {
         ChangeBgY(2, bgY, 0);
     }
 }
@@ -4323,12 +4176,9 @@ static bool8 sub_811DE10(void)
     int bgY;
 
     bgY = GetBgY(2);
-    if (bgY == sUnknown_0203A11C->unk2D0)
-    {
+    if (bgY == sUnknown_0203A11C->unk2D0) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         ChangeBgY(2, sUnknown_0203A11C->unk2D4, 1);
         return TRUE;
     }
@@ -4353,8 +4203,9 @@ static void sub_811DE90(void)
 
     LoadSpriteSheets(sEasyChatSpriteSheets);
     LoadSpritePalettes(sEasyChatSpritePalettes);
-    for (i = 0; i < ARRAY_COUNT(sUnknown_08597CE8); i++)
+    for (i = 0; i < ARRAY_COUNT(sUnknown_08597CE8); i++) {
         LoadCompressedSpriteSheet(&sUnknown_08597CE8[i]);
+    }
 }
 
 static void sub_811DEC4(void)
@@ -4369,13 +4220,12 @@ static void sub_811DEC4(void)
 
 static void sub_811DF28(struct Sprite *sprite)
 {
-    if (sprite->data[1])
-    {
-        if (++sprite->data[0] > 2)
-        {
+    if (sprite->data[1]) {
+        if (++sprite->data[0] > 2) {
             sprite->data[0] = 0;
-            if (++sprite->pos2.x > 0)
+            if (++sprite->pos2.x > 0) {
                 sprite->pos2.x = -6;
+            }
         }
     }
 }
@@ -4427,20 +4277,19 @@ static void sub_811E088(void)
     u8 var0;
     u8 var1;
 
-    if (sUnknown_0203A11C->unk2DC && sUnknown_0203A11C->unk2E0)
-    {
+    if (sUnknown_0203A11C->unk2DC && sUnknown_0203A11C->unk2E0) {
         sub_811BB9C(&var0, &var1);
-        if (!sub_811BBB0())
+        if (!sub_811BBB0()) {
             sub_811E0EC(var0, var1);
-        else
+        } else {
             sub_811E1A4(var0, var1);
+        }
     }
 }
 
 static void sub_811E0EC(s8 arg0, s8 arg1)
 {
-    if (arg0 != -1)
-    {
+    if (arg0 != -1) {
         StartSpriteAnim(sUnknown_0203A11C->unk2DC, 0);
         sUnknown_0203A11C->unk2DC->pos1.x = arg0 * 84 + 58;
         sUnknown_0203A11C->unk2DC->pos1.y = arg1 * 16 + 96;
@@ -4448,9 +4297,7 @@ static void sub_811E0EC(s8 arg0, s8 arg1)
         StartSpriteAnim(sUnknown_0203A11C->unk2E0, 0);
         sUnknown_0203A11C->unk2E0->pos1.x = arg0 * 84 + 58;
         sUnknown_0203A11C->unk2E0->pos1.y = arg1 * 16 + 96;
-    }
-    else
-    {
+    } else {
         StartSpriteAnim(sUnknown_0203A11C->unk2DC, 1);
         sUnknown_0203A11C->unk2DC->pos1.x = 216;
         sUnknown_0203A11C->unk2DC->pos1.y = arg1 * 16 + 112;
@@ -4466,17 +4313,13 @@ static void sub_811E1A4(s8 arg0, s8 arg1)
     int anim;
     int x, y;
 
-    if (arg0 != -1)
-    {
+    if (arg0 != -1) {
         y = arg1 * 16 + 96;
         x = 32;
-        if (arg0 == 6 && arg1 == 0)
-        {
+        if (arg0 == 6 && arg1 == 0) {
             x = 158;
             anim = 2;
-        }
-        else
-        {
+        } else {
             x += sUnknown_08597D08[arg0 < ARRAY_COUNT(sUnknown_08597D08) ? arg0 : 0];
             anim = 3;
         }
@@ -4488,9 +4331,7 @@ static void sub_811E1A4(s8 arg0, s8 arg1)
         StartSpriteAnim(sUnknown_0203A11C->unk2E0, anim);
         sUnknown_0203A11C->unk2E0->pos1.x = x;
         sUnknown_0203A11C->unk2E0->pos1.y = y;
-    }
-    else
-    {
+    } else {
         StartSpriteAnim(sUnknown_0203A11C->unk2DC, 1);
         sUnknown_0203A11C->unk2DC->pos1.x = 216;
         sUnknown_0203A11C->unk2DC->pos1.y = arg1 * 16 + 112;
@@ -4512,11 +4353,11 @@ static void sub_811E288(void)
 
 static void sub_811E2DC(struct Sprite *sprite)
 {
-    if (++sprite->data[0] > 2)
-    {
+    if (++sprite->data[0] > 2) {
         sprite->data[0] = 0;
-        if (++sprite->pos2.x > 0)
+        if (++sprite->pos2.x > 0) {
             sprite->pos2.x = -6;
+        }
     }
 }
 
@@ -4533,8 +4374,9 @@ static void sub_811E30C(void)
 
 static void sub_811E34C(u8 x, u8 y)
 {
-    if (!sUnknown_0203A11C->unk2E4)
+    if (!sUnknown_0203A11C->unk2E4) {
         return;
+    }
 
     sUnknown_0203A11C->unk2E4->pos1.x = (s16)x;
     sUnknown_0203A11C->unk2E4->pos1.y = (s16)y;
@@ -4544,8 +4386,7 @@ static void sub_811E34C(u8 x, u8 y)
 
 static void sub_811E380(void)
 {
-    if (sUnknown_0203A11C->unk2E4)
-    {
+    if (sUnknown_0203A11C->unk2E4) {
         DestroySprite(sUnknown_0203A11C->unk2E4);
         sUnknown_0203A11C->unk2E4 = NULL;
     }
@@ -4564,26 +4405,24 @@ static void sub_811E3AC(void)
 
 static bool8 sub_811E418(void)
 {
-    switch (sUnknown_0203A11C->unk9)
-    {
+    switch (sUnknown_0203A11C->unk9) {
     default:
         return FALSE;
     case 0:
         sUnknown_0203A11C->unk2E8->pos2.x += 8;
-        if (sUnknown_0203A11C->unk2E8->pos2.x >= 0)
-        {
+        if (sUnknown_0203A11C->unk2E8->pos2.x >= 0) {
             sUnknown_0203A11C->unk2E8->pos2.x = 0;
-            if (!sub_811BBB0())
+            if (!sub_811BBB0()) {
                 StartSpriteAnim(sUnknown_0203A11C->unk2EC, 1);
-            else
+            } else {
                 StartSpriteAnim(sUnknown_0203A11C->unk2EC, 2);
+            }
 
             sUnknown_0203A11C->unk9++;
         }
         break;
     case 1:
-        if (sUnknown_0203A11C->unk2EC->animEnded)
-        {
+        if (sUnknown_0203A11C->unk2EC->animEnded) {
             sUnknown_0203A11C->unk9 = 2;
             return FALSE;
         }
@@ -4600,18 +4439,17 @@ static void sub_811E4AC(void)
 
 static bool8 sub_811E4D0(void)
 {
-    switch (sUnknown_0203A11C->unk9)
-    {
+    switch (sUnknown_0203A11C->unk9) {
     default:
         return FALSE;
     case 0:
-        if (sUnknown_0203A11C->unk2EC->animEnded)
+        if (sUnknown_0203A11C->unk2EC->animEnded) {
             sUnknown_0203A11C->unk9 = 1;
+        }
         break;
     case 1:
         sUnknown_0203A11C->unk2E8->pos2.x -= 8;
-        if (sUnknown_0203A11C->unk2E8->pos2.x <= -64)
-        {
+        if (sUnknown_0203A11C->unk2E8->pos2.x <= -64) {
             DestroySprite(sUnknown_0203A11C->unk2EC);
             DestroySprite(sUnknown_0203A11C->unk2E8);
             sUnknown_0203A11C->unk2EC = NULL;
@@ -4631,10 +4469,11 @@ static void sub_811E55C(void)
 
 static void sub_811E578(void)
 {
-    if (!sub_811BBB0())
+    if (!sub_811BBB0()) {
         StartSpriteAnim(sUnknown_0203A11C->unk2EC, 1);
-    else
+    } else {
         StartSpriteAnim(sUnknown_0203A11C->unk2EC, 2);
+    }
 }
 
 static bool8 sub_811E5B8(void)
@@ -4645,12 +4484,12 @@ static bool8 sub_811E5B8(void)
 static void sub_811E5D4(void)
 {
     u8 spriteId = CreateSprite(&sUnknown_08597E48, 96, 80, 0);
-    if (spriteId != MAX_SPRITES)
+    if (spriteId != MAX_SPRITES) {
         sUnknown_0203A11C->unk2F0 = &gSprites[spriteId];
+    }
 
     spriteId = CreateSprite(&sUnknown_08597E48, 96, 156, 0);
-    if (spriteId != MAX_SPRITES)
-    {
+    if (spriteId != MAX_SPRITES) {
         sUnknown_0203A11C->unk2F4 = &gSprites[spriteId];
         sUnknown_0203A11C->unk2F4->vFlip = 1;
     }
@@ -4672,13 +4511,10 @@ static void sub_811E6B0(void)
 
 static void sub_811E6E0(int arg0)
 {
-    if (!arg0)
-    {
+    if (!arg0) {
         sUnknown_0203A11C->unk2F0->pos1.x = 96;
         sUnknown_0203A11C->unk2F4->pos1.x = 96;
-    }
-    else
-    {
+    } else {
         sUnknown_0203A11C->unk2F0->pos1.x = 120;
         sUnknown_0203A11C->unk2F4->pos1.x = 120;
     }
@@ -4687,12 +4523,12 @@ static void sub_811E6E0(int arg0)
 static void sub_811E720(void)
 {
     u8 spriteId = CreateSprite(&sUnknown_08597E30, 220, 84, 1);
-    if (spriteId != MAX_SPRITES)
+    if (spriteId != MAX_SPRITES) {
         sUnknown_0203A11C->unk2F8 = &gSprites[spriteId];
+    }
 
     spriteId = CreateSprite(&sUnknown_08597E30, 220, 156, 1);
-    if (spriteId != MAX_SPRITES)
-    {
+    if (spriteId != MAX_SPRITES) {
         sUnknown_0203A11C->unk2FC = &gSprites[spriteId];
         StartSpriteAnim(sUnknown_0203A11C->unk2FC, 1);
     }
@@ -4717,8 +4553,7 @@ static void sub_811E828(void)
     int graphicsId;
     u8 spriteId;
 
-    switch (GetDisplayedPersonType())
-    {
+    switch (GetDisplayedPersonType()) {
     case EASY_CHAT_PERSON_REPORTER_MALE:
         graphicsId = OBJ_EVENT_GFX_REPORTER_M;
         break;
@@ -4732,12 +4567,12 @@ static void sub_811E828(void)
         return;
     }
 
-    if (GetEasyChatScreenFrameId() != 4)
+    if (GetEasyChatScreenFrameId() != 4) {
         return;
+    }
 
     spriteId = AddPseudoObjectEvent(graphicsId, SpriteCallbackDummy, 76, 40, 0);
-    if (spriteId != MAX_SPRITES)
-    {
+    if (spriteId != MAX_SPRITES) {
         gSprites[spriteId].oam.priority = 0;
         StartSpriteAnim(&gSprites[spriteId], 2);
     }
@@ -4749,8 +4584,7 @@ static void sub_811E828(void)
         40,
         0);
 
-    if (spriteId != MAX_SPRITES)
-    {
+    if (spriteId != MAX_SPRITES) {
         gSprites[spriteId].oam.priority = 0;
         StartSpriteAnim(&gSprites[spriteId], 3);
     }
@@ -4759,8 +4593,7 @@ static void sub_811E828(void)
 int GetFooterIndex(void)
 {
     u8 frameId = GetEasyChatScreenFrameId();
-    switch (sPhraseFrameDimensions[frameId].footerId)
-    {
+    switch (sPhraseFrameDimensions[frameId].footerId) {
     case 1:
         return 1;
     case 2:
@@ -4775,10 +4608,11 @@ int GetFooterIndex(void)
 static int GetFooterOptionXOffset(int option)
 {
     int footerIndex = GetFooterIndex();
-    if (footerIndex < 3)
+    if (footerIndex < 3) {
         return sFooterOptionXOffsets[footerIndex][option] + 4;
-    else
+    } else {
         return 0;
+    }
 }
 
 static void sub_811E948(void)
@@ -4787,8 +4621,9 @@ static void sub_811E948(void)
     u16 windowId;
     struct WindowTemplate template;
     int footerId = GetFooterIndex();
-    if (footerId == 3)
+    if (footerId == 3) {
         return;
+    }
 
     template.bg = 3;
     template.tilemapLeft = 1;
@@ -4799,11 +4634,9 @@ static void sub_811E948(void)
     template.baseBlock = 0x34;
     windowId = AddWindow(&template);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
-    for (i = 0; i < 4; i++)
-    {
+    for (i = 0; i < 4; i++) {
         const u8 *str = sFooterTextOptions[footerId][i];
-        if (str)
-        {
+        if (str) {
             int x = sFooterOptionXOffsets[footerId][i];
             sub_811D028(windowId, 1, str, x, 1, 0, NULL);
         }
@@ -4814,8 +4647,7 @@ static void sub_811E948(void)
 
 static bool8 IsEasyChatGroupUnlocked(u8 groupId)
 {
-    switch (groupId)
-    {
+    switch (groupId) {
     case EC_GROUP_TRENDY_SAYING:
         return FlagGet(FLAG_SYS_HIPSTER_MEET);
     case EC_GROUP_EVENTS:
@@ -4831,11 +4663,13 @@ static bool8 IsEasyChatGroupUnlocked(u8 groupId)
 
 u16 EasyChat_GetNumWordsInGroup(u8 groupId)
 {
-    if (groupId == EC_GROUP_POKEMON)
+    if (groupId == EC_GROUP_POKEMON) {
         return GetNationalPokedexCount(FLAG_GET_SEEN);
+    }
 
-    if (IsEasyChatGroupUnlocked(groupId))
+    if (IsEasyChatGroupUnlocked(groupId)) {
         return gEasyChatGroups[groupId].numEnabledWords;
+    }
 
     return 0;
 }
@@ -4847,33 +4681,35 @@ bool8 sub_811EAA4(u16 easyChatWord)
     u32 index;
     u16 numWords;
     const u16 *list;
-    if (easyChatWord == 0xFFFF)
+    if (easyChatWord == 0xFFFF) {
         return FALSE;
+    }
 
     groupId = EC_GROUP(easyChatWord);
     index = EC_INDEX(easyChatWord);
-    if (groupId >= EC_NUM_GROUPS)
+    if (groupId >= EC_NUM_GROUPS) {
         return TRUE;
+    }
 
     numWords = gEasyChatGroups[groupId].numWords;
-    switch (groupId)
-    {
+    switch (groupId) {
     case EC_GROUP_POKEMON:
     case EC_GROUP_POKEMON_2:
     case EC_GROUP_MOVE_1:
     case EC_GROUP_MOVE_2:
         list = gEasyChatGroups[groupId].wordData.valueList;
-        for (i = 0; i < numWords; i++)
-        {
-            if (index == list[i])
+        for (i = 0; i < numWords; i++) {
+            if (index == list[i]) {
                 return FALSE;
+            }
         }
         return TRUE;
     default:
-        if (index >= numWords)
+        if (index >= numWords) {
             return TRUE;
-        else
+        } else {
             return FALSE;
+        }
     }
 }
 
@@ -4882,11 +4718,11 @@ bool8 ECWord_CheckIfOutsideOfValidRange(u16 easyChatWord)
     int numWordsInGroup;
     u8 groupId = EC_GROUP(easyChatWord);
     u32 index = EC_INDEX(easyChatWord);
-    if (groupId >= EC_NUM_GROUPS)
+    if (groupId >= EC_NUM_GROUPS) {
         return TRUE;
+    }
 
-    switch (groupId)
-    {
+    switch (groupId) {
     case EC_GROUP_POKEMON:
     case EC_GROUP_POKEMON_2:
         numWordsInGroup = gNumSpeciesNames;
@@ -4900,16 +4736,16 @@ bool8 ECWord_CheckIfOutsideOfValidRange(u16 easyChatWord)
         break;
     }
 
-    if (numWordsInGroup <= index)
+    if (numWordsInGroup <= index) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
-const u8 *GetEasyChatWord(u8 groupId, u16 index)
+const u8 * GetEasyChatWord(u8 groupId, u16 index)
 {
-    switch (groupId)
-    {
+    switch (groupId) {
     case EC_GROUP_POKEMON:
     case EC_GROUP_POKEMON_2:
         return gSpeciesNames[index];
@@ -4921,21 +4757,16 @@ const u8 *GetEasyChatWord(u8 groupId, u16 index)
     }
 }
 
-u8 *CopyEasyChatWord(u8 *dest, u16 easyChatWord)
+u8 * CopyEasyChatWord(u8 *dest, u16 easyChatWord)
 {
     u8 *resultStr;
-    if (sub_811EAA4(easyChatWord))
-    {
+    if (sub_811EAA4(easyChatWord)) {
         resultStr = StringCopy(dest, gText_ThreeQuestionMarks);
-    }
-    else if (easyChatWord != 0xFFFF)
-    {
+    } else if (easyChatWord != 0xFFFF) {
         u16 index = EC_INDEX(easyChatWord);
         u8 groupId = EC_GROUP(easyChatWord);
         resultStr = StringCopy(dest, GetEasyChatWord(groupId, index));
-    }
-    else
-    {
+    } else {
         *dest = EOS;
         resultStr = dest;
     }
@@ -4943,18 +4774,15 @@ u8 *CopyEasyChatWord(u8 *dest, u16 easyChatWord)
     return resultStr;
 }
 
-u8 *ConvertEasyChatWordsToString(u8 *dest, const u16 *src, u16 columns, u16 rows)
+u8 * ConvertEasyChatWordsToString(u8 *dest, const u16 *src, u16 columns, u16 rows)
 {
     u16 i, j;
     u16 numColumns = columns - 1;
 
-    for (i = 0; i < rows; i++)
-    {
-        for (j = 0; j < numColumns; j++)
-        {
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < numColumns; j++) {
             dest = CopyEasyChatWord(dest, *src);
-            if (*src != 0xFFFF)
-            {
+            if (*src != 0xFFFF) {
                 *dest = CHAR_SPACE;
                 dest++;
             }
@@ -4972,7 +4800,7 @@ u8 *ConvertEasyChatWordsToString(u8 *dest, const u16 *src, u16 columns, u16 rows
     return dest;
 }
 
-u8 *unref_sub_811EC98(u8 *dest, const u16 *src, u16 columns, u16 rows)
+u8 * unref_sub_811EC98(u8 *dest, const u16 *src, u16 columns, u16 rows)
 {
     u16 i, j, k;
     u16 numColumns;
@@ -4981,27 +4809,23 @@ u8 *unref_sub_811EC98(u8 *dest, const u16 *src, u16 columns, u16 rows)
     numColumns = columns;
     var1 = 0;
     columns--;
-    for (i = 0; i < rows; i++)
-    {
+    for (i = 0; i < rows; i++) {
         const u16 *var2 = src;
         var0 = 0;
-        for (j = 0; j < numColumns; j++)
-        {
-            if (var2[j] != 0xFFFF)
+        for (j = 0; j < numColumns; j++) {
+            if (var2[j] != 0xFFFF) {
                 var0 = 1;
+            }
         }
 
-        if (!var0)
-        {
+        if (!var0) {
             src += numColumns;
             continue;
         }
 
-        for (k = 0; k < columns; k++)
-        {
+        for (k = 0; k < columns; k++) {
             dest = CopyEasyChatWord(dest, *src);
-            if (*src != 0xFFFF)
-            {
+            if (*src != 0xFFFF) {
                 *dest = CHAR_SPACE;
                 dest++;
             }
@@ -5010,10 +4834,11 @@ u8 *unref_sub_811EC98(u8 *dest, const u16 *src, u16 columns, u16 rows)
         }
 
         dest = CopyEasyChatWord(dest, *(src++));
-        if (var1 == 0)
+        if (var1 == 0) {
             *dest = CHAR_NEWLINE;
-        else
+        } else {
             *dest = CHAR_PROMPT_SCROLL;
+        }
 
         dest++;
         var1++;
@@ -5026,15 +4851,13 @@ u8 *unref_sub_811EC98(u8 *dest, const u16 *src, u16 columns, u16 rows)
 
 static u16 GetEasyChatWordStringLength(u16 easyChatWord)
 {
-    if (easyChatWord == 0xFFFF)
+    if (easyChatWord == 0xFFFF) {
         return 0;
-
-    if (sub_811EAA4(easyChatWord))
-    {
-        return StringLength(gText_ThreeQuestionMarks);
     }
-    else
-    {
+
+    if (sub_811EAA4(easyChatWord)) {
+        return StringLength(gText_ThreeQuestionMarks);
+    } else {
         u16 index = EC_INDEX(easyChatWord);
         u8 groupId = EC_GROUP(easyChatWord);
         return StringLength(GetEasyChatWord(groupId, index));
@@ -5045,14 +4868,15 @@ static bool8 CanPhraseFitInXRowsYCols(const u16 *easyChatWords, u8 numRows, u8 n
 {
     u8 i, j;
 
-    for (i = 0; i < numColumns; i++)
-    {
+    for (i = 0; i < numColumns; i++) {
         u16 totalLength = numRows - 1;
-        for (j = 0; j < numRows; j++)
+        for (j = 0; j < numRows; j++) {
             totalLength += GetEasyChatWordStringLength(*(easyChatWords++));
+        }
 
-        if (totalLength > maxLength)
+        if (totalLength > maxLength) {
             return TRUE;
+        }
     }
 
     return FALSE;
@@ -5062,10 +4886,9 @@ u16 GetRandomEasyChatWordFromGroup(u16 groupId)
 {
     u16 index = Random() % gEasyChatGroups[groupId].numWords;
     if (groupId == EC_GROUP_POKEMON
-     || groupId == EC_GROUP_POKEMON_2
-     || groupId == EC_GROUP_MOVE_1
-     || groupId == EC_GROUP_MOVE_2)
-    {
+        || groupId == EC_GROUP_POKEMON_2
+        || groupId == EC_GROUP_MOVE_1
+        || groupId == EC_GROUP_MOVE_2) {
         index = gEasyChatGroups[groupId].wordData.valueList[index];
     }
 
@@ -5074,11 +4897,13 @@ u16 GetRandomEasyChatWordFromGroup(u16 groupId)
 
 u16 GetRandomEasyChatWordFromUnlockedGroup(u16 groupId)
 {
-    if (!IsEasyChatGroupUnlocked(groupId))
+    if (!IsEasyChatGroupUnlocked(groupId)) {
         return 0xFFFF;
+    }
 
-    if (groupId == EC_GROUP_POKEMON)
+    if (groupId == EC_GROUP_POKEMON) {
         return GetRandomUnlockedEasyChatPokemon();
+    }
 
     return GetRandomEasyChatWordFromGroup(groupId);
 }
@@ -5087,8 +4912,7 @@ void ShowEasyChatProfile(void)
 {
     u16 *easyChatWords;
     int columns, rows;
-    switch (gSpecialVar_0x8004)
-    {
+    switch (gSpecialVar_0x8004) {
     case 0:
         easyChatWords = gSaveBlock1Ptr->easyChatProfile;
         columns = 2;
@@ -5096,13 +4920,10 @@ void ShowEasyChatProfile(void)
         break;
     case 1:
         easyChatWords = gSaveBlock1Ptr->easyChatBattleStart;
-        if (CanPhraseFitInXRowsYCols(gSaveBlock1Ptr->easyChatBattleStart, 3, 2, 18))
-        {
+        if (CanPhraseFitInXRowsYCols(gSaveBlock1Ptr->easyChatBattleStart, 3, 2, 18)) {
             columns = 2;
             rows = 3;
-        }
-        else
-        {
+        } else {
             columns = 3;
             rows = 2;
         }
@@ -5142,8 +4963,7 @@ static bool8 IsAdditionalPhraseUnlocked(u8 additionalPhraseId)
 
 void UnlockAdditionalPhrase(u8 additionalPhraseId)
 {
-    if (additionalPhraseId < NUM_ADDITIONAL_PHRASES)
-    {
+    if (additionalPhraseId < NUM_ADDITIONAL_PHRASES) {
         int byteOffset = additionalPhraseId / 8;
         int shift = additionalPhraseId % 8;
         gSaveBlock1Ptr->additionalPhrases[byteOffset] |= 1 << shift;
@@ -5155,10 +4975,10 @@ static u8 GetNumAdditionalPhrasesUnlocked(void)
     u8 i;
     u8 numAdditionalPhrasesUnlocked;
 
-    for (i = 0, numAdditionalPhrasesUnlocked = 0; i < NUM_ADDITIONAL_PHRASES; i++)
-    {
-        if (IsAdditionalPhraseUnlocked(i))
+    for (i = 0, numAdditionalPhrasesUnlocked = 0; i < NUM_ADDITIONAL_PHRASES; i++) {
+        if (IsAdditionalPhraseUnlocked(i)) {
             numAdditionalPhrasesUnlocked++;
+        }
     }
 
     return numAdditionalPhrasesUnlocked;
@@ -5169,20 +4989,16 @@ u16 GetNewHipsterPhraseToTeach(void)
     u16 i;
     u16 additionalPhraseId;
     u8 numAdditionalPhrasesUnlocked = GetNumAdditionalPhrasesUnlocked();
-    if (numAdditionalPhrasesUnlocked == NUM_ADDITIONAL_PHRASES)
+    if (numAdditionalPhrasesUnlocked == NUM_ADDITIONAL_PHRASES) {
         return 0xFFFF;
+    }
 
     additionalPhraseId = Random() % (NUM_ADDITIONAL_PHRASES - numAdditionalPhrasesUnlocked);
-    for (i = 0; i < NUM_ADDITIONAL_PHRASES; i++)
-    {
-        if (!IsAdditionalPhraseUnlocked(i))
-        {
-            if (additionalPhraseId)
-            {
+    for (i = 0; i < NUM_ADDITIONAL_PHRASES; i++) {
+        if (!IsAdditionalPhraseUnlocked(i)) {
+            if (additionalPhraseId) {
                 additionalPhraseId--;
-            }
-            else
-            {
+            } else {
                 UnlockAdditionalPhrase(i);
                 return EC_WORD(EC_GROUP_TRENDY_SAYING, i);
             }
@@ -5197,18 +5013,18 @@ u16 GetRandomTaughtHipsterPhrase(void)
 {
     u16 i;
     u16 additionalPhraseId = GetNumAdditionalPhrasesUnlocked();
-    if (additionalPhraseId == 0)
+    if (additionalPhraseId == 0) {
         return 0xFFFF;
+    }
 
     additionalPhraseId = Random() % additionalPhraseId;
-    for (i = 0; i < NUM_ADDITIONAL_PHRASES; i++)
-    {
-        if (IsAdditionalPhraseUnlocked(i))
-        {
-            if (additionalPhraseId)
+    for (i = 0; i < NUM_ADDITIONAL_PHRASES; i++) {
+        if (IsAdditionalPhraseUnlocked(i)) {
+            if (additionalPhraseId) {
                 additionalPhraseId--;
-            else
+            } else {
                 return EC_WORD(EC_GROUP_TRENDY_SAYING, i);
+            }
         }
     }
 
@@ -5226,21 +5042,21 @@ static u16 GetRandomUnlockedEasyChatPokemon(void)
     u16 numWords;
     const u16 *species;
     u16 index = EasyChat_GetNumWordsInGroup(EC_GROUP_POKEMON);
-    if (index == 0)
+    if (index == 0) {
         return 0xFFFF;
+    }
 
     index = Random() % index;
     species = gEasyChatGroups[EC_GROUP_POKEMON].wordData.valueList;
     numWords = gEasyChatGroups[EC_GROUP_POKEMON].numWords;
-    for (i = 0; i < numWords; i++)
-    {
+    for (i = 0; i < numWords; i++) {
         u16 dexNum = SpeciesToNationalPokedexNum(*species);
-        if (GetSetPokedexFlag(dexNum, FLAG_GET_SEEN))
-        {
-            if (index)
+        if (GetSetPokedexFlag(dexNum, FLAG_GET_SEEN)) {
+            if (index) {
                 index--;
-            else
+            } else {
                 return EC_WORD(EC_GROUP_POKEMON, *species);
+            }
         }
 
         species++;
@@ -5253,22 +5069,26 @@ void InitEasyChatPhrases(void)
 {
     u16 i, j;
 
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 4; i++) {
         gSaveBlock1Ptr->easyChatProfile[i] = sDefaultProfileWords[i];
-    
-    for (i = 0; i < 6; i++)
+    }
+
+    for (i = 0; i < 6; i++) {
         gSaveBlock1Ptr->easyChatBattleStart[i] = sDefaultBattleStartWords[i];
-    
-    for (i = 0; i < 6; i++)
+    }
+
+    for (i = 0; i < 6; i++) {
         gSaveBlock1Ptr->easyChatBattleWon[i] = sUnknown_0859E640[i];
-    
-    for (i = 0; i < 6; i++)
+    }
+
+    for (i = 0; i < 6; i++) {
         gSaveBlock1Ptr->easyChatBattleLost[i] = sUnknown_0859E64C[i];
-    
-    for (i = 0; i < MAIL_COUNT; i++)
-    {
-        for (j = 0; j < MAIL_WORDS_COUNT; j++)
+    }
+
+    for (i = 0; i < MAIL_COUNT; i++) {
+        for (j = 0; j < MAIL_WORDS_COUNT; j++) {
             gSaveBlock1Ptr->mail[i].words[j] = 0xFFFF;
+        }
     }
 
 #ifndef UBFIX
@@ -5276,19 +5096,22 @@ void InitEasyChatPhrases(void)
     // However, this bug has no resulting effect on gameplay because only the
     // Mauville old man data is corrupted, which is initialized directly after
     // this function is called when starting a new game.
-    for (i = 0; i < 64; i++)
+    for (i = 0; i < 64; i++) {
         gSaveBlock1Ptr->additionalPhrases[i] = 0;
+    }
 #else
-    for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->additionalPhrases); i++)
+    for (i = 0; i < ARRAY_COUNT(gSaveBlock1Ptr->additionalPhrases); i++) {
         gSaveBlock1Ptr->additionalPhrases[i] = 0;
+    }
 #endif
 }
 
 static bool8 sub_811F28C(void)
 {
     sUnknown_0203A120 = Alloc(sizeof(*sUnknown_0203A120));
-    if (!sUnknown_0203A120)
+    if (!sUnknown_0203A120) {
         return FALSE;
+    }
 
     sub_811F2D4();
     sub_811F46C();
@@ -5297,8 +5120,9 @@ static bool8 sub_811F28C(void)
 
 static void sub_811F2B8(void)
 {
-    if (sUnknown_0203A120)
+    if (sUnknown_0203A120) {
         FREE_AND_SET_NULL(sUnknown_0203A120);
+    }
 }
 
 static void sub_811F2D4(void)
@@ -5306,24 +5130,27 @@ static void sub_811F2D4(void)
     int i;
 
     sUnknown_0203A120->unk0 = 0;
-    if (GetNationalPokedexCount(FLAG_GET_SEEN))
+    if (GetNationalPokedexCount(FLAG_GET_SEEN)) {
         sUnknown_0203A120->unk2[sUnknown_0203A120->unk0++] = EC_GROUP_POKEMON;
-    
-    for (i = EC_GROUP_TRAINER; i <= EC_GROUP_ADJECTIVES; i++)
+    }
+
+    for (i = EC_GROUP_TRAINER; i <= EC_GROUP_ADJECTIVES; i++) {
         sUnknown_0203A120->unk2[sUnknown_0203A120->unk0++] = i;
-    
-    if (FlagGet(FLAG_SYS_GAME_CLEAR))
-    {
+    }
+
+    if (FlagGet(FLAG_SYS_GAME_CLEAR)) {
         sUnknown_0203A120->unk2[sUnknown_0203A120->unk0++] = EC_GROUP_EVENTS;
         sUnknown_0203A120->unk2[sUnknown_0203A120->unk0++] = EC_GROUP_MOVE_1;
         sUnknown_0203A120->unk2[sUnknown_0203A120->unk0++] = EC_GROUP_MOVE_2;
     }
 
-    if (FlagGet(FLAG_SYS_HIPSTER_MEET))
+    if (FlagGet(FLAG_SYS_HIPSTER_MEET)) {
         sUnknown_0203A120->unk2[sUnknown_0203A120->unk0++] = EC_GROUP_TRENDY_SAYING;
+    }
 
-    if (IsNationalPokedexEnabled())
+    if (IsNationalPokedexEnabled()) {
         sUnknown_0203A120->unk2[sUnknown_0203A120->unk0++] = EC_GROUP_POKEMON_2;
+    }
 }
 
 static u8 sub_811F3AC(void)
@@ -5333,41 +5160,40 @@ static u8 sub_811F3AC(void)
 
 static u8 sub_811F3B8(u8 index)
 {
-    if (index >= sUnknown_0203A120->unk0)
+    if (index >= sUnknown_0203A120->unk0) {
         return EC_NUM_GROUPS;
-    else
+    } else {
         return sUnknown_0203A120->unk2[index];
+    }
 }
 
-u8 *unref_sub_811F3E0(u8 *dest, u8 groupId, u16 totalChars)
+u8 * unref_sub_811F3E0(u8 *dest, u8 groupId, u16 totalChars)
 {
     u16 i;
     u8 *str = StringCopy(dest, gEasyChatGroupNamePointers[groupId]);
-    for (i = str - dest; i < totalChars; i++)
-    {
+    for (i = str - dest; i < totalChars; i++) {
         *str = CHAR_SPACE;
         str++;
     }
-    
+
     *str = EOS;
     return str;
 }
 
-static const u8 *GetEasyChatWordGroupName(u8 groupId)
+static const u8 * GetEasyChatWordGroupName(u8 groupId)
 {
     return gEasyChatGroupNamePointers[groupId];
 }
 
-static u8 *CopyEasyChatWordPadded(u8 *dest, u16 easyChatWord, u16 totalChars)
+static u8 * CopyEasyChatWordPadded(u8 *dest, u16 easyChatWord, u16 totalChars)
 {
     u16 i;
     u8 *str = CopyEasyChatWord(dest, easyChatWord);
-    for (i = str - dest; i < totalChars; i++)
-    {
+    for (i = str - dest; i < totalChars; i++) {
         *str = CHAR_SPACE;
         str++;
     }
-    
+
     *str = EOS;
     return str;
 }
@@ -5380,30 +5206,23 @@ static void sub_811F46C(void)
     u16 numToProcess;
     int index;
 
-    for (i = 0; i < 27; i++)
-    {
+    for (i = 0; i < 27; i++) {
         numWords = gEasyChatWordsByLetterPointers[i].numWords;
         words = gEasyChatWordsByLetterPointers[i].words;
         sUnknown_0203A120->unk2E[i] = 0;
         index = 0;
-        for (j = 0; j < numWords; j++)
-        {
-            if (*words == 0xFFFF)
-            {
+        for (j = 0; j < numWords; j++) {
+            if (*words == 0xFFFF) {
                 words++;
                 numToProcess = *words;
                 words++;
                 j += 1 + numToProcess;
-            }
-            else
-            {
+            } else {
                 numToProcess = 1;
             }
 
-            for (k = 0; k < numToProcess; k++)
-            {
-                if (sub_811F860(words[k]))
-                {
+            for (k = 0; k < numToProcess; k++) {
+                if (sub_811F860(words[k])) {
                     sUnknown_0203A120->unk64[i][index++] = words[k];
                     sUnknown_0203A120->unk2E[i]++;
                     break;
@@ -5417,18 +5236,20 @@ static void sub_811F46C(void)
 
 static void sub_811F548(int arg0, u16 groupId)
 {
-    if (!arg0)
+    if (!arg0) {
         sUnknown_0203A120->unk3BA0 = sub_811F5C4(groupId);
-    else
+    } else {
         sUnknown_0203A120->unk3BA0 = sub_811F6B8(groupId);
+    }
 }
 
 static u16 sub_811F578(u16 arg0)
 {
-    if (arg0 >= sUnknown_0203A120->unk3BA0)
+    if (arg0 >= sUnknown_0203A120->unk3BA0) {
         return 0xFFFF;
-    else
+    } else {
         return sUnknown_0203A120->unk3984[arg0];
+    }
 }
 
 static u16 sub_811F5B0(void)
@@ -5445,25 +5266,22 @@ static u16 sub_811F5C4(u16 groupId)
     u16 numWords = gEasyChatGroups[groupId].numWords;
 
     if (groupId == EC_GROUP_POKEMON || groupId == EC_GROUP_POKEMON_2
-     || groupId == EC_GROUP_MOVE_1  || groupId == EC_GROUP_MOVE_2)
-    {
+        || groupId == EC_GROUP_MOVE_1  || groupId == EC_GROUP_MOVE_2) {
         list = gEasyChatGroups[groupId].wordData.valueList;
-        for (i = 0, totalWords = 0; i < numWords; i++)
-        {
-            if (sub_811F764(list[i], groupId))
+        for (i = 0, totalWords = 0; i < numWords; i++) {
+            if (sub_811F764(list[i], groupId)) {
                 sUnknown_0203A120->unk3984[totalWords++] = EC_WORD(groupId, list[i]);
+            }
         }
 
         return totalWords;
-    }
-    else
-    {
+    } else {
         wordInfo = gEasyChatGroups[groupId].wordData.words;
-        for (i = 0, totalWords = 0; i < numWords; i++)
-        {
+        for (i = 0, totalWords = 0; i < numWords; i++) {
             u16 alphabeticalOrder = wordInfo[i].alphabeticalOrder;
-            if (sub_811F764(alphabeticalOrder, groupId))
+            if (sub_811F764(alphabeticalOrder, groupId)) {
                 sUnknown_0203A120->unk3984[totalWords++] = EC_WORD(groupId, alphabeticalOrder);
+            }
         }
 
         return totalWords;
@@ -5475,8 +5293,9 @@ static u16 sub_811F6B8(u16 alphabeticalGroup)
     u16 i;
     u16 totalWords;
 
-    for (i = 0, totalWords = 0; i < sUnknown_0203A120->unk2E[alphabeticalGroup]; i++)
+    for (i = 0, totalWords = 0; i < sUnknown_0203A120->unk2E[alphabeticalGroup]; i++) {
         sUnknown_0203A120->unk3984[totalWords++] = sUnknown_0203A120->unk64[alphabeticalGroup][i];
+    }
 
     return totalWords;
 }
@@ -5484,10 +5303,10 @@ static u16 sub_811F6B8(u16 alphabeticalGroup)
 static bool8 sub_811F72C(u8 arg0)
 {
     int i;
-    for (i = 0; i < sUnknown_0203A120->unk0; i++)
-    {
-        if (sUnknown_0203A120->unk2[i] == arg0)
+    for (i = 0; i < sUnknown_0203A120->unk0; i++) {
+        if (sUnknown_0203A120->unk2[i] == arg0) {
             return TRUE;
+        }
     }
 
     return FALSE;
@@ -5495,13 +5314,13 @@ static bool8 sub_811F72C(u8 arg0)
 
 static bool8 sub_811F764(u16 wordIndex, u8 groupId)
 {
-    switch (groupId)
-    {
+    switch (groupId) {
     case EC_GROUP_POKEMON:
         return GetSetPokedexFlag(SpeciesToNationalPokedexNum(wordIndex), FLAG_GET_SEEN);
     case EC_GROUP_POKEMON_2:
-        if (sub_811F838(wordIndex))
+        if (sub_811F838(wordIndex)) {
             GetSetPokedexFlag(SpeciesToNationalPokedexNum(wordIndex), FLAG_GET_SEEN);
+        }
         return TRUE;
     case EC_GROUP_MOVE_1:
     case EC_GROUP_MOVE_2:
@@ -5516,10 +5335,10 @@ static bool8 sub_811F764(u16 wordIndex, u8 groupId)
 static int sub_811F838(u16 species)
 {
     u32 i;
-    for (i = 0; i < ARRAY_COUNT(sUnknown_0859E658); i++)
-    {
-        if (sUnknown_0859E658[i] == species)
+    for (i = 0; i < ARRAY_COUNT(sUnknown_0859E658); i++) {
+        if (sUnknown_0859E658[i] == species) {
             return TRUE;
+        }
     }
 
     return FALSE;
@@ -5529,25 +5348,28 @@ static u8 sub_811F860(u16 easyChatWord)
 {
     u8 groupId = EC_GROUP(easyChatWord);
     u32 index = EC_INDEX(easyChatWord);
-    if (!sub_811F72C(groupId))
+    if (!sub_811F72C(groupId)) {
         return FALSE;
-    else
+    } else {
         return sub_811F764(index, groupId);
+    }
 }
 
 void InitializeEasyChatWordArray(u16 *words, u16 length)
 {
     u16 i;
-    for (i = length - 1; i != 0xFFFF; i--)
+    for (i = length - 1; i != 0xFFFF; i--) {
         *(words++) = 0xFFFF;
+    }
 }
 
 void sub_811F8BC(void)
 {
     int i;
     u16 *words = sub_801B058();
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 4; i++) {
         words[i] = 0xFFFF;
+    }
 }
 
 bool32 sub_811F8D8(int easyChatWord)
@@ -5555,8 +5377,9 @@ bool32 sub_811F8D8(int easyChatWord)
     int groupId = EC_GROUP(easyChatWord);
     int mask = 0x7F;
     int index = EC_INDEX(easyChatWord);
-    if (!IsEasyChatGroupUnlocked(groupId & mask))
+    if (!IsEasyChatGroupUnlocked(groupId & mask)) {
         return FALSE;
-    else
+    } else {
         return sub_811F764(index, groupId & mask);
+    }
 }

@@ -62,66 +62,66 @@ static const u32 sUnknown[] = {0xFF, 0x00};
 static const struct WindowTemplate sBerryPowderWindowTemplates[] =
 {
     {
-        .bg = 0, 
-        .tilemapLeft = 1, 
-        .tilemapTop = 1, 
-        .width = 28, 
-        .height = 2, 
-        .paletteNum = 13, 
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 1,
+        .width = 28,
+        .height = 2,
+        .paletteNum = 13,
         .baseBlock = 19
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 1, 
-        .tilemapTop = 5, 
-        .width = 28, 
-        .height = 14, 
-        .paletteNum = 13, 
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 5,
+        .width = 28,
+        .height = 14,
+        .paletteNum = 13,
         .baseBlock = 75
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 1, 
-        .tilemapTop = 5, 
-        .width = 28, 
-        .height = 7, 
-        .paletteNum = 13, 
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 5,
+        .width = 28,
+        .height = 7,
+        .paletteNum = 13,
         .baseBlock = 75
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 1, 
-        .tilemapTop = 8, 
-        .width = 19, 
-        .height = 3, 
-        .paletteNum = 13, 
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 8,
+        .width = 19,
+        .height = 3,
+        .paletteNum = 13,
         .baseBlock = 19
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 22, 
-        .tilemapTop = 7, 
-        .width = 6, 
-        .height = 4, 
-        .paletteNum = 13, 
+        .bg = 0,
+        .tilemapLeft = 22,
+        .tilemapTop = 7,
+        .width = 6,
+        .height = 4,
+        .paletteNum = 13,
         .baseBlock = 76
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 4, 
-        .tilemapTop = 6, 
-        .width = 22, 
-        .height = 5, 
-        .paletteNum = 13, 
+        .bg = 0,
+        .tilemapLeft = 4,
+        .tilemapTop = 6,
+        .width = 22,
+        .height = 5,
+        .paletteNum = 13,
         .baseBlock = 19
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 5, 
-        .tilemapTop = 8, 
-        .width = 19, 
-        .height = 3, 
-        .paletteNum = 13, 
+        .bg = 0,
+        .tilemapLeft = 5,
+        .tilemapTop = 8,
+        .width = 19,
+        .height = 3,
+        .paletteNum = 13,
         .baseBlock = 19
     },
 };
@@ -145,32 +145,31 @@ void ApplyNewEncryptionKeyToBerryPowder(u32 encryptionKey)
 static bool8 HasEnoughBerryPowder_(u32 cost)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
-    if (DecryptBerryPowder(powder) < cost)
+    if (DecryptBerryPowder(powder) < cost) {
         return FALSE;
-    else
+    } else {
         return TRUE;
+    }
 }
 
 bool8 HasEnoughBerryPowder(void)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
-    if (DecryptBerryPowder(powder) < gSpecialVar_0x8004)
+    if (DecryptBerryPowder(powder) < gSpecialVar_0x8004) {
         return FALSE;
-    else
+    } else {
         return TRUE;
+    }
 }
 
 bool8 GiveBerryPowder(u32 amountToAdd)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
     u32 amount = DecryptBerryPowder(powder) + amountToAdd;
-    if (amount > MAX_BERRY_POWDER)
-    {
+    if (amount > MAX_BERRY_POWDER) {
         SetBerryPowder(powder, MAX_BERRY_POWDER);
         return FALSE;
-    }
-    else
-    {
+    } else {
         SetBerryPowder(powder, amount);
         return TRUE;
     }
@@ -179,8 +178,9 @@ bool8 GiveBerryPowder(u32 amountToAdd)
 static bool8 TakeBerryPowder_(u32 cost)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
-    if (!HasEnoughBerryPowder_(cost))
+    if (!HasEnoughBerryPowder_(cost)) {
         return FALSE;
+    }
 
     SetBerryPowder(powder, DecryptBerryPowder(powder) - cost);
     return TRUE;
@@ -189,8 +189,9 @@ static bool8 TakeBerryPowder_(u32 cost)
 bool8 TakeBerryPowder(void)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
-    if (!HasEnoughBerryPowder_(gSpecialVar_0x8004))
+    if (!HasEnoughBerryPowder_(gSpecialVar_0x8004)) {
         return FALSE;
+    }
 
     SetBerryPowder(powder, DecryptBerryPowder(powder) - gSpecialVar_0x8004);
     return TRUE;

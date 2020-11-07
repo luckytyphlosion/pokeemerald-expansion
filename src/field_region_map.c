@@ -141,77 +141,69 @@ static void FieldUpdateRegionMap(void)
 {
     u8 offset;
 
-    switch (sFieldRegionMapHandler->state)
-    {
-        case 0:
-            InitRegionMap(&sFieldRegionMapHandler->regionMap, FALSE);
-            CreateRegionMapPlayerIcon(0, 0);
-            CreateRegionMapCursor(1, 1);
+    switch (sFieldRegionMapHandler->state) {
+    case 0:
+        InitRegionMap(&sFieldRegionMapHandler->regionMap, FALSE);
+        CreateRegionMapPlayerIcon(0, 0);
+        CreateRegionMapCursor(1, 1);
+        sFieldRegionMapHandler->state++;
+        break;
+    case 1:
+        DrawStdFrameWithCustomTileAndPalette(1, 0, 0x27, 0xd);
+        offset = GetStringCenterAlignXOffset(1, gText_Hoenn, 0x38);
+        AddTextPrinterParameterized(1, 1, gText_Hoenn, offset, 1, 0, NULL);
+        ScheduleBgCopyTilemapToVram(0);
+        DrawStdFrameWithCustomTileAndPalette(0, 0, 0x27, 0xd);
+        PrintRegionMapSecName();
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+        sFieldRegionMapHandler->state++;
+        break;
+    case 2:
+        SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
+        ShowBg(0);
+        ShowBg(2);
+        sFieldRegionMapHandler->state++;
+        break;
+    case 3:
+        if (!gPaletteFade.active) {
             sFieldRegionMapHandler->state++;
-            break;
-        case 1:
-            DrawStdFrameWithCustomTileAndPalette(1, 0, 0x27, 0xd);
-            offset = GetStringCenterAlignXOffset(1, gText_Hoenn, 0x38);
-            AddTextPrinterParameterized(1, 1, gText_Hoenn, offset, 1, 0, NULL);
-            ScheduleBgCopyTilemapToVram(0);
-            DrawStdFrameWithCustomTileAndPalette(0, 0, 0x27, 0xd);
+        }
+        break;
+    case 4:
+        switch (DoRegionMapInputCallback()) {
+        case MAP_INPUT_MOVE_END:
             PrintRegionMapSecName();
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
+            break;
+        case MAP_INPUT_A_BUTTON:
+        case MAP_INPUT_B_BUTTON:
             sFieldRegionMapHandler->state++;
             break;
-        case 2:
-            SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON);
-            ShowBg(0);
-            ShowBg(2);
-            sFieldRegionMapHandler->state++;
-            break;
-        case 3:
-            if (!gPaletteFade.active)
-            {
-                sFieldRegionMapHandler->state++;
+        }
+        break;
+    case 5:
+        BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
+        sFieldRegionMapHandler->state++;
+        break;
+    case 6:
+        if (!gPaletteFade.active) {
+            FreeRegionMapIconResources();
+            SetMainCallback2(sFieldRegionMapHandler->callback);
+            if (sFieldRegionMapHandler != NULL) {
+                FREE_AND_SET_NULL(sFieldRegionMapHandler);
             }
-            break;
-        case 4:
-            switch (DoRegionMapInputCallback())
-            {
-                case MAP_INPUT_MOVE_END:
-                    PrintRegionMapSecName();
-                    break;
-                case MAP_INPUT_A_BUTTON:
-                case MAP_INPUT_B_BUTTON:
-                    sFieldRegionMapHandler->state++;
-                    break;
-            }
-            break;
-        case 5:
-            BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
-            sFieldRegionMapHandler->state++;
-            break;
-        case 6:
-            if (!gPaletteFade.active)
-            {
-                FreeRegionMapIconResources();
-                SetMainCallback2(sFieldRegionMapHandler->callback);
-                if (sFieldRegionMapHandler != NULL)
-                {
-                    FREE_AND_SET_NULL(sFieldRegionMapHandler);
-                }
-                FreeAllWindowBuffers();
-            }
-            break;
+            FreeAllWindowBuffers();
+        }
+        break;
     }
 }
 
 static void PrintRegionMapSecName(void)
 {
-    if (sFieldRegionMapHandler->regionMap.mapSecType != MAPSECTYPE_NONE)
-    {
+    if (sFieldRegionMapHandler->regionMap.mapSecType != MAPSECTYPE_NONE) {
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
         AddTextPrinterParameterized(0, 1, sFieldRegionMapHandler->regionMap.mapSecName, 0, 1, 0, NULL);
         ScheduleBgCopyTilemapToVram(0);
-    }
-    else
-    {
+    } else {
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
         CopyWindowToVram(0, 3);
     }

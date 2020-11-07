@@ -55,42 +55,42 @@ static EWRAM_DATA struct BerryTagScreenStruct *sBerryTag = NULL;
 // const rom data
 static const struct BgTemplate sBackgroundTemplates[] =
 {
-  {
-      .bg = 0,
-      .charBaseIndex = 0,
-      .mapBaseIndex = 31,
-      .screenSize = 0,
-      .paletteMode = 0,
-      .priority = 0,
-      .baseTile = 0
-  },
-  {
-      .bg = 1,
-      .charBaseIndex = 0,
-      .mapBaseIndex = 30,
-      .screenSize = 0,
-      .paletteMode = 0,
-      .priority = 1,
-      .baseTile = 0
-  },
-  {
-      .bg = 2,
-      .charBaseIndex = 0,
-      .mapBaseIndex = 29,
-      .screenSize = 0,
-      .paletteMode = 0,
-      .priority = 2,
-      .baseTile = 0
-  },
-  {
-      .bg = 3,
-      .charBaseIndex = 0,
-      .mapBaseIndex = 28,
-      .screenSize = 0,
-      .paletteMode = 0,
-      .priority = 3,
-      .baseTile = 0
-  }
+    {
+        .bg = 0,
+        .charBaseIndex = 0,
+        .mapBaseIndex = 31,
+        .screenSize = 0,
+        .paletteMode = 0,
+        .priority = 0,
+        .baseTile = 0
+    },
+    {
+        .bg = 1,
+        .charBaseIndex = 0,
+        .mapBaseIndex = 30,
+        .screenSize = 0,
+        .paletteMode = 0,
+        .priority = 1,
+        .baseTile = 0
+    },
+    {
+        .bg = 2,
+        .charBaseIndex = 0,
+        .mapBaseIndex = 29,
+        .screenSize = 0,
+        .paletteMode = 0,
+        .priority = 2,
+        .baseTile = 0
+    },
+    {
+        .bg = 3,
+        .charBaseIndex = 0,
+        .mapBaseIndex = 28,
+        .screenSize = 0,
+        .paletteMode = 0,
+        .priority = 3,
+        .baseTile = 0
+    }
 };
 
 static const u16 sFontPalette[] = INCBIN_U16("graphics/interface/berry_tag_screen.gbapal");
@@ -199,21 +199,22 @@ static void VblankCB(void)
 
 static void CB2_InitBerryTagScreen(void)
 {
-    while (1)
-    {
-        if (MenuHelpers_CallLinkSomething() == TRUE)
+    while (1) {
+        if (MenuHelpers_CallLinkSomething() == TRUE) {
             break;
-        if (InitBerryTagScreen() == TRUE)
+        }
+        if (InitBerryTagScreen() == TRUE) {
             break;
-        if (MenuHelpers_LinkSomething() == TRUE)
+        }
+        if (MenuHelpers_LinkSomething() == TRUE) {
             break;
+        }
     }
 }
 
 static bool8 InitBerryTagScreen(void)
 {
-    switch (gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
         SetVBlankHBlankCallbacksToNull();
         ResetVramOamAndBgCntRegs();
@@ -238,8 +239,9 @@ static bool8 InitBerryTagScreen(void)
         gMain.state++;
         break;
     case 5:
-        if (!MenuHelpers_LinkSomething())
+        if (!MenuHelpers_LinkSomething()) {
             ResetTasks();
+        }
         gMain.state++;
         break;
     case 6:
@@ -248,8 +250,9 @@ static bool8 InitBerryTagScreen(void)
         gMain.state++;
         break;
     case 7:
-        if (LoadBerryTagGfx())
+        if (LoadBerryTagGfx()) {
             gMain.state++;
+        }
         break;
     case 8:
         HandleInitWindows();
@@ -315,16 +318,14 @@ static bool8 LoadBerryTagGfx(void)
 {
     u16 i;
 
-    switch (sBerryTag->gfxState)
-    {
+    switch (sBerryTag->gfxState) {
     case 0:
         ResetTempTileDataBuffers();
         DecompressAndCopyTileDataToVram(2, gBerryCheck_Gfx, 0, 0, 0);
         sBerryTag->gfxState++;
         break;
     case 1:
-        if (FreeTempTileDataBuffersIfPossible() != TRUE)
-        {
+        if (FreeTempTileDataBuffersIfPossible() != TRUE) {
             LZDecompressWram(gBerryTag_Gfx, sBerryTag->tilemapBuffers[0]);
             sBerryTag->gfxState++;
         }
@@ -334,15 +335,14 @@ static bool8 LoadBerryTagGfx(void)
         sBerryTag->gfxState++;
         break;
     case 3:
-        if (gSaveBlock2Ptr->playerGender == MALE)
-        {
-            for (i = 0; i < ARRAY_COUNT(sBerryTag->tilemapBuffers[1]); i++)
+        if (gSaveBlock2Ptr->playerGender == MALE) {
+            for (i = 0; i < ARRAY_COUNT(sBerryTag->tilemapBuffers[1]); i++) {
                 sBerryTag->tilemapBuffers[1][i] = 0x4042;
-        }
-        else
-        {
-            for (i = 0; i < ARRAY_COUNT(sBerryTag->tilemapBuffers[1]); i++)
+            }
+        } else {
+            for (i = 0; i < ARRAY_COUNT(sBerryTag->tilemapBuffers[1]); i++) {
                 sBerryTag->tilemapBuffers[1][i] = 0x5042;
+            }
         }
         sBerryTag->gfxState++;
         break;
@@ -369,8 +369,9 @@ static void HandleInitWindows(void)
     InitWindows(sWindowTemplates);
     DeactivateAllTextPrinters();
     LoadPalette(sFontPalette, 0xF0, 0x20);
-    for (i = 0; i < ARRAY_COUNT(sWindowTemplates) - 1; i++)
+    for (i = 0; i < ARRAY_COUNT(sWindowTemplates) - 1; i++) {
         PutWindowTilemap(i);
+    }
     ScheduleBgCopyTilemapToVram(0);
     ScheduleBgCopyTilemapToVram(1);
 }
@@ -411,13 +412,13 @@ static void PrintBerrySize(void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
     AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gText_SizeSlash, 0, 1, TEXT_SPEED_FF, NULL);
-    if (berry->size != 0)
-    {
+    if (berry->size != 0) {
         u32 inches, fraction;
 
         inches = 1000 * berry->size / 254;
-        if (inches % 10 > 4)
+        if (inches % 10 > 4) {
             inches += 10;
+        }
         fraction = (inches % 100) / 10;
         inches /= 100;
 
@@ -425,9 +426,7 @@ static void PrintBerrySize(void)
         ConvertIntToDecimalStringN(gStringVar2, fraction, STR_CONV_MODE_LEFT_ALIGN, 2);
         StringExpandPlaceholders(gStringVar4, gText_Var1DotVar2);
         AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gStringVar4, 0x28, 1, 0, NULL);
-    }
-    else
-    {
+    } else {
         AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gText_ThreeMarks, 0x28, 1, 0, NULL);
     }
 }
@@ -436,10 +435,11 @@ static void PrintBerryFirmness(void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
     AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gText_FirmSlash, 0, 0x11, TEXT_SPEED_FF, NULL);
-    if (berry->firmness != 0)
+    if (berry->firmness != 0) {
         AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, sBerryFirmnessStrings[berry->firmness - 1], 0x28, 0x11, 0, NULL);
-    else
+    } else {
         AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gText_ThreeMarks, 0x28, 0x11, 0, NULL);
+    }
 }
 
 static void PrintBerryDescription1(void)
@@ -478,38 +478,44 @@ static void SetFlavorCirclesVisiblity(void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
 
-    if (berry->spicy)
+    if (berry->spicy) {
         gSprites[sBerryTag->flavorCircleIds[FLAVOR_SPICY]].invisible = FALSE;
-    else
+    } else {
         gSprites[sBerryTag->flavorCircleIds[FLAVOR_SPICY]].invisible = TRUE;
+    }
 
-    if (berry->dry)
+    if (berry->dry) {
         gSprites[sBerryTag->flavorCircleIds[FLAVOR_DRY]].invisible = FALSE;
-    else
+    } else {
         gSprites[sBerryTag->flavorCircleIds[FLAVOR_DRY]].invisible = TRUE;
+    }
 
-    if (berry->sweet)
+    if (berry->sweet) {
         gSprites[sBerryTag->flavorCircleIds[FLAVOR_SWEET]].invisible = FALSE;
-    else
+    } else {
         gSprites[sBerryTag->flavorCircleIds[FLAVOR_SWEET]].invisible = TRUE;
+    }
 
-    if (berry->bitter)
+    if (berry->bitter) {
         gSprites[sBerryTag->flavorCircleIds[FLAVOR_BITTER]].invisible = FALSE;
-    else
+    } else {
         gSprites[sBerryTag->flavorCircleIds[FLAVOR_BITTER]].invisible = TRUE;
+    }
 
-    if (berry->sour)
+    if (berry->sour) {
         gSprites[sBerryTag->flavorCircleIds[FLAVOR_SOUR]].invisible = FALSE;
-    else
+    } else {
         gSprites[sBerryTag->flavorCircleIds[FLAVOR_SOUR]].invisible = TRUE;
+    }
 }
 
 static void DestroyFlavorCircleSprites(void)
 {
     u16 i;
 
-    for (i = 0; i < FLAVOR_COUNT; i++)
+    for (i = 0; i < FLAVOR_COUNT; i++) {
         DestroySprite(&gSprites[sBerryTag->flavorCircleIds[i]]);
+    }
 }
 
 static void PrepareToCloseBerryTagScreen(u8 taskId)
@@ -521,8 +527,7 @@ static void PrepareToCloseBerryTagScreen(u8 taskId)
 
 static void Task_CloseBerryTagScreen(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         DestroyBerrySprite();
         DestroyFlavorCircleSprites();
         Free(sBerryTag);
@@ -534,15 +539,15 @@ static void Task_CloseBerryTagScreen(u8 taskId)
 
 static void Task_HandleInput(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         u16 arrowKeys = JOY_REPEAT(DPAD_ANY);
-        if (arrowKeys == DPAD_UP)
+        if (arrowKeys == DPAD_UP) {
             TryChangeDisplayedBerry(taskId, -1);
-        else if (arrowKeys == DPAD_DOWN)
+        } else if (arrowKeys == DPAD_DOWN) {
             TryChangeDisplayedBerry(taskId, 1);
-        else if (JOY_NEW(A_BUTTON | B_BUTTON))
+        } else if (JOY_NEW(A_BUTTON | B_BUTTON)) {
             PrepareToCloseBerryTagScreen(taskId);
+        }
     }
 }
 
@@ -551,12 +556,12 @@ static void TryChangeDisplayedBerry(u8 taskId, s8 toMove)
     s16 *data = gTasks[taskId].data;
     s16 currPocketPosition = gBagPositionStruct.scrollPosition[3] + gBagPositionStruct.cursorPosition[3];
     u32 newPocketPosition = currPocketPosition + toMove;
-    if (newPocketPosition < 46 && BagGetItemIdByPocketPosition(POCKET_BERRIES, newPocketPosition) != 0)
-    {
-        if (toMove < 0)
+    if (newPocketPosition < 46 && BagGetItemIdByPocketPosition(POCKET_BERRIES, newPocketPosition) != 0) {
+        if (toMove < 0) {
             data[1] = 2;
-        else
+        } else {
             data[1] = 1;
+        }
 
         data[0] = 0;
         PlaySE(SE_SELECT);
@@ -569,19 +574,18 @@ static void HandleBagCursorPositionChange(s8 toMove)
 {
     u16 *scrollPos = &gBagPositionStruct.scrollPosition[3];
     u16 *cursorPos = &gBagPositionStruct.cursorPosition[3];
-    if (toMove > 0)
-    {
-        if (*cursorPos < 4 || BagGetItemIdByPocketPosition(POCKET_BERRIES, *scrollPos + 8) == 0)
+    if (toMove > 0) {
+        if (*cursorPos < 4 || BagGetItemIdByPocketPosition(POCKET_BERRIES, *scrollPos + 8) == 0) {
             *cursorPos += toMove;
-        else
+        } else {
             *scrollPos += toMove;
-    }
-    else
-    {
-        if (*cursorPos > 3 || *scrollPos == 0)
+        }
+    } else {
+        if (*cursorPos > 3 || *scrollPos == 0) {
             *cursorPos += toMove;
-        else
+        } else {
             *scrollPos += toMove;
+        }
     }
 
     sBerryTag->berryId = ItemIdToBerryType(BagGetItemIdByPocketPosition(POCKET_BERRIES, *scrollPos + *cursorPos));
@@ -595,10 +599,8 @@ static void Task_DisplayAnotherBerry(u8 taskId)
     data[0] += 0x10;
     data[0] &= 0xFF;
 
-    if (data[1] == 1)
-    {
-        switch (data[0])
-        {
+    if (data[1] == 1) {
+        switch (data[0]) {
         case 0x30:
             FillWindowPixelBuffer(0, PIXEL_FILL(0));
             break;
@@ -631,11 +633,8 @@ static void Task_DisplayAnotherBerry(u8 taskId)
             PrintBerryDescription2();
             break;
         }
-    }
-    else
-    {
-        switch (data[0])
-        {
+    } else {
+        switch (data[0]) {
         case 0x30:
             FillWindowPixelBuffer(2, PIXEL_FILL(0));
             break;
@@ -670,18 +669,21 @@ static void Task_DisplayAnotherBerry(u8 taskId)
         }
     }
 
-    if (data[1] == 1)
+    if (data[1] == 1) {
         posY = -data[0];
-    else
+    } else {
         posY = data[0];
+    }
 
     gSprites[sBerryTag->berrySpriteId].pos2.y = posY;
-    for (i = 0; i < FLAVOR_COUNT; i++)
+    for (i = 0; i < FLAVOR_COUNT; i++) {
         gSprites[sBerryTag->flavorCircleIds[i]].pos2.y = posY;
+    }
 
     ChangeBgY(1, 0x1000, data[1]);
     ChangeBgY(2, 0x1000, data[1]);
 
-    if (data[0] == 0)
+    if (data[0] == 0) {
         gTasks[taskId].func = Task_HandleInput;
+    }
 }

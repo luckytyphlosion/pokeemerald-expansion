@@ -467,7 +467,7 @@ static const struct CompressedSpriteSheet sBattleArenaJudgementSymbolsSpriteShee
     {0}
 };
 
-static void (* const sArenaFunctions[])(void) =
+static void (*const sArenaFunctions[])(void) =
 {
     [BATTLE_ARENA_FUNC_INIT]             = InitArenaChallenge,
     [BATTLE_ARENA_FUNC_GET_DATA]         = GetArenaData,
@@ -511,8 +511,7 @@ u8 BattleArena_ShowJudgmentWindow(u8 *state)
 {
     int i;
     u8 ret = 0;
-    switch (*state)
-    {
+    switch (*state) {
     case 0:
         BeginNormalPaletteFade(0x7FFFFF1C, 4, 0, 8, RGB_BLACK);
         SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG1 | WININ_WIN0_BG2 | WININ_WIN0_BG3 | WININ_WIN0_OBJ | WININ_WIN0_CLR | WININ_WIN1_BG_ALL | WININ_WIN1_OBJ | WININ_WIN1_CLR);
@@ -523,15 +522,13 @@ u8 BattleArena_ShowJudgmentWindow(u8 *state)
         (*state)++;
         break;
     case 1:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             HandleBattleWindow(5, 0, 24, 13, 0);
             (*state)++;
         }
         break;
     case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             gBattleTextBuff1[0] = CHAR_0;
             gBattleTextBuff1[1] = EOS;
             gBattleTextBuff2[0] = CHAR_0;
@@ -550,11 +547,9 @@ u8 BattleArena_ShowJudgmentWindow(u8 *state)
         }
         break;
     case 3:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR | WININ_WIN1_BG_ALL | WININ_WIN1_OBJ | WININ_WIN1_CLR);
-            for (i = 0; i < 8; i++)
-            {
+            for (i = 0; i < 8; i++) {
                 u8 spriteId = CreateSprite(&sSpriteTemplate_JudgmentIcon, 64 + i * 16, 84, 0);
                 StartSpriteAnim(&gSprites[spriteId], 3);
             }
@@ -591,18 +586,13 @@ u8 BattleArena_ShowJudgmentWindow(u8 *state)
         break;
     case 7:
         PlaySE(SE_ARENA_TIMEUP2);
-        if (gBattleTextBuff1[0] > gBattleTextBuff2[0])
-        {
+        if (gBattleTextBuff1[0] > gBattleTextBuff2[0]) {
             ret = 2;
             gBattleScripting.battler = 0;
-        }
-        else if (gBattleTextBuff1[0] < gBattleTextBuff2[0])
-        {
+        } else if (gBattleTextBuff1[0] < gBattleTextBuff2[0]) {
             ret = 3;
             gBattleScripting.battler = 1;
-        }
-        else
-        {
+        } else {
             ret = 4;
         }
         (*state)++;
@@ -619,8 +609,7 @@ u8 BattleArena_ShowJudgmentWindow(u8 *state)
         (*state)++;
         break;
     case 10:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR | WININ_WIN1_BG_ALL | WININ_WIN1_OBJ | WININ_WIN1_CLR);
             FreeSpriteTilesByTag(TAG_JUDGEMENT_ICON);
             ret = 1;
@@ -641,8 +630,7 @@ static void ShowJudgmentSprite(u8 x, u8 y, u8 category, u8 battler)
     s8 *skillPoints = gBattleStruct->arenaSkillPoints;
     u16 *hpAtStart = gBattleStruct->arenaStartHp;
 
-    switch (category)
-    {
+    switch (category) {
     case ARENA_CATEGORY_MIND:
         pointsPlayer = mindPoints[battler];
         pointsOpponent = mindPoints[BATTLE_OPPOSITE(battler)];
@@ -657,24 +645,21 @@ static void ShowJudgmentSprite(u8 x, u8 y, u8 category, u8 battler)
         break;
     }
 
-    if (pointsPlayer > pointsOpponent)
-    {
+    if (pointsPlayer > pointsOpponent) {
         animNum = 2;
-        if (battler != 0)
+        if (battler != 0) {
             gBattleTextBuff2[0] += 2;
-        else
+        } else {
             gBattleTextBuff1[0] += 2;
-    }
-    else if (pointsPlayer == pointsOpponent)
-    {
+        }
+    } else if (pointsPlayer == pointsOpponent) {
         animNum = 1;
-        if (battler != 0)
+        if (battler != 0) {
             gBattleTextBuff2[0] += 1;
-        else
+        } else {
             gBattleTextBuff1[0] += 1;
-    }
-    else
-    {
+        }
+    } else {
         animNum = 0;
     }
 
@@ -684,8 +669,9 @@ static void ShowJudgmentSprite(u8 x, u8 y, u8 category, u8 battler)
 
 static void SpriteCb_JudgmentIcon(struct Sprite *sprite)
 {
-    if (gBattleCommunication[0] > 8)
+    if (gBattleCommunication[0] > 8) {
         DestroySprite(sprite);
+    }
 }
 
 void BattleArena_InitPoints(void)
@@ -712,33 +698,22 @@ void BattleArena_AddSkillPoints(u8 battler)
 {
     s8 *skillPoints = gBattleStruct->arenaSkillPoints;
 
-    if (gHitMarker & HITMARKER_OBEYS)
-    {
+    if (gHitMarker & HITMARKER_OBEYS) {
         u8 *failedMoveBits = &gBattleStruct->alreadyStatusedMoveAttempt;
-        if (*failedMoveBits & gBitTable[battler])
-        {
+        if (*failedMoveBits & gBitTable[battler]) {
             *failedMoveBits &= ~(gBitTable[battler]);
             skillPoints[battler] -= 2;
-        }
-        else if (gMoveResultFlags & MOVE_RESULT_NO_EFFECT)
-        {
-            if (!(gMoveResultFlags & MOVE_RESULT_MISSED) || gBattleCommunication[6] != 1)
+        } else if (gMoveResultFlags & MOVE_RESULT_NO_EFFECT) {
+            if (!(gMoveResultFlags & MOVE_RESULT_MISSED) || gBattleCommunication[6] != 1) {
                 skillPoints[battler] -= 2;
-        }
-        else if ((gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE) && (gMoveResultFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE))
-        {
+            }
+        } else if ((gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE) && (gMoveResultFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE)) {
             skillPoints[battler] += 1;
-        }
-        else if (gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE)
-        {
+        } else if (gMoveResultFlags & MOVE_RESULT_SUPER_EFFECTIVE) {
             skillPoints[battler] += 2;
-        }
-        else if (gMoveResultFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE)
-        {
+        } else if (gMoveResultFlags & MOVE_RESULT_NOT_VERY_EFFECTIVE) {
             skillPoints[battler] -= 1;
-        }
-        else if (!gProtectStructs[battler].protected)
-        {
+        } else if (!gProtectStructs[battler].protected) {
             skillPoints[battler] += 1;
         }
     }
@@ -748,8 +723,7 @@ void BattleArena_DeductMindPoints(u8 battler, u16 stringId)
 {
     s8 *skillPoints = gBattleStruct->arenaSkillPoints;
 
-    switch (stringId)
-    {
+    switch (stringId) {
     case STRINGID_PKMNSXMADEYUSELESS:
     case STRINGID_PKMNSXMADEITINEFFECTIVE:
     case STRINGID_PKMNSXPREVENTSFLINCHING:
@@ -779,8 +753,9 @@ void sub_81A586C(u8 battler) // Unused.
     u16 *hpAtStart = gBattleStruct->arenaStartHp;
 
     hpAtStart[battler] = gBattleMons[battler].hp;
-    if (hpAtStart[BATTLE_OPPOSITE(battler)] > gBattleMons[BATTLE_OPPOSITE(battler)].hp)
+    if (hpAtStart[BATTLE_OPPOSITE(battler)] > gBattleMons[BATTLE_OPPOSITE(battler)].hp) {
         hpAtStart[BATTLE_OPPOSITE(battler)] = gBattleMons[BATTLE_OPPOSITE(battler)].hp;
+    }
 }
 
 static void InitArenaChallenge(void)
@@ -792,13 +767,15 @@ static void InitArenaChallenge(void)
     gSaveBlock2Ptr->frontier.curChallengeBattleNum = 0;
     gSaveBlock2Ptr->frontier.challengePaused = FALSE;
     gSaveBlock2Ptr->frontier.disableRecordBattle = FALSE;
-    if (lvlMode != FRONTIER_LVL_50)
+    if (lvlMode != FRONTIER_LVL_50) {
         isCurrent = gSaveBlock2Ptr->frontier.winStreakActiveFlags & STREAK_ARENA_OPEN;
-    else
+    } else {
         isCurrent = gSaveBlock2Ptr->frontier.winStreakActiveFlags & STREAK_ARENA_50;
+    }
 
-    if (!isCurrent)
+    if (!isCurrent) {
         gSaveBlock2Ptr->frontier.arenaWinStreaks[lvlMode] = 0;
+    }
 
     SetDynamicWarp(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, -1);
     gTrainerBattleOpponent_A = 0;
@@ -808,8 +785,7 @@ static void GetArenaData(void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
-    switch (gSpecialVar_0x8005)
-    {
+    switch (gSpecialVar_0x8005) {
     case ARENA_DATA_PRIZE:
         gSpecialVar_Result = gSaveBlock2Ptr->frontier.arenaPrize;
         break;
@@ -817,10 +793,11 @@ static void GetArenaData(void)
         gSpecialVar_Result = gSaveBlock2Ptr->frontier.arenaWinStreaks[lvlMode];
         break;
     case ARENA_DATA_WIN_STREAK_ACTIVE:
-        if (lvlMode != FRONTIER_LVL_50)
+        if (lvlMode != FRONTIER_LVL_50) {
             gSpecialVar_Result = gSaveBlock2Ptr->frontier.winStreakActiveFlags & STREAK_ARENA_OPEN;
-        else
+        } else {
             gSpecialVar_Result = gSaveBlock2Ptr->frontier.winStreakActiveFlags & STREAK_ARENA_50;
+        }
         break;
     }
 }
@@ -829,8 +806,7 @@ static void SetArenaData(void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
-    switch (gSpecialVar_0x8005)
-    {
+    switch (gSpecialVar_0x8005) {
     case ARENA_DATA_PRIZE:
         gSaveBlock2Ptr->frontier.arenaPrize = gSpecialVar_0x8006;
         break;
@@ -838,19 +814,18 @@ static void SetArenaData(void)
         gSaveBlock2Ptr->frontier.arenaWinStreaks[lvlMode] = gSpecialVar_0x8006;
         break;
     case ARENA_DATA_WIN_STREAK_ACTIVE:
-        if (lvlMode != FRONTIER_LVL_50)
-        {
-            if (gSpecialVar_0x8006)
+        if (lvlMode != FRONTIER_LVL_50) {
+            if (gSpecialVar_0x8006) {
                 gSaveBlock2Ptr->frontier.winStreakActiveFlags |= STREAK_ARENA_OPEN;
-            else
+            } else {
                 gSaveBlock2Ptr->frontier.winStreakActiveFlags &= ~(STREAK_ARENA_OPEN);
-        }
-        else
-        {
-            if (gSpecialVar_0x8006)
+            }
+        } else {
+            if (gSpecialVar_0x8006) {
                 gSaveBlock2Ptr->frontier.winStreakActiveFlags |= STREAK_ARENA_50;
-            else
+            } else {
                 gSaveBlock2Ptr->frontier.winStreakActiveFlags &= ~(STREAK_ARENA_50);
+            }
         }
         break;
     }
@@ -868,22 +843,20 @@ static void SetArenaPrize(void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
-    if (gSaveBlock2Ptr->frontier.arenaWinStreaks[lvlMode] > 41)
+    if (gSaveBlock2Ptr->frontier.arenaWinStreaks[lvlMode] > 41) {
         gSaveBlock2Ptr->frontier.arenaPrize = sLongStreakPrizeItems[Random() % ARRAY_COUNT(sLongStreakPrizeItems)];
-    else
+    } else {
         gSaveBlock2Ptr->frontier.arenaPrize = sShortStreakPrizeItems[Random() % ARRAY_COUNT(sShortStreakPrizeItems)];
+    }
 }
 
 static void GiveArenaPrize(void)
 {
-    if (AddBagItem(gSaveBlock2Ptr->frontier.arenaPrize, 1) == TRUE)
-    {
+    if (AddBagItem(gSaveBlock2Ptr->frontier.arenaPrize, 1) == TRUE) {
         CopyItemName(gSaveBlock2Ptr->frontier.arenaPrize, gStringVar1);
         gSaveBlock2Ptr->frontier.arenaPrize = ITEM_NONE;
         gSpecialVar_Result = TRUE;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = FALSE;
     }
 }

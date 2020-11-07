@@ -80,7 +80,7 @@ static const struct CompressedSpriteSheet gUnknown_085F5064[] =
 
 static const union AnimCmd gUnknown_085F5074[] =
 {
-    ANIMCMD_FRAME( 0, 30),
+    ANIMCMD_FRAME(0, 30),
     ANIMCMD_END
 };
 
@@ -207,7 +207,7 @@ static const struct CompressedSpriteSheet gUnknown_085F50EC[] =
 
 static const union AnimCmd gUnknown_085F50FC[] =
 {
-    ANIMCMD_FRAME( 0, 30),
+    ANIMCMD_FRAME(0, 30),
     ANIMCMD_END
 };
 
@@ -431,8 +431,8 @@ static const struct OamData gOamData_85F51CC =
 
 static const union AnimCmd gUnknown_085F51D4[] =
 {
-    ANIMCMD_FRAME(  0, 8),
-    ANIMCMD_FRAME( 64, 8),
+    ANIMCMD_FRAME(0, 8),
+    ANIMCMD_FRAME(64, 8),
     ANIMCMD_FRAME(128, 8),
     ANIMCMD_FRAME(192, 8),
     ANIMCMD_JUMP(0)
@@ -475,10 +475,10 @@ static const struct OamData gUnknown_085F521C =
 
 static const union AnimCmd gUnknown_085F5224[] =
 {
-    ANIMCMD_FRAME(  0, 8),
-    ANIMCMD_FRAME( 32, 8),
-    ANIMCMD_FRAME( 64, 8),
-    ANIMCMD_FRAME( 96, 8),
+    ANIMCMD_FRAME(0, 8),
+    ANIMCMD_FRAME(32, 8),
+    ANIMCMD_FRAME(64, 8),
+    ANIMCMD_FRAME(96, 8),
     ANIMCMD_JUMP(0)
 };
 
@@ -519,13 +519,13 @@ static const struct OamData gUnknown_085F526C =
 
 static const union AnimCmd gUnknown_085F5274[] =
 {
-    ANIMCMD_FRAME(  0, 16),
+    ANIMCMD_FRAME(0, 16),
     ANIMCMD_END
 };
 
 static const union AnimCmd gUnknown_085F527C[] =
 {
-    ANIMCMD_FRAME( 64, 16),
+    ANIMCMD_FRAME(64, 16),
     ANIMCMD_END
 };
 
@@ -609,10 +609,10 @@ const struct CompressedSpriteSheet gIntro2FlygonSpriteSheet[] =
 
 const struct SpritePalette gIntroBikeAndFlygonPalette[] =
 {
-    { .data = gIntro2BrendanNoTurnPal, .tag = 1002 },
-    { .data = gIntro2BrendanNoTurnPal, .tag = 1003 },
-    { .data = gIntro2FlygonPal,        .tag = 1004 },
-    { .data = gIntro2FlygonPal,        .tag = 1005 },
+    {.data = gIntro2BrendanNoTurnPal, .tag = 1002},
+    {.data = gIntro2BrendanNoTurnPal, .tag = 1003},
+    {.data = gIntro2FlygonPal,        .tag = 1004},
+    {.data = gIntro2FlygonPal,        .tag = 1005},
     {}
 };
 
@@ -668,10 +668,10 @@ static const struct CompressedSpriteSheet gUnknown_085F5374[] =
 
 const struct SpritePalette gUnknown_085F5384[] =
 {
-    { .data = gIntro2BrendanPalette, .tag = 1002 },
-    { .data = gIntro2MayPalette,     .tag = 1003 },
-    { .data = gIntro2LatiosPalette,  .tag = 1004 },
-    { .data = gIntro2LatiasPalette,  .tag = 1005 },
+    {.data = gIntro2BrendanPalette, .tag = 1002},
+    {.data = gIntro2MayPalette,     .tag = 1003},
+    {.data = gIntro2LatiosPalette,  .tag = 1004},
+    {.data = gIntro2LatiasPalette,  .tag = 1005},
     {}
 };
 
@@ -709,8 +709,7 @@ void load_intro_part2_graphics(u8 a)
     LZ77UnCompVram(gUnknown_085F0740, (void *)(BG_CHAR_ADDR(1)));
     LZ77UnCompVram(gUnknown_085F0BC0, (void *)(BG_SCREEN_ADDR(15)));
     LoadPalette(&gUnknown_085F06E0, 240, 32);
-    switch (a)
-    {
+    switch (a) {
     case 0:
     default:
         LZ77UnCompVram(gUnknown_085F0DBC, (void *)(VRAM));
@@ -736,77 +735,76 @@ void load_intro_part2_graphics(u8 a)
 // Note: This is only called with a=1.
 void sub_817B150(u8 a)
 {
-    switch (a)
-    {
+    switch (a) {
     default:
     case 0:
         SetGpuReg(REG_OFFSET_BG3CNT, BGCNT_PRIORITY(3)
-                                   | BGCNT_CHARBASE(0)
-                                   | BGCNT_16COLOR
-                                   | BGCNT_SCREENBASE(6)
-                                   | BGCNT_TXT256x256);
+                  | BGCNT_CHARBASE(0)
+                  | BGCNT_16COLOR
+                  | BGCNT_SCREENBASE(6)
+                  | BGCNT_TXT256x256);
         SetGpuReg(REG_OFFSET_BG2CNT, BGCNT_PRIORITY(2)
-                                   | BGCNT_CHARBASE(0)
-                                   | BGCNT_16COLOR
-                                   | BGCNT_SCREENBASE(7)
-                                   | BGCNT_TXT256x256);
+                  | BGCNT_CHARBASE(0)
+                  | BGCNT_16COLOR
+                  | BGCNT_SCREENBASE(7)
+                  | BGCNT_TXT256x256);
         SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_PRIORITY(1)
-                                   | BGCNT_CHARBASE(1)
-                                   | BGCNT_16COLOR
-                                   | BGCNT_SCREENBASE(15)
-                                   | BGCNT_TXT256x256);
+                  | BGCNT_CHARBASE(1)
+                  | BGCNT_16COLOR
+                  | BGCNT_SCREENBASE(15)
+                  | BGCNT_TXT256x256);
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0
-                                    | DISPCNT_OBJ_1D_MAP
-                                    | DISPCNT_BG1_ON
-                                    | DISPCNT_BG2_ON
-                                    | DISPCNT_BG3_ON
-                                    | DISPCNT_OBJ_ON);
+                  | DISPCNT_OBJ_1D_MAP
+                  | DISPCNT_BG1_ON
+                  | DISPCNT_BG2_ON
+                  | DISPCNT_BG3_ON
+                  | DISPCNT_OBJ_ON);
         break;
     case 1:
         SetGpuReg(REG_OFFSET_BG3CNT, BGCNT_PRIORITY(3)
-                                   | BGCNT_CHARBASE(0)
-                                   | BGCNT_16COLOR
-                                   | BGCNT_SCREENBASE(6)
-                                   | BGCNT_TXT256x256);
+                  | BGCNT_CHARBASE(0)
+                  | BGCNT_16COLOR
+                  | BGCNT_SCREENBASE(6)
+                  | BGCNT_TXT256x256);
         SetGpuReg(REG_OFFSET_BG2CNT, BGCNT_PRIORITY(2)
-                                   | BGCNT_CHARBASE(0)
-                                   | BGCNT_16COLOR
-                                   | BGCNT_SCREENBASE(7)
-                                   | BGCNT_TXT256x256);
+                  | BGCNT_CHARBASE(0)
+                  | BGCNT_16COLOR
+                  | BGCNT_SCREENBASE(7)
+                  | BGCNT_TXT256x256);
         SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_PRIORITY(1)
-                                   | BGCNT_CHARBASE(1)
-                                   | BGCNT_16COLOR
-                                   | BGCNT_SCREENBASE(15)
-                                   | BGCNT_TXT256x256);
+                  | BGCNT_CHARBASE(1)
+                  | BGCNT_16COLOR
+                  | BGCNT_SCREENBASE(15)
+                  | BGCNT_TXT256x256);
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0
-                                    | DISPCNT_OBJ_1D_MAP
-                                    | DISPCNT_BG1_ON
-                                    | DISPCNT_BG2_ON
-                                    | DISPCNT_BG3_ON
-                                    | DISPCNT_OBJ_ON);
+                  | DISPCNT_OBJ_1D_MAP
+                  | DISPCNT_BG1_ON
+                  | DISPCNT_BG2_ON
+                  | DISPCNT_BG3_ON
+                  | DISPCNT_OBJ_ON);
         break;
     case 2:
         SetGpuReg(REG_OFFSET_BG3CNT, BGCNT_PRIORITY(3)
-                                   | BGCNT_CHARBASE(0)
-                                   | BGCNT_16COLOR
-                                   | BGCNT_SCREENBASE(6)
-                                   | BGCNT_TXT256x256);
+                  | BGCNT_CHARBASE(0)
+                  | BGCNT_16COLOR
+                  | BGCNT_SCREENBASE(6)
+                  | BGCNT_TXT256x256);
         SetGpuReg(REG_OFFSET_BG2CNT, BGCNT_PRIORITY(2)
-                                   | BGCNT_CHARBASE(0)
-                                   | BGCNT_16COLOR
-                                   | BGCNT_SCREENBASE(7)
-                                   | BGCNT_TXT256x256);
+                  | BGCNT_CHARBASE(0)
+                  | BGCNT_16COLOR
+                  | BGCNT_SCREENBASE(7)
+                  | BGCNT_TXT256x256);
         SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_PRIORITY(1)
-                                   | BGCNT_CHARBASE(1)
-                                   | BGCNT_16COLOR
-                                   | BGCNT_SCREENBASE(15)
-                                   | BGCNT_TXT256x256);
+                  | BGCNT_CHARBASE(1)
+                  | BGCNT_16COLOR
+                  | BGCNT_SCREENBASE(15)
+                  | BGCNT_TXT256x256);
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0
-                                    | DISPCNT_OBJ_1D_MAP
-                                    | DISPCNT_BG1_ON
-                                    | DISPCNT_BG2_ON
-                                    | DISPCNT_BG3_ON
-                                    | DISPCNT_OBJ_ON);
+                  | DISPCNT_OBJ_1D_MAP
+                  | DISPCNT_BG1_ON
+                  | DISPCNT_BG2_ON
+                  | DISPCNT_BG3_ON
+                  | DISPCNT_OBJ_ON);
         break;
     }
 }
@@ -815,8 +813,7 @@ void sub_817B1C8(u8 a)
 {
     LZ77UnCompVram(gUnknown_085F0740, (void *)(BG_CHAR_ADDR(1)));
     LZ77UnCompVram(gUnknown_085F0BC0, (void *)(BG_SCREEN_ADDR(15)));
-    switch (a)
-    {
+    switch (a) {
     case 0:
     default:
         LoadPalette(&gUnknown_085F06E0, 240, 32);
@@ -865,24 +862,24 @@ void sub_817B1C8(u8 a)
 void sub_817B3A8(u8 a)
 {
     SetGpuReg(REG_OFFSET_BG3CNT, BGCNT_PRIORITY(3)
-                               | BGCNT_CHARBASE(0)
-                               | BGCNT_16COLOR
-                               | BGCNT_SCREENBASE(6)
-                               | BGCNT_TXT256x256);
+              | BGCNT_CHARBASE(0)
+              | BGCNT_16COLOR
+              | BGCNT_SCREENBASE(6)
+              | BGCNT_TXT256x256);
     SetGpuReg(REG_OFFSET_BG2CNT, BGCNT_PRIORITY(2)
-                               | BGCNT_CHARBASE(0)
-                               | BGCNT_16COLOR
-                               | BGCNT_SCREENBASE(7)
-                               | BGCNT_TXT256x256);
+              | BGCNT_CHARBASE(0)
+              | BGCNT_16COLOR
+              | BGCNT_SCREENBASE(7)
+              | BGCNT_TXT256x256);
     SetGpuReg(REG_OFFSET_BG1CNT, BGCNT_PRIORITY(1)
-                               | BGCNT_CHARBASE(1)
-                               | BGCNT_16COLOR
-                               | BGCNT_SCREENBASE(15)
-                               | BGCNT_TXT256x256);
+              | BGCNT_CHARBASE(1)
+              | BGCNT_16COLOR
+              | BGCNT_SCREENBASE(15)
+              | BGCNT_TXT256x256);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0
-                                | DISPCNT_OBJ_1D_MAP
-                                | DISPCNT_BG_ALL_ON
-                                | DISPCNT_OBJ_ON);
+              | DISPCNT_OBJ_1D_MAP
+              | DISPCNT_BG_ALL_ON
+              | DISPCNT_OBJ_ON);
 }
 
 u8 CreateBicycleAnimationTask(u8 a, u16 b, u16 c, u16 d)
@@ -911,8 +908,7 @@ static void sub_817B458(u8 taskId)
     s32 r2;
 
     data1 = gTasks[taskId].data[1];
-    if (data1 != 0)
-    {
+    if (data1 != 0) {
         r2 = (gTasks[taskId].data[2] << 16) + (u16)gTasks[taskId].data[3];
         r2 -= (u16)data1 << 4;
         gTasks[taskId].data[2] = r2 >> 16;
@@ -922,22 +918,21 @@ static void sub_817B458(u8 taskId)
     }
 
     data4 = gTasks[taskId].data[4];
-    if (data4 != 0)
-    {
+    if (data4 != 0) {
         r2 = (gTasks[taskId].data[5] << 16) + (u16)gTasks[taskId].data[6];
         r2 -= (u16)data4 << 4;
         gTasks[taskId].data[5] = r2 >> 16;
         gTasks[taskId].data[6] = r2;
         SetGpuReg(REG_OFFSET_BG2HOFS, gTasks[taskId].data[5]);
-        if (gTasks[taskId].data[0] != 0)
+        if (gTasks[taskId].data[0] != 0) {
             SetGpuReg(REG_OFFSET_BG2VOFS, gUnknown_0203BD24 + gUnknown_0203BD26);
-        else
+        } else {
             SetGpuReg(REG_OFFSET_BG2VOFS, gUnknown_0203BD24);
+        }
     }
 
     data7 = gTasks[taskId].data[7];
-    if (data7 != 0)
-    {
+    if (data7 != 0) {
         r2 = (gTasks[taskId].data[8] << 16) + (u16)gTasks[taskId].data[9];
         r2 -= (u16)data7 << 4;
         gTasks[taskId].data[8] = r2 >> 16;
@@ -951,44 +946,39 @@ void sub_817B540(u8 mode)
 {
     u16 x;
     u16 y;
-    switch (mode)
-    {
-        case 0:
-        default:
-            /* stuff */
-            if (gMain.vblankCounter1 & 3 || gPaletteFade.active)
-                break;
-            if (gMain.vblankCounter1 & 4)
-            {
-                x = gPlttBufferUnfaded[9];
-                y = gPlttBufferUnfaded[10];
-            }
-            else
-            {
-                x = gPlttBufferUnfaded[10];
-                y = gPlttBufferUnfaded[9];
-            }
-            LoadPalette(&x, 9, 2);
-            LoadPalette(&y, 10, 2);
+    switch (mode) {
+    case 0:
+    default:
+        /* stuff */
+        if (gMain.vblankCounter1 & 3 || gPaletteFade.active) {
             break;
-        case 2:
-            if (gMain.vblankCounter1 & 3 || gPaletteFade.active)
-                break;
-            if (gMain.vblankCounter1 & 4)
-            {
-                x = 0x3D27;
-                y = 0x295;
-            }
-            else
-            {
-                x = 0x31C;
-                y = 0x3D27;
-            }
-            LoadPalette(&x, 12, 2);
-            LoadPalette(&y, 13, 2);
+        }
+        if (gMain.vblankCounter1 & 4) {
+            x = gPlttBufferUnfaded[9];
+            y = gPlttBufferUnfaded[10];
+        } else {
+            x = gPlttBufferUnfaded[10];
+            y = gPlttBufferUnfaded[9];
+        }
+        LoadPalette(&x, 9, 2);
+        LoadPalette(&y, 10, 2);
+        break;
+    case 2:
+        if (gMain.vblankCounter1 & 3 || gPaletteFade.active) {
             break;
-        case 1:
-            break;
+        }
+        if (gMain.vblankCounter1 & 4) {
+            x = 0x3D27;
+            y = 0x295;
+        } else {
+            x = 0x31C;
+            y = 0x3D27;
+        }
+        LoadPalette(&x, 12, 2);
+        LoadPalette(&y, 13, 2);
+        break;
+    case 1:
+        break;
     }
 }
 
@@ -996,11 +986,9 @@ static void sub_817B62C(struct Sprite *sprite)
 {
     s32 var;
     s16 var2 = gUnknown_0203BD28;
-    
-    if (var2 != 2)
-    {
-        switch (var2)
-        {
+
+    if (var2 != 2) {
+        switch (var2) {
         default:
             DestroySprite(sprite);
             break;
@@ -1008,12 +996,14 @@ static void sub_817B62C(struct Sprite *sprite)
             var = ((sprite->pos1.x << 16) | (u16)sprite->data[2]) + (u16)sprite->data[1];
             sprite->pos1.x = var >> 16;
             sprite->data[2] = var;
-            if (sprite->pos1.x > 0xFF)
+            if (sprite->pos1.x > 0xFF) {
                 sprite->pos1.x = -0x20;
-            if (sprite->data[0])
+            }
+            if (sprite->data[0]) {
                 sprite->pos2.y = -(gUnknown_0203BD24 + gUnknown_0203BD26);
-            else
+            } else {
                 sprite->pos2.y = -gUnknown_0203BD24;
+            }
             break;
         }
     }
@@ -1023,8 +1013,7 @@ static void sub_817B698(u8 a, const struct IntroCreditsSpriteMetadata *b, const 
 {
     u8 i;
 
-    for(i = 0; i < d; i++)
-    {
+    for (i = 0; i < d; i++) {
         u8 sprite = CreateSprite(&gUnknown_085F504C, b[i].x, b[i].y, b[i].subpriority);
         CalcCenterToCornerVec(&gSprites[sprite], b[i].shape, b[i].size, ST_OAM_AFFINE_OFF);
         gSprites[sprite].oam.priority = 3;

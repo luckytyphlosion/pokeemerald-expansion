@@ -26,17 +26,21 @@ EWRAM_DATA static struct ScriptContext sMysteryEventScriptContext = {0};
 
 static bool32 CheckCompatibility(u16 a1, u32 a2, u16 a3, u32 a4)
 {
-    if (!(a1 & LANGUAGE_MASK))
+    if (!(a1 & LANGUAGE_MASK)) {
         return FALSE;
+    }
 
-    if (!(a2 & LANGUAGE_MASK))
+    if (!(a2 & LANGUAGE_MASK)) {
         return FALSE;
+    }
 
-    if (!(a3 & 0x4))
+    if (!(a3 & 0x4)) {
         return FALSE;
+    }
 
-    if (!(a4 & VERSION_MASK))
+    if (!(a4 & VERSION_MASK)) {
         return FALSE;
+    }
 
     return TRUE;
 }
@@ -59,10 +63,11 @@ static void InitMysteryEventScript(struct ScriptContext *ctx, u8 *script)
 
 static bool32 RunMysteryEventScriptCommand(struct ScriptContext *ctx)
 {
-    if (RunScriptCommand(ctx) && ctx->data[3])
+    if (RunScriptCommand(ctx) && ctx->data[3]) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 void sub_8153870(u8 *script)
@@ -82,7 +87,9 @@ u32 RunMysteryEventScript(u8 *script)
 {
     struct ScriptContext *ctx = &sMysteryEventScriptContext;
     InitMysteryEventScript(ctx, script);
-    while (RunMysteryEventScriptCommand(ctx));
+    while (RunMysteryEventScriptCommand(ctx)) {
+        ;
+    }
 
     return ctx->data[2];
 }
@@ -98,8 +105,9 @@ static int CalcRecordMixingGiftChecksum(void)
     int sum = 0;
     u8 *data = (u8*)(&gSaveBlock1Ptr->recordMixingGift.data);
 
-    for (i = 0; i < sizeof(gSaveBlock1Ptr->recordMixingGift.data); i++)
+    for (i = 0; i < sizeof(gSaveBlock1Ptr->recordMixingGift.data); i++) {
         sum += data[i];
+    }
 
     return sum;
 }
@@ -113,10 +121,11 @@ static bool32 IsRecordMixingGiftValid(void)
         || data->quantity == 0
         || data->itemId == 0
         || checksum == 0
-        || checksum != gSaveBlock1Ptr->recordMixingGift.checksum)
+        || checksum != gSaveBlock1Ptr->recordMixingGift.checksum) {
         return FALSE;
-    else
+    } else {
         return TRUE;
+    }
 }
 
 static void ClearRecordMixingGift(void)
@@ -126,12 +135,9 @@ static void ClearRecordMixingGift(void)
 
 static void SetRecordMixingGift(u8 unk, u8 quantity, u16 itemId)
 {
-    if (!unk || !quantity || !itemId)
-    {
+    if (!unk || !quantity || !itemId) {
         ClearRecordMixingGift();
-    }
-    else
-    {
+    } else {
         gSaveBlock1Ptr->recordMixingGift.data.unk0 = unk;
         gSaveBlock1Ptr->recordMixingGift.data.quantity = quantity;
         gSaveBlock1Ptr->recordMixingGift.data.itemId = itemId;
@@ -143,19 +149,17 @@ u16 GetRecordMixingGift(void)
 {
     struct RecordMixingGiftData *data = &gSaveBlock1Ptr->recordMixingGift.data;
 
-    if (!IsRecordMixingGiftValid())
-    {
+    if (!IsRecordMixingGiftValid()) {
         ClearRecordMixingGift();
         return 0;
-    }
-    else
-    {
+    } else {
         u16 itemId = data->itemId;
         data->quantity--;
-        if (data->quantity == 0)
+        if (data->quantity == 0) {
             ClearRecordMixingGift();
-        else
+        } else {
             gSaveBlock1Ptr->recordMixingGift.checksum = CalcRecordMixingGiftChecksum();
+        }
 
         return itemId;
     }
@@ -180,10 +184,11 @@ bool8 MEScrCmd_checkcompat(struct ScriptContext *ctx)
     v3 = ScriptReadHalfword(ctx);
     v4 = ScriptReadWord(ctx);
 
-    if (CheckCompatibility(v1, v2, v3, v4) == TRUE)
+    if (CheckCompatibility(v1, v2, v3, v4) == TRUE) {
         ctx->data[3] = 1;
-    else
+    } else {
         SetIncompatible();
+    }
 
     return TRUE;
 }
@@ -204,8 +209,9 @@ bool8 MEScrCmd_setmsg(struct ScriptContext *ctx)
 {
     u8 value = ScriptReadByte(ctx);
     u8 *str = (u8 *)(ScriptReadWord(ctx) - ctx->data[1] + ctx->data[0]);
-    if (value == 0xFF || value == ctx->data[2])
+    if (value == 0xFF || value == ctx->data[2]) {
         StringExpandPlaceholders(gStringVar4, str);
+    }
     return FALSE;
 }
 
@@ -226,18 +232,13 @@ bool8 MEScrCmd_setenigmaberry(struct ScriptContext *ctx)
     SetEnigmaBerry(berry);
     StringCopyN(gStringVar2, gSaveBlock1Ptr->enigmaBerry.berry.name, BERRY_NAME_LENGTH + 1);
 
-    if (!haveBerry)
-    {
+    if (!haveBerry) {
         str = gStringVar4;
         message = gText_MysteryGiftBerry;
-    }
-    else if (StringCompare(gStringVar1, gStringVar2))
-    {
+    } else if (StringCompare(gStringVar1, gStringVar2)) {
         str = gStringVar4;
         message = gText_MysteryGiftBerryTransform;
-    }
-    else
-    {
+    } else {
         str = gStringVar4;
         message = gText_MysteryGiftBerryObtained;
     }
@@ -246,10 +247,11 @@ bool8 MEScrCmd_setenigmaberry(struct ScriptContext *ctx)
 
     ctx->data[2] = 2;
 
-    if (IsEnigmaBerryValid() == TRUE)
+    if (IsEnigmaBerryValid() == TRUE) {
         VarSet(VAR_ENIGMA_BERRY_AVAILABLE, 1);
-    else
+    } else {
         ctx->data[2] = 1;
+    }
 
     return FALSE;
 }
@@ -313,31 +315,29 @@ bool8 MEScrCmd_givepokemon(struct ScriptContext *ctx)
     pokemon = *(struct Pokemon *)pokemonPtr;
     species = GetMonData(&pokemon, MON_DATA_SPECIES2);
 
-    if (species == SPECIES_EGG)
+    if (species == SPECIES_EGG) {
         StringCopyN(gStringVar1, gText_EggNickname, POKEMON_NAME_LENGTH + 1);
-    else
+    } else {
         StringCopyN(gStringVar1, gText_Pokemon, POKEMON_NAME_LENGTH + 1);
+    }
 
-    if (gPlayerPartyCount == PARTY_SIZE)
-    {
+    if (gPlayerPartyCount == PARTY_SIZE) {
         StringExpandPlaceholders(gStringVar4, gText_MysteryGiftFullParty);
         ctx->data[2] = 3;
-    }
-    else
-    {
+    } else {
         memcpy(&gPlayerParty[5], pokemonPtr, sizeof(struct Pokemon));
         memcpy(&mail, mailPtr, sizeof(struct MailStruct));
 
-        if (species != SPECIES_EGG)
-        {
+        if (species != SPECIES_EGG) {
             u16 pokedexNum = SpeciesToNationalPokedexNum(species);
             GetSetPokedexFlag(pokedexNum, FLAG_SET_SEEN);
             GetSetPokedexFlag(pokedexNum, FLAG_SET_CAUGHT);
         }
 
         heldItem = GetMonData(&gPlayerParty[5], MON_DATA_HELD_ITEM);
-        if (ItemIsMail(heldItem))
+        if (ItemIsMail(heldItem)) {
             GiveMailToMon2(&gPlayerParty[5], &mail);
+        }
         CompactPartySlots();
         CalculatePlayerPartyCount();
         StringExpandPlaceholders(gStringVar4, gText_MysteryGiftSentOver);
@@ -370,8 +370,7 @@ bool8 MEScrCmd_checksum(struct ScriptContext *ctx)
     int checksum = ScriptReadWord(ctx);
     u8 *data = (u8 *)(ScriptReadWord(ctx) - ctx->data[1] + ctx->data[0]);
     u8 *dataEnd = (u8 *)(ScriptReadWord(ctx) - ctx->data[1] + ctx->data[0]);
-    if (checksum != CalcByteArraySum(data, dataEnd - data))
-    {
+    if (checksum != CalcByteArraySum(data, dataEnd - data)) {
         ctx->data[3] = 0;
         ctx->data[2] = 1;
     }
@@ -383,8 +382,7 @@ bool8 MEScrCmd_crc(struct ScriptContext *ctx)
     int crc = ScriptReadWord(ctx);
     u8 *data = (u8 *)(ScriptReadWord(ctx) - ctx->data[1] + ctx->data[0]);
     u8 *dataEnd = (u8 *)(ScriptReadWord(ctx) - ctx->data[1] + ctx->data[0]);
-    if (crc != CalcCRC16(data, dataEnd - data))
-    {
+    if (crc != CalcCRC16(data, dataEnd - data)) {
         ctx->data[3] = 0;
         ctx->data[2] = 1;
     }

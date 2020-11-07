@@ -33,8 +33,9 @@ void SetRandomLotteryNumber(u16 i)
 {
     u32 var = Random();
 
-    while (--i != 0xFFFF)
+    while (--i != 0xFFFF) {
         var = ISO_RANDOMIZE2(var);
+    }
 
     SetLotteryNumber(var);
 }
@@ -55,42 +56,34 @@ void PickLotteryCornerTicket(void)
     gSpecialVar_0x8004 = 0;
     slot = 0;
     box = 0;
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
+    for (i = 0; i < PARTY_SIZE; i++) {
         struct Pokemon *mon = &gPlayerParty[i];
 
-        if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE)
-        {
+        if (GetMonData(mon, MON_DATA_SPECIES) != SPECIES_NONE) {
             // do not calculate ticket values for eggs.
-            if (!GetMonData(mon, MON_DATA_IS_EGG))
-            {
+            if (!GetMonData(mon, MON_DATA_IS_EGG)) {
                 u32 otId = GetMonData(mon, MON_DATA_OT_ID);
                 u8 numMatchingDigits = GetMatchingDigits(gSpecialVar_Result, otId);
 
-                if (numMatchingDigits > gSpecialVar_0x8004 && numMatchingDigits > 1)
-                {
+                if (numMatchingDigits > gSpecialVar_0x8004 && numMatchingDigits > 1) {
                     gSpecialVar_0x8004 = numMatchingDigits - 1;
                     box = TOTAL_BOXES_COUNT;
                     slot = i;
                 }
             }
-        }
-        else // pokemon are always arranged from populated spots first to unpopulated, so the moment a NONE species is found, that's the end of the list.
+        } else { // pokemon are always arranged from populated spots first to unpopulated, so the moment a NONE species is found, that's the end of the list.
             break;
+        }
     }
 
-    for (i = 0; i < TOTAL_BOXES_COUNT; i++)
-    {
-        for (j = 0; j < IN_BOX_COUNT; j++)
-        {
+    for (i = 0; i < TOTAL_BOXES_COUNT; i++) {
+        for (j = 0; j < IN_BOX_COUNT; j++) {
             if (GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_SPECIES) != SPECIES_NONE &&
-            !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_IS_EGG))
-            {
+                !GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_IS_EGG)) {
                 u32 otId = GetBoxMonData(&gPokemonStoragePtr->boxes[i][j], MON_DATA_OT_ID);
                 u8 numMatchingDigits = GetMatchingDigits(gSpecialVar_Result, otId);
 
-                if (numMatchingDigits > gSpecialVar_0x8004 && numMatchingDigits > 1)
-                {
+                if (numMatchingDigits > gSpecialVar_0x8004 && numMatchingDigits > 1) {
                     gSpecialVar_0x8004 = numMatchingDigits - 1;
                     box = i;
                     slot = j;
@@ -99,17 +92,13 @@ void PickLotteryCornerTicket(void)
         }
     }
 
-    if (gSpecialVar_0x8004 != 0)
-    {
+    if (gSpecialVar_0x8004 != 0) {
         gSpecialVar_0x8005 = sLotteryPrizes[gSpecialVar_0x8004 - 1];
 
-        if (box == TOTAL_BOXES_COUNT)
-        {
+        if (box == TOTAL_BOXES_COUNT) {
             gSpecialVar_0x8006 = 0;
             GetMonData(&gPlayerParty[slot], MON_DATA_NICKNAME, gStringVar1);
-        }
-        else
-        {
+        } else {
             gSpecialVar_0x8006 = 1;
             GetBoxMonData(&gPokemonStoragePtr->boxes[box][slot], MON_DATA_NICKNAME, gStringVar1);
         }
@@ -122,19 +111,17 @@ static u8 GetMatchingDigits(u16 winNumber, u16 otId)
     u8 i;
     u8 matchingDigits = 0;
 
-    for (i = 0; i < 5; i++)
-    {
+    for (i = 0; i < 5; i++) {
         sWinNumberDigit = winNumber % 10;
         sOtIdDigit = otId % 10;
 
-        if (sWinNumberDigit == sOtIdDigit)
-        {
+        if (sWinNumberDigit == sOtIdDigit) {
             winNumber = winNumber / 10;
             otId = otId / 10;
             matchingDigits++;
-        }
-        else
+        } else {
             break;
+        }
     }
     return matchingDigits;
 }

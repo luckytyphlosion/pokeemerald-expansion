@@ -126,8 +126,9 @@ static u32 sub_802E63C(u8 funcSetId, u8 taskPriority)
 static bool32 sub_802E688(void)
 {
     u8 taskId = FindTaskIdByFunc(sub_802E6D0);
-    if (taskId == 0xFF)
+    if (taskId == 0xFF) {
         return FALSE;
+    }
 
     gTasks[taskId].data[0] = 2;
     return TRUE;
@@ -142,8 +143,7 @@ static void sub_802E6D0(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    switch (data[0])
-    {
+    switch (data[0]) {
     case 2:
         gUnknown_082FE748[data[1]][2](taskId);
         data[0] = 3;
@@ -165,10 +165,10 @@ static void sub_802E75C(u8 taskId, s16 *data)
 
     LoadCompressedSpriteSheet(&gUnknown_082FE6C8[data[3]]);
     LoadSpritePalette(&gUnknown_082FE6D8[data[4]]);
-    for (i = 0; i < data[8]; i++)
+    for (i = 0; i < data[8]; i++) {
         data[13 + i] = CreateSprite(&gUnknown_082FE730[data[2]], data[9], data[10], data[7]);
-    for (i = 0; i < data[8]; i++)
-    {
+    }
+    for (i = 0; i < data[8]; i++) {
         sprite = &gSprites[data[13 + i]];
         sprite->oam.priority = data[6];
         sprite->invisible = TRUE;
@@ -205,8 +205,9 @@ static void sub_802E8C8(u8 taskId)
     u8 i = 0;
     s16 *data = gTasks[taskId].data;
 
-    for (i = 0; i < data[8]; i++)
+    for (i = 0; i < data[8]; i++) {
         DestroySprite(&gSprites[data[13 + i]]);
+    }
     FreeSpriteTilesByTag(gUnknown_082FE6C8[data[3]].tag);
     FreeSpritePaletteByTag(gUnknown_082FE6D8[data[4]].tag);
 }
@@ -215,14 +216,15 @@ static void sub_802E938(struct Sprite *sprite)
 {
     s16 *data = gTasks[sprite->data[3]].data;
 
-    if (data[11] % data[5] != 0)
+    if (data[11] % data[5] != 0) {
         return;
-    if (data[11] == data[10])
+    }
+    if (data[11] == data[10]) {
         return;
+    }
 
     data[10] = data[11];
-    switch (sprite->data[2])
-    {
+    switch (sprite->data[2]) {
     case 0:
         sprite->invisible = FALSE;
     case 1:
@@ -260,21 +262,18 @@ static void sub_802EAB0(u8 taskId)
     u16 packet[6];
     s16 *data = gTasks[taskId].data;
 
-    if (gReceivedRemoteLinkPlayers != 0)
-    {
-        if (gRecvCmds[0][1] == LINKCMD_0x7FFF)
+    if (gReceivedRemoteLinkPlayers != 0) {
+        if (gRecvCmds[0][1] == LINKCMD_0x7FFF) {
             data[11] = gRecvCmds[0][2];
-        if (GetMultiplayerId() == 0)
-        {
+        }
+        if (GetMultiplayerId() == 0) {
             data[12]++;
             memset(packet, 0, sizeof(packet));
             packet[0] = LINKCMD_0x7FFF;
             packet[1] = data[12];
             Rfu_SendPacket(packet);
         }
-    }
-    else
-    {
+    } else {
         data[11]++;
     }
 }
@@ -308,8 +307,7 @@ static void Task_MinigameCountdown(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    switch (tState)
-    {
+    switch (tState) {
     case 0:
         Load321StartGfx(tTilesTag, tPalTag);
         tSpriteId1 = CreateNumberSprite(tTilesTag, tPalTag, tX, tY, tSubpriority);
@@ -317,8 +315,7 @@ static void Task_MinigameCountdown(u8 taskId)
         tState++;
         break;
     case 1:
-        if (!RunMinigameCountdownDigitsAnim(tSpriteId1))
-        {
+        if (!RunMinigameCountdownDigitsAnim(tSpriteId1)) {
             InitStartGraphic(tSpriteId1, tSpriteId2, tSpriteId3);
             FreeSpriteOamMatrix(&gSprites[tSpriteId1]);
             DestroySprite(&gSprites[tSpriteId1]);
@@ -326,8 +323,7 @@ static void Task_MinigameCountdown(u8 taskId)
         }
         break;
     case 2:
-        if (!IsStartGraphicAnimRunning(tSpriteId2))
-        {
+        if (!IsStartGraphicAnimRunning(tSpriteId2)) {
             DestroySprite(&gSprites[tSpriteId2]);
             DestroySprite(&gSprites[tSpriteId3]);
             FreeSpriteTilesByTag(tTilesTag);
@@ -342,29 +338,28 @@ static bool32 RunMinigameCountdownDigitsAnim(u8 spriteId)
 {
     struct Sprite *sprite = &gSprites[spriteId];
 
-    switch (sprite->data[0])
-    {
+    switch (sprite->data[0]) {
     case 0:
         sub_8007E18(sprite, 0x800, 0x1A);
         sprite->data[0]++;
-        // fallthrough
+    // fallthrough
     case 1:
-        if (sprite->data[2] == 0)
+        if (sprite->data[2] == 0) {
             PlaySE(SE_BALL_BOUNCE_2);
-        if (++sprite->data[2] >= 20)
-        {
+        }
+        if (++sprite->data[2] >= 20) {
             sprite->data[2] = 0;
             StartSpriteAffineAnim(sprite, 1);
             sprite->data[0]++;
         }
         break;
     case 2:
-        if (sprite->affineAnimEnded)
+        if (sprite->affineAnimEnded) {
             sprite->data[0]++;
+        }
         break;
     case 3:
-        if (++sprite->data[2] >= 4)
-        {
+        if (++sprite->data[2] >= 4) {
             sprite->data[2] = 0;
             sprite->data[0]++;
             StartSpriteAffineAnim(sprite, 2);
@@ -372,16 +367,12 @@ static bool32 RunMinigameCountdownDigitsAnim(u8 spriteId)
         break;
     case 4:
         sprite->pos1.y -= 4;
-        if (++sprite->data[2] >= 8)
-        {
-            if (sprite->data[4] <= 1)
-            {
+        if (++sprite->data[2] >= 8) {
+            if (sprite->data[4] <= 1) {
                 StartSpriteAnim(sprite, sprite->data[4] + 1);
                 sprite->data[2] = 0;
                 sprite->data[0]++;
-            }
-            else
-            {
+            } else {
                 sprite->data[0] = 7;
                 return FALSE;
             }
@@ -389,16 +380,14 @@ static bool32 RunMinigameCountdownDigitsAnim(u8 spriteId)
         break;
     case 5:
         sprite->pos1.y += 4;
-        if (++sprite->data[2] >= 8)
-        {
+        if (++sprite->data[2] >= 8) {
             sprite->data[2] = 0;
             StartSpriteAffineAnim(sprite, 3);
             sprite->data[0]++;
         }
         break;
     case 6:
-        if (sprite->affineAnimEnded)
-        {
+        if (sprite->affineAnimEnded) {
             sprite->data[4]++;
             sprite->data[0] = 1;
         }
@@ -431,8 +420,7 @@ static void SpriteCB_Start(struct Sprite *sprite)
     int y;
     s16 *data = sprite->data;
 
-    switch (data[0])
-    {
+    switch (data[0]) {
     case 0:
         data[4] = 64;
         data[5] = sprite->pos2.y << 4;
@@ -441,8 +429,7 @@ static void SpriteCB_Start(struct Sprite *sprite)
         data[5] += data[4];
         data[4]++;
         sprite->pos2.y = data[5] >> 4;
-        if (sprite->pos2.y >= 0)
-        {
+        if (sprite->pos2.y >= 0) {
             PlaySE(SE_BALL_BOUNCE_2);
             sprite->pos2.y = 0;
             data[0]++;
@@ -450,8 +437,7 @@ static void SpriteCB_Start(struct Sprite *sprite)
         break;
     case 2:
         data[1] += 12;
-        if (data[1] >= 128)
-        {
+        if (data[1] >= 128) {
             PlaySE(SE_BALL_BOUNCE_2);
             data[1] = 0;
             data[0]++;
@@ -461,8 +447,7 @@ static void SpriteCB_Start(struct Sprite *sprite)
         break;
     case 3:
         data[1] += 16;
-        if (data[1] >= 128)
-        {
+        if (data[1] >= 128) {
             PlaySE(SE_BALL_BOUNCE_2);
             data[1] = 0;
             data[0]++;
@@ -470,8 +455,9 @@ static void SpriteCB_Start(struct Sprite *sprite)
         sprite->pos2.y = -(gSineTable[data[1]] >> 5);
         break;
     case 4:
-        if (++data[1] > 40)
+        if (++data[1] > 40) {
             sprite->callback = SpriteCallbackDummy;
+        }
         break;
     }
 }
@@ -586,8 +572,8 @@ static const union AffineAnimCmd sAffineAnim_Numbers_2[] =
 
 static const union AffineAnimCmd sAffineAnim_Numbers_3[] =
 {
-    AFFINEANIMCMD_FRAME(  6,  -6, 0, 8),
-    AFFINEANIMCMD_FRAME( -4,   4, 0, 8),
+    AFFINEANIMCMD_FRAME(6,  -6, 0, 8),
+    AFFINEANIMCMD_FRAME(-4,   4, 0, 8),
     AFFINEANIMCMD_FRAME(256, 256, 0, 0),
     AFFINEANIMCMD_END
 };

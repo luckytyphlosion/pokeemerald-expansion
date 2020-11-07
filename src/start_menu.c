@@ -235,32 +235,19 @@ static void BuildStartMenuActions(void)
 {
     sNumStartMenuActions = 0;
 
-    if (IsUpdateLinkStateCBActive() == TRUE)
-    {
+    if (IsUpdateLinkStateCBActive() == TRUE) {
         BuildLinkModeStartMenu();
-    }
-    else if (InUnionRoom() == TRUE)
-    {
+    } else if (InUnionRoom() == TRUE) {
         BuildUnionRoomStartMenu();
-    }
-    else if (GetSafariZoneFlag() == TRUE)
-    {
+    } else if (GetSafariZoneFlag() == TRUE) {
         BuildSafariZoneStartMenu();
-    }
-    else if (InBattlePike())
-    {
+    } else if (InBattlePike()) {
         BuildBattlePikeStartMenu();
-    }
-    else if (InBattlePyramid())
-    {
+    } else if (InBattlePyramid()) {
         BuildBattlePyramidStartMenu();
-    }
-    else if (InMultiPartnerRoom())
-    {
+    } else if (InMultiPartnerRoom()) {
         BuildMultiPartnerRoomStartMenu();
-    }
-    else
-    {
+    } else {
         BuildNormalStartMenu();
     }
 }
@@ -272,19 +259,16 @@ static void AddStartMenuAction(u8 action)
 
 static void BuildNormalStartMenu(void)
 {
-    if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
-    {
+    if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE) {
         AddStartMenuAction(MENU_ACTION_POKEDEX);
     }
-    if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE)
-    {
+    if (FlagGet(FLAG_SYS_POKEMON_GET) == TRUE) {
         AddStartMenuAction(MENU_ACTION_POKEMON);
     }
 
     AddStartMenuAction(MENU_ACTION_BAG);
 
-    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE)
-    {
+    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE) {
         AddStartMenuAction(MENU_ACTION_POKENAV);
     }
 
@@ -310,8 +294,7 @@ static void BuildLinkModeStartMenu(void)
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_BAG);
 
-    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE)
-    {
+    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE) {
         AddStartMenuAction(MENU_ACTION_POKENAV);
     }
 
@@ -325,8 +308,7 @@ static void BuildUnionRoomStartMenu(void)
     AddStartMenuAction(MENU_ACTION_POKEMON);
     AddStartMenuAction(MENU_ACTION_BAG);
 
-    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE)
-    {
+    if (FlagGet(FLAG_SYS_POKENAV_GET) == TRUE) {
         AddStartMenuAction(MENU_ACTION_POKENAV);
     }
 
@@ -376,10 +358,11 @@ static void ShowSafariBallsWindow(void)
 
 static void ShowPyramidFloorWindow(void)
 {
-    if (gSaveBlock2Ptr->frontier.curChallengeBattleNum == 7)
+    if (gSaveBlock2Ptr->frontier.curChallengeBattleNum == 7) {
         sBattlePyramidFloorWindowId = AddWindow(&sPyramidFloorWindowTemplate_1);
-    else
+    } else {
         sBattlePyramidFloorWindowId = AddWindow(&sPyramidFloorWindowTemplate_2);
+    }
 
     PutWindowTilemap(sBattlePyramidFloorWindowId);
     DrawStdWindowFrame(sBattlePyramidFloorWindowId, FALSE);
@@ -391,14 +374,12 @@ static void ShowPyramidFloorWindow(void)
 
 static void RemoveExtraStartMenuWindows(void)
 {
-    if (GetSafariZoneFlag())
-    {
+    if (GetSafariZoneFlag()) {
         ClearStdWindowAndFrameToTransparent(sSafariBallsWindowId, FALSE);
         CopyWindowToVram(sSafariBallsWindowId, 2);
         RemoveWindow(sSafariBallsWindowId);
     }
-    if (InBattlePyramid())
-    {
+    if (InBattlePyramid()) {
         ClearStdWindowAndFrameToTransparent(sBattlePyramidFloorWindowId, FALSE);
         RemoveWindow(sBattlePyramidFloorWindowId);
     }
@@ -408,28 +389,22 @@ static bool32 PrintStartMenuActions(s8 *pIndex, u32 count)
 {
     s8 index = *pIndex;
 
-    do
-    {
-        if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPlayerNameCallback)
-        {
+    do {
+        if (sStartMenuItems[sCurrentStartMenuActions[index]].func.u8_void == StartMenuPlayerNameCallback) {
             PrintPlayerNameOnWindow(GetStartMenuWindowId(), sStartMenuItems[sCurrentStartMenuActions[index]].text, 8, (index << 4) + 9);
-        }
-        else
-        {
+        } else {
             StringExpandPlaceholders(gStringVar4, sStartMenuItems[sCurrentStartMenuActions[index]].text);
             AddTextPrinterParameterized(GetStartMenuWindowId(), 1, gStringVar4, 8, (index << 4) + 9, 0xFF, NULL);
         }
 
         index++;
-        if (index >= sNumStartMenuActions)
-        {
+        if (index >= sNumStartMenuActions) {
             *pIndex = index;
             return TRUE;
         }
 
         count--;
-    }
-    while (count != 0);
+    } while (count != 0);
 
     *pIndex = index;
     return FALSE;
@@ -439,8 +414,7 @@ static bool32 InitStartMenuStep(void)
 {
     s8 state = sInitStartMenuData[0];
 
-    switch (state)
-    {
+    switch (state) {
     case 0:
         sInitStartMenuData[0]++;
         break;
@@ -455,15 +429,18 @@ static bool32 InitStartMenuStep(void)
         sInitStartMenuData[0]++;
         break;
     case 3:
-        if (GetSafariZoneFlag())
+        if (GetSafariZoneFlag()) {
             ShowSafariBallsWindow();
-        if (InBattlePyramid())
+        }
+        if (InBattlePyramid()) {
             ShowPyramidFloorWindow();
+        }
         sInitStartMenuData[0]++;
         break;
     case 4:
-        if (PrintStartMenuActions((s8 *)&sInitStartMenuData[1], 2))
+        if (PrintStartMenuActions((s8 *)&sInitStartMenuData[1], 2)) {
             sInitStartMenuData[0]++;
+        }
         break;
     case 5:
         sStartMenuCursorPos = sub_81983AC(GetStartMenuWindowId(), 1, 0, 9, 16, sNumStartMenuActions, sStartMenuCursorPos);
@@ -478,14 +455,16 @@ static void InitStartMenu(void)
 {
     sInitStartMenuData[0] = 0;
     sInitStartMenuData[1] = 0;
-    while (!InitStartMenuStep())
+    while (!InitStartMenuStep()) {
         ;
+    }
 }
 
 static void StartMenuTask(u8 taskId)
 {
-    if (InitStartMenuStep() == TRUE)
+    if (InitStartMenuStep() == TRUE) {
         SwitchTaskToFollowupFunc(taskId);
+    }
 }
 
 static void CreateStartMenuTask(TaskFunc followupFunc)
@@ -500,8 +479,7 @@ static void CreateStartMenuTask(TaskFunc followupFunc)
 
 static bool8 FieldCB_ReturnToFieldStartMenu(void)
 {
-    if (InitStartMenuStep() == FALSE)
-    {
+    if (InitStartMenuStep() == FALSE) {
         return FALSE;
     }
 
@@ -520,26 +498,26 @@ void Task_ShowStartMenu(u8 taskId)
 {
     struct Task* task = &gTasks[taskId];
 
-    switch(task->data[0])
-    {
+    switch (task->data[0]) {
     case 0:
-        if (InUnionRoom() == TRUE)
+        if (InUnionRoom() == TRUE) {
             SetUsingUnionRoomStartMenu();
+        }
 
         gMenuCallback = HandleStartMenuInput;
         task->data[0]++;
         break;
     case 1:
-        if (gMenuCallback() == TRUE)
+        if (gMenuCallback() == TRUE) {
             DestroyTask(taskId);
+        }
         break;
     }
 }
 
 void ShowStartMenu(void)
 {
-    if (!IsUpdateLinkStateCBActive())
-    {
+    if (!IsUpdateLinkStateCBActive()) {
         FreezeObjectEvents();
         sub_808B864();
         sub_808BCF4();
@@ -550,25 +528,22 @@ void ShowStartMenu(void)
 
 static bool8 HandleStartMenuInput(void)
 {
-    if (JOY_NEW(DPAD_UP))
-    {
+    if (JOY_NEW(DPAD_UP)) {
         PlaySE(SE_SELECT);
         sStartMenuCursorPos = Menu_MoveCursor(-1);
     }
 
-    if (JOY_NEW(DPAD_DOWN))
-    {
+    if (JOY_NEW(DPAD_DOWN)) {
         PlaySE(SE_SELECT);
         sStartMenuCursorPos = Menu_MoveCursor(1);
     }
 
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         PlaySE(SE_SELECT);
-        if (sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuPokedexCallback)
-        {
-            if (GetNationalPokedexCount(FLAG_GET_SEEN) == 0)
+        if (sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void == StartMenuPokedexCallback) {
+            if (GetNationalPokedexCount(FLAG_GET_SEEN) == 0) {
                 return FALSE;
+            }
         }
 
         gMenuCallback = sStartMenuItems[sCurrentStartMenuActions[sStartMenuCursorPos]].func.u8_void;
@@ -576,16 +551,14 @@ static bool8 HandleStartMenuInput(void)
         if (gMenuCallback != StartMenuSaveCallback
             && gMenuCallback != StartMenuExitCallback
             && gMenuCallback != StartMenuSafariZoneRetireCallback
-            && gMenuCallback != StartMenuBattlePyramidRetireCallback)
-        {
-           FadeScreen(FADE_TO_BLACK, 0);
+            && gMenuCallback != StartMenuBattlePyramidRetireCallback) {
+            FadeScreen(FADE_TO_BLACK, 0);
         }
 
         return FALSE;
     }
 
-    if (JOY_NEW(START_BUTTON | B_BUTTON))
-    {
+    if (JOY_NEW(START_BUTTON | B_BUTTON)) {
         RemoveExtraStartMenuWindows();
         HideStartMenu();
         return TRUE;
@@ -596,8 +569,7 @@ static bool8 HandleStartMenuInput(void)
 
 static bool8 StartMenuPokedexCallback(void)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         IncrementGameStat(GAME_STAT_CHECKED_POKEDEX);
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
@@ -612,8 +584,7 @@ static bool8 StartMenuPokedexCallback(void)
 
 static bool8 StartMenuPokemonCallback(void)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -627,8 +598,7 @@ static bool8 StartMenuPokemonCallback(void)
 
 static bool8 StartMenuBagCallback(void)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -642,8 +612,7 @@ static bool8 StartMenuBagCallback(void)
 
 static bool8 StartMenuPokeNavCallback(void)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -657,19 +626,18 @@ static bool8 StartMenuPokeNavCallback(void)
 
 static bool8 StartMenuPlayerNameCallback(void)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
 
-        if (IsUpdateLinkStateCBActive() || InUnionRoom())
+        if (IsUpdateLinkStateCBActive() || InUnionRoom()) {
             ShowPlayerTrainerCard(CB2_ReturnToFieldWithOpenMenu); // Display trainer card
-        else if (FlagGet(FLAG_SYS_FRONTIER_PASS))
+        } else if (FlagGet(FLAG_SYS_FRONTIER_PASS)) {
             ShowFrontierPass(CB2_ReturnToFieldWithOpenMenu); // Display frontier pass
-        else
+        } else {
             ShowPlayerTrainerCard(CB2_ReturnToFieldWithOpenMenu); // Display trainer card
-
+        }
         return TRUE;
     }
 
@@ -678,8 +646,9 @@ static bool8 StartMenuPlayerNameCallback(void)
 
 static bool8 StartMenuSaveCallback(void)
 {
-    if (InBattlePyramid())
+    if (InBattlePyramid()) {
         RemoveExtraStartMenuWindows();
+    }
 
     gMenuCallback = SaveStartCallback; // Display save menu
 
@@ -688,8 +657,7 @@ static bool8 StartMenuSaveCallback(void)
 
 static bool8 StartMenuOptionCallback(void)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -721,8 +689,7 @@ static bool8 StartMenuSafariZoneRetireCallback(void)
 
 static bool8 StartMenuLinkModePlayerNameCallback(void)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         PlayRainStoppingSoundEffect();
         CleanupOverworldWindowsAndTilemaps();
         ShowTrainerCardInLink(gLocalLinkPlayerId, CB2_ReturnToFieldWithOpenMenu);
@@ -751,8 +718,7 @@ void ShowBattlePyramidStartMenu(void)
 
 static bool8 StartMenuBattlePyramidBagCallback(void)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         PlayRainStoppingSoundEffect();
         RemoveExtraStartMenuWindows();
         CleanupOverworldWindowsAndTilemaps();
@@ -774,8 +740,7 @@ static bool8 SaveStartCallback(void)
 
 static bool8 SaveCallback(void)
 {
-    switch (RunSaveCallback())
-    {
+    switch (RunSaveCallback()) {
     case SAVE_IN_PROGRESS:
         return FALSE;
     case SAVE_CANCELED: // Back to start menu
@@ -813,8 +778,7 @@ static bool8 BattlePyramidRetireReturnCallback(void)
 
 static bool8 BattlePyramidRetireCallback(void)
 {
-    switch (RunSaveCallback())
-    {
+    switch (RunSaveCallback()) {
     case SAVE_SUCCESS: // No (Stay in battle pyramid)
         RemoveExtraStartMenuWindows();
         gMenuCallback = BattlePyramidRetireReturnCallback;
@@ -842,8 +806,7 @@ static void InitSave(void)
 static u8 RunSaveCallback(void)
 {
     // True if text is still printing
-    if (RunTextPrintersAndIsPrinter0Active() == TRUE)
-    {
+    if (RunTextPrintersAndIsPrinter0Active() == TRUE) {
         return SAVE_IN_PROGRESS;
     }
 
@@ -870,8 +833,7 @@ static void SaveGameTask(u8 taskId)
 {
     u8 status = RunSaveCallback();
 
-    switch (status)
-    {
+    switch (status) {
     case SAVE_CANCELED:
     case SAVE_ERROR:
         gSpecialVar_Result = 0;
@@ -906,13 +868,11 @@ static bool8 SaveSuccesTimer(void)
 {
     sSaveDialogTimer--;
 
-    if (JOY_HELD(A_BUTTON))
-    {
+    if (JOY_HELD(A_BUTTON)) {
         PlaySE(SE_SELECT);
         return TRUE;
     }
-    if (sSaveDialogTimer == 0)
-    {
+    if (sSaveDialogTimer == 0) {
         return TRUE;
     }
 
@@ -921,12 +881,9 @@ static bool8 SaveSuccesTimer(void)
 
 static bool8 SaveErrorTimer(void)
 {
-    if (sSaveDialogTimer != 0)
-    {
+    if (sSaveDialogTimer != 0) {
         sSaveDialogTimer--;
-    }
-    else if (JOY_HELD(A_BUTTON))
-    {
+    } else if (JOY_HELD(A_BUTTON)) {
         return TRUE;
     }
 
@@ -939,12 +896,9 @@ static u8 SaveConfirmSaveCallback(void)
     RemoveStartMenuWindow();
     ShowSaveInfoWindow();
 
-    if (InBattlePyramid())
-    {
+    if (InBattlePyramid()) {
         ShowSaveMessage(gText_BattlePyramidConfirmRest, SaveYesNoCallback);
-    }
-    else
-    {
+    } else {
         ShowSaveMessage(gText_ConfirmSave, SaveYesNoCallback);
     }
 
@@ -960,15 +914,12 @@ static u8 SaveYesNoCallback(void)
 
 static u8 SaveConfirmInputCallback(void)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case 0: // Yes
-        switch (gSaveFileStatus)
-        {
+        switch (gSaveFileStatus) {
         case SAVE_STATUS_EMPTY:
         case SAVE_STATUS_CORRUPT:
-            if (gDifferentSaveFile == FALSE)
-            {
+            if (gDifferentSaveFile == FALSE) {
                 sSaveDialogCallback = SaveFileExistsCallback;
                 return SAVE_IN_PROGRESS;
             }
@@ -992,12 +943,9 @@ static u8 SaveConfirmInputCallback(void)
 // A different save file exists
 static u8 SaveFileExistsCallback(void)
 {
-    if (gDifferentSaveFile == TRUE)
-    {
+    if (gDifferentSaveFile == TRUE) {
         ShowSaveMessage(gText_DifferentSaveFile, SaveConfirmOverwriteDefaultNoCallback);
-    }
-    else
-    {
+    } else {
         ShowSaveMessage(gText_AlreadySavedFile, SaveConfirmOverwriteCallback);
     }
 
@@ -1020,8 +968,7 @@ static u8 SaveConfirmOverwriteCallback(void)
 
 static u8 SaveOverwriteInputCallback(void)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case 0: // Yes
         sSaveDialogCallback = SaveSavingMessageCallback;
         return SAVE_IN_PROGRESS;
@@ -1048,20 +995,18 @@ static u8 SaveDoSaveCallback(void)
     IncrementGameStat(GAME_STAT_SAVED_GAME);
     PausePyramidChallenge();
 
-    if (gDifferentSaveFile == TRUE)
-    {
+    if (gDifferentSaveFile == TRUE) {
         saveStatus = TrySavingData(SAVE_OVERWRITE_DIFFERENT_FILE);
         gDifferentSaveFile = FALSE;
-    }
-    else
-    {
+    } else {
         saveStatus = TrySavingData(SAVE_NORMAL);
     }
 
-    if (saveStatus == SAVE_STATUS_OK)
+    if (saveStatus == SAVE_STATUS_OK) {
         ShowSaveMessage(gText_PlayerSavedGame, SaveSuccessCallback);
-    else
+    } else {
         ShowSaveMessage(gText_SaveError, SaveErrorCallback);
+    }
 
     SaveStartTimer();
     return SAVE_IN_PROGRESS;
@@ -1069,8 +1014,7 @@ static u8 SaveDoSaveCallback(void)
 
 static u8 SaveSuccessCallback(void)
 {
-    if (!IsTextPrinterActive(0))
-    {
+    if (!IsTextPrinterActive(0)) {
         PlaySE(SE_SAVE);
         sSaveDialogCallback = SaveReturnSuccessCallback;
     }
@@ -1080,21 +1024,17 @@ static u8 SaveSuccessCallback(void)
 
 static u8 SaveReturnSuccessCallback(void)
 {
-    if (!IsSEPlaying() && SaveSuccesTimer())
-    {
+    if (!IsSEPlaying() && SaveSuccesTimer()) {
         HideSaveInfoWindow();
         return SAVE_SUCCESS;
-    }
-    else
-    {
+    } else {
         return SAVE_IN_PROGRESS;
     }
 }
 
 static u8 SaveErrorCallback(void)
 {
-    if (!IsTextPrinterActive(0))
-    {
+    if (!IsTextPrinterActive(0)) {
         PlaySE(SE_BOO);
         sSaveDialogCallback = SaveReturnErrorCallback;
     }
@@ -1104,12 +1044,9 @@ static u8 SaveErrorCallback(void)
 
 static u8 SaveReturnErrorCallback(void)
 {
-    if (!SaveErrorTimer())
-    {
+    if (!SaveErrorTimer()) {
         return SAVE_IN_PROGRESS;
-    }
-    else
-    {
+    } else {
         HideSaveInfoWindow();
         return SAVE_ERROR;
     }
@@ -1140,8 +1077,7 @@ static u8 BattlePyramidRetireYesNoCallback(void)
 
 static u8 BattlePyramidRetireInputCallback(void)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case 0: // Yes
         return SAVE_CANCELED;
     case -1: // B Button
@@ -1160,8 +1096,7 @@ static void sub_80A03D8(void)
 
 static bool32 InitSaveWindowAfterLinkBattle(u8 *state)
 {
-    switch (*state)
-    {
+    switch (*state) {
     case 0:
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0);
         SetVBlankCallback(NULL);
@@ -1198,8 +1133,7 @@ static bool32 InitSaveWindowAfterLinkBattle(u8 *state)
 
 void CB2_SetUpSaveAfterLinkBattle(void)
 {
-    if (InitSaveWindowAfterLinkBattle(&gMain.state))
-    {
+    if (InitSaveWindowAfterLinkBattle(&gMain.state)) {
         CreateTask(Task_SaveAfterLinkBattle, 0x50);
         SetMainCallback2(CB2_SaveAfterLinkBattle);
     }
@@ -1215,38 +1149,30 @@ static void Task_SaveAfterLinkBattle(u8 taskId)
 {
     s16 *state = gTasks[taskId].data;
 
-    if (!gPaletteFade.active)
-    {
-        switch (*state)
-        {
+    if (!gPaletteFade.active) {
+        switch (*state) {
         case 0:
             FillWindowPixelBuffer(0, PIXEL_FILL(1));
             AddTextPrinterParameterized2(0,
-                                        1,
-                                        gText_SavingDontTurnOffPower,
-                                        TEXT_SPEED_FF,
-                                        NULL,
-                                        TEXT_COLOR_DARK_GREY,
-                                        TEXT_COLOR_WHITE,
-                                        TEXT_COLOR_LIGHT_GREY);
+                                         1,
+                                         gText_SavingDontTurnOffPower,
+                                         TEXT_SPEED_FF,
+                                         NULL,
+                                         TEXT_COLOR_DARK_GREY,
+                                         TEXT_COLOR_WHITE,
+                                         TEXT_COLOR_LIGHT_GREY);
             DrawTextBorderOuter(0, 8, 14);
             PutWindowTilemap(0);
             CopyWindowToVram(0, 3);
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
 
-            if (gWirelessCommType != 0 && InUnionRoom())
-            {
-                if (Link_AnyPartnersPlayingFRLG_JP())
-                {
+            if (gWirelessCommType != 0 && InUnionRoom()) {
+                if (Link_AnyPartnersPlayingFRLG_JP()) {
                     *state = 1;
-                }
-                else
-                {
+                } else {
                     *state = 5;
                 }
-            }
-            else
-            {
+            } else {
                 gSoftResetDisabled = 1;
                 *state = 1;
             }
@@ -1257,8 +1183,7 @@ static void Task_SaveAfterLinkBattle(u8 taskId)
             *state = 2;
             break;
         case 2:
-            if (CheckSaveFile())
-            {
+            if (CheckSaveFile()) {
                 ClearContinueGameWarpStatus2();
                 *state = 3;
                 gSoftResetDisabled = 0;
@@ -1278,8 +1203,7 @@ static void Task_SaveAfterLinkBattle(u8 taskId)
             *state = 6;
             break;
         case 6:
-            if (!FuncIsActiveTask(Task_LinkSave))
-            {
+            if (!FuncIsActiveTask(Task_LinkSave)) {
                 *state = 3;
             }
             break;
@@ -1295,8 +1219,7 @@ static void ShowSaveInfoWindow(void)
     u32 xOffset;
     u32 yOffset;
 
-    if (!FlagGet(FLAG_SYS_POKEDEX_GET))
-    {
+    if (!FlagGet(FLAG_SYS_POKEDEX_GET)) {
         saveInfoWindow.height -= 2;
     }
 
@@ -1306,8 +1229,7 @@ static void ShowSaveInfoWindow(void)
     gender = gSaveBlock2Ptr->playerGender;
     color = TEXT_COLOR_RED;  // Red when female, blue when male.
 
-    if (gender == MALE)
-    {
+    if (gender == MALE) {
         color = TEXT_COLOR_BLUE;
     }
 
@@ -1330,8 +1252,7 @@ static void ShowSaveInfoWindow(void)
     xOffset = GetStringRightAlignXOffset(1, gStringVar4, 0x70);
     AddTextPrinterParameterized(sSaveInfoWindowId, 1, gStringVar4, xOffset, yOffset, 0xFF, NULL);
 
-    if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE)
-    {
+    if (FlagGet(FLAG_SYS_POKEDEX_GET) == TRUE) {
         // Print pokedex count
         yOffset += 16;
         AddTextPrinterParameterized(sSaveInfoWindowId, 1, gText_SavingPokedex, 0, yOffset, 0xFF, NULL);
@@ -1358,8 +1279,7 @@ static void RemoveSaveInfoWindow(void)
 
 static void Task_WaitForBattleTowerLinkSave(u8 taskId)
 {
-    if (!FuncIsActiveTask(Task_LinkSave))
-    {
+    if (!FuncIsActiveTask(Task_LinkSave)) {
         DestroyTask(taskId);
         EnableBothScriptContexts();
     }

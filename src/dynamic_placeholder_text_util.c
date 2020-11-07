@@ -14,33 +14,26 @@ void DynamicPlaceholderTextUtil_Reset(void)
     ptr = sStringPointers;
     fillval = NULL;
     ptr2 = ptr + (ARRAY_COUNT(sStringPointers) - 1);
-    do
-    {
+    do {
         *ptr2-- = fillval;
     } while ((int)ptr2 >= (int)ptr);
 }
 
 void DynamicPlaceholderTextUtil_SetPlaceholderPtr(u8 idx, const u8 *ptr)
 {
-    if (idx < ARRAY_COUNT(sStringPointers))
-    {
+    if (idx < ARRAY_COUNT(sStringPointers)) {
         sStringPointers[idx] = ptr;
     }
 }
 
-u8 *DynamicPlaceholderTextUtil_ExpandPlaceholders(u8 *dest, const u8 *src)
+u8 * DynamicPlaceholderTextUtil_ExpandPlaceholders(u8 *dest, const u8 *src)
 {
-    while (*src != EOS)
-    {
-        if (*src != CHAR_DYNAMIC)
-        {
+    while (*src != EOS) {
+        if (*src != CHAR_DYNAMIC) {
             *dest++ = *src++;
-        }
-        else
-        {
+        } else {
             src++;
-            if (sStringPointers[*src] != NULL)
-            {
+            if (sStringPointers[*src] != NULL) {
                 dest = StringCopy(dest, sStringPointers[*src]);
             }
             src++;
@@ -50,7 +43,7 @@ u8 *DynamicPlaceholderTextUtil_ExpandPlaceholders(u8 *dest, const u8 *src)
     return dest;
 }
 
-const u8 *DynamicPlaceholderTextUtil_GetPlaceholderPtr(u8 idx)
+const u8 * DynamicPlaceholderTextUtil_GetPlaceholderPtr(u8 idx)
 {
     return sStringPointers[idx];
 }

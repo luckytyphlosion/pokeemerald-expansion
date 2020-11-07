@@ -378,21 +378,21 @@ static const u8 gUnknown_082F467F[5][5] =
 
 // Duplicate and unused gfx. Feel free to remove.
 static const u32 sDuplicateGfx[] = INCBIN_U32("graphics/link_games/dodrioberry_bg1.gbapal",
-                                     "graphics/link_games/dodrioberry_bg2.gbapal",
-                                     "graphics/link_games/dodrioberry_pkmn.gbapal",
-                                     "graphics/link_games/dodrioberry_shiny.gbapal",
-                                     "graphics/link_games/dodrioberry_status.gbapal",
-                                     "graphics/link_games/dodrioberry_berrysprites.gbapal",
-                                     "graphics/link_games/dodrioberry_berrysprites.4bpp.lz",
-                                     "graphics/link_games/dodrioberry_platform.gbapal",
-                                     "graphics/link_games/dodrioberry_bg1.4bpp.lz",
-                                     "graphics/link_games/dodrioberry_bg2.4bpp.lz",
-                                     "graphics/link_games/dodrioberry_status.4bpp.lz",
-                                     "graphics/link_games/dodrioberry_platform.4bpp.lz",
-                                     "graphics/link_games/dodrioberry_pkmn.4bpp.lz",
-                                     "graphics/link_games/dodrioberry_bg1.bin.lz",
-                                     "graphics/link_games/dodrioberry_bg2right.bin.lz",
-                                     "graphics/link_games/dodrioberry_bg2left.bin.lz");
+                                              "graphics/link_games/dodrioberry_bg2.gbapal",
+                                              "graphics/link_games/dodrioberry_pkmn.gbapal",
+                                              "graphics/link_games/dodrioberry_shiny.gbapal",
+                                              "graphics/link_games/dodrioberry_status.gbapal",
+                                              "graphics/link_games/dodrioberry_berrysprites.gbapal",
+                                              "graphics/link_games/dodrioberry_berrysprites.4bpp.lz",
+                                              "graphics/link_games/dodrioberry_platform.gbapal",
+                                              "graphics/link_games/dodrioberry_bg1.4bpp.lz",
+                                              "graphics/link_games/dodrioberry_bg2.4bpp.lz",
+                                              "graphics/link_games/dodrioberry_status.4bpp.lz",
+                                              "graphics/link_games/dodrioberry_platform.4bpp.lz",
+                                              "graphics/link_games/dodrioberry_pkmn.4bpp.lz",
+                                              "graphics/link_games/dodrioberry_bg1.bin.lz",
+                                              "graphics/link_games/dodrioberry_bg2right.bin.lz",
+                                              "graphics/link_games/dodrioberry_bg2left.bin.lz");
 
 
 static const u8 gUnknown_082F7A88[][3] =
@@ -453,8 +453,7 @@ void StartDodrioBerryPicking(u16 a0, void (*callback)(void))
 {
     gUnknown_03000DB0 = FALSE;
 
-    if (gReceivedRemoteLinkPlayers != 0 && (gUnknown_02022C98 = AllocZeroed(sizeof(*gUnknown_02022C98))) != NULL)
-    {
+    if (gReceivedRemoteLinkPlayers != 0 && (gUnknown_02022C98 = AllocZeroed(sizeof(*gUnknown_02022C98))) != NULL) {
         sub_8024A1C();
         sub_8024A30(gUnknown_02022C98);
         gUnknown_02022C98->savedCallback = callback;
@@ -467,9 +466,7 @@ void StartDodrioBerryPicking(u16 a0, void (*callback)(void))
         sub_8026B5C(gUnknown_02022C98->unk24, &gUnknown_02022C98->unk44, &gUnknown_02022C98->unk48);
         StopMapMusic();
         PlayNewMapMusic(MUS_RG_BERRY_PICK);
-    }
-    else
-    {
+    } else {
         SetMainCallback2(callback);
         return;
     }
@@ -498,13 +495,11 @@ static void sub_8024A30(struct DodrioStruct * data)
     data->unk3C = 0;
     data->unk12C = 0;
 
-    for (i = 0; i < 4; i++)
-    {
+    for (i = 0; i < 4; i++) {
         data->unk98[i] = 0;
     }
 
-    for (i = 0; i < 5; i++)
-    {
+    for (i = 0; i < 5; i++) {
         data->unkA8[i] = 0;
         data->unkB0[i] = 0;
         data->unk4A[i][0] = 0;
@@ -516,8 +511,7 @@ static void sub_8024A30(struct DodrioStruct * data)
         data->unk130[i] = 0;
     }
 
-    for (i = 0; i < 11; i++)
-    {
+    for (i = 0; i < 11; i++) {
         data->unkD0[i] = 0;
         data->unkDC[i] = 0;
         data->unkC4[i] = 0;
@@ -528,11 +522,11 @@ static void sub_8024A30(struct DodrioStruct * data)
     data->unk20 = GetMultiplayerId() == 0 ? 1 : 0;
     data->unk24 = GetLinkPlayerCount();
     data->unk34[0] = GetMultiplayerId();
-    for (i = 1; i < data->unk24; i++)
-    {
+    for (i = 1; i < data->unk24; i++) {
         data->unk34[i] = data->unk34[i - 1] + 1;
-        if (data->unk34[i] > data->unk24 - 1)
+        if (data->unk34[i] > data->unk24 - 1) {
             data->unk34[i] %= data->unk24;
+        }
     }
 }
 
@@ -540,32 +534,27 @@ static void sub_8024BC8(u8 taskId)
 {
     u8 r4, r5;
 
-    switch (gUnknown_02022C98->unk0C)
-    {
+    switch (gUnknown_02022C98->unk0C) {
     case 0:
         SetVBlankCallback(NULL);
         sub_802620C(sub_8025910, 4);
         gUnknown_02022C98->unk0C++;
         break;
     case 1:
-        if (!FuncIsActiveTask(sub_8025910))
-        {
+        if (!FuncIsActiveTask(sub_8025910)) {
             sub_8029274(&gUnknown_02022C98->unk160);
             gUnknown_02022C98->unk0C++;
         }
         break;
     case 2:
-        if (!sub_802A770())
-        {
+        if (!sub_802A770()) {
             Rfu_SetLinkStandbyCallback();
             gUnknown_02022C98->unk0C++;
         }
         break;
     case 3:
-        if (IsLinkTaskFinished())
-        {
-            if (gReceivedRemoteLinkPlayers != 0)
-            {
+        if (IsLinkTaskFinished()) {
+            if (gReceivedRemoteLinkPlayers != 0) {
                 LoadWirelessStatusIndicatorSpriteGfx();
                 CreateWirelessStatusIndicatorSprite(0, 0);
             }
@@ -575,8 +564,7 @@ static void sub_8024BC8(u8 taskId)
     case 4:
         r5 = gUnknown_02022C98->unk24;
         sub_80283A8();
-        for (r4 = 0; r4 < r5; r4++)
-        {
+        for (r4 = 0; r4 < r5; r4++) {
             sub_8028408(&gUnknown_02022C98->unk318C[gUnknown_02022C98->unk34[r4]], r4, gUnknown_02022C98->unk34[r4], gUnknown_02022C98->unk24);
         }
         sub_802868C(FALSE, gUnknown_02022C98->unk24);
@@ -597,8 +585,7 @@ static void sub_8024BC8(u8 taskId)
         break;
     case 7:
         UpdatePaletteFade();
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             gUnknown_02022C98->unk0C++;
         }
         break;
@@ -613,8 +600,7 @@ static void sub_8024D4C(u8 taskId)
 {
     sub_8025D04();
     gUnknown_082F7AC4[gUnknown_02022C98->unk18]();
-    if (!gUnknown_03000DB0)
-    {
+    if (!gUnknown_03000DB0) {
         sub_8026AF4();
     }
     sub_8025D50();
@@ -624,8 +610,7 @@ static void sub_8024D84(u8 taskId)
 {
     sub_8025E0C();
     gUnknown_082F7AF4[gUnknown_02022C98->unk18]();
-    if (!gUnknown_03000DB0)
-    {
+    if (!gUnknown_03000DB0) {
         sub_8026B28();
     }
     sub_8025ED8();
@@ -633,29 +618,26 @@ static void sub_8024D84(u8 taskId)
 
 static void sub_8024DBC(void)
 {
-    switch (gUnknown_02022C98->unk10)
-    {
+    switch (gUnknown_02022C98->unk10) {
     case 0:
         sub_8028504(1);
         sub_80292E0(1);
         gUnknown_02022C98->unk10++;
         break;
     case 1:
-        if (!sub_802A770())
+        if (!sub_802A770()) {
             sub_8026240(1);
+        }
         break;
     }
 }
 
 static void sub_8024E00(void)
 {
-    if (gUnknown_02022C98->unk10 == 0)
-    {
+    if (gUnknown_02022C98->unk10 == 0) {
         sub_80262C0();
         gUnknown_02022C98->unk10++;
-    }
-    else
-    {
+    } else {
         gUnknown_02022C98->unk118 = 1;
         sub_8026240(2);
     }
@@ -663,8 +645,7 @@ static void sub_8024E00(void)
 
 static void sub_8024E38(void)
 {
-    switch (gUnknown_02022C98->unk10)
-    {
+    switch (gUnknown_02022C98->unk10) {
     case 0:
         StartMinigameCountdown(7, 8, 120, 80, 0);
         gUnknown_02022C98->unk10++;
@@ -674,28 +655,24 @@ static void sub_8024E38(void)
         gUnknown_02022C98->unk10++;
         break;
     case 2:
-        if (IsLinkTaskFinished())
-        {
+        if (IsLinkTaskFinished()) {
             gUnknown_02022C98->unk10++;
             gUnknown_02022C98->unk30 = 0;
         }
         break;
     case 3:
-        if (!IsMinigameCountdownRunning())
-        {
+        if (!IsMinigameCountdownRunning()) {
             gUnknown_02022C98->unk10++;
         }
         break;
     case 4:
-        if (++gUnknown_02022C98->unk30 > 5)
-        {
+        if (++gUnknown_02022C98->unk30 > 5) {
             Rfu_SetLinkStandbyCallback();
             gUnknown_02022C98->unk10++;
         }
         break;
     case 5:
-        if (IsLinkTaskFinished())
-        {
+        if (IsLinkTaskFinished()) {
             sub_8026240(3);
         }
         break;
@@ -704,10 +681,8 @@ static void sub_8024E38(void)
 
 static void sub_8024F10(void)
 {
-    if (gUnknown_02022C98->unk10 == 0)
-    {
-        if (gUnknown_02022C98->unk11C != 0)
-        {
+    if (gUnknown_02022C98->unk10 == 0) {
+        if (gUnknown_02022C98->unk11C != 0) {
             sub_8026240(4);
         }
     }
@@ -715,44 +690,29 @@ static void sub_8024F10(void)
 
 static void sub_8024F38(void)
 {
-    if (gUnknown_02022C98->unk10 == 0)
-    {
-        if (gUnknown_02022C98->unk40 < 10)
-        {
-            if (gUnknown_02022C98->unkA8[0] == 0)
-            {
-                if (JOY_NEW(DPAD_UP))
-                {
-                    if (gUnknown_02022C98->unk31A0[0].unk2C.unk0 == 0)
-                    {
+    if (gUnknown_02022C98->unk10 == 0) {
+        if (gUnknown_02022C98->unk40 < 10) {
+            if (gUnknown_02022C98->unkA8[0] == 0) {
+                if (JOY_NEW(DPAD_UP)) {
+                    if (gUnknown_02022C98->unk31A0[0].unk2C.unk0 == 0) {
                         gUnknown_02022C98->unk31A0[0].unk2C.unk4 = 0;
                         gUnknown_02022C98->unk31A0[0].unk2C.unk0 = sub_8027518(2);
                     }
-                }
-                else if (JOY_NEW(DPAD_RIGHT))
-                {
-                    if (gUnknown_02022C98->unk31A0[0].unk2C.unk0 == 0)
-                    {
+                } else if (JOY_NEW(DPAD_RIGHT)) {
+                    if (gUnknown_02022C98->unk31A0[0].unk2C.unk0 == 0) {
                         gUnknown_02022C98->unk31A0[0].unk2C.unk4 = 0;
                         gUnknown_02022C98->unk31A0[0].unk2C.unk0 = sub_8027518(1);
                     }
-                }
-                else if (JOY_NEW(DPAD_LEFT))
-                {
-                    if (gUnknown_02022C98->unk31A0[0].unk2C.unk0 == 0)
-                    {
+                } else if (JOY_NEW(DPAD_LEFT)) {
+                    if (gUnknown_02022C98->unk31A0[0].unk2C.unk0 == 0) {
                         gUnknown_02022C98->unk31A0[0].unk2C.unk4 = 0;
                         gUnknown_02022C98->unk31A0[0].unk2C.unk0 = sub_8027518(3);
                     }
-                }
-                else
-                {
+                } else {
                     gUnknown_02022C98->unk31A0[0].unk2C.unk0 = sub_8027518(0);
                 }
             }
-        }
-        else
-        {
+        } else {
             sub_8026240(11);
         }
         sub_802671C();
@@ -762,36 +722,23 @@ static void sub_8024F38(void)
 
 static void sub_8024FFC(void)
 {
-    if (gUnknown_02022C98->unk40 < 10)
-    {
-        if (JOY_NEW(DPAD_UP))
-        {
-            if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 == 0)
-            {
+    if (gUnknown_02022C98->unk40 < 10) {
+        if (JOY_NEW(DPAD_UP)) {
+            if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 == 0) {
                 gUnknown_02022C98->unk32CC.unk2C.unk0 = 2;
             }
-        }
-        else if (JOY_NEW(DPAD_RIGHT))
-        {
-            if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 == 0)
-            {
+        } else if (JOY_NEW(DPAD_RIGHT)) {
+            if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 == 0) {
                 gUnknown_02022C98->unk32CC.unk2C.unk0 = 1;
             }
-        }
-        else if (JOY_NEW(DPAD_LEFT))
-        {
-            if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 == 0)
-            {
+        } else if (JOY_NEW(DPAD_LEFT)) {
+            if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 == 0) {
                 gUnknown_02022C98->unk32CC.unk2C.unk0 = 3;
             }
-        }
-        else
-        {
+        } else {
             gUnknown_02022C98->unk32CC.unk2C.unk0 = 0;
         }
-    }
-    else
-    {
+    } else {
         sub_8026240(11);
     }
     sub_8026044();
@@ -803,18 +750,13 @@ static void sub_80250D4(void)
 
     sub_802671C();
     sub_8025F48();
-    if (sub_8026C50() == 1)
-    {
+    if (sub_8026C50() == 1) {
         sub_80272A4();
         sub_8026240(5);
-    }
-    else
-    {
+    } else {
         gUnknown_02022C98->unk12C = 1;
-        for (i = 1; i < gUnknown_02022C98->unk24; i++)
-        {
-            if (gUnknown_02022C98->unk130[i] != 1)
-            {
+        for (i = 1; i < gUnknown_02022C98->unk24; i++) {
+            if (gUnknown_02022C98->unk130[i] != 1) {
                 gUnknown_02022C98->unk12C = 0;
                 break;
             }
@@ -825,56 +767,48 @@ static void sub_80250D4(void)
 static void sub_8025158(void)
 {
     sub_8026044();
-    if (sub_8026C90() == 1)
+    if (sub_8026C90() == 1) {
         sub_8026240(5);
+    }
 }
 
 static bool32 sub_8025170(void)
 {
     u8 recvStatus = GetBlockReceivedStatus();
     u8 playerFlags = GetLinkPlayerCountAsBitFlags();
-    if (recvStatus == playerFlags)
-    {
+    if (recvStatus == playerFlags) {
         ResetBlockReceivedFlags();
         return TRUE;
-    }
-    else
-    {
+    } else {
         return FALSE;
     }
 }
 
 static void sub_8025198(void)
 {
-    switch (gUnknown_02022C98->unk10)
-    {
+    switch (gUnknown_02022C98->unk10) {
     case 0:
-        if (SendBlock(0, gUnknown_02022C98->unk4A, sizeof(gUnknown_02022C98->unk4A)))
-        {
+        if (SendBlock(0, gUnknown_02022C98->unk4A, sizeof(gUnknown_02022C98->unk4A))) {
             gUnknown_02022C98->unk08 = 0;
             gUnknown_02022C98->unk10++;
         }
         break;
     case 1:
-        if (IsLinkTaskFinished())
-        {
+        if (IsLinkTaskFinished()) {
             gUnknown_02022C98->unk10++;
         }
         break;
     case 2:
-        if (sub_8025170())
-        {
+        if (sub_8025170()) {
             gUnknown_02022C98->unk08 = gUnknown_02022C98->unk24;
         }
-        if (gUnknown_02022C98->unk08 >= gUnknown_02022C98->unk24)
-        {
+        if (gUnknown_02022C98->unk08 >= gUnknown_02022C98->unk24) {
             gUnknown_02022C98->unk14++;
             gUnknown_02022C98->unk10++;
         }
         break;
     default:
-        if (WaitFanfare(TRUE))
-        {
+        if (WaitFanfare(TRUE)) {
             sub_8026240(6);
             FadeOutAndPlayNewMapMusic(MUS_RG_VICTORY_WILD, 4);
         }
@@ -926,8 +860,7 @@ static void sub_8025324(void)
     u8 sp00 = 1;
     u8 i;
 
-    switch (gUnknown_02022C98->unk10)
-    {
+    switch (gUnknown_02022C98->unk10) {
     case 0:
         sub_802749C();
         sub_80289E8(TRUE);
@@ -937,46 +870,39 @@ static void sub_8025324(void)
         gUnknown_02022C98->unk10++;
         break;
     case 1:
-        if (!sub_802A770())
-        {
+        if (!sub_802A770()) {
             sub_80292E0(5);
             gUnknown_02022C98->unk10++;
         }
         break;
     case 2:
         sp00 = sub_802A794();
-        if (SendBlock(0, &sp00, sizeof(sp00)))
-        {
+        if (SendBlock(0, &sp00, sizeof(sp00))) {
             gUnknown_02022C98->unk10++;
         }
         break;
     case 3:
-        if (IsLinkTaskFinished())
-        {
+        if (IsLinkTaskFinished()) {
             gUnknown_02022C98->unk10++;
             gUnknown_02022C98->unk08 = 0;
         }
         break;
     case 4:
-        if (sub_8025170())
-        {
-            for (i = 0; i < gUnknown_02022C98->unk24; i++)
-            {
+        if (sub_8025170()) {
+            for (i = 0; i < gUnknown_02022C98->unk24; i++) {
                 *(gUnknown_02022C98->unk10C + i) = *(u8 *)gBlockRecvBuffer[i];
                 gUnknown_02022C98->unk08 = gUnknown_02022C98->unk24;
             }
         }
         if (gUnknown_02022C98->unk08 >= gUnknown_02022C98->unk24) {
-            if (++gUnknown_02022C98->unk14 >= 120)
-            {
+            if (++gUnknown_02022C98->unk14 >= 120) {
                 sub_80292E0(6);
                 gUnknown_02022C98->unk10++;
             }
         }
         break;
     default:
-        if (!sub_802A770())
-        {
+        if (!sub_802A770()) {
             sub_8026240(7);
         }
         break;
@@ -988,18 +914,15 @@ static void sub_8025470(void)
     u8 sp0;
     u8 i;
 
-    switch (gUnknown_02022C98->unk10)
-    {
+    switch (gUnknown_02022C98->unk10) {
     case 0:
-        if (sub_8027748() >= 3000)
-        {
+        if (sub_8027748() >= 3000) {
             sub_80292E0(4);
         }
         gUnknown_02022C98->unk10++;
         break;
     case 1:
-        if (!sub_802A770())
-        {
+        if (!sub_802A770()) {
             sub_80292E0(3);
             gUnknown_02022C98->unk10++;
         }
@@ -1010,61 +933,49 @@ static void sub_8025470(void)
         gUnknown_02022C98->unk10++;
         break;
     case 3:
-        if ((sp0 = sub_802A794()) != 0)
-        {
+        if ((sp0 = sub_802A794()) != 0) {
             gUnknown_02022C98->unk10++;
         }
         break;
     case 4:
-        if (!sub_802A770())
-        {
+        if (!sub_802A770()) {
             sub_80292E0(5);
             gUnknown_02022C98->unk10++;
         }
         break;
     case 5:
         sp0 = sub_802A794();
-        if (SendBlock(0, &sp0, sizeof(sp0)))
-        {
+        if (SendBlock(0, &sp0, sizeof(sp0))) {
             gUnknown_02022C98->unk08 = 0;
             gUnknown_02022C98->unk10++;
         }
         break;
     case 6:
-        if (IsLinkTaskFinished())
-        {
+        if (IsLinkTaskFinished()) {
             gUnknown_02022C98->unk10++;
         }
         break;
     case 7:
-        if (sub_8025170())
-        {
-            for (i = 0; i < gUnknown_02022C98->unk24; i++)
-            {
+        if (sub_8025170()) {
+            for (i = 0; i < gUnknown_02022C98->unk24; i++) {
                 *(gUnknown_02022C98->unk10C + i) = *(u8 *)gBlockRecvBuffer[i];
                 gUnknown_02022C98->unk08 = gUnknown_02022C98->unk24;
             }
         }
         if (gUnknown_02022C98->unk08 >= gUnknown_02022C98->unk24) {
-            if (++gUnknown_02022C98->unk14 >= 120)
-            {
+            if (++gUnknown_02022C98->unk14 >= 120) {
                 sub_8027608();
                 sub_80292E0(6);
                 gUnknown_02022C98->unk10++;
             }
-        }
-        else
-        {
+        } else {
             sub_8027554();
         }
         break;
     default:
-        if (!sub_802A770())
-        {
-            for (i = 0; i < gUnknown_02022C98->unk24; i++)
-            {
-                if (gUnknown_02022C98->unk10C[i] == 2)
-                {
+        if (!sub_802A770()) {
+            for (i = 0; i < gUnknown_02022C98->unk24; i++) {
+                if (gUnknown_02022C98->unk10C[i] == 2) {
                     sub_8026240(8);
                     return;
                 }
@@ -1077,28 +988,24 @@ static void sub_8025470(void)
 
 static void sub_8025644(void)
 {
-    switch (gUnknown_02022C98->unk10)
-    {
+    switch (gUnknown_02022C98->unk10) {
     case 0:
         SetCloseLinkCallback();
         sub_80292E0(7);
         gUnknown_02022C98->unk10++;
         break;
     case 1:
-        if (!sub_802A770())
-        {
+        if (!sub_802A770()) {
             gUnknown_02022C98->unk10++;
         }
         break;
     case 2:
-        if (sub_802A794() == 5)
-        {
+        if (sub_802A794() == 5) {
             gUnknown_02022C98->unk10++;
         }
         break;
     default:
-        if (gReceivedRemoteLinkPlayers == 0)
-        {
+        if (gReceivedRemoteLinkPlayers == 0) {
             sub_8026240(9);
         }
         break;
@@ -1107,16 +1014,14 @@ static void sub_8025644(void)
 
 static void sub_80256AC(void)
 {
-    switch (gUnknown_02022C98->unk10)
-    {
+    switch (gUnknown_02022C98->unk10) {
     case 0:
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0);
         gUnknown_02022C98->unk10++;
         break;
     case 1:
         UpdatePaletteFade();
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             gUnknown_02022C98->unk10++;
         }
         break;
@@ -1130,8 +1035,7 @@ static void sub_80256AC(void)
         gUnknown_02022C98->unk10++;
         break;
     default:
-        if (!sub_802A770())
-        {
+        if (!sub_802A770()) {
             SetMainCallback2(gUnknown_02022C98->savedCallback);
             DestroyTask(gUnknown_02022C98->unk04);
             Free(gUnknown_02022C98);
@@ -1143,8 +1047,7 @@ static void sub_80256AC(void)
 
 static void sub_8025758(void)
 {
-    switch (gUnknown_02022C98->unk10)
-    {
+    switch (gUnknown_02022C98->unk10) {
     case 0:
         sub_80292E0(9);
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, 0);
@@ -1152,8 +1055,7 @@ static void sub_8025758(void)
         break;
     case 1:
         UpdatePaletteFade();
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             gUnknown_02022C98->unk10++;
         }
         break;
@@ -1184,8 +1086,7 @@ static void sub_8025758(void)
         break;
     case 6:
         UpdatePaletteFade();
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             gUnknown_02022C98->unk10++;
         }
         break;
@@ -1194,8 +1095,7 @@ static void sub_8025758(void)
         sub_802621C(sub_802589C);
         sub_802903C();
         sub_8024A30(gUnknown_02022C98);
-        if (gReceivedRemoteLinkPlayers == 0)
-        {
+        if (gReceivedRemoteLinkPlayers == 0) {
             gUnknown_02022C98->unk24 = 1;
         }
         sub_80273F0();
@@ -1206,11 +1106,9 @@ static void sub_8025758(void)
 
 static void sub_802589C(u8 taskId)
 {
-    switch (gUnknown_02022C98->unk10)
-    {
+    switch (gUnknown_02022C98->unk10) {
     case 0:
-        if (sub_8026264() == 1)
-        {
+        if (sub_8026264() == 1) {
             gUnknown_02022C98->unk10++;
         }
         break;
@@ -1219,18 +1117,14 @@ static void sub_802589C(u8 taskId)
         gUnknown_02022C98->unk10++;
         break;
     case 2:
-        if (sub_8028828() == TRUE)
-        {
+        if (sub_8028828() == TRUE) {
             gUnknown_02022C98->unk10++;
         }
         break;
     default:
-        if (gUnknown_02022C98->unk20 != 0)
-        {
+        if (gUnknown_02022C98->unk20 != 0) {
             sub_802621C(sub_8024D4C);
-        }
-        else
-        {
+        } else {
             sub_802621C(sub_8024D84);
         }
         DestroyTask(taskId);
@@ -1243,32 +1137,26 @@ static void sub_8025910(u8 taskId)
     s16 * data = gTasks[taskId].data;
     u8 i;
 
-    switch (data[0])
-    {
+    switch (data[0]) {
     case 0:
-        if (SendBlock(0, &gUnknown_02022C98->unk318C[gUnknown_02022C98->multiplayerId].isShiny, sizeof(gUnknown_02022C98->unk318C[gUnknown_02022C98->multiplayerId].isShiny)))
-        {
+        if (SendBlock(0, &gUnknown_02022C98->unk318C[gUnknown_02022C98->multiplayerId].isShiny, sizeof(gUnknown_02022C98->unk318C[gUnknown_02022C98->multiplayerId].isShiny))) {
             gUnknown_02022C98->unk08 = 0;
             data[0]++;
         }
         break;
     case 1:
-        if (IsLinkTaskFinished())
-        {
+        if (IsLinkTaskFinished()) {
             data[0]++;
         }
         break;
     case 2:
-        if (sub_8025170())
-        {
-            for (i = 0; i < gUnknown_02022C98->unk24; i++)
-            {
+        if (sub_8025170()) {
+            for (i = 0; i < gUnknown_02022C98->unk24; i++) {
                 *(u8 *)&gUnknown_02022C98->unk318C[i] = *(u8 *)gBlockRecvBuffer[i];
                 gUnknown_02022C98->unk08 = gUnknown_02022C98->unk24;
             }
         }
-        if (gUnknown_02022C98->unk08 >= gUnknown_02022C98->unk24)
-        {
+        if (gUnknown_02022C98->unk08 >= gUnknown_02022C98->unk24) {
             DestroyTask(taskId);
             sub_80292E0(6);
             gUnknown_02022C98->unk10++;
@@ -1285,44 +1173,34 @@ static void sub_80259FC(void)
     gUnknown_02022C98->unk31A0[0].unk10 = sub_8028164(0, &gUnknown_02022C98->unk31A0[0], &gUnknown_02022C98->unk31A0[0].unk2C, &gUnknown_02022C98->unk31A0[1].unk2C, &gUnknown_02022C98->unk31A0[2].unk2C, &gUnknown_02022C98->unk31A0[3].unk2C, &gUnknown_02022C98->unk31A0[4].unk2C, &gUnknown_02022C98->unk40, &gUnknown_02022C98->unk120, &gUnknown_02022C98->unk12C);
     gUnknown_02022C98->unk128 = 1;
 
-    for (i = 1; i < r7; i++)
-    {
-        if (   gUnknown_02022C98->unkA8[i] == 0
-            && sub_8028318(i, &gUnknown_02022C98->unk31A0[i].unk2C.unk0) == 0)
-        {
+    for (i = 1; i < r7; i++) {
+        if (gUnknown_02022C98->unkA8[i] == 0
+            && sub_8028318(i, &gUnknown_02022C98->unk31A0[i].unk2C.unk0) == 0) {
             gUnknown_02022C98->unk31A0[i].unk2C.unk0 = 0;
             gUnknown_02022C98->unk128 = 0;
         }
     }
-    if (++gUnknown_02022C98->unk124 >= 60)
-    {
-        if (gUnknown_02022C98->unk128 != 0)
-        {
+    if (++gUnknown_02022C98->unk124 >= 60) {
+        if (gUnknown_02022C98->unk128 != 0) {
             sub_8011AC8();
             gUnknown_02022C98->unk124 = 0;
-        }
-        else if (gUnknown_02022C98->unk124 > 70)
-        {
+        } else if (gUnknown_02022C98->unk124 > 70) {
             sub_8011AC8();
             gUnknown_02022C98->unk124 = 0;
         }
     }
 
-    for (i = 0; i < r7; i++)
-    {
-        if (   gUnknown_02022C98->unk31A0[i].unk2C.unk0 != 0
-            && gUnknown_02022C98->unkA8[i] == 0)
-        {
+    for (i = 0; i < r7; i++) {
+        if (gUnknown_02022C98->unk31A0[i].unk2C.unk0 != 0
+            && gUnknown_02022C98->unkA8[i] == 0) {
             gUnknown_02022C98->unkA8[i] = 1;
         }
-        switch (gUnknown_02022C98->unkA8[i])
-        {
+        switch (gUnknown_02022C98->unkA8[i]) {
         case 0:
         default:
             break;
         case 1 ... 3:
-            if (++gUnknown_02022C98->unkB0[i] >= 6)
-            {
+            if (++gUnknown_02022C98->unkB0[i] >= 6) {
                 gUnknown_02022C98->unkB0[i] = 0;
                 gUnknown_02022C98->unkA8[i] = 0;
                 gUnknown_02022C98->unk31A0[i].unk2C.unk0 = 0;
@@ -1331,8 +1209,7 @@ static void sub_80259FC(void)
             }
             break;
         case 4:
-            if (++gUnknown_02022C98->unkB0[i] >= 40)
-            {
+            if (++gUnknown_02022C98->unkB0[i] >= 40) {
                 gUnknown_02022C98->unkB0[i] = 0;
                 gUnknown_02022C98->unkA8[i] = 0;
                 gUnknown_02022C98->unk31A0[i].unk2C.unk0 = 0;
@@ -1352,23 +1229,17 @@ static void sub_8025C0C(void)
     gUnknown_02022C98->unk31A0[0].unk10 = sub_8028164(0, &gUnknown_02022C98->unk31A0[0], &gUnknown_02022C98->unk31A0[0].unk2C, &gUnknown_02022C98->unk31A0[1].unk2C, &gUnknown_02022C98->unk31A0[2].unk2C, &gUnknown_02022C98->unk31A0[3].unk2C, &gUnknown_02022C98->unk31A0[4].unk2C, &gUnknown_02022C98->unk40, &gUnknown_02022C98->unk120, &gUnknown_02022C98->unk12C);
     gUnknown_02022C98->unk128 = 1;
 
-    for (i = 1; i < r6; i++)
-    {
-        if (sub_8028374(i) != 0)
-        {
+    for (i = 1; i < r6; i++) {
+        if (sub_8028374(i) != 0) {
             gUnknown_02022C98->unk130[i] = 1;
             gUnknown_02022C98->unk128 = 0;
         }
     }
-    if (++gUnknown_02022C98->unk124 >= 60)
-    {
-        if (gUnknown_02022C98->unk128 != 0)
-        {
+    if (++gUnknown_02022C98->unk124 >= 60) {
+        if (gUnknown_02022C98->unk128 != 0) {
             sub_8011AC8();
             gUnknown_02022C98->unk124 = 0;
-        }
-        else if (gUnknown_02022C98->unk124 > 70)
-        {
+        } else if (gUnknown_02022C98->unk124 > 70) {
             sub_8011AC8();
             gUnknown_02022C98->unk124 = 0;
         }
@@ -1377,11 +1248,9 @@ static void sub_8025C0C(void)
 
 static void sub_8025D04(void)
 {
-    switch (gUnknown_02022C98->unk18)
-    {
+    switch (gUnknown_02022C98->unk18) {
     case 3:
-        if (sub_8026BB8() == TRUE)
-        {
+        if (sub_8026BB8() == TRUE) {
             sub_8026C28();
             gUnknown_02022C98->unk11C = 1;
         }
@@ -1397,8 +1266,7 @@ static void sub_8025D04(void)
 
 static void sub_8025D50(void)
 {
-    switch (gUnknown_02022C98->unk18)
-    {
+    switch (gUnknown_02022C98->unk18) {
     case 4:
         sub_8027E30(&gUnknown_02022C98->unk32CC, &gUnknown_02022C98->unk31A0[0].unk2C, &gUnknown_02022C98->unk31A0[1].unk2C, &gUnknown_02022C98->unk31A0[2].unk2C, &gUnknown_02022C98->unk31A0[3].unk2C, &gUnknown_02022C98->unk31A0[4].unk2C, gUnknown_02022C98->unk40, gUnknown_02022C98->unk120, gUnknown_02022C98->unk12C);
         break;
@@ -1410,8 +1278,7 @@ static void sub_8025D50(void)
 
 static void sub_8025E0C(void)
 {
-    switch (gUnknown_02022C98->unk18)
-    {
+    switch (gUnknown_02022C98->unk18) {
     case 4:
         sub_8028164(gUnknown_02022C98->multiplayerId, &gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId], &gUnknown_02022C98->unk31A0[0].unk2C, &gUnknown_02022C98->unk31A0[1].unk2C, &gUnknown_02022C98->unk31A0[2].unk2C, &gUnknown_02022C98->unk31A0[3].unk2C, &gUnknown_02022C98->unk31A0[4].unk2C, &gUnknown_02022C98->unk40, &gUnknown_02022C98->unk120, &gUnknown_02022C98->unk12C);
         break;
@@ -1423,21 +1290,18 @@ static void sub_8025E0C(void)
 
 static void sub_8025ED8(void)
 {
-    switch (gUnknown_02022C98->unk18)
-    {
+    switch (gUnknown_02022C98->unk18) {
     case 3:
         sub_8027DD0(1);
         gUnknown_02022C98->unk11C = 1;
         break;
     case 4:
-        if (gUnknown_02022C98->unk32CC.unk2C.unk0 != 0)
-        {
+        if (gUnknown_02022C98->unk32CC.unk2C.unk0 != 0) {
             sub_80282EC(gUnknown_02022C98->unk32CC.unk2C.unk0);
         }
         break;
     case 11:
-        if (gUnknown_02022C98->unk120 == 0 && gUnknown_02022C98->unk12C == 0)
-        {
+        if (gUnknown_02022C98->unk120 == 0 && gUnknown_02022C98->unk12C == 0) {
             sub_8028350(1);
         }
         break;
@@ -1446,39 +1310,28 @@ static void sub_8025ED8(void)
 
 static void sub_8025F48(void)
 {
-    if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 == 0)
-    {
-        if (!IsSEPlaying())
-        {
+    if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 == 0) {
+        if (!IsSEPlaying()) {
             gUnknown_02022C98->unk144 = 0;
         }
-    }
-    else if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk4 == 1)
-    {
-        if (gUnknown_02022C98->unk144 == 0)
-        {
+    } else if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk4 == 1) {
+        if (gUnknown_02022C98->unk144 == 0) {
             m4aSongNumStop(SE_SUCCESS);
             PlaySE(SE_SUCCESS);
             gUnknown_02022C98->unk144 = 1;
         }
-    }
-    else if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk8 == 1)
-    {
-        if (gUnknown_02022C98->unk144 == 0 && !IsSEPlaying())
-        {
+    } else if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk8 == 1) {
+        if (gUnknown_02022C98->unk144 == 0 && !IsSEPlaying()) {
             PlaySE(SE_BOO);
             sub_80284CC(1);
             gUnknown_02022C98->unk144 = 1;
         }
     }
 
-    if (gUnknown_02022C98->unk154 == 0 && gUnknown_02022C98->unk40 >= 10)
-    {
+    if (gUnknown_02022C98->unk154 == 0 && gUnknown_02022C98->unk40 >= 10) {
         StopMapMusic();
         gUnknown_02022C98->unk154 = 1;
-    }
-    else if (gUnknown_02022C98->unk154 == 1)
-    {
+    } else if (gUnknown_02022C98->unk154 == 1) {
         PlayFanfareByFanfareNum(11); // MUS_TOO_BAD
         gUnknown_02022C98->unk154 = 2;
     }
@@ -1489,54 +1342,38 @@ static void sub_8026044(void)
     u8 r8 = gUnknown_02022C98->unk44;
     u8 r7 = gUnknown_02022C98->unk48;
     u8 r4;
-    if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 == 0)
-    {
-        if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk4 != 1 && gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk8 != 1)
-        {
+    if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 == 0) {
+        if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk4 != 1 && gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk8 != 1) {
             gUnknown_02022C98->unk144 = 0;
         }
-    }
-    else if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk4 == 1)
-    {
-        if (gUnknown_02022C98->unk144 == 0)
-        {
+    } else if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk4 == 1) {
+        if (gUnknown_02022C98->unk144 == 0) {
             m4aSongNumStop(SE_SUCCESS);
             PlaySE(SE_SUCCESS);
             gUnknown_02022C98->unk144 = 1;
         }
-    }
-    else if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk8 == 1)
-    {
-        if (gUnknown_02022C98->unk144 == 0 && !IsSEPlaying())
-        {
+    } else if (gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk8 == 1) {
+        if (gUnknown_02022C98->unk144 == 0 && !IsSEPlaying()) {
             PlaySE(SE_BOO);
             sub_80284CC(1);
             gUnknown_02022C98->unk144 = 1;
         }
     }
-    for (r4 = r8; r4 < r7; r4++)
-    {
+    for (r4 = r8; r4 < r7; r4++) {
         struct DodrioSubstruct_31A0_14 * ptr = &gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk14;
-        if (ptr->unkB[r4] >= 10)
-        {
-            if (gUnknown_02022C98->unk148[r4] == 0)
-            {
+        if (ptr->unkB[r4] >= 10) {
+            if (gUnknown_02022C98->unk148[r4] == 0) {
                 PlaySE(SE_BALLOON_RED + ptr->unk0[r4]);
                 gUnknown_02022C98->unk148[r4] = 1;
             }
-        }
-        else
-        {
+        } else {
             gUnknown_02022C98->unk148[r4] = 0;
         }
     }
-    if (gUnknown_02022C98->unk154 == 0 && gUnknown_02022C98->unk40 >= 10)
-    {
+    if (gUnknown_02022C98->unk154 == 0 && gUnknown_02022C98->unk40 >= 10) {
         StopMapMusic();
         gUnknown_02022C98->unk154 = 1;
-    }
-    else if (gUnknown_02022C98->unk154 == 1)
-    {
+    } else if (gUnknown_02022C98->unk154 == 1) {
         PlayFanfareByFanfareNum(11); // MUS_TOO_BAD
         gUnknown_02022C98->unk154 = 2;
     }
@@ -1587,21 +1424,15 @@ static bool32 sub_8026264(void)
 {
     u8 r2 = gUnknown_02022C98->unk14 / 4;
     gUnknown_02022C98->unk14++;
-    if (r2 != 0 && gUnknown_02022C98->unk14 % 4 == 0)
-    {
-        if (r2 < gUnknown_082F7A94[gUnknown_02022C98->unk24 - 1])
-        {
+    if (r2 != 0 && gUnknown_02022C98->unk14 % 4 == 0) {
+        if (r2 < gUnknown_082F7A94[gUnknown_02022C98->unk24 - 1]) {
             SetGpuReg(REG_OFFSET_BG1HOFS,  (r2 * 8));
             SetGpuReg(REG_OFFSET_BG2HOFS, -(r2 * 8));
             return FALSE;
-        }
-        else
-        {
+        } else {
             return TRUE;
         }
-    }
-    else
-    {
+    } else {
         return FALSE;
     }
 }
@@ -1612,8 +1443,7 @@ static void sub_80262C0(void)
     u8 start = gUnknown_02022C98->unk44;
     u8 finish = gUnknown_02022C98->unk48;
 
-    for (i = start; i < finish; i++)
-    {
+    for (i = start; i < finish; i++) {
         struct DodrioSubstruct_31A0_14 * ptr = &gUnknown_02022C98->unk32CC.unk14;
         ptr->unkB[i] = (i % 2 == 0) ? 1 : 0;
         ptr->unk0[i] = 0;
@@ -1627,25 +1457,21 @@ static void sub_8026324(void)
     u8 sp8 = gUnknown_02022C98->unk24;
     u8 i, j, k, r5;
 
-    if (gUnknown_02022C98->unk40 >= 10)
+    if (gUnknown_02022C98->unk40 >= 10) {
         return;
+    }
 
-    for (i = 0; i < sp8; i++)
-    {
+    for (i = 0; i < sp8; i++) {
         u8 *ptr = &gUnknown_02022C98->unk31A0[i].unk2C.unk0;
-        if (*ptr != 0 && gUnknown_02022C98->unkA8[i] == 1)
-        {
-            for (j = sp0; j < sp4; j++)
-            {
+        if (*ptr != 0 && gUnknown_02022C98->unkA8[i] == 1) {
+            for (j = sp0; j < sp4; j++) {
                 r5 = gUnknown_082F449C[0][0][j];
-                if (gUnknown_02022C98->unkF4[r5][0] == i || gUnknown_02022C98->unkF4[r5][1] == i)
+                if (gUnknown_02022C98->unkF4[r5][0] == i || gUnknown_02022C98->unkF4[r5][1] == i) {
                     break;
-                if (sub_8026634(i, *ptr, r5) == TRUE)
-                {
-                    for (k = 0; k < 2; k++)
-                    {
-                        if (gUnknown_02022C98->unkF4[r5][k] == 0xFF)
-                        {
+                }
+                if (sub_8026634(i, *ptr, r5) == TRUE) {
+                    for (k = 0; k < 2; k++) {
+                        if (gUnknown_02022C98->unkF4[r5][k] == 0xFF) {
                             gUnknown_02022C98->unkF4[r5][k] = i;
                             gUnknown_02022C98->unkA8[i] = 2;
                             gUnknown_02022C98->unkC4[r5] = 1;
@@ -1654,49 +1480,41 @@ static void sub_8026324(void)
                     }
                     break;
                 }
-                if (gUnknown_02022C98->unk31A0[i].unk2C.unk8 == 1)
+                if (gUnknown_02022C98->unk31A0[i].unk2C.unk8 == 1) {
                     break;
+                }
             }
         }
     }
 
-    for (j = sp0; j < sp4; j++)
-    {
+    for (j = sp0; j < sp4; j++) {
         u8 id = 0xFF;
         r5 = gUnknown_082F449C[0][0][j];
-        if (gUnknown_02022C98->unkC4[r5] == 1)
-        {
+        if (gUnknown_02022C98->unkC4[r5] == 1) {
             s32 r2;
             u8 r4, r3 = gUnknown_02022C98->unk90[sub_8026D8C(r5)] / 7;
-            if (r3 >= ARRAY_COUNT(gUnknown_082F7A88) - 1)
+            if (r3 >= ARRAY_COUNT(gUnknown_082F7A88) - 1) {
                 r3 = ARRAY_COUNT(gUnknown_082F7A88) - 1;
+            }
 
             r2 = gUnknown_082F7A88[r3][gUnknown_02022C98->unk31A0[0].unk14.unk0[r5]] - gUnknown_02022C98->unkD0[r5];
-            if (r2 < 6)
+            if (r2 < 6) {
                 gUnknown_02022C98->unk9C[r5] += r2;
+            }
 
-            if (++gUnknown_02022C98->unk9C[r5] >= 6)
-            {
+            if (++gUnknown_02022C98->unk9C[r5] >= 6) {
                 gUnknown_02022C98->unk9C[r5] = 0;
-                if (gUnknown_02022C98->unkF4[r5][0] == 0xFF && gUnknown_02022C98->unkF4[r5][1] == 0xFF)
-                {
+                if (gUnknown_02022C98->unkF4[r5][0] == 0xFF && gUnknown_02022C98->unkF4[r5][1] == 0xFF) {
                     continue;
-                }
-                else if (gUnknown_02022C98->unkF4[r5][0] != 0xFF && gUnknown_02022C98->unkF4[r5][1] == 0xFF)
-                {
+                } else if (gUnknown_02022C98->unkF4[r5][0] != 0xFF && gUnknown_02022C98->unkF4[r5][1] == 0xFF) {
                     r4 = gUnknown_02022C98->unkF4[r5][0];
-                }
-                else
-                {
+                } else {
                     u8 unk0 = gUnknown_02022C98->unkF4[r5][0];
                     i = gUnknown_02022C98->unkF4[r5][1]; // Have to re-use the variable to match.
-                    if (!(Random() & 1))
-                    {
+                    if (!(Random() & 1)) {
                         r4 = unk0;
                         id = i;
-                    }
-                    else
-                    {
+                    } else {
                         r4 = i;
                         id = unk0;
                     }
@@ -1726,8 +1544,7 @@ static bool32 sub_8026634(u8 a0, u8 a1, u8 a2)
     u8 r5 = gUnknown_02022C98->unk24 - 1;
     struct DodrioSubstruct_31A0_14 * ptr = &gUnknown_02022C98->unk32CC.unk14;
 
-    switch (a1)
-    {
+    switch (a1) {
     case 3:
     default:
         r7 = 0;
@@ -1739,25 +1556,17 @@ static bool32 sub_8026634(u8 a0, u8 a1, u8 a2)
         r7 = 2;
         break;
     }
-    if (ptr->unkB[a2] == 6 || ptr->unkB[a2] == 7)
-    {
-        if (a2 == gUknnown_082F45AF[r5][a0][r7])
-        {
-            if (gUnknown_02022C98->unkC4[a2] == 1 || gUnknown_02022C98->unkC4[a2] == 2)
-            {
+    if (ptr->unkB[a2] == 6 || ptr->unkB[a2] == 7) {
+        if (a2 == gUknnown_082F45AF[r5][a0][r7]) {
+            if (gUnknown_02022C98->unkC4[a2] == 1 || gUnknown_02022C98->unkC4[a2] == 2) {
                 gUnknown_02022C98->unk31A0[a0].unk2C.unk8 = 1;
                 return FALSE;
-            }
-            else
-            {
+            } else {
                 return TRUE;
             }
         }
-    }
-    else
-    {
-        if (a2 == gUknnown_082F45AF[r5][a0][r7])
-        {
+    } else {
+        if (a2 == gUknnown_082F45AF[r5][a0][r7]) {
             gUnknown_02022C98->unkA8[a0] = 4;
             gUnknown_02022C98->unk31A0[a0].unk2C.unk8 = 1;
         }
@@ -1777,55 +1586,42 @@ static void sub_802671C(void)
 
     gUnknown_02022C98->unk120 = 0;
 
-    for (i = r1; i < r9 - 1; i++)
-    {
+    for (i = r1; i < r9 - 1; i++) {
         ptr = gUnknown_02022C98;
 
-        if (gUnknown_02022C98->unkC4[i] == 0 || gUnknown_02022C98->unkC4[i] == 1)
-        {
+        if (gUnknown_02022C98->unkC4[i] == 0 || gUnknown_02022C98->unkC4[i] == 1) {
             gUnknown_02022C98->unk120 = 1;
-            if (ptr->unk32CC.unk14.unkB[i] >= 10)
-            {
+            if (ptr->unk32CC.unk14.unkB[i] >= 10) {
                 ptr->unk32CC.unk14.unkB[i] = 10;
                 gUnknown_02022C98->unkC4[i] = 3;
-                if (gUnknown_02022C98->unk148[i] == 0)
-                {
+                if (gUnknown_02022C98->unk148[i] == 0) {
                     gUnknown_02022C98->unk148[i] = 1;
                     PlaySE(SE_BALLOON_RED + ptr->unk32CC.unk14.unk0[i]);
                 }
-                if (gUnknown_02022C98->unk40 < 10 || r10 == 1)
-                {
+                if (gUnknown_02022C98->unk40 < 10 || r10 == 1) {
                     r10 = 1;
                     gUnknown_02022C98->unk148[i] = 0;
-                    if (gUnknown_02022C98->unk40 < 10)
-                    {
+                    if (gUnknown_02022C98->unk40 < 10) {
                         gUnknown_02022C98->unk40++;
                     }
                     sub_8026F1C(3, i, 0);
                     sub_8027234(FALSE);
                 }
-            }
-            else
-            {
+            } else {
                 r3 = gUnknown_02022C98->unk90[sub_8026D8C(i)] / 7;
-                if (r3 >= 2)
-                {
+                if (r3 >= 2) {
                     r3 = 2;
                 }
                 r2 = gUnknown_082F7A88[r3][ptr->unk32CC.unk14.unk0[i]];
-                if (++gUnknown_02022C98->unkD0[i] >= r2)
-                {
+                if (++gUnknown_02022C98->unkD0[i] >= r2) {
                     ptr->unk32CC.unk14.unkB[i]++;
                     gUnknown_02022C98->unkD0[i] = 0;
                 }
                 sub_8026324();
             }
-        }
-        else if (gUnknown_02022C98->unkC4[i] == 2)
-        {
+        } else if (gUnknown_02022C98->unkC4[i] == 2) {
             gUnknown_02022C98->unk120 = 1;
-            if (++gUnknown_02022C98->unkDC[i] >= 20)
-            {
+            if (++gUnknown_02022C98->unkDC[i] >= 20) {
                 gUnknown_02022C98->unk31A0[gUnknown_02022C98->unkB8[i]].unk2C.unk4 = 0;
                 gUnknown_02022C98->unkDC[i] = 0;
                 gUnknown_02022C98->unkD0[i] = 0;
@@ -1833,13 +1629,9 @@ static void sub_802671C(void)
                 ptr->unk32CC.unk14.unkB[i] = 1;
                 ptr->unk32CC.unk14.unk0[i] = sub_8026DB0(sub_8026D8C(i), i);
             }
-        }
-        else if (gUnknown_02022C98->unkC4[i] == 3)
-        {
-            if (++gUnknown_02022C98->unkDC[i] >= 20)
-            {
-                if (gUnknown_02022C98->unk40 < 10)
-                {
+        } else if (gUnknown_02022C98->unkC4[i] == 3) {
+            if (++gUnknown_02022C98->unkDC[i] >= 20) {
+                if (gUnknown_02022C98->unk40 < 10) {
                     gUnknown_02022C98->unkDC[i] = 0;
                     gUnknown_02022C98->unkD0[i] = 0;
                     gUnknown_02022C98->unkC4[i] = 0;
@@ -1858,29 +1650,24 @@ static void sub_8026988(void)
 
     first = gUnknown_02022C98->unk44;
     count = gUnknown_02022C98->unk48;
-    for (i = first; i < count; i++)
-    {
+    for (i = first; i < count; i++) {
         struct DodrioSubstruct_31A0 *ptr = &gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId];
         u8 var = gUnknown_082F449C[gUnknown_02022C98->unk24 - 1][gUnknown_02022C98->multiplayerId][i];
 
-        if (ptr->unk14.unkB[var] != 0)
+        if (ptr->unk14.unkB[var] != 0) {
             sub_8028BF8(i, FALSE);
-        else
+        } else {
             sub_8028BF8(i, TRUE);
+        }
 
-        if (ptr->unk14.unkB[var] > 9)
-        {
+        if (ptr->unk14.unkB[var] > 9) {
             sub_8028CA4(i, ptr->unk14.unk0[var] + 3);
             sub_8028C7C(i, ptr->unk14.unkB[var] * 2 - 1);
-        }
-        else if (ptr->unk14.unk0[var] == 3)
-        {
+        } else if (ptr->unk14.unk0[var] == 3) {
             ptr->unk14.unkB[var] = 7;
             sub_8028CA4(i, 6);
             sub_8028C7C(i, ptr->unk14.unkB[var] * 2 - 1);
-        }
-        else
-        {
+        } else {
             sub_8028CA4(i, ptr->unk14.unk0[var]);
             sub_8028C7C(i, ptr->unk14.unkB[var] * 2);
         }
@@ -1892,8 +1679,7 @@ static void sub_8026A88(void)
     u8 i, count;
 
     count = gUnknown_02022C98->unk24;
-    for (i = 0; i < count; i++)
-    {
+    for (i = 0; i < count; i++) {
         struct DodrioSubstruct_31A0 *ptr = &gUnknown_02022C98->unk31A0[i];
         sub_80286B4(i, ptr->unk2C.unk0);
     }
@@ -1904,17 +1690,19 @@ static void sub_8026AC8(void)
     u8 i, count;
 
     count = gUnknown_02022C98->unk24;
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; i++) {
         sub_80286B4(i, 4);
+    }
 }
 
 static void sub_8026AF4(void)
 {
     sub_8026988();
-    if (gUnknown_02022C98->unk40 > 9)
+    if (gUnknown_02022C98->unk40 > 9) {
         sub_8026AC8();
-    else
+    } else {
         sub_8026A88();
+    }
 
     sub_80288D4(gUnknown_02022C98->unk40);
 }
@@ -1923,18 +1711,18 @@ static void sub_8026AF4(void)
 static void sub_8026B28(void)
 {
     sub_8026988();
-    if (gUnknown_02022C98->unk40 > 9)
+    if (gUnknown_02022C98->unk40 > 9) {
         sub_8026AC8();
-    else
+    } else {
         sub_8026A88();
+    }
 
     sub_80288D4(gUnknown_02022C98->unk40);
 }
 
 static void sub_8026B5C(u8 arg0, u8 *arg1, u8 *arg2)
 {
-    switch (arg0)
-    {
+    switch (arg0) {
     case 1:
         *arg1 = 4, *arg2 = 7;
         break;
@@ -1958,19 +1746,19 @@ static bool32 sub_8026BB8(void)
     u8 i, count;
 
     count = gUnknown_02022C98->unk24;
-    for (i = 1; i < count; i++)
-    {
-        if (gUnknown_02022C98->unk158[i] == 0)
+    for (i = 1; i < count; i++) {
+        if (gUnknown_02022C98->unk158[i] == 0) {
             gUnknown_02022C98->unk158[i] = sub_8027DFC(i);
+        }
     }
 
     // This loop won't ever run, the seemingly poitnless assingment below is to make the compiler
     // generate code for it.
     count = count;
-    for (; i < count; i++)
-    {
-        if (gUnknown_02022C98->unk158[i] == 0)
+    for (; i < count; i++) {
+        if (gUnknown_02022C98->unk158[i] == 0) {
             return FALSE;
+        }
     }
 
     return TRUE;
@@ -1980,17 +1768,18 @@ static void sub_8026C28(void)
 {
     u8 i;
 
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 5; i++) {
         gUnknown_02022C98->unk158[i] = 0;
+    }
 }
 
 static bool32 sub_8026C50(void)
 {
-    if (gUnknown_02022C98->unk40 > 9 && gUnknown_02022C98->unk120 == 0)
-    {
+    if (gUnknown_02022C98->unk40 > 9 && gUnknown_02022C98->unk120 == 0) {
         gUnknown_02022C98->unk40 = 10;
-        if (gUnknown_02022C98->unk12C != 0)
+        if (gUnknown_02022C98->unk12C != 0) {
             return TRUE;
+        }
     }
 
     return FALSE;
@@ -2000,20 +1789,18 @@ static bool32 sub_8026C90(void)
 {
     u8 i, first, count;
 
-    if (gUnknown_02022C98->unk40 > 9)
-    {
+    if (gUnknown_02022C98->unk40 > 9) {
         first = gUnknown_02022C98->unk44;
         count = gUnknown_02022C98->unk48;
         gUnknown_02022C98->unk40 = 10;
-        if (gUnknown_02022C98->unk12C != 0)
-        {
-            for (i = first; i < count; i++)
-            {
+        if (gUnknown_02022C98->unk12C != 0) {
+            for (i = first; i < count; i++) {
                 struct DodrioSubstruct_31A0 *ptr = &gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId];
                 u8 var = gUnknown_082F449C[gUnknown_02022C98->unk24 - 1][gUnknown_02022C98->multiplayerId][i];
 
-                if (ptr->unk14.unkB[var] != 10)
+                if (ptr->unk14.unkB[var] != 10) {
                     return FALSE;
+                }
             }
             return TRUE;
         }
@@ -2025,8 +1812,9 @@ static bool32 sub_8026C90(void)
 static void sub_8026D1C(u8 arg0)
 {
     u8 var = gUnknown_082F7A9C[gUnknown_02022C98->unk90[arg0] % 7] + (gUnknown_02022C98->unk90[arg0] / 7) * 100;
-    if (gUnknown_02022C98->unk86[arg0] >= var)
+    if (gUnknown_02022C98->unk86[arg0] >= var) {
         gUnknown_02022C98->unk90[arg0]++;
+    }
 }
 
 static u8 sub_8026D8C(u8 arg0)
@@ -2042,20 +1830,22 @@ static u8 sub_8026DB0(u8 arg0, u8 arg1)
     u8 var1 = gUnknown_082F45FA[count][arg0][1];
     u8 var2 = gUnknown_082F45FA[count][arg0][2];
 
-    for (i = 0; gUnknown_082F467F[count][i] != 0; i++)
-    {
-        if (arg1 == gUnknown_082F467F[count][i])
+    for (i = 0; gUnknown_082F467F[count][i] != 0; i++) {
+        if (arg1 == gUnknown_082F467F[count][i]) {
             return sub_8026E70(gUnknown_02022C98->unk90[var1], arg1);
+        }
     }
 
     // Gets the highest of the three.
-    if (gUnknown_02022C98->unk90[var0] > gUnknown_02022C98->unk90[var1])
+    if (gUnknown_02022C98->unk90[var0] > gUnknown_02022C98->unk90[var1]) {
         var3 = gUnknown_02022C98->unk90[var0];
-    else
+    } else {
         var3 = gUnknown_02022C98->unk90[var1];
+    }
 
-    if (gUnknown_02022C98->unk90[var2] > var3)
+    if (gUnknown_02022C98->unk90[var2] > var3) {
         var3 = gUnknown_02022C98->unk90[var2];
+    }
 
     return sub_8026E70(var3, arg1);
 }
@@ -2063,55 +1853,59 @@ static u8 sub_8026DB0(u8 arg0, u8 arg1)
 static u8 sub_8026E70(u8 arg0, u8 arg1)
 {
     u8 var = gUnknown_02022C98->unkE8[arg1];
-    switch (arg0 % 7)
-    {
+    switch (arg0 % 7) {
     default: return 0;
     case 0:  return 0;
     case 1:  return 1;
     case 2:  return 2;
     case 3:
-        if (var == 0)
+        if (var == 0) {
             return 1;
-        else
+        } else {
             return 0;
+        }
     case 4:
-        if (var == 0)
+        if (var == 0) {
             return 2;
-        else
+        } else {
             return 0;
+        }
     case 5:
-        if (var == 2)
+        if (var == 2) {
             return 1;
-        else
+        } else {
             return 2;
+        }
     case 6:
-        if (var == 0)
+        if (var == 0) {
             return 1;
-        else if (var == 1)
+        } else if (var == 1) {
             return 2;
-        else
+        } else {
             return 0;
+        }
     }
 }
 
 static bool32 sub_8026EEC(u16 arg0[5][6])
 {
     int sum, i;
-    for (sum = 0, i = 0; i < GetLinkPlayerCount(); sum += arg0[i][3], i++)
+    for (sum = 0, i = 0; i < GetLinkPlayerCount(); sum += arg0[i][3], i++) {
         ;
+    }
 
-    if (sum >= 11)
+    if (sum >= 11) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 static void sub_8026F1C(u8 arg0, u8 arg1, u8 arg2)
 {
     u8 var;
     u8 count = gUnknown_02022C98->unk24;
-    switch (arg0)
-    {
+    switch (arg0) {
     case 0:
     case 1:
     case 2:
@@ -2119,13 +1913,12 @@ static void sub_8026F1C(u8 arg0, u8 arg1, u8 arg2)
         gUnknown_02022C98->unk4A[arg2][var] = IncrementWithLimit(gUnknown_02022C98->unk4A[arg2][var], 20000);
         break;
     case 3:
-        if (sub_8026EEC(gUnknown_02022C98->unk4A))
+        if (sub_8026EEC(gUnknown_02022C98->unk4A)) {
             break;
-        switch (count)
-        {
+        }
+        switch (count) {
         case 5:
-            switch (arg1)
-            {
+            switch (arg1) {
             case 0:
                 gUnknown_02022C98->unk4A[2][3]++;
                 gUnknown_02022C98->unk4A[3][3]++;
@@ -2164,8 +1957,7 @@ static void sub_8026F1C(u8 arg0, u8 arg1, u8 arg2)
             }
             break;
         case 4:
-            switch (arg1)
-            {
+            switch (arg1) {
             case 1:
                 gUnknown_02022C98->unk4A[2][3]++;
                 gUnknown_02022C98->unk4A[3][3]++;
@@ -2197,8 +1989,7 @@ static void sub_8026F1C(u8 arg0, u8 arg1, u8 arg2)
             }
             break;
         case 3:
-            switch (arg1)
-            {
+            switch (arg1) {
             case 2:
                 gUnknown_02022C98->unk4A[1][3]++;
                 gUnknown_02022C98->unk4A[2][3]++;
@@ -2223,8 +2014,7 @@ static void sub_8026F1C(u8 arg0, u8 arg1, u8 arg2)
             }
             break;
         case 2:
-            switch (arg1)
-            {
+            switch (arg1) {
             case 3:
                 gUnknown_02022C98->unk4A[0][3]++;
                 gUnknown_02022C98->unk4A[1][3]++;
@@ -2248,20 +2038,21 @@ static void sub_8026F1C(u8 arg0, u8 arg1, u8 arg2)
 
 static void sub_8027234(bool32 arg0)
 {
-    if (gUnknown_02022C98->unk24 != 5)
+    if (gUnknown_02022C98->unk24 != 5) {
         return;
-
-    if (arg0 == TRUE)
-    {
-        if (++gUnknown_02022C98->unk112 > gUnknown_02022C98->unk114)
-            gUnknown_02022C98->unk114 = gUnknown_02022C98->unk112;
-        if (gUnknown_02022C98->unk112 > 9999)
-            gUnknown_02022C98->unk112 = 9999;
     }
-    else
-    {
-        if (gUnknown_02022C98->unk112 > gUnknown_02022C98->unk114)
+
+    if (arg0 == TRUE) {
+        if (++gUnknown_02022C98->unk112 > gUnknown_02022C98->unk114) {
             gUnknown_02022C98->unk114 = gUnknown_02022C98->unk112;
+        }
+        if (gUnknown_02022C98->unk112 > 9999) {
+            gUnknown_02022C98->unk112 = 9999;
+        }
+    } else {
+        if (gUnknown_02022C98->unk112 > gUnknown_02022C98->unk114) {
+            gUnknown_02022C98->unk114 = gUnknown_02022C98->unk112;
+        }
         gUnknown_02022C98->unk112 = 0;
     }
 }
@@ -2269,18 +2060,19 @@ static void sub_8027234(bool32 arg0)
 static void sub_80272A4(void)
 {
     u8 i;
-    for (i = 0; i < gUnknown_02022C98->unk24; i++)
+    for (i = 0; i < gUnknown_02022C98->unk24; i++) {
         gUnknown_02022C98->unk4A[i][5] = gUnknown_02022C98->unk114;
+    }
 }
 
 static void sub_80272E8(void)
 {
     u8 i, j;
 
-    for (i = 0; i < 5; i++)
-    {
-        for (j = 0; j < 11; j++)
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 11; j++) {
             gUnknown_02022C98->unk31A0[i].unk14.unkB[j] = 0;
+        }
         gUnknown_02022C98->unk31A0[i].unk2C.unk0 = 0;
         gUnknown_02022C98->unk31A0[i].unk2C.unk4 = 0;
         gUnknown_02022C98->unk90[i] = 0;
@@ -2307,22 +2099,22 @@ static void sub_80273F0(void)
 {
     u8 i, var = 0, var2 = 0;
 
-    switch (gUnknown_02022C98->unk24)
-    {
+    switch (gUnknown_02022C98->unk24) {
     case 4:  var = 1; break;
     case 5:  var = 2; break;
     }
 
     var2 = Random() % 10;
-    for (i = 0; i < 5; i++)
+    for (i = 0; i < 5; i++) {
         gUnknown_02022C98->unk4A[i][4] = gUnknown_082F7AA4[var][var2];
+    }
 }
 
 static u32 sub_802745C(u8 arg0)
 {
     u32 sum = gUnknown_02022C98->unk4A[arg0][0]
-            + gUnknown_02022C98->unk4A[arg0][1]
-            + gUnknown_02022C98->unk4A[arg0][2];
+              + gUnknown_02022C98->unk4A[arg0][1]
+              + gUnknown_02022C98->unk4A[arg0][2];
     return min(sum, 9999);
 }
 
@@ -2331,12 +2123,15 @@ static void sub_802749C(void)
     u32 berriesPicked = Min(sub_802745C(gUnknown_02022C98->multiplayerId), 9999);
     u32 score = Min(sub_80276C0(gUnknown_02022C98->multiplayerId), 999990);
 
-    if (gSaveBlock2Ptr->berryPick.bestScore < score)
+    if (gSaveBlock2Ptr->berryPick.bestScore < score) {
         gSaveBlock2Ptr->berryPick.bestScore = score;
-    if (gSaveBlock2Ptr->berryPick.berriesPicked < berriesPicked)
+    }
+    if (gSaveBlock2Ptr->berryPick.berriesPicked < berriesPicked) {
         gSaveBlock2Ptr->berryPick.berriesPicked = berriesPicked;
-    if (gSaveBlock2Ptr->berryPick.berriesPickedInRow < gUnknown_02022C98->unk114)
+    }
+    if (gSaveBlock2Ptr->berryPick.berriesPickedInRow < gUnknown_02022C98->unk114) {
         gSaveBlock2Ptr->berryPick.berriesPickedInRow = gUnknown_02022C98->unk114;
+    }
 }
 
 static u8 sub_8027518(u8 arg0)
@@ -2344,41 +2139,32 @@ static u8 sub_8027518(u8 arg0)
     u8 i, saved;
 
     saved = gUnknown_02022C98->unk98[3];
-    for (i = 3; i != 0; i--)
+    for (i = 3; i != 0; i--) {
         gUnknown_02022C98->unk98[i] = gUnknown_02022C98->unk98[i - 1];
+    }
     gUnknown_02022C98->unk98[0] = arg0;
     return saved;
 }
 
 static void sub_8027554(void)
 {
-    if (gUnknown_02022C98->unkB0[gUnknown_02022C98->multiplayerId] == 0)
-    {
-        if (JOY_NEW(DPAD_UP))
-        {
+    if (gUnknown_02022C98->unkB0[gUnknown_02022C98->multiplayerId] == 0) {
+        if (JOY_NEW(DPAD_UP)) {
             gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 = 2;
             gUnknown_02022C98->unkB0[gUnknown_02022C98->multiplayerId] = 6;
             PlaySE(SE_M_CHARM);
-        }
-        else if (JOY_NEW(DPAD_LEFT))
-        {
+        } else if (JOY_NEW(DPAD_LEFT)) {
             gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 = 3;
             gUnknown_02022C98->unkB0[gUnknown_02022C98->multiplayerId] = 6;
             PlaySE(SE_M_CHARM);
-        }
-        else if (JOY_NEW(DPAD_RIGHT))
-        {
+        } else if (JOY_NEW(DPAD_RIGHT)) {
             gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 = 1;
             gUnknown_02022C98->unkB0[gUnknown_02022C98->multiplayerId] = 6;
             PlaySE(SE_M_CHARM);
-        }
-        else
-        {
+        } else {
             gUnknown_02022C98->unk31A0[gUnknown_02022C98->multiplayerId].unk2C.unk0 = 0;
         }
-    }
-    else
-    {
+    } else {
         gUnknown_02022C98->unkB0[gUnknown_02022C98->multiplayerId]--;
     }
 }
@@ -2398,12 +2184,13 @@ static u8 sub_8027650(void)
     return gUnknown_02022C98->unk24;
 }
 
-static u8 *sub_8027660(u8 id)
+static u8 * sub_8027660(u8 id)
 {
-    if (gReceivedRemoteLinkPlayers)
+    if (gReceivedRemoteLinkPlayers) {
         return gLinkPlayers[id].name;
-    else
+    } else {
         return gUnknown_02022C98->unk31A0[id].name;
+    }
 }
 
 static u16 sub_80276A0(u8 arg0, u8 arg1)
@@ -2416,14 +2203,16 @@ static u32 sub_80276C0(u8 arg0)
     u8 i;
     u32 var, sum = 0;
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; i++) {
         sum += gUnknown_02022C98->unk4A[arg0][i] * gUnknown_082F7B24[i];
+    }
 
     var = gUnknown_02022C98->unk4A[arg0][3] * gUnknown_082F7B24[3];
-    if (sum <= var)
+    if (sum <= var) {
         return 0;
-    else
+    } else {
         return sum - var;
+    }
 }
 
 static u32 sub_8027748(void)
@@ -2431,11 +2220,11 @@ static u32 sub_8027748(void)
     u8 i, count = gUnknown_02022C98->unk24;
     u32 maxVar = sub_80276C0(0);
 
-    for (i = 1; i < count; i++)
-    {
+    for (i = 1; i < count; i++) {
         u32 var = sub_80276C0(i);
-        if (var > maxVar)
+        if (var > maxVar) {
             maxVar = var;
+        }
     }
     return Min(maxVar, 999990);
 }
@@ -2445,11 +2234,11 @@ static u32 sub_802778C(u8 arg0)
     u8 i, count = gUnknown_02022C98->unk24;
     u16 maxVar = gUnknown_02022C98->unk4A[0][arg0];
 
-    for (i = 0; i < count; i++)
-    {
+    for (i = 0; i < count; i++) {
         u16 var = gUnknown_02022C98->unk4A[i][arg0];
-        if (var > maxVar)
+        if (var > maxVar) {
             maxVar = var;
+        }
     }
     return maxVar;
 }
@@ -2460,16 +2249,14 @@ static u32 sub_80277D0(u8 arg0)
     s16 r6 = TRUE;
     u8 i, count = gUnknown_02022C98->unk24;
 
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; i++) {
         vals[i] = temp = sub_80276C0(i);
+    }
 
-    while (r6)
-    {
+    while (r6) {
         r6 = FALSE;
-        for (i = 0; i < count - 1; i++)
-        {
-            if (vals[i] < vals[i + 1])
-            {
+        for (i = 0; i < count - 1; i++) {
+            if (vals[i] < vals[i + 1]) {
                 SWAP(vals[i], vals[i + 1], temp);
                 r6 = TRUE;
             }
@@ -2485,26 +2272,22 @@ static u32 sub_802784C(void)
 
     // Function called two times for some reason.
     sub_8027748();
-    if (sub_8027748() == 0)
-    {
-        for (i = 0; i < count; i++)
-        {
+    if (sub_8027748() == 0) {
+        for (i = 0; i < count; i++) {
             gUnknown_02022C98->unk3308[i].unk0 = 4;
             gUnknown_02022C98->unk3308[i].unk4 = 0;
         }
     }
 
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; i++) {
         gUnknown_02022C98->unk3308[i].unk4 = Min(sub_80276C0(i), 999990);
+    }
 
-    do
-    {
+    do {
         u32 r6 = sub_80277D0(r10);
         u8 r3 = r8;
-        for (i = 0; i < count; i++)
-        {
-            if (r6 == gUnknown_02022C98->unk3308[i].unk4)
-            {
+        for (i = 0; i < count; i++) {
+            if (r6 == gUnknown_02022C98->unk3308[i].unk4) {
                 gUnknown_02022C98->unk3308[i].unk0 = r3;
                 r8++;
                 r9++;
@@ -2527,14 +2310,15 @@ static u8 sub_802795C(u8 arg0)
     u8 i, ret = 0, count = gUnknown_02022C98->unk24;
     u32 var, vars[5] = {0};
 
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; i++) {
         vars[i] = sub_80276C0(i);
+    }
 
     var = vars[arg0];
-    for (i = 0; i < 5; i++)
-    {
-        if (i != arg0 && var < vars[i])
+    for (i = 0; i < 5; i++) {
+        if (i != arg0 && var < vars[i]) {
             ret++;
+        }
     }
 
     return ret;
@@ -2545,33 +2329,38 @@ static u8 sub_80279C8(void)
     u8 multiplayerId = gUnknown_02022C98->multiplayerId;
     u16 itemId = sub_802762C();
 
-    if (sub_80276C0(multiplayerId) != sub_8027748())
+    if (sub_80276C0(multiplayerId) != sub_8027748()) {
         return 3;
-    if (!CheckBagHasSpace(itemId, 1))
+    }
+    if (!CheckBagHasSpace(itemId, 1)) {
         return 2;
+    }
 
     AddBagItem(itemId, 1);
-    if (!CheckBagHasSpace(itemId, 1))
+    if (!CheckBagHasSpace(itemId, 1)) {
         return 1;
+    }
     return 0;
 }
 
 // Really? What next, u32 Add(u32 a)return a+1;?
 static u32 IncrementWithLimit(u32 a, u32 max)
 {
-    if (a < max)
+    if (a < max) {
         return a + 1;
-    else
+    } else {
         return max;
+    }
 }
 
 // Gamefreak pls, min(a, b) ((a) < (b) ? (a) : (b)) is a well-known macro
 static u32 Min(u32 a, u32 b)
 {
-    if (a < b)
+    if (a < b) {
         return a;
-    else
+    } else {
         return b;
+    }
 }
 
 static u8 sub_8027A48(u8 id)
@@ -2582,11 +2371,9 @@ static u8 sub_8027A48(u8 id)
 void IsDodrioInParty(void)
 {
     int i;
-    for (i = 0; i < PARTY_SIZE; i++)
-    {
+    for (i = 0; i < PARTY_SIZE; i++) {
         if (GetMonData(&gPlayerParty[i], MON_DATA_SANITY_HAS_SPECIES)
-            && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2) == SPECIES_DODRIO)
-        {
+            && GetMonData(&gPlayerParty[i], MON_DATA_SPECIES2) == SPECIES_DODRIO) {
             gSpecialVar_Result = TRUE;
             return;
         }
@@ -2626,20 +2413,20 @@ static void Task_ShowDodrioBerryPickingRecords(u8 taskId)
     s32 i, width, widthCurr;
     s16 *data = gTasks[taskId].data;
 
-    switch (data[0])
-    {
+    switch (data[0]) {
     case 0:
         window = gUnknown_082F7B2C;
         width = GetStringWidth(1, gText_BerryPickingRecords, 0);
-        for (i = 0; i < ARRAY_COUNT(gUnknown_082F7B34); i++)
-        {
+        for (i = 0; i < ARRAY_COUNT(gUnknown_082F7B34); i++) {
             widthCurr = GetStringWidth(1, gUnknown_082F7B34[i], 0) + 50;
-            if (widthCurr > width)
+            if (widthCurr > width) {
                 width = widthCurr;
+            }
         }
         width = (width + 7) / 8;
-        if (width & 1)
+        if (width & 1) {
             width++;
+        }
         window.tilemapLeft = (30 - width) / 2;
         window.width = width;
         data[1] = AddWindow(&window);
@@ -2648,20 +2435,19 @@ static void Task_ShowDodrioBerryPickingRecords(u8 taskId)
         data[0]++;
         break;
     case 1:
-        if (!IsDma3ManagerBusyWithBgCopy())
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             data[0]++;
+        }
         break;
     case 2:
-        if (JOY_NEW(A_BUTTON | B_BUTTON))
-        {
+        if (JOY_NEW(A_BUTTON | B_BUTTON)) {
             rbox_fill_rectangle(data[1]);
             CopyWindowToVram(data[1], 1);
             data[0]++;
         }
         break;
     case 3:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             RemoveWindow(data[1]);
             DestroyTask(taskId);
             EnableBothScriptContexts();
@@ -2682,8 +2468,7 @@ static void sub_8027BEC(u8 windowId, s32 width)
     DrawTextBorderOuter(windowId, 0x21D, 0xD);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     AddTextPrinterParameterized(windowId, 1, gText_BerryPickingRecords, GetStringCenterAlignXOffset(1, gText_BerryPickingRecords, width * 8), 1, TEXT_SPEED_FF, NULL);
-    for (i = 0; i < 3; i++)
-    {
+    for (i = 0; i < 3; i++) {
         ConvertIntToDecimalStringN(gStringVar1, results[i], STR_CONV_MODE_LEFT_ALIGN, gUnknown_082F7B40[i]);
         numWidth = GetStringWidth(1, gStringVar1, -1);
         AddTextPrinterParameterized(windowId, 1, gUnknown_082F7B34[i], 0, gUnknown_082F7B44[i][0], TEXT_SPEED_FF, NULL);
@@ -2725,14 +2510,15 @@ static void sub_8027D38(void)
 {
     u8 i, playerId;
 
-    for (playerId = gUnknown_02022C98->unk24; playerId < ARRAY_COUNT(sPlaceholderPlayerNames); playerId++)
+    for (playerId = gUnknown_02022C98->unk24; playerId < ARRAY_COUNT(sPlaceholderPlayerNames); playerId++) {
         StringCopy(gLinkPlayers[playerId].name, sPlaceholderPlayerNames[playerId]);
+    }
 
     gUnknown_02022C98->unk24 = 5;
-    for (i = 0; i < 4; i++)
-    {
-        for (playerId = 0; playerId < gUnknown_02022C98->unk24; playerId++)
+    for (i = 0; i < 4; i++) {
+        for (playerId = 0; playerId < gUnknown_02022C98->unk24; playerId++) {
             gUnknown_02022C98->unk4A[playerId][i] = gUnknown_082F7B50[playerId][i];
+        }
     }
 }
 
@@ -2754,12 +2540,14 @@ static u32 sub_8027DFC(u32 arg0)
 {
     struct UnkPacket1 *packet;
 
-    if ((gRecvCmds[0][0] & 0xFF00) != RFUCMD_SEND_PACKET)
+    if ((gRecvCmds[0][0] & 0xFF00) != RFUCMD_SEND_PACKET) {
         return 0;
+    }
 
     packet = (void *)&gRecvCmds[arg0][1];
-    if (packet->id == 1)
+    if (packet->id == 1) {
         return packet->unk4;
+    }
 
     return 0;
 }
@@ -2864,12 +2652,12 @@ static u32 sub_8028164(u32 unused, struct DodrioSubstruct_31A0 *arg0, struct Dod
     struct UnkPacket2 *packet;
     struct DodrioSubstruct_31A0_14 *ptr = &arg0->unk14;
 
-    if ((gRecvCmds[0][0] & 0xFF00) != RFUCMD_SEND_PACKET)
+    if ((gRecvCmds[0][0] & 0xFF00) != RFUCMD_SEND_PACKET) {
         return 0;
+    }
 
     packet = (void *)&gRecvCmds[0][1];
-    if (packet->id == 2)
-    {
+    if (packet->id == 2) {
         ptr->unkB[0] = packet->unk1_0;
         ptr->unkB[1] = packet->unk1_1;
         ptr->unkB[2] = packet->unk2_0;
@@ -2941,12 +2729,12 @@ static u32 sub_8028318(u32 arg0, u8 *arg1)
 {
     struct UnkPacket3 *packet;
 
-    if ((gRecvCmds[0][0] & 0xFF00) != RFUCMD_SEND_PACKET)
+    if ((gRecvCmds[0][0] & 0xFF00) != RFUCMD_SEND_PACKET) {
         return 0;
+    }
 
     packet = (void *)&gRecvCmds[arg0][1];
-    if (packet->id == 3)
-    {
+    if (packet->id == 3) {
         *arg1 = packet->unk4;
         return 1;
     }
@@ -2972,12 +2760,14 @@ static u32 sub_8028374(u32 arg0)
 {
     struct UnkPacket4 *packet;
 
-    if ((gRecvCmds[0][0] & 0xFF00) != RFUCMD_SEND_PACKET)
+    if ((gRecvCmds[0][0] & 0xFF00) != RFUCMD_SEND_PACKET) {
         return 0;
+    }
 
     packet = (void *)&gRecvCmds[arg0][1];
-    if (packet->id == 4)
+    if (packet->id == 4) {
         return packet->unk4;
+    }
 
     return 0;
 }
@@ -3118,7 +2908,7 @@ static const u8 sDuplicateArray[] =
 };
 
 static const u16 gDodrioBerryBgPal1[] = INCBIN_U16("graphics/link_games/dodrioberry_bg1.gbapal",
-                                            "graphics/link_games/dodrioberry_bg2.gbapal");
+                                                   "graphics/link_games/dodrioberry_bg2.gbapal");
 static const u16 gDodrioBerryPkmnPal[] = INCBIN_U16("graphics/link_games/dodrioberry_pkmn.gbapal");
 static const u16 gDodrioBerryShinyPal[] = INCBIN_U16("graphics/link_games/dodrioberry_shiny.gbapal");
 static const u16 gDodrioBerryStatusPal[] = INCBIN_U16("graphics/link_games/dodrioberry_status.gbapal");
@@ -3352,8 +3142,7 @@ static void sub_80283A8(void)
 
     LZ77UnCompWram(gDodrioBerryPkmnGfx, ptr);
     // This check should be one line up.
-    if (ptr != NULL)
-    {
+    if (ptr != NULL) {
         struct SpriteSheet sheet = {ptr, 0x3000, 0};
         LoadSpriteSheet(&sheet);
         Free(ptr);
@@ -3382,8 +3171,7 @@ static void sub_8028408(struct DodrioSubstruct_318C *arg0, u8 arg1, u8 id, u8 ar
 
 static void sub_80284A8(struct Sprite *sprite)
 {
-    switch (sprite->data[0])
-    {
+    switch (sprite->data[0]) {
     case 0:
         break;
     case 1:
@@ -3420,10 +3208,8 @@ static u32 sub_802853C(struct Sprite *sprite)
     s8 var;
     u8 mod = (++sprite->data[1] / 2) % 4;
 
-    if (sprite->data[1] >= 3)
-    {
-        switch (mod)
-        {
+    if (sprite->data[1] >= 3) {
+        switch (mod) {
         default:
             var = 1;
             break;
@@ -3434,8 +3220,7 @@ static u32 sub_802853C(struct Sprite *sprite)
         }
 
         sprite->pos1.x += var;
-        if (++sprite->data[1] >= 40)
-        {
+        if (++sprite->data[1] >= 40) {
             sprite->data[0] = 0;
             sprite->pos1.x = sub_8028F14(0, sub_8027650());
         }
@@ -3448,10 +3233,10 @@ static u32 sub_80285AC(struct Sprite *sprite)
 {
     u8 mod = (++sprite->data[1] / 13) % 4;
 
-    if (sprite->data[1] % 13 == 0 && mod != 0)
+    if (sprite->data[1] % 13 == 0 && mod != 0) {
         PlaySE(SE_M_CHARM);
-    if (sprite->data[1] >= 104)
-    {
+    }
+    if (sprite->data[1] >= 104) {
         sprite->data[0] = 0;
         mod = 0;
     }
@@ -3462,11 +3247,11 @@ static u32 sub_80285AC(struct Sprite *sprite)
 static void sub_8028614(u8 count)
 {
     u8 i;
-    for (i = 0; i < count; i++)
-    {
+    for (i = 0; i < count; i++) {
         struct Sprite *sprite = &gSprites[*gUnknown_02022C9C[i]];
-        if (sprite != NULL)
+        if (sprite != NULL) {
             DestroySpriteAndFreeResources(sprite);
+        }
         // Memory should be freed here but is not.
     }
 }
@@ -3479,8 +3264,9 @@ static void sub_8028654(bool8 invisible, u8 id)
 static void sub_802868C(bool8 invisible, u8 count)
 {
     u8 i;
-    for (i = 0; i < count; i++)
+    for (i = 0; i < count; i++) {
         sub_8028654(invisible, i);
+    }
 }
 
 static void sub_80286B4(u8 id, u8 frameNum)
@@ -3490,14 +3276,12 @@ static void sub_80286B4(u8 id, u8 frameNum)
 
 static void nullsub_15(struct Sprite *sprite)
 {
-
 }
 
 static void sub_80286E4(void)
 {
     u8 i;
-    for (i = 0; i < 10; i++)
-    {
+    for (i = 0; i < 10; i++) {
         struct Sprite *sprite = &gSprites[gUnknown_02022CF4->unk2A[i]];
         sprite->pos1.x = (i * 16) + 48;
         sprite->pos1.y = -8 - (i * 8);
@@ -3513,8 +3297,7 @@ static void sub_8028734(void)
 
     LZ77UnCompWram(gDodrioBerryStatusGfx, ptr);
     // This check should be one line up.
-    if (ptr != NULL)
-    {
+    if (ptr != NULL) {
         struct SpriteSheet spSheet = {ptr, 0x180, 1};
         struct SpriteTemplate spTemplate =
         {
@@ -3530,8 +3313,9 @@ static void sub_8028734(void)
         gUnknown_02022CF4 = AllocZeroed(sizeof(*gUnknown_02022CF4));
         LoadSpriteSheet(&spSheet);
         LoadSpritePalette(&spPal);
-        for (i = 0; i < 10; i++)
+        for (i = 0; i < 10; i++) {
             gUnknown_02022CF4->unk2A[i] = CreateSprite(&spTemplate, (i * 16) + 48, -8 - (i * 8), 0);
+        }
     }
 
     Free(ptr);
@@ -3540,11 +3324,11 @@ static void sub_8028734(void)
 static void sub_80287E4(void)
 {
     u8 i;
-    for (i = 0; i < 10; i++)
-    {
+    for (i = 0; i < 10; i++) {
         struct Sprite *sprite = &gSprites[gUnknown_02022CF4->unk2A[i]];
-        if (sprite != NULL)
+        if (sprite != NULL) {
             DestroySpriteAndFreeResources(sprite);
+        }
     }
     FREE_AND_SET_NULL(gUnknown_02022CF4);
 }
@@ -3553,17 +3337,17 @@ static bool32 sub_8028828(void)
 {
     u8 i;
     bool32 r3 = FALSE;
-    for (i = 0; i < 10; i++)
-    {
+    for (i = 0; i < 10; i++) {
         struct Sprite *sprite = &gSprites[gUnknown_02022CF4->unk2A[i]];
         gUnknown_02022CF4->unk16[i] = 2;
-        if (gUnknown_02022CF4->unkC[i] != 0 && sprite->pos1.y == 8)
+        if (gUnknown_02022CF4->unkC[i] != 0 && sprite->pos1.y == 8) {
             continue;
+        }
         r3 = TRUE;
-        if (sprite->pos1.y == 8)
-        {
-            if (gUnknown_02022CF4->unkC[i] != 0)
+        if (sprite->pos1.y == 8) {
+            if (gUnknown_02022CF4->unkC[i] != 0) {
                 continue;
+            }
             gUnknown_02022CF4->unkC[i] = 1;
             gUnknown_02022CF4->unk16[i] = -16;
             PlaySE(SE_CLICK);
@@ -3571,50 +3355,48 @@ static bool32 sub_8028828(void)
         sprite->pos1.y += gUnknown_02022CF4->unk16[i];
     }
 
-    if (r3)
+    if (r3) {
         return FALSE;
-    else
+    } else {
         return TRUE;
+    }
 }
 
 static void sub_80288D4(u8 arg0)
 {
     u8 i;
 
-    if (arg0 > 10)
-    {
-        for (i = 0; i < 10; i++)
+    if (arg0 > 10) {
+        for (i = 0; i < 10; i++) {
             StartSpriteAnim(&gSprites[gUnknown_02022CF4->unk2A[i]], 1);
-    }
-    else
-    {
-        for (i = 0; i < 10 - arg0; i++)
-        {
-            if (arg0 > 6)
-            {
+        }
+    } else {
+        for (i = 0; i < 10 - arg0; i++) {
+            if (arg0 > 6) {
                 gUnknown_02022CF4->unk3E += arg0 - 6;
-                if (gUnknown_02022CF4->unk3E > 30)
+                if (gUnknown_02022CF4->unk3E > 30) {
                     gUnknown_02022CF4->unk3E = 0;
-                else if (gUnknown_02022CF4->unk3E > 10)
+                } else if (gUnknown_02022CF4->unk3E > 10) {
                     StartSpriteAnim(&gSprites[gUnknown_02022CF4->unk2A[i]], 2);
-                else
+                } else {
                     StartSpriteAnim(&gSprites[gUnknown_02022CF4->unk2A[i]], 0);
-            }
-            else
-            {
+                }
+            } else {
                 StartSpriteAnim(&gSprites[gUnknown_02022CF4->unk2A[i]], 0);
             }
         }
-        for (; i < 10; i++)
+        for (; i < 10; i++) {
             StartSpriteAnim(&gSprites[gUnknown_02022CF4->unk2A[i]], 1);
+        }
     }
 }
 
 static void sub_80289E8(bool8 invisible)
 {
     u8 i;
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < 10; i++) {
         gSprites[gUnknown_02022CF4->unk2A[i]].invisible = invisible;
+    }
 }
 
 // Unknown unused data, feel free to remove.
@@ -3626,8 +3408,7 @@ static void sub_8028A34(void)
     struct SpritePalette sprPal = {gDodrioBerrySpritesPal, 3};
 
     LZ77UnCompWram(gDodrioBerrySpritesGfx, ptr);
-    if (ptr != NULL)
-    {
+    if (ptr != NULL) {
         struct SpriteSheet sprSheet = {ptr, 0x480, 2};
         LoadSpriteSheet(&sprSheet);
     }
@@ -3664,20 +3445,19 @@ static void sub_8028A88(void)
         .callback = SpriteCallbackDummy,
     };
 
-    for (i = 0; i < 11; i++)
-    {
+    for (i = 0; i < 11; i++) {
         gUnknown_02022CB8[i] = AllocZeroed(4);
         x = i * 16;
         *gUnknown_02022CB8[i] = CreateSprite(&sprTemplate1, x + (i * 8), 8, 1);
         sub_8028BF8(i, TRUE);
     }
-    for (i = 0; i < 4; i++)
-    {
+    for (i = 0; i < 4; i++) {
         gUnknown_02022CE4[i] = AllocZeroed(4);
-        if (i == 3)
+        if (i == 3) {
             *gUnknown_02022CE4[i] = CreateSprite(&sprTemplate2, gUnknown_082FB31C[i], 49, 0);
-        else
+        } else {
             *gUnknown_02022CE4[i] = CreateSprite(&sprTemplate2, gUnknown_082FB31C[i], 52, 0);
+        }
         StartSpriteAnim(&gSprites[*gUnknown_02022CE4[i]], i);
     }
 
@@ -3689,18 +3469,18 @@ static void sub_8028B80(void)
     struct Sprite *sprite;
     u8 i;
 
-    for (i = 0; i < 11; i++)
-    {
+    for (i = 0; i < 11; i++) {
         sprite = &gSprites[*gUnknown_02022CB8[i]];
-        if (sprite != NULL)
+        if (sprite != NULL) {
             DestroySprite(sprite);
+        }
         FREE_AND_SET_NULL(gUnknown_02022CB8[i]);
     }
-    for (i = 0; i < 4; i++)
-    {
+    for (i = 0; i < 4; i++) {
         sprite = &gSprites[*gUnknown_02022CE4[i]];
-        if (sprite != NULL)
+        if (sprite != NULL) {
             DestroySprite(sprite);
+        }
         FREE_AND_SET_NULL(gUnknown_02022CE4[i]);
     }
 }
@@ -3713,8 +3493,9 @@ static void sub_8028BF8(u8 id, bool8 invisible)
 static void sub_8028C30(bool8 invisible)
 {
     u8 i;
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 4; i++) {
         gSprites[*gUnknown_02022CE4[i]].invisible = invisible;
+    }
 }
 
 static void sub_8028C7C(u8 id, u8 y)
@@ -3747,12 +3528,9 @@ static void sub_8028CF4(struct Sprite *sprite)
     u8 i;
     static const u8 array[] = {30, 20};
 
-    if (sprite->sKeepPosX != TRUE)
-    {
-        for (i = 0; i < 2; i++)
-        {
-            if (++gUnknown_02022CB0[i][1] > array[i])
-            {
+    if (sprite->sKeepPosX != TRUE) {
+        for (i = 0; i < 2; i++) {
+            if (++gUnknown_02022CB0[i][1] > array[i]) {
                 sprite->pos1.x--;
                 gUnknown_02022CB0[i][1] = 0;
             }
@@ -3769,8 +3547,7 @@ static void sub_8028D44(void)
     struct SpritePalette sprPal = {gDodrioBerryPlatformPal, 6};
 
     LZ77UnCompWram(gDodrioBerryPlatformGfx, ptr);
-    if (ptr != NULL)
-    {
+    if (ptr != NULL) {
         struct SpriteSheet sprSheet = {ptr, 0x400, 5};
         struct SpriteTemplate sprTemplate =
         {
@@ -3785,8 +3562,7 @@ static void sub_8028D44(void)
 
         LoadSpriteSheet(&sprSheet);
         LoadSpritePalette(&sprPal);
-        for (i = 0; i < 2; i++)
-        {
+        for (i = 0; i < 2; i++) {
             gUnknown_02022CB0[i] = AllocZeroed(4);
             *gUnknown_02022CB0[i] = CreateSprite(&sprTemplate, gUnknown_082FB356[i][0], gUnknown_082FB356[i][1], 4);
         }
@@ -3798,8 +3574,7 @@ static void sub_8028D44(void)
 static void sub_8028DFC(void)
 {
     u8 i;
-    for (i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         struct Sprite *sprite = &gSprites[*gUnknown_02022CB0[i]];
         sprite->sKeepPosX = TRUE;
         sprite->pos1.x = gUnknown_082FB356[i][0];
@@ -3810,8 +3585,7 @@ static void sub_8028DFC(void)
 static void sub_8028E4C(void)
 {
     u8 i;
-    for (i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         struct Sprite *sprite = &gSprites[*gUnknown_02022CB0[i]];
         sprite->sKeepPosX = FALSE;
     }
@@ -3820,11 +3594,11 @@ static void sub_8028E4C(void)
 static void sub_8028E84(void)
 {
     u8 i;
-    for (i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         struct Sprite *sprite = &gSprites[*gUnknown_02022CB0[i]];
-        if (sprite)
+        if (sprite) {
             DestroySprite(sprite);
+        }
         FREE_AND_SET_NULL(gUnknown_02022CB0[i]);
     }
 }
@@ -3832,8 +3606,9 @@ static void sub_8028E84(void)
 static void sub_8028EC8(bool8 invisible)
 {
     u8 i;
-    for (i = 0; i < 2; i++)
+    for (i = 0; i < 2; i++) {
         gSprites[*gUnknown_02022CB0[i]].invisible = invisible;
+    }
 }
 
 #undef sKeepPosX
@@ -3841,43 +3616,38 @@ static void sub_8028EC8(bool8 invisible)
 static s16 sub_8028F14(u8 arg0, u8 arg1)
 {
     s16 x = 0;
-    switch (arg1)
-    {
+    switch (arg1) {
     case 1:
         x = 15;
         break;
     case 2:
-        switch (arg0)
-        {
-            case 0: x = 12; break;
-            case 1: x = 18; break;
+        switch (arg0) {
+        case 0: x = 12; break;
+        case 1: x = 18; break;
         }
         break;
     case 3:
-        switch (arg0)
-        {
-            case 0: x = 15; break;
-            case 1: x = 21; break;
-            case 2: x =  9; break;
+        switch (arg0) {
+        case 0: x = 15; break;
+        case 1: x = 21; break;
+        case 2: x =  9; break;
         }
         break;
     case 4:
-        switch (arg0)
-        {
-            case 0: x = 12; break;
-            case 1: x = 18; break;
-            case 2: x = 24; break;
-            case 3: x =  6; break;
+        switch (arg0) {
+        case 0: x = 12; break;
+        case 1: x = 18; break;
+        case 2: x = 24; break;
+        case 3: x =  6; break;
         }
         break;
     case 5:
-        switch (arg0)
-        {
-            case 0: x = 15; break;
-            case 1: x = 21; break;
-            case 2: x = 27; break;
-            case 3: x =  3; break;
-            case 4: x =  9; break;
+        switch (arg0) {
+        case 0: x = 15; break;
+        case 1: x = 21; break;
+        case 2: x = 27; break;
+        case 3: x =  3; break;
+        case 4: x =  9; break;
         }
         break;
     }
@@ -3888,8 +3658,7 @@ static s16 sub_8028F14(u8 arg0, u8 arg1)
 static void sub_8028FCC(void)
 {
     u8 i;
-    for (i = 0; i < 11; i++)
-    {
+    for (i = 0; i < 11; i++) {
         sub_8028BF8(i, TRUE);
         sub_8028C7C(i, 1);
     }
@@ -4025,30 +3794,31 @@ struct
 static void sub_80292E0(u8 arg0)
 {
     u8 i;
-    for (i = 0; i < 10; i++)
-    {
-        if (gUnknown_082FB40C[i].id == arg0)
+    for (i = 0; i < 10; i++) {
+        if (gUnknown_082FB40C[i].id == arg0) {
             sub_802A72C(gUnknown_082FB40C[i].func);
+        }
     }
 }
 
 static void sub_8029314(u8 taskId)
 {
-    if (!gUnknown_02022CF8->finished)
+    if (!gUnknown_02022CF8->finished) {
         sub_802A75C()();
+    }
 }
 
 static void sub_8029338(void)
 {
-    switch (gUnknown_02022CF8->state)
-    {
+    switch (gUnknown_02022CF8->state) {
     case 0:
         sub_802A7A8();
         gUnknown_02022CF8->state++;
         break;
     case 1:
-        if (sub_802A8E8() == TRUE)
+        if (sub_802A8E8() == TRUE) {
             gUnknown_02022CF8->state++;
+        }
         break;
     case 2:
         CopyToBgTilemapBuffer(3, gDodrioBerryBgTilemap1, 0, 0);
@@ -4084,8 +3854,7 @@ static void sub_8029440(void)
     struct WindowTemplate window;
     const struct WinCoords *ptr;
 
-    switch (gUnknown_02022CF8->state)
-    {
+    switch (gUnknown_02022CF8->state) {
     case 0:
         playersCount = sub_8027650();
         ptr = gUnknown_082FB3C8[playersCount - 1];
@@ -4094,8 +3863,7 @@ static void sub_8029440(void)
         window.height = 2;
         window.paletteNum = 0xD;
         window.baseBlock = 0x13;
-        for (i = 0; i < playersCount; ptr++, i++)
-        {
+        for (i = 0; i < playersCount; ptr++, i++) {
             colorsId = 0;
             id = sub_8027A48(i);
             left = (56 - GetStringWidth(1, sub_8027660(id), -1)) / 2u;
@@ -4104,8 +3872,9 @@ static void sub_8029440(void)
             gUnknown_02022CF8->unk3008[i] = AddWindow(&window);
             ClearWindowTilemap(gUnknown_02022CF8->unk3008[i]);
             FillWindowPixelBuffer(gUnknown_02022CF8->unk3008[i], PIXEL_FILL(1));
-            if (id == GetMultiplayerId())
+            if (id == GetMultiplayerId()) {
                 colorsId = 2;
+            }
             name = sub_8027660(id);
             AddTextPrinterParameterized3(gUnknown_02022CF8->unk3008[i], 1, left, 1, sTextColorTable[colorsId], -1, name);
             CopyWindowToVram(gUnknown_02022CF8->unk3008[i], 2);
@@ -4115,21 +3884,19 @@ static void sub_8029440(void)
         gUnknown_02022CF8->state++;
         break;
     case 1:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             playersCount = sub_8027650();
-            for (i = 0; i < playersCount; i++)
+            for (i = 0; i < playersCount; i++) {
                 PutWindowTilemap(gUnknown_02022CF8->unk3008[i]);
+            }
             CopyBgTilemapBufferToVram(0);
             gUnknown_02022CF8->state++;
         }
         break;
     default:
-        if (++gUnknown_02022CF8->state > 180)
-        {
+        if (++gUnknown_02022CF8->state > 180) {
             playersCount = sub_8027650();
-            for (i = 0; i < playersCount; i++)
-            {
+            for (i = 0; i < playersCount; i++) {
                 ClearWindowTilemap(gUnknown_02022CF8->unk3008[i]);
                 RemoveWindow(gUnknown_02022CF8->unk3008[i]);
             }
@@ -4151,21 +3918,16 @@ static void sub_80296A8(u8 playersCount_)
     u8 array[5] = {0, 1, 2, 3, 4};
     struct DodrioSubstruct_3308 temp, structArray[5];
 
-    for (i = 0; i < playersCount; i++)
-    {
+    for (i = 0; i < playersCount; i++) {
         array[i] = i;
         sub_802793C(&temp, i);
         structArray[i] = temp;
     }
 
-    if (sub_8027748() != 0)
-    {
-        do
-        {
-            for (i = 0; i < playersCount; i++)
-            {
-                if (structArray[i].unk0 == r8)
-                {
+    if (sub_8027748() != 0) {
+        do {
+            for (i = 0; i < playersCount; i++) {
+                if (structArray[i].unk0 == r8) {
                     array[r6] = i;
                     r6++;
                 }
@@ -4174,22 +3936,22 @@ static void sub_80296A8(u8 playersCount_)
         } while (r6 < playersCount);
     }
 
-    for (i = 0; i < playersCount; i++)
-    {
-        if (structArray[i].unk4 == 0)
+    for (i = 0; i < playersCount; i++) {
+        if (structArray[i].unk4 == 0) {
             structArray[i].unk0 = playersCount - 1;
+        }
     }
 
     x = 216 - GetStringWidth(1, gText_SpacePoints, 0);
-    for (i = 0; i < playersCount; i++)
-    {
+    for (i = 0; i < playersCount; i++) {
         u8 colorsId = 0;
         u8 id = array[i];
         u32 points = structArray[id].unk4;
 
         AddTextPrinterParameterized(gUnknown_02022CF8->unk3008[1], 1, gUnknown_082FB3DC[structArray[id].unk0], 8, gUnknown_082FB402[i], -1, NULL);
-        if (id == GetMultiplayerId())
+        if (id == GetMultiplayerId()) {
             colorsId = 2;
+        }
         name = sub_8027660(id);
         AddTextPrinterParameterized3(gUnknown_02022CF8->unk3008[1], 1, 28, gUnknown_082FB402[i], sTextColorTable[colorsId], -1, name);
         ConvertIntToDecimalStringN(numString, points, STR_CONV_MODE_LEFT_ALIGN, 7);
@@ -4205,8 +3967,7 @@ static void sub_802988C(void)
     u8 *name;
     u32 strWidth, x;
 
-    switch (gUnknown_02022CF8->state)
-    {
+    switch (gUnknown_02022CF8->state) {
     case 0:
         sub_802784C();
         gUnknown_02022CF8->unk301C = 0;
@@ -4228,26 +3989,26 @@ static void sub_802988C(void)
         x = (224 - strWidth) / 2;
         AddTextPrinterParameterized(gUnknown_02022CF8->unk3008[0], 1, gText_BerryPickingResults, x, 1, -1, NULL);
         AddTextPrinterParameterized(gUnknown_02022CF8->unk3008[1], 1, gText_10P30P50P50P, 68, 17, -1, NULL);
-        for (i = 0; i < playersCount; i++)
-        {
+        for (i = 0; i < playersCount; i++) {
             u8 colorsId = 0;
-            if (i == GetMultiplayerId())
+            if (i == GetMultiplayerId()) {
                 colorsId = 2;
+            }
 
             name = sub_8027660(i);
             AddTextPrinterParameterized3(gUnknown_02022CF8->unk3008[1], 1, 0, gUnknown_082FB3F8[i], sTextColorTable[colorsId], -1, name);
-            for (j = 0; j < 4; j++)
-            {
+            for (j = 0; j < 4; j++) {
                 u32 width;
                 u16 result1 = Min(sub_80276A0(i, j), 9999);
                 u16 result2 = Min(sub_802778C(j), 9999);
 
                 ConvertIntToDecimalStringN(gStringVar4, result1, STR_CONV_MODE_LEFT_ALIGN, 4);
                 width = GetStringWidth(1, gStringVar4, -1);
-                if (result2 == result1 && result2 != 0)
+                if (result2 == result1 && result2 != 0) {
                     AddTextPrinterParameterized3(gUnknown_02022CF8->unk3008[1], 1, gUnknown_082FB3F0[j] - width, gUnknown_082FB3F8[i], sTextColorTable[1], -1, gStringVar4);
-                else
+                } else {
                     AddTextPrinterParameterized(gUnknown_02022CF8->unk3008[1], 1, gStringVar4, gUnknown_082FB3F0[j] - width, gUnknown_082FB3F8[i], -1, NULL);
+                }
             }
         }
         CopyWindowToVram(gUnknown_02022CF8->unk3008[0], 2);
@@ -4255,8 +4016,7 @@ static void sub_802988C(void)
         gUnknown_02022CF8->state++;
         break;
     case 3:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             PutWindowTilemap(gUnknown_02022CF8->unk3008[0]);
             PutWindowTilemap(gUnknown_02022CF8->unk3008[1]);
         }
@@ -4265,8 +4025,7 @@ static void sub_802988C(void)
         gUnknown_02022CF8->state++;
         break;
     case 4:
-        if (++gUnknown_02022CF8->unk301C >= 30 && JOY_NEW(A_BUTTON))
-        {
+        if (++gUnknown_02022CF8->unk301C >= 30 && JOY_NEW(A_BUTTON)) {
             gUnknown_02022CF8->unk301C = 0;
             PlaySE(SE_SELECT);
             sub_8028C30(TRUE);
@@ -4288,8 +4047,7 @@ static void sub_802988C(void)
         gUnknown_02022CF8->state++;
         break;
     case 7:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             PutWindowTilemap(gUnknown_02022CF8->unk3008[0]);
             PutWindowTilemap(gUnknown_02022CF8->unk3008[1]);
         }
@@ -4297,16 +4055,12 @@ static void sub_802988C(void)
         gUnknown_02022CF8->state++;
         break;
     case 8:
-        if (++gUnknown_02022CF8->unk301C >= 30 && JOY_NEW(A_BUTTON))
-        {
+        if (++gUnknown_02022CF8->unk301C >= 30 && JOY_NEW(A_BUTTON)) {
             gUnknown_02022CF8->unk301C = 0;
             PlaySE(SE_SELECT);
-            if (sub_8027748() < 3000)
-            {
+            if (sub_8027748() < 3000) {
                 gUnknown_02022CF8->state = 127;
-            }
-            else
-            {
+            } else {
                 StopMapMusic();
                 gUnknown_02022CF8->state++;
             }
@@ -4331,15 +4085,15 @@ static void sub_802988C(void)
         DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_FirstPlacePrize);
         AddTextPrinterParameterized(gUnknown_02022CF8->unk3008[1], 1, gStringVar4, 0, 1, -1, NULL);
         itemGiveRet = sub_80279C8();
-        if (itemGiveRet != 0 && itemGiveRet != 3)
-        {
+        if (itemGiveRet != 0 && itemGiveRet != 3) {
             DynamicPlaceholderTextUtil_Reset();
             CopyItemName(sub_802762C(), gStringVar1);
             DynamicPlaceholderTextUtil_SetPlaceholderPtr(0, gStringVar1);
-            if (itemGiveRet == 2)
+            if (itemGiveRet == 2) {
                 DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_CantHoldAnyMore);
-            else if (itemGiveRet == 1)
+            } else if (itemGiveRet == 1) {
                 DynamicPlaceholderTextUtil_ExpandPlaceholders(gStringVar4, gText_FilledStorageSpace);
+            }
             AddTextPrinterParameterized(gUnknown_02022CF8->unk3008[1], 1, gStringVar4, 0, 41, -1, NULL);
         }
         CopyWindowToVram(gUnknown_02022CF8->unk3008[0], 2);
@@ -4347,8 +4101,7 @@ static void sub_802988C(void)
         gUnknown_02022CF8->state++;
         break;
     case 10:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             PutWindowTilemap(gUnknown_02022CF8->unk3008[0]);
             PutWindowTilemap(gUnknown_02022CF8->unk3008[1]);
         }
@@ -4357,8 +4110,7 @@ static void sub_802988C(void)
         gUnknown_02022CF8->state++;
         break;
     case 11:
-        if (++gUnknown_02022CF8->unk301C >= 30 && JOY_NEW(A_BUTTON))
-        {
+        if (++gUnknown_02022CF8->unk301C >= 30 && JOY_NEW(A_BUTTON)) {
             gUnknown_02022CF8->unk301C = 0;
             PlaySE(SE_SELECT);
             gUnknown_02022CF8->state++;
@@ -4380,8 +4132,7 @@ static void sub_802A010(void)
 {
     u8 y;
 
-    switch (gUnknown_02022CF8->state)
-    {
+    switch (gUnknown_02022CF8->state) {
     case 0:
         gUnknown_02022CF8->unk3008[0] = AddWindow(&gUnknown_082F7BD4[0]);
         gUnknown_02022CF8->unk3008[1] = AddWindow(&gUnknown_082F7BD4[1]);
@@ -4405,8 +4156,7 @@ static void sub_802A010(void)
         gUnknown_02022CF8->state++;
         break;
     case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             PutWindowTilemap(gUnknown_02022CF8->unk3008[0]);
             PutWindowTilemap(gUnknown_02022CF8->unk3008[1]);
         }
@@ -4415,26 +4165,24 @@ static void sub_802A010(void)
         break;
     case 3:
         y = gUnknown_02022CF8->unk3020;
-        if (y == 0)
+        if (y == 0) {
             y = 1;
+        }
         FillWindowPixelBuffer(gUnknown_02022CF8->unk3008[1], PIXEL_FILL(1));
         AddTextPrinterParameterized(gUnknown_02022CF8->unk3008[1], 1, gText_Yes, 8, 1, -1, NULL);
         AddTextPrinterParameterized(gUnknown_02022CF8->unk3008[1], 1, gText_No, 8, 17, -1, NULL);
         AddTextPrinterParameterized(gUnknown_02022CF8->unk3008[1], 1, gText_SelectorArrow2, 0, ((y - 1) * 16) + 1, -1, NULL);
         CopyWindowToVram(gUnknown_02022CF8->unk3008[1], 3);
         // Increment state only if A or B button have been pressed.
-        if (JOY_NEW(A_BUTTON))
-        {
+        if (JOY_NEW(A_BUTTON)) {
             PlaySE(SE_SELECT);
-            if (gUnknown_02022CF8->unk3020 == 0)
+            if (gUnknown_02022CF8->unk3020 == 0) {
                 gUnknown_02022CF8->unk3020 = 1;
+            }
             gUnknown_02022CF8->state++;
-        }
-        else if (JOY_NEW(DPAD_UP | DPAD_DOWN))
-        {
+        } else if (JOY_NEW(DPAD_UP | DPAD_DOWN)) {
             PlaySE(SE_SELECT);
-            switch (gUnknown_02022CF8->unk3020)
-            {
+            switch (gUnknown_02022CF8->unk3020) {
             case 0:
                 gUnknown_02022CF8->unk3020 = 2;
                 break;
@@ -4445,9 +4193,7 @@ static void sub_802A010(void)
                 gUnknown_02022CF8->unk3020 = 1;
                 break;
             }
-        }
-        else if (JOY_NEW(B_BUTTON))
-        {
+        } else if (JOY_NEW(B_BUTTON)) {
             PlaySE(SE_SELECT);
             gUnknown_02022CF8->unk3020 = 2;
             gUnknown_02022CF8->state++;
@@ -4468,8 +4214,7 @@ static void sub_802A010(void)
 
 static void sub_802A380(void)
 {
-    switch (gUnknown_02022CF8->state)
-    {
+    switch (gUnknown_02022CF8->state) {
     case 0:
         DrawDialogueFrame(0, FALSE);
         AddTextPrinterParameterized2(0, 1, gText_SavingDontTurnOffPower, 0, NULL, 2, 1, 3);
@@ -4480,15 +4225,15 @@ static void sub_802A380(void)
         gUnknown_02022CF8->state++;
         break;
     case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
-        {
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             CreateTask(Task_LinkSave, 0);
             gUnknown_02022CF8->state++;
         }
         break;
     case 3:
-        if (!FuncIsActiveTask(Task_LinkSave))
+        if (!FuncIsActiveTask(Task_LinkSave)) {
             gUnknown_02022CF8->state++;
+        }
         break;
     default:
         FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 30, 20);
@@ -4500,8 +4245,7 @@ static void sub_802A380(void)
 
 static void sub_802A454(void)
 {
-    switch (gUnknown_02022CF8->state)
-    {
+    switch (gUnknown_02022CF8->state) {
     case 0:
         gUnknown_02022CF8->unk3008[0] = AddWindow(&gUnknown_082F7BEC);
         ClearWindowTilemap(gUnknown_02022CF8->unk3008[0]);
@@ -4515,8 +4259,9 @@ static void sub_802A454(void)
         gUnknown_02022CF8->state++;
         break;
     case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             PutWindowTilemap(gUnknown_02022CF8->unk3008[0]);
+        }
         CopyBgTilemapBufferToVram(0);
         gUnknown_02022CF8->state++;
         break;
@@ -4537,8 +4282,7 @@ static void sub_802A534(void)
 
 static void sub_802A588(void)
 {
-    switch (gUnknown_02022CF8->state)
-    {
+    switch (gUnknown_02022CF8->state) {
     case 0:
         gUnknown_02022CF8->unk3008[0] = AddWindow(&gUnknown_082F7BE4);
         ClearWindowTilemap(gUnknown_02022CF8->unk3008[0]);
@@ -4555,14 +4299,16 @@ static void sub_802A588(void)
         gUnknown_02022CF8->state++;
         break;
     case 2:
-        if (!IsDma3ManagerBusyWithBgCopy())
+        if (!IsDma3ManagerBusyWithBgCopy()) {
             PutWindowTilemap(gUnknown_02022CF8->unk3008[0]);
+        }
         CopyBgTilemapBufferToVram(0);
         gUnknown_02022CF8->state++;
         break;
     case 3:
-        if (++gUnknown_02022CF8->unk301C >= 120)
+        if (++gUnknown_02022CF8->unk301C >= 120) {
             gUnknown_02022CF8->state++;
+        }
         break;
     default:
         gUnknown_02022CF8->unk3024 = 5;
@@ -4583,7 +4329,6 @@ static void sub_802A6FC(void)
 
 static void nullsub_16(void)
 {
-
 }
 
 static void sub_802A72C(void (*func)(void))
@@ -4600,10 +4345,11 @@ static void (*sub_802A75C(void))(void)
 
 static bool32 sub_802A770(void)
 {
-    if (gUnknown_02022CF8->finished == TRUE)
+    if (gUnknown_02022CF8->finished == TRUE) {
         return FALSE;
-    else
+    } else {
         return TRUE;
+    }
 }
 
 static u8 sub_802A794(void)
@@ -4614,7 +4360,7 @@ static u8 sub_802A794(void)
 static void sub_802A7A8(void)
 {
     DmaClearLarge16(3, (void *)VRAM, VRAM_SIZE, 0x1000);
-    DmaClear32(3,(void *)OAM, OAM_SIZE);
+    DmaClear32(3, (void *)OAM, OAM_SIZE);
     DmaClear16(3, (void *)PLTT, PLTT_SIZE);
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     ResetBgsAndClearDma3BusyFlags(0);
@@ -4637,8 +4383,7 @@ static void sub_802A7A8(void)
 
 static bool32 sub_802A8E8(void)
 {
-    switch (gUnknown_02022CF8->unk3018)
-    {
+    switch (gUnknown_02022CF8->unk3018) {
     case 0:
         LoadPalette(gDodrioBerryBgPal1, 0, sizeof(gDodrioBerryBgPal1));
         break;
@@ -4652,8 +4397,9 @@ static bool32 sub_802A8E8(void)
         DecompressAndCopyTileDataToVram(1, gDodrioBerryBgGfx2, 0, 0, 0);
         break;
     case 4:
-        if (FreeTempTileDataBuffersIfPossible() == TRUE)
+        if (FreeTempTileDataBuffersIfPossible() == TRUE) {
             return FALSE;
+        }
         break;
     case 5:
         LoadPalette(GetTextWindowPalette(3), 0xD0, 0x20);

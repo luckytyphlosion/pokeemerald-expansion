@@ -64,8 +64,9 @@ void AGBPutc(const char cChr)
     AGBPutcInternal(cChr);
     *pWSCNT = nOldWSCNT;
     pPrint = (struct AGBPrintStruct *)AGB_PRINT_STRUCT_ADDR;
-    if (pPrint->m_nPut == ((pPrint->m_nGet - 1) & 0xFFFF))
+    if (pPrint->m_nPut == ((pPrint->m_nGet - 1) & 0xFFFF)) {
         AGBPrintFlush1Block();
+    }
 }
 
 void AGBPrint(const char *pBuf)
@@ -74,8 +75,7 @@ void AGBPrint(const char *pBuf)
     u16 *pWSCNT = (u16 *)REG_ADDR_WAITCNT;
     u16 nOldWSCNT = *pWSCNT;
     *pWSCNT = WSCNT_DATA;
-    while (*pBuf)
-    {
+    while (*pBuf) {
         AGBPutc(*pBuf);
         pBuf++;
     }
@@ -112,17 +112,13 @@ static void AGBPrintTransferDataInternal(u32 bAllData)
     *pIME = nIME & ~1;
     *pWSCNT = WSCNT_DATA;
 
-    if (bAllData)
-    {
-        while (pPrint->m_nPut != pPrint->m_nGet)
-        {
+    if (bAllData) {
+        while (pPrint->m_nPut != pPrint->m_nGet) {
             *pProtect = 0x20;
             lpfnFuncFlush();
             *pProtect = 0;
         }
-    }
-    else if (pPrint->m_nPut != pPrint->m_nGet)
-    {
+    } else if (pPrint->m_nPut != pPrint->m_nGet) {
         *pProtect = 0x20;
         lpfnFuncFlush();
         *pProtect = 0;
@@ -144,34 +140,31 @@ void AGBPrintFlush(void)
 
 void AGBAssert(const char *pFile, int nLine, const char *pExpression, int nStopProgram)
 {
-    if (nStopProgram)
-    {
+    if (nStopProgram) {
         AGBPrintf("ASSERTION FAILED  FILE=[%s] LINE=[%d]  EXP=[%s] \n", pFile, nLine, pExpression);
         AGBPrintFlush();
-        asm(".hword 0xEFFF");
-    }
-    else
-    {
+        asm (".hword 0xEFFF");
+    } else {
         AGBPrintf("WARING FILE=[%s] LINE=[%d]  EXP=[%s] \n", pFile, nLine, pExpression);
     }
 }
 
 // no$gba print functions, uncomment to use
 /*
-void NoCashGBAPrint(const char *pBuf)
-{
-    *(volatile u32*)NOCASHGBAPRINTADDR2 = (u32)pBuf;
-}
+   void NoCashGBAPrint(const char *pBuf)
+   {
+ *(volatile u32*)NOCASHGBAPRINTADDR2 = (u32)pBuf;
+   }
 
-void NoCashGBAPrintf(const char *pBuf, ...)
-{
+   void NoCashGBAPrintf(const char *pBuf, ...)
+   {
     char bufPrint[0x100];
     va_list vArgv;
     va_start(vArgv, pBuf);
     vsprintf(bufPrint, pBuf, vArgv);
     va_end(vArgv);
     NoCashGBAPrint(bufPrint);
-}
-*/
+   }
+ */
 
 #endif

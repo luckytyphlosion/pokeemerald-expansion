@@ -169,30 +169,30 @@ static const u16 sPrizeListAttract[]     = {ITEM_TM45_ATTRACT,     ITEM_ETHER, I
 
 static const u16 *const sPrizeLists1[NUM_TRAINER_HILL_PRIZE_LISTS] =
 {
-	sPrizeListRareCandy1,
-	sPrizeListLuxuryBall1,
-	sPrizeListMaxRevive1,
-	sPrizeListMaxEther1,
-	sPrizeListElixir1,
-	sPrizeListRoar,
-	sPrizeListSludgeBomb,
-	sPrizeListToxic,
-	sPrizeListSunnyDay,
-	sPrizeListEarthQuake
+    sPrizeListRareCandy1,
+    sPrizeListLuxuryBall1,
+    sPrizeListMaxRevive1,
+    sPrizeListMaxEther1,
+    sPrizeListElixir1,
+    sPrizeListRoar,
+    sPrizeListSludgeBomb,
+    sPrizeListToxic,
+    sPrizeListSunnyDay,
+    sPrizeListEarthQuake
 };
 
 static const u16 *const sPrizeLists2[NUM_TRAINER_HILL_PRIZE_LISTS] =
 {
-	sPrizeListRareCandy2,
-	sPrizeListLuxuryBall2,
-	sPrizeListMaxRevive2,
-	sPrizeListMaxEther2,
-	sPrizeListElixir2,
-	sPrizeListBrickBreak,
-	sPrizeListTorment,
-	sPrizeListSkillSwap,
-	sPrizeListGigaDrain,
-	sPrizeListAttract
+    sPrizeListRareCandy2,
+    sPrizeListLuxuryBall2,
+    sPrizeListMaxRevive2,
+    sPrizeListMaxEther2,
+    sPrizeListElixir2,
+    sPrizeListBrickBreak,
+    sPrizeListTorment,
+    sPrizeListSkillSwap,
+    sPrizeListGigaDrain,
+    sPrizeListAttract
 };
 
 static const u16 *const *const sPrizeListSets[] =
@@ -221,7 +221,7 @@ static const u8 *const sFloorStrings[] =
     gText_TrainerHill4F,
 };
 
-static void (* const sHillFunctions[])(void) =
+static void (*const sHillFunctions[])(void) =
 {
     [TRAINER_HILL_FUNC_START]                 = TrainerHillStartChallenge,
     [TRAINER_HILL_FUNC_GET_OWNER_STATE]       = GetOwnerState,
@@ -261,16 +261,16 @@ static const struct ObjectEventTemplate sTrainerObjectEventTemplate =
     .trainerType = TRAINER_TYPE_NORMAL,
 };
 
-static const u32 sNextFloorMapNum[NUM_TRAINER_HILL_FLOORS] = 
+static const u32 sNextFloorMapNum[NUM_TRAINER_HILL_FLOORS] =
 {
-    MAP_NUM(TRAINER_HILL_2F), 
-    MAP_NUM(TRAINER_HILL_3F), 
-    MAP_NUM(TRAINER_HILL_4F), 
+    MAP_NUM(TRAINER_HILL_2F),
+    MAP_NUM(TRAINER_HILL_3F),
+    MAP_NUM(TRAINER_HILL_4F),
     MAP_NUM(TRAINER_HILL_ROOF)
 };
-static const u8 sTrainerPartySlots[][PARTY_SIZE / 2] = 
+static const u8 sTrainerPartySlots[][PARTY_SIZE / 2] =
 {
-    {0, 1, 2}, 
+    {0, 1, 2},
     {3, 4, 5}
 };
 
@@ -289,8 +289,9 @@ void ResetTrainerHillResults(void)
     gSaveBlock2Ptr->frontier.savedGame = 0;
     gSaveBlock2Ptr->frontier.unk_EF9 = 0;
     gSaveBlock1Ptr->trainerHill.bestTime = 0;
-    for (i = 0; i < 4; i++)
+    for (i = 0; i < 4; i++) {
         SetTimerValue(&gSaveBlock1Ptr->trainerHillTimes[i], HILL_MAX_TIME);
+    }
 }
 
 static u8 GetFloorId(void)
@@ -310,8 +311,9 @@ void GetTrainerHillTrainerName(u8 *dst, u16 trainerId)
     s32 i;
     u8 id = trainerId - 1;
 
-    for (i = 0; i < HILL_TRAINER_NAME_LENGTH; i++)
+    for (i = 0; i < HILL_TRAINER_NAME_LENGTH; i++) {
         dst[i] = sRoomTrainers->name[id][i];
+    }
 }
 
 u8 GetTrainerHillTrainerFrontSpriteId(u16 trainerId)
@@ -333,10 +335,8 @@ void InitTrainerHillBattleStruct(void)
     SetUpDataStruct();
     sRoomTrainers = AllocZeroed(sizeof(*sRoomTrainers));
 
-    for (i = 0; i < 2; i++)
-    {
-        for (j = 0; j < HILL_TRAINER_NAME_LENGTH; j++)
-        {
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < HILL_TRAINER_NAME_LENGTH; j++) {
             sRoomTrainers->name[i][j] = sHillData->floors[sHillData->floorId].trainers[i].name[j];
         }
         sRoomTrainers->facilityClass[i] = sHillData->floors[sHillData->floorId].trainers[i].facilityClass;
@@ -347,14 +347,14 @@ void InitTrainerHillBattleStruct(void)
 
 void FreeTrainerHillBattleStruct(void)
 {
-    if (sRoomTrainers != NULL)
+    if (sRoomTrainers != NULL) {
         FREE_AND_SET_NULL(sRoomTrainers);
+    }
 }
 
 static void SetUpDataStruct(void)
 {
-    if (sHillData == NULL)
-    {
+    if (sHillData == NULL) {
         sHillData = AllocZeroed(sizeof(struct TrHillStruct2));
         sHillData->floorId = gMapHeader.mapLayoutId - LAYOUT_TRAINER_HILL_1F;
         CpuCopy32(sDataPerTag[gSaveBlock1Ptr->trainerHill.tag], &sHillData->tag, sizeof(sHillData->tag) + 4 * sizeof(struct TrHillFloor));
@@ -364,8 +364,9 @@ static void SetUpDataStruct(void)
 
 static void FreeDataStruct(void)
 {
-    if (sHillData != NULL)
+    if (sHillData != NULL) {
         FREE_AND_SET_NULL(sHillData);
+    }
 }
 
 void CopyTrainerHillTrainerText(u8 which, u16 trainerId)
@@ -376,8 +377,7 @@ void CopyTrainerHillTrainerText(u8 which, u16 trainerId)
     floorId = GetFloorId();
     id = trainerId - 1;
 
-    switch (which)
-    {
+    switch (which) {
     case TRAINER_HILL_TEXT_INTRO:
         FrontierSpeechToString(sHillData->floors[floorId].trainers[id].speechBefore);
         break;
@@ -398,10 +398,11 @@ void CopyTrainerHillTrainerText(u8 which, u16 trainerId)
 static void TrainerHillStartChallenge(void)
 {
     nullsub_2();
-    if (!ReadTrainerHillAndValidate())
+    if (!ReadTrainerHillAndValidate()) {
         gSaveBlock1Ptr->trainerHill.field_3D6E_0f = 1;
-    else
+    } else {
         gSaveBlock1Ptr->trainerHill.field_3D6E_0f = 0;
+    }
 
     gSaveBlock1Ptr->trainerHill.unk_3D6C = 0;
     SetTrainerHillVBlankCounter(&gSaveBlock1Ptr->trainerHill.timer);
@@ -418,10 +419,12 @@ static void GetOwnerState(void)
 {
     ClearTrainerHillVBlankCounter();
     gSpecialVar_Result = 0;
-    if (gSaveBlock1Ptr->trainerHill.spokeToOwner)
+    if (gSaveBlock1Ptr->trainerHill.spokeToOwner) {
         gSpecialVar_Result++;
-    if (gSaveBlock1Ptr->trainerHill.receivedPrize && gSaveBlock1Ptr->trainerHill.checkedFinalTime)
+    }
+    if (gSaveBlock1Ptr->trainerHill.receivedPrize && gSaveBlock1Ptr->trainerHill.checkedFinalTime) {
         gSpecialVar_Result++;
+    }
 
     gSaveBlock1Ptr->trainerHill.spokeToOwner = TRUE;
 }
@@ -430,19 +433,14 @@ static void GiveChallengePrize(void)
 {
     u16 itemId = GetPrizeItemId();
 
-    if (sHillData->tag.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.receivedPrize)
-    {
+    if (sHillData->tag.numFloors != NUM_TRAINER_HILL_FLOORS || gSaveBlock1Ptr->trainerHill.receivedPrize) {
         gSpecialVar_Result = 2;
-    }
-    else if (AddBagItem(itemId, 1) == TRUE)
-    {
+    } else if (AddBagItem(itemId, 1) == TRUE) {
         CopyItemName(itemId, gStringVar2);
         gSaveBlock1Ptr->trainerHill.receivedPrize = TRUE;
         gSaveBlock2Ptr->frontier.unk_EF9 = 0;
         gSpecialVar_Result = 0;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = 1;
     }
 }
@@ -451,18 +449,13 @@ static void GiveChallengePrize(void)
 // Otherwise the owner says it was a slow time and to complete it faster next time
 static void CheckFinalTime(void)
 {
-    if (gSaveBlock1Ptr->trainerHill.checkedFinalTime)
-    {
+    if (gSaveBlock1Ptr->trainerHill.checkedFinalTime) {
         gSpecialVar_Result = 2;
-    }
-    else if (GetTimerValue(&gSaveBlock1Ptr->trainerHill.bestTime) > gSaveBlock1Ptr->trainerHill.timer)
-    {
+    } else if (GetTimerValue(&gSaveBlock1Ptr->trainerHill.bestTime) > gSaveBlock1Ptr->trainerHill.timer) {
         SetTimerValue(&gSaveBlock1Ptr->trainerHill.bestTime, gSaveBlock1Ptr->trainerHill.timer);
         gSaveBlock1Ptr->trainerHillTimes[gSaveBlock1Ptr->trainerHill.tag] = gSaveBlock1Ptr->trainerHill.bestTime;
         gSpecialVar_Result = 0;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = 1;
     }
 
@@ -471,12 +464,12 @@ static void CheckFinalTime(void)
 
 static void TrainerHillResumeTimer(void)
 {
-    if (!gSaveBlock1Ptr->trainerHill.spokeToOwner)
-    {
-        if (gSaveBlock1Ptr->trainerHill.timer >= HILL_MAX_TIME)
+    if (!gSaveBlock1Ptr->trainerHill.spokeToOwner) {
+        if (gSaveBlock1Ptr->trainerHill.timer >= HILL_MAX_TIME) {
             gSaveBlock1Ptr->trainerHill.timer = HILL_MAX_TIME;
-        else
+        } else {
             SetTrainerHillVBlankCounter(&gSaveBlock1Ptr->trainerHill.timer);
+        }
     }
 }
 
@@ -487,20 +480,15 @@ static void TrainerHillSetPlayerLost(void)
 
 static void TrainerHillGetChallengeStatus(void)
 {
-    if (gSaveBlock1Ptr->trainerHill.hasLost)
-    {
+    if (gSaveBlock1Ptr->trainerHill.hasLost) {
         // The player lost their last match.
         gSaveBlock1Ptr->trainerHill.hasLost = FALSE;
         gSpecialVar_Result = TRAINER_HILL_PLAYER_STATUS_LOST;
-    }
-    else if (gSaveBlock1Ptr->trainerHill.maybeECardScanDuringChallenge)
-    {
+    } else if (gSaveBlock1Ptr->trainerHill.maybeECardScanDuringChallenge) {
         // Unreachable code. Something relating to eCards?
         gSaveBlock1Ptr->trainerHill.maybeECardScanDuringChallenge = 0;
         gSpecialVar_Result = TRAINER_HILL_PLAYER_STATUS_ECARD_SCANNED;
-    }
-    else
-    {
+    } else {
         // Continue playing.
         gSpecialVar_Result = TRAINER_HILL_PLAYER_STATUS_NORMAL;
     }
@@ -511,8 +499,9 @@ static void BufferChallengeTime(void)
     s32 total, minutes, secondsWhole, secondsFraction;
 
     total = gSaveBlock1Ptr->trainerHill.timer;
-    if (total >= HILL_MAX_TIME)
+    if (total >= HILL_MAX_TIME) {
         total = HILL_MAX_TIME;
+    }
 
     minutes = total / (60 * 60);
     total %= (60 * 60);
@@ -531,13 +520,10 @@ static void BufferChallengeTime(void)
 static void GetAllFloorsUsed(void)
 {
     SetUpDataStruct();
-    if (sHillData->tag.numFloors != NUM_TRAINER_HILL_FLOORS)
-    {
+    if (sHillData->tag.numFloors != NUM_TRAINER_HILL_FLOORS) {
         ConvertIntToDecimalStringN(gStringVar1, sHillData->tag.numFloors, STR_CONV_MODE_LEFT_ALIGN, 1);
         gSpecialVar_Result = FALSE;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = TRUE;
     }
 
@@ -555,32 +541,32 @@ static void GetInEReaderMode(void)
 
 bool8 InTrainerHillChallenge(void)
 {
-    if (VarGet(VAR_TRAINER_HILL_IS_ACTIVE) == 0)
+    if (VarGet(VAR_TRAINER_HILL_IS_ACTIVE) == 0) {
         return FALSE;
-    else if (gSaveBlock1Ptr->trainerHill.spokeToOwner)
+    } else if (gSaveBlock1Ptr->trainerHill.spokeToOwner) {
         return FALSE;
-    else if (GetCurrentTrainerHillMapId() != 0)
+    } else if (GetCurrentTrainerHillMapId() != 0) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 static void IsTrainerHillChallengeActive(void)
 {
-    if (!InTrainerHillChallenge())
+    if (!InTrainerHillChallenge()) {
         gSpecialVar_Result = FALSE;
-    else
+    } else {
         gSpecialVar_Result = TRUE;
+    }
 }
 
 void nullsub_129(void)
 {
-
 }
 
 static void nullsub_2(void)
 {
-
 }
 
 void PrintOnTrainerHillRecordsWindow(void)
@@ -594,8 +580,7 @@ void PrintOnTrainerHillRecordsWindow(void)
     AddTextPrinterParameterized3(0, 1, x, 2, sRecordWinColors, TEXT_SPEED_FF, gText_TimeBoard);
 
     y = 18;
-    for (i = 0; i < 4; i++)
-    {
+    for (i = 0; i < 4; i++) {
         AddTextPrinterParameterized3(0, 1, 0, y, sRecordWinColors, TEXT_SPEED_FF, sTagMatchStrings[i]);
         y += 15;
         total = GetTimerValue(&gSaveBlock1Ptr->trainerHillTimes[i]);
@@ -635,17 +620,18 @@ void LoadTrainerHillObjectEventTemplates(void)
     u8 i, floorId;
     struct ObjectEventTemplate *eventTemplates = gSaveBlock1Ptr->objectEventTemplates;
 
-    if (!LoadTrainerHillFloorObjectEventScripts())
+    if (!LoadTrainerHillFloorObjectEventScripts()) {
         return;
+    }
 
     SetUpDataStruct();
-    for (i = 0; i < 2; i++)
+    for (i = 0; i < 2; i++) {
         gSaveBlock2Ptr->frontier.trainerIds[i] = 0xFFFF;
+    }
     CpuFill32(0, gSaveBlock1Ptr->objectEventTemplates, sizeof(gSaveBlock1Ptr->objectEventTemplates));
 
     floorId = GetFloorId();
-    for (i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         u8 bits;
 
         eventTemplates[i] = sTrainerObjectEventTemplate;
@@ -690,15 +676,13 @@ void GenerateTrainerHillFloorLayout(u16 *mapArg)
     u16 *src, *dst;
     u8 mapId = GetCurrentTrainerHillMapId();
 
-    if (mapId == TRAINER_HILL_ENTRANCE)
-    {
+    if (mapId == TRAINER_HILL_ENTRANCE) {
         InitMapFromSavedGame();
         return;
     }
 
     SetUpDataStruct();
-    if (mapId == TRAINER_HILL_ROOF)
-    {
+    if (mapId == TRAINER_HILL_ROOF) {
         InitMapFromSavedGame();
         FreeDataStruct();
         return;
@@ -710,18 +694,18 @@ void GenerateTrainerHillFloorLayout(u16 *mapArg)
     gBackupMapLayout.width = 31;
     gBackupMapLayout.height = 35;
     dst = mapArg + 224;
-    for (i = 0; i < 5; i++)
-    {
-        for (j = 0; j < 16; j++)
+    for (i = 0; i < 5; i++) {
+        for (j = 0; j < 16; j++) {
             dst[j] = src[j];
+        }
         dst += 31;
         src += 16;
     }
 
-    for (i = 0; i < 16; i++)
-    {
-        for (j = 0; j < 16; j++)
+    for (i = 0; i < 16; i++) {
+        for (j = 0; j < 16; j++) {
             dst[j] = GetMetatileForFloor(mapId, j, i, 0x10);
+        }
         dst += 31;
     }
 
@@ -736,10 +720,11 @@ bool32 InTrainerHill(void)
     if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_1F
         || gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_2F
         || gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_3F
-        || gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_4F)
+        || gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_4F) {
         ret = TRUE;
-    else
+    } else {
         ret = FALSE;
+    }
 
     return ret;
 }
@@ -748,20 +733,21 @@ u8 GetCurrentTrainerHillMapId(void)
 {
     u8 mapId;
 
-    if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_1F)
+    if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_1F) {
         mapId = TRAINER_HILL_1F;
-    else if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_2F)
+    } else if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_2F) {
         mapId = TRAINER_HILL_2F;
-    else if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_3F)
+    } else if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_3F) {
         mapId = TRAINER_HILL_3F;
-    else if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_4F)
+    } else if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_4F) {
         mapId = TRAINER_HILL_4F;
-    else if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_ROOF)
+    } else if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_ROOF) {
         mapId = TRAINER_HILL_ROOF;
-    else if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_ENTRANCE)
+    } else if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_ENTRANCE) {
         mapId = TRAINER_HILL_ENTRANCE;
-    else
+    } else {
         mapId = 0;
+    }
 
     return mapId;
 }
@@ -771,10 +757,11 @@ static bool32 OnTrainerHillRoof(void)
 {
     bool32 onRoof;
 
-    if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_ROOF)
+    if (gMapHeader.mapLayoutId == LAYOUT_TRAINER_HILL_ROOF) {
         onRoof = TRUE;
-    else
+    } else {
         onRoof = FALSE;
+    }
 
     return onRoof;
 }
@@ -793,12 +780,14 @@ const struct WarpEvent* SetWarpDestinationTrainerHillFinalFloor(u8 warpEventId)
     u8 numFloors;
     const struct MapHeader *header;
 
-    if (warpEventId == 1)
+    if (warpEventId == 1) {
         return &gMapHeader.events->warps[1];
+    }
 
     numFloors = GetNumFloorsInTrainerHillChallenge();
-    if (numFloors == 0 || numFloors > NUM_TRAINER_HILL_FLOORS)
+    if (numFloors == 0 || numFloors > NUM_TRAINER_HILL_FLOORS) {
         numFloors = NUM_TRAINER_HILL_FLOORS;
+    }
 
     header = Overworld_GetMapHeaderByGroupAndId(MAP_GROUP(TRAINER_HILL_4F), sNextFloorMapNum[numFloors - 1]);
     return &header->events->warps[0];
@@ -822,21 +811,16 @@ void SetHillTrainerFlag(void)
     u8 i;
     u8 floorId = GetFloorId() * 2;
 
-    for (i = 0; i < 2; i++)
-    {
-        if (gSaveBlock2Ptr->frontier.trainerIds[i] == gTrainerBattleOpponent_A)
-        {
+    for (i = 0; i < 2; i++) {
+        if (gSaveBlock2Ptr->frontier.trainerIds[i] == gTrainerBattleOpponent_A) {
             gSaveBlock2Ptr->frontier.trainerFlags |= gBitTable[floorId + i];
             break;
         }
     }
 
-    if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS)
-    {
-        for (i = 0; i < 2; i++)
-        {
-            if (gSaveBlock2Ptr->frontier.trainerIds[i] == gTrainerBattleOpponent_B)
-            {
+    if (gBattleTypeFlags & BATTLE_TYPE_TWO_OPPONENTS) {
+        for (i = 0; i < 2; i++) {
+            if (gSaveBlock2Ptr->frontier.trainerIds[i] == gTrainerBattleOpponent_B) {
                 gSaveBlock2Ptr->frontier.trainerFlags |= gBitTable[floorId + i];
                 break;
             }
@@ -844,7 +828,7 @@ void SetHillTrainerFlag(void)
     }
 }
 
-const u8 *GetTrainerHillTrainerScript(void)
+const u8 * GetTrainerHillTrainerScript(void)
 {
     return TrainerHill_EventScript_TrainerBattle;
 }
@@ -860,15 +844,15 @@ static void CreateNPCTrainerHillParty(u16 trainerId, u8 firstMonId)
     u8 trId, level;
     s32 i, floorId, partySlot;
 
-    if (trainerId == 0 || trainerId > 2)
+    if (trainerId == 0 || trainerId > 2) {
         return;
+    }
 
     trId = trainerId - 1;
     SetUpDataStruct();
     level = GetHighestLevelInPlayerParty();
     floorId = GetFloorId();
-    for (i = firstMonId, partySlot = 0; i < firstMonId + 3; i++, partySlot++)
-    {
+    for (i = firstMonId, partySlot = 0; i < firstMonId + 3; i++, partySlot++) {
         u8 id = sTrainerPartySlots[trId][partySlot];
         struct Pokemon *mon = &gEnemyParty[i];
 
@@ -897,7 +881,7 @@ void FillHillTrainersParties(void)
 // hill trainers.
 u32 GetTrainerHillAIFlags(void)
 {
-    return (AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY);
+    return(AI_SCRIPT_CHECK_BAD_MOVE | AI_SCRIPT_TRY_TO_FAINT | AI_SCRIPT_CHECK_VIABILITY);
 }
 
 u8 GetTrainerEncounterMusicIdInTrainerHill(u16 trainerId)
@@ -910,10 +894,10 @@ u8 GetTrainerEncounterMusicIdInTrainerHill(u16 trainerId)
     facilityClass = sHillData->floors[sHillData->floorId].trainers[trId].facilityClass;
     FreeDataStruct();
 
-    for (i = 0; i < ARRAY_COUNT(sTrainerClassesAndMusic); i++)
-    {
-        if (sTrainerClassesAndMusic[i].trainerClass == gFacilityClassToTrainerClass[facilityClass])
+    for (i = 0; i < ARRAY_COUNT(sTrainerClassesAndMusic); i++) {
+        if (sTrainerClassesAndMusic[i].trainerClass == gFacilityClassToTrainerClass[facilityClass]) {
             return sTrainerClassesAndMusic[i].musicId;
+        }
     }
 
     return 0;
@@ -948,8 +932,9 @@ static void SetAllTrainerFlags(void)
 // Palette never loaded, OnTrainerHillEReaderChallengeFloor always FALSE
 void TryLoadTrainerHillEReaderPalette(void)
 {
-    if (OnTrainerHillEReaderChallengeFloor() == TRUE)
+    if (OnTrainerHillEReaderChallengeFloor() == TRUE) {
         LoadPalette(sEReader_Pal, 0x70, 0x20);
+    }
 }
 
 static void GetGameSaved(void)
@@ -970,22 +955,25 @@ static void ClearGameSaved(void)
 // Always FALSE
 bool32 OnTrainerHillEReaderChallengeFloor(void)
 {
-    if (!InTrainerHillChallenge() || GetCurrentTrainerHillMapId() == TRAINER_HILL_ENTRANCE)
+    if (!InTrainerHillChallenge() || GetCurrentTrainerHillMapId() == TRAINER_HILL_ENTRANCE) {
         return FALSE;
+    }
 
     GetInEReaderMode();
-    if (gSpecialVar_Result == FALSE)
+    if (gSpecialVar_Result == FALSE) {
         return FALSE;
-    else
+    } else {
         return TRUE;
+    }
 }
 
 static void GetChallengeWon(void)
 {
-    if (gSaveBlock1Ptr->trainerHill.hasLost)
+    if (gSaveBlock1Ptr->trainerHill.hasLost) {
         gSpecialVar_Result = FALSE;
-    else
+    } else {
         gSpecialVar_Result = TRUE;
+    }
 }
 
 static void TrainerHillSetTag(void)
@@ -999,17 +987,17 @@ static u8 GetPrizeListId(bool8 maxTrainers)
     u8 prizeListId, i, modBy;
 
     prizeListId = 0;
-    for (i = 0; i < NUM_TRAINER_HILL_FLOORS; i++)
-    {
+    for (i = 0; i < NUM_TRAINER_HILL_FLOORS; i++) {
         prizeListId ^= sHillData->floors[i].trainerNum1 & 0x1F;
         prizeListId ^= sHillData->floors[i].trainerNum2 & 0x1F;
     }
 
     // Not possible to win TMs with fewer than 8 trainers
-    if (maxTrainers)
+    if (maxTrainers) {
         modBy = NUM_TRAINER_HILL_PRIZE_LISTS;
-    else
+    } else {
         modBy = NUM_TRAINER_HILL_PRIZE_LISTS / 2;
+    }
 
     prizeListId %= modBy;
     return prizeListId;
@@ -1021,36 +1009,38 @@ static u16 GetPrizeItemId(void)
     const u16 *prizeList;
     s32 var = 0, prizeListSetId, minutes, id;
 
-    for (i = 0; i < NUM_TRAINER_HILL_FLOORS; i++)
-    {
+    for (i = 0; i < NUM_TRAINER_HILL_FLOORS; i++) {
         var += sHillData->floors[i].trainerNum1;
         var += sHillData->floors[i].trainerNum2;
     }
 
     prizeListSetId = var / 256;
     prizeListSetId %= 2;
-    if (FlagGet(FLAG_SYS_GAME_CLEAR) && sHillData->tag.numTrainers == NUM_TRAINER_HILL_TRAINERS)
+    if (FlagGet(FLAG_SYS_GAME_CLEAR) && sHillData->tag.numTrainers == NUM_TRAINER_HILL_TRAINERS) {
         i = GetPrizeListId(TRUE);
-    else
+    } else {
         i = GetPrizeListId(FALSE);
+    }
 
-    if (gSaveBlock1Ptr->trainerHill.tag == HILL_TAG_EXPERT)
+    if (gSaveBlock1Ptr->trainerHill.tag == HILL_TAG_EXPERT) {
         i = (i + 1) % NUM_TRAINER_HILL_PRIZE_LISTS;
+    }
 
     prizeList = sPrizeListSets[prizeListSetId][i];
     minutes = (signed)(gSaveBlock1Ptr->trainerHill.timer) / (60 * 60);
-    if (minutes < 12)
+    if (minutes < 12) {
         id = 0;
-    else if (minutes < 13)
+    } else if (minutes < 13) {
         id = 1;
-    else if (minutes < 14)
+    } else if (minutes < 14) {
         id = 2;
-    else if (minutes < 16)
+    } else if (minutes < 16) {
         id = 3;
-    else if (minutes < 18)
+    } else if (minutes < 18) {
         id = 4;
-    else
+    } else {
         id = 5;
+    }
 
     return prizeList[id];
 }

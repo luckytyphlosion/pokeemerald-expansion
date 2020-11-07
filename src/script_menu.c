@@ -38,12 +38,9 @@ static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 unusedCount, u8 windowI
 
 bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress)
 {
-    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
-    {
+    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = 0xFF;
         DrawMultichoiceMenu(left, top, multichoiceId, ignoreBPress, 0);
         return TRUE;
@@ -52,12 +49,9 @@ bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPre
 
 bool8 ScriptMenu_MultichoiceWithDefault(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 defaultChoice)
 {
-    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
-    {
+    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = 0xFF;
         DrawMultichoiceMenu(left, top, multichoiceId, ignoreBPress, defaultChoice);
         return TRUE;
@@ -69,19 +63,14 @@ static u16 GetLengthWithExpandedPlayerName(const u8 *str)
 {
     u16 length = 0;
 
-    while (*str != EOS)
-    {
-        if (*str == PLACEHOLDER_BEGIN)
-        {
+    while (*str != EOS) {
+        if (*str == PLACEHOLDER_BEGIN) {
             str++;
-            if (*str == PLACEHOLDER_ID_PLAYER)
-            {
+            if (*str == PLACEHOLDER_ID_PLAYER) {
                 length += StringLength(gSaveBlock2Ptr->playerName);
                 str++;
             }
-        }
-        else
-        {
+        } else {
             str++;
             length++;
         }
@@ -99,8 +88,7 @@ static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreB
     int width = 0;
     u8 newWidth;
 
-    for (i = 0; i < count; i++)
-    {
+    for (i = 0; i < count; i++) {
         width = DisplayTextAndGetWidth(actions[i].text, width);
     }
 
@@ -129,10 +117,8 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
     u8 taskId;
     sProcessInputDelay = 2;
 
-    for (i = 0; i < ARRAY_COUNT(sLinkServicesMultichoiceIds); i++)
-    {
-        if (sLinkServicesMultichoiceIds[i] == multichoiceId)
-        {
+    for (i = 0; i < ARRAY_COUNT(sLinkServicesMultichoiceIds); i++) {
+        if (sLinkServicesMultichoiceIds[i] == multichoiceId) {
             sProcessInputDelay = 12;
         }
     }
@@ -141,10 +127,11 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
 
     gTasks[taskId].tIgnoreBPress = ignoreBPress;
 
-    if (count > 3)
+    if (count > 3) {
         gTasks[taskId].tDoWrap = TRUE;
-    else
+    } else {
         gTasks[taskId].tDoWrap = FALSE;
+    }
 
     gTasks[taskId].tWindowId = windowId;
     gTasks[taskId].tMultichoiceId = multichoiceId;
@@ -157,35 +144,28 @@ static void Task_HandleMultichoiceInput(u8 taskId)
     s8 selection;
     s16 *data = gTasks[taskId].data;
 
-    if (!gPaletteFade.active)
-    {
-        if (sProcessInputDelay)
-        {
+    if (!gPaletteFade.active) {
+        if (sProcessInputDelay) {
             sProcessInputDelay--;
-        }
-        else
-        {
-            if (!tDoWrap)
+        } else {
+            if (!tDoWrap) {
                 selection = Menu_ProcessInputNoWrap();
-            else
+            } else {
                 selection = Menu_ProcessInput();
+            }
 
-            if (JOY_NEW(DPAD_UP | DPAD_DOWN))
-            {
+            if (JOY_NEW(DPAD_UP | DPAD_DOWN)) {
                 DrawLinkServicesMultichoiceMenu(tMultichoiceId);
             }
 
-            if (selection != MENU_NOTHING_CHOSEN)
-            {
-                if (selection == MENU_B_PRESSED)
-                {
-                    if (tIgnoreBPress)
+            if (selection != MENU_NOTHING_CHOSEN) {
+                if (selection == MENU_B_PRESSED) {
+                    if (tIgnoreBPress) {
                         return;
+                    }
                     PlaySE(SE_SELECT);
                     gSpecialVar_Result = MULTI_B_PRESSED;
-                }
-                else
-                {
+                } else {
                     gSpecialVar_Result = selection;
                 }
                 ClearToTransparentAndRemoveWindow(tWindowId);
@@ -200,12 +180,9 @@ bool8 ScriptMenu_YesNo(u8 left, u8 top)
 {
     u8 taskId;
 
-    if (FuncIsActiveTask(Task_HandleYesNoInput) == TRUE)
-    {
+    if (FuncIsActiveTask(Task_HandleYesNoInput) == TRUE) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = 0xFF;
         DisplayYesNoMenuDefaultYes();
         taskId = CreateTask(Task_HandleYesNoInput, 0x50);
@@ -216,22 +193,21 @@ bool8 ScriptMenu_YesNo(u8 left, u8 top)
 // Unused
 bool8 IsScriptActive(void)
 {
-    if (gSpecialVar_Result == 0xFF)
+    if (gSpecialVar_Result == 0xFF) {
         return FALSE;
-    else
+    } else {
         return TRUE;
+    }
 }
 
 static void Task_HandleYesNoInput(u8 taskId)
 {
-    if (gTasks[taskId].tRight < 5)
-    {
+    if (gTasks[taskId].tRight < 5) {
         gTasks[taskId].tRight++;
         return;
     }
 
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case MENU_NOTHING_CHOSEN:
         return;
     case MENU_B_PRESSED:
@@ -250,12 +226,9 @@ static void Task_HandleYesNoInput(u8 taskId)
 
 bool8 ScriptMenu_MultichoiceGrid(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 columnCount)
 {
-    if (FuncIsActiveTask(Task_HandleMultichoiceGridInput) == TRUE)
-    {
+    if (FuncIsActiveTask(Task_HandleMultichoiceGridInput) == TRUE) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         u8 taskId;
         u8 rowCount, newWidth;
         int i, width;
@@ -263,8 +236,7 @@ bool8 ScriptMenu_MultichoiceGrid(u8 left, u8 top, u8 multichoiceId, bool8 ignore
         gSpecialVar_Result = 0xFF;
         width = 0;
 
-        for (i = 0; i < sMultichoiceLists[multichoiceId].count; i++)
-        {
+        for (i = 0; i < sMultichoiceLists[multichoiceId].count; i++) {
             width = DisplayTextAndGetWidth(sMultichoiceLists[multichoiceId].list[i].text, width);
         }
 
@@ -290,13 +262,13 @@ static void Task_HandleMultichoiceGridInput(u8 taskId)
     s16 *data = gTasks[taskId].data;
     s8 selection = Menu_ProcessInputGridLayout();
 
-    switch (selection)
-    {
+    switch (selection) {
     case MENU_NOTHING_CHOSEN:
         return;
     case MENU_B_PRESSED:
-        if (tIgnoreBPress)
+        if (tIgnoreBPress) {
             return;
+        }
         PlaySE(SE_SELECT);
         gSpecialVar_Result = MULTI_B_PRESSED;
         break;
@@ -314,12 +286,9 @@ static void Task_HandleMultichoiceGridInput(u8 taskId)
 
 bool16 ScriptMenu_CreatePCMultichoice(void)
 {
-    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
-    {
+    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = 0xFF;
         CreatePCMultichoice();
         return TRUE;
@@ -335,29 +304,24 @@ static void CreatePCMultichoice(void)
     u8 windowId;
     int i;
 
-    for (i = 0; i < ARRAY_COUNT(sPCNameStrings); i++)
-    {
+    for (i = 0; i < ARRAY_COUNT(sPCNameStrings); i++) {
         pixelWidth = DisplayTextAndGetWidth(sPCNameStrings[i], pixelWidth);
     }
 
-    if (FlagGet(FLAG_SYS_GAME_CLEAR))
-    {
+    if (FlagGet(FLAG_SYS_GAME_CLEAR)) {
         pixelWidth = DisplayTextAndGetWidth(gText_HallOfFame, pixelWidth);
     }
 
     width = ConvertPixelWidthToTileWidth(pixelWidth);
 
     // Include Hall of Fame option if player is champion
-    if (FlagGet(FLAG_SYS_GAME_CLEAR))
-    {
+    if (FlagGet(FLAG_SYS_GAME_CLEAR)) {
         numChoices = 4;
         windowId = CreateWindowFromRect(0, 0, width, 8);
         SetStandardWindowBorderStyle(windowId, 0);
         AddTextPrinterParameterized(windowId, 1, gText_HallOfFame, y, 33, TEXT_SPEED_FF, NULL);
         AddTextPrinterParameterized(windowId, 1, gText_LogOff, y, 49, TEXT_SPEED_FF, NULL);
-    }
-    else
-    {
+    } else {
         numChoices = 3;
         windowId = CreateWindowFromRect(0, 0, width, 6);
         SetStandardWindowBorderStyle(windowId, 0);
@@ -365,10 +329,11 @@ static void CreatePCMultichoice(void)
     }
 
     // Change PC name if player has met Lanette
-    if (FlagGet(FLAG_SYS_PC_LANETTE))
+    if (FlagGet(FLAG_SYS_PC_LANETTE)) {
         AddTextPrinterParameterized(windowId, 1, gText_LanettesPC, y, 1, TEXT_SPEED_FF, NULL);
-    else
+    } else {
         AddTextPrinterParameterized(windowId, 1, gText_SomeonesPC, y, 1, TEXT_SPEED_FF, NULL);
+    }
 
     StringExpandPlaceholders(gStringVar4, gText_PlayersPC);
     PrintPlayerNameOnWindow(windowId, gStringVar4, y, 17);
@@ -385,12 +350,9 @@ void ScriptMenu_DisplayPCStartupPrompt(void)
 
 bool8 ScriptMenu_CreateLilycoveSSTidalMultichoice(void)
 {
-    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
-    {
+    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = 0xFF;
         CreateLilycoveSSTidalMultichoice();
         return TRUE;
@@ -409,83 +371,68 @@ static void CreateLilycoveSSTidalMultichoice(void)
     u8 i;
     u32 j;
 
-    for (i = 0; i < SSTIDAL_SELECTION_COUNT; i++)
-    {
+    for (i = 0; i < SSTIDAL_SELECTION_COUNT; i++) {
         sLilycoveSSTidalSelections[i] = 0xFF;
     }
 
     GetFontAttribute(1, FONTATTR_MAX_LETTER_WIDTH);
 
-    if (gSpecialVar_0x8004 == 0)
-    {
+    if (gSpecialVar_0x8004 == 0) {
         sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_SLATEPORT;
         selectionCount++;
 
-        if (FlagGet(FLAG_MET_SCOTT_ON_SS_TIDAL) == TRUE)
-        {
+        if (FlagGet(FLAG_MET_SCOTT_ON_SS_TIDAL) == TRUE) {
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_BATTLE_FRONTIER;
             selectionCount++;
         }
     }
 
-    if (CheckBagHasItem(ITEM_EON_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_SOUTHERN_ISLAND) == TRUE)
-    {
-        if (gSpecialVar_0x8004 == 0)
-        {
+    if (CheckBagHasItem(ITEM_EON_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_SOUTHERN_ISLAND) == TRUE) {
+        if (gSpecialVar_0x8004 == 0) {
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_SOUTHERN_ISLAND;
             selectionCount++;
         }
 
-        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_EON_TICKET) == FALSE)
-        {
+        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_EON_TICKET) == FALSE) {
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_SOUTHERN_ISLAND;
             selectionCount++;
             FlagSet(FLAG_SHOWN_EON_TICKET);
         }
     }
 
-    if (CheckBagHasItem(ITEM_MYSTIC_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_NAVEL_ROCK) == TRUE)
-    {
-        if (gSpecialVar_0x8004 == 0)
-        {
+    if (CheckBagHasItem(ITEM_MYSTIC_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_NAVEL_ROCK) == TRUE) {
+        if (gSpecialVar_0x8004 == 0) {
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_NAVEL_ROCK;
             selectionCount++;
         }
 
-        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_MYSTIC_TICKET) == FALSE)
-        {
+        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_MYSTIC_TICKET) == FALSE) {
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_NAVEL_ROCK;
             selectionCount++;
             FlagSet(FLAG_SHOWN_MYSTIC_TICKET);
         }
     }
 
-    if (CheckBagHasItem(ITEM_AURORA_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_BIRTH_ISLAND) == TRUE)
-    {
-        if (gSpecialVar_0x8004 == 0)
-        {
+    if (CheckBagHasItem(ITEM_AURORA_TICKET, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_BIRTH_ISLAND) == TRUE) {
+        if (gSpecialVar_0x8004 == 0) {
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_BIRTH_ISLAND;
             selectionCount++;
         }
 
-        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_AURORA_TICKET) == FALSE)
-        {
+        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_AURORA_TICKET) == FALSE) {
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_BIRTH_ISLAND;
             selectionCount++;
             FlagSet(FLAG_SHOWN_AURORA_TICKET);
         }
     }
 
-    if (CheckBagHasItem(ITEM_OLD_SEA_MAP, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_FARAWAY_ISLAND) == TRUE)
-    {
-        if (gSpecialVar_0x8004 == 0)
-        {
+    if (CheckBagHasItem(ITEM_OLD_SEA_MAP, 1) == TRUE && FlagGet(FLAG_ENABLE_SHIP_FARAWAY_ISLAND) == TRUE) {
+        if (gSpecialVar_0x8004 == 0) {
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_FARAWAY_ISLAND;
             selectionCount++;
         }
 
-        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_OLD_SEA_MAP) == FALSE)
-        {
+        if (gSpecialVar_0x8004 == 1 && FlagGet(FLAG_SHOWN_OLD_SEA_MAP) == FALSE) {
             sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_FARAWAY_ISLAND;
             selectionCount++;
             FlagSet(FLAG_SHOWN_OLD_SEA_MAP);
@@ -495,26 +442,20 @@ static void CreateLilycoveSSTidalMultichoice(void)
     sLilycoveSSTidalSelections[selectionCount] = SSTIDAL_SELECTION_EXIT;
     selectionCount++;
 
-    if (gSpecialVar_0x8004 == 0 && FlagGet(FLAG_MET_SCOTT_ON_SS_TIDAL) == TRUE)
-    {
+    if (gSpecialVar_0x8004 == 0 && FlagGet(FLAG_MET_SCOTT_ON_SS_TIDAL) == TRUE) {
         count = selectionCount;
     }
 
     count = selectionCount;
-    if (count == SSTIDAL_SELECTION_COUNT)
-    {
+    if (count == SSTIDAL_SELECTION_COUNT) {
         gSpecialVar_0x8004 = SCROLL_MULTI_SS_TIDAL_DESTINATION;
         ShowScrollableMultichoice();
-    }
-    else
-    {
+    } else {
         pixelWidth = 0;
 
-        for (j = 0; j < SSTIDAL_SELECTION_COUNT; j++)
-        {
+        for (j = 0; j < SSTIDAL_SELECTION_COUNT; j++) {
             u8 selection = sLilycoveSSTidalSelections[j];
-            if (selection != 0xFF)
-            {
+            if (selection != 0xFF) {
                 pixelWidth = DisplayTextAndGetWidth(sLilycoveSSTidalDestinations[selection], pixelWidth);
             }
         }
@@ -523,10 +464,8 @@ static void CreateLilycoveSSTidalMultichoice(void)
         windowId = CreateWindowFromRect(MAX_MULTICHOICE_WIDTH - width, (6 - count) * 2, width, count * 2);
         SetStandardWindowBorderStyle(windowId, 0);
 
-        for (selectionCount = 0, i = 0; i < SSTIDAL_SELECTION_COUNT; i++)
-        {
-            if (sLilycoveSSTidalSelections[i] != 0xFF)
-            {
+        for (selectionCount = 0, i = 0; i < SSTIDAL_SELECTION_COUNT; i++) {
+            if (sLilycoveSSTidalSelections[i] != 0xFF) {
                 AddTextPrinterParameterized(windowId, 1, sLilycoveSSTidalDestinations[sLilycoveSSTidalSelections[i]], 8, selectionCount * 16 + 1, TEXT_SPEED_FF, NULL);
                 selectionCount++;
             }
@@ -540,8 +479,7 @@ static void CreateLilycoveSSTidalMultichoice(void)
 
 void GetLilycoveSSTidalSelection(void)
 {
-    if (gSpecialVar_Result != MULTI_B_PRESSED)
-    {
+    if (gSpecialVar_Result != MULTI_B_PRESSED) {
         gSpecialVar_Result = sLilycoveSSTidalSelections[gSpecialVar_Result];
     }
 }
@@ -557,8 +495,7 @@ static void Task_PokemonPicWindow(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    switch (task->tState)
-    {
+    switch (task->tState) {
     case 0:
         task->tState++;
         break;
@@ -580,12 +517,9 @@ bool8 ScriptMenu_ShowPokemonPic(u16 species, u8 x, u8 y)
     u8 taskId;
     u8 spriteId;
 
-    if (FindTaskIdByFunc(Task_PokemonPicWindow) != 0xFF)
-    {
+    if (FindTaskIdByFunc(Task_PokemonPicWindow) != 0xFF) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         spriteId = CreateMonSprite_PicBox(species, x * 8 + 40, y * 8 + 40, 0);
         taskId = CreateTask(Task_PokemonPicWindow, 0x50);
         gTasks[taskId].tWindowId = CreateWindowFromRect(x, y, 8, 8);
@@ -604,18 +538,20 @@ bool8 (*ScriptMenu_GetPicboxWaitFunc(void))(void)
 {
     u8 taskId = FindTaskIdByFunc(Task_PokemonPicWindow);
 
-    if (taskId == 0xFF)
+    if (taskId == 0xFF) {
         return NULL;
+    }
     gTasks[taskId].tState++;
     return IsPicboxClosed;
 }
 
 static bool8 IsPicboxClosed(void)
 {
-    if (FindTaskIdByFunc(Task_PokemonPicWindow) == 0xFF)
+    if (FindTaskIdByFunc(Task_PokemonPicWindow) == 0xFF) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 #undef tState
@@ -641,8 +577,7 @@ void ClearToTransparentAndRemoveWindow(u8 windowId)
 
 static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId)
 {
-    switch (multichoiceId)
-    {
+    switch (multichoiceId) {
     case MULTI_WIRELESS_NO_BERRY:
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
         AddTextPrinterParameterized2(0, 1, sWirelessOptionsNoBerryCrush[Menu_GetCursorPos()], 0, NULL, 2, 1, 3);
@@ -672,12 +607,9 @@ static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId)
 
 bool16 ScriptMenu_CreateStartMenuForPokenavTutorial(void)
 {
-    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE)
-    {
+    if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         gSpecialVar_Result = 0xFF;
         CreateStartMenuForPokenavTutorial();
         return TRUE;
@@ -733,8 +665,7 @@ static int DisplayTextAndGetWidthInternal(const u8 *str)
 int DisplayTextAndGetWidth(const u8 *str, int prevWidth)
 {
     int width = DisplayTextAndGetWidthInternal(str);
-    if (width < prevWidth)
-    {
+    if (width < prevWidth) {
         width = prevWidth;
     }
     return width;
@@ -749,14 +680,10 @@ int ScriptMenu_AdjustLeftCoordFromWidth(int left, int width)
 {
     int adjustedLeft = left;
 
-    if (left + width > MAX_MULTICHOICE_WIDTH)
-    {
-        if (MAX_MULTICHOICE_WIDTH - width < 0)
-        {
+    if (left + width > MAX_MULTICHOICE_WIDTH) {
+        if (MAX_MULTICHOICE_WIDTH - width < 0) {
             adjustedLeft = 0;
-        }
-        else
-        {
+        } else {
             adjustedLeft = MAX_MULTICHOICE_WIDTH - width;
         }
     }

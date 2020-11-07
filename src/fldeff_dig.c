@@ -16,14 +16,11 @@ static void StartDigFieldEffect(void);
 // text
 bool8 SetUpFieldMove_Dig(void)
 {
-    if (CanUseDigOrEscapeRopeOnCurMap() == TRUE)
-    {
+    if (CanUseDigOrEscapeRopeOnCurMap() == TRUE) {
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = FieldCallback_Dig;
         return TRUE;
-    }
-    else
-    {
+    } else {
         return FALSE;
     }
 }
@@ -41,8 +38,9 @@ bool8 FldEff_UseDig(void)
 
     gTasks[taskId].data[8] = (u32)StartDigFieldEffect >> 16;
     gTasks[taskId].data[9] = (u32)StartDigFieldEffect;
-    if (!ShouldDoBrailleDigEffect())
+    if (!ShouldDoBrailleDigEffect()) {
         SetPlayerAvatarTransitionFlags(PLAYER_AVATAR_FLAG_ON_FOOT);
+    }
     return FALSE;
 }
 
@@ -51,12 +49,9 @@ static void StartDigFieldEffect(void)
     u8 taskId;
 
     FieldEffectActiveListRemove(FLDEFF_USE_DIG);
-    if (ShouldDoBrailleDigEffect())
-    {
+    if (ShouldDoBrailleDigEffect()) {
         DoBrailleDigEffect();
-    }
-    else
-    {
+    } else {
         taskId = CreateTask(Task_UseDigEscapeRopeOnField, 8);
         gTasks[taskId].data[0] = 0;
     }

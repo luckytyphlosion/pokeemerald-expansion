@@ -260,10 +260,11 @@ const struct SpriteTemplate gPunishmentImpactSpriteTemplate =
 static void AnimPunishment(struct Sprite *sprite)
 {
     StartSpriteAffineAnim(sprite, gBattleAnimArgs[3]);
-    if (gBattleAnimArgs[2] == 0)
+    if (gBattleAnimArgs[2] == 0) {
         InitSpritePosToAnimAttacker(sprite, 1);
-    else
+    } else {
         InitSpritePosToAnimTarget(sprite, TRUE);
+    }
 
     sprite->callback = RunStoredCallbackWhenAffineAnimEnds;
     StoreSpriteCallbackInData6(sprite, DestroyAnimSprite);
@@ -276,10 +277,11 @@ void AnimTask_AttackerFadeToInvisible(u8 taskId)
     battler = gBattleAnimAttacker;
     gTasks[taskId].data[1] = 16;
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(16, 0));
-    if (GetBattlerSpriteBGPriorityRank(battler) == 1)
+    if (GetBattlerSpriteBGPriorityRank(battler) == 1) {
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG1);
-    else
+    } else {
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG2);
+    }
 
     gTasks[taskId].func = AnimTask_AttackerFadeToInvisible_Step;
 }
@@ -288,21 +290,17 @@ static void AnimTask_AttackerFadeToInvisible_Step(u8 taskId)
 {
     u8 blendA = gTasks[taskId].data[1] >> 8;
     u8 blendB = gTasks[taskId].data[1];
-    if (gTasks[taskId].data[2] == (u8)gTasks[taskId].data[0])
-    {
+    if (gTasks[taskId].data[2] == (u8)gTasks[taskId].data[0]) {
         blendA++;
         blendB--;
         gTasks[taskId].data[1] = BLDALPHA_BLEND(blendB, blendA);
         SetGpuReg(REG_OFFSET_BLDALPHA, gTasks[taskId].data[1]);
         gTasks[taskId].data[2] = 0;
-        if (blendA == 16)
-        {
+        if (blendA == 16) {
             gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].invisible = TRUE;
             DestroyAnimVisualTask(taskId);
         }
-    }
-    else
-    {
+    } else {
         gTasks[taskId].data[2]++;
     }
 }
@@ -319,22 +317,18 @@ static void AnimTask_AttackerFadeFromInvisible_Step(u8 taskId)
 {
     u8 blendA = gTasks[taskId].data[1] >> 8;
     u8 blendB = gTasks[taskId].data[1];
-    if (gTasks[taskId].data[2] == (u8)gTasks[taskId].data[0])
-    {
+    if (gTasks[taskId].data[2] == (u8)gTasks[taskId].data[0]) {
         blendA--;
         blendB++;
         gTasks[taskId].data[1] = (blendA << 8) | blendB;
         SetGpuReg(REG_OFFSET_BLDALPHA, gTasks[taskId].data[1]);
         gTasks[taskId].data[2] = 0;
-        if (blendA == 0)
-        {
+        if (blendA == 0) {
             SetGpuReg(REG_OFFSET_BLDCNT, 0);
             SetGpuReg(REG_OFFSET_BLDALPHA, 0);
             DestroyAnimVisualTask(taskId);
         }
-    }
-    else
-    {
+    } else {
         gTasks[taskId].data[2]++;
     }
 }
@@ -342,10 +336,11 @@ static void AnimTask_AttackerFadeFromInvisible_Step(u8 taskId)
 void AnimTask_InitAttackerFadeFromInvisible(u8 taskId)
 {
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 16));
-    if (GetBattlerSpriteBGPriorityRank(gBattleAnimAttacker) == 1)
+    if (GetBattlerSpriteBGPriorityRank(gBattleAnimAttacker) == 1) {
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG1);
-    else
+    } else {
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG2);
+    }
 
     DestroyAnimVisualTask(taskId);
 }
@@ -371,8 +366,7 @@ static void sub_8113950(struct Sprite *sprite)
     sprite->data[4] += sprite->data[2];
     sprite->pos2.x = sprite->data[3] >> 8;
     sprite->pos2.y = sprite->data[4] >> 8;
-    if (sprite->data[7] == 0)
-    {
+    if (sprite->data[7] == 0) {
         sprite->data[3] += sprite->data[1];
         sprite->data[4] += sprite->data[2];
         sprite->pos2.x = sprite->data[3] >> 8;
@@ -382,15 +376,15 @@ static void sub_8113950(struct Sprite *sprite)
 
     sprite->pos2.y += Sin(sprite->data[5], sprite->data[6]);
     sprite->data[5] = (sprite->data[5] + 3) & 0xFF;
-    if (sprite->data[5] > 0x7F)
-    {
+    if (sprite->data[5] > 0x7F) {
         sprite->data[5] = 0;
         sprite->data[6] += 20;
         sprite->data[7]++;
     }
 
-    if (--sprite->data[0] == 0)
+    if (--sprite->data[0] == 0) {
         DestroyAnimSprite(sprite);
+    }
 }
 
 // Move sprite inward for Bite/Crunch and Clamp
@@ -411,8 +405,9 @@ static void AnimBite_Step1(struct Sprite *sprite)
     sprite->data[5] += sprite->data[1];
     sprite->pos2.x = sprite->data[4] >> 8;
     sprite->pos2.y = sprite->data[5] >> 8;
-    if (++sprite->data[3] == sprite->data[2])
+    if (++sprite->data[3] == sprite->data[2]) {
         sprite->callback = AnimBite_Step2;
+    }
 }
 
 static void AnimBite_Step2(struct Sprite *sprite)
@@ -421,8 +416,9 @@ static void AnimBite_Step2(struct Sprite *sprite)
     sprite->data[5] -= sprite->data[1];
     sprite->pos2.x = sprite->data[4] >> 8;
     sprite->pos2.y = sprite->data[5] >> 8;
-    if (--sprite->data[3] == 0)
+    if (--sprite->data[3] == 0) {
         DestroySpriteAndMatrix(sprite);
+    }
 }
 
 // Launches a tear drop away from the battler. Used by Fake Tears
@@ -431,16 +427,16 @@ void AnimTearDrop(struct Sprite *sprite)
     u8 battler;
     s8 xOffset;
 
-    if (gBattleAnimArgs[0] == ANIM_ATTACKER)
+    if (gBattleAnimArgs[0] == ANIM_ATTACKER) {
         battler = gBattleAnimAttacker;
-    else
+    } else {
         battler = gBattleAnimTarget;
+    }
 
     xOffset = 20;
     sprite->oam.tileNum += 4;
 
-    switch (gBattleAnimArgs[1])
-    {
+    switch (gBattleAnimArgs[1]) {
     case 0:
         sprite->pos1.x = GetBattlerSpriteCoordAttr(battler, BATTLER_COORD_ATTR_RIGHT) - 8;
         sprite->pos1.y = GetBattlerSpriteCoordAttr(battler, BATTLER_COORD_ATTR_TOP) + 8;
@@ -474,8 +470,9 @@ void AnimTearDrop(struct Sprite *sprite)
 
 static void AnimTearDrop_Step(struct Sprite *sprite)
 {
-    if (TranslateAnimHorizontalArc(sprite))
+    if (TranslateAnimHorizontalArc(sprite)) {
         DestroySpriteAndMatrix(sprite);
+    }
 }
 
 void AnimTask_MoveAttackerMementoShadow(u8 taskId)
@@ -497,32 +494,32 @@ void AnimTask_MoveAttackerMementoShadow(u8 taskId)
     task->data[14] = pos - 32;
     task->data[15] = pos + 32;
 
-    if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER)
+    if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER) {
         task->data[8] = -12;
-    else
+    } else {
         task->data[8] = -64;
+    }
 
     task->data[3] = GetBattlerSpriteBGPriorityRank(gBattleAnimAttacker);
-    if (task->data[3] == 1)
-    {
+    if (task->data[3] == 1) {
         sub_80A6B30(&animBg);
         task->data[10] = gBattle_BG1_Y;
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG1);
         FillPalette(0, animBg.paletteId * 16, 32);
         scanlineParams.dmaDest = &REG_BG1VOFS;
         var0 = WINOUT_WIN01_BG1;
-        if (!IsContest())
+        if (!IsContest()) {
             gBattle_BG2_X += 240;
-    }
-    else
-    {
+        }
+    } else {
         task->data[10] = gBattle_BG2_Y;
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG2);
         FillPalette(0, 144, 32);
         scanlineParams.dmaDest = &REG_BG2VOFS;
         var0 = WINOUT_WIN01_BG2;
-        if (!IsContest())
+        if (!IsContest()) {
             gBattle_BG1_X += 240;
+        }
     }
 
     scanlineParams.dmaControl = SCANLINE_EFFECT_DMACNT_16BIT;
@@ -534,8 +531,7 @@ void AnimTask_MoveAttackerMementoShadow(u8 taskId)
     task->data[1] = 0;
     task->data[2] = 0;
     sub_8114374(3);
-    for (i = 0; i < 112; i++)
-    {
+    for (i = 0; i < 112; i++) {
         gScanlineEffectRegBuffers[0][i] = task->data[10];
         gScanlineEffectRegBuffers[1][i] = task->data[10];
     }
@@ -553,35 +549,34 @@ static void AnimTask_MoveAttackerMementoShadow_Step(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     case 0:
-        if (++task->data[1] > 1)
-        {
+        if (++task->data[1] > 1) {
             task->data[1] = 0;
-            if (++task->data[2] & 1)
-            {
-                if (task->data[11] != 12)
+            if (++task->data[2] & 1) {
+                if (task->data[11] != 12) {
                     task->data[11]++;
-            }
-            else
-            {
-                if (task->data[12] != 8)
+                }
+            } else {
+                if (task->data[12] != 8) {
                     task->data[12]--;
+                }
             }
 
             SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(task->data[11], task->data[12]));
 
-            if (task->data[11] == 12 && task->data[12] == 8)
+            if (task->data[11] == 12 && task->data[12] == 8) {
                 task->data[0]++;
+            }
         }
         break;
     case 1:
         task->data[4] -= 8;
         sub_8114244(task);
 
-        if (task->data[4] < task->data[8])
+        if (task->data[4] < task->data[8]) {
             task->data[0]++;
+        }
         break;
     case 2:
         task->data[4] -= 8;
@@ -589,13 +584,15 @@ static void AnimTask_MoveAttackerMementoShadow_Step(u8 taskId)
         task->data[14] += 4;
         task->data[15] -= 4;
 
-        if (task->data[14] >= task->data[15])
+        if (task->data[14] >= task->data[15]) {
             task->data[14] = task->data[15];
+        }
 
         gBattle_WIN0H = (task->data[14] << 8) | task->data[15];
 
-        if (task->data[14] == task->data[15])
+        if (task->data[14] == task->data[15]) {
             task->data[0]++;
+        }
         break;
     case 3:
         gScanlineEffect.state = 3;
@@ -615,27 +612,20 @@ void AnimTask_MoveTargetMementoShadow(u8 taskId)
     u16 i;
     struct Task *task = &gTasks[taskId];
 
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     case 0:
-        if (IsContest() == TRUE)
-        {
+        if (IsContest() == TRUE) {
             gBattle_WIN0H = 0;
             gBattle_WIN0V = 0;
             SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR | WININ_WIN1_BG_ALL | WININ_WIN1_OBJ | WININ_WIN1_CLR);
             SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ | WINOUT_WINOBJ_CLR | WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR);
             DestroyAnimVisualTask(taskId);
-        }
-        else
-        {
+        } else {
             task->data[3] = GetBattlerSpriteBGPriorityRank(gBattleAnimTarget);
-            if (task->data[3] == 1)
-            {
+            if (task->data[3] == 1) {
                 SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG1);
                 gBattle_BG2_X += 240;
-            }
-            else
-            {
+            } else {
                 SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND | BLDCNT_TGT1_BG2);
                 gBattle_BG1_X += 240;
             }
@@ -644,14 +634,11 @@ void AnimTask_MoveTargetMementoShadow(u8 taskId)
         }
         break;
     case 1:
-        if (task->data[3] == 1)
-        {
+        if (task->data[3] == 1) {
             sub_80A6B30(&animBg);
             task->data[10] = gBattle_BG1_Y;
             FillPalette(0, animBg.paletteId * 16, 32);
-        }
-        else
-        {
+        } else {
             task->data[10] = gBattle_BG2_Y;
             FillPalette(0, 9 * 16, 32);
         }
@@ -667,10 +654,11 @@ void AnimTask_MoveTargetMementoShadow(u8 taskId)
         task->data[14] = x - 4;
         task->data[15] = x + 4;
 
-        if (GetBattlerSide(gBattleAnimTarget) == B_SIDE_PLAYER)
+        if (GetBattlerSide(gBattleAnimTarget) == B_SIDE_PLAYER) {
             task->data[8] = -12;
-        else
+        } else {
             task->data[8] = -64;
+        }
 
         task->data[4] = task->data[8];
         task->data[5] = task->data[8];
@@ -679,13 +667,13 @@ void AnimTask_MoveTargetMementoShadow(u8 taskId)
         task->data[0]++;
         break;
     case 3:
-        if (task->data[3] == 1)
+        if (task->data[3] == 1) {
             scanlineParams.dmaDest = &REG_BG1VOFS;
-        else
+        } else {
             scanlineParams.dmaDest = &REG_BG2VOFS;
+        }
 
-        for (i = 0; i < 112; i++)
-        {
+        for (i = 0; i < 112; i++) {
             gScanlineEffectRegBuffers[0][i] = task->data[10] + (159 - i);
             gScanlineEffectRegBuffers[1][i] = task->data[10] + (159 - i);
         }
@@ -697,10 +685,11 @@ void AnimTask_MoveTargetMementoShadow(u8 taskId)
         task->data[0]++;
         break;
     case 4:
-        if (task->data[3] == 1)
+        if (task->data[3] == 1) {
             SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ | WINOUT_WINOBJ_CLR | WINOUT_WIN01_BG0 | WINOUT_WIN01_BG2 | WINOUT_WIN01_BG3 | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR);
-        else
+        } else {
             SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ | WINOUT_WINOBJ_CLR | WINOUT_WIN01_BG0 | WINOUT_WIN01_BG1 | WINOUT_WIN01_BG3 | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR);
+        }
 
         SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR | WININ_WIN1_BG_ALL | WININ_WIN1_OBJ | WININ_WIN1_CLR);
         gBattle_WIN0H = (task->data[14] << 8) | task->data[15];
@@ -719,59 +708,56 @@ static void AnimTask_MoveTargetMementoShadow_Step(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     case 0:
         task->data[5] += 8;
-        if (task->data[5] >=  task->data[7])
+        if (task->data[5] >=  task->data[7]) {
             task->data[5] = task->data[7];
+        }
 
         sub_8114244(task);
-        if (task->data[5] == task->data[7])
+        if (task->data[5] == task->data[7]) {
             task->data[0]++;
+        }
         break;
     case 1:
-        if (task->data[15] - task->data[14] < 0x40)
-        {
+        if (task->data[15] - task->data[14] < 0x40) {
             task->data[14] -= 4;
             task->data[15] += 4;
-        }
-        else
-        {
+        } else {
             task->data[1] = 1;
         }
 
         gBattle_WIN0H = (task->data[14] << 8) | task->data[15];
         task->data[4] += 8;
-        if (task->data[4] >= task->data[6])
+        if (task->data[4] >= task->data[6]) {
             task->data[4] = task->data[6];
+        }
 
         sub_8114244(task);
-        if (task->data[4] == task->data[6] && task->data[1])
-        {
+        if (task->data[4] == task->data[6] && task->data[1]) {
             task->data[1] = 0;
             task->data[0]++;
         }
         break;
     case 2:
-        if (++task->data[1] > 1)
-        {
+        if (++task->data[1] > 1) {
             task->data[1] = 0;
             task->data[2]++;
-            if (task->data[2] & 1)
-            {
-                if (task->data[11])
+            if (task->data[2] & 1) {
+                if (task->data[11]) {
                     task->data[11]--;
-            }
-            else
-            {
-                if (task->data[12] < 16)
+                }
+            } else {
+                if (task->data[12] < 16) {
                     task->data[12]++;
+                }
             }
 
             SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(task->data[11], task->data[12]));
-            if (task->data[11] == 0 && task->data[12] == 16)
+            if (task->data[11] == 0 && task->data[12] == 16) {
                 task->data[0]++;
+            }
         }
         break;
     case 3:
@@ -796,20 +782,16 @@ static void sub_8114244(struct Task *task)
     int var4;
 
     var2 = task->data[5] - task->data[4];
-    if (var2 != 0)
-    {
+    if (var2 != 0) {
         var0 = task->data[13] / var2;
         var1 = task->data[6] << 8;
 
-        for (i = 0; i < task->data[4]; i++)
-        {
+        for (i = 0; i < task->data[4]; i++) {
             gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer][i] = task->data[10] - (i - 159);
         }
 
-        for (i = task->data[4]; i <= task->data[5]; i++)
-        {
-            if (i >= 0)
-            {
+        for (i = task->data[4]; i <= task->data[5]; i++) {
+            if (i >= 0) {
                 s16 var3 = (var1 >> 8) - i;
                 gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer][i] = var3 + task->data[10];
             }
@@ -818,20 +800,15 @@ static void sub_8114244(struct Task *task)
         }
 
         var4 = task->data[10] - (i - 159);
-        for (i = i; i < task->data[7]; i++)
-        {
-            if (i >= 0)
-            {
+        for (i = i; i < task->data[7]; i++) {
+            if (i >= 0) {
                 gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer][i] = var4;
                 var4--;
             }
         }
-    }
-    else
-    {
+    } else {
         var4 = task->data[10] + 159;
-        for (i = 0; i < 112; i++)
-        {
+        for (i = 0; i < 112; i++) {
             gScanlineEffectRegBuffers[0][i] = var4;
             gScanlineEffectRegBuffers[1][i] = var4;
             var4--;
@@ -843,11 +820,11 @@ static void sub_8114374(u8 priority)
 {
     u16 i;
 
-    for (i = 0; i < MAX_BATTLERS_COUNT; i++)
-    {
+    for (i = 0; i < MAX_BATTLERS_COUNT; i++) {
         u8 spriteId = GetAnimBattlerSpriteId(i);
-        if (spriteId != 0xFF)
+        if (spriteId != 0xFF) {
             gSprites[spriteId].oam.priority = priority;
+        }
     }
 }
 
@@ -857,8 +834,7 @@ void AnimTask_InitMementoShadow(u8 taskId)
     MoveBattlerSpriteToBG(gBattleAnimAttacker, toBG2, TRUE);
     gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].invisible = FALSE;
 
-    if (IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker)))
-    {
+    if (IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker))) {
         MoveBattlerSpriteToBG(gBattleAnimAttacker ^ 2, toBG2 ^ 1, TRUE);
         gSprites[gBattlerSpriteIds[gBattleAnimAttacker ^ 2]].invisible = FALSE;
     }
@@ -871,8 +847,9 @@ void sub_8114470(u8 taskId)
     u8 toBG2 = GetBattlerSpriteBGPriorityRank(gBattleAnimAttacker) ^ 1 ? 1 : 0;
     sub_80A477C(toBG2);
 
-    if (IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker)))
+    if (IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker))) {
         sub_80A477C(toBG2 ^ 1);
+    }
 
     DestroyAnimVisualTask(taskId);
 }
@@ -911,15 +888,13 @@ void AnimTask_MetallicShine(u8 taskId)
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(8, 12));
     SetAnimBgAttribute(1, BG_ANIM_PRIORITY, 0);
     SetAnimBgAttribute(1, BG_ANIM_SCREEN_SIZE, 0);
-    if (!IsContest())
+    if (!IsContest()) {
         SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 1);
+    }
 
-    if (IsDoubleBattle() && !IsContest())
-    {
-        if (GetBattlerPosition(gBattleAnimAttacker) == B_POSITION_OPPONENT_RIGHT || GetBattlerPosition(gBattleAnimAttacker) == B_POSITION_PLAYER_LEFT)
-        {
-            if (IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker)) == TRUE)
-            {
+    if (IsDoubleBattle() && !IsContest()) {
+        if (GetBattlerPosition(gBattleAnimAttacker) == B_POSITION_OPPONENT_RIGHT || GetBattlerPosition(gBattleAnimAttacker) == B_POSITION_PLAYER_LEFT) {
+            if (IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker)) == TRUE) {
                 gSprites[gBattlerSpriteIds[BATTLE_PARTNER(gBattleAnimAttacker)]].oam.priority--;
                 SetAnimBgAttribute(1, BG_ANIM_PRIORITY, 1);
                 priorityChanged = TRUE;
@@ -927,16 +902,14 @@ void AnimTask_MetallicShine(u8 taskId)
         }
     }
 
-    if (IsContest())
-    {
+    if (IsContest()) {
         species = gContestResources->moveAnim->species;
-    }
-    else
-    {
-        if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
+    } else {
+        if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
             species = GetMonData(&gEnemyParty[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_SPECIES);
-        else
+        } else {
             species = GetMonData(&gPlayerParty[gBattlerPartyIndexes[gBattleAnimAttacker]], MON_DATA_SPECIES);
+        }
     }
 
     spriteId = GetAnimBattlerSpriteId(ANIM_ATTACKER);
@@ -951,10 +924,11 @@ void AnimTask_MetallicShine(u8 taskId)
     gBattle_BG1_Y = -gSprites[spriteId].pos1.y + 32;
     paletteNum = 16 + gSprites[spriteId].oam.paletteNum;
 
-    if (gBattleAnimArgs[1] == 0)
+    if (gBattleAnimArgs[1] == 0) {
         SetGreyscaleOrOriginalPalette(paletteNum, FALSE);
-    else
+    } else {
         BlendPalette(paletteNum * 16, 16, 11, gBattleAnimArgs[2]);
+    }
 
     gTasks[taskId].data[0] = newSpriteId;
     gTasks[taskId].data[1] = gBattleAnimArgs[0];
@@ -972,32 +946,31 @@ static void AnimTask_MetallicShine_Step(u8 taskId)
 
     gTasks[taskId].data[10] += 4;
     gBattle_BG1_X -= 4;
-    if (gTasks[taskId].data[10] == 128)
-    {
+    if (gTasks[taskId].data[10] == 128) {
         gTasks[taskId].data[10] = 0;
         gBattle_BG1_X += 128;
         gTasks[taskId].data[11]++;
-        if (gTasks[taskId].data[11] == 2)
-        {
+        if (gTasks[taskId].data[11] == 2) {
             spriteId = GetAnimBattlerSpriteId(ANIM_ATTACKER);
             paletteNum = 16 + gSprites[spriteId].oam.paletteNum;
-            if (gTasks[taskId].data[1] == 0)
+            if (gTasks[taskId].data[1] == 0) {
                 SetGreyscaleOrOriginalPalette(paletteNum, TRUE);
+            }
 
             DestroySprite(&gSprites[gTasks[taskId].data[0]]);
             sub_80A6B30(&animBg);
             sub_80A6C68(animBg.bgId);
-            if (gTasks[taskId].data[6] == 1)
+            if (gTasks[taskId].data[6] == 1) {
                 gSprites[gBattlerSpriteIds[BATTLE_PARTNER(gBattleAnimAttacker)]].oam.priority++;
-        }
-        else if (gTasks[taskId].data[11] == 3)
-        {
+            }
+        } else if (gTasks[taskId].data[11] == 3) {
             gBattle_WIN0H = 0;
             gBattle_WIN0V = 0;
             SetGpuReg(REG_OFFSET_WININ, WININ_WIN0_BG_ALL | WININ_WIN0_OBJ | WININ_WIN0_CLR | WININ_WIN1_BG_ALL | WININ_WIN1_OBJ | WININ_WIN1_CLR);
             SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ | WINOUT_WINOBJ_CLR | WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR);
-            if (!IsContest())
+            if (!IsContest()) {
                 SetAnimBgAttribute(1, BG_ANIM_CHAR_BASE_BLOCK, 0);
+            }
 
             SetGpuReg(REG_OFFSET_DISPCNT, GetGpuReg(REG_OFFSET_DISPCNT) ^ DISPCNT_OBJWIN_ON);
             SetGpuReg(REG_OFFSET_BLDCNT, 0);
@@ -1017,8 +990,7 @@ void AnimTask_SetGreyscaleOrOriginalPal(u8 taskId)
     bool8 calcSpriteId = FALSE;
     u8 position = B_POSITION_PLAYER_LEFT;
 
-    switch (gBattleAnimArgs[0])
-    {
+    switch (gBattleAnimArgs[0]) {
     case ANIM_ATTACKER:
     case ANIM_TARGET:
     case ANIM_ATK_PARTNER:
@@ -1046,28 +1018,31 @@ void AnimTask_SetGreyscaleOrOriginalPal(u8 taskId)
         break;
     }
 
-    if (calcSpriteId)
-    {
+    if (calcSpriteId) {
         battler = GetBattlerAtPosition(position);
-        if (IsBattlerSpriteVisible(battler))
+        if (IsBattlerSpriteVisible(battler)) {
             spriteId = gBattlerSpriteIds[battler];
-        else
+        } else {
             spriteId = 0xFF;
+        }
     }
 
-    if (spriteId != 0xFF)
+    if (spriteId != 0xFF) {
         SetGreyscaleOrOriginalPalette(gSprites[spriteId].oam.paletteNum + 16, gBattleAnimArgs[1]);
+    }
 
     DestroyAnimVisualTask(taskId);
 }
 
 void GetIsDoomDesireHitTurn(u8 taskId)
 {
-    if (gAnimMoveTurn < 2)
+    if (gAnimMoveTurn < 2) {
         gBattleAnimArgs[ARG_RET_ID] = FALSE;
+    }
 
-    if (gAnimMoveTurn == 2)
+    if (gAnimMoveTurn == 2) {
         gBattleAnimArgs[ARG_RET_ID] = TRUE;
+    }
 
     DestroyAnimVisualTask(taskId);
 }

@@ -5,7 +5,10 @@
 #include "pokemon.h"
 #include "text.h"
 
-EWRAM_DATA ALIGNED(4) u8 gDecompressionBuffer[0x4000] = {0};
+EWRAM_DATA ALIGNED(4) u8 gDecompressionBuffer[0x4000] =
+{
+    0
+};
 
 static void DuplicateDeoxysTiles(void *pointer, s32 species);
 
@@ -46,7 +49,7 @@ void LoadCompressedSpritePalette(const struct CompressedSpritePalette *src)
     struct SpritePalette dest;
 
     LZ77UnCompWram(src->data, gDecompressionBuffer);
-    dest.data = (void*) gDecompressionBuffer;
+    dest.data = (void*)gDecompressionBuffer;
     dest.tag = src->tag;
     LoadSpritePalette(&dest);
 }
@@ -63,10 +66,11 @@ void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePale
 
 void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void* buffer, s32 species)
 {
-    if (species > NUM_SPECIES)
+    if (species > NUM_SPECIES) {
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
-    else
+    } else {
         LZ77UnCompWram(src->data, buffer);
+    }
     DuplicateDeoxysTiles(buffer, species);
 }
 
@@ -74,35 +78,36 @@ void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *des
 {
     bool8 isFrontPic;
 
-    if (src == &gMonFrontPicTable[species])
+    if (src == &gMonFrontPicTable[species]) {
         isFrontPic = TRUE; // frontPic
-    else
+    } else {
         isFrontPic = FALSE; // backPic
-
+    }
     LoadSpecialPokePic_2(src, dest, species, personality, isFrontPic);
 }
 
 void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
 {
-    if (species == SPECIES_UNOWN)
-    {
+    if (species == SPECIES_UNOWN) {
         u16 i = (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 3)) % 0x1C;
 
         // The other Unowns are separate from Unown A.
-        if (i == 0)
+        if (i == 0) {
             i = SPECIES_UNOWN;
-        else
+        } else {
             i += SPECIES_UNOWN_B - 1;
+        }
 
-        if (!isFrontPic)
+        if (!isFrontPic) {
             LZ77UnCompWram(gMonBackPicTable[i].data, dest);
-        else
+        } else {
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
-    }
-    else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+        }
+    } else if (species > NUM_SPECIES) { // is species unknown? draw the ? icon
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
-    else
+    } else {
         LZ77UnCompWram(src->data, dest);
+    }
 
     DuplicateDeoxysTiles(dest, species);
     DrawSpindaSpots(species, personality, dest, isFrontPic);
@@ -116,39 +121,31 @@ void Unused_LZDecompressWramIndirect(const void **src, void *dest)
 void sub_803471C(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tiles)
 {
     /*
-      This function appears to emulate behaviour found in the GB(C) versions regarding how the Pokemon images
-      are stitched together to be displayed on the battle screen.
-      Given "compacted" tiles, an object count and a bounding box/object size, place the tiles in such a way
-      that the result will have each object centered in a 8x8 tile canvas.
-    */
+       This function appears to emulate behaviour found in the GB(C) versions regarding how the Pokemon images
+       are stitched together to be displayed on the battle screen.
+       Given "compacted" tiles, an object count and a bounding box/object size, place the tiles in such a way
+       that the result will have each object centered in a 8x8 tile canvas.
+     */
     s32 i, j, k, l;
     u8 *src = src_tiles, *dest = dest_tiles;
     u8 bottom_off;
 
-    if (object_size & 1)
-    {
+    if (object_size & 1) {
         // Object size is odd
         bottom_off = (object_size >> 1) + 4;
-        for (l = 0; l < object_count; l++)
-        {
+        for (l = 0; l < object_count; l++) {
             // Clear all unused rows of tiles plus the half-tile required due to centering
-            for (j = 0; j < 8-object_size; j++)
-            {
-                for (k = 0; k < 8; k++)
-                {
-                    for (i = 0; i < 16; i++)
-                    {
-                        if (j % 2 == 0)
-                        {
+            for (j = 0; j < 8 - object_size; j++) {
+                for (k = 0; k < 8; k++) {
+                    for (i = 0; i < 16; i++) {
+                        if (j % 2 == 0) {
                             // Clear top half of top tile and bottom half of bottom tile when on even j
-                            ((dest+i) + (k << 5))[((j >> 1) << 8)] = 0;
-                            ((bottom_off << 8) + (dest+i) + (k << 5) + 16)[((j >> 1) << 8)] = 0;
-                        }
-                        else
-                        {
+                            ((dest + i) + (k << 5))[((j >> 1) << 8)] = 0;
+                            ((bottom_off << 8) + (dest + i) + (k << 5) + 16)[((j >> 1) << 8)] = 0;
+                        } else {
                             // Clear bottom half of top tile and top half of tile following bottom tile when on odd j
-                            ((dest+i) + (k << 5) + 16)[((j >> 1) << 8)] = 0;
-                            ((bottom_off << 8) + (dest+i) + (k << 5) + 256)[((j >> 1) << 8)] = 0;
+                            ((dest + i) + (k << 5) + 16)[((j >> 1) << 8)] = 0;
+                            ((bottom_off << 8) + (dest + i) + (k << 5) + 256)[((j >> 1) << 8)] = 0;
                         }
                     }
                 }
@@ -156,30 +153,26 @@ void sub_803471C(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tile
 
             // Clear the columns to the left and right that wont be used completely
             // Unlike the previous loops, this will clear the later used space as well
-            for (j = 0; j < 2; j++)
-            {
-                for (i = 0; i < 8; i++)
-                {
-                    for (k = 0; k < 32; k++)
-                    {
+            for (j = 0; j < 2; j++) {
+                for (i = 0; i < 8; i++) {
+                    for (k = 0; k < 32; k++) {
                         // Left side
-                        ((dest+k) + (i << 8))[(j << 5)] = 0;
+                        ((dest + k) + (i << 8))[(j << 5)] = 0;
                         // Right side
-                        ((dest+k) + (i << 8))[(j << 5)+192] = 0;
+                        ((dest + k) + (i << 8))[(j << 5) + 192] = 0;
                     }
                 }
             }
 
             // Skip the top row and first tile on the second row for objects of size 5
-            if (object_size == 5) dest += 0x120;
+            if (object_size == 5) {
+                dest += 0x120;
+            }
 
             // Copy tile data
-            for (j = 0; j < object_size; j++)
-            {
-                for (k = 0; k < object_size; k++)
-                {
-                    for (i = 0; i < 4; i++)
-                    {
+            for (j = 0; j < object_size; j++) {
+                for (k = 0; k < object_size; k++) {
+                    for (i = 0; i < 4; i++) {
                         // Offset the tile by +4px in both x and y directions
                         (dest + (i << 2))[18] = (src + (i << 2))[0];
                         (dest + (i << 2))[19] = (src + (i << 2))[1];
@@ -196,34 +189,34 @@ void sub_803471C(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tile
                 }
 
                 // At the end of a row, skip enough tiles to get to the beginning of the next row
-                if (object_size == 7) dest += 0x20;
-                else if (object_size == 5) dest += 0x60;
+                if (object_size == 7) {
+                    dest += 0x20;
+                } else if (object_size == 5) {
+                    dest += 0x60;
+                }
             }
 
             // Skip remaining unused space to go to the beginning of the next object
-            if (object_size == 7) dest += 0x100;
-            else if (object_size == 5) dest += 0x1e0;
+            if (object_size == 7) {
+                dest += 0x100;
+            } else if (object_size == 5) {
+                dest += 0x1e0;
+            }
         }
-    }
-    else
-    {
+    } else {
         // Object size is even
-        for (i = 0; i < object_count; i++)
-        {
+        for (i = 0; i < object_count; i++) {
             // For objects of size 6, the first and last row and column will be cleared
             // While the remaining space will be filled with actual data
-            if (object_size == 6)
-            {
+            if (object_size == 6) {
                 for (k = 0; k < 256; k++) {
                     *dest = 0;
                     dest++;
                 }
             }
 
-            for (j = 0; j < object_size; j++)
-            {
-                if (object_size == 6)
-                {
+            for (j = 0; j < object_size; j++) {
+                if (object_size == 6) {
                     for (k = 0; k < 32; k++) {
                         *dest = 0;
                         dest++;
@@ -237,8 +230,7 @@ void sub_803471C(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tile
                     dest++;
                 }
 
-                if (object_size == 6)
-                {
+                if (object_size == 6) {
                     for (k = 0; k < 32; k++) {
                         *dest = 0;
                         dest++;
@@ -246,8 +238,7 @@ void sub_803471C(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tile
                 }
             }
 
-            if (object_size == 6)
-            {
+            if (object_size == 6) {
                 for (k = 0; k < 256; k++) {
                     *dest = 0;
                     dest++;
@@ -297,34 +288,36 @@ bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette 
 
 void DecompressPicFromTable_2(const struct CompressedSpriteSheet *src, void* buffer, s32 species) // a copy of DecompressPicFromTable
 {
-    if (species > NUM_SPECIES)
+    if (species > NUM_SPECIES) {
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
-    else
+    } else {
         LZ77UnCompWram(src->data, buffer);
+    }
     DuplicateDeoxysTiles(buffer, species);
 }
 
 void LoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic) // a copy of LoadSpecialPokePic
 {
-    if (species == SPECIES_UNOWN)
-    {
+    if (species == SPECIES_UNOWN) {
         u16 i = (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 3)) % 0x1C;
 
         // The other Unowns are separate from Unown A.
-        if (i == 0)
+        if (i == 0) {
             i = SPECIES_UNOWN;
-        else
+        } else {
             i += SPECIES_UNOWN_B - 1;
+        }
 
-        if (!isFrontPic)
+        if (!isFrontPic) {
             LZ77UnCompWram(gMonBackPicTable[i].data, dest);
-        else
+        } else {
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
-    }
-    else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+        }
+    } else if (species > NUM_SPECIES) { // is species unknown? draw the ? icon
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
-    else
+    } else {
         LZ77UnCompWram(src->data, dest);
+    }
 
     DuplicateDeoxysTiles(dest, species);
     DrawSpindaSpots(species, personality, dest, isFrontPic);
@@ -334,61 +327,64 @@ void HandleLoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *d
 {
     bool8 isFrontPic;
 
-    if (src == &gMonFrontPicTable[species])
+    if (src == &gMonFrontPicTable[species]) {
         isFrontPic = TRUE; // frontPic
-    else
+    } else {
         isFrontPic = FALSE; // backPic
-
+    }
     LoadSpecialPokePic_2(src, dest, species, personality, isFrontPic);
 }
 
 void DecompressPicFromTable_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void* buffer, s32 species)
 {
-    if (species > NUM_SPECIES)
+    if (species > NUM_SPECIES) {
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
-    else
+    } else {
         LZ77UnCompWram(src->data, buffer);
+    }
 }
 
 void HandleLoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
 {
     bool8 isFrontPic;
 
-    if (src == &gMonFrontPicTable[species])
+    if (src == &gMonFrontPicTable[species]) {
         isFrontPic = TRUE; // frontPic
-    else
+    } else {
         isFrontPic = FALSE; // backPic
-
+    }
     LoadSpecialPokePic_DontHandleDeoxys(src, dest, species, personality, isFrontPic);
 }
 
 void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
 {
-    if (species == SPECIES_UNOWN)
-    {
+    if (species == SPECIES_UNOWN) {
         u16 i = (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 3)) % 0x1C;
 
         // The other Unowns are separate from Unown A.
-        if (i == 0)
+        if (i == 0) {
             i = SPECIES_UNOWN;
-        else
+        } else {
             i += SPECIES_UNOWN_B - 1;
+        }
 
-        if (!isFrontPic)
+        if (!isFrontPic) {
             LZ77UnCompWram(gMonBackPicTable[i].data, dest);
-        else
+        } else {
             LZ77UnCompWram(gMonFrontPicTable[i].data, dest);
-    }
-    else if (species > NUM_SPECIES) // is species unknown? draw the ? icon
+        }
+    } else if (species > NUM_SPECIES) { // is species unknown? draw the ? icon
         LZ77UnCompWram(gMonFrontPicTable[0].data, dest);
-    else
+    } else {
         LZ77UnCompWram(src->data, dest);
+    }
 
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
 
 static void DuplicateDeoxysTiles(void *pointer, s32 species)
 {
-    if (species == SPECIES_DEOXYS)
+    if (species == SPECIES_DEOXYS) {
         CpuCopy32(pointer + 0x800, pointer, 0x800);
+    }
 }

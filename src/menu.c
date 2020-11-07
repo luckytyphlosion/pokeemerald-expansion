@@ -62,11 +62,11 @@ static EWRAM_DATA void *sTempTileDataBuffer[0x20] = {NULL};
 
 const u16 gUnknown_0860F074[] = INCBIN_U16("graphics/interface/860F074.gbapal");
 
-static const u8 sTextSpeedFrameDelays[] = 
-{ 
-    [OPTIONS_TEXT_SPEED_SLOW] = 8, 
-    [OPTIONS_TEXT_SPEED_MID]  = 4, 
-    [OPTIONS_TEXT_SPEED_FAST] = 1 
+static const u8 sTextSpeedFrameDelays[] =
+{
+    [OPTIONS_TEXT_SPEED_SLOW] = 8,
+    [OPTIONS_TEXT_SPEED_MID]  = 4,
+    [OPTIONS_TEXT_SPEED_FAST] = 1
 };
 
 static const struct WindowTemplate sStandardTextBox_WindowTemplates[] =
@@ -95,37 +95,37 @@ static const struct WindowTemplate sYesNo_WindowTemplates =
 };
 
 const u16 gUnknown_0860F0B0[] = INCBIN_U16("graphics/interface/860F0B0.gbapal");
-const u8 sTextColors[] = { TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY };
+const u8 sTextColors[] = {TEXT_DYNAMIC_COLOR_6, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY};
 
 // Table of move info icon offsets in graphics/interface_fr/menu.png
 const struct MoveMenuInfoIcon gMoveMenuInfoIcons[] =
 {   // { width, height, offset }
-    { 12, 12, 0x00 },       // Unused
-    { 32, 12, 0x20 },       // Normal icon
-    { 32, 12, 0x64 },       // Fight icon
-    { 32, 12, 0x60 },       // Flying icon
-    { 32, 12, 0x80 },       // Poison icon
-    { 32, 12, 0x48 },       // Ground icon
-    { 32, 12, 0x44 },       // Rock icon
-    { 32, 12, 0x6C },       // Bug icon
-    { 32, 12, 0x68 },       // Ghost icon
-    { 32, 12, 0x88 },       // Steel icon
-    { 32, 12, 0xA4 },       // ??? (Mystery) icon
-    { 32, 12, 0x24 },       // Fire icon
-    { 32, 12, 0x28 },       // Water icon
-    { 32, 12, 0x2C },       // Grass icon
-    { 32, 12, 0x40 },       // Electric icon
-    { 32, 12, 0x84 },       // Psychic icon
-    { 32, 12, 0x4C },       // Ice icon
-    { 32, 12, 0xA0 },       // Dragon icon
-    { 32, 12, 0x8C },       // Dark icon
-    { 42, 12, 0xA8 },       // -Type- icon
-    { 42, 12, 0xC0 },       // -Power- icon
-    { 42, 12, 0xC8 },       // -Accuracy- icon
-    { 42, 12, 0xE0 },       // -PP- icon
-    { 42, 12, 0xE8 },       // -Effect- icon
-    {  8,  8, 0xAE },       // Unused (Small white pokeball)
-    {  8,  8, 0xAF },       // Unused (Small dark pokeball)
+    {12, 12, 0x00},         // Unused
+    {32, 12, 0x20},         // Normal icon
+    {32, 12, 0x64},         // Fight icon
+    {32, 12, 0x60},         // Flying icon
+    {32, 12, 0x80},         // Poison icon
+    {32, 12, 0x48},         // Ground icon
+    {32, 12, 0x44},         // Rock icon
+    {32, 12, 0x6C},         // Bug icon
+    {32, 12, 0x68},         // Ghost icon
+    {32, 12, 0x88},         // Steel icon
+    {32, 12, 0xA4},         // ??? (Mystery) icon
+    {32, 12, 0x24},         // Fire icon
+    {32, 12, 0x28},         // Water icon
+    {32, 12, 0x2C},         // Grass icon
+    {32, 12, 0x40},         // Electric icon
+    {32, 12, 0x84},         // Psychic icon
+    {32, 12, 0x4C},         // Ice icon
+    {32, 12, 0xA0},         // Dragon icon
+    {32, 12, 0x8C},         // Dark icon
+    {42, 12, 0xA8},         // -Type- icon
+    {42, 12, 0xC0},         // -Power- icon
+    {42, 12, 0xC8},         // -Accuracy- icon
+    {42, 12, 0xE0},         // -PP- icon
+    {42, 12, 0xE8},         // -Effect- icon
+    {8,  8, 0xAE},          // Unused (Small white pokeball)
+    {8,  8, 0xAF},          // Unused (Small dark pokeball)
 };
 
 
@@ -219,8 +219,9 @@ void DrawDialogueFrame(u8 windowId, bool8 copyToVram)
     CallWindowFunction(windowId, WindowFunc_DrawDialogueFrame);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     PutWindowTilemap(windowId);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyWindowToVram(windowId, 3);
+    }
 }
 
 void DrawStdWindowFrame(u8 windowId, bool8 copyToVram)
@@ -228,8 +229,9 @@ void DrawStdWindowFrame(u8 windowId, bool8 copyToVram)
     CallWindowFunction(windowId, WindowFunc_DrawStandardFrame);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     PutWindowTilemap(windowId);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyWindowToVram(windowId, 3);
+    }
 }
 
 void ClearDialogWindowAndFrame(u8 windowId, bool8 copyToVram)
@@ -237,8 +239,9 @@ void ClearDialogWindowAndFrame(u8 windowId, bool8 copyToVram)
     CallWindowFunction(windowId, WindowFunc_ClearDialogWindowAndFrame);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     ClearWindowTilemap(windowId);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyWindowToVram(windowId, 3);
+    }
 }
 
 void ClearStdWindowAndFrame(u8 windowId, bool8 copyToVram)
@@ -246,8 +249,9 @@ void ClearStdWindowAndFrame(u8 windowId, bool8 copyToVram)
     CallWindowFunction(windowId, WindowFunc_ClearStdWindowAndFrame);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     ClearWindowTilemap(windowId);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyWindowToVram(windowId, 3);
+    }
 }
 
 void WindowFunc_DrawStandardFrame(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum)
@@ -276,8 +280,7 @@ void WindowFunc_DrawStandardFrame(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width
                             1,
                             STD_WINDOW_PALETTE_NUM);
 
-    for (i = tilemapTop; i < tilemapTop + height; i++)
-    {
+    for (i = tilemapTop; i < tilemapTop + height; i++) {
         FillBgTilemapBufferRect(bg,
                                 STD_WINDOW_BASE_TILE_NUM + 3,
                                 tilemapLeft - 1,
@@ -443,15 +446,16 @@ void Menu_LoadStdPalAt(u16 offset)
     LoadPalette(gUnknown_0860F074, offset, 0x14);
 }
 
-const u16 *sub_81978C8(void)
+const u16 * sub_81978C8(void)
 {
     return gUnknown_0860F074;
 }
 
 u16 sub_81978D0(u8 colorNum)
 {
-    if (colorNum > 15)
+    if (colorNum > 15) {
         colorNum = 0;
+    }
     return gUnknown_0860F074[colorNum];
 }
 
@@ -474,24 +478,27 @@ void DisplayYesNoMenuWithDefault(u8 initialCursorPos)
 
 u32 GetPlayerTextSpeed(void)
 {
-    if (gTextFlags.forceMidTextSpeed)
+    if (gTextFlags.forceMidTextSpeed) {
         return OPTIONS_TEXT_SPEED_MID;
+    }
     return gSaveBlock2Ptr->optionsTextSpeed;
 }
 
 u8 GetPlayerTextSpeedDelay(void)
 {
     u32 speed;
-    if (gSaveBlock2Ptr->optionsTextSpeed > OPTIONS_TEXT_SPEED_FAST)
+    if (gSaveBlock2Ptr->optionsTextSpeed > OPTIONS_TEXT_SPEED_FAST) {
         gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
+    }
     speed = GetPlayerTextSpeed();
     return sTextSpeedFrameDelays[speed];
 }
 
 u8 sub_81979C4(u8 a1)
 {
-    if (sStartMenuWindowId == 0xFF)
+    if (sStartMenuWindowId == 0xFF) {
         sStartMenuWindowId = sub_8198AA4(0, 0x16, 1, 7, (a1 * 2) + 2, 0xF, 0x139);
+    }
     return sStartMenuWindowId;
 }
 
@@ -502,8 +509,7 @@ u8 GetStartMenuWindowId(void)
 
 void RemoveStartMenuWindow(void)
 {
-    if (sStartMenuWindowId != 0xFF)
-    {
+    if (sStartMenuWindowId != 0xFF) {
         RemoveWindow(sStartMenuWindowId);
         sStartMenuWindowId = 0xFF;
     }
@@ -521,8 +527,9 @@ u16 sub_8197A38(void)
 
 u8 AddMapNamePopUpWindow(void)
 {
-    if (sMapNamePopupWindowId == 0xFF)
+    if (sMapNamePopupWindowId == 0xFF) {
         sMapNamePopupWindowId = sub_8198AA4(0, 1, 1, 10, 3, 14, 0x107);
+    }
     return sMapNamePopupWindowId;
 }
 
@@ -533,8 +540,7 @@ u8 GetMapNamePopUpWindowId(void)
 
 void RemoveMapNamePopUpWindow(void)
 {
-    if (sMapNamePopupWindowId != 0xFF)
-    {
+    if (sMapNamePopupWindowId != 0xFF) {
         RemoveWindow(sMapNamePopupWindowId);
         sMapNamePopupWindowId = 0xFF;
     }
@@ -549,8 +555,9 @@ void AddTextPrinterWithCallbackForMessage(bool8 a1, void (*callback)(struct Text
 void sub_8197AE8(bool8 copyToVram)
 {
     FillBgTilemapBufferRect(0, 0, 0, 0, 32, 32, 0x11);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyBgTilemapBufferToVram(0);
+    }
 }
 
 void DrawDialogFrameWithCustomTileAndPalette(u8 windowId, bool8 copyToVram, u16 tileNum, u8 paletteNum)
@@ -560,8 +567,9 @@ void DrawDialogFrameWithCustomTileAndPalette(u8 windowId, bool8 copyToVram, u16 
     CallWindowFunction(windowId, WindowFunc_DrawDialogFrameWithCustomTileAndPalette);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     PutWindowTilemap(windowId);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyWindowToVram(windowId, 3);
+    }
 }
 
 // Never used.
@@ -572,8 +580,9 @@ void DrawDialogFrameWithCustomTile(u8 windowId, bool8 copyToVram, u16 tileNum)
     CallWindowFunction(windowId, WindowFunc_DrawDialogFrameWithCustomTileAndPalette);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     PutWindowTilemap(windowId);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyWindowToVram(windowId, 3);
+    }
 }
 
 void WindowFunc_DrawDialogFrameWithCustomTileAndPalette(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum)
@@ -677,8 +686,9 @@ void ClearDialogWindowAndFrameToTransparent(u8 windowId, bool8 copyToVram)
     CallWindowFunction(windowId, WindowFunc_ClearDialogWindowAndFrameNullPalette);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
     ClearWindowTilemap(windowId);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyWindowToVram(windowId, 3);
+    }
 }
 
 void WindowFunc_ClearDialogWindowAndFrameNullPalette(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum)
@@ -693,8 +703,9 @@ void DrawStdFrameWithCustomTileAndPalette(u8 windowId, bool8 copyToVram, u16 bas
     CallWindowFunction(windowId, WindowFunc_DrawStdFrameWithCustomTileAndPalette);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     PutWindowTilemap(windowId);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyWindowToVram(windowId, 3);
+    }
 }
 
 // Never used.
@@ -705,8 +716,9 @@ void DrawStdFrameWithCustomTile(u8 windowId, bool8 copyToVram, u16 baseTileNum)
     CallWindowFunction(windowId, WindowFunc_DrawStdFrameWithCustomTileAndPalette);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(1));
     PutWindowTilemap(windowId);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyWindowToVram(windowId, 3);
+    }
 }
 
 void WindowFunc_DrawStdFrameWithCustomTileAndPalette(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum)
@@ -774,8 +786,9 @@ void ClearStdWindowAndFrameToTransparent(u8 windowId, bool8 copyToVram)
     CallWindowFunction(windowId, WindowFunc_ClearStdWindowAndFrameToTransparent);
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
     ClearWindowTilemap(windowId);
-    if (copyToVram == TRUE)
+    if (copyToVram == TRUE) {
         CopyWindowToVram(windowId, 3);
+    }
 }
 
 void WindowFunc_ClearStdWindowAndFrameToTransparent(u8 bg, u8 tilemapLeft, u8 tilemapTop, u8 width, u8 height, u8 paletteNum)
@@ -788,10 +801,11 @@ u8 sub_81980F0(u8 bg, u8 xPos, u8 yPos, u8 palette, u16 baseTile)
     struct WindowTemplate window;
     memset(&window, 0, sizeof(window));
 
-    if (bg > 3)
+    if (bg > 3) {
         window.bg = 0;
-    else
+    } else {
         window.bg = bg;
+    }
 
     window.tilemapTop = yPos;
     window.height = 2;
@@ -802,10 +816,11 @@ u8 sub_81980F0(u8 bg, u8 xPos, u8 yPos, u8 palette, u16 baseTile)
 
     sWindowId = AddWindow(&window);
 
-    if (palette > 15)
+    if (palette > 15) {
         palette = 15 * 16;
-    else
+    } else {
         palette *= 16;
+    }
 
     LoadPalette(gUnknown_0860F0B0, palette, sizeof(gUnknown_0860F0B0));
     return sWindowId;
@@ -815,20 +830,20 @@ void sub_8198180(const u8 *string, u8 a2, bool8 copyToVram)
 {
     u16 width = 0;
 
-    if (sWindowId != 0xFF)
-    {
+    if (sWindowId != 0xFF) {
         PutWindowTilemap(sWindowId);
         FillWindowPixelBuffer(sWindowId, PIXEL_FILL(15));
         width = GetStringWidth(0, string, 0);
         AddTextPrinterParameterized3(sWindowId,
-                  0,
-                  0xEC - (GetWindowAttribute(sWindowId, WINDOW_TILEMAP_LEFT) * 8) - a2 - width,
-                  1,
-                  sTextColors,
-                  0,
-                  string);
-        if (copyToVram)
+                                     0,
+                                     0xEC - (GetWindowAttribute(sWindowId, WINDOW_TILEMAP_LEFT) * 8) - a2 - width,
+                                     1,
+                                     sTextColors,
+                                     0,
+                                     string);
+        if (copyToVram) {
             CopyWindowToVram(sWindowId, 3);
+        }
     }
 }
 
@@ -837,49 +852,45 @@ void sub_8198204(const u8 *string, const u8 *string2, u8 a3, u8 a4, bool8 copyTo
     u8 color[3];
     u16 width = 0;
 
-    if (sWindowId != 0xFF)
-    {
-        if (a3 != 0)
-        {
+    if (sWindowId != 0xFF) {
+        if (a3 != 0) {
             color[0] = TEXT_COLOR_TRANSPARENT;
             color[1] = TEXT_COLOR_WHITE;
             color[2] = TEXT_COLOR_DARK_GREY;
-        }
-        else
-        {
+        } else {
             color[0] = TEXT_DYNAMIC_COLOR_6;
             color[1] = TEXT_COLOR_WHITE;
             color[2] = TEXT_COLOR_DARK_GREY;
         }
         PutWindowTilemap(sWindowId);
         FillWindowPixelBuffer(sWindowId, PIXEL_FILL(15));
-        if (string2 != NULL)
-        {
+        if (string2 != NULL) {
             width = GetStringWidth(0, string2, 0);
             AddTextPrinterParameterized3(sWindowId,
-                      0,
-                      0xEC - (GetWindowAttribute(sWindowId, WINDOW_TILEMAP_LEFT) * 8) - a4 - width,
-                      1,
-                      color,
-                      0,
-                      string2);
+                                         0,
+                                         0xEC - (GetWindowAttribute(sWindowId, WINDOW_TILEMAP_LEFT) * 8) - a4 - width,
+                                         1,
+                                         color,
+                                         0,
+                                         string2);
         }
         AddTextPrinterParameterized4(sWindowId, 1, 4, 1, 0, 0, color, 0, string);
-        if (copyToVram)
+        if (copyToVram) {
             CopyWindowToVram(sWindowId, 3);
+        }
     }
 }
 
 void sub_81982D8(void)
 {
-    if (sWindowId != 0xFF)
+    if (sWindowId != 0xFF) {
         CopyWindowToVram(sWindowId, 3);
+    }
 }
 
 void sub_81982F0(void)
 {
-    if (sWindowId != 0xFF)
-    {
+    if (sWindowId != 0xFF) {
         FillWindowPixelBuffer(sWindowId, PIXEL_FILL(15));
         CopyWindowToVram(sWindowId, 3);
     }
@@ -887,8 +898,7 @@ void sub_81982F0(void)
 
 void sub_8198314(void)
 {
-    if (sWindowId != 0xFF)
-    {
+    if (sWindowId != 0xFF) {
         FillWindowPixelBuffer(sWindowId, PIXEL_FILL(0));
         ClearWindowTilemap(sWindowId);
         CopyWindowToVram(sWindowId, 3);
@@ -912,10 +922,11 @@ u8 sub_8198348(u8 windowId, u8 fontId, u8 left, u8 top, u8 cursorHeight, u8 numC
 
     pos = initialCursorPos;
 
-    if (pos < 0 || pos > sMenu.maxCursorPos)
+    if (pos < 0 || pos > sMenu.maxCursorPos) {
         sMenu.cursorPos = 0;
-    else
+    } else {
         sMenu.cursorPos = pos;
+    }
 
     Menu_MoveCursor(0);
     return sMenu.cursorPos;
@@ -947,12 +958,13 @@ u8 Menu_MoveCursor(s8 cursorDelta)
     u8 oldPos = sMenu.cursorPos;
     int newPos = sMenu.cursorPos + cursorDelta;
 
-    if (newPos < sMenu.minCursorPos)
+    if (newPos < sMenu.minCursorPos) {
         sMenu.cursorPos = sMenu.maxCursorPos;
-    else if (newPos > sMenu.maxCursorPos)
+    } else if (newPos > sMenu.maxCursorPos) {
         sMenu.cursorPos = sMenu.minCursorPos;
-    else
+    } else {
         sMenu.cursorPos += cursorDelta;
+    }
 
     RedrawMenuCursor(oldPos, sMenu.cursorPos);
     return sMenu.cursorPos;
@@ -963,12 +975,13 @@ u8 Menu_MoveCursorNoWrapAround(s8 cursorDelta)
     u8 oldPos = sMenu.cursorPos;
     int newPos = sMenu.cursorPos + cursorDelta;
 
-    if (newPos < sMenu.minCursorPos)
+    if (newPos < sMenu.minCursorPos) {
         sMenu.cursorPos = sMenu.minCursorPos;
-    else if (newPos > sMenu.maxCursorPos)
+    } else if (newPos > sMenu.maxCursorPos) {
         sMenu.cursorPos = sMenu.maxCursorPos;
-    else
+    } else {
         sMenu.cursorPos += cursorDelta;
+    }
 
     RedrawMenuCursor(oldPos, sMenu.cursorPos);
     return sMenu.cursorPos;
@@ -981,24 +994,18 @@ u8 Menu_GetCursorPos(void)
 
 s8 Menu_ProcessInput(void)
 {
-    if (JOY_NEW(A_BUTTON))
-    {
-        if (!sMenu.APressMuted)
+    if (JOY_NEW(A_BUTTON)) {
+        if (!sMenu.APressMuted) {
             PlaySE(SE_SELECT);
+        }
         return sMenu.cursorPos;
-    }
-    else if (JOY_NEW(B_BUTTON))
-    {
+    } else if (JOY_NEW(B_BUTTON)) {
         return MENU_B_PRESSED;
-    }
-    else if (JOY_NEW(DPAD_UP))
-    {
+    } else if (JOY_NEW(DPAD_UP)) {
         PlaySE(SE_SELECT);
         Menu_MoveCursor(-1);
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_NEW(DPAD_DOWN))
-    {
+    } else if (JOY_NEW(DPAD_DOWN)) {
         PlaySE(SE_SELECT);
         Menu_MoveCursor(1);
         return MENU_NOTHING_CHOSEN;
@@ -1011,26 +1018,22 @@ s8 Menu_ProcessInputNoWrap(void)
 {
     u8 oldPos = sMenu.cursorPos;
 
-    if (JOY_NEW(A_BUTTON))
-    {
-        if (!sMenu.APressMuted)
+    if (JOY_NEW(A_BUTTON)) {
+        if (!sMenu.APressMuted) {
             PlaySE(SE_SELECT);
+        }
         return sMenu.cursorPos;
-    }
-    else if (JOY_NEW(B_BUTTON))
-    {
+    } else if (JOY_NEW(B_BUTTON)) {
         return MENU_B_PRESSED;
-    }
-    else if (JOY_NEW(DPAD_UP))
-    {
-        if (oldPos != Menu_MoveCursorNoWrapAround(-1))
+    } else if (JOY_NEW(DPAD_UP)) {
+        if (oldPos != Menu_MoveCursorNoWrapAround(-1)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_NEW(DPAD_DOWN))
-    {
-        if (oldPos != Menu_MoveCursorNoWrapAround(1))
+    } else if (JOY_NEW(DPAD_DOWN)) {
+        if (oldPos != Menu_MoveCursorNoWrapAround(1)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
     }
 
@@ -1039,24 +1042,18 @@ s8 Menu_ProcessInputNoWrap(void)
 
 s8 ProcessMenuInput_other(void)
 {
-    if (JOY_NEW(A_BUTTON))
-    {
-        if (!sMenu.APressMuted)
+    if (JOY_NEW(A_BUTTON)) {
+        if (!sMenu.APressMuted) {
             PlaySE(SE_SELECT);
+        }
         return sMenu.cursorPos;
-    }
-    else if (JOY_NEW(B_BUTTON))
-    {
+    } else if (JOY_NEW(B_BUTTON)) {
         return MENU_B_PRESSED;
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_UP)
-    {
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_UP) {
         PlaySE(SE_SELECT);
         Menu_MoveCursor(-1);
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_DOWN)
-    {
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_DOWN) {
         PlaySE(SE_SELECT);
         Menu_MoveCursor(1);
         return MENU_NOTHING_CHOSEN;
@@ -1069,26 +1066,25 @@ s8 Menu_ProcessInputNoWrapAround_other(void)
 {
     u8 oldPos = sMenu.cursorPos;
 
-    if (JOY_NEW(A_BUTTON))
-    {
-        if (!sMenu.APressMuted)
+    if (JOY_NEW(A_BUTTON)) {
+        if (!sMenu.APressMuted) {
             PlaySE(SE_SELECT);
+        }
         return sMenu.cursorPos;
     }
-    if (JOY_NEW(B_BUTTON))
-    {
+    if (JOY_NEW(B_BUTTON)) {
         return MENU_B_PRESSED;
     }
-    if (JOY_REPEAT(DPAD_ANY) == DPAD_UP)
-    {
-        if (oldPos != Menu_MoveCursorNoWrapAround(-1))
+    if (JOY_REPEAT(DPAD_ANY) == DPAD_UP) {
+        if (oldPos != Menu_MoveCursorNoWrapAround(-1)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
     }
-    if (JOY_REPEAT(DPAD_ANY) == DPAD_DOWN)
-    {
-        if (oldPos != Menu_MoveCursorNoWrapAround(1))
+    if (JOY_REPEAT(DPAD_ANY) == DPAD_DOWN) {
+        if (oldPos != Menu_MoveCursorNoWrapAround(1)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
     }
 
@@ -1098,8 +1094,7 @@ s8 Menu_ProcessInputNoWrapAround_other(void)
 void PrintTextArray(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs)
 {
     u8 i;
-    for (i = 0; i < itemCount; i++)
-    {
+    for (i = 0; i < itemCount; i++) {
         AddTextPrinterParameterized(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL);
     }
     CopyWindowToVram(windowId, 2);
@@ -1108,8 +1103,7 @@ void PrintTextArray(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 i
 void sub_81987BC(u8 windowId, u8 fontId, u8 left, u8 top, u8 lineHeight, u8 itemCount, const struct MenuAction *strs, u8 a6, u8 a7)
 {
     u8 i;
-    for (i = 0; i < itemCount; i++)
-    {
+    for (i = 0; i < itemCount; i++) {
         AddTextPrinterParameterized5(windowId, fontId, strs[i].text, left, (lineHeight * i) + top, 0xFF, NULL, a6, a7);
     }
     CopyWindowToVram(windowId, 2);
@@ -1136,8 +1130,7 @@ void AddItemMenuActionTextPrinters(u8 windowId, u8 fontId, u8 left, u8 top, u8 l
     printer.x = left;
     printer.currentX = left;
 
-    for (i = 0; i < itemCount; i++)
-    {
+    for (i = 0; i < itemCount; i++) {
         printer.currentChar = strs[a8[i]].text;
         printer.y = (lineHeight * i) + top;
         printer.currentY = printer.y;
@@ -1211,8 +1204,9 @@ void sub_8198C34(const struct WindowTemplate *window, u8 fontId, u16 baseTileNum
 s8 Menu_ProcessInputNoWrapClearOnChoose(void)
 {
     s8 result = Menu_ProcessInputNoWrap();
-    if (result != MENU_NOTHING_CHOSEN)
+    if (result != MENU_NOTHING_CHOSEN) {
         sub_8198C78();
+    }
     return result;
 }
 
@@ -1226,10 +1220,8 @@ void sub_8198C94(u8 windowId, u8 fontId, u8 left, u8 top, u8 a4, u8 a5, u8 a6, u
 {
     u8 i;
     u8 j;
-    for (i = 0; i < a7; i++)
-    {
-        for (j = 0; j < a6; j++)
-        {
+    for (i = 0; i < a7; i++) {
+        for (j = 0; j < a6; j++) {
             AddTextPrinterParameterized(windowId, fontId, strs[(i * a6) + j].text, (a4 * j) + left, (a5 * i) + top, 0xFF, NULL);
         }
     }
@@ -1256,10 +1248,8 @@ void sub_8198DBC(u8 windowId, u8 fontId, u8 left, u8 top, u8 a4, u8 itemCount, u
     printer.letterSpacing = GetFontAttribute(fontId, FONTATTR_LETTER_SPACING);
     printer.lineSpacing = GetFontAttribute(fontId, FONTATTR_LINE_SPACING);
 
-    for (i = 0; i < itemCount2; i++)
-    {
-        for (j = 0; j < itemCount; j++)
-        {
+    for (i = 0; i < itemCount2; i++) {
+        for (j = 0; j < itemCount; j++) {
             printer.currentChar = strs[a8[(itemCount * i) + j]].text;
             printer.x = (a4 * j) + left;
             printer.y = (GetFontAttribute(fontId, 1) * i) + top;
@@ -1294,10 +1284,11 @@ u8 sub_8198F58(u8 windowId, u8 fontId, u8 left, u8 top, u8 a4, u8 cursorHeight, 
 
     pos = a9;
 
-    if (pos < 0 || pos > sMenu.maxCursorPos)
+    if (pos < 0 || pos > sMenu.maxCursorPos) {
         sMenu.cursorPos = 0;
-    else
+    } else {
         sMenu.cursorPos = pos;
+    }
 
     // Why call this when it's not gonna move?
     ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_NONE, MENU_CURSOR_DELTA_NONE);
@@ -1327,45 +1318,42 @@ void sub_8199060(u8 oldCursorPos, u8 newCursorPos)
     xPos = (newCursorPos % sMenu.columns) * sMenu.optionWidth + sMenu.left;
     yPos = (newCursorPos / sMenu.columns) * sMenu.optionHeight + sMenu.top;
     AddTextPrinterParameterized(sMenu.windowId,
-                      sMenu.fontId,
-                      gText_SelectorArrow3,
-                      xPos,
-                      yPos,
-                      0,
-                      0);
+                                sMenu.fontId,
+                                gText_SelectorArrow3,
+                                xPos,
+                                yPos,
+                                0,
+                                0);
 }
 
 u8 ChangeListMenuCursorPosition(s8 deltaX, s8 deltaY)
 {
     u8 oldPos = sMenu.cursorPos;
 
-    if (deltaX != 0)
-    {
-        if ((sMenu.cursorPos % sMenu.columns) + deltaX < 0)
+    if (deltaX != 0) {
+        if ((sMenu.cursorPos % sMenu.columns) + deltaX < 0) {
             sMenu.cursorPos += sMenu.columns - 1;
-        else if ((sMenu.cursorPos % sMenu.columns) + deltaX >= sMenu.columns)
+        } else if ((sMenu.cursorPos % sMenu.columns) + deltaX >= sMenu.columns) {
             sMenu.cursorPos = (sMenu.cursorPos / sMenu.columns) * sMenu.columns;
-        else
+        } else {
             sMenu.cursorPos += deltaX;
+        }
     }
 
-    if (deltaY != 0)
-    {
-        if ((sMenu.cursorPos / sMenu.columns) + deltaY < 0)
+    if (deltaY != 0) {
+        if ((sMenu.cursorPos / sMenu.columns) + deltaY < 0) {
             sMenu.cursorPos += sMenu.columns * (sMenu.rows - 1);
-        else if ((sMenu.cursorPos / sMenu.columns) + deltaY >= sMenu.rows)
+        } else if ((sMenu.cursorPos / sMenu.columns) + deltaY >= sMenu.rows) {
             sMenu.cursorPos -= sMenu.columns * (sMenu.rows - 1);
-        else
+        } else {
             sMenu.cursorPos += (sMenu.columns * deltaY);
+        }
     }
 
-    if (sMenu.cursorPos > sMenu.maxCursorPos)
-    {
+    if (sMenu.cursorPos > sMenu.maxCursorPos) {
         sMenu.cursorPos = oldPos;
         return sMenu.cursorPos;
-    }
-    else
-    {
+    } else {
         sub_8199060(oldPos, sMenu.cursorPos);
         return sMenu.cursorPos;
     }
@@ -1375,31 +1363,24 @@ u8 ChangeGridMenuCursorPosition(s8 deltaX, s8 deltaY)
 {
     u8 oldPos = sMenu.cursorPos;
 
-    if (deltaX != 0)
-    {
+    if (deltaX != 0) {
         if (((sMenu.cursorPos % sMenu.columns) + deltaX >= 0) &&
-        ((sMenu.cursorPos % sMenu.columns) + deltaX < sMenu.columns))
-        {
+            ((sMenu.cursorPos % sMenu.columns) + deltaX < sMenu.columns)) {
             sMenu.cursorPos += deltaX;
         }
     }
 
-    if (deltaY != 0)
-    {
+    if (deltaY != 0) {
         if (((sMenu.cursorPos / sMenu.columns) + deltaY >= 0) &&
-        ((sMenu.cursorPos / sMenu.columns) + deltaY < sMenu.rows))
-        {
+            ((sMenu.cursorPos / sMenu.columns) + deltaY < sMenu.rows)) {
             sMenu.cursorPos += (sMenu.columns * deltaY);
         }
     }
 
-    if (sMenu.cursorPos > sMenu.maxCursorPos)
-    {
+    if (sMenu.cursorPos > sMenu.maxCursorPos) {
         sMenu.cursorPos = oldPos;
         return sMenu.cursorPos;
-    }
-    else
-    {
+    } else {
         sub_8199060(oldPos, sMenu.cursorPos);
         return sMenu.cursorPos;
     }
@@ -1407,35 +1388,24 @@ u8 ChangeGridMenuCursorPosition(s8 deltaX, s8 deltaY)
 
 s8 sub_8199284(void)
 {
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         PlaySE(SE_SELECT);
         return sMenu.cursorPos;
-    }
-    else if (JOY_NEW(B_BUTTON))
-    {
+    } else if (JOY_NEW(B_BUTTON)) {
         return MENU_B_PRESSED;
-    }
-    else if (JOY_NEW(DPAD_UP))
-    {
+    } else if (JOY_NEW(DPAD_UP)) {
         PlaySE(SE_SELECT);
         ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_NONE, MENU_CURSOR_DELTA_UP);
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_NEW(DPAD_DOWN))
-    {
+    } else if (JOY_NEW(DPAD_DOWN)) {
         PlaySE(SE_SELECT);
         ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_NONE, MENU_CURSOR_DELTA_DOWN);
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_NEW(DPAD_LEFT) || GetLRKeysPressed() == MENU_L_PRESSED)
-    {
+    } else if (JOY_NEW(DPAD_LEFT) || GetLRKeysPressed() == MENU_L_PRESSED) {
         PlaySE(SE_SELECT);
         ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_LEFT, MENU_CURSOR_DELTA_NONE);
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_NEW(DPAD_RIGHT) || GetLRKeysPressed() == MENU_R_PRESSED)
-    {
+    } else if (JOY_NEW(DPAD_RIGHT) || GetLRKeysPressed() == MENU_R_PRESSED) {
         PlaySE(SE_SELECT);
         ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_RIGHT, MENU_CURSOR_DELTA_NONE);
         return MENU_NOTHING_CHOSEN;
@@ -1448,37 +1418,30 @@ s8 Menu_ProcessInputGridLayout(void)
 {
     u8 oldPos = sMenu.cursorPos;
 
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         PlaySE(SE_SELECT);
         return sMenu.cursorPos;
-    }
-    else if (JOY_NEW(B_BUTTON))
-    {
+    } else if (JOY_NEW(B_BUTTON)) {
         return MENU_B_PRESSED;
-    }
-    else if (JOY_NEW(DPAD_UP))
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(0, -1))
+    } else if (JOY_NEW(DPAD_UP)) {
+        if (oldPos != ChangeGridMenuCursorPosition(0, -1)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_NEW(DPAD_DOWN))
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(0, 1))
+    } else if (JOY_NEW(DPAD_DOWN)) {
+        if (oldPos != ChangeGridMenuCursorPosition(0, 1)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_NEW(DPAD_LEFT) || GetLRKeysPressed() == MENU_L_PRESSED)
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(-1, 0))
+    } else if (JOY_NEW(DPAD_LEFT) || GetLRKeysPressed() == MENU_L_PRESSED) {
+        if (oldPos != ChangeGridMenuCursorPosition(-1, 0)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_NEW(DPAD_RIGHT) || GetLRKeysPressed() == MENU_R_PRESSED)
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(1, 0))
+    } else if (JOY_NEW(DPAD_RIGHT) || GetLRKeysPressed() == MENU_R_PRESSED) {
+        if (oldPos != ChangeGridMenuCursorPosition(1, 0)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
     }
 
@@ -1487,35 +1450,24 @@ s8 Menu_ProcessInputGridLayout(void)
 
 s8 sub_81993D8(void)
 {
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         PlaySE(SE_SELECT);
         return sMenu.cursorPos;
-    }
-    else if (JOY_NEW(B_BUTTON))
-    {
+    } else if (JOY_NEW(B_BUTTON)) {
         return MENU_B_PRESSED;
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_UP)
-    {
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_UP) {
         PlaySE(SE_SELECT);
         ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_NONE, MENU_CURSOR_DELTA_UP);
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_DOWN)
-    {
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_DOWN) {
         PlaySE(SE_SELECT);
         ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_NONE, MENU_CURSOR_DELTA_DOWN);
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_LEFT || GetLRKeysPressedAndHeld() == MENU_L_PRESSED)
-    {
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_LEFT || GetLRKeysPressedAndHeld() == MENU_L_PRESSED) {
         PlaySE(SE_SELECT);
         ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_LEFT, MENU_CURSOR_DELTA_NONE);
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_RIGHT || GetLRKeysPressedAndHeld() == MENU_R_PRESSED)
-    {
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_RIGHT || GetLRKeysPressedAndHeld() == MENU_R_PRESSED) {
         PlaySE(SE_SELECT);
         ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_RIGHT, MENU_CURSOR_DELTA_NONE);
         return MENU_NOTHING_CHOSEN;
@@ -1529,37 +1481,30 @@ s8 sub_8199484(void)
 {
     u8 oldPos = sMenu.cursorPos;
 
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         PlaySE(SE_SELECT);
         return sMenu.cursorPos;
-    }
-    else if (JOY_NEW(B_BUTTON))
-    {
+    } else if (JOY_NEW(B_BUTTON)) {
         return MENU_B_PRESSED;
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_UP)
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(0, -1))
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_UP) {
+        if (oldPos != ChangeGridMenuCursorPosition(0, -1)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_DOWN)
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(0, 1))
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_DOWN) {
+        if (oldPos != ChangeGridMenuCursorPosition(0, 1)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_LEFT || GetLRKeysPressedAndHeld() == MENU_L_PRESSED)
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(-1, 0))
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_LEFT || GetLRKeysPressedAndHeld() == MENU_L_PRESSED) {
+        if (oldPos != ChangeGridMenuCursorPosition(-1, 0)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_RIGHT || GetLRKeysPressedAndHeld() == MENU_R_PRESSED)
-    {
-        if (oldPos != ChangeGridMenuCursorPosition(1, 0))
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_RIGHT || GetLRKeysPressedAndHeld() == MENU_R_PRESSED) {
+        if (oldPos != ChangeGridMenuCursorPosition(1, 0)) {
             PlaySE(SE_SELECT);
+        }
         return MENU_NOTHING_CHOSEN;
     }
 
@@ -1581,10 +1526,11 @@ u8 InitMenuInUpperLeftCorner(u8 windowId, u8 itemCount, u8 initialCursorPos, boo
 
     pos = initialCursorPos;
 
-    if (pos < 0 || pos > sMenu.maxCursorPos)
+    if (pos < 0 || pos > sMenu.maxCursorPos) {
         sMenu.cursorPos = 0;
-    else
+    } else {
         sMenu.cursorPos = pos;
+    }
 
     return Menu_MoveCursor(0);
 }
@@ -1598,8 +1544,7 @@ void PrintMenuTable(u8 windowId, u8 itemCount, const struct MenuAction *strs)
 {
     u32 i;
 
-    for (i = 0; i < itemCount; i++)
-    {
+    for (i = 0; i < itemCount; i++) {
         AddTextPrinterParameterized(windowId, 1, strs[i].text, 8, (i * 16) + 1, 0xFF, NULL);
     }
 
@@ -1622,8 +1567,7 @@ void sub_81995E4(u8 windowId, u8 itemCount, const struct MenuAction *strs, const
     printer.x = 8;
     printer.currentX = 8;
 
-    for (i = 0; i < itemCount; i++)
-    {
+    for (i = 0; i < itemCount; i++) {
         printer.currentChar = strs[a8[i]].text;
         printer.y = (i * 16) + 1;
         printer.currentY = (i * 16) + 1;
@@ -1662,10 +1606,10 @@ void PrintMenuGridTable(u8 windowId, u8 optionWidth, u8 columns, u8 rows, const 
 {
     u32 i, j;
 
-    for (i = 0; i < rows; i++)
-    {
-        for (j = 0; j < columns; j++)
+    for (i = 0; i < rows; i++) {
+        for (j = 0; j < columns; j++) {
             AddTextPrinterParameterized(windowId, 1, strs[(i * columns) + j].text, (optionWidth * j) + 8, (i * 16) + 1, 0xFF, NULL);
+        }
     }
     CopyWindowToVram(windowId, 2);
 }
@@ -1685,10 +1629,8 @@ void sub_819983C(u8 windowId, u8 a4, u8 itemCount, u8 itemCount2, const struct M
     printer.letterSpacing = 0;
     printer.lineSpacing = 0;
 
-    for (i = 0; i < itemCount2; i++)
-    {
-        for (j = 0; j < itemCount; j++)
-        {
+    for (i = 0; i < itemCount2; i++) {
+        for (j = 0; j < itemCount; j++) {
             printer.currentChar = strs[a8[(itemCount * i) + j]].text;
             printer.x = (a4 * j) + 8;
             printer.y = (16 * i) + 1;
@@ -1718,10 +1660,11 @@ u8 sub_8199944(u8 windowId, u8 optionWidth, u8 columns, u8 rows, u8 initialCurso
 
     pos = initialCursorPos;
 
-    if (pos < 0 || pos > sMenu.maxCursorPos)
+    if (pos < 0 || pos > sMenu.maxCursorPos) {
         sMenu.cursorPos = 0;
-    else
+    } else {
         sMenu.cursorPos = pos;
+    }
 
     // Why call this when it's not gonna move?
     ChangeListMenuCursorPosition(MENU_CURSOR_DELTA_NONE, MENU_CURSOR_DELTA_NONE);
@@ -1740,23 +1683,19 @@ void ScheduleBgCopyTilemapToVram(u8 bgId)
 
 void DoScheduledBgTilemapCopiesToVram(void)
 {
-    if (sScheduledBgCopiesToVram[0] == TRUE)
-    {
+    if (sScheduledBgCopiesToVram[0] == TRUE) {
         CopyBgTilemapBufferToVram(0);
         sScheduledBgCopiesToVram[0] = FALSE;
     }
-    if (sScheduledBgCopiesToVram[1] == TRUE)
-    {
+    if (sScheduledBgCopiesToVram[1] == TRUE) {
         CopyBgTilemapBufferToVram(1);
         sScheduledBgCopiesToVram[1] = FALSE;
     }
-    if (sScheduledBgCopiesToVram[2] == TRUE)
-    {
+    if (sScheduledBgCopiesToVram[2] == TRUE) {
         CopyBgTilemapBufferToVram(2);
         sScheduledBgCopiesToVram[2] = FALSE;
     }
-    if (sScheduledBgCopiesToVram[3] == TRUE)
-    {
+    if (sScheduledBgCopiesToVram[3] == TRUE) {
         CopyBgTilemapBufferToVram(3);
         sScheduledBgCopiesToVram[3] = FALSE;
     }
@@ -1765,8 +1704,7 @@ void DoScheduledBgTilemapCopiesToVram(void)
 void ResetTempTileDataBuffers(void)
 {
     int i;
-    for (i = 0; i < (int)ARRAY_COUNT(sTempTileDataBuffer); i++)
-    {
+    for (i = 0; i < (int)ARRAY_COUNT(sTempTileDataBuffer); i++) {
         sTempTileDataBuffer[i] = NULL;
     }
     sTempTileDataBufferIdx = 0;
@@ -1776,34 +1714,28 @@ bool8 FreeTempTileDataBuffersIfPossible(void)
 {
     int i;
 
-    if (!IsDma3ManagerBusyWithBgCopy())
-    {
-        if (sTempTileDataBufferIdx)
-        {
-            for (i = 0; i < sTempTileDataBufferIdx; i++)
-            {
+    if (!IsDma3ManagerBusyWithBgCopy()) {
+        if (sTempTileDataBufferIdx) {
+            for (i = 0; i < sTempTileDataBufferIdx; i++) {
                 FREE_AND_SET_NULL(sTempTileDataBuffer[i]);
             }
             sTempTileDataBufferIdx = 0;
         }
         return FALSE;
-    }
-    else
-    {
+    } else {
         return TRUE;
     }
 }
 
-void *DecompressAndCopyTileDataToVram(u8 bgId, const void *src, u32 size, u16 offset, u8 mode)
+void * DecompressAndCopyTileDataToVram(u8 bgId, const void *src, u32 size, u16 offset, u8 mode)
 {
     u32 sizeOut;
-    if (sTempTileDataBufferIdx < ARRAY_COUNT(sTempTileDataBuffer))
-    {
+    if (sTempTileDataBufferIdx < ARRAY_COUNT(sTempTileDataBuffer)) {
         void *ptr = malloc_and_decompress(src, &sizeOut);
-        if (!size)
+        if (!size) {
             size = sizeOut;
-        if (ptr)
-        {
+        }
+        if (ptr) {
             copy_decompressed_tile_data_to_vram(bgId, ptr, size, offset, mode);
             sTempTileDataBuffer[sTempTileDataBufferIdx++] = ptr;
         }
@@ -1816,10 +1748,10 @@ void DecompressAndLoadBgGfxUsingHeap(u8 bgId, const void *src, u32 size, u16 off
 {
     u32 sizeOut;
     void *ptr = malloc_and_decompress(src, &sizeOut);
-    if (!size)
+    if (!size) {
         size = sizeOut;
-    if (ptr)
-    {
+    }
+    if (ptr) {
         u8 taskId = CreateTask(task_free_buf_after_copying_tile_data_to_vram, 0);
         gTasks[taskId].data[0] = copy_decompressed_tile_data_to_vram(bgId, ptr, size, offset, mode);
         SetWordTaskArg(taskId, 1, (u32)ptr);
@@ -1828,14 +1760,13 @@ void DecompressAndLoadBgGfxUsingHeap(u8 bgId, const void *src, u32 size, u16 off
 
 void task_free_buf_after_copying_tile_data_to_vram(u8 taskId)
 {
-    if (!CheckForSpaceForDma3Request(gTasks[taskId].data[0]))
-    {
+    if (!CheckForSpaceForDma3Request(gTasks[taskId].data[0])) {
         Free((void *)GetWordTaskArg(taskId, 1));
         DestroyTask(taskId);
     }
 }
 
-void *malloc_and_decompress(const void *src, u32 *size)
+void * malloc_and_decompress(const void *src, u32 *size)
 {
     void *ptr;
     u8 *sizeAsBytes = (u8 *)size;
@@ -1847,21 +1778,21 @@ void *malloc_and_decompress(const void *src, u32 *size)
     sizeAsBytes[3] = 0;
 
     ptr = Alloc(*size);
-    if (ptr)
+    if (ptr) {
         LZ77UnCompWram(src, ptr);
+    }
     return ptr;
 }
 
 u16 copy_decompressed_tile_data_to_vram(u8 bgId, const void *src, u16 size, u16 offset, u8 mode)
 {
-    switch (mode)
-    {
-        case 0:
-            return LoadBgTiles(bgId, src, size, offset);
-        case 1:
-            return LoadBgTilemap(bgId, src, size, offset);
-        default:
-            return -1;
+    switch (mode) {
+    case 0:
+        return LoadBgTiles(bgId, src, size, offset);
+    case 1:
+        return LoadBgTilemap(bgId, src, size, offset);
+    default:
+        return -1;
     }
 }
 
@@ -1871,10 +1802,8 @@ void SetBgTilemapPalette(u8 bgId, u8 left, u8 top, u8 width, u8 height, u8 palet
     u8 j;
     u16 *ptr = GetBgTilemapBuffer(bgId);
 
-    for (i = top; i < top + height; i++)
-    {
-        for (j = left; j < left + width; j++)
-        {
+    for (i = top; i < top + height; i++) {
+        for (j = left; j < left + width; j++) {
             ptr[(i * 32) + j] = (ptr[(i * 32) + j] & 0xFFF) | (palette << 12);
         }
     }
@@ -1886,10 +1815,8 @@ void CopyToBufferFromBgTilemap(u8 bgId, u16 *dest, u8 left, u8 top, u8 width, u8
     u8 j;
     const u16 *src = GetBgTilemapBuffer(bgId);
 
-    for (i = 0; i < height; i++)
-    {
-        for (j = 0; j < width; j++)
-        {
+    for (i = 0; i < height; i++) {
+        for (j = 0; j < width; j++) {
             dest[(i * width) + j] = src[(i + top) * 32 + j + left];
         }
     }
@@ -1899,19 +1826,14 @@ void sub_8199D3C(void *ptr, int delta, int width, int height, bool32 is8BPP)
 {
     int i;
     int area = width * height;
-    if (is8BPP == TRUE)
-    {
+    if (is8BPP == TRUE) {
         u8 *as8BPP = ptr;
-        for (i = 0; i < area; i++)
-        {
+        for (i = 0; i < area; i++) {
             as8BPP[i] += delta;
         }
-    }
-    else
-    {
+    } else {
         u16 *as4BPP = ptr;
-        for (i = 0; i < area; i++)
-        {
+        for (i = 0; i < area; i++) {
             as4BPP[i] = (as4BPP[i] & 0xFC00) | ((as4BPP[i] + delta) & 0x3FF);
         }
     }
@@ -2003,8 +1925,9 @@ void AddTextPrinterParameterized5(u8 windowId, u8 fontId, const u8 *str, u8 left
 void PrintPlayerNameOnWindow(u8 windowId, const u8 *src, u16 x, u16 y)
 {
     int count = 0;
-    while (gSaveBlock2Ptr->playerName[count] != EOS)
+    while (gSaveBlock2Ptr->playerName[count] != EOS) {
         count++;
+    }
 
     StringExpandPlaceholders(gStringVar4, src);
 
@@ -2019,70 +1942,65 @@ void sub_819A080(const struct Bitmap *src, struct Bitmap *dst, u16 srcX, u16 src
     u16 *pixelsDst;
     u16 toOrr;
 
-    if (dst->width - dstX < width)
+    if (dst->width - dstX < width) {
         xEnd = dst->width - dstX + srcX;
-    else
+    } else {
         xEnd = width + srcX;
+    }
 
-    if (dst->height - dstY < height)
+    if (dst->height - dstY < height) {
         yEnd = srcY + dst->height - dstY;
-    else
+    } else {
         yEnd = srcY + height;
+    }
 
     multiplierSrcY = (src->width + (src->width & 7)) >> 3;
     multiplierDstY = (dst->width + (dst->width & 7)) >> 3;
 
-    for (loopSrcY = srcY, loopDstY = dstY; loopSrcY < yEnd; loopSrcY++, loopDstY++)
-    {
-        for (loopSrcX = srcX, loopDstX = dstX; loopSrcX < xEnd; loopSrcX++, loopDstX++)
-        {
+    for (loopSrcY = srcY, loopDstY = dstY; loopSrcY < yEnd; loopSrcY++, loopDstY++) {
+        for (loopSrcX = srcX, loopDstX = dstX; loopSrcX < xEnd; loopSrcX++, loopDstX++) {
             pixelsSrc = src->pixels + ((loopSrcX >> 1) & 3) + ((loopSrcX >> 3) << 5) + (((loopSrcY >> 3) * multiplierSrcY) << 5) + ((u32)(loopSrcY << 0x1d) >> 0x1B);
-            pixelsDst = (void*) dst->pixels + ((loopDstX >> 1) & 3) + ((loopDstX >> 3) << 5) + ((( loopDstY >> 3) * multiplierDstY) << 5) + ((u32)( loopDstY << 0x1d) >> 0x1B);
+            pixelsDst = (void*)dst->pixels + ((loopDstX >> 1) & 3) + ((loopDstX >> 3) << 5) + (((loopDstY >> 3) * multiplierDstY) << 5) + ((u32)(loopDstY << 0x1d) >> 0x1B);
 
-            if ((uintptr_t )pixelsDst & 0x1)
-            {
+            if ((uintptr_t )pixelsDst & 0x1) {
                 pixelsDst = (void*)(pixelsDst) - 1;
-                if (loopDstX & 0x1)
-                {
+                if (loopDstX & 0x1) {
                     toOrr = *pixelsDst & 0x0fff;
-                    if (loopSrcX & 0x1)
+                    if (loopSrcX & 0x1) {
                         *pixelsDst = toOrr | ((*pixelsSrc & 0xf0) << 8);
-                    else
+                    } else {
                         *pixelsDst = toOrr | ((*pixelsSrc & 0x0f) << 12);
-                }
-                else
-                {
+                    }
+                } else {
                     toOrr = *pixelsDst & 0xf0ff;
-                    if (loopSrcX & 0x1)
+                    if (loopSrcX & 0x1) {
                         *pixelsDst = toOrr | ((*pixelsSrc & 0xf0) << 4);
-                    else
+                    } else {
                         *pixelsDst = toOrr | ((*pixelsSrc & 0x0f) << 8);
+                    }
                 }
-            }
-            else
-            {
-                if (loopDstX & 1)
-                {
+            } else {
+                if (loopDstX & 1) {
                     toOrr = *pixelsDst & 0xff0f;
-                    if (loopSrcX & 1)
+                    if (loopSrcX & 1) {
                         *pixelsDst = toOrr | ((*pixelsSrc & 0xf0) << 0);
-                    else
+                    } else {
                         *pixelsDst = toOrr | ((*pixelsSrc & 0x0f) << 4);
-                }
-                else
-                {
+                    }
+                } else {
                     toOrr = *pixelsDst & 0xfff0;
-                    if (loopSrcX & 1)
+                    if (loopSrcX & 1) {
                         *pixelsDst = toOrr | ((*pixelsSrc & 0xf0) >> 4);
-                    else
+                    } else {
                         *pixelsDst = toOrr | ((*pixelsSrc & 0x0f) >> 0);
+                    }
                 }
             }
 
             // Needed to match, urgh.
             #ifndef NONMATCHING
-            asm("":::"r4");
-            pixelsDst++;pixelsDst--;
+            asm ("" ::: "r4");
+            pixelsDst++; pixelsDst--;
             #endif // NONMATCHING
         }
     }
@@ -2102,18 +2020,17 @@ void ListMenuLoadStdPalAt(u8 palOffset, u8 palId)
 {
     const u16 *palette;
 
-    switch (palId)
-    {
-        case 0:
-        default:
-            palette = gFireRedMenuElements1_Pal;
-            break;
-        case 1:
-            palette = gFireRedMenuElements2_Pal;
-            break;
-        case 2:
-            palette = gFireRedMenuElements3_Pal;
-            break;
+    switch (palId) {
+    case 0:
+    default:
+        palette = gFireRedMenuElements1_Pal;
+        break;
+    case 1:
+        palette = gFireRedMenuElements2_Pal;
+        break;
+    case 2:
+        palette = gFireRedMenuElements3_Pal;
+        break;
     }
 
     LoadPalette(palette, palOffset, 0x20);
@@ -2138,34 +2055,34 @@ void BufferSaveMenuText(u8 textId, u8 *dest, u8 color)
     *(string++) = EXT_CTRL_CODE_SHADOW;
     *(string++) = color + 1;
 
-    switch (textId)
-    {
-        case SAVE_MENU_NAME:
-            StringCopy(string, gSaveBlock2Ptr->playerName);
-            break;
-        case SAVE_MENU_CAUGHT:
-            if (IsNationalPokedexEnabled())
-                string = ConvertIntToDecimalStringN(string, GetNationalPokedexCount(FLAG_GET_CAUGHT), STR_CONV_MODE_LEFT_ALIGN, 3);
-            else
-                string = ConvertIntToDecimalStringN(string, GetHoennPokedexCount(FLAG_GET_CAUGHT), STR_CONV_MODE_LEFT_ALIGN, 3);
-            *string = EOS;
-            break;
-        case SAVE_MENU_PLAY_TIME:
-            string = ConvertIntToDecimalStringN(string, gSaveBlock2Ptr->playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
-            *(string++) = CHAR_COLON;
-            ConvertIntToDecimalStringN(string, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
-            break;
-        case SAVE_MENU_LOCATION:
-            GetMapNameGeneric(string, gMapHeader.regionMapSectionId);
-            break;
-        case SAVE_MENU_BADGES:
-            for (curFlag = FLAG_BADGE01_GET, flagCount = 0, endOfString = string + 1; curFlag < FLAG_BADGE01_GET + NUM_BADGES; curFlag++)
-            {
-                if (FlagGet(curFlag))
-                    flagCount++;
+    switch (textId) {
+    case SAVE_MENU_NAME:
+        StringCopy(string, gSaveBlock2Ptr->playerName);
+        break;
+    case SAVE_MENU_CAUGHT:
+        if (IsNationalPokedexEnabled()) {
+            string = ConvertIntToDecimalStringN(string, GetNationalPokedexCount(FLAG_GET_CAUGHT), STR_CONV_MODE_LEFT_ALIGN, 3);
+        } else {
+            string = ConvertIntToDecimalStringN(string, GetHoennPokedexCount(FLAG_GET_CAUGHT), STR_CONV_MODE_LEFT_ALIGN, 3);
+        }
+        *string = EOS;
+        break;
+    case SAVE_MENU_PLAY_TIME:
+        string = ConvertIntToDecimalStringN(string, gSaveBlock2Ptr->playTimeHours, STR_CONV_MODE_LEFT_ALIGN, 3);
+        *(string++) = CHAR_COLON;
+        ConvertIntToDecimalStringN(string, gSaveBlock2Ptr->playTimeMinutes, STR_CONV_MODE_LEADING_ZEROS, 2);
+        break;
+    case SAVE_MENU_LOCATION:
+        GetMapNameGeneric(string, gMapHeader.regionMapSectionId);
+        break;
+    case SAVE_MENU_BADGES:
+        for (curFlag = FLAG_BADGE01_GET, flagCount = 0, endOfString = string + 1; curFlag < FLAG_BADGE01_GET + NUM_BADGES; curFlag++) {
+            if (FlagGet(curFlag)) {
+                flagCount++;
             }
-            *string = flagCount + CHAR_0;
-            *endOfString = EOS;
-            break;
+        }
+        *string = flagCount + CHAR_0;
+        *endOfString = EOS;
+        break;
     }
 }

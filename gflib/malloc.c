@@ -42,7 +42,7 @@ void PutFirstMemBlockHeader(void *block, u32 size)
     PutMemBlockHeader(block, (struct MemBlock *)block, (struct MemBlock *)block, size - sizeof(struct MemBlock));
 }
 
-void *AllocInternal(void *heapStart, u32 size)
+void * AllocInternal(void *heapStart, u32 size)
 {
     struct MemBlock *pos = (struct MemBlock *)heapStart;
     struct MemBlock *head = pos;
@@ -50,8 +50,9 @@ void *AllocInternal(void *heapStart, u32 size)
     u32 foundBlockSize;
 
     // Alignment
-    if (size & 3)
+    if (size & 3) {
         size = 4 * ((size / 4) + 1);
+    }
 
     for (;;) {
         // Loop through the blocks looking for unused block that's big enough.
@@ -79,16 +80,18 @@ void *AllocInternal(void *heapStart, u32 size)
 
                     pos->next = splitBlock;
 
-                    if (splitBlock->next != head)
+                    if (splitBlock->next != head) {
                         splitBlock->next->prev = splitBlock;
+                    }
                 }
 
                 return pos->data;
             }
         }
 
-        if (pos->next == head)
+        if (pos->next == head) {
             return NULL;
+        }
 
         pos = pos->next;
     }
@@ -108,8 +111,9 @@ void FreeInternal(void *heapStart, void *pointer)
                 block->size += sizeof(struct MemBlock) + block->next->size;
                 block->next->magic = 0;
                 block->next = block->next->next;
-                if (block->next != head)
+                if (block->next != head) {
                     block->next->prev = block;
+                }
             }
         }
 
@@ -119,8 +123,9 @@ void FreeInternal(void *heapStart, void *pointer)
             if (!block->prev->flag) {
                 block->prev->next = block->next;
 
-                if (block->next != head)
+                if (block->next != head) {
                     block->next->prev = block->prev;
+                }
 
                 block->magic = 0;
                 block->prev->size += sizeof(struct MemBlock) + block->size;
@@ -129,13 +134,14 @@ void FreeInternal(void *heapStart, void *pointer)
     }
 }
 
-void *AllocZeroedInternal(void *heapStart, u32 size)
+void * AllocZeroedInternal(void *heapStart, u32 size)
 {
     void *mem = AllocInternal(heapStart, size);
 
     if (mem != NULL) {
-        if (size & 3)
+        if (size & 3) {
             size = 4 * ((size / 4) + 1);
+        }
 
         CpuFill32(0, mem, size);
     }
@@ -148,23 +154,29 @@ bool32 CheckMemBlockInternal(void *heapStart, void *pointer)
     struct MemBlock *head = (struct MemBlock *)heapStart;
     struct MemBlock *block = (struct MemBlock *)((u8 *)pointer - sizeof(struct MemBlock));
 
-    if (block->magic != MALLOC_SYSTEM_ID)
+    if (block->magic != MALLOC_SYSTEM_ID) {
         return FALSE;
+    }
 
-    if (block->next->magic != MALLOC_SYSTEM_ID)
+    if (block->next->magic != MALLOC_SYSTEM_ID) {
         return FALSE;
+    }
 
-    if (block->next != head && block->next->prev != block)
+    if (block->next != head && block->next->prev != block) {
         return FALSE;
+    }
 
-    if (block->prev->magic != MALLOC_SYSTEM_ID)
+    if (block->prev->magic != MALLOC_SYSTEM_ID) {
         return FALSE;
+    }
 
-    if (block->prev != head && block->prev->next != block)
+    if (block->prev != head && block->prev->next != block) {
         return FALSE;
+    }
 
-    if (block->next != head && block->next != (struct MemBlock *)(block->data + block->size))
+    if (block->next != head && block->next != (struct MemBlock *)(block->data + block->size)) {
         return FALSE;
+    }
 
     return TRUE;
 }
@@ -176,12 +188,12 @@ void InitHeap(void *heapStart, u32 heapSize)
     PutFirstMemBlockHeader(heapStart, heapSize);
 }
 
-void *Alloc(u32 size)
+void * Alloc(u32 size)
 {
     return AllocInternal(sHeapStart, size);
 }
 
-void *AllocZeroed(u32 size)
+void * AllocZeroed(u32 size)
 {
     return AllocZeroedInternal(sHeapStart, size);
 }
@@ -201,8 +213,9 @@ bool32 CheckHeap()
     struct MemBlock *pos = (struct MemBlock *)sHeapStart;
 
     do {
-        if (!CheckMemBlockInternal(sHeapStart, pos->data))
+        if (!CheckMemBlockInternal(sHeapStart, pos->data)) {
             return FALSE;
+        }
         pos = pos->next;
     } while (pos != (struct MemBlock *)sHeapStart);
 

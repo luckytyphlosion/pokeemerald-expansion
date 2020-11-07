@@ -20,14 +20,11 @@ void LoadPokedexAreaMapGfx(const struct PokedexAreaMapTemplate *template)
     sPokedexAreaMapBgNum = Alloc(4);
     mode = template->mode;
 
-    if (mode == 0)
-    {
+    if (mode == 0) {
         SetBgAttribute(template->bg, BG_ATTR_METRIC, 0);
         DecompressAndCopyTileDataToVram(template->bg, sPokedexAreaMap_Gfx, 0, template->offset, 0);
         sub_8199D3C(DecompressAndCopyTileDataToVram(template->bg, sPokedexAreaMap_Tilemap, 0, 0, 1), template->offset, 32, 32, FALSE);
-    }
-    else
-    {
+    } else {
         SetBgAttribute(template->bg, BG_ATTR_METRIC, 2);
         SetBgAttribute(template->bg, BG_ATTR_TYPE, 1);
         DecompressAndCopyTileDataToVram(template->bg, sPokedexAreaMapAffine_Gfx, 0, template->offset, 0);
@@ -43,21 +40,19 @@ void LoadPokedexAreaMapGfx(const struct PokedexAreaMapTemplate *template)
 
 bool32 sub_81C4E90(void)
 {
-    if (!FreeTempTileDataBuffersIfPossible())
-    {
+    if (!FreeTempTileDataBuffersIfPossible()) {
         ShowBg(*sPokedexAreaMapBgNum);
         return FALSE;
-    }
-    else
-    {
+    } else {
         return TRUE;
     }
 }
 
 void FreePokedexAreaMapBgNum(void)
 {
-    if (sPokedexAreaMapBgNum != NULL)
+    if (sPokedexAreaMapBgNum != NULL) {
         FREE_AND_SET_NULL(sPokedexAreaMapBgNum);
+    }
 }
 
 void PokedexAreaMapChangeBgY(u32 a0)

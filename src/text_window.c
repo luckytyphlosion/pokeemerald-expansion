@@ -83,12 +83,13 @@ static const struct TilesPal sWindowFrames[WINDOW_FRAMES_COUNT] =
 };
 
 // code
-const struct TilesPal *GetWindowFrameTilesPal(u8 id)
+const struct TilesPal * GetWindowFrameTilesPal(u8 id)
 {
-    if (id >= WINDOW_FRAMES_COUNT)
+    if (id >= WINDOW_FRAMES_COUNT) {
         return &sWindowFrames[0];
-    else
+    } else {
         return &sWindowFrames[id];
+    }
 }
 
 void LoadMessageBoxGfx(u8 windowId, u16 destOffset, u8 palOffset)
@@ -160,10 +161,9 @@ void rbox_fill_rectangle(u8 windowId)
     FillBgTilemapBufferRect(bgLayer, 0, tilemapLeft - 1, tilemapTop - 1, width + 2, height + 2, 0x11);
 }
 
-const u16 *GetTextWindowPalette(u8 id)
+const u16 * GetTextWindowPalette(u8 id)
 {
-    switch (id)
-    {
+    switch (id) {
     case 0:
         id = 0;
         break;
@@ -185,7 +185,7 @@ const u16 *GetTextWindowPalette(u8 id)
     return (const u16 *)(sTextWindowPalettes) + id;
 }
 
-const u16 *GetOverworldTextboxPalettePtr(void)
+const u16 * GetOverworldTextboxPalettePtr(void)
 {
     return gMessageBox_Pal;
 }

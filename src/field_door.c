@@ -257,7 +257,7 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
     {METATILE_Shop_Door_Elevator,                           DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_LilycoveDeptStoreElevator, sDoorAnimPalettes_LilycoveDeptStoreElevator},
     {METATILE_Dewford_Door_BattleTower,                     DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleTowerOld, sDoorAnimPalettes_BattleTowerOld},
     {METATILE_BattleFrontier_Door_Elevator,                 DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleTowerElevator, sDoorAnimPalettes_BattleTowerElevator},
-    {0x3B0, /* TODO: Missing metatile ID */                 DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_34, sDoorAnimPalettes_34},
+    {0x3B0, /* TODO: Missing metatile ID */ DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_34, sDoorAnimPalettes_34},
     {METATILE_BattleFrontierOutsideWest_Door_BattleDome,    DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleDome, sDoorAnimPalettes_BattleDome},
     {METATILE_BattleFrontierOutsideWest_Door_BattleFactory, DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleFactory, sDoorAnimPalettes_BattleFactory},
     {METATILE_BattleFrontierOutsideEast_Door_BattleTower,   DOOR_SOUND_SLIDING, 1, sDoorAnimTiles_BattleTower, sDoorAnimPalettes_BattleTower},
@@ -281,10 +281,11 @@ static const struct DoorGraphics sDoorAnimGraphicsTable[] =
 
 static void CopyDoorTilesToVram(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frame)
 {
-    if (gfx->size == 2)
+    if (gfx->size == 2) {
         CpuFastSet(gfx->tiles + frame->offset, (void *)(VRAM + 0x7E00), 0x80);
-    else
+    } else {
         CpuFastSet(gfx->tiles + frame->offset, (void *)(VRAM + 0x7F00), 0x40);
+    }
 }
 
 static void door_build_blockdef(u16 *a, u16 b, const u8 *c)
@@ -292,13 +293,11 @@ static void door_build_blockdef(u16 *a, u16 b, const u8 *c)
     int i;
     u16 unk;
 
-    for (i = 0; i < 4; i++)
-    {
+    for (i = 0; i < 4; i++) {
         unk = *(c++) << 12;
         a[i] = unk | (b + i);
     }
-    for (; i < 8; i++)
-    {
+    for (; i < 8; i++) {
         unk = *(c++) << 12;
         a[i] = unk;
     }
@@ -307,9 +306,8 @@ static void door_build_blockdef(u16 *a, u16 b, const u8 *c)
 static void DrawCurrentDoorAnimFrame(const struct DoorGraphics *gfx, u32 x, u32 y, const u8 *pal)
 {
     u16 arr[24];
-    
-    if (gfx->size == 2)
-    {
+
+    if (gfx->size == 2) {
         door_build_blockdef(&arr[8], 0x3F0, pal);
         DrawDoorMetatileAt(x, y - 1, &arr[8]);
         door_build_blockdef(&arr[8], 0x3F4, pal + 4);
@@ -318,9 +316,7 @@ static void DrawCurrentDoorAnimFrame(const struct DoorGraphics *gfx, u32 x, u32 
         DrawDoorMetatileAt(x + 1, y - 1, &arr[8]);
         door_build_blockdef(&arr[8], 0x3FC, pal + 4);
         DrawDoorMetatileAt(x + 1, y, &arr[8]);
-    }
-    else
-    {
+    } else {
         door_build_blockdef(&arr[0], 0x3F8, pal);
         DrawDoorMetatileAt(x, y - 1, &arr[0]);
         door_build_blockdef(&arr[0], 0x3FC, pal + 4);
@@ -333,8 +329,7 @@ static void DrawClosedDoorTiles(const struct DoorGraphics *gfx, u32 x, u32 y)
     CurrentMapDrawMetatileAt(x, y - 1);
     CurrentMapDrawMetatileAt(x, y);
 
-    if (gfx->size == 2)
-    {
+    if (gfx->size == 2) {
         CurrentMapDrawMetatileAt(x + 1, y - 1);
         CurrentMapDrawMetatileAt(x + 1, y);
     }
@@ -342,18 +337,17 @@ static void DrawClosedDoorTiles(const struct DoorGraphics *gfx, u32 x, u32 y)
 
 static void DrawDoor(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frame, u32 x, u32 y)
 {
-    if (frame->offset == 0xFFFF)
-    {
+    if (frame->offset == 0xFFFF) {
         DrawClosedDoorTiles(gfx, x, y);
-        if (ShouldUseMultiCorridorDoor())
+        if (ShouldUseMultiCorridorDoor()) {
             DrawClosedDoorTiles(gfx, gSpecialVar_0x8004 + 7, gSpecialVar_0x8005 + 7);
-    }
-    else
-    {
+        }
+    } else {
         CopyDoorTilesToVram(gfx, frame);
         DrawCurrentDoorAnimFrame(gfx, x, y, gfx->palette);
-        if (ShouldUseMultiCorridorDoor())
+        if (ShouldUseMultiCorridorDoor()) {
             DrawCurrentDoorAnimFrame(gfx, gSpecialVar_0x8004 + 7, gSpecialVar_0x8005 + 7, gfx->palette);
+        }
     }
 }
 
@@ -369,16 +363,17 @@ enum
 
 static bool32 sub_808A5F0(struct DoorGraphics *gfx, struct DoorAnimFrame *frames, s16 *taskData)
 {
-    if (taskData[TD_COUNTER] == 0)
+    if (taskData[TD_COUNTER] == 0) {
         DrawDoor(gfx, &frames[taskData[TD_FRAME]], taskData[TD_X], taskData[TD_Y]);
-    if (taskData[TD_COUNTER] == frames[taskData[TD_FRAME]].time)
-    {
+    }
+    if (taskData[TD_COUNTER] == frames[taskData[TD_FRAME]].time) {
         taskData[TD_COUNTER] = 0;
         taskData[TD_FRAME]++;
-        if (frames[taskData[TD_FRAME]].time == 0)
+        if (frames[taskData[TD_FRAME]].time == 0) {
             return FALSE;
-        else
+        } else {
             return TRUE;
+        }
     }
     taskData[TD_COUNTER]++;
     return TRUE;
@@ -390,23 +385,25 @@ static void Task_AnimateDoor(u8 taskId)
     struct DoorAnimFrame *frames = (struct DoorAnimFrame *)(taskData[TD_FRAMELIST] << 16 | taskData[TD_FRAMELIST + 1]);
     struct DoorGraphics *gfx = (struct DoorGraphics *)(taskData[TD_GFX] << 16 | taskData[TD_GFX + 1]);
 
-    if (sub_808A5F0(gfx, frames, taskData) == FALSE)
+    if (sub_808A5F0(gfx, frames, taskData) == FALSE) {
         DestroyTask(taskId);
+    }
 }
 
-static const struct DoorAnimFrame *GetLastDoorFrame(const struct DoorAnimFrame *frame, const void *unused)
+static const struct DoorAnimFrame * GetLastDoorFrame(const struct DoorAnimFrame *frame, const void *unused)
 {
-    while (frame->time != 0)
+    while (frame->time != 0) {
         frame++;
+    }
     return frame - 1;
 }
 
-static const struct DoorGraphics *GetDoorGraphics(const struct DoorGraphics *gfx, u16 metatileNum)
+static const struct DoorGraphics * GetDoorGraphics(const struct DoorGraphics *gfx, u16 metatileNum)
 {
-    while (gfx->tiles != NULL)
-    {
-        if (gfx->metatileNum == metatileNum)
+    while (gfx->tiles != NULL) {
+        if (gfx->metatileNum == metatileNum) {
             return gfx;
+        }
         gfx++;
     }
     return NULL;
@@ -414,10 +411,9 @@ static const struct DoorGraphics *GetDoorGraphics(const struct DoorGraphics *gfx
 
 static s8 StartDoorAnimationTask(const struct DoorGraphics *gfx, const struct DoorAnimFrame *frames, u32 x, u32 y)
 {
-    if (FuncIsActiveTask(Task_AnimateDoor) == TRUE)
+    if (FuncIsActiveTask(Task_AnimateDoor) == TRUE) {
         return -1;
-    else
-    {
+    } else {
         u8 taskId = CreateTask(Task_AnimateDoor, 0x50);
         s16 *taskData = gTasks[taskId].data;
 
@@ -442,42 +438,43 @@ static void DrawClosedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 static void DrawOpenedDoor(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
-    if (gfx != NULL)
+    if (gfx != NULL) {
         DrawDoor(gfx, GetLastDoorFrame(sDoorOpenAnimFrames, sDoorOpenAnimFrames), x, y);
+    }
 }
 
 static s8 StartDoorOpenAnimation(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
-    if (gfx == NULL)
-    {
+    if (gfx == NULL) {
         return -1;
-    }
-    else
-    {
-        if (gfx->size == 2)
+    } else {
+        if (gfx->size == 2) {
             return StartDoorAnimationTask(gfx, sBigDoorOpenAnimFrames, x, y);
-        else
+        } else {
             return StartDoorAnimationTask(gfx, sDoorOpenAnimFrames, x, y);
+        }
     }
 }
 
 static s8 StartDoorCloseAnimation(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
-    if (gfx == NULL)
+    if (gfx == NULL) {
         return -1;
-    else
+    } else {
         return StartDoorAnimationTask(gfx, sDoorCloseAnimFrames, x, y);
+    }
 }
 
 static s8 GetDoorSoundType(const struct DoorGraphics *gfx, u32 x, u32 y)
 {
     gfx = GetDoorGraphics(gfx, MapGridGetMetatileIdAt(x, y));
-    if (gfx == NULL)
+    if (gfx == NULL) {
         return -1;
-    else
+    } else {
         return gfx->sound;
+    }
 }
 
 // Unused. Debug? Same as FieldAnimateDoorOpen but doesnt return or check if metatile is actually a door
@@ -488,30 +485,34 @@ static void Debug_FieldAnimateDoorOpen(u32 x, u32 y)
 
 void FieldSetDoorOpened(u32 x, u32 y)
 {
-    if (MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y)))
+    if (MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y))) {
         DrawOpenedDoor(sDoorAnimGraphicsTable, x, y);
+    }
 }
 
 void FieldSetDoorClosed(u32 x, u32 y)
 {
-    if (MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y)))
+    if (MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y))) {
         DrawClosedDoor(sDoorAnimGraphicsTable, x, y);
+    }
 }
 
 s8 FieldAnimateDoorClose(u32 x, u32 y)
 {
-    if (!MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y)))
+    if (!MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y))) {
         return -1;
-    else
+    } else {
         return StartDoorCloseAnimation(sDoorAnimGraphicsTable, x, y);
+    }
 }
 
 s8 FieldAnimateDoorOpen(u32 x, u32 y)
 {
-    if (!MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y)))
+    if (!MetatileBehavior_IsDoor(MapGridGetMetatileBehaviorAt(x, y))) {
         return -1;
-    else
+    } else {
         return StartDoorOpenAnimation(sDoorAnimGraphicsTable, x, y);
+    }
 }
 
 bool8 FieldIsDoorAnimationRunning(void)
@@ -522,25 +523,24 @@ bool8 FieldIsDoorAnimationRunning(void)
 u32 GetDoorSoundEffect(u32 x, u32 y)
 {
     int sound = GetDoorSoundType(sDoorAnimGraphicsTable, x, y);
-    
-    if (sound == DOOR_SOUND_NORMAL)
+
+    if (sound == DOOR_SOUND_NORMAL) {
         return SE_DOOR;
-    else if (sound == DOOR_SOUND_SLIDING)
+    } else if (sound == DOOR_SOUND_SLIDING) {
         return SE_SLIDING_DOOR;
-    else if (sound == DOOR_SOUND_ARENA)
+    } else if (sound == DOOR_SOUND_ARENA) {
         return SE_REPEL;
-    else
+    } else {
         return SE_DOOR;
+    }
 }
 
 // Opens the Battle Tower multi partner's door in sync with the player's door
 static bool8 ShouldUseMultiCorridorDoor(void)
 {
-    if (FlagGet(FLAG_ENABLE_MULTI_CORRIDOR_DOOR))
-    {
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR) 
-            && gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR))
-        {
+    if (FlagGet(FLAG_ENABLE_MULTI_CORRIDOR_DOOR)) {
+        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR)
+            && gSaveBlock1Ptr->location.mapNum == MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_CORRIDOR)) {
             return TRUE;
         }
     }

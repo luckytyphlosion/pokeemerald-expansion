@@ -29,11 +29,11 @@ void mevent_srv_new_wcard(void)
 u32 mevent_srv_common_do_exec(u16 * a0)
 {
     u32 result;
-    if (s_mevent_srv_common_ptr == NULL)
+    if (s_mevent_srv_common_ptr == NULL) {
         return 3;
+    }
     result = mevent_srv_exec_common(s_mevent_srv_common_ptr);
-    if (result == 3)
-    {
+    if (result == 3) {
         *a0 = s_mevent_srv_common_ptr->param;
         mevent_srv_free_resources(s_mevent_srv_common_ptr);
         Free(s_mevent_srv_common_ptr);
@@ -71,20 +71,22 @@ void mevent_srv_common_init_send(struct mevent_srv_common * svr, u32 ident, cons
 
 static const void * mevent_first_if_not_null_else_second(const void * a0, const void * a1)
 {
-    if (a0 != NULL)
+    if (a0 != NULL) {
         return a0;
-    else
+    } else {
         return a1;
+    }
 }
 
 static u32 mevent_compare_pointers(const void * a0, const void * a1)
 {
-    if (a1 < a0)
+    if (a1 < a0) {
         return 0;
-    else if (a1 == a0)
+    } else if (a1 == a0) {
         return 1;
-    else
+    } else {
         return 2;
+    }
 }
 
 static u32 common_mainseq_0(struct mevent_srv_common * svr)
@@ -103,16 +105,18 @@ static u32 common_mainseq_1(struct mevent_srv_common * svr)
 static u32 common_mainseq_2(struct mevent_srv_common * svr)
 {
     // do recv
-    if (mevent_srv_sub_recv(&svr->manager))
+    if (mevent_srv_sub_recv(&svr->manager)) {
         svr->mainseqno = 4;
+    }
     return 1;
 }
 
 static u32 common_mainseq_3(struct mevent_srv_common * svr)
 {
     // do send
-    if (mevent_srv_sub_send(&svr->manager))
+    if (mevent_srv_sub_send(&svr->manager)) {
         svr->mainseqno = 4;
+    }
     return 1;
 }
 
@@ -123,8 +127,7 @@ static u32 common_mainseq_4(struct mevent_srv_common * svr)
     const void * ptr;
     svr->cmdidx++;
 
-    switch (cmd->instr)
-    {
+    switch (cmd->instr) {
     case 0:
         // end
         AGB_ASSERT(cmd->parameter == NULL);
@@ -167,8 +170,7 @@ static u32 common_mainseq_4(struct mevent_srv_common * svr)
         break;
     case 4:
         // jump_if_eq
-        if (svr->param == cmd->flag)
-        {
+        if (svr->param == cmd->flag) {
             svr->cmdidx = 0;
             svr->cmdBuffer = cmd->parameter;
         }
@@ -215,16 +217,18 @@ static u32 common_mainseq_4(struct mevent_srv_common * svr)
         mevent_srv_common_init_send(svr, 0x18, mevent_first_if_not_null_else_second(cmd->parameter, &svr->sendWord), 4);
         break;
     case 15:
-        if (cmd->parameter == NULL)
+        if (cmd->parameter == NULL) {
             mevent_srv_common_init_send(svr, 0x19, svr->sendBuffer1, svr->sendBuffer1Size);
-        else
+        } else {
             mevent_srv_common_init_send(svr, 0x19, cmd->parameter, cmd->flag);
+        }
         break;
     case 18:
-        if (cmd->parameter == NULL)
+        if (cmd->parameter == NULL) {
             mevent_srv_common_init_send(svr, 0x10, svr->sendBuffer2, svr->sendBuffer2Size);
-        else
+        } else {
             mevent_srv_common_init_send(svr, 0x10, cmd->parameter, cmd->flag);
+        }
         break;
     case 19:
         AGB_ASSERT(cmd->flag == FALSE);

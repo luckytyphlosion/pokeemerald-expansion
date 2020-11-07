@@ -410,8 +410,7 @@ static const struct SpriteTemplate gBerryCheckCircleSpriteTemplate =
 void RemoveBagSprite(u8 id)
 {
     u8 *spriteId = &gBagMenu->spriteId[id];
-    if (*spriteId != 0xFF)
-    {
+    if (*spriteId != 0xFF) {
         FreeSpriteTilesByTag(id + 100);
         FreeSpritePaletteByTag(id + 100);
         FreeSpriteOamMatrix(&gSprites[*spriteId]);
@@ -430,27 +429,21 @@ void AddBagVisualSprite(u8 bagPocketId)
 void SetBagVisualPocketId(u8 bagPocketId, bool8 isSwitchingPockets)
 {
     struct Sprite *sprite = &gSprites[gBagMenu->spriteId[0]];
-    if (isSwitchingPockets)
-    {
+    if (isSwitchingPockets) {
         sprite->pos2.y = -5;
         sprite->callback = SpriteCB_BagVisualSwitchingPockets;
         sprite->data[0] = bagPocketId + 1;
         StartSpriteAnim(sprite, 0);
-    }
-    else
-    {
+    } else {
         StartSpriteAnim(sprite, bagPocketId + 1);
     }
 }
 
 static void SpriteCB_BagVisualSwitchingPockets(struct Sprite *sprite)
 {
-    if (sprite->pos2.y != 0)
-    {
+    if (sprite->pos2.y != 0) {
         sprite->pos2.y++;
-    }
-    else
-    {
+    } else {
         StartSpriteAnim(sprite, sprite->data[0]);
         sprite->callback = SpriteCallbackDummy;
     }
@@ -459,8 +452,7 @@ static void SpriteCB_BagVisualSwitchingPockets(struct Sprite *sprite)
 void ShakeBagSprite(void)
 {
     struct Sprite *sprite = &gSprites[gBagMenu->spriteId[0]];
-    if (sprite->affineAnimEnded)
-    {
+    if (sprite->affineAnimEnded) {
         StartSpriteAffineAnim(sprite, 1);
         sprite->callback = SpriteCB_ShakeBagSprite;
     }
@@ -468,8 +460,7 @@ void ShakeBagSprite(void)
 
 static void SpriteCB_ShakeBagSprite(struct Sprite *sprite)
 {
-    if (sprite->affineAnimEnded)
-    {
+    if (sprite->affineAnimEnded) {
         StartSpriteAffineAnim(sprite, 0);
         sprite->callback = SpriteCallbackDummy;
     }
@@ -493,10 +484,11 @@ static void UpdateSwitchPocketRotatingBallCoords(struct Sprite *sprite)
 static void SpriteCB_SwitchPocketRotatingBallInit(struct Sprite *sprite)
 {
     sprite->oam.affineMode = ST_OAM_AFFINE_NORMAL;
-    if (sprite->data[0] == -1)
+    if (sprite->data[0] == -1) {
         sprite->affineAnims = sRotatingBallAnimCmds;
-    else
+    } else {
         sprite->affineAnims = sRotatingBallAnimCmds_FullRotation;
+    }
 
     InitSpriteAffineAnim(sprite);
     sprite->data[1] = sprite->centerToCornerVecX;
@@ -509,22 +501,21 @@ static void SpriteCB_SwitchPocketRotatingBallContinue(struct Sprite *sprite)
 {
     sprite->data[3]++;
     UpdateSwitchPocketRotatingBallCoords(sprite);
-    if (sprite->data[3] == 16)
+    if (sprite->data[3] == 16) {
         RemoveBagSprite(1);
+    }
 }
 
 void AddBagItemIconSprite(u16 itemId, u8 id)
 {
     u8 *spriteId = &gBagMenu->spriteId[id + 2];
-    if (*spriteId == 0xFF)
-    {
+    if (*spriteId == 0xFF) {
         u8 iconSpriteId;
 
         FreeSpriteTilesByTag(id + 102);
         FreeSpritePaletteByTag(id + 102);
         iconSpriteId = AddItemIconSprite(id + 102, id + 102, itemId);
-        if (iconSpriteId != MAX_SPRITES)
-        {
+        if (iconSpriteId != MAX_SPRITES) {
             *spriteId = iconSpriteId;
             gSprites[iconSpriteId].pos2.x = 24;
             gSprites[iconSpriteId].pos2.y = 88;
@@ -558,17 +549,16 @@ static void sub_80D5018(void *mem0, void *mem1)
 
     memset(mem1, 0, 0x800);
     mem1 += 0x100;
-    for (i = 0; i < 6; i++)
-    {
+    for (i = 0; i < 6; i++) {
         mem1 += 0x20;
-        for (j = 0; j < 6; j++)
-        {
+        for (j = 0; j < 6; j++) {
             memcpy(mem1, mem0, 0x20);
             mem1 += 0x20;
             mem0 += 0x20;
         }
-        if (i != 5)
+        if (i != 5) {
             mem1 += 0x20;
+        }
     }
 }
 
@@ -576,8 +566,7 @@ static void LoadBerryGfx(u8 berryId)
 {
     struct CompressedSpritePalette pal;
 
-    if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid())
-    {
+    if (berryId == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) - 1 && IsEnigmaBerryValid()) {
         // unknown empty if statement
     }
 
@@ -607,8 +596,9 @@ u8 CreateSpinningBerrySprite(u8 berryId, u8 x, u8 y, bool8 startAffine)
     FreeSpritePaletteByTag(TAG_BERRY_PIC_PAL);
     LoadBerryGfx(berryId);
     spriteId = CreateSprite(&gBerryPicRotatingSpriteTemplate, x, y, 0);
-    if (startAffine == TRUE)
+    if (startAffine == TRUE) {
         StartSpriteAffineAnim(&gSprites[spriteId], 1);
+    }
 
     return spriteId;
 }

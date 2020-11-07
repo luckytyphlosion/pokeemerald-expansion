@@ -340,7 +340,7 @@ bool8 IsComputerScreenCloseEffectActive(void)
 #define tBlendCnt      data[7]
 #define tBlendY        data[8]
 
-static void CreateComputerScreenEffectTask(void (*taskfunc) (u8), u16 increment, u16 unused, u8 priority)
+static void CreateComputerScreenEffectTask(void (*taskfunc)(u8), u16 increment, u16 unused, u8 priority)
 {
     u8 taskId = CreateTask(taskfunc, priority);
 
@@ -354,8 +354,7 @@ static void Task_ComputerScreenOpenEffect(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    switch (task->tState)
-    {
+    switch (task->tState) {
     case 0:
         task->tWinLeft = DISPLAY_WIDTH / 2;
         task->tWinRight = DISPLAY_WIDTH / 2;
@@ -381,8 +380,7 @@ static void Task_ComputerScreenOpenEffect(u8 taskId)
         task->tWinLeft -= task->tHorzIncrement;
         task->tWinRight += task->tHorzIncrement;
 
-        if (task->tWinLeft < 1 || task->tWinRight > DISPLAY_WIDTH - 1)
-        {
+        if (task->tWinLeft < 1 || task->tWinRight > DISPLAY_WIDTH - 1) {
             task->tWinLeft = 0;
             task->tWinRight = DISPLAY_WIDTH;
             SetGpuReg(REG_OFFSET_BLDY, 0);
@@ -392,23 +390,24 @@ static void Task_ComputerScreenOpenEffect(u8 taskId)
         }
         SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(task->tWinLeft, task->tWinRight));
 
-        if (task->tWinLeft != 0)
+        if (task->tWinLeft != 0) {
             return;
+        }
         break;
     case 3:
         task->tWinTop -= task->tVertIncrement;
         task->tWinBottom += task->tVertIncrement;
 
-        if (task->tWinTop < 1 || task->tWinBottom > DISPLAY_HEIGHT - 1)
-        {
+        if (task->tWinTop < 1 || task->tWinBottom > DISPLAY_HEIGHT - 1) {
             task->tWinTop = 0;
             task->tWinBottom = DISPLAY_HEIGHT;
             ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
         }
         SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(task->tWinTop, task->tWinBottom));
 
-        if (task->tWinTop != 0)
+        if (task->tWinTop != 0) {
             return;
+        }
         break;
     default:
         SetGpuReg(REG_OFFSET_BLDCNT, task->tBlendCnt);
@@ -422,8 +421,7 @@ static void Task_ComputerScreenCloseEffect(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    switch (task->tState)
-    {
+    switch (task->tState) {
     case 0:
         gPlttBufferFaded[0] = 0;
         break;
@@ -443,8 +441,7 @@ static void Task_ComputerScreenCloseEffect(u8 taskId)
         task->tWinTop += task->tVertIncrement;
         task->tWinBottom -= task->tVertIncrement;
 
-        if (task->tWinTop >= DISPLAY_HEIGHT / 2 || task->tWinBottom <= DISPLAY_HEIGHT / 2 + 1)
-        {
+        if (task->tWinTop >= DISPLAY_HEIGHT / 2 || task->tWinBottom <= DISPLAY_HEIGHT / 2 + 1) {
             task->tWinTop = DISPLAY_HEIGHT / 2;
             task->tWinBottom = DISPLAY_HEIGHT / 2 + 1;
             SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_ALL | BLDCNT_EFFECT_LIGHTEN);
@@ -452,15 +449,15 @@ static void Task_ComputerScreenCloseEffect(u8 taskId)
         }
         SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(task->tWinTop, task->tWinBottom));
 
-        if (task->tWinTop != DISPLAY_HEIGHT / 2)
+        if (task->tWinTop != DISPLAY_HEIGHT / 2) {
             return;
+        }
         break;
     case 3:
         task->tWinLeft += task->tHorzIncrement;
         task->tWinRight -= task->tHorzIncrement;
 
-        if (task->tWinLeft >= DISPLAY_WIDTH / 2 || task->tWinRight <= DISPLAY_WIDTH / 2)
-        {
+        if (task->tWinLeft >= DISPLAY_WIDTH / 2 || task->tWinRight <= DISPLAY_WIDTH / 2) {
             task->tWinLeft = DISPLAY_WIDTH / 2;
             task->tWinRight = DISPLAY_WIDTH / 2;
             BlendPalettes(-1, 16, 0);
@@ -468,8 +465,9 @@ static void Task_ComputerScreenCloseEffect(u8 taskId)
         }
         SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(task->tWinLeft, task->tWinRight));
 
-        if (task->tWinLeft != DISPLAY_WIDTH / 2)
+        if (task->tWinLeft != DISPLAY_WIDTH / 2) {
             return;
+        }
         break;
     default:
         ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
@@ -499,10 +497,8 @@ static void SetCurrentSecretBase(void)
 
 static void AdjustSecretPowerSpritePixelOffsets(void)
 {
-    if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE))
-    {
-        switch (gFieldEffectArguments[1])
-        {
+    if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE)) {
+        switch (gFieldEffectArguments[1]) {
         case DIR_SOUTH:
             gFieldEffectArguments[5] = 16;
             gFieldEffectArguments[6] = 40;
@@ -520,11 +516,8 @@ static void AdjustSecretPowerSpritePixelOffsets(void)
             gFieldEffectArguments[6] = 24;
             break;
         }
-    }
-    else
-    {
-        switch (gFieldEffectArguments[1])
-        {
+    } else {
+        switch (gFieldEffectArguments[1]) {
         case DIR_SOUTH:
             gFieldEffectArguments[5] = 8;
             gFieldEffectArguments[6] = 40;
@@ -551,30 +544,28 @@ bool8 SetUpFieldMove_SecretPower(void)
 
     CheckPlayerHasSecretBase();
 
-    if (gSpecialVar_Result == 1 || GetPlayerFacingDirection() != DIR_NORTH)
+    if (gSpecialVar_Result == 1 || GetPlayerFacingDirection() != DIR_NORTH) {
         return FALSE;
+    }
 
     GetXYCoordsOneStepInFrontOfPlayer(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
     mb = MapGridGetMetatileBehaviorAt(gPlayerFacingPosition.x, gPlayerFacingPosition.y);
 
-    if (MetatileBehavior_IsSecretBaseCave(mb) == TRUE)
-    {
+    if (MetatileBehavior_IsSecretBaseCave(mb) == TRUE) {
         SetCurrentSecretBase();
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = FieldCallback_SecretBaseCave;
         return TRUE;
     }
 
-    if (MetatileBehavior_IsSecretBaseTree(mb) == TRUE)
-    {
+    if (MetatileBehavior_IsSecretBaseTree(mb) == TRUE) {
         SetCurrentSecretBase();
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = FieldCallback_SecretBaseTree;
         return TRUE;
     }
 
-    if (MetatileBehavior_IsSecretBaseShrub(mb) == TRUE)
-    {
+    if (MetatileBehavior_IsSecretBaseShrub(mb) == TRUE) {
         SetCurrentSecretBase();
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = FieldCallback_SecretBaseShrub;
@@ -626,13 +617,11 @@ static void SpriteCB_CaveEntranceInit(struct Sprite *sprite)
 
 static void SpriteCB_CaveEntranceOpen(struct Sprite *sprite)
 {
-    if (sprite->data[0] < 40)
-    {
-        if (++sprite->data[0] == 20)
+    if (sprite->data[0] < 40) {
+        if (++sprite->data[0] == 20) {
             ToggleSecretBaseEntranceMetatile();
-    }
-    else
-    {
+        }
+    } else {
         sprite->data[0] = 0;
         sprite->callback = SpriteCB_CaveEntranceEnd;
     }
@@ -670,11 +659,13 @@ bool8 FldEff_SecretPowerTree(void)
 {
     s16 mb = MapGridGetMetatileBehaviorAt(gPlayerFacingPosition.x, gPlayerFacingPosition.y) & 0xFFF;
 
-    if (mb == MB_SECRET_BASE_SPOT_TREE_LEFT)
+    if (mb == MB_SECRET_BASE_SPOT_TREE_LEFT) {
         gFieldEffectArguments[7] = 0;
+    }
 
-    if (mb == MB_SECRET_BASE_SPOT_TREE_RIGHT)
+    if (mb == MB_SECRET_BASE_SPOT_TREE_RIGHT) {
         gFieldEffectArguments[7] = 2;
+    }
 
     AdjustSecretPowerSpritePixelOffsets();
 
@@ -683,8 +674,9 @@ bool8 FldEff_SecretPowerTree(void)
                  gSprites[gPlayerAvatar.spriteId].oam.y + gFieldEffectArguments[6],
                  148);
 
-    if (gFieldEffectArguments[7] == 1 || gFieldEffectArguments[7] == 3)
+    if (gFieldEffectArguments[7] == 1 || gFieldEffectArguments[7] == 3) {
         ToggleSecretBaseEntranceMetatile();
+    }
 
     return FALSE;
 }
@@ -702,10 +694,10 @@ static void SpriteCB_TreeEntranceOpen(struct Sprite *sprite)
 {
     sprite->data[0]++;
 
-    if (sprite->data[0] >= 40)
-    {
-        if (gFieldEffectArguments[7] == 0 || gFieldEffectArguments[7] == 2)
+    if (sprite->data[0] >= 40) {
+        if (gFieldEffectArguments[7] == 0 || gFieldEffectArguments[7] == 2) {
             ToggleSecretBaseEntranceMetatile();
+        }
 
         sprite->data[0] = 0;
         sprite->callback = SpriteCB_TreeEntranceEnd;
@@ -762,15 +754,13 @@ static void SpriteCB_ShrubEntranceInit(struct Sprite *sprite)
 
 static void SpriteCB_ShrubEntranceOpen(struct Sprite *sprite)
 {
-    if (sprite->data[0] < 40)
-    {
+    if (sprite->data[0] < 40) {
         sprite->data[0]++;
 
-        if (sprite->data[0] == 20)
+        if (sprite->data[0] == 20) {
             ToggleSecretBaseEntranceMetatile();
-    }
-    else
-    {
+        }
+    } else {
         sprite->data[0] = 0;
         sprite->callback = SpriteCB_ShrubEntranceEnd;
     }
@@ -805,8 +795,7 @@ static void Task_SecretBasePCTurnOn(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    switch (tState)
-    {
+    switch (tState) {
     case 4:
     case 12:
         MapGridSetMetatileIdAt(tX, tY, METATILE_SecretBase_PC_On);
@@ -840,10 +829,11 @@ void DoSecretBasePCTurnOffEffect(void)
     GetXYCoordsOneStepInFrontOfPlayer(&x, &y);
     PlaySE(SE_PC_OFF);
 
-    if (!VarGet(VAR_CURRENT_SECRET_BASE))
+    if (!VarGet(VAR_CURRENT_SECRET_BASE)) {
         MapGridSetMetatileIdAt(x, y, METATILE_SecretBase_PC | METATILE_COLLISION_MASK);
-    else
+    } else {
         MapGridSetMetatileIdAt(x, y, METATILE_SecretBase_RegisterPC | METATILE_COLLISION_MASK);
+    }
 
     CurrentMapDrawMetatileAt(x, y);
 }
@@ -863,30 +853,31 @@ static void Task_PopSecretBaseBalloon(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (data[3] == 6)
+    if (data[3] == 6) {
         data[3] = 0;
-    else
+    } else {
         data[3]++;
+    }
 
-    if (data[3] == 0)
-    {
-        if (data[4] == 2)
+    if (data[3] == 0) {
+        if (data[4] == 2) {
             DoBalloonSoundEffect(data[0]);
+        }
 
         MapGridSetMetatileIdAt(data[1], data[2], data[0] + data[4]);
         CurrentMapDrawMetatileAt(data[1], data[2]);
 
-        if (data[4] == 3)
+        if (data[4] == 3) {
             DestroyTask(taskId);
-        else
+        } else {
             data[4]++;
+        }
     }
 }
 
 static void DoBalloonSoundEffect(s16 metatileId)
 {
-    switch (metatileId)
-    {
+    switch (metatileId) {
     case METATILE_SecretBase_RedBalloon:
         PlaySE(SE_BALLOON_RED);
         break;
@@ -923,13 +914,10 @@ static void DoSecretBaseBreakableDoorEffect(s16 x, s16 y)
 
 static void Task_ShatterSecretBaseBreakableDoor(u8 taskId)
 {
-    if (gTasks[taskId].data[0] == 7)
-    {
+    if (gTasks[taskId].data[0] == 7) {
         DoSecretBaseBreakableDoorEffect(gTasks[taskId].data[1], gTasks[taskId].data[2]);
         DestroyTask(taskId);
-    }
-    else
-    {
+    } else {
         gTasks[taskId].data[0]++;
     }
 }
@@ -938,12 +926,9 @@ void ShatterSecretBaseBreakableDoor(s16 x, s16 y)
 {
     u8 dir = GetPlayerFacingDirection();
 
-    if (dir == DIR_SOUTH)
-    {
+    if (dir == DIR_SOUTH) {
         DoSecretBaseBreakableDoorEffect(x, y);
-    }
-    else if (dir == DIR_NORTH)
-    {
+    } else if (dir == DIR_NORTH) {
         u8 taskId = CreateTask(Task_ShatterSecretBaseBreakableDoor, 5);
         gTasks[taskId].data[0] = 0;
         gTasks[taskId].data[1] = x;
@@ -954,10 +939,8 @@ void ShatterSecretBaseBreakableDoor(s16 x, s16 y)
 #define tMetatileID data[0]
 static void Task_SecretBaseMusicNoteMatSound(u8 taskId)
 {
-    if (gTasks[taskId].data[1] == 7)
-    {
-        switch (gTasks[taskId].tMetatileID)
-        {
+    if (gTasks[taskId].data[1] == 7) {
+        switch (gTasks[taskId].tMetatileID) {
         case METATILE_SecretBase_NoteMat_C_Low:
             PlaySE(SE_NOTE_C);
             break;
@@ -985,9 +968,7 @@ static void Task_SecretBaseMusicNoteMatSound(u8 taskId)
         }
 
         DestroyTask(taskId);
-    }
-    else
-    {
+    } else {
         gTasks[taskId].data[1]++;
     }
 }
@@ -1005,11 +986,13 @@ static void SpriteCB_GlitterMatSparkle(struct Sprite *sprite)
 {
     sprite->data[0]++;
 
-    if (sprite->data[0] == 8)
+    if (sprite->data[0] == 8) {
         PlaySE(SE_M_HEAL_BELL);
+    }
 
-    if (sprite->data[0] >= 32)
+    if (sprite->data[0] >= 32) {
         DestroySprite(sprite);
+    }
 }
 
 void DoSecretBaseGlitterMatSparkle(void)
@@ -1021,8 +1004,7 @@ void DoSecretBaseGlitterMatSparkle(void)
     SetSpritePosToOffsetMapCoords(&x, &y, 8, 4);
 
     spriteId = CreateSpriteAtEnd(gFieldEffectObjectTemplatePointers[FLDEFFOBJ_SPARKLE], x, y, 0);
-    if (spriteId != MAX_SPRITES)
-    {
+    if (spriteId != MAX_SPRITES) {
         gSprites[spriteId].coordOffsetEnabled = TRUE;
         gSprites[spriteId].oam.priority = 1;
         gSprites[spriteId].oam.paletteNum = 5;
@@ -1041,8 +1023,7 @@ bool8 FldEff_SandPillar(void)
     gFieldEffectArguments[5] = x;
     gFieldEffectArguments[6] = y;
 
-    switch (GetPlayerFacingDirection())
-    {
+    switch (GetPlayerFacingDirection()) {
     case DIR_SOUTH:
         CreateSprite(&sSpriteTemplate_SandPillar,
                      gSprites[gPlayerAvatar.spriteId].oam.x + 8,
@@ -1083,10 +1064,11 @@ static void SpriteCB_SandPillar_BreakTop(struct Sprite *sprite)
 {
     PlaySE(SE_M_ROCK_THROW);
 
-    if (MapGridGetMetatileIdAt(gFieldEffectArguments[5], gFieldEffectArguments[6] - 1) == METATILE_SecretBase_SandOrnament_TopWall)
+    if (MapGridGetMetatileIdAt(gFieldEffectArguments[5], gFieldEffectArguments[6] - 1) == METATILE_SecretBase_SandOrnament_TopWall) {
         MapGridSetMetatileIdAt(gFieldEffectArguments[5], gFieldEffectArguments[6] - 1, METATILE_SecretBase_Wall_TopMid | METATILE_COLLISION_MASK);
-    else
+    } else {
         MapGridSetMetatileIdAt(gFieldEffectArguments[5], gFieldEffectArguments[6] - 1, METATILE_SecretBase_SandOrnament_BrokenTop);
+    }
 
     MapGridSetMetatileIdAt(gFieldEffectArguments[5], gFieldEffectArguments[6], METATILE_SecretBase_Ground);
     CurrentMapDrawMetatileAt(gFieldEffectArguments[5], gFieldEffectArguments[6] - 1);
@@ -1098,12 +1080,9 @@ static void SpriteCB_SandPillar_BreakTop(struct Sprite *sprite)
 
 static void SpriteCB_SandPillar_BreakBase(struct Sprite *sprite)
 {
-    if (sprite->data[0] < 18)
-    {
+    if (sprite->data[0] < 18) {
         sprite->data[0]++;
-    }
-    else
-    {
+    } else {
         MapGridSetMetatileIdAt(gFieldEffectArguments[5], gFieldEffectArguments[6], METATILE_SecretBase_SandOrnament_BrokenBase | METATILE_COLLISION_MASK);
         CurrentMapDrawMetatileAt(gFieldEffectArguments[5], gFieldEffectArguments[6]);
         sprite->data[0] = 0;
@@ -1126,16 +1105,16 @@ void InteractWithShieldOrTVDecoration(void)
 
     metatileId = MapGridGetMetatileIdAt(x, y);
 
-    switch (metatileId)
-    {
+    switch (metatileId) {
     case METATILE_SecretBase_GoldShield_Base1:
         ConvertIntToDecimalStringN(gStringVar1, 100, STR_CONV_MODE_LEFT_ALIGN, 3);
         StringCopy(gStringVar2, gText_Gold);
 
         gSpecialVar_Result = 0;
 
-        if (!VarGet(VAR_CURRENT_SECRET_BASE))
+        if (!VarGet(VAR_CURRENT_SECRET_BASE)) {
             return;
+        }
 
         VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) | SECRET_BASE_USED_GOLD_SHIELD);
         break;
@@ -1145,32 +1124,36 @@ void InteractWithShieldOrTVDecoration(void)
 
         gSpecialVar_Result = 0;
 
-        if (!VarGet(VAR_CURRENT_SECRET_BASE))
+        if (!VarGet(VAR_CURRENT_SECRET_BASE)) {
             return;
+        }
 
         VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) | SECRET_BASE_USED_SILVER_SHIELD);
         break;
     case METATILE_SecretBase_TV:
         gSpecialVar_Result = 1;
 
-        if (!VarGet(VAR_CURRENT_SECRET_BASE))
+        if (!VarGet(VAR_CURRENT_SECRET_BASE)) {
             return;
+        }
 
         VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) | SECRET_BASE_USED_TV);
         break;
     case METATILE_SecretBase_RoundTV:
         gSpecialVar_Result = 2;
 
-        if (!VarGet(VAR_CURRENT_SECRET_BASE))
+        if (!VarGet(VAR_CURRENT_SECRET_BASE)) {
             return;
+        }
 
         VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) | SECRET_BASE_USED_TV);
         break;
     case METATILE_SecretBase_CuteTV:
         gSpecialVar_Result = 3;
 
-        if (!VarGet(VAR_CURRENT_SECRET_BASE))
+        if (!VarGet(VAR_CURRENT_SECRET_BASE)) {
             return;
+        }
 
         VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) | SECRET_BASE_USED_TV);
         break;
@@ -1180,22 +1163,24 @@ void InteractWithShieldOrTVDecoration(void)
 // As opposed to a small one (single metatile) like the balloons
 bool8 IsLargeBreakableDecoration(u16 metatileId, bool8 checkBase)
 {
-    if (!CurMapIsSecretBase())
+    if (!CurMapIsSecretBase()) {
         return FALSE;
-
-    if (!checkBase)
-    {
-        if (metatileId == METATILE_SecretBase_SandOrnament_Top || metatileId == METATILE_SecretBase_SandOrnament_TopWall)
-            return TRUE;
-        if (metatileId == METATILE_SecretBase_BreakableDoor_TopClosed)
-            return TRUE;
     }
-    else
-    {
-        if (metatileId == METATILE_SecretBase_SandOrnament_Base1)
+
+    if (!checkBase) {
+        if (metatileId == METATILE_SecretBase_SandOrnament_Top || metatileId == METATILE_SecretBase_SandOrnament_TopWall) {
             return TRUE;
-        if (metatileId == METATILE_SecretBase_BreakableDoor_BottomClosed)
+        }
+        if (metatileId == METATILE_SecretBase_BreakableDoor_TopClosed) {
             return TRUE;
+        }
+    } else {
+        if (metatileId == METATILE_SecretBase_SandOrnament_Base1) {
+            return TRUE;
+        }
+        if (metatileId == METATILE_SecretBase_BreakableDoor_BottomClosed) {
+            return TRUE;
+        }
     }
 
     return FALSE;
@@ -1205,17 +1190,18 @@ static void Task_FieldPoisonEffect(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    switch (data[0])
-    {
+    switch (data[0]) {
     case 0:
         data[1] += 2;
-        if (data[1] > 8)
+        if (data[1] > 8) {
             data[0]++;
+        }
         break;
     case 1:
         data[1] -= 2;
-        if (data[1] == 0)
+        if (data[1] == 0) {
             data[0]++;
+        }
         break;
     case 2:
         DestroyTask(taskId);
@@ -1245,8 +1231,7 @@ static void Task_WateringBerryTreeAnim_Start(u8 taskId)
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
     if (!ObjectEventIsMovementOverridden(playerObjEvent)
-        || ObjectEventClearHeldMovementIfFinished(playerObjEvent))
-    {
+        || ObjectEventClearHeldMovementIfFinished(playerObjEvent)) {
         // Start watering
         SetPlayerAvatarWatering(GetPlayerFacingDirection());
         ObjectEventSetHeldMovement(playerObjEvent, GetWalkInPlaceNormalMovementAction(GetPlayerFacingDirection()));
@@ -1258,15 +1243,15 @@ static void Task_WateringBerryTreeAnim_Continue(u8 taskId)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
-    if (ObjectEventClearHeldMovementIfFinished(playerObjEvent))
-    {
+    if (ObjectEventClearHeldMovementIfFinished(playerObjEvent)) {
         s16 value = gTasks[taskId].data[1]++;
 
         // Continue holding watering action 10 times, then end
-        if (value < 10)
+        if (value < 10) {
             ObjectEventSetHeldMovement(playerObjEvent, GetWalkInPlaceNormalMovementAction(GetPlayerFacingDirection()));
-        else
+        } else {
             gTasks[taskId].func = Task_WateringBerryTreeAnim_End;
+        }
     }
 }
 
@@ -1291,12 +1276,9 @@ u8 CreateRecordMixingLights(void)
 
     spriteId = CreateSprite(&sSpriteTemplate_RecordMixLights, 0, 0, 82);
 
-    if (spriteId == MAX_SPRITES)
-    {
+    if (spriteId == MAX_SPRITES) {
         return MAX_SPRITES;
-    }
-    else
-    {
+    } else {
         struct Sprite *sprite = &gSprites[spriteId];
         sub_8092FF0(16, 13, &sprite->pos1.x, &sprite->pos1.y);
         sprite->coordOffsetEnabled = TRUE;
@@ -1310,10 +1292,8 @@ void DestroyRecordMixingLights(void)
 {
     int i;
 
-    for (i = 0; i < MAX_SPRITES; i++)
-    {
-        if (gSprites[i].template == &sSpriteTemplate_RecordMixLights)
-        {
+    for (i = 0; i < MAX_SPRITES; i++) {
+        if (gSprites[i].template == &sSpriteTemplate_RecordMixLights) {
             FreeSpritePalette(&gSprites[i]);
             DestroySprite(&gSprites[i]);
         }

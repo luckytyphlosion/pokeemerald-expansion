@@ -52,18 +52,17 @@ bool8 AddCoins(u16 toAdd)
 {
     u16 newAmount;
     u16 ownedCoins = GetCoins();
-    if (ownedCoins >= MAX_COINS)
+    if (ownedCoins >= MAX_COINS) {
         return FALSE;
-    // check overflow, can't have less coins than previously
-    if (ownedCoins > ownedCoins + toAdd)
-    {
-        newAmount = MAX_COINS;
     }
-    else
-    {
+    // check overflow, can't have less coins than previously
+    if (ownedCoins > ownedCoins + toAdd) {
+        newAmount = MAX_COINS;
+    } else {
         ownedCoins += toAdd;
-        if (ownedCoins > MAX_COINS)
+        if (ownedCoins > MAX_COINS) {
             ownedCoins = MAX_COINS;
+        }
         newAmount = ownedCoins;
     }
     SetCoins(newAmount);
@@ -73,8 +72,7 @@ bool8 AddCoins(u16 toAdd)
 bool8 RemoveCoins(u16 toSub)
 {
     u16 ownedCoins = GetCoins();
-    if (ownedCoins >= toSub)
-    {
+    if (ownedCoins >= toSub) {
         SetCoins(ownedCoins - toSub);
         return TRUE;
     }

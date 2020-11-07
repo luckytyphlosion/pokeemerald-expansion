@@ -81,8 +81,9 @@ u32 GetTrainerId(u8 *trainerId)
 void CopyTrainerId(u8 *dst, u8 *src)
 {
     s32 i;
-    for (i = 0; i < TRAINER_ID_LENGTH; i++)
+    for (i = 0; i < TRAINER_ID_LENGTH; i++) {
         dst[i] = src[i];
+    }
 }
 
 static void InitPlayerTrainerId(void)
@@ -114,8 +115,9 @@ void ClearAllContestWinnerPics(void)
     s32 i;
 
     ClearContestWinnerPicsInContestHall();
-    for (i = 8; i < 13; i++)
+    for (i = 8; i < 13; i++) {
         gSaveBlock1Ptr->contestWinners[i] = sContestWinnerPicDummy;
+    }
 }
 
 static void ClearFrontierRecord(void)
@@ -150,8 +152,9 @@ void ResetMenuAndMonGlobals(void)
 
 void NewGameInitData(void)
 {
-    if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
+    if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT) {
         RtcReset();
+    }
 
     gDifferentSaveFile = 1;
     gSaveBlock2Ptr->encryptionKey = 0;

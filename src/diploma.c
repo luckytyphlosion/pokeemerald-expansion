@@ -78,8 +78,9 @@ void CB2_ShowDiploma(void)
     InitDiplomaWindow();
     ResetTempTileDataBuffers();
     DecompressAndCopyTileDataToVram(1, &sDiplomaTiles, 0, 0, 0);
-    while (FreeTempTileDataBuffersIfPossible())
+    while (FreeTempTileDataBuffersIfPossible()) {
         ;
+    }
     LZDecompressWram(sDiplomaTilemap, sDiplomaTilemapPtr);
     CopyBgTilemapBufferToVram(1);
     DisplayDiplomaText();
@@ -101,14 +102,14 @@ static void MainCB2(void)
 
 static void Task_DiplomaFadeIn(u8 taskId)
 {
-    if (!gPaletteFade.active)
+    if (!gPaletteFade.active) {
         gTasks[taskId].func = Task_DiplomaWaitForKeyPress;
+    }
 }
 
 static void Task_DiplomaWaitForKeyPress(u8 taskId)
 {
-    if (JOY_NEW(A_BUTTON | B_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
         gTasks[taskId].func = Task_DiplomaFadeOut;
     }
@@ -116,8 +117,7 @@ static void Task_DiplomaWaitForKeyPress(u8 taskId)
 
 static void Task_DiplomaFadeOut(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         Free(sDiplomaTilemapPtr);
         FreeAllWindowBuffers();
         DestroyTask(taskId);
@@ -127,13 +127,10 @@ static void Task_DiplomaFadeOut(u8 taskId)
 
 static void DisplayDiplomaText(void)
 {
-    if (HasAllMons())
-    {
+    if (HasAllMons()) {
         SetGpuReg(REG_OFFSET_BG1HOFS, DISPCNT_BG0_ON);
         StringCopy(gStringVar1, gText_DexNational);
-    }
-    else
-    {
+    } else {
         SetGpuReg(REG_OFFSET_BG1HOFS, DISPCNT_MODE_0);
         StringCopy(gStringVar1, gText_DexHoenn);
     }

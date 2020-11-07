@@ -104,8 +104,7 @@ static void ClearLinkBattleRecord(struct LinkBattleRecord *record)
 static void ClearLinkBattleRecords(struct LinkBattleRecord *records)
 {
     s32 i;
-    for (i = 0; i < LINK_B_RECORDS_COUNT; i++)
-    {
+    for (i = 0; i < LINK_B_RECORDS_COUNT; i++) {
         ClearLinkBattleRecord(records + i);
     }
     SetGameStat(GAME_STAT_LINK_BATTLE_WINS, 0);
@@ -122,10 +121,10 @@ static s32 FindLinkBattleRecord(struct LinkBattleRecord *records, const u8 *name
 {
     s32 i;
 
-    for (i = 0; i < LINK_B_RECORDS_COUNT; i++)
-    {
-        if (!StringCompareN(records[i].name, name, PLAYER_NAME_LENGTH) && records[i].trainerId == trainerId)
+    for (i = 0; i < LINK_B_RECORDS_COUNT; i++) {
+        if (!StringCompareN(records[i].name, name, PLAYER_NAME_LENGTH) && records[i].trainerId == trainerId) {
             return i;
+        }
     }
 
     return LINK_B_RECORDS_COUNT;
@@ -135,15 +134,12 @@ static void SortLinkBattleRecords(struct LinkBattleRecords *records)
 {
     s32 i, j;
 
-    for (i = LINK_B_RECORDS_COUNT - 1; i > 0; i--)
-    {
-        for (j = i - 1; j >= 0; j--)
-        {
+    for (i = LINK_B_RECORDS_COUNT - 1; i > 0; i--) {
+        for (j = i - 1; j >= 0; j--) {
             s32 totalBattlesI = GetLinkBattleRecordTotalBattles(&records->entries[i]);
             s32 totalBattlesJ = GetLinkBattleRecordTotalBattles(&records->entries[j]);
 
-            if (totalBattlesI > totalBattlesJ)
-            {
+            if (totalBattlesI > totalBattlesJ) {
                 struct LinkBattleRecord temp1;
                 u8 temp2;
 
@@ -161,22 +157,24 @@ static void SortLinkBattleRecords(struct LinkBattleRecords *records)
 
 static void UpdateLinkBattleRecord(struct LinkBattleRecord *record, s32 battleOutcome)
 {
-    switch (battleOutcome)
-    {
+    switch (battleOutcome) {
     case B_OUTCOME_WON:
         record->wins++;
-        if (record->wins > 9999)
+        if (record->wins > 9999) {
             record->wins = 9999;
+        }
         break;
     case B_OUTCOME_LOST:
         record->losses++;
-        if (record->losses > 9999)
+        if (record->losses > 9999) {
             record->losses = 9999;
+        }
         break;
     case B_OUTCOME_DREW:
         record->draws++;
-        if (record->draws > 9999)
+        if (record->draws > 9999) {
             record->draws = 9999;
+        }
         break;
     }
 }
@@ -185,8 +183,7 @@ static void UpdateLinkBattleGameStats(s32 battleOutcome)
 {
     u8 stat;
 
-    switch (battleOutcome)
-    {
+    switch (battleOutcome) {
     case B_OUTCOME_WON:
         stat = GAME_STAT_LINK_BATTLE_WINS;
         break;
@@ -200,8 +197,9 @@ static void UpdateLinkBattleGameStats(s32 battleOutcome)
         return;
     }
 
-    if (GetGameStat(stat) < 9999)
+    if (GetGameStat(stat) < 9999) {
         IncrementGameStat(stat);
+    }
 }
 
 static void UpdateLinkBattleRecords(struct LinkBattleRecords *records, const u8 *name, u16 trainerId, s32 battleOutcome, u8 battlerId)
@@ -211,8 +209,7 @@ static void UpdateLinkBattleRecords(struct LinkBattleRecords *records, const u8 
     UpdateLinkBattleGameStats(battleOutcome);
     SortLinkBattleRecords(records);
     index = FindLinkBattleRecord(records->entries, name, trainerId);
-    if (index == LINK_B_RECORDS_COUNT)
-    {
+    if (index == LINK_B_RECORDS_COUNT) {
         index = LINK_B_RECORDS_COUNT - 1;
         ClearLinkBattleRecord(&records->entries[index]);
         StringCopyN(records->entries[index].name, name, PLAYER_NAME_LENGTH);
@@ -232,22 +229,23 @@ static void IncTrainerCardWins(s32 battlerId)
 {
     u16 *wins = &gTrainerCards[battlerId].linkBattleWins;
     (*wins)++;
-    if (*wins > 9999)
+    if (*wins > 9999) {
         *wins = 9999;
+    }
 }
 
 static void IncTrainerCardLosses(s32 battlerId)
 {
     u16 *losses = &gTrainerCards[battlerId].linkBattleLosses;
     (*losses)++;
-    if (*losses > 9999)
+    if (*losses > 9999) {
         *losses = 9999;
+    }
 }
 
 static void UpdateTrainerCardWinsLosses(s32 battlerId)
 {
-    switch (gBattleOutcome)
-    {
+    switch (gBattleOutcome) {
     case B_OUTCOME_WON:
         IncTrainerCardWins(BATTLE_OPPOSITE(battlerId));
         IncTrainerCardLosses(battlerId);
@@ -261,8 +259,7 @@ static void UpdateTrainerCardWinsLosses(s32 battlerId)
 
 void UpdatePlayerLinkBattleRecords(s32 battlerId)
 {
-    if (InUnionRoom() != TRUE)
-    {
+    if (InUnionRoom() != TRUE) {
         UpdateTrainerCardWinsLosses(battlerId);
         UpdateLinkBattleRecords(
             &gSaveBlock1Ptr->linkBattleRecords,
@@ -288,16 +285,13 @@ static void PrintLinkBattleWinsLossesDraws(struct LinkBattleRecord *records)
 
 static void PrintLinkBattleRecord(struct LinkBattleRecord *record, u8 y, s32 language)
 {
-    if (record->wins == 0 && record->losses == 0 && record->draws == 0)
-    {
+    if (record->wins == 0 && record->losses == 0 && record->draws == 0) {
         // empty slot
         AddTextPrinterParameterized(gRecordsWindowId, 1, sText_DashesNoPlayer,   8, (y * 8) + 1, 0, NULL);
         AddTextPrinterParameterized(gRecordsWindowId, 1, sText_DashesNoScore,  80, (y * 8) + 1, 0, NULL);
         AddTextPrinterParameterized(gRecordsWindowId, 1, sText_DashesNoScore, 128, (y * 8) + 1, 0, NULL);
         AddTextPrinterParameterized(gRecordsWindowId, 1, sText_DashesNoScore, 176, (y * 8) + 1, 0, NULL);
-    }
-    else
-    {
+    } else {
         StringFillWithTerminator(gStringVar1, 8);
         StringCopyN(gStringVar1, record->name, 7);
         ConvertInternationalString(gStringVar1, language);
@@ -331,8 +325,7 @@ void ShowLinkBattleRecords(void)
     StringExpandPlaceholders(gStringVar4, gText_WinLoseDraw);
     AddTextPrinterParameterized(gRecordsWindowId, 1, gStringVar4, 0, 41, 0, NULL);
 
-    for (i = 0; i < LINK_B_RECORDS_COUNT; i++)
-    {
+    for (i = 0; i < LINK_B_RECORDS_COUNT; i++) {
         PrintLinkBattleRecord(&gSaveBlock1Ptr->linkBattleRecords.entries[i], 7 + (i * 2), gSaveBlock1Ptr->linkBattleRecords.languages[i]);
     }
 
@@ -348,16 +341,16 @@ void RemoveRecordsWindow(void)
 
 static void Task_TrainerHillWaitForPaletteFade(u8 taskId)
 {
-    if (!gPaletteFade.active)
+    if (!gPaletteFade.active) {
         gTasks[taskId].func = Task_CloseTrainerHillRecordsOnButton;
+    }
 }
 
 static void Task_CloseTrainerHillRecordsOnButton(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)) {
         PlaySE(SE_SELECT);
         task->func = Task_BeginPaletteFade;
     }
@@ -371,8 +364,7 @@ static void Task_BeginPaletteFade(u8 taskId)
 
 static void Task_ExitTrainerHillRecords(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
         Free(sTilemapBuffer);
         RemoveTrainerHillRecordsWindow(0);
@@ -473,8 +465,7 @@ void ShowTrainerHillRecords(void)
 
 static void CB2_ShowTrainerHillRecords(void)
 {
-    switch (gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
         SetVBlankCallback(NULL);
         ClearVramOamPlttRegs();
@@ -498,8 +489,7 @@ static void CB2_ShowTrainerHillRecords(void)
         gMain.state++;
         break;
     case 4:
-        if (IsDma3ManagerBusyWithBgCopy() != TRUE)
-        {
+        if (IsDma3ManagerBusyWithBgCopy() != TRUE) {
             ShowBg(0);
             ShowBg(3);
             CopyBgTilemapBufferToVram(3);

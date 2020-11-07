@@ -355,8 +355,9 @@ static const struct SpriteTemplate sSpriteTemplate_StarterCircle =
 // .text
 u16 GetStarterPokemon(u16 chosenStarterId)
 {
-    if (chosenStarterId > STARTER_MON_COUNT)
+    if (chosenStarterId > STARTER_MON_COUNT) {
         chosenStarterId = 0;
+    }
     return sStarterMon[chosenStarterId];
 }
 
@@ -491,8 +492,7 @@ static void Task_HandleStarterChooseInput(u8 taskId)
 {
     u8 selection = gTasks[taskId].tStarterSelection;
 
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         u8 spriteId;
 
         ClearStarterLabel();
@@ -508,14 +508,10 @@ static void Task_HandleStarterChooseInput(u8 taskId)
 
         gTasks[taskId].tPkmnSpriteId = spriteId;
         gTasks[taskId].func = Task_WaitForStarterSprite;
-    }
-    else if (JOY_NEW(DPAD_LEFT) && selection > 0)
-    {
+    } else if (JOY_NEW(DPAD_LEFT) && selection > 0) {
         gTasks[taskId].tStarterSelection--;
         gTasks[taskId].func = Task_MoveStarterChooseCursor;
-    }
-    else if (JOY_NEW(DPAD_RIGHT) && selection < STARTER_MON_COUNT - 1)
-    {
+    } else if (JOY_NEW(DPAD_RIGHT) && selection < STARTER_MON_COUNT - 1) {
         gTasks[taskId].tStarterSelection++;
         gTasks[taskId].func = Task_MoveStarterChooseCursor;
     }
@@ -525,8 +521,7 @@ static void Task_WaitForStarterSprite(u8 taskId)
 {
     if (gSprites[gTasks[taskId].tCircleSpriteId].affineAnimEnded &&
         gSprites[gTasks[taskId].tCircleSpriteId].pos1.x == STARTER_PKMN_POS_X &&
-        gSprites[gTasks[taskId].tCircleSpriteId].pos1.y == STARTER_PKMN_POS_Y)
-    {
+        gSprites[gTasks[taskId].tCircleSpriteId].pos1.y == STARTER_PKMN_POS_Y) {
         gTasks[taskId].func = Task_AskConfirmStarter;
     }
 }
@@ -545,8 +540,7 @@ static void Task_HandleConfirmStarterInput(u8 taskId)
 {
     u8 spriteId;
 
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case 0:  // YES
         // Return the starter choice and exit.
         gSpecialVar_Result = gTasks[taskId].tStarterSelection;
@@ -653,21 +647,26 @@ static void SpriteCB_SelectionHand(struct Sprite *sprite)
 static void SpriteCB_Pokeball(struct Sprite *sprite)
 {
     // Animate pokeball if currently selected
-    if (gTasks[sprite->sTaskId].tStarterSelection == sprite->sBallId)
+    if (gTasks[sprite->sTaskId].tStarterSelection == sprite->sBallId) {
         StartSpriteAnimIfDifferent(sprite, 1);
-    else
+    } else {
         StartSpriteAnimIfDifferent(sprite, 0);
+    }
 }
 
 static void SpriteCB_StarterPokemon(struct Sprite *sprite)
 {
     // Move sprite to upper center of screen
-    if (sprite->pos1.x > STARTER_PKMN_POS_X)
+    if (sprite->pos1.x > STARTER_PKMN_POS_X) {
         sprite->pos1.x -= 4;
-    if (sprite->pos1.x < STARTER_PKMN_POS_X)
+    }
+    if (sprite->pos1.x < STARTER_PKMN_POS_X) {
         sprite->pos1.x += 4;
-    if (sprite->pos1.y > STARTER_PKMN_POS_Y)
+    }
+    if (sprite->pos1.y > STARTER_PKMN_POS_Y) {
         sprite->pos1.y -= 2;
-    if (sprite->pos1.y < STARTER_PKMN_POS_Y)
+    }
+    if (sprite->pos1.y < STARTER_PKMN_POS_Y) {
         sprite->pos1.y += 2;
+    }
 }

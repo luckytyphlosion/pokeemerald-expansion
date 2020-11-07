@@ -101,9 +101,9 @@ void ResetVramOamAndBgCntRegs(void)
     SetGpuReg(REG_OFFSET_BG2CNT, 0);
     SetGpuReg(REG_OFFSET_BG1CNT, 0);
     SetGpuReg(REG_OFFSET_BG0CNT, 0);
-    CpuFill16(0, (void*) VRAM, VRAM_SIZE);
-    CpuFill32(0, (void*) OAM, OAM_SIZE);
-    CpuFill16(0, (void*) PLTT, PLTT_SIZE);
+    CpuFill16(0, (void*)VRAM, VRAM_SIZE);
+    CpuFill32(0, (void*)OAM, OAM_SIZE);
+    CpuFill16(0, (void*)PLTT, PLTT_SIZE);
 }
 
 void ResetAllBgsCoordinates(void)
@@ -129,8 +129,9 @@ void DisplayMessageAndContinueTask(u8 taskId, u8 windowId, u16 arg2, u8 arg3, u8
     gUnknown_0203A140 = windowId;
     DrawDialogFrameWithCustomTileAndPalette(windowId, TRUE, arg2, arg3);
 
-    if (string != gStringVar4)
+    if (string != gStringVar4) {
         StringExpandPlaceholders(gStringVar4, string);
+    }
 
     gTextFlags.canABSpeedUpPrint = 1;
     AddTextPrinterParameterized2(windowId, fontId, gStringVar4, textSpeed, NULL, 2, 1, 3);
@@ -146,8 +147,9 @@ bool16 RunTextPrintersRetIsActive(u8 textPrinterId)
 
 static void Task_ContinueTaskAfterMessagePrints(u8 taskId)
 {
-    if (!RunTextPrintersRetIsActive(gUnknown_0203A140))
+    if (!RunTextPrintersRetIsActive(gUnknown_0203A140)) {
         gUnknown_0300117C(taskId);
+    }
 }
 
 void DoYesNoFuncWithChoice(u8 taskId, const struct YesNoFuncTable *data)
@@ -165,8 +167,7 @@ void CreateYesNoMenuWithCallbacks(u8 taskId, const struct WindowTemplate *templa
 
 static void Task_CallYesOrNoCallback(u8 taskId)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case 0:
         PlaySE(SE_SELECT);
         gUnknown_0203A138.yesFunc(taskId);
@@ -183,66 +184,51 @@ bool8 AdjustQuantityAccordingToDPadInput(s16 *arg0, u16 arg1)
 {
     s16 valBefore = (*arg0);
 
-    if (JOY_REPEAT(DPAD_ANY) == DPAD_UP)
-    {
+    if (JOY_REPEAT(DPAD_ANY) == DPAD_UP) {
         (*arg0)++;
-        if ((*arg0) > arg1)
+        if ((*arg0) > arg1) {
             (*arg0) = 1;
-
-        if ((*arg0) == valBefore)
-        {
-            return FALSE;
         }
-        else
-        {
+
+        if ((*arg0) == valBefore) {
+            return FALSE;
+        } else {
             PlaySE(SE_SELECT);
             return TRUE;
         }
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_DOWN)
-    {
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_DOWN) {
         (*arg0)--;
-        if ((*arg0) <= 0)
+        if ((*arg0) <= 0) {
             (*arg0) = arg1;
-
-        if ((*arg0) == valBefore)
-        {
-            return FALSE;
         }
-        else
-        {
+
+        if ((*arg0) == valBefore) {
+            return FALSE;
+        } else {
             PlaySE(SE_SELECT);
             return TRUE;
         }
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_RIGHT)
-    {
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_RIGHT) {
         (*arg0) += 10;
-        if ((*arg0) > arg1)
+        if ((*arg0) > arg1) {
             (*arg0) = arg1;
-
-        if ((*arg0) == valBefore)
-        {
-            return FALSE;
         }
-        else
-        {
+
+        if ((*arg0) == valBefore) {
+            return FALSE;
+        } else {
             PlaySE(SE_SELECT);
             return TRUE;
         }
-    }
-    else if (JOY_REPEAT(DPAD_ANY) == DPAD_LEFT)
-    {
+    } else if (JOY_REPEAT(DPAD_ANY) == DPAD_LEFT) {
         (*arg0) -= 10;
-        if ((*arg0) <= 0)
+        if ((*arg0) <= 0) {
             (*arg0) = 1;
-
-        if ((*arg0) == valBefore)
-        {
-            return FALSE;
         }
-        else
-        {
+
+        if ((*arg0) == valBefore) {
+            return FALSE;
+        } else {
             PlaySE(SE_SELECT);
             return TRUE;
         }
@@ -253,12 +239,13 @@ bool8 AdjustQuantityAccordingToDPadInput(s16 *arg0, u16 arg1)
 
 u8 GetLRKeysPressed(void)
 {
-    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
-    {
-        if (JOY_NEW(L_BUTTON))
+    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR) {
+        if (JOY_NEW(L_BUTTON)) {
             return MENU_L_PRESSED;
-        if (JOY_NEW(R_BUTTON))
+        }
+        if (JOY_NEW(R_BUTTON)) {
             return MENU_R_PRESSED;
+        }
     }
 
     return 0;
@@ -266,12 +253,13 @@ u8 GetLRKeysPressed(void)
 
 u8 GetLRKeysPressedAndHeld(void)
 {
-    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR)
-    {
-        if (JOY_REPEAT(L_BUTTON))
+    if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR) {
+        if (JOY_REPEAT(L_BUTTON)) {
             return MENU_L_PRESSED;
-        if (JOY_REPEAT(R_BUTTON))
+        }
+        if (JOY_REPEAT(R_BUTTON)) {
             return MENU_R_PRESSED;
+        }
     }
 
     return 0;
@@ -279,50 +267,55 @@ u8 GetLRKeysPressedAndHeld(void)
 
 bool8 sub_8122148(u16 itemId)
 {
-    if (itemId != ITEM_ENIGMA_BERRY)
+    if (itemId != ITEM_ENIGMA_BERRY) {
         return TRUE;
-    else if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(TRADE_CENTER) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(TRADE_CENTER))
+    } else if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(TRADE_CENTER) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(TRADE_CENTER)) {
         return FALSE;
-    else if (InUnionRoom() != TRUE)
+    } else if (InUnionRoom() != TRUE) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 bool8 itemid_80BF6D8_mail_related(u16 itemId)
 {
-    if (IsUpdateLinkStateCBActive() != TRUE && InUnionRoom() != TRUE)
+    if (IsUpdateLinkStateCBActive() != TRUE && InUnionRoom() != TRUE) {
         return TRUE;
-    else if (ItemIsMail(itemId) != TRUE)
+    } else if (ItemIsMail(itemId) != TRUE) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 bool8 MenuHelpers_LinkSomething(void)
 {
-    if (IsUpdateLinkStateCBActive() == TRUE || gReceivedRemoteLinkPlayers == 1)
+    if (IsUpdateLinkStateCBActive() == TRUE || gReceivedRemoteLinkPlayers == 1) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 static bool8 sub_81221D0(void)
 {
-    if (!MenuHelpers_LinkSomething())
+    if (!MenuHelpers_LinkSomething()) {
         return FALSE;
-    else
+    } else {
         return sub_8087598();
+    }
 }
 
 bool8 MenuHelpers_CallLinkSomething(void)
 {
-    if (sub_81221D0() == TRUE)
+    if (sub_81221D0() == TRUE) {
         return TRUE;
-    else if (sub_800B504() != TRUE)
+    } else if (sub_800B504() != TRUE) {
         return FALSE;
-    else
+    } else {
         return TRUE;
+    }
 }
 
 void sub_812220C(struct ItemSlot *slots, u8 count, u8 *arg2, u8 *usedSlotsCount, u8 maxUsedSlotsCount)
@@ -331,30 +324,32 @@ void sub_812220C(struct ItemSlot *slots, u8 count, u8 *arg2, u8 *usedSlotsCount,
     struct ItemSlot *slots_ = slots;
 
     (*usedSlotsCount) = 0;
-    for (i = 0; i < count; i++)
-    {
-        if (slots_[i].itemId != ITEM_NONE)
+    for (i = 0; i < count; i++) {
+        if (slots_[i].itemId != ITEM_NONE) {
             (*usedSlotsCount)++;
+        }
     }
 
     (*usedSlotsCount)++;
-    if ((*usedSlotsCount) > maxUsedSlotsCount)
+    if ((*usedSlotsCount) > maxUsedSlotsCount) {
         *arg2 = maxUsedSlotsCount;
-    else
+    } else {
         *arg2 = (*usedSlotsCount);
+    }
 }
 
 void sub_812225C(u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 numItems)
 {
-    if (*scrollOffset != 0 && *scrollOffset + maxShownItems > numItems)
+    if (*scrollOffset != 0 && *scrollOffset + maxShownItems > numItems) {
         *scrollOffset = numItems - maxShownItems;
+    }
 
-    if (*scrollOffset + *cursorPos >= numItems)
-    {
-        if (numItems == 0)
+    if (*scrollOffset + *cursorPos >= numItems) {
+        if (numItems == 0) {
             *cursorPos = 0;
-        else
+        } else {
             *cursorPos = numItems - 1;
+        }
     }
 }
 
@@ -362,27 +357,22 @@ void sub_8122298(u16 *arg0, u16 *arg1, u8 arg2, u8 arg3, u8 arg4)
 {
     u8 i;
 
-    if (arg4 % 2 != 0)
-    {
-        if ((*arg1) >= arg4 / 2)
-        {
-            for (i = 0; i < (*arg1) - (arg4 / 2); i++)
-            {
-                if ((*arg0) + arg2 == arg3)
+    if (arg4 % 2 != 0) {
+        if ((*arg1) >= arg4 / 2) {
+            for (i = 0; i < (*arg1) - (arg4 / 2); i++) {
+                if ((*arg0) + arg2 == arg3) {
                     break;
+                }
                 (*arg1)--;
                 (*arg0)++;
             }
         }
-    }
-    else
-    {
-        if ((*arg1) >= (arg4 / 2) + 1)
-        {
-            for (i = 0; i <= (*arg1) - (arg4 / 2); i++)
-            {
-                if ((*arg0) + arg2 == arg3)
+    } else {
+        if ((*arg1) >= (arg4 / 2) + 1) {
+            for (i = 0; i <= (*arg1) - (arg4 / 2); i++) {
+                if ((*arg0) + arg2 == arg3) {
                     break;
+                }
                 (*arg1)--;
                 (*arg0)++;
             }
@@ -400,11 +390,11 @@ void sub_8122344(u8 *spriteIds, u8 count)
 {
     u8 i;
 
-    for (i = 0; i < count; i++)
-    {
+    for (i = 0; i < count; i++) {
         spriteIds[i] = CreateSprite(&gUnknown_0859F524, i * 16, 0, 0);
-        if (i != 0)
+        if (i != 0) {
             StartSpriteAnim(&gSprites[spriteIds[i]], 1);
+        }
 
         gSprites[spriteIds[i]].invisible = TRUE;
     }
@@ -414,12 +404,12 @@ void sub_81223B0(u8 *spriteIds, u8 count)
 {
     u8 i;
 
-    for (i = 0; i < count; i++)
-    {
-        if (i == count - 1)
+    for (i = 0; i < count; i++) {
+        if (i == count - 1) {
             DestroySpriteAndFreeResources(&gSprites[spriteIds[i]]);
-        else
+        } else {
             DestroySprite(&gSprites[spriteIds[i]]);
+        }
     }
 }
 
@@ -427,8 +417,7 @@ void sub_81223FC(u8 *spriteIds, u8 count, bool8 invisible)
 {
     u8 i;
 
-    for (i = 0; i < count; i++)
-    {
+    for (i = 0; i < count; i++) {
         gSprites[spriteIds[i]].invisible = invisible;
     }
 }
@@ -439,12 +428,12 @@ void sub_8122448(u8 *spriteIds, u8 count, s16 x, u16 y)
     bool8 unknownBit = count & 0x80;
     count &= ~(0x80);
 
-    for (i = 0; i < count; i++)
-    {
-        if (i == count - 1 && unknownBit)
+    for (i = 0; i < count; i++) {
+        if (i == count - 1 && unknownBit) {
             gSprites[spriteIds[i]].pos2.x = x - 8;
-        else
+        } else {
             gSprites[spriteIds[i]].pos2.x = x;
+        }
 
         gSprites[spriteIds[i]].pos1.y = 1 + y;
     }

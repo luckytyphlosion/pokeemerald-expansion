@@ -73,8 +73,9 @@ static const struct WindowTemplate sClearSaveYesNo[] =
 
 void CB2_InitClearSaveDataScreen(void)
 {
-    if (SetupClearSaveDataScreen())
+    if (SetupClearSaveDataScreen()) {
         CreateTask(Task_DoClearSaveDataScreenYesNo, 0);
+    }
 }
 
 static void Task_DoClearSaveDataScreenYesNo(u8 taskId)
@@ -87,8 +88,7 @@ static void Task_DoClearSaveDataScreenYesNo(u8 taskId)
 
 static void Task_ClearSaveDataScreenYesNoChoice(u8 taskId)
 {
-    switch (Menu_ProcessInputNoWrapClearOnChoose())
-    {
+    switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case 0:
         FillWindowPixelBuffer(0, PIXEL_FILL(1));
         AddTextPrinterParameterized(0, 1, gText_ClearingData, 0, 1, 0, 0);
@@ -124,8 +124,7 @@ static bool8 SetupClearSaveDataScreen(void)
 {
     u16 i;
 
-    switch(gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
     default:
         SetVBlankCallback(NULL);
@@ -149,11 +148,13 @@ static bool8 SetupClearSaveDataScreen(void)
         gPlttBufferFaded[0] = RGB_WHITE;
         gPlttBufferUnfaded[1] = RGB(5, 10, 14);
         gPlttBufferFaded[1] = RGB(5, 10, 14);
-        for (i = 0; i < 0x10; i++)
+        for (i = 0; i < 0x10; i++) {
             ((u16 *)(VRAM + 0x20))[i] = 0x1111;
+        }
 
-        for (i = 0; i < 0x400; i++)
+        for (i = 0; i < 0x400; i++) {
             ((u16 *)(BG_SCREEN_ADDR(30)))[i] = 0x0001;
+        }
         ResetTasks();
         ResetSpriteData();
         ResetBgsAndClearDma3BusyFlags(0);
@@ -170,8 +171,7 @@ static bool8 SetupClearSaveDataScreen(void)
         break;
     case 1:
         UpdatePaletteFade();
-        if(!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             SetMainCallback2(MainCB);
             return TRUE;
         }
@@ -181,8 +181,7 @@ static bool8 SetupClearSaveDataScreen(void)
 
 static void CB2_FadeAndDoReset(void)
 {
-    switch(gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
     default:
         BeginNormalPaletteFade(0x0000FFFF, 0, 0, 0x10, RGB_WHITEALPHA);
@@ -190,8 +189,7 @@ static void CB2_FadeAndDoReset(void)
         break;
     case 1:
         UpdatePaletteFade();
-        if(!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             FreeAllWindowBuffers();
             DoSoftReset();
         }

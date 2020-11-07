@@ -1039,31 +1039,20 @@ extern const u8 gText_Cancel3[];
 // code
 static void sub_819A44C(struct Sprite *sprite)
 {
-    if (sprite->oam.paletteNum == IndexOfSpritePaletteTag(TAG_PAL_BALL_SELECTED))
-    {
-        if (sprite->animEnded)
-        {
-            if (sprite->data[0] != 0)
-            {
+    if (sprite->oam.paletteNum == IndexOfSpritePaletteTag(TAG_PAL_BALL_SELECTED)) {
+        if (sprite->animEnded) {
+            if (sprite->data[0] != 0) {
                 sprite->data[0]--;
-            }
-            else if (Random() % 5 == 0)
-            {
+            } else if (Random() % 5 == 0) {
                 StartSpriteAnim(sprite, 0);
                 sprite->data[0] = 32;
-            }
-            else
-            {
+            } else {
                 StartSpriteAnim(sprite, 1);
             }
-        }
-        else
-        {
+        } else {
             StartSpriteAnimIfDifferent(sprite, 1);
         }
-    }
-    else
-    {
+    } else {
         StartSpriteAnimIfDifferent(sprite, 0);
     }
 }
@@ -1094,11 +1083,11 @@ static void CB2_InitSelectScreen(void)
 {
     u8 taskId;
 
-    switch (gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
-        if (sFactorySelectMons != NULL)
+        if (sFactorySelectMons != NULL) {
             FREE_AND_SET_NULL(sFactorySelectMons);
+        }
         SetHBlankCallback(NULL);
         SetVBlankCallback(NULL);
         CpuFill32(0, (void *)VRAM, VRAM_SIZE);
@@ -1145,8 +1134,9 @@ static void CB2_InitSelectScreen(void)
         LoadPalette(gFrontierFactorySelectMenu_Pal, 0, 0x40);
         LoadPalette(gUnknown_0861046C, 0xF0, 8);
         LoadPalette(gUnknown_0861046C, 0xE0, 10);
-        if (sFactorySelectScreen->fromSummaryScreen == TRUE)
+        if (sFactorySelectScreen->fromSummaryScreen == TRUE) {
             gPlttBufferUnfaded[228] = sFactorySelectScreen->unk2A4;
+        }
         LoadPalette(gUnknown_0861039C, 0x20, 4);
         gMain.state++;
         break;
@@ -1167,26 +1157,25 @@ static void CB2_InitSelectScreen(void)
         SetVBlankCallback(Select_VblankCb);
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0x10, 0, RGB_BLACK);
         SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_BG0_ON | DISPCNT_BG1_ON | DISPCNT_OBJ_1D_MAP);
-        if (sFactorySelectScreen->fromSummaryScreen == TRUE)
-        {
+        if (sFactorySelectScreen->fromSummaryScreen == TRUE) {
             Select_SetWinRegs(88, 152, 32, 96);
             ShowBg(3);
             SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG3 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_BG1 | BLDCNT_TGT2_OBJ);
             SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(11, 4));
-        }
-        else
-        {
+        } else {
             HideBg(3);
         }
         gMain.state++;
         break;
     case 5:
-        if (sFactorySelectScreen->fromSummaryScreen == TRUE)
+        if (sFactorySelectScreen->fromSummaryScreen == TRUE) {
             sFactorySelectScreen->cursorPos = gLastViewedMonIndex;
+        }
         Select_InitMonsData();
         Select_InitAllSprites();
-        if (sFactorySelectScreen->fromSummaryScreen == TRUE)
+        if (sFactorySelectScreen->fromSummaryScreen == TRUE) {
             Select_ShowSummaryMonSprite();
+        }
         gMain.state++;
         break;
     case 6:
@@ -1211,14 +1200,11 @@ static void CB2_InitSelectScreen(void)
         break;
     case 10:
         sFactorySelectScreen->fadeSpeciesNameTaskId = CreateTask(Task_SelectFadeSpeciesName, 0);
-        if (!sFactorySelectScreen->fromSummaryScreen)
-        {
+        if (!sFactorySelectScreen->fromSummaryScreen) {
             gTasks[sFactorySelectScreen->fadeSpeciesNameTaskId].data[0] = 0;
             taskId = CreateTask(Task_HandleSelectionScreenChooseMons, 0);
             gTasks[taskId].data[0] = 0;
-        }
-        else
-        {
+        } else {
             gTasks[sFactorySelectScreen->fadeSpeciesNameTaskId].data[0] = 1;
             sFactorySelectScreen->unk2A2 = FALSE;
             taskId = CreateTask(Task_HandleSelectionScreenMenu, 0);
@@ -1233,20 +1219,23 @@ static void Select_InitMonsData(void)
 {
     u8 i;
 
-    if (sFactorySelectScreen != NULL)
+    if (sFactorySelectScreen != NULL) {
         return;
+    }
 
     sFactorySelectScreen = AllocZeroed(sizeof(*sFactorySelectScreen));
     sFactorySelectScreen->cursorPos = 0;
     sFactorySelectScreen->selectingMonsState = 1;
     sFactorySelectScreen->fromSummaryScreen = FALSE;
-    for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
+    for (i = 0; i < SELECTABLE_MONS_COUNT; i++) {
         sFactorySelectScreen->mons[i].selectedId = 0;
+    }
 
-    if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT)
+    if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT) {
         CreateFrontierFactorySelectableMons(0);
-    else
+    } else {
         CreateTentFactorySelectableMons(0);
+    }
 }
 
 static void Select_InitAllSprites(void)
@@ -1254,8 +1243,7 @@ static void Select_InitAllSprites(void)
     u8 i, cursorPos;
     s16 x;
 
-    for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
-    {
+    for (i = 0; i < SELECTABLE_MONS_COUNT; i++) {
         sFactorySelectScreen->mons[i].spriteId = CreateSprite(&gUnknown_086105D8, (35 * i) + 32, 64, 1);
         gSprites[sFactorySelectScreen->mons[i].spriteId].data[0] = 0;
         Select_SetBallSpritePaletteNum(i);
@@ -1279,8 +1267,9 @@ static void Select_DestroyAllSprites(void)
 {
     u8 i;
 
-    for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
+    for (i = 0; i < SELECTABLE_MONS_COUNT; i++) {
         DestroySprite(&gSprites[sFactorySelectScreen->mons[i].spriteId]);
+    }
 
     DestroySprite(&gSprites[sFactorySelectScreen->cursorSpriteId]);
     DestroySprite(&gSprites[sFactorySelectScreen->menuCursor1SpriteId]);
@@ -1290,19 +1279,18 @@ static void Select_DestroyAllSprites(void)
 static void Select_UpdateBallCursorPosition(s8 direction)
 {
     u8 cursorPos;
-    if (direction > 0) // Move cursor right.
-    {
-        if (sFactorySelectScreen->cursorPos != SELECTABLE_MONS_COUNT - 1)
+    if (direction > 0) { // Move cursor right.
+        if (sFactorySelectScreen->cursorPos != SELECTABLE_MONS_COUNT - 1) {
             sFactorySelectScreen->cursorPos++;
-        else
+        } else {
             sFactorySelectScreen->cursorPos = 0;
-    }
-    else // Move cursor left.
-    {
-        if (sFactorySelectScreen->cursorPos != 0)
+        }
+    } else { // Move cursor left.
+        if (sFactorySelectScreen->cursorPos != 0) {
             sFactorySelectScreen->cursorPos--;
-        else
+        } else {
             sFactorySelectScreen->cursorPos = SELECTABLE_MONS_COUNT - 1;
+        }
     }
 
     cursorPos = sFactorySelectScreen->cursorPos;
@@ -1311,19 +1299,18 @@ static void Select_UpdateBallCursorPosition(s8 direction)
 
 static void Select_UpdateMenuCursorPosition(s8 direction)
 {
-    if (direction > 0) // Move cursor down.
-    {
-        if (sFactorySelectScreen->menuCursorPos != MENU_OPTIONS_COUNT - 1)
+    if (direction > 0) { // Move cursor down.
+        if (sFactorySelectScreen->menuCursorPos != MENU_OPTIONS_COUNT - 1) {
             sFactorySelectScreen->menuCursorPos++;
-        else
+        } else {
             sFactorySelectScreen->menuCursorPos = 0;
-    }
-    else // Move cursor up.
-    {
-        if (sFactorySelectScreen->menuCursorPos != 0)
+        }
+    } else { // Move cursor up.
+        if (sFactorySelectScreen->menuCursorPos != 0) {
             sFactorySelectScreen->menuCursorPos--;
-        else
+        } else {
             sFactorySelectScreen->menuCursorPos = MENU_OPTIONS_COUNT - 1;
+        }
     }
 
     gSprites[sFactorySelectScreen->menuCursor1SpriteId].pos1.y = (sFactorySelectScreen->menuCursorPos * 16) + 112;
@@ -1332,19 +1319,18 @@ static void Select_UpdateMenuCursorPosition(s8 direction)
 
 static void Select_UpdateYesNoCursorPosition(s8 direction)
 {
-    if (direction > 0) // Move cursor down.
-    {
-        if (sFactorySelectScreen->yesNoCursorPos != 1)
+    if (direction > 0) { // Move cursor down.
+        if (sFactorySelectScreen->yesNoCursorPos != 1) {
             sFactorySelectScreen->yesNoCursorPos++;
-        else
+        } else {
             sFactorySelectScreen->yesNoCursorPos = 0;
-    }
-    else // Move cursor up.
-    {
-        if (sFactorySelectScreen->yesNoCursorPos != 0)
+        }
+    } else { // Move cursor up.
+        if (sFactorySelectScreen->yesNoCursorPos != 0) {
             sFactorySelectScreen->yesNoCursorPos--;
-        else
+        } else {
             sFactorySelectScreen->yesNoCursorPos = 1;
+        }
     }
 
     gSprites[sFactorySelectScreen->menuCursor1SpriteId].pos1.y = (sFactorySelectScreen->yesNoCursorPos * 16) + 112;
@@ -1355,26 +1341,23 @@ static void Select_HandleMonSelectionChange(void)
 {
     u8 i, paletteNum;
     u8 cursorPos = sFactorySelectScreen->cursorPos;
-    if (sFactorySelectScreen->mons[cursorPos].selectedId) // Deselect a mon.
-    {
+    if (sFactorySelectScreen->mons[cursorPos].selectedId) { // Deselect a mon.
         paletteNum = IndexOfSpritePaletteTag(TAG_PAL_BALL_GREY);
-        if (sFactorySelectScreen->selectingMonsState == 3 && sFactorySelectScreen->mons[cursorPos].selectedId == 1)
-        {
-            for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
-            {
-                if (sFactorySelectScreen->mons[i].selectedId == 2)
+        if (sFactorySelectScreen->selectingMonsState == 3 && sFactorySelectScreen->mons[cursorPos].selectedId == 1) {
+            for (i = 0; i < SELECTABLE_MONS_COUNT; i++) {
+                if (sFactorySelectScreen->mons[i].selectedId == 2) {
                     break;
+                }
             }
-            if (i == SELECTABLE_MONS_COUNT)
+            if (i == SELECTABLE_MONS_COUNT) {
                 return;
-            else
+            } else {
                 sFactorySelectScreen->mons[i].selectedId = 1;
+            }
         }
         sFactorySelectScreen->mons[cursorPos].selectedId = 0;
         sFactorySelectScreen->selectingMonsState--;
-    }
-    else // Select a mon.
-    {
+    } else { // Select a mon.
         paletteNum = IndexOfSpritePaletteTag(TAG_PAL_BALL_SELECTED);
         sFactorySelectScreen->mons[cursorPos].selectedId = sFactorySelectScreen->selectingMonsState;
         sFactorySelectScreen->selectingMonsState++;
@@ -1387,10 +1370,11 @@ static void Select_SetBallSpritePaletteNum(u8 id)
 {
     u8 palNum;
 
-    if (sFactorySelectScreen->mons[id].selectedId)
+    if (sFactorySelectScreen->mons[id].selectedId) {
         palNum = IndexOfSpritePaletteTag(TAG_PAL_BALL_SELECTED);
-    else
+    } else {
         palNum = IndexOfSpritePaletteTag(TAG_PAL_BALL_GREY);
+    }
 
     gSprites[sFactorySelectScreen->mons[id].spriteId].oam.paletteNum = palNum;
 }
@@ -1400,16 +1384,14 @@ static void Task_FromSelectScreenToSummaryScreen(u8 taskId)
     u8 i;
     u8 currMonId;
 
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 6:
         gPlttBufferUnfaded[228] = gPlttBufferFaded[228];
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
         gTasks[taskId].data[0] = 7;
         break;
     case 7:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             DestroyTask(sFactorySelectScreen->fadeSpeciesNameTaskId);
             sub_819F444(sFactorySelectScreen->unk294[1], &sFactorySelectScreen->unk2A0);
             Select_DestroyAllSprites();
@@ -1427,8 +1409,9 @@ static void Task_FromSelectScreenToSummaryScreen(u8 taskId)
         sFactorySelectScreen->fromSummaryScreen = TRUE;
         currMonId = sFactorySelectScreen->cursorPos;
         sFactorySelectMons = AllocZeroed(sizeof(struct Pokemon) * SELECTABLE_MONS_COUNT);
-        for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
+        for (i = 0; i < SELECTABLE_MONS_COUNT; i++) {
             sFactorySelectMons[i] = sFactorySelectScreen->mons[i].monData;
+        }
         ShowPokemonSummaryScreen(1, sFactorySelectMons, currMonId, SELECTABLE_MONS_COUNT - 1, CB2_InitSelectScreen);
         break;
     }
@@ -1436,17 +1419,14 @@ static void Task_FromSelectScreenToSummaryScreen(u8 taskId)
 
 static void Task_CloseSelectionScreen(u8 taskId)
 {
-    if (sFactorySelectScreen->unk2A0 != TRUE)
-    {
-        switch (gTasks[taskId].data[0])
-        {
+    if (sFactorySelectScreen->unk2A0 != TRUE) {
+        switch (gTasks[taskId].data[0]) {
         case 0:
             BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
             gTasks[taskId].data[0]++;
             break;
         case 1:
-            if (!UpdatePaletteFade())
-            {
+            if (!UpdatePaletteFade()) {
                 Select_CopyMonsToPlayerParty();
                 DestroyTask(sFactorySelectScreen->fadeSpeciesNameTaskId);
                 Select_DestroyAllSprites();
@@ -1465,10 +1445,8 @@ static void Task_CloseSelectionScreen(u8 taskId)
 
 static void Task_HandleSelectionScreenYesNo(u8 taskId)
 {
-    if (sFactorySelectScreen->unk2A0 != TRUE)
-    {
-        switch (gTasks[taskId].data[0])
-        {
+    if (sFactorySelectScreen->unk2A0 != TRUE) {
+        switch (gTasks[taskId].data[0]) {
         case 10:
             sub_819C4B4();
             gTasks[taskId].data[0] = 4;
@@ -1478,40 +1456,30 @@ static void Task_HandleSelectionScreenYesNo(u8 taskId)
             gTasks[taskId].data[0] = 5;
             break;
         case 5:
-            if (JOY_NEW(A_BUTTON))
-            {
+            if (JOY_NEW(A_BUTTON)) {
                 PlaySE(SE_SELECT);
-                if (sFactorySelectScreen->yesNoCursorPos == 0)
-                {
+                if (sFactorySelectScreen->yesNoCursorPos == 0) {
                     sub_819C568();
                     gTasks[taskId].data[0] = 0;
                     gTasks[taskId].func = Task_CloseSelectionScreen;
-                }
-                else
-                {
+                } else {
                     sub_819B958(4);
                     sub_819BC9C();
                     sFactorySelectScreen->unk2A2 = TRUE;
                     gTasks[taskId].data[0] = 1;
                     gTasks[taskId].func = Task_HandleSelectionScreenChooseMons;
                 }
-            }
-            else if (JOY_NEW(B_BUTTON))
-            {
+            } else if (JOY_NEW(B_BUTTON)) {
                 PlaySE(SE_SELECT);
                 sub_819B958(4);
                 sub_819BC9C();
                 sFactorySelectScreen->unk2A2 = TRUE;
                 gTasks[taskId].data[0] = 1;
                 gTasks[taskId].func = Task_HandleSelectionScreenChooseMons;
-            }
-            else if (JOY_REPEAT(DPAD_UP))
-            {
+            } else if (JOY_REPEAT(DPAD_UP)) {
                 PlaySE(SE_SELECT);
                 Select_UpdateYesNoCursorPosition(-1);
-            }
-            else if (JOY_REPEAT(DPAD_DOWN))
-            {
+            } else if (JOY_REPEAT(DPAD_DOWN)) {
                 PlaySE(SE_SELECT);
                 Select_UpdateYesNoCursorPosition(1);
             }
@@ -1522,74 +1490,57 @@ static void Task_HandleSelectionScreenYesNo(u8 taskId)
 
 static void Task_HandleSelectionScreenMenu(u8 taskId)
 {
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 2:
-        if (!sFactorySelectScreen->fromSummaryScreen)
+        if (!sFactorySelectScreen->fromSummaryScreen) {
             sub_819F2B4(&sFactorySelectScreen->unk294[1].field1, &sFactorySelectScreen->unk2A0, FALSE);
+        }
         gTasks[taskId].data[0] = 9;
         break;
     case 9:
-        if (sFactorySelectScreen->unk2A0 != TRUE)
-        {
+        if (sFactorySelectScreen->unk2A0 != TRUE) {
             Select_ShowMenuOptions();
             sFactorySelectScreen->fromSummaryScreen = FALSE;
             gTasks[taskId].data[0] = 3;
         }
         break;
     case 3:
-        if (JOY_NEW(A_BUTTON))
-        {
+        if (JOY_NEW(A_BUTTON)) {
             u8 retVal;
             PlaySE(SE_SELECT);
             retVal = Select_RunMenuOptionFunc();
-            if (retVal == 1)
-            {
+            if (retVal == 1) {
                 sFactorySelectScreen->unk2A2 = TRUE;
                 gTasks[taskId].data[0] = 1;
                 gTasks[taskId].func = Task_HandleSelectionScreenChooseMons;
-            }
-            else if (retVal == 2)
-            {
+            } else if (retVal == 2) {
                 gTasks[taskId].data[0] = 10;
                 gTasks[taskId].func = Task_HandleSelectionScreenYesNo;
-            }
-            else if (retVal == 3)
-            {
+            } else if (retVal == 3) {
                 gTasks[taskId].data[0] = 11;
                 gTasks[taskId].func = Task_HandleSelectionScreenChooseMons;
-            }
-            else
-            {
+            } else {
                 gTasks[taskId].data[0] = 6;
                 gTasks[taskId].func = Task_FromSelectScreenToSummaryScreen;
             }
-        }
-        else if (JOY_NEW(B_BUTTON))
-        {
+        } else if (JOY_NEW(B_BUTTON)) {
             PlaySE(SE_SELECT);
             sub_819F3F8(sFactorySelectScreen->unk294[1], &sFactorySelectScreen->unk2A0, FALSE);
             sub_819B958(3);
             sFactorySelectScreen->unk2A2 = TRUE;
             gTasks[taskId].data[0] = 1;
             gTasks[taskId].func = Task_HandleSelectionScreenChooseMons;
-        }
-        else if (JOY_REPEAT(DPAD_UP))
-        {
+        } else if (JOY_REPEAT(DPAD_UP)) {
             PlaySE(SE_SELECT);
             Select_UpdateMenuCursorPosition(-1);
-        }
-        else if (JOY_REPEAT(DPAD_DOWN))
-        {
+        } else if (JOY_REPEAT(DPAD_DOWN)) {
             PlaySE(SE_SELECT);
             Select_UpdateMenuCursorPosition(1);
         }
         break;
     case 12:
-        if (!gPaletteFade.active)
-        {
-            if (sFactorySelectScreen->fromSummaryScreen == TRUE)
-            {
+        if (!gPaletteFade.active) {
+            if (sFactorySelectScreen->fromSummaryScreen == TRUE) {
                 gPlttBufferFaded[228] = sFactorySelectScreen->unk2A4;
                 gPlttBufferUnfaded[228] = gPlttBufferUnfaded[244];
             }
@@ -1606,34 +1557,26 @@ static void Task_HandleSelectionScreenMenu(u8 taskId)
 
 static void Task_HandleSelectionScreenChooseMons(u8 taskId)
 {
-    if (sFactorySelectScreen->unk2A0 != TRUE)
-    {
-        switch (gTasks[taskId].data[0])
-        {
+    if (sFactorySelectScreen->unk2A0 != TRUE) {
+        switch (gTasks[taskId].data[0]) {
         case 0:
-            if (!gPaletteFade.active)
-            {
+            if (!gPaletteFade.active) {
                 gTasks[taskId].data[0] = 1;
                 sFactorySelectScreen->unk2A2 = TRUE;
             }
             break;
         case 1:
-            if (JOY_NEW(A_BUTTON))
-            {
+            if (JOY_NEW(A_BUTTON)) {
                 PlaySE(SE_SELECT);
                 sFactorySelectScreen->unk2A2 = FALSE;
                 gTasks[taskId].data[0] = 2;
                 gTasks[taskId].func = Task_HandleSelectionScreenMenu;
-            }
-            else if (JOY_REPEAT(DPAD_LEFT))
-            {
+            } else if (JOY_REPEAT(DPAD_LEFT)) {
                 PlaySE(SE_SELECT);
                 Select_UpdateBallCursorPosition(-1);
                 Select_PrintMonCategory();
                 Select_PrintMonSpecies();
-            }
-            else if (JOY_REPEAT(DPAD_RIGHT))
-            {
+            } else if (JOY_REPEAT(DPAD_RIGHT)) {
                 PlaySE(SE_SELECT);
                 Select_UpdateBallCursorPosition(1);
                 Select_PrintMonCategory();
@@ -1641,8 +1584,7 @@ static void Task_HandleSelectionScreenChooseMons(u8 taskId)
             }
             break;
         case 11:
-            if (JOY_NEW(A_BUTTON))
-            {
+            if (JOY_NEW(A_BUTTON)) {
                 PlaySE(SE_SELECT);
                 sub_819F3F8(sFactorySelectScreen->unk294[1], &sFactorySelectScreen->unk2A0, FALSE);
                 Select_PrintSelectMonString();
@@ -1667,32 +1609,34 @@ static void CreateFrontierFactorySelectableMons(u8 firstMonId)
     u8 rentalRank = 0;
 
     gFacilityTrainerMons = gBattleFrontierMons;
-    if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50)
+    if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_50) {
         level = 100;
-    else
+    } else {
         level = 50;
+    }
 
     rentalRank = GetNumPastRentalsRank(battleMode, lvlMode);
     otId = T1_READ_32(gSaveBlock2Ptr->playerTrainerId);
 
-    for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
-    {
+    for (i = 0; i < SELECTABLE_MONS_COUNT; i++) {
         u16 monId = gSaveBlock2Ptr->frontier.rentalMons[i].monId;
         sFactorySelectScreen->mons[i + firstMonId].monId = monId;
-        if (i < rentalRank)
+        if (i < rentalRank) {
             ivs = GetFactoryMonFixedIV(challengeNum + 1, 0);
-        else
+        } else {
             ivs = GetFactoryMonFixedIV(challengeNum, 0);
+        }
         CreateMonWithEVSpreadNatureOTID(&sFactorySelectScreen->mons[i + firstMonId].monData,
-                                             gFacilityTrainerMons[monId].species,
-                                             level,
-                                             gFacilityTrainerMons[monId].nature,
-                                             ivs,
-                                             gFacilityTrainerMons[monId].evSpread,
-                                             otId);
+                                        gFacilityTrainerMons[monId].species,
+                                        level,
+                                        gFacilityTrainerMons[monId].nature,
+                                        ivs,
+                                        gFacilityTrainerMons[monId].evSpread,
+                                        otId);
         happiness = 0;
-        for (j = 0; j < MAX_MON_MOVES; j++)
+        for (j = 0; j < MAX_MON_MOVES; j++) {
             SetMonMoveAvoidReturn(&sFactorySelectScreen->mons[i + firstMonId].monData, gFacilityTrainerMons[monId].moves[j], j);
+        }
         SetMonData(&sFactorySelectScreen->mons[i + firstMonId].monData, MON_DATA_FRIENDSHIP, &happiness);
         SetMonData(&sFactorySelectScreen->mons[i + firstMonId].monData, MON_DATA_HELD_ITEM, &gBattleFrontierHeldItems[gFacilityTrainerMons[monId].itemTableId]);
     }
@@ -1709,20 +1653,20 @@ static void CreateTentFactorySelectableMons(u8 firstMonId)
     gFacilityTrainerMons = gSlateportBattleTentMons;
     otId = T1_READ_32(gSaveBlock2Ptr->playerTrainerId);
 
-    for (i = 0; i < SELECTABLE_MONS_COUNT; i++)
-    {
+    for (i = 0; i < SELECTABLE_MONS_COUNT; i++) {
         u16 monId = gSaveBlock2Ptr->frontier.rentalMons[i].monId;
         sFactorySelectScreen->mons[i + firstMonId].monId = monId;
         CreateMonWithEVSpreadNatureOTID(&sFactorySelectScreen->mons[i + firstMonId].monData,
-                                             gFacilityTrainerMons[monId].species,
-                                             level,
-                                             gFacilityTrainerMons[monId].nature,
-                                             ivs,
-                                             gFacilityTrainerMons[monId].evSpread,
-                                             otId);
+                                        gFacilityTrainerMons[monId].species,
+                                        level,
+                                        gFacilityTrainerMons[monId].nature,
+                                        ivs,
+                                        gFacilityTrainerMons[monId].evSpread,
+                                        otId);
         happiness = 0;
-        for (j = 0; j < MAX_MON_MOVES; j++)
+        for (j = 0; j < MAX_MON_MOVES; j++) {
             SetMonMoveAvoidReturn(&sFactorySelectScreen->mons[i + firstMonId].monData, gFacilityTrainerMons[monId].moves[j], j);
+        }
         SetMonData(&sFactorySelectScreen->mons[i + firstMonId].monData, MON_DATA_FRIENDSHIP, &happiness);
         SetMonData(&sFactorySelectScreen->mons[i + firstMonId].monData, MON_DATA_HELD_ITEM, &gBattleFrontierHeldItems[gFacilityTrainerMons[monId].itemTableId]);
     }
@@ -1732,12 +1676,9 @@ static void Select_CopyMonsToPlayerParty(void)
 {
     u8 i, j;
 
-    for (i = 0; i < 3; i++)
-    {
-        for (j = 0; j < SELECTABLE_MONS_COUNT; j++)
-        {
-            if (sFactorySelectScreen->mons[j].selectedId == i + 1)
-            {
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < SELECTABLE_MONS_COUNT; j++) {
+            if (sFactorySelectScreen->mons[j].selectedId == i + 1) {
                 gPlayerParty[i] = sFactorySelectScreen->mons[j].monData;
                 gSaveBlock2Ptr->frontier.rentalMons[i].monId = sFactorySelectScreen->mons[j].monId;
                 gSaveBlock2Ptr->frontier.rentalMons[i].personality = GetMonData(&gPlayerParty[i], MON_DATA_PERSONALITY, NULL);
@@ -1752,8 +1693,9 @@ static void Select_CopyMonsToPlayerParty(void)
 
 static void Select_ShowMenuOptions(void)
 {
-    if (!sFactorySelectScreen->fromSummaryScreen)
+    if (!sFactorySelectScreen->fromSummaryScreen) {
         sFactorySelectScreen->menuCursorPos = 0;
+    }
 
     gSprites[sFactorySelectScreen->menuCursor1SpriteId].pos1.x = 176;
     gSprites[sFactorySelectScreen->menuCursor1SpriteId].pos1.y = (sFactorySelectScreen->menuCursorPos * 16) + 112;
@@ -1816,14 +1758,15 @@ static void Select_PrintSelectMonString(void)
     const u8 *str = NULL;
 
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
-    if (sFactorySelectScreen->selectingMonsState == 1)
+    if (sFactorySelectScreen->selectingMonsState == 1) {
         str = gText_SelectFirstPkmn;
-    else if (sFactorySelectScreen->selectingMonsState == 2)
+    } else if (sFactorySelectScreen->selectingMonsState == 2) {
         str = gText_SelectSecondPkmn;
-    else if (sFactorySelectScreen->selectingMonsState == 3)
+    } else if (sFactorySelectScreen->selectingMonsState == 3) {
         str = gText_SelectThirdPkmn;
-    else
+    } else {
         str = gText_TheseThreePkmnOkay;
+    }
 
     AddTextPrinterParameterized(2, 1, str, 2, 5, 0, NULL);
     CopyWindowToVram(2, 2);
@@ -1843,10 +1786,11 @@ static void Select_PrintMenuOptions(void)
     PutWindowTilemap(3);
     FillWindowPixelBuffer(3, PIXEL_FILL(0));
     AddTextPrinterParameterized3(3, 1, 7, 1, sMenuOptionTextColors, 0, gText_Summary);
-    if (selectedId != 0)
+    if (selectedId != 0) {
         AddTextPrinterParameterized3(3, 1, 7, 17, sMenuOptionTextColors, 0, gText_Deselect);
-    else
+    } else {
         AddTextPrinterParameterized3(3, 1, 7, 17, sMenuOptionTextColors, 0, gText_Rent);
+    }
 
     AddTextPrinterParameterized3(3, 1, 7, 33, sMenuOptionTextColors, 0, gText_Others2);
     CopyWindowToVram(3, 3);
@@ -1871,22 +1815,20 @@ static u8 Select_OptionRentDeselect(void)
 {
     u8 selectedId = sFactorySelectScreen->mons[sFactorySelectScreen->cursorPos].selectedId;
     u16 monId  = sFactorySelectScreen->mons[sFactorySelectScreen->cursorPos].monId;
-    if (selectedId == 0 && !Select_AreSpeciesValid(monId))
-    {
+    if (selectedId == 0 && !Select_AreSpeciesValid(monId)) {
         Select_PrintCantSelectSameMon();
         sub_819B958(3);
         return 3;
-    }
-    else
-    {
+    } else {
         sub_819F3F8(sFactorySelectScreen->unk294[1], &sFactorySelectScreen->unk2A0, FALSE);
         Select_HandleMonSelectionChange();
         Select_PrintSelectMonString();
         sub_819B958(3);
-        if (sFactorySelectScreen->selectingMonsState > 3)
+        if (sFactorySelectScreen->selectingMonsState > 3) {
             return 2;
-        else
+        } else {
             return 1;
+        }
     }
 }
 
@@ -1896,10 +1838,11 @@ static u8 sub_819BC9C(void)
     Select_HandleMonSelectionChange();
     Select_PrintSelectMonString();
     sub_819B958(3);
-    if (sFactorySelectScreen->selectingMonsState > 3)
+    if (sFactorySelectScreen->selectingMonsState > 3) {
         return 2;
-    else
+    } else {
         return 1;
+    }
 }
 
 static u8 Select_OptionSummary(void)
@@ -1920,8 +1863,7 @@ static void Select_PrintMonCategory(void)
     u8 text[30];
     u8 x;
     u8 monId = sFactorySelectScreen->cursorPos;
-    if (monId < SELECTABLE_MONS_COUNT)
-    {
+    if (monId < SELECTABLE_MONS_COUNT) {
         PutWindowTilemap(5);
         FillWindowPixelBuffer(5, PIXEL_FILL(0));
         species = GetMonData(&sFactorySelectScreen->mons[monId].monData, MON_DATA_SPECIES, NULL);
@@ -1977,12 +1919,9 @@ static void Select_ShowChosenMonsSprites(void)
 {
     u8 i, j;
 
-    for (i = 0; i < 3; i++)
-    {
-        for (j = 0; j < SELECTABLE_MONS_COUNT; j++)
-        {
-            if (sFactorySelectScreen->mons[j].selectedId == i + 1)
-            {
+    for (i = 0; i < 3; i++) {
+        for (j = 0; j < SELECTABLE_MONS_COUNT; j++) {
+            if (sFactorySelectScreen->mons[j].selectedId == i + 1) {
                 struct Pokemon *mon = &sFactorySelectScreen->mons[j].monData;
                 u16 species = GetMonData(mon, MON_DATA_SPECIES, NULL);
                 u32 personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);
@@ -2004,8 +1943,7 @@ static void sub_819C040(struct Sprite *sprite)
 
     if (sprite->affineAnimEnded
         && gSprites[sFactorySelectScreen->unk294[0].field1].affineAnimEnded
-        && gSprites[sFactorySelectScreen->unk294[2].field1].affineAnimEnded)
-    {
+        && gSprites[sFactorySelectScreen->unk294[2].field1].affineAnimEnded) {
         sprite->invisible = TRUE;
         gSprites[sFactorySelectScreen->unk294[0].field1].invisible = TRUE;
         gSprites[sFactorySelectScreen->unk294[2].field1].invisible = TRUE;
@@ -2021,8 +1959,7 @@ static void sub_819C100(struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded
         && gSprites[sFactorySelectScreen->unk294[0].field1].affineAnimEnded
-        && gSprites[sFactorySelectScreen->unk294[2].field1].affineAnimEnded)
-    {
+        && gSprites[sFactorySelectScreen->unk294[2].field1].affineAnimEnded) {
         FreeOamMatrix(sprite->oam.matrixNum);
         FreeOamMatrix(gSprites[sFactorySelectScreen->unk294[0].field1].oam.matrixNum);
         FreeOamMatrix(gSprites[sFactorySelectScreen->unk294[2].field1].oam.matrixNum);
@@ -2038,8 +1975,7 @@ static void sub_819C100(struct Sprite *sprite)
 static void sub_819C1D0(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     case 0:
         task->data[3] = 16;
         task->data[24] = 224; // BUG: writing outside the array's bounds.
@@ -2059,15 +1995,15 @@ static void sub_819C1D0(u8 taskId)
     case 2:
         task->data[5] -= 4;
         task->data[8] += 4;
-        if (task->data[5] <= 32 || task->data[8] >= 96)
-        {
+        if (task->data[5] <= 32 || task->data[8] >= 96) {
             task->data[5] = 32;
             task->data[8] = 96;
             ClearGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
         }
         SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(task->data[5], task->data[8]));
-        if (task->data[5] != 32)
+        if (task->data[5] != 32) {
             return;
+        }
         break;
     default:
         DestroyTask(taskId);
@@ -2080,8 +2016,7 @@ static void sub_819C1D0(u8 taskId)
 static void sub_819C2D4(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     default:
         HideBg(3);
         gSprites[sFactorySelectScreen->unk294[1].field1].invisible = FALSE;
@@ -2111,14 +2046,14 @@ static void sub_819C2D4(u8 taskId)
     case 1:
         task->data[5] += 4;
         task->data[8] -= 4;
-        if (task->data[5] >= 64 || task->data[8] <= 65)
-        {
+        if (task->data[5] >= 64 || task->data[8] <= 65) {
             task->data[5] = 64;
             task->data[8] = 65;
         }
         SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(task->data[5], task->data[8]));
-        if (task->data[5] == 64)
+        if (task->data[5] == 64) {
             task->data[0]++;
+        }
         break;
     }
 }
@@ -2165,14 +2100,12 @@ static bool32 Select_AreSpeciesValid(u16 monId)
     u32 species = gFacilityTrainerMons[monId].species;
     u8 selectState = sFactorySelectScreen->selectingMonsState;
 
-    for (i = 1; i < selectState; i++)
-    {
-        for (j = 0; j < SELECTABLE_MONS_COUNT; j++)
-        {
-            if (sFactorySelectScreen->mons[j].selectedId == i)
-            {
-                if (gFacilityTrainerMons[sFactorySelectScreen->mons[j].monId].species == species)
+    for (i = 1; i < selectState; i++) {
+        for (j = 0; j < SELECTABLE_MONS_COUNT; j++) {
+            if (sFactorySelectScreen->mons[j].selectedId == i) {
+                if (gFacilityTrainerMons[sFactorySelectScreen->mons[j].monId].species == species) {
                     return FALSE;
+                }
 
                 break;
             }
@@ -2184,8 +2117,7 @@ static bool32 Select_AreSpeciesValid(u16 monId)
 
 static void Task_SelectFadeSpeciesName(u8 taskId)
 {
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
         sFactorySelectScreen->unk2A7 = 0;
         sFactorySelectScreen->unk2A8 = 0;
@@ -2193,30 +2125,23 @@ static void Task_SelectFadeSpeciesName(u8 taskId)
         gTasks[taskId].data[0] = 1;
         break;
     case 1:
-        if (sFactorySelectScreen->unk2A2)
-        {
-            if (sFactorySelectScreen->unk2A9)
-            {
+        if (sFactorySelectScreen->unk2A2) {
+            if (sFactorySelectScreen->unk2A9) {
                 gTasks[taskId].data[0] = 2;
-            }
-            else
-            {
+            } else {
                 sFactorySelectScreen->unk2A7++;
-                if (sFactorySelectScreen->unk2A7 > 6)
-                {
+                if (sFactorySelectScreen->unk2A7 > 6) {
                     sFactorySelectScreen->unk2A7 = 0;
-                    if (!sFactorySelectScreen->unk2A6)
+                    if (!sFactorySelectScreen->unk2A6) {
                         sFactorySelectScreen->unk2A8--;
-                    else
+                    } else {
                         sFactorySelectScreen->unk2A8++;
+                    }
                 }
                 BlendPalettes(0x4000, sFactorySelectScreen->unk2A8, 0);
-                if (sFactorySelectScreen->unk2A8 > 5)
-                {
+                if (sFactorySelectScreen->unk2A8 > 5) {
                     sFactorySelectScreen->unk2A6 = FALSE;
-                }
-                else if (sFactorySelectScreen->unk2A8 == 0)
-                {
+                } else if (sFactorySelectScreen->unk2A8 == 0) {
                     gTasks[taskId].data[0] = 2;
                     sFactorySelectScreen->unk2A6 = TRUE;
                 }
@@ -2224,13 +2149,10 @@ static void Task_SelectFadeSpeciesName(u8 taskId)
         }
         break;
     case 2:
-        if (sFactorySelectScreen->unk2A9 > 14)
-        {
+        if (sFactorySelectScreen->unk2A9 > 14) {
             sFactorySelectScreen->unk2A9 = 0;
             gTasks[taskId].data[0] = 1;
-        }
-        else
-        {
+        } else {
             sFactorySelectScreen->unk2A9++;
         }
         break;
@@ -2270,15 +2192,13 @@ static void CopySwappedMonData(void)
 
 static void Task_FromSwapScreenToSummaryScreen(u8 taskId)
 {
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 6:
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
         gTasks[taskId].data[0] = 7;
         break;
     case 7:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             DestroyTask(sFactorySwapScreen->fadeSpeciesNameTaskId);
             sub_819F444(sFactorySwapScreen->unk2C, &sFactorySwapScreen->unk30);
             Swap_DestroyAllSprites();
@@ -2301,25 +2221,19 @@ static void Task_FromSwapScreenToSummaryScreen(u8 taskId)
 
 static void Task_CloseSwapScreen(u8 taskId)
 {
-    if (sFactorySwapScreen->unk30 != TRUE)
-    {
-        switch (gTasks[taskId].data[0])
-        {
+    if (sFactorySwapScreen->unk30 != TRUE) {
+        switch (gTasks[taskId].data[0]) {
         case 0:
-            if (sFactorySwapScreen->monSwapped == TRUE)
-            {
+            if (sFactorySwapScreen->monSwapped == TRUE) {
                 gTasks[taskId].data[0]++;
                 gSpecialVar_Result = 0;
-            }
-            else
-            {
+            } else {
                 gTasks[taskId].data[0] = 2;
                 gSpecialVar_Result = 1;
             }
             break;
         case 1:
-            if (sFactorySwapScreen->monSwapped == TRUE)
-            {
+            if (sFactorySwapScreen->monSwapped == TRUE) {
                 sFactorySwapScreen->enemyMonId = sFactorySwapScreen->cursorPos;
                 CopySwappedMonData();
             }
@@ -2330,8 +2244,7 @@ static void Task_CloseSwapScreen(u8 taskId)
             gTasks[taskId].data[0]++;
             break;
         case 3:
-            if (!UpdatePaletteFade())
-            {
+            if (!UpdatePaletteFade()) {
                 DestroyTask(sFactorySwapScreen->fadeSpeciesNameTaskId);
                 Swap_DestroyAllSprites();
                 FREE_AND_SET_NULL(sSwapMenuTilesetBuffer);
@@ -2352,50 +2265,38 @@ static void Task_HandleSwapScreenYesNo(u8 taskId)
 {
     u16 loPtr, hiPtr;
 
-    if (sFactorySwapScreen->unk30 != TRUE)
-    {
-        switch (gTasks[taskId].data[0])
-        {
+    if (sFactorySwapScreen->unk30 != TRUE) {
+        switch (gTasks[taskId].data[0]) {
         case 4:
             Swap_ShowYesNoOptions();
             gTasks[taskId].data[0] = 5;
             break;
         case 5:
-            if (JOY_NEW(A_BUTTON))
-            {
+            if (JOY_NEW(A_BUTTON)) {
                 PlaySE(SE_SELECT);
-                if (sFactorySwapScreen->yesNoCursorPos == 0)
-                {
+                if (sFactorySwapScreen->yesNoCursorPos == 0) {
                     gTasks[taskId].data[1] = 1;
                     hiPtr = gTasks[taskId].data[6];
                     loPtr = gTasks[taskId].data[7];
                     gTasks[taskId].func = (void*)((hiPtr << 16) | loPtr);
-                }
-                else
-                {
+                } else {
                     gTasks[taskId].data[1] = 0;
                     sub_819EA64(4);
                     hiPtr = gTasks[taskId].data[6];
                     loPtr = gTasks[taskId].data[7];
                     gTasks[taskId].func = (void*)((hiPtr << 16) | loPtr);
                 }
-            }
-            else if (JOY_NEW(B_BUTTON))
-            {
+            } else if (JOY_NEW(B_BUTTON)) {
                 PlaySE(SE_SELECT);
                 gTasks[taskId].data[1] = 0;
                 sub_819EA64(4);
                 hiPtr = gTasks[taskId].data[6];
                 loPtr = gTasks[taskId].data[7];
                 gTasks[taskId].func = (void*)((hiPtr << 16) | loPtr);
-            }
-            else if (JOY_REPEAT(DPAD_UP))
-            {
+            } else if (JOY_REPEAT(DPAD_UP)) {
                 PlaySE(SE_SELECT);
                 Swap_UpdateYesNoCursorPosition(-1);
-            }
-            else if (JOY_REPEAT(DPAD_DOWN))
-            {
+            } else if (JOY_REPEAT(DPAD_DOWN)) {
                 PlaySE(SE_SELECT);
                 Swap_UpdateYesNoCursorPosition(1);
             }
@@ -2406,13 +2307,10 @@ static void Task_HandleSwapScreenYesNo(u8 taskId)
 
 static void sub_819CBDC(u8 taskId)
 {
-    if (gTasks[taskId].data[1] == 1)
-    {
+    if (gTasks[taskId].data[1] == 1) {
         gTasks[taskId].data[0] = 0;
         gTasks[taskId].func = Task_CloseSwapScreen;
-    }
-    else
-    {
+    } else {
         gTasks[taskId].data[0] = 0;
         gTasks[taskId].data[6] = (u32)(Task_HandleSwapScreenChooseMons) >> 16;
         gTasks[taskId].data[7] = (u32)(Task_HandleSwapScreenChooseMons);
@@ -2423,8 +2321,7 @@ static void sub_819CBDC(u8 taskId)
 
 static void sub_819CC24(u8 taskId)
 {
-    if (gTasks[taskId].data[0] == 0)
-    {
+    if (gTasks[taskId].data[0] == 0) {
         Swap_PrintOnInfoWindow(gText_QuitSwapping);
         sFactorySwapScreen->monSwapped = FALSE;
         gTasks[taskId].data[0] = 4;
@@ -2437,13 +2334,10 @@ static void sub_819CC24(u8 taskId)
 static void sub_819CC74(u8 taskId)
 {
     sub_819F3F8(sFactorySwapScreen->unk2C, &sFactorySwapScreen->unk30, TRUE);
-    if (gTasks[taskId].data[1] == 1)
-    {
+    if (gTasks[taskId].data[1] == 1) {
         gTasks[taskId].data[0] = 0;
         gTasks[taskId].func = Task_CloseSwapScreen;
-    }
-    else
-    {
+    } else {
         gTasks[taskId].data[0] = 0;
         gTasks[taskId].data[6] = (u32)(Task_HandleSwapScreenChooseMons) >> 16;
         gTasks[taskId].data[7] = (u32)(Task_HandleSwapScreenChooseMons);
@@ -2454,8 +2348,7 @@ static void sub_819CC74(u8 taskId)
 
 static void sub_819CCD4(u8 taskId)
 {
-    if (gTasks[taskId].data[0] == 0)
-    {
+    if (gTasks[taskId].data[0] == 0) {
         sub_819F2B4(&sFactorySwapScreen->unk2C.field1, &sFactorySwapScreen->unk30, TRUE);
         Swap_PrintOnInfoWindow(gText_AcceptThisPkmn);
         sFactorySwapScreen->monSwapped = TRUE;
@@ -2468,30 +2361,25 @@ static void sub_819CCD4(u8 taskId)
 
 static void Task_HandleSwapScreenMenu(u8 taskId)
 {
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 2:
-        if (!sFactorySwapScreen->fromSummaryScreen)
+        if (!sFactorySwapScreen->fromSummaryScreen) {
             sub_819F2B4(&sFactorySwapScreen->unk2C.field1, &sFactorySwapScreen->unk30, TRUE);
+        }
         gTasks[taskId].data[0] = 9;
         break;
     case 9:
-        if (sFactorySwapScreen->unk30 != TRUE)
-        {
+        if (sFactorySwapScreen->unk30 != TRUE) {
             Swap_ShowMenuOptions();
             gTasks[taskId].data[0] = 3;
         }
         break;
     case 3:
-        if (sFactorySwapScreen->unk30 != TRUE)
-        {
-            if (JOY_NEW(A_BUTTON))
-            {
+        if (sFactorySwapScreen->unk30 != TRUE) {
+            if (JOY_NEW(A_BUTTON)) {
                 PlaySE(SE_SELECT);
                 Swap_RunMenuOptionFunc(taskId);
-            }
-            else if (JOY_NEW(B_BUTTON))
-            {
+            } else if (JOY_NEW(B_BUTTON)) {
                 PlaySE(SE_SELECT);
                 sub_819F3F8(sFactorySwapScreen->unk2C, &sFactorySwapScreen->unk30, TRUE);
                 sub_819EA64(3);
@@ -2500,13 +2388,9 @@ static void Task_HandleSwapScreenMenu(u8 taskId)
                 gTasks[taskId].data[7] = (u32)(Task_HandleSwapScreenChooseMons);
                 gTasks[taskId].data[5] = 1;
                 gTasks[taskId].func = sub_819D770;
-            }
-            else if (JOY_REPEAT(DPAD_UP))
-            {
+            } else if (JOY_REPEAT(DPAD_UP)) {
                 Swap_UpdateMenuCursorPosition(-1);
-            }
-            else if (JOY_REPEAT(DPAD_DOWN))
-            {
+            } else if (JOY_REPEAT(DPAD_DOWN)) {
                 Swap_UpdateMenuCursorPosition(1);
             }
         }
@@ -2516,26 +2400,21 @@ static void Task_HandleSwapScreenMenu(u8 taskId)
 
 static void Task_HandleSwapScreenChooseMons(u8 taskId)
 {
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             sFactorySwapScreen->unk22 = TRUE;
             gTasks[taskId].data[0] = 1;
         }
         break;
     case 1:
-        if (JOY_NEW(A_BUTTON))
-        {
+        if (JOY_NEW(A_BUTTON)) {
             PlaySE(SE_SELECT);
             sFactorySwapScreen->unk22 = FALSE;
             Swap_PrintMonSpecies2();
             sub_819EAC0();
             Swap_RunActionFunc(taskId);
-        }
-        else if (JOY_NEW(B_BUTTON))
-        {
+        } else if (JOY_NEW(B_BUTTON)) {
             PlaySE(SE_SELECT);
             sFactorySwapScreen->unk22 = FALSE;
             Swap_PrintMonSpecies2();
@@ -2545,27 +2424,19 @@ static void Task_HandleSwapScreenChooseMons(u8 taskId)
             gTasks[taskId].data[0] = 0;
             gTasks[taskId].data[5] = 0;
             gTasks[taskId].func = sub_819D588;
-        }
-        else if (JOY_REPEAT(DPAD_LEFT))
-        {
+        } else if (JOY_REPEAT(DPAD_LEFT)) {
             Swap_UpdateBallCursorPosition(-1);
             Swap_PrintMonCategory();
             Swap_PrintMonSpecies();
-        }
-        else if (JOY_REPEAT(DPAD_RIGHT))
-        {
+        } else if (JOY_REPEAT(DPAD_RIGHT)) {
             Swap_UpdateBallCursorPosition(1);
             Swap_PrintMonCategory();
             Swap_PrintMonSpecies();
-        }
-        else if (JOY_REPEAT(DPAD_DOWN))
-        {
+        } else if (JOY_REPEAT(DPAD_DOWN)) {
             Swap_UpdateActionCursorPosition(1);
             Swap_PrintMonCategory();
             Swap_PrintMonSpecies();
-        }
-        else if (JOY_REPEAT(DPAD_UP))
-        {
+        } else if (JOY_REPEAT(DPAD_UP)) {
             Swap_UpdateActionCursorPosition(-1);
             Swap_PrintMonCategory();
             Swap_PrintMonSpecies();
@@ -2576,8 +2447,7 @@ static void Task_HandleSwapScreenChooseMons(u8 taskId)
 
 static void Task_SwapFadeSpeciesName(u8 taskId)
 {
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
         sFactorySwapScreen->unk27 = 0;
         sFactorySwapScreen->unk28 = 0;
@@ -2585,30 +2455,23 @@ static void Task_SwapFadeSpeciesName(u8 taskId)
         gTasks[taskId].data[0] = 1;
         break;
     case 1:
-        if (sFactorySwapScreen->unk22)
-        {
-            if (sFactorySwapScreen->unk29)
-            {
+        if (sFactorySwapScreen->unk22) {
+            if (sFactorySwapScreen->unk29) {
                 gTasks[taskId].data[0] = 2;
-            }
-            else
-            {
+            } else {
                 sFactorySwapScreen->unk27++;
-                if (sFactorySwapScreen->unk27 > 6)
-                {
+                if (sFactorySwapScreen->unk27 > 6) {
                     sFactorySwapScreen->unk27 = 0;
-                    if (!sFactorySwapScreen->unk26)
+                    if (!sFactorySwapScreen->unk26) {
                         sFactorySwapScreen->unk28--;
-                    else
+                    } else {
                         sFactorySwapScreen->unk28++;
+                    }
                 }
                 BlendPalettes(0x4000, sFactorySwapScreen->unk28, 0);
-                if (sFactorySwapScreen->unk28 > 5)
-                {
+                if (sFactorySwapScreen->unk28 > 5) {
                     sFactorySwapScreen->unk26 = FALSE;
-                }
-                else if (sFactorySwapScreen->unk28 == 0)
-                {
+                } else if (sFactorySwapScreen->unk28 == 0) {
                     gTasks[taskId].data[0] = 2;
                     sFactorySwapScreen->unk26 = TRUE;
                 }
@@ -2616,13 +2479,10 @@ static void Task_SwapFadeSpeciesName(u8 taskId)
         }
         break;
     case 2:
-        if (sFactorySwapScreen->unk29 > 14)
-        {
+        if (sFactorySwapScreen->unk29 > 14) {
             sFactorySwapScreen->unk29 = 0;
             gTasks[taskId].data[0] = 1;
-        }
-        else
-        {
+        } else {
             sFactorySwapScreen->unk29++;
         }
         break;
@@ -2631,8 +2491,7 @@ static void Task_SwapFadeSpeciesName(u8 taskId)
 
 static void Task_SwapFadeSpeciesName2(u8 taskId)
 {
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
         sFactorySwapScreen->unk27 = 0;
         gTasks[taskId].data[4] = 0;
@@ -2643,14 +2502,12 @@ static void Task_SwapFadeSpeciesName2(u8 taskId)
         gTasks[taskId].data[0]++;
         break;
     case 2:
-        if (sFactorySwapScreen->unk28 > 15)
-        {
+        if (sFactorySwapScreen->unk28 > 15) {
             gTasks[taskId].data[4] = 1;
             gTasks[taskId].data[0]++;
         }
         sFactorySwapScreen->unk27++;
-        if (sFactorySwapScreen->unk27 > 3)
-        {
+        if (sFactorySwapScreen->unk27 > 3) {
             sFactorySwapScreen->unk27 = 0;
             gPlttBufferUnfaded[244] = gPlttBufferFaded[228];
             sFactorySwapScreen->unk28++;
@@ -2666,8 +2523,7 @@ static void sub_819D12C(u8 taskId)
     u8 var_2C;
     bool8 destroyTask;
 
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
         gTasks[taskId].data[1] = 0;
         gTasks[taskId].data[2] = 0;
@@ -2676,62 +2532,48 @@ static void sub_819D12C(u8 taskId)
         break;
     case 1:
         var_2C = 0;
-        for (i = 2; i >= 0; i--)
-        {
-            if (i != 2)
-            {
+        for (i = 2; i >= 0; i--) {
+            if (i != 2) {
                 u8 posX = var_2C - gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x;
-                if (posX == 16 || gTasks[taskId].data[i + 2] == 1)
-                {
+                if (posX == 16 || gTasks[taskId].data[i + 2] == 1) {
                     var_2C = gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x;
                     gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x += 10;
-                }
-                else if (posX > 16)
-                {
+                } else if (posX > 16) {
                     gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x = gSprites[sFactorySwapScreen->ballSpriteIds[i + 1]].pos1.x - 48;
                 }
-            }
-            else
-            {
+            } else {
                 var_2C = gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x;
                 gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x += 10;
             }
 
-            if (gTasks[taskId].data[i + 1] == 1)
-            {
-                if (gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x > (i * 48) + 72)
-                {
+            if (gTasks[taskId].data[i + 1] == 1) {
+                if (gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x > (i * 48) + 72) {
                     gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x = (i * 48) + 72;
                     destroyTask = TRUE;
-                }
-                else if (gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x == (i * 48) + 72)
-                {
+                } else if (gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x == (i * 48) + 72) {
                     destroyTask = TRUE;
-                }
-                else
-                {
+                } else {
                     destroyTask = FALSE;
                 }
-            }
-            else
-            {
+            } else {
                 destroyTask = FALSE;
             }
 
-            if (gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x - 16 > 240)
-            {
+            if (gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x - 16 > 240) {
                 var_2C = gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x;
                 gSprites[sFactorySwapScreen->ballSpriteIds[i]].pos1.x = -16;
-                if (sFactorySwapScreen->inEnemyScreen == TRUE)
+                if (sFactorySwapScreen->inEnemyScreen == TRUE) {
                     gSprites[sFactorySwapScreen->ballSpriteIds[i]].oam.paletteNum = IndexOfSpritePaletteTag(TAG_PAL_BALL_SELECTED);
-                else
+                } else {
                     gSprites[sFactorySwapScreen->ballSpriteIds[i]].oam.paletteNum = IndexOfSpritePaletteTag(TAG_PAL_BALL_GREY);
+                }
 
                 gTasks[taskId].data[i + 1] = 1;
             }
         }
-        if (destroyTask == TRUE)
+        if (destroyTask == TRUE) {
             DestroyTask(taskId);
+        }
         break;
     }
 }
@@ -2745,50 +2587,37 @@ static void sub_819D324(u8 taskId)
     s16 currPosX;
     u8 taskId2;
 
-    if (gTasks[taskId].data[2] == 1)
+    if (gTasks[taskId].data[2] == 1) {
         r4 *= -1;
+    }
 
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
         currPosX = gSprites[sFactorySwapScreen->unk8[0][0]].pos1.x;
-        if (!gTasks[taskId].data[2])
-        {
-            if (currPosX + r4 < 240)
-            {
+        if (!gTasks[taskId].data[2]) {
+            if (currPosX + r4 < 240) {
                 r1 = TRUE;
-            }
-            else
-            {
+            } else {
                 r1 = FALSE;
                 posX = 240;
             }
-        }
-        else
-        {
-            if (currPosX + r4 > 160)
-            {
+        } else {
+            if (currPosX + r4 > 160) {
                 r1 = TRUE;
-            }
-            else
-            {
+            } else {
                 r1 = FALSE;
                 posX = 160;
             }
         }
 
-        if (r1 == TRUE)
-        {
-            for (i = 0; i < 3; i++)
-            {
-                for (j = 0; j < 2; j++)
+        if (r1 == TRUE) {
+            for (i = 0; i < 3; i++) {
+                for (j = 0; j < 2; j++) {
                     gSprites[sFactorySwapScreen->unk8[j][i]].pos1.x += r4;
+                }
             }
-        }
-        else
-        {
-            for (j = 0; j < 2; j++)
-            {
+        } else {
+            for (j = 0; j < 2; j++) {
                 gSprites[sFactorySwapScreen->unk8[j][0]].pos1.x = posX;
                 gSprites[sFactorySwapScreen->unk8[j][1]].pos1.x = posX + 16;
                 gSprites[sFactorySwapScreen->unk8[j][2]].pos1.x = posX + 48;
@@ -2800,43 +2629,30 @@ static void sub_819D324(u8 taskId)
         break;
     case 1:
         currPosX = gSprites[sFactorySwapScreen->unkE[0][0]].pos1.x;
-        if (!gTasks[taskId].data[2])
-        {
-            if (currPosX + r4 < 240)
-            {
+        if (!gTasks[taskId].data[2]) {
+            if (currPosX + r4 < 240) {
                 r1 = TRUE;
-            }
-            else
-            {
+            } else {
                 r1 = FALSE;
                 posX = 240;
             }
-        }
-        else
-        {
-            if (currPosX + r4 > 192)
-            {
+        } else {
+            if (currPosX + r4 > 192) {
                 r1 = TRUE;
-            }
-            else
-            {
+            } else {
                 r1 = FALSE;
                 posX = 192;
             }
         }
 
-        if (r1 == TRUE)
-        {
-            for (i = 0; i < 2; i++)
-            {
-                for (j = 0; j < 2; j++)
+        if (r1 == TRUE) {
+            for (i = 0; i < 2; i++) {
+                for (j = 0; j < 2; j++) {
                     gSprites[sFactorySwapScreen->unkE[j][i]].pos1.x += r4;
+                }
             }
-        }
-        else
-        {
-            for (j = 0; j < 2; j++)
-            {
+        } else {
+            for (j = 0; j < 2; j++) {
                 gSprites[sFactorySwapScreen->unkE[j][0]].pos1.x = posX;
                 gSprites[sFactorySwapScreen->unkE[j][1]].pos1.x = posX + 16;
             }
@@ -2853,8 +2669,7 @@ static void sub_819D588(u8 taskId)
     u8 anotherTaskId;
     u16 loPtr, hiPtr;
 
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
         LoadPalette(gUnknown_08610918, 0xE0, sizeof(gUnknown_08610918));
         Swap_PrintActionStrings();
@@ -2870,12 +2685,10 @@ static void sub_819D588(u8 taskId)
         gTasks[taskId].data[0]++;
         break;
     case 3:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             FillWindowPixelBuffer(5, PIXEL_FILL(0));
             CopyWindowToVram(5, 2);
-            if (sFactorySwapScreen->inEnemyScreen == TRUE)
-            {
+            if (sFactorySwapScreen->inEnemyScreen == TRUE) {
                 anotherTaskId = CreateTask(sub_819D324, 0);
                 gTasks[taskId].data[3] = 0;
                 gTasks[anotherTaskId].data[1] = taskId;
@@ -2884,9 +2697,7 @@ static void sub_819D588(u8 taskId)
                 gTasks[anotherTaskId].data[3] = 6;
                 gTasks[taskId].data[2] = 5;
                 gTasks[taskId].data[0]++;
-            }
-            else
-            {
+            } else {
                 anotherTaskId = CreateTask(sub_819D324, 0);
                 gTasks[taskId].data[3] = 1;
                 gTasks[taskId].data[4] = 0;
@@ -2899,8 +2710,7 @@ static void sub_819D588(u8 taskId)
         }
         break;
     case 4:
-        if (gTasks[taskId].data[2] == 0)
-        {
+        if (gTasks[taskId].data[2] == 0) {
             anotherTaskId = CreateTask(sub_819D324, 0);
             gTasks[taskId].data[4] = 0;
             gTasks[anotherTaskId].data[1] = taskId;
@@ -2908,15 +2718,12 @@ static void sub_819D588(u8 taskId)
             gTasks[anotherTaskId].data[2] = 0;
             gTasks[anotherTaskId].data[3] = 6;
             gTasks[taskId].data[0]++;
-        }
-        else
-        {
+        } else {
             gTasks[taskId].data[2]--;
         }
         break;
     case 5:
-        if (gTasks[taskId].data[3] == 1 && gTasks[taskId].data[4] == 1)
-        {
+        if (gTasks[taskId].data[3] == 1 && gTasks[taskId].data[4] == 1) {
             gTasks[taskId].data[0] = gTasks[taskId].data[5];
             loPtr = gTasks[taskId].data[6];
             hiPtr = gTasks[taskId].data[7];
@@ -2930,14 +2737,13 @@ static void sub_819D770(u8 taskId)
 {
     u8 anotherTaskId;
     u16 loPtr, hiPtr;
-    if (sFactorySwapScreen->unk30 == TRUE)
+    if (sFactorySwapScreen->unk30 == TRUE) {
         return;
+    }
 
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
-        if (sFactorySwapScreen->inEnemyScreen == TRUE)
-        {
+        if (sFactorySwapScreen->inEnemyScreen == TRUE) {
             anotherTaskId = CreateTask(sub_819D324, 0);
             gTasks[taskId].data[3] = 0;
             gTasks[anotherTaskId].data[1] = taskId;
@@ -2946,9 +2752,7 @@ static void sub_819D770(u8 taskId)
             gTasks[anotherTaskId].data[3] = 6;
             gTasks[taskId].data[2] = 10;
             gTasks[taskId].data[0]++;
-        }
-        else
-        {
+        } else {
             anotherTaskId = CreateTask(sub_819D324, 0);
             gTasks[taskId].data[3] = 1;
             gTasks[taskId].data[4] = 0;
@@ -2960,8 +2764,7 @@ static void sub_819D770(u8 taskId)
         }
         break;
     case 1:
-        if (gTasks[taskId].data[2] == 0)
-        {
+        if (gTasks[taskId].data[2] == 0) {
             anotherTaskId = CreateTask(sub_819D324, 0);
             gTasks[taskId].data[4] = 0;
             gTasks[anotherTaskId].data[1] = taskId;
@@ -2969,15 +2772,12 @@ static void sub_819D770(u8 taskId)
             gTasks[anotherTaskId].data[2] = 1;
             gTasks[anotherTaskId].data[3] = 6;
             gTasks[taskId].data[0]++;
-        }
-        else
-        {
+        } else {
             gTasks[taskId].data[2]--;
         }
         break;
     case 2:
-        if (gTasks[taskId].data[3] == 1 && gTasks[taskId].data[4] == 1)
-        {
+        if (gTasks[taskId].data[3] == 1 && gTasks[taskId].data[4] == 1) {
             gPlttBufferFaded[226] = gUnknown_0860F13C[37];
             Swap_PrintActionStrings();
             PutWindowTilemap(5);
@@ -2989,8 +2789,7 @@ static void sub_819D770(u8 taskId)
         gTasks[taskId].data[0]++;
         break;
     case 4:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             Swap_PrintOneActionString(0);
             gTasks[taskId].data[0]++;
         }
@@ -3006,12 +2805,14 @@ static void sub_819D770(u8 taskId)
         gTasks[taskId].data[0]++;
         break;
     case 7:
-        if (!sFactorySwapScreen->inEnemyScreen)
+        if (!sFactorySwapScreen->inEnemyScreen) {
             Swap_PrintOnInfoWindow(gText_SelectPkmnToSwap);
-        else
+        } else {
             Swap_PrintOnInfoWindow(gText_SelectPkmnToAccept);
-        if (sFactorySwapScreen->cursorPos < 3)
+        }
+        if (sFactorySwapScreen->cursorPos < 3) {
             gSprites[sFactorySwapScreen->cursorSpriteId].invisible = FALSE;
+        }
         Swap_PrintMonCategory();
         gTasks[taskId].data[0]++;
         break;
@@ -3030,11 +2831,11 @@ static void sub_819D770(u8 taskId)
 static void sub_819D9EC(u8 taskId)
 {
     u8 i;
-    if (sFactorySwapScreen->unk30 == TRUE)
+    if (sFactorySwapScreen->unk30 == TRUE) {
         return;
+    }
 
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
         Swap_PrintMonSpecies3();
         gTasks[taskId].data[0]++;
@@ -3050,18 +2851,15 @@ static void sub_819D9EC(u8 taskId)
         gTasks[taskId].data[0]++;
         break;
     case 3:
-        if (!FuncIsActiveTask(sub_819D12C) && gTasks[sFactorySwapScreen->fadeSpeciesNameTaskId].data[4] == 1)
-        {
+        if (!FuncIsActiveTask(sub_819D12C) && gTasks[sFactorySwapScreen->fadeSpeciesNameTaskId].data[4] == 1) {
             sub_819EAC0();
-            if (!sFactorySwapScreen->inEnemyScreen)
-            {
+            if (!sFactorySwapScreen->inEnemyScreen) {
                 Swap_InitActions(ACTIONS_ENEMY_SCREEN);
-            }
-            else
-            {
+            } else {
                 Swap_InitActions(ACTIONS_PLAYER_SCREEN);
-                for (i = 0; i < 3; i++)
+                for (i = 0; i < 3; i++) {
                     gSprites[sFactorySwapScreen->unk8[1][i]].invisible = TRUE;
+                }
             }
             gSprites[sFactorySwapScreen->cursorSpriteId].pos1.x = gSprites[sFactorySwapScreen->ballSpriteIds[sFactorySwapScreen->cursorPos]].pos1.x;
             gTasks[sFactorySwapScreen->fadeSpeciesNameTaskId].func = Task_SwapFadeSpeciesName;
@@ -3084,8 +2882,7 @@ static void sub_819D9EC(u8 taskId)
 
 static void Swap_InitStruct(void)
 {
-    if (sFactorySwapScreen == NULL)
-    {
+    if (sFactorySwapScreen == NULL) {
         sFactorySwapScreen = AllocZeroed(sizeof(*sFactorySwapScreen));
         sFactorySwapScreen->cursorPos = 0;
         sFactorySwapScreen->unk30 = FALSE;
@@ -3103,8 +2900,7 @@ static void CB2_InitSwapScreen(void)
 {
     u8 taskId;
 
-    switch (gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
         SetHBlankCallback(NULL);
         SetVBlankCallback(NULL);
@@ -3170,15 +2966,17 @@ static void CB2_InitSwapScreen(void)
         gMain.state++;
         break;
     case 5:
-        if (sFactorySwapScreen->fromSummaryScreen == TRUE)
+        if (sFactorySwapScreen->fromSummaryScreen == TRUE) {
             sFactorySwapScreen->cursorPos = gLastViewedMonIndex;
+        }
         gMain.state++;
         break;
     case 6:
         Swap_InitStruct();
         Swap_InitAllSprites();
-        if (sFactorySwapScreen->fromSummaryScreen == TRUE)
+        if (sFactorySwapScreen->fromSummaryScreen == TRUE) {
             Swap_ShowSummaryMonSprite();
+        }
         Swap_InitActions(ACTIONS_PLAYER_SCREEN);
         gMain.state++;
         break;
@@ -3193,8 +2991,9 @@ static void CB2_InitSwapScreen(void)
         gMain.state++;
         break;
     case 9:
-        if (!sFactorySwapScreen->fromSummaryScreen)
+        if (!sFactorySwapScreen->fromSummaryScreen) {
             Swap_PrintMonSpecies();
+        }
         PutWindowTilemap(1);
         gMain.state++;
         break;
@@ -3207,8 +3006,9 @@ static void CB2_InitSwapScreen(void)
         gMain.state++;
         break;
     case 12:
-        if (sFactorySwapScreen->fromSummaryScreen)
+        if (sFactorySwapScreen->fromSummaryScreen) {
             Swap_PrintMonSpecies2();
+        }
         gMain.state++;
         break;
     case 13:
@@ -3222,28 +3022,22 @@ static void CB2_InitSwapScreen(void)
         ShowBg(0);
         ShowBg(1);
         ShowBg(2);
-        if (sFactorySwapScreen->fromSummaryScreen == TRUE)
-        {
+        if (sFactorySwapScreen->fromSummaryScreen == TRUE) {
             ShowBg(3);
             SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG3 | BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_BG1 | BLDCNT_TGT2_OBJ);
             SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(11, 4));
-        }
-        else
-        {
+        } else {
             HideBg(3);
         }
         gMain.state++;
         break;
     case 15:
         sFactorySwapScreen->fadeSpeciesNameTaskId = CreateTask(Task_SwapFadeSpeciesName, 0);
-        if (!sFactorySwapScreen->fromSummaryScreen)
-        {
+        if (!sFactorySwapScreen->fromSummaryScreen) {
             gTasks[sFactorySwapScreen->fadeSpeciesNameTaskId].data[0] = 0;
             taskId = CreateTask(Task_HandleSwapScreenChooseMons, 0);
             gTasks[taskId].data[0] = 0;
-        }
-        else
-        {
+        } else {
             sub_819EAF8();
             gTasks[sFactorySwapScreen->fadeSpeciesNameTaskId].data[0] = 1;
             sFactorySwapScreen->unk22 = FALSE;
@@ -3264,8 +3058,7 @@ static void Swap_InitAllSprites(void)
     spriteTemplate = gUnknown_08610834;
     spriteTemplate.paletteTag = TAG_PAL_BALL_SELECTED;
 
-    for (i = 0; i < 3; i++)
-    {
+    for (i = 0; i < 3; i++) {
         sFactorySwapScreen->ballSpriteIds[i] = CreateSprite(&spriteTemplate, (48 * i) + 72, 64, 1);
         gSprites[sFactorySwapScreen->ballSpriteIds[i]].data[0] = 0;
     }
@@ -3279,10 +3072,11 @@ static void Swap_InitAllSprites(void)
     gSprites[sFactorySwapScreen->menuCursor2SpriteId].centerToCornerVecX = 0;
     gSprites[sFactorySwapScreen->menuCursor2SpriteId].centerToCornerVecY = 0;
 
-    if (sFactorySwapScreen->fromSummaryScreen == TRUE)
+    if (sFactorySwapScreen->fromSummaryScreen == TRUE) {
         x = 240;
-    else
+    } else {
         x = 192;
+    }
 
     spriteTemplate = gUnknown_0861084C;
     spriteTemplate.tileTag = TAG_TILE_68;
@@ -3319,8 +3113,7 @@ static void Swap_InitAllSprites(void)
     spriteTemplate.tileTag = TAG_TILE_6C;
     sFactorySwapScreen->unkE[1][1] = CreateSprite(&spriteTemplate, x + 16, 144, 1);
 
-    for (i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         gSprites[sFactorySwapScreen->unk8[i][0]].centerToCornerVecX = 0;
         gSprites[sFactorySwapScreen->unk8[i][0]].centerToCornerVecY = 0;
         gSprites[sFactorySwapScreen->unk8[i][1]].centerToCornerVecX = 0;
@@ -3350,33 +3143,31 @@ static void Swap_DestroyAllSprites(void)
 {
     u8 i, j;
 
-    for (i = 0; i < 3; i++)
+    for (i = 0; i < 3; i++) {
         DestroySprite(&gSprites[sFactorySwapScreen->ballSpriteIds[i]]);
+    }
     DestroySprite(&gSprites[sFactorySwapScreen->cursorSpriteId]);
     DestroySprite(&gSprites[sFactorySwapScreen->menuCursor1SpriteId]);
     DestroySprite(&gSprites[sFactorySwapScreen->menuCursor2SpriteId]);
-    for (i = 0; i < 2; i++)
-    {
-        for (j = 0; j < 3; j++)
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 3; j++) {
             DestroySprite(&gSprites[sFactorySwapScreen->unk8[i][j]]);
+        }
     }
-    for (i = 0; i < 2; i++)
-    {
-        for (j = 0; j < 2; j++)
+    for (i = 0; i < 2; i++) {
+        for (j = 0; j < 2; j++) {
             DestroySprite(&gSprites[sFactorySwapScreen->unkE[i][j]]);
+        }
     }
 }
 
 static void Swap_HandleActionCursorChange(u8 cursorId)
 {
-    if (cursorId < 3)
-    {
+    if (cursorId < 3) {
         gSprites[sFactorySwapScreen->cursorSpriteId].invisible = FALSE;
         sub_819E8EC();
         gSprites[sFactorySwapScreen->cursorSpriteId].pos1.x = gSprites[sFactorySwapScreen->ballSpriteIds[cursorId]].pos1.x;
-    }
-    else
-    {
+    } else {
         gSprites[sFactorySwapScreen->cursorSpriteId].invisible = TRUE;
         sub_819E838(sFactorySwapScreen->actionsData[cursorId].id);
     }
@@ -3386,19 +3177,18 @@ static void Swap_UpdateBallCursorPosition(s8 direction)
 {
     u8 cursorPos;
     PlaySE(SE_SELECT);
-    if (direction > 0) // Move cursor right.
-    {
-        if (sFactorySwapScreen->cursorPos + 1 != sFactorySwapScreen->actionsCount)
+    if (direction > 0) { // Move cursor right.
+        if (sFactorySwapScreen->cursorPos + 1 != sFactorySwapScreen->actionsCount) {
             sFactorySwapScreen->cursorPos++;
-        else
+        } else {
             sFactorySwapScreen->cursorPos = 0;
-    }
-    else // Move cursor left.
-    {
-        if (sFactorySwapScreen->cursorPos != 0)
+        }
+    } else { // Move cursor left.
+        if (sFactorySwapScreen->cursorPos != 0) {
             sFactorySwapScreen->cursorPos--;
-        else
+        } else {
             sFactorySwapScreen->cursorPos = sFactorySwapScreen->actionsCount - 1;
+        }
     }
 
     cursorPos = sFactorySwapScreen->cursorPos;
@@ -3409,23 +3199,22 @@ static void Swap_UpdateActionCursorPosition(s8 direction)
 {
     u8 cursorPos;
     PlaySE(SE_SELECT);
-    if (direction > 0) // Move cursor down.
-    {
-        if (sFactorySwapScreen->cursorPos < 3)
+    if (direction > 0) { // Move cursor down.
+        if (sFactorySwapScreen->cursorPos < 3) {
             sFactorySwapScreen->cursorPos = 3;
-        else if (sFactorySwapScreen->cursorPos + 1 != sFactorySwapScreen->actionsCount)
+        } else if (sFactorySwapScreen->cursorPos + 1 != sFactorySwapScreen->actionsCount) {
             sFactorySwapScreen->cursorPos++;
-        else
+        } else {
             sFactorySwapScreen->cursorPos = 0;
-    }
-    else // Move cursor up.
-    {
-        if (sFactorySwapScreen->cursorPos < 3)
+        }
+    } else { // Move cursor up.
+        if (sFactorySwapScreen->cursorPos < 3) {
             sFactorySwapScreen->cursorPos = sFactorySwapScreen->actionsCount - 1;
-        else if (sFactorySwapScreen->cursorPos != 0)
+        } else if (sFactorySwapScreen->cursorPos != 0) {
             sFactorySwapScreen->cursorPos--;
-        else
+        } else {
             sFactorySwapScreen->cursorPos = sFactorySwapScreen->actionsCount - 1;
+        }
     }
 
     cursorPos = sFactorySwapScreen->cursorPos;
@@ -3434,19 +3223,18 @@ static void Swap_UpdateActionCursorPosition(s8 direction)
 
 static void Swap_UpdateYesNoCursorPosition(s8 direction)
 {
-    if (direction > 0) // Move cursor down.
-    {
-        if (sFactorySwapScreen->yesNoCursorPos != 1)
+    if (direction > 0) { // Move cursor down.
+        if (sFactorySwapScreen->yesNoCursorPos != 1) {
             sFactorySwapScreen->yesNoCursorPos++;
-        else
+        } else {
             sFactorySwapScreen->yesNoCursorPos = 0;
-    }
-    else // Move cursor up.
-    {
-        if (sFactorySwapScreen->yesNoCursorPos != 0)
+        }
+    } else { // Move cursor up.
+        if (sFactorySwapScreen->yesNoCursorPos != 0) {
             sFactorySwapScreen->yesNoCursorPos--;
-        else
+        } else {
             sFactorySwapScreen->yesNoCursorPos = 1;
+        }
     }
 
     gSprites[sFactorySwapScreen->menuCursor1SpriteId].pos1.y = (sFactorySwapScreen->yesNoCursorPos * 16) + 112;
@@ -3456,19 +3244,18 @@ static void Swap_UpdateYesNoCursorPosition(s8 direction)
 static void Swap_UpdateMenuCursorPosition(s8 direction)
 {
     PlaySE(SE_SELECT);
-    if (direction > 0) // Move cursor down.
-    {
-        if (sFactorySwapScreen->menuCursorPos != MENU_OPTIONS_COUNT - 1)
+    if (direction > 0) { // Move cursor down.
+        if (sFactorySwapScreen->menuCursorPos != MENU_OPTIONS_COUNT - 1) {
             sFactorySwapScreen->menuCursorPos++;
-        else
+        } else {
             sFactorySwapScreen->menuCursorPos = 0;
-    }
-    else // Move cursor up.
-    {
-        if (sFactorySwapScreen->menuCursorPos != 0)
+        }
+    } else { // Move cursor up.
+        if (sFactorySwapScreen->menuCursorPos != 0) {
             sFactorySwapScreen->menuCursorPos--;
-        else
+        } else {
             sFactorySwapScreen->menuCursorPos = MENU_OPTIONS_COUNT - 1;
+        }
     }
 
     gSprites[sFactorySwapScreen->menuCursor1SpriteId].pos1.y = (sFactorySwapScreen->menuCursorPos * 16) + 112;
@@ -3479,18 +3266,16 @@ static void sub_819E838(u8 arg0)
 {
     u8 i;
 
-    for (i = 0; i < 3; i++)
-    {
-        if (arg0 == 2)
-        {
+    for (i = 0; i < 3; i++) {
+        if (arg0 == 2) {
             gSprites[sFactorySwapScreen->unk8[1][i]].invisible = FALSE;
-            if (i < 2)
+            if (i < 2) {
                 gSprites[sFactorySwapScreen->unkE[1][i]].invisible = TRUE;
-        }
-        else if (arg0 == 3)
-        {
-            if (i < 2)
+            }
+        } else if (arg0 == 3) {
+            if (i < 2) {
                 gSprites[sFactorySwapScreen->unkE[1][i]].invisible = FALSE;
+            }
             gSprites[sFactorySwapScreen->unk8[1][i]].invisible = TRUE;
         }
     }
@@ -3500,20 +3285,21 @@ static void sub_819E8EC(void)
 {
     u8 i;
 
-    for (i = 0; i < 3; i++)
-    {
+    for (i = 0; i < 3; i++) {
         gSprites[sFactorySwapScreen->unk8[1][i]].invisible = TRUE;
-        if (i < 2)
+        if (i < 2) {
             gSprites[sFactorySwapScreen->unkE[1][i]].invisible = TRUE;
+        }
     }
 }
 
 static void Swap_ShowMenuOptions(void)
 {
-    if (sFactorySwapScreen->fromSummaryScreen == TRUE)
+    if (sFactorySwapScreen->fromSummaryScreen == TRUE) {
         sFactorySwapScreen->fromSummaryScreen = FALSE;
-    else
+    } else {
         sFactorySwapScreen->menuCursorPos = 0;
+    }
 
     gSprites[sFactorySwapScreen->menuCursor1SpriteId].pos1.x = 176;
     gSprites[sFactorySwapScreen->menuCursor1SpriteId].pos1.y = (sFactorySwapScreen->menuCursorPos * 16) + 112;
@@ -3585,17 +3371,15 @@ static void Swap_PrintMonSpecies(void)
     u8 x;
 
     FillWindowPixelBuffer(1, PIXEL_FILL(0));
-    if (sFactorySwapScreen->cursorPos > 2)
-    {
+    if (sFactorySwapScreen->cursorPos > 2) {
         CopyWindowToVram(1, 2);
-    }
-    else
-    {
+    } else {
         u8 monId = sFactorySwapScreen->cursorPos;
-        if (!sFactorySwapScreen->inEnemyScreen)
+        if (!sFactorySwapScreen->inEnemyScreen) {
             species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES, NULL);
-        else
+        } else {
             species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, NULL);
+        }
         StringCopy(gStringVar4, gSpeciesNames[species]);
         x = GetStringRightAlignXOffset(1, gStringVar4, 86);
         AddTextPrinterParameterized3(1, 1, x, 1, sSwapSpeciesNameTextColors, 0, gStringVar4);
@@ -3638,8 +3422,7 @@ static void Swap_PrintActionString(const u8 *str, u32 y, u32 windowId)
 static void Swap_PrintActionStrings(void)
 {
     FillWindowPixelBuffer(5, PIXEL_FILL(0));
-    switch (sFactorySwapScreen->inEnemyScreen)
-    {
+    switch (sFactorySwapScreen->inEnemyScreen) {
     case TRUE:
         Swap_PrintActionString(gText_PkmnForSwap, 0, 5);
     case FALSE:
@@ -3652,8 +3435,7 @@ static void Swap_PrintActionStrings(void)
 static void Swap_PrintActionStrings2(void)
 {
     FillWindowPixelBuffer(3, PIXEL_FILL(0));
-    switch (sFactorySwapScreen->inEnemyScreen)
-    {
+    switch (sFactorySwapScreen->inEnemyScreen) {
     case TRUE:
         Swap_PrintActionString(gText_PkmnForSwap, 8, 3);
     case FALSE:
@@ -3665,11 +3447,11 @@ static void Swap_PrintActionStrings2(void)
 
 static void Swap_PrintOneActionString(u8 which)
 {
-    switch (which)
-    {
+    switch (which) {
     case 0:
-        if (sFactorySwapScreen->inEnemyScreen == TRUE)
+        if (sFactorySwapScreen->inEnemyScreen == TRUE) {
             Swap_PrintActionString(gText_PkmnForSwap, 8, 3);
+        }
         break;
     case 1:
         Swap_PrintActionString(gText_Cancel3, 32, 3);
@@ -3685,25 +3467,24 @@ static void Swap_PrintMonSpecies2(void)
     u16 pal[5];
 
     CpuCopy16(gUnknown_08610918, pal, 8);
-    if (!sFactorySwapScreen->fromSummaryScreen)
+    if (!sFactorySwapScreen->fromSummaryScreen) {
         pal[4] = gPlttBufferFaded[228];
-    else
+    } else {
         pal[4] = sFactorySwapScreen->unk24;
+    }
     LoadPalette(pal, 0xF0, 0xA);
 
     PutWindowTilemap(7);
     FillWindowPixelBuffer(7, PIXEL_FILL(0));
-    if (sFactorySwapScreen->cursorPos > 2)
-    {
+    if (sFactorySwapScreen->cursorPos > 2) {
         CopyWindowToVram(7, 3);
-    }
-    else
-    {
+    } else {
         u8 monId = sFactorySwapScreen->cursorPos;
-        if (!sFactorySwapScreen->inEnemyScreen)
+        if (!sFactorySwapScreen->inEnemyScreen) {
             species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES, NULL);
-        else
+        } else {
             species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, NULL);
+        }
         StringCopy(gStringVar4, gSpeciesNames[species]);
         x = GetStringRightAlignXOffset(1, gStringVar4, 86);
         AddTextPrinterParameterized3(7, 1, x, 1, sSwapSpeciesNameTextColors, 0, gStringVar4);
@@ -3719,17 +3500,15 @@ static void Swap_PrintMonSpecies3(void)
     LoadPalette(gUnknown_08610918, 0xE0, sizeof(gUnknown_08610918));
     CpuCopy16(gPlttBufferUnfaded + 240, gPlttBufferFaded + 224, 10);
 
-    if (sFactorySwapScreen->cursorPos > 2)
-    {
+    if (sFactorySwapScreen->cursorPos > 2) {
         CopyWindowToVram(1, 2);
-    }
-    else
-    {
+    } else {
         u8 monId = sFactorySwapScreen->cursorPos;
-        if (!sFactorySwapScreen->inEnemyScreen)
+        if (!sFactorySwapScreen->inEnemyScreen) {
             species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES, NULL);
-        else
+        } else {
             species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, NULL);
+        }
         StringCopy(gStringVar4, gSpeciesNames[species]);
         x = GetStringRightAlignXOffset(1, gStringVar4, 86);
         AddTextPrinterParameterized3(1, 1, x, 1, sSwapSpeciesNameTextColors, 0, gStringVar4);
@@ -3745,17 +3524,15 @@ static void Swap_PrintMonCategory(void)
     u8 monId = sFactorySwapScreen->cursorPos;
 
     FillWindowPixelBuffer(8, PIXEL_FILL(0));
-    if (monId > 2)
-    {
+    if (monId > 2) {
         CopyWindowToVram(8, 2);
-    }
-    else
-    {
+    } else {
         PutWindowTilemap(8);
-        if (!sFactorySwapScreen->inEnemyScreen)
+        if (!sFactorySwapScreen->inEnemyScreen) {
             species = GetMonData(&gPlayerParty[monId], MON_DATA_SPECIES, NULL);
-        else
+        } else {
             species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, NULL);
+        }
         CopyMonCategoryText(SpeciesToNationalPokedexNum(species), text);
         x = GetStringRightAlignXOffset(1, text, 0x76);
         AddTextPrinterParameterized(8, 1, text, x, 1, 0, NULL);
@@ -3765,10 +3542,8 @@ static void Swap_PrintMonCategory(void)
 
 static void Swap_InitActions(u8 id)
 {
-    if (sFactorySwapScreen->fromSummaryScreen != TRUE)
-    {
-        switch (id)
-        {
+    if (sFactorySwapScreen->fromSummaryScreen != TRUE) {
+        switch (id) {
         case ACTIONS_PLAYER_SCREEN:
             sFactorySwapScreen->inEnemyScreen = FALSE;
             sFactorySwapScreen->cursorPos = 0;
@@ -3843,22 +3618,17 @@ static void Swap_ActionPkmnForSwap(u8 taskId)
 
 static void Swap_ActionMon(u8 taskId)
 {
-    if (!sFactorySwapScreen->inEnemyScreen)
-    {
+    if (!sFactorySwapScreen->inEnemyScreen) {
         gTasks[taskId].data[6] = (u32)(Task_HandleSwapScreenMenu) >> 0x10;
         gTasks[taskId].data[7] = (u32)(Task_HandleSwapScreenMenu);
         gTasks[taskId].data[5] = 2;
-    }
-    else if (Swap_AlreadyHasSameSpecies(sFactorySwapScreen->cursorPos) == TRUE)
-    {
+    } else if (Swap_AlreadyHasSameSpecies(sFactorySwapScreen->cursorPos) == TRUE) {
         sub_819F2B4(&sFactorySwapScreen->unk2C.field1, &sFactorySwapScreen->unk30, TRUE);
         gTasks[taskId].data[0] = 0;
         gTasks[taskId].data[5] = 1;
         gTasks[taskId].func = Task_SwapCantHaveSameMons;
         return;
-    }
-    else
-    {
+    } else {
         gTasks[taskId].data[6] = (u32)(sub_819CCD4) >> 0x10;
         gTasks[taskId].data[7] = (u32)(sub_819CCD4);
         gTasks[taskId].data[5] = 0;
@@ -3918,27 +3688,25 @@ static void sub_819F444(struct UnkFactoryStruct arg0, bool8 *arg1)
 
 static void Task_SwapCantHaveSameMons(u8 taskId)
 {
-    if (sFactorySwapScreen->unk30 == TRUE)
+    if (sFactorySwapScreen->unk30 == TRUE) {
         return;
+    }
 
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
         Swap_PrintOnInfoWindow(gText_SamePkmnInPartyAlready);
         sFactorySwapScreen->monSwapped = FALSE;
         gTasks[taskId].data[0]++;
         break;
     case 1:
-        if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON))
-        {
+        if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)) {
             PlaySE(SE_SELECT);
             sub_819F3F8(sFactorySwapScreen->unk2C, &sFactorySwapScreen->unk30, TRUE);
             gTasks[taskId].data[0]++;
         }
         break;
     case 2:
-        if (sFactorySwapScreen->unk30 != TRUE)
-        {
+        if (sFactorySwapScreen->unk30 != TRUE) {
             FillWindowPixelBuffer(5, PIXEL_FILL(0));
             CopyWindowToVram(5, 2);
             gTasks[taskId].data[0]++;
@@ -3963,10 +3731,10 @@ static bool8 Swap_AlreadyHasSameSpecies(u8 monId)
     u8 i;
     u16 species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, NULL);
 
-    for (i = 0; i < 3; i++)
-    {
-        if (i != sFactorySwapScreen->playerMonId && (u16)(GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL)) == species)
+    for (i = 0; i < 3; i++) {
+        if (i != sFactorySwapScreen->playerMonId && (u16)(GetMonData(&gPlayerParty[i], MON_DATA_SPECIES, NULL)) == species) {
             return TRUE;
+        }
     }
     return FALSE;
 }
@@ -3975,8 +3743,7 @@ static void sub_819F600(struct Sprite *sprite)
 {
     u8 taskId;
 
-    if (sprite->affineAnimEnded)
-    {
+    if (sprite->affineAnimEnded) {
         sprite->invisible = TRUE;
         taskId = CreateTask(sub_819F69C, 1);
         gTasks[taskId].data[7] = sprite->data[7];
@@ -3987,13 +3754,13 @@ static void sub_819F600(struct Sprite *sprite)
 
 static void sub_819F654(struct Sprite *sprite)
 {
-    if (sprite->affineAnimEnded)
-    {
+    if (sprite->affineAnimEnded) {
         FreeOamMatrix(sprite->oam.matrixNum);
-        if (sprite->data[7] == TRUE)
+        if (sprite->data[7] == TRUE) {
             sFactorySwapScreen->unk30 = FALSE;
-        else
+        } else {
             sub_819BE20(FALSE);
+        }
         DestroySprite(sprite);
     }
 }
@@ -4001,8 +3768,7 @@ static void sub_819F654(struct Sprite *sprite)
 static void sub_819F69C(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     case 0:
         task->data[3] = 88;
         task->data[24] = 152; // BUG: writing outside the array's bounds.
@@ -4022,22 +3788,23 @@ static void sub_819F69C(u8 taskId)
     case 2:
         task->data[5] -= 4;
         task->data[8] += 4;
-        if (task->data[5] <= 32 || task->data[8] >= 96)
-        {
+        if (task->data[5] <= 32 || task->data[8] >= 96) {
             task->data[5] = 32;
             task->data[8] = 96;
         }
         SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(task->data[5], task->data[8]));
-        if (task->data[5] != 32)
+        if (task->data[5] != 32) {
             return;
+        }
         break;
     default:
         DestroyTask(taskId);
         // UB: Should not use the task after it has been deleted.
-        if (gTasks[taskId].data[7] == TRUE)
+        if (gTasks[taskId].data[7] == TRUE) {
             Swap_ShowMonSprite();
-        else
+        } else {
             Summary_ShowMonSprite();
+        }
         return;
     }
     task->data[0]++;
@@ -4046,8 +3813,7 @@ static void sub_819F69C(u8 taskId)
 static void sub_819F7B4(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     default:
         HideBg(3);
         gSprites[task->data[6]].data[7] = task->data[7];
@@ -4072,14 +3838,14 @@ static void sub_819F7B4(u8 taskId)
     case 1:
         task->data[5] += 4;
         task->data[8] -= 4;
-        if (task->data[5] >= 64 || task->data[8] <= 65)
-        {
+        if (task->data[5] >= 64 || task->data[8] <= 65) {
             task->data[5] = 64;
             task->data[8] = 65;
         }
         SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(task->data[5], task->data[8]));
-        if (task->data[5] == 64)
+        if (task->data[5] == 64) {
             task->data[0]++;
+        }
         break;
     }
 }
@@ -4090,10 +3856,11 @@ static void Swap_ShowMonSprite(void)
     u16 species;
     u32 personality, otId;
 
-    if (!sFactorySwapScreen->inEnemyScreen)
+    if (!sFactorySwapScreen->inEnemyScreen) {
         mon = &gPlayerParty[sFactorySwapScreen->cursorPos];
-    else
+    } else {
         mon = &gEnemyParty[sFactorySwapScreen->cursorPos];
+    }
 
     species = GetMonData(mon, MON_DATA_SPECIES, NULL);
     personality = GetMonData(mon, MON_DATA_PERSONALITY, NULL);

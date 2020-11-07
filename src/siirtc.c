@@ -93,14 +93,14 @@ u8 SiiRtcProbe(void)
     u8 errorCode;
     struct SiiRtcInfo rtc;
 
-    if (!SiiRtcGetStatus(&rtc))
+    if (!SiiRtcGetStatus(&rtc)) {
         return 0;
+    }
 
     errorCode = 0;
 
     if ((rtc.status & (SIIRTCINFO_POWER | SIIRTCINFO_24HOUR)) == SIIRTCINFO_POWER
-     || (rtc.status & (SIIRTCINFO_POWER | SIIRTCINFO_24HOUR)) == 0)
-    {
+        || (rtc.status & (SIIRTCINFO_POWER | SIIRTCINFO_24HOUR)) == 0) {
         // The RTC is in 12-hour mode. Reset it and switch to 24-hour mode.
 
         // Note that the conditions are redundant and equivalent to simply
@@ -108,20 +108,21 @@ u8 SiiRtcProbe(void)
         // was also intended to handle resetting the clock after power failure
         // but a mistake was made.
 
-        if (!SiiRtcReset())
+        if (!SiiRtcReset()) {
             return 0;
+        }
 
         errorCode++;
     }
 
     SiiRtcGetTime(&rtc);
 
-    if (rtc.second & TEST_MODE)
-    {
+    if (rtc.second & TEST_MODE) {
         // The RTC is in test mode. Reset it to leave test mode.
 
-        if (!SiiRtcReset())
+        if (!SiiRtcReset()) {
             return (errorCode << 4) & 0xF0;
+        }
 
         errorCode++;
     }
@@ -134,8 +135,9 @@ bool8 SiiRtcReset(void)
     u8 result;
     struct SiiRtcInfo rtc;
 
-    if (sLocked == TRUE)
+    if (sLocked == TRUE) {
         return FALSE;
+    }
 
     sLocked = TRUE;
 
@@ -162,8 +164,9 @@ bool8 SiiRtcGetStatus(struct SiiRtcInfo *rtc)
 {
     u8 statusData;
 
-    if (sLocked == TRUE)
+    if (sLocked == TRUE) {
         return FALSE;
+    }
 
     sLocked = TRUE;
 
@@ -179,9 +182,9 @@ bool8 SiiRtcGetStatus(struct SiiRtcInfo *rtc)
     statusData = ReadData();
 
     rtc->status = (statusData & (STATUS_POWER | STATUS_24HOUR))
-                | ((statusData & STATUS_INTAE) >> 3)
-                | ((statusData & STATUS_INTME) >> 2)
-                | ((statusData & STATUS_INTFE) >> 1);
+                  | ((statusData & STATUS_INTAE) >> 3)
+                  | ((statusData & STATUS_INTME) >> 2)
+                  | ((statusData & STATUS_INTFE) >> 1);
 
     GPIO_PORT_DATA = SCK_HI;
     GPIO_PORT_DATA = SCK_HI;
@@ -195,8 +198,9 @@ bool8 SiiRtcSetStatus(struct SiiRtcInfo *rtc)
 {
     u8 statusData;
 
-    if (sLocked == TRUE)
+    if (sLocked == TRUE) {
         return FALSE;
+    }
 
     sLocked = TRUE;
 
@@ -204,9 +208,9 @@ bool8 SiiRtcSetStatus(struct SiiRtcInfo *rtc)
     GPIO_PORT_DATA = SCK_HI | CS_HI;
 
     statusData = STATUS_24HOUR
-               | ((rtc->status & SIIRTCINFO_INTAE) << 3)
-               | ((rtc->status & SIIRTCINFO_INTME) << 2)
-               | ((rtc->status & SIIRTCINFO_INTFE) << 1);
+                 | ((rtc->status & SIIRTCINFO_INTAE) << 3)
+                 | ((rtc->status & SIIRTCINFO_INTME) << 2)
+                 | ((rtc->status & SIIRTCINFO_INTFE) << 1);
 
     GPIO_PORT_DIRECTION = DIR_ALL_OUT;
 
@@ -226,8 +230,9 @@ bool8 SiiRtcGetDateTime(struct SiiRtcInfo *rtc)
 {
     u8 i;
 
-    if (sLocked == TRUE)
+    if (sLocked == TRUE) {
         return FALSE;
+    }
 
     sLocked = TRUE;
 
@@ -240,8 +245,9 @@ bool8 SiiRtcGetDateTime(struct SiiRtcInfo *rtc)
 
     GPIO_PORT_DIRECTION = DIR_0_OUT | DIR_1_IN | DIR_2_OUT;
 
-    for (i = 0; i < DATETIME_BUF_LEN; i++)
+    for (i = 0; i < DATETIME_BUF_LEN; i++) {
         DATETIME_BUF(rtc, i) = ReadData();
+    }
 
     INFO_BUF(rtc, OFFSET_HOUR) &= 0x7F;
 
@@ -257,8 +263,9 @@ bool8 SiiRtcSetDateTime(struct SiiRtcInfo *rtc)
 {
     u8 i;
 
-    if (sLocked == TRUE)
+    if (sLocked == TRUE) {
         return FALSE;
+    }
 
     sLocked = TRUE;
 
@@ -269,8 +276,9 @@ bool8 SiiRtcSetDateTime(struct SiiRtcInfo *rtc)
 
     WriteCommand(CMD_DATETIME | WR);
 
-    for (i = 0; i < DATETIME_BUF_LEN; i++)
+    for (i = 0; i < DATETIME_BUF_LEN; i++) {
         WriteData(DATETIME_BUF(rtc, i));
+    }
 
     GPIO_PORT_DATA = SCK_HI;
     GPIO_PORT_DATA = SCK_HI;
@@ -284,8 +292,9 @@ bool8 SiiRtcGetTime(struct SiiRtcInfo *rtc)
 {
     u8 i;
 
-    if (sLocked == TRUE)
+    if (sLocked == TRUE) {
         return FALSE;
+    }
 
     sLocked = TRUE;
 
@@ -298,8 +307,9 @@ bool8 SiiRtcGetTime(struct SiiRtcInfo *rtc)
 
     GPIO_PORT_DIRECTION = DIR_0_OUT | DIR_1_IN | DIR_2_OUT;
 
-    for (i = 0; i < TIME_BUF_LEN; i++)
+    for (i = 0; i < TIME_BUF_LEN; i++) {
         TIME_BUF(rtc, i) = ReadData();
+    }
 
     INFO_BUF(rtc, OFFSET_HOUR) &= 0x7F;
 
@@ -315,8 +325,9 @@ bool8 SiiRtcSetTime(struct SiiRtcInfo *rtc)
 {
     u8 i;
 
-    if (sLocked == TRUE)
+    if (sLocked == TRUE) {
         return FALSE;
+    }
 
     sLocked = TRUE;
 
@@ -327,8 +338,9 @@ bool8 SiiRtcSetTime(struct SiiRtcInfo *rtc)
 
     WriteCommand(CMD_TIME | WR);
 
-    for (i = 0; i < TIME_BUF_LEN; i++)
+    for (i = 0; i < TIME_BUF_LEN; i++) {
         WriteData(TIME_BUF(rtc, i));
+    }
 
     GPIO_PORT_DATA = SCK_HI;
     GPIO_PORT_DATA = SCK_HI;
@@ -343,8 +355,9 @@ bool8 SiiRtcSetAlarm(struct SiiRtcInfo *rtc)
     u8 i;
     u8 alarmData[2];
 
-    if (sLocked == TRUE)
+    if (sLocked == TRUE) {
         return FALSE;
+    }
 
     sLocked = TRUE;
 
@@ -353,10 +366,11 @@ bool8 SiiRtcSetAlarm(struct SiiRtcInfo *rtc)
 
     // The AM/PM flag must be set correctly even in 24-hour mode.
 
-    if (alarmData[0] < 12)
+    if (alarmData[0] < 12) {
         alarmData[0] = rtc->alarmHour | ALARM_AM;
-    else
+    } else {
         alarmData[0] = rtc->alarmHour | ALARM_PM;
+    }
 
     alarmData[1] = rtc->alarmMinute;
 
@@ -367,8 +381,9 @@ bool8 SiiRtcSetAlarm(struct SiiRtcInfo *rtc)
 
     WriteCommand(CMD_ALARM | WR);
 
-    for (i = 0; i < 2; i++)
+    for (i = 0; i < 2; i++) {
         WriteData(alarmData[i]);
+    }
 
     GPIO_PORT_DATA = SCK_HI;
     GPIO_PORT_DATA = SCK_HI;
@@ -383,8 +398,7 @@ static int WriteCommand(u8 value)
     u8 i;
     u8 temp;
 
-    for (i = 0; i < 8; i++)
-    {
+    for (i = 0; i < 8; i++) {
         temp = ((value >> (7 - i)) & 1);
         GPIO_PORT_DATA = (temp << 1) | CS_HI;
         GPIO_PORT_DATA = (temp << 1) | CS_HI;
@@ -400,8 +414,7 @@ static int WriteData(u8 value)
     u8 i;
     u8 temp;
 
-    for (i = 0; i < 8; i++)
-    {
+    for (i = 0; i < 8; i++) {
         temp = ((value >> i) & 1);
         GPIO_PORT_DATA = (temp << 1) | CS_HI;
         GPIO_PORT_DATA = (temp << 1) | CS_HI;
@@ -418,8 +431,7 @@ static u8 ReadData()
     u8 temp;
     u8 value;
 
-    for (i = 0; i < 8; i++)
-    {
+    for (i = 0; i < 8; i++) {
         GPIO_PORT_DATA = CS_HI;
         GPIO_PORT_DATA = CS_HI;
         GPIO_PORT_DATA = CS_HI;

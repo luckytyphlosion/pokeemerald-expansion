@@ -49,20 +49,20 @@ static const u8 sText_TransmissionFailureTryAgain[] = _("Transmission failure.\n
 
 static const struct BgTemplate sBerryFixBgTemplates[] = {
     {
-        .bg = 0, 
-        .charBaseIndex = 0, 
-        .mapBaseIndex = 30, 
-        .screenSize = 0, 
-        .paletteMode = 0, 
+        .bg = 0,
+        .charBaseIndex = 0,
+        .mapBaseIndex = 30,
+        .screenSize = 0,
+        .paletteMode = 0,
         .priority = 0,
         .baseTile = 0
-    }, 
+    },
     {
-        .bg = 1, 
-        .charBaseIndex = 1, 
-        .mapBaseIndex = 31, 
-        .screenSize = 0, 
-        .paletteMode = 0, 
+        .bg = 1,
+        .charBaseIndex = 1,
+        .mapBaseIndex = 31,
+        .screenSize = 0,
+        .paletteMode = 0,
         .priority = 1,
         .baseTile = 0
     }
@@ -70,39 +70,39 @@ static const struct BgTemplate sBerryFixBgTemplates[] = {
 
 static const struct WindowTemplate sBerryFixWindowTemplates[] = {
     {
-        .bg = 0, 
-        .tilemapLeft = 2,  
-        .tilemapTop = 4, 
-        .width = 26, 
-        .height = 2, 
-        .paletteNum = 15, 
+        .bg = 0,
+        .tilemapLeft = 2,
+        .tilemapTop = 4,
+        .width = 26,
+        .height = 2,
+        .paletteNum = 15,
         .baseBlock = 1
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 1, 
-        .tilemapTop = 11, 
-        .width = 28, 
-        .height = 8, 
-        .paletteNum = 15, 
+        .bg = 0,
+        .tilemapLeft = 1,
+        .tilemapTop = 11,
+        .width = 28,
+        .height = 8,
+        .paletteNum = 15,
         .baseBlock = 53
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 0,  
-        .tilemapTop = 8, 
-        .width = 30, 
-        .height = 2, 
-        .paletteNum = 15, 
+        .bg = 0,
+        .tilemapLeft = 0,
+        .tilemapTop = 8,
+        .width = 30,
+        .height = 2,
+        .paletteNum = 15,
         .baseBlock = 277
     },
     {
-        .bg = 0, 
-        .tilemapLeft = 8,  
-        .tilemapTop = 0, 
-        .width = 14, 
-        .height = 2, 
-        .paletteNum = 15, 
+        .bg = 0,
+        .tilemapLeft = 8,
+        .tilemapTop = 0,
+        .width = 14,
+        .height = 2,
+        .paletteNum = 15,
         .baseBlock = 337
     },
     DUMMY_WIN_TEMPLATE
@@ -116,7 +116,7 @@ static const u16 sUnknown_08618138[] = {
 };
 
 static const u8 sBerryProgramTextColors[] = {TEXT_DYNAMIC_COLOR_1, TEXT_DYNAMIC_COLOR_2, TEXT_DYNAMIC_COLOR_3};
-static const u8 sGameTitleTextColors[] = { TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_1, TEXT_DYNAMIC_COLOR_4};
+static const u8 sGameTitleTextColors[] = {TEXT_COLOR_TRANSPARENT, TEXT_DYNAMIC_COLOR_1, TEXT_DYNAMIC_COLOR_4};
 
 static const u8 *const sBerryProgramTexts[] = {
     sText_EnsureGBAConnectionMatches,
@@ -183,69 +183,59 @@ void CB2_InitBerryFixProgram(void)
 
 static void berry_fix_main(void)
 {
-    switch (berry_fix_mb_manager->state)
-    {
-        case 0:
-            berry_fix_gpu_set();
-            berry_fix_mb_manager->state = 1;
-            break;
-        case 1:
-            if (berry_fix_text_update(5) == 5 && (JOY_NEW(A_BUTTON)))
-            {
-                berry_fix_mb_manager->state = 2;
-            }
-            break;
-        case 2:
-            if (berry_fix_text_update(0) == 0 && (JOY_NEW(A_BUTTON)))
-            {
-                berry_fix_mb_manager->state = 3;
-            }
-            break;
-        case 3:
-            if (berry_fix_text_update(1) == 1)
-            {
-                berry_fix_mb_manager->mb.masterp = gMultiBootProgram_BerryGlitchFix_Start;
-                berry_fix_mb_manager->mb.server_type = 0;
-                MultiBootInit(&berry_fix_mb_manager->mb);
-                berry_fix_mb_manager->unk2 = 0;
-                berry_fix_mb_manager->state = 4;
-            }
-            break;
-        case 4:
+    switch (berry_fix_mb_manager->state) {
+    case 0:
+        berry_fix_gpu_set();
+        berry_fix_mb_manager->state = 1;
+        break;
+    case 1:
+        if (berry_fix_text_update(5) == 5 && (JOY_NEW(A_BUTTON))) {
+            berry_fix_mb_manager->state = 2;
+        }
+        break;
+    case 2:
+        if (berry_fix_text_update(0) == 0 && (JOY_NEW(A_BUTTON))) {
+            berry_fix_mb_manager->state = 3;
+        }
+        break;
+    case 3:
+        if (berry_fix_text_update(1) == 1) {
+            berry_fix_mb_manager->mb.masterp = gMultiBootProgram_BerryGlitchFix_Start;
+            berry_fix_mb_manager->mb.server_type = 0;
+            MultiBootInit(&berry_fix_mb_manager->mb);
+            berry_fix_mb_manager->unk2 = 0;
+            berry_fix_mb_manager->state = 4;
+        }
+        break;
+    case 4:
+        MultiBootMain(&berry_fix_mb_manager->mb);
+        if (berry_fix_mb_manager->mb.probe_count != 0 || (!(berry_fix_mb_manager->mb.response_bit & 2) || !(berry_fix_mb_manager->mb.client_bit & 2))) {
+            berry_fix_mb_manager->unk2 = 0;
+        } else if (++berry_fix_mb_manager->unk2 > 180) {
+            MultiBootStartMaster(&berry_fix_mb_manager->mb, gMultiBootProgram_BerryGlitchFix_Start + ROM_HEADER_SIZE, (u32)(gMultiBootProgram_BerryGlitchFix_End - (gMultiBootProgram_BerryGlitchFix_Start + ROM_HEADER_SIZE)), 4, 1);
+            berry_fix_mb_manager->state = 5;
+        }
+        break;
+    case 5:
+        if (berry_fix_text_update(2) == 2) {
             MultiBootMain(&berry_fix_mb_manager->mb);
-            if (berry_fix_mb_manager->mb.probe_count != 0 || (!(berry_fix_mb_manager->mb.response_bit & 2) || !(berry_fix_mb_manager->mb.client_bit & 2)))
-            {
-                berry_fix_mb_manager->unk2 = 0;
+            if (MultiBootCheckComplete(&berry_fix_mb_manager->mb)) {
+                berry_fix_mb_manager->state = 6;
+            } else if (!(berry_fix_mb_manager->mb.client_bit & 2)) {
+                berry_fix_mb_manager->state = 7;
             }
-            else if (++ berry_fix_mb_manager->unk2 > 180)
-            {
-                MultiBootStartMaster(&berry_fix_mb_manager->mb, gMultiBootProgram_BerryGlitchFix_Start + ROM_HEADER_SIZE, (u32)(gMultiBootProgram_BerryGlitchFix_End - (gMultiBootProgram_BerryGlitchFix_Start + ROM_HEADER_SIZE)), 4, 1);
-                berry_fix_mb_manager->state = 5;
-            }
-            break;
-        case 5:
-            if (berry_fix_text_update(2) == 2) {
-                MultiBootMain(&berry_fix_mb_manager->mb);
-                if (MultiBootCheckComplete(&berry_fix_mb_manager->mb)) {
-                    berry_fix_mb_manager->state = 6;
-                }
-                else if (!(berry_fix_mb_manager->mb.client_bit & 2)) {
-                    berry_fix_mb_manager->state = 7;
-                }
-            }
-            break;
-        case 6:
-            if (berry_fix_text_update(3) == 3 && JOY_NEW(A_BUTTON))
-            {
-                DoSoftReset();
-            }
-            break;
-        case 7:
-            if (berry_fix_text_update(4) == 4 && JOY_NEW(A_BUTTON))
-            {
-                berry_fix_mb_manager->state = 1;
-            }
-            break;
+        }
+        break;
+    case 6:
+        if (berry_fix_text_update(3) == 3 && JOY_NEW(A_BUTTON)) {
+            DoSoftReset();
+        }
+        break;
+    case 7:
+        if (berry_fix_text_update(4) == 4 && JOY_NEW(A_BUTTON)) {
+            berry_fix_mb_manager->state = 1;
+        }
+        break;
     }
 }
 
@@ -303,17 +293,13 @@ static void berry_fix_gpu_set(void)
 
 static int berry_fix_text_update(int checkval)
 {
-    if (berry_fix_mb_manager->unk1 == checkval)
-    {
+    if (berry_fix_mb_manager->unk1 == checkval) {
         return checkval;
     }
-    if (berry_fix_mb_manager->unk1 == 6)
-    {
+    if (berry_fix_mb_manager->unk1 == 6) {
         berry_fix_text_print(checkval);
         berry_fix_mb_manager->unk1 = checkval;
-    }
-    else
-    {
+    } else {
         berry_fix_bg_hide();
         berry_fix_mb_manager->unk1 = 6;
     }
@@ -327,20 +313,19 @@ static void berry_fix_text_print(int scene)
     AddTextPrinterParameterized3(1, 1, 0, 0, sBerryProgramTextColors, -1, sBerryProgramTexts[scene]);
     PutWindowTilemap(1);
     CopyWindowToVram(1, 2);
-    switch (scene)
-    {
-        case 0:
-        case 2:
-        case 3:
-        case 4:
-            PutWindowTilemap(2);
-            break;
-        case 1:
-            PutWindowTilemap(3);
-            break;
-        case 5:
-            PutWindowTilemap(0);
-            break;
+    switch (scene) {
+    case 0:
+    case 2:
+    case 3:
+    case 4:
+        PutWindowTilemap(2);
+        break;
+    case 1:
+        PutWindowTilemap(3);
+        break;
+    case 5:
+        PutWindowTilemap(0);
+        break;
     }
     CopyBgTilemapBufferToVram(0);
     LZ77UnCompVram(sBerryFixGraphics[scene].gfx, (void *)BG_CHAR_ADDR(1));

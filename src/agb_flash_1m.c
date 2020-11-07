@@ -23,13 +23,12 @@ u16 IdentifyFlash(void)
     setupInfo = sSetupInfos;
     result = 1;
 
-    for (;;)
-    {
-        if ((*setupInfo)->type.ids.separate.makerId == 0)
+    for (;;) {
+        if ((*setupInfo)->type.ids.separate.makerId == 0) {
             break;
+        }
 
-        if (flashId == (*setupInfo)->type.ids.joined)
-        {
+        if (flashId == (*setupInfo)->type.ids.joined) {
             result = 0;
             break;
         }
@@ -55,24 +54,23 @@ u16 WaitForFlashWrite_Common(u8 phase, u8 *addr, u8 lastData)
 
     StartFlashTimer(phase);
 
-    while ((status = PollFlashStatus(addr)) != lastData)
-    {
-        if (status & 0x20)
-        {
+    while ((status = PollFlashStatus(addr)) != lastData) {
+        if (status & 0x20) {
             // The write operation exceeded the flash chip's time limit.
 
-            if (PollFlashStatus(addr) == lastData)
+            if (PollFlashStatus(addr) == lastData) {
                 break;
+            }
 
             FLASH_WRITE(0x5555, 0xF0);
             result = phase | 0xA000u;
             break;
         }
 
-        if (gFlashTimeoutFlag)
-        {
-            if (PollFlashStatus(addr) == lastData)
+        if (gFlashTimeoutFlag) {
+            if (PollFlashStatus(addr) == lastData) {
                 break;
+            }
 
             FLASH_WRITE(0x5555, 0xF0);
             result = phase | 0xC000u;

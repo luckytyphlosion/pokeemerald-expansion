@@ -36,12 +36,9 @@ bool8 CheckObjectGraphicsInFrontOfPlayer(u8 graphicsId)
     GetXYCoordsOneStepInFrontOfPlayer(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
     gPlayerFacingPosition.height = PlayerGetZCoord();
     objEventId = GetObjectEventIdByXYZ(gPlayerFacingPosition.x, gPlayerFacingPosition.y, gPlayerFacingPosition.height);
-    if (gObjectEvents[objEventId].graphicsId != graphicsId)
-    {
+    if (gObjectEvents[objEventId].graphicsId != graphicsId) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         gSpecialVar_LastTalked = gObjectEvents[objEventId].localId;
         return TRUE;
     }
@@ -61,16 +58,12 @@ static void Task_DoFieldMove_Init(u8 taskId)
     gPlayerAvatar.preventStep = TRUE;
     objEventId = gPlayerAvatar.objectEventId;
     if (!ObjectEventIsMovementOverridden(&gObjectEvents[objEventId])
-     || ObjectEventClearHeldMovementIfFinished(&gObjectEvents[objEventId]))
-    {
-        if (gMapHeader.mapType == MAP_TYPE_UNDERWATER)
-        {
+        || ObjectEventClearHeldMovementIfFinished(&gObjectEvents[objEventId])) {
+        if (gMapHeader.mapType == MAP_TYPE_UNDERWATER) {
             // Skip field move pose underwater
             FieldEffectStart(FLDEFF_FIELD_MOVE_SHOW_MON_INIT);
             gTasks[taskId].func = Task_DoFieldMove_WaitForMon;
-        }
-        else
-        {
+        } else {
             // Do field move pose
             SetPlayerAvatarFieldMove();
             ObjectEventSetHeldMovement(&gObjectEvents[objEventId], MOVEMENT_ACTION_START_ANIM_IN_DIRECTION);
@@ -81,8 +74,7 @@ static void Task_DoFieldMove_Init(u8 taskId)
 
 static void Task_DoFieldMove_ShowMonAfterPose(u8 taskId)
 {
-    if (ObjectEventCheckHeldMovementStatus(&gObjectEvents[gPlayerAvatar.objectEventId]) == TRUE)
-    {
+    if (ObjectEventCheckHeldMovementStatus(&gObjectEvents[gPlayerAvatar.objectEventId]) == TRUE) {
         FieldEffectStart(FLDEFF_FIELD_MOVE_SHOW_MON_INIT);
         gTasks[taskId].func = Task_DoFieldMove_WaitForMon;
     }
@@ -90,17 +82,20 @@ static void Task_DoFieldMove_ShowMonAfterPose(u8 taskId)
 
 static void Task_DoFieldMove_WaitForMon(u8 taskId)
 {
-    if (!FieldEffectActiveListContains(FLDEFF_FIELD_MOVE_SHOW_MON))
-    {
+    if (!FieldEffectActiveListContains(FLDEFF_FIELD_MOVE_SHOW_MON)) {
         gFieldEffectArguments[1] = GetPlayerFacingDirection();
-        if (gFieldEffectArguments[1] == DIR_SOUTH)
+        if (gFieldEffectArguments[1] == DIR_SOUTH) {
             gFieldEffectArguments[2] = 0;
-        if (gFieldEffectArguments[1] == DIR_NORTH)
+        }
+        if (gFieldEffectArguments[1] == DIR_NORTH) {
             gFieldEffectArguments[2] = 1;
-        if (gFieldEffectArguments[1] == DIR_WEST)
+        }
+        if (gFieldEffectArguments[1] == DIR_WEST) {
             gFieldEffectArguments[2] = 2;
-        if (gFieldEffectArguments[1] == DIR_EAST)
+        }
+        if (gFieldEffectArguments[1] == DIR_EAST) {
             gFieldEffectArguments[2] = 3;
+        }
         ObjectEventSetGraphicsId(&gObjectEvents[gPlayerAvatar.objectEventId], GetPlayerAvatarGraphicsIdByCurrentState());
         StartSpriteAnim(&gSprites[gPlayerAvatar.spriteId], gFieldEffectArguments[2]);
         FieldEffectActiveListRemove(FLDEFF_FIELD_MOVE_SHOW_MON);
@@ -124,21 +119,16 @@ bool8 SetUpFieldMove_RockSmash(void)
 {
     // In Ruby and Sapphire, Regirock's tomb is opened by using Strength. In Emerald,
     // it is opened by using Rock Smash.
-    if (ShouldDoBrailleRegirockEffect())
-    {
+    if (ShouldDoBrailleRegirockEffect()) {
         gSpecialVar_Result = GetCursorSelectionMonId();
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = SetUpPuzzleEffectRegirock;
         return TRUE;
-    }
-    else if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_BREAKABLE_ROCK) == TRUE)
-    {
+    } else if (CheckObjectGraphicsInFrontOfPlayer(OBJ_EVENT_GFX_BREAKABLE_ROCK) == TRUE) {
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = FieldCallback_RockSmash;
         return TRUE;
-    }
-    else
-    {
+    } else {
         return FALSE;
     }
 }

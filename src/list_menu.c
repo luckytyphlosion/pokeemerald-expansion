@@ -309,18 +309,15 @@ static const u32 sRedArrowGfx[] = INCBIN_U32("graphics/interface/red_arrow.4bpp.
 // code
 static void ListMenuDummyTask(u8 taskId)
 {
-
 }
 
 u32 DoMysteryGiftListMenu(const struct WindowTemplate *windowTemplate, const struct ListMenuTemplate *listMenuTemplate, u8 arg2, u16 tileNum, u16 palNum)
 {
-    switch (sMysteryGiftLinkMenu.state)
-    {
+    switch (sMysteryGiftLinkMenu.state) {
     case 0:
     default:
         sMysteryGiftLinkMenu.windowId = AddWindow(windowTemplate);
-        switch (arg2)
-        {
+        switch (arg2) {
         case 2:
             LoadUserWindowBorderGfx(sMysteryGiftLinkMenu.windowId, tileNum, palNum);
         case 1:
@@ -335,25 +332,18 @@ u32 DoMysteryGiftListMenu(const struct WindowTemplate *windowTemplate, const str
         break;
     case 1:
         sMysteryGiftLinkMenu.currItemId = ListMenu_ProcessInput(sMysteryGiftLinkMenu.listTaskId);
-        if (JOY_NEW(A_BUTTON))
-        {
+        if (JOY_NEW(A_BUTTON)) {
             sMysteryGiftLinkMenu.state = 2;
         }
-        if (JOY_NEW(B_BUTTON))
-        {
+        if (JOY_NEW(B_BUTTON)) {
             sMysteryGiftLinkMenu.currItemId = LIST_CANCEL;
             sMysteryGiftLinkMenu.state = 2;
         }
-        if (sMysteryGiftLinkMenu.state == 2)
-        {
-            if (arg2 == 0)
-            {
+        if (sMysteryGiftLinkMenu.state == 2) {
+            if (arg2 == 0) {
                 ClearWindowTilemap(sMysteryGiftLinkMenu.windowId);
-            }
-            else
-            {
-                switch (arg2)
-                {
+            } else {
+                switch (arg2) {
                 case 0: // can never be reached, because of the if statement above
                     ClearStdWindowAndFrame(sMysteryGiftLinkMenu.windowId, FALSE);
                     break;
@@ -392,8 +382,7 @@ u8 ListMenuInitInRect(struct ListMenuTemplate *listMenuTemplate, struct ListMenu
     s32 i;
 
     u8 taskId = ListMenuInitInternal(listMenuTemplate, scrollOffset, selectedRow);
-    for (i = 0; rect[i].palNum != 0xFF; i++)
-    {
+    for (i = 0; rect[i].palNum != 0xFF; i++) {
         PutWindowRectTilemapOverridePalette(listMenuTemplate->windowId,
                                             rect[i].x,
                                             rect[i].y,
@@ -408,31 +397,21 @@ u8 ListMenuInitInRect(struct ListMenuTemplate *listMenuTemplate, struct ListMenu
 
 s32 ListMenu_ProcessInput(u8 listTaskId)
 {
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
+    struct ListMenu *list = (void*)gTasks[listTaskId].data;
 
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         return list->template.items[list->scrollOffset + list->selectedRow].id;
-    }
-    else if (JOY_NEW(B_BUTTON))
-    {
+    } else if (JOY_NEW(B_BUTTON)) {
         return LIST_CANCEL;
-    }
-    else if (JOY_REPEAT(DPAD_UP))
-    {
+    } else if (JOY_REPEAT(DPAD_UP)) {
         ListMenuChangeSelection(list, TRUE, 1, FALSE);
         return LIST_NOTHING_CHOSEN;
-    }
-    else if (JOY_REPEAT(DPAD_DOWN))
-    {
+    } else if (JOY_REPEAT(DPAD_DOWN)) {
         ListMenuChangeSelection(list, TRUE, 1, TRUE);
         return LIST_NOTHING_CHOSEN;
-    }
-    else // try to move by one window scroll
-    {
+    } else { // try to move by one window scroll
         bool16 rightButton, leftButton;
-        switch (list->template.scrollMultiple)
-        {
+        switch (list->template.scrollMultiple) {
         case LIST_NO_MULTIPLE_SCROLL:
         default:
             leftButton = FALSE;
@@ -448,18 +427,13 @@ s32 ListMenu_ProcessInput(u8 listTaskId)
             break;
         }
 
-        if (leftButton)
-        {
+        if (leftButton) {
             ListMenuChangeSelection(list, TRUE, list->template.maxShowed, FALSE);
             return LIST_NOTHING_CHOSEN;
-        }
-        else if (rightButton)
-        {
+        } else if (rightButton) {
             ListMenuChangeSelection(list, TRUE, list->template.maxShowed, TRUE);
             return LIST_NOTHING_CHOSEN;
-        }
-        else
-        {
+        } else {
             return LIST_NOTHING_CHOSEN;
         }
     }
@@ -469,22 +443,25 @@ s32 ListMenu_ProcessInput(u8 listTaskId)
 
 void DestroyListMenuTask(u8 listTaskId, u16 *scrollOffset, u16 *selectedRow)
 {
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
+    struct ListMenu *list = (void*)gTasks[listTaskId].data;
 
-    if (scrollOffset != NULL)
+    if (scrollOffset != NULL) {
         *scrollOffset = list->scrollOffset;
-    if (selectedRow != NULL)
+    }
+    if (selectedRow != NULL) {
         *selectedRow = list->selectedRow;
+    }
 
-    if (list->taskId != TASK_NONE)
+    if (list->taskId != TASK_NONE) {
         ListMenuRemoveCursorObject(list->taskId, list->template.cursorKind - 2);
+    }
 
     DestroyTask(listTaskId);
 }
 
 void RedrawListMenu(u8 listTaskId)
 {
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
+    struct ListMenu *list = (void*)gTasks[listTaskId].data;
 
     FillWindowPixelBuffer(list->template.windowId, PIXEL_FILL(list->template.fillValue));
     ListMenuPrintEntries(list, list->scrollOffset, 0, list->template.maxShowed);
@@ -495,7 +472,7 @@ void RedrawListMenu(u8 listTaskId)
 // unused
 void ChangeListMenuPals(u8 listTaskId, u8 cursorPal, u8 fillValue, u8 cursorShadowPal)
 {
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
+    struct ListMenu *list = (void*)gTasks[listTaskId].data;
 
     list->template.cursorPal = cursorPal;
     list->template.fillValue = fillValue;
@@ -505,7 +482,7 @@ void ChangeListMenuPals(u8 listTaskId, u8 cursorPal, u8 fillValue, u8 cursorShad
 // unused
 void ChangeListMenuCoords(u8 listTaskId, u8 x, u8 y)
 {
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
+    struct ListMenu *list = (void*)gTasks[listTaskId].data;
 
     SetWindowAttribute(list->template.windowId, WINDOW_TILEMAP_LEFT, x);
     SetWindowAttribute(list->template.windowId, WINDOW_TILEMAP_TOP, y);
@@ -522,40 +499,47 @@ s32 ListMenuTestInput(struct ListMenuTemplate *template, u32 scrollOffset, u32 s
     list.unk_1C = 0;
     list.unk_1D = 0;
 
-    if (keys == DPAD_UP)
+    if (keys == DPAD_UP) {
         ListMenuChangeSelection(&list, FALSE, 1, FALSE);
-    if (keys == DPAD_DOWN)
+    }
+    if (keys == DPAD_DOWN) {
         ListMenuChangeSelection(&list, FALSE, 1, TRUE);
+    }
 
-    if (newScrollOffset != NULL)
+    if (newScrollOffset != NULL) {
         *newScrollOffset = list.scrollOffset;
-    if (newSelectedRow != NULL)
+    }
+    if (newSelectedRow != NULL) {
         *newSelectedRow = list.selectedRow;
+    }
 
     return LIST_NOTHING_CHOSEN;
 }
 
 void ListMenuGetCurrentItemArrayId(u8 listTaskId, u16 *arrayId)
 {
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
+    struct ListMenu *list = (void*)gTasks[listTaskId].data;
 
-    if (arrayId != NULL)
+    if (arrayId != NULL) {
         *arrayId = list->scrollOffset + list->selectedRow;
+    }
 }
 
 void ListMenuGetScrollAndRow(u8 listTaskId, u16 *scrollOffset, u16 *selectedRow)
 {
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
+    struct ListMenu *list = (void*)gTasks[listTaskId].data;
 
-    if (scrollOffset != NULL)
+    if (scrollOffset != NULL) {
         *scrollOffset = list->scrollOffset;
-    if (selectedRow != NULL)
+    }
+    if (selectedRow != NULL) {
         *selectedRow = list->selectedRow;
+    }
 }
 
 u16 ListMenuGetYCoordForPrintingArrowCursor(u8 listTaskId)
 {
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
+    struct ListMenu *list = (void*)gTasks[listTaskId].data;
     u8 yMultiplier = GetFontAttribute(list->template.fontId, FONTATTR_MAX_LETTER_HEIGHT) + list->template.itemVerticalPadding;
 
     return list->selectedRow * yMultiplier + list->template.upText_Y;
@@ -564,7 +548,7 @@ u16 ListMenuGetYCoordForPrintingArrowCursor(u8 listTaskId)
 static u8 ListMenuInitInternal(struct ListMenuTemplate *listMenuTemplate, u16 scrollOffset, u16 selectedRow)
 {
     u8 listTaskId = CreateTask(ListMenuDummyTask, 0);
-    struct ListMenu *list = (void*) gTasks[listTaskId].data;
+    struct ListMenu *list = (void*)gTasks[listTaskId].data;
 
     list->template = *listMenuTemplate;
     list->scrollOffset = scrollOffset;
@@ -581,8 +565,9 @@ static u8 ListMenuInitInternal(struct ListMenuTemplate *listMenuTemplate, u16 sc
     gListMenuOverride.fontId = list->template.fontId;
     gListMenuOverride.enabled = FALSE;
 
-    if (list->template.totalItems < list->template.maxShowed)
+    if (list->template.totalItems < list->template.maxShowed) {
         list->template.maxShowed = list->template.totalItems;
+    }
 
     FillWindowPixelBuffer(list->template.windowId, PIXEL_FILL(list->template.fillValue));
     ListMenuPrintEntries(list, list->scrollOffset, 0, list->template.maxShowed);
@@ -595,8 +580,7 @@ static u8 ListMenuInitInternal(struct ListMenuTemplate *listMenuTemplate, u16 sc
 static void ListMenuPrint(struct ListMenu *list, const u8 *str, u8 x, u8 y)
 {
     u8 colors[3];
-    if (gListMenuOverride.enabled)
-    {
+    if (gListMenuOverride.enabled) {
         colors[0] = gListMenuOverride.fillValue;
         colors[1] = gListMenuOverride.cursorPal;
         colors[2] = gListMenuOverride.cursorShadowPal;
@@ -607,9 +591,7 @@ static void ListMenuPrint(struct ListMenu *list, const u8 *str, u8 x, u8 y)
                                      0, colors, TEXT_SPEED_FF, str);
 
         gListMenuOverride.enabled = FALSE;
-    }
-    else
-    {
+    } else {
         colors[0] = list->template.fillValue;
         colors[1] = list->template.cursorPal;
         colors[2] = list->template.cursorShadowPal;
@@ -627,16 +609,17 @@ static void ListMenuPrintEntries(struct ListMenu *list, u16 startIndex, u16 yOff
     u8 x, y;
     u8 yMultiplier = GetFontAttribute(list->template.fontId, FONTATTR_MAX_LETTER_HEIGHT) + list->template.itemVerticalPadding;
 
-    for (i = 0; i < count; i++)
-    {
-        if (list->template.items[startIndex].id != LIST_HEADER)
+    for (i = 0; i < count; i++) {
+        if (list->template.items[startIndex].id != LIST_HEADER) {
             x = list->template.item_X;
-        else
+        } else {
             x = list->template.header_X;
+        }
 
         y = (yOffset + i) * yMultiplier + list->template.upText_Y;
-        if (list->template.itemPrintFunc != NULL)
+        if (list->template.itemPrintFunc != NULL) {
             list->template.itemPrintFunc(list->template.windowId, list->template.items[startIndex].id, y);
+        }
 
         ListMenuPrint(list, list->template.items[startIndex].name, x, y);
         startIndex++;
@@ -648,23 +631,24 @@ static void ListMenuDrawCursor(struct ListMenu *list)
     u8 yMultiplier = GetFontAttribute(list->template.fontId, FONTATTR_MAX_LETTER_HEIGHT) + list->template.itemVerticalPadding;
     u8 x = list->template.cursor_X;
     u8 y = list->selectedRow * yMultiplier + list->template.upText_Y;
-    switch (list->template.cursorKind)
-    {
+    switch (list->template.cursorKind) {
     case 0:
         ListMenuPrint(list, gText_SelectorArrow2, x, y);
         break;
     case 1:
         break;
     case 2:
-        if (list->taskId == TASK_NONE)
+        if (list->taskId == TASK_NONE) {
             list->taskId = ListMenuAddCursorObject(list, 0);
+        }
         ListMenuUpdateCursorObject(list->taskId,
                                    GetWindowAttribute(list->template.windowId, WINDOW_TILEMAP_LEFT) * 8 - 1,
                                    GetWindowAttribute(list->template.windowId, WINDOW_TILEMAP_TOP) * 8 + y - 1, 0);
         break;
     case 3:
-        if (list->taskId == TASK_NONE)
+        if (list->taskId == TASK_NONE) {
             list->taskId = ListMenuAddCursorObject(list, 1);
+        }
         ListMenuUpdateCursorObject(list->taskId,
                                    GetWindowAttribute(list->template.windowId, WINDOW_TILEMAP_LEFT) * 8 + x,
                                    GetWindowAttribute(list->template.windowId, WINDOW_TILEMAP_TOP) * 8 + y, 1);
@@ -692,8 +676,7 @@ static u8 ListMenuAddCursorObject(struct ListMenu *list, u32 cursorKind)
 static void ListMenuErasePrintedCursor(struct ListMenu *list, u16 selectedRow)
 {
     u8 cursorKind = list->template.cursorKind;
-    if (cursorKind == 0)
-    {
+    if (cursorKind == 0) {
         u8 yMultiplier = GetFontAttribute(list->template.fontId, FONTATTR_MAX_LETTER_HEIGHT) + list->template.itemVerticalPadding;
         u8 width  = GetMenuCursorDimensionByFont(list->template.fontId, 0);
         u8 height = GetMenuCursorDimensionByFont(list->template.fontId, 1);
@@ -713,34 +696,27 @@ static u8 ListMenuUpdateSelectedRowIndexAndScrollOffset(struct ListMenu *list, b
     u16 newRow;
     u32 newScroll;
 
-    if (!movingDown)
-    {
-        if (list->template.maxShowed == 1)
+    if (!movingDown) {
+        if (list->template.maxShowed == 1) {
             newRow = 0;
-        else
+        } else {
             newRow = list->template.maxShowed - ((list->template.maxShowed / 2) + (list->template.maxShowed % 2)) - 1;
+        }
 
-        if (scrollOffset == 0)
-        {
-            while (selectedRow != 0)
-            {
+        if (scrollOffset == 0) {
+            while (selectedRow != 0) {
                 selectedRow--;
-                if (list->template.items[scrollOffset + selectedRow].id != LIST_HEADER)
-                {
+                if (list->template.items[scrollOffset + selectedRow].id != LIST_HEADER) {
                     list->selectedRow = selectedRow;
                     return 1;
                 }
             }
 
             return 0;
-        }
-        else
-        {
-            while (selectedRow > newRow)
-            {
+        } else {
+            while (selectedRow > newRow) {
                 selectedRow--;
-                if (list->template.items[scrollOffset + selectedRow].id != LIST_HEADER)
-                {
+                if (list->template.items[scrollOffset + selectedRow].id != LIST_HEADER) {
                     list->selectedRow = selectedRow;
                     return 1;
                 }
@@ -748,35 +724,27 @@ static u8 ListMenuUpdateSelectedRowIndexAndScrollOffset(struct ListMenu *list, b
 
             newScroll = scrollOffset - 1;
         }
-    }
-    else
-    {
-        if (list->template.maxShowed == 1)
+    } else {
+        if (list->template.maxShowed == 1) {
             newRow = 0;
-        else
+        } else {
             newRow = ((list->template.maxShowed / 2) + (list->template.maxShowed % 2));
+        }
 
-        if (scrollOffset == list->template.totalItems - list->template.maxShowed)
-        {
-            while (selectedRow < list->template.maxShowed - 1)
-            {
+        if (scrollOffset == list->template.totalItems - list->template.maxShowed) {
+            while (selectedRow < list->template.maxShowed - 1) {
                 selectedRow++;
-                if (list->template.items[scrollOffset + selectedRow].id != LIST_HEADER)
-                {
+                if (list->template.items[scrollOffset + selectedRow].id != LIST_HEADER) {
                     list->selectedRow = selectedRow;
                     return 1;
                 }
             }
 
             return 0;
-        }
-        else
-        {
-            while (selectedRow < newRow)
-            {
+        } else {
+            while (selectedRow < newRow) {
                 selectedRow++;
-                if (list->template.items[scrollOffset + selectedRow].id != LIST_HEADER)
-                {
+                if (list->template.items[scrollOffset + selectedRow].id != LIST_HEADER) {
                     list->selectedRow = selectedRow;
                     return 1;
                 }
@@ -793,17 +761,13 @@ static u8 ListMenuUpdateSelectedRowIndexAndScrollOffset(struct ListMenu *list, b
 
 static void ListMenuScroll(struct ListMenu *list, u8 count, bool8 movingDown)
 {
-    if (count >= list->template.maxShowed)
-    {
+    if (count >= list->template.maxShowed) {
         FillWindowPixelBuffer(list->template.windowId, PIXEL_FILL(list->template.fillValue));
         ListMenuPrintEntries(list, list->scrollOffset, 0, list->template.maxShowed);
-    }
-    else
-    {
+    } else {
         u8 yMultiplier = GetFontAttribute(list->template.fontId, FONTATTR_MAX_LETTER_HEIGHT) + list->template.itemVerticalPadding;
 
-        if (!movingDown)
-        {
+        if (!movingDown) {
             u16 y, width, height;
 
             ScrollWindow(list->template.windowId, 1, count * yMultiplier, PIXEL_FILL(list->template.fillValue));
@@ -815,9 +779,7 @@ static void ListMenuScroll(struct ListMenu *list, u8 count, bool8 movingDown)
             FillWindowPixelRect(list->template.windowId,
                                 PIXEL_FILL(list->template.fillValue),
                                 0, y, width, height);
-        }
-        else
-        {
+        } else {
             u16 width;
 
             ScrollWindow(list->template.windowId, 0, count * yMultiplier, PIXEL_FILL(list->template.fillValue));
@@ -839,22 +801,19 @@ static bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAn
     oldSelectedRow = list->selectedRow;
     cursorCount = 0;
     selectionChange = 0;
-    for (i = 0; i < count; i++)
-    {
-        do
-        {
+    for (i = 0; i < count; i++) {
+        do {
             u8 ret = ListMenuUpdateSelectedRowIndexAndScrollOffset(list, movingDown);
             selectionChange |= ret;
-            if (ret != 2)
+            if (ret != 2) {
                 break;
+            }
             cursorCount++;
         } while (list->template.items[list->scrollOffset + list->selectedRow].id == LIST_HEADER);
     }
 
-    if (updateCursorAndCallCallback)
-    {
-        switch (selectionChange)
-        {
+    if (updateCursorAndCallCallback) {
+        switch (selectionChange) {
         case 0:
         default:
             return TRUE;
@@ -880,8 +839,9 @@ static bool8 ListMenuChangeSelection(struct ListMenu *list, bool8 updateCursorAn
 
 static void ListMenuCallSelectionChangedCallback(struct ListMenu *list, u8 onInit)
 {
-    if (list->template.moveCursorFunc != NULL)
+    if (list->template.moveCursorFunc != NULL) {
         list->template.moveCursorFunc(list->template.items[list->scrollOffset + list->selectedRow].id, onInit, list);
+    }
 }
 
 // unused
@@ -895,17 +855,17 @@ void ListMenuOverrideSetColors(u8 cursorPal, u8 fillValue, u8 cursorShadowPal)
 
 void ListMenuDefaultCursorMoveFunc(s32 itemIndex, bool8 onInit, struct ListMenu *list)
 {
-    if (!onInit)
+    if (!onInit) {
         PlaySE(SE_SELECT);
+    }
 }
 
 // unused
 s32 ListMenuGetUnkIndicatorsStructFields(u8 taskId, u8 field)
 {
-    struct UnkIndicatorsStruct *data = (void*) gTasks[taskId].data;
+    struct UnkIndicatorsStruct *data = (void*)gTasks[taskId].data;
 
-    switch (field)
-    {
+    switch (field) {
     case 0:
     case 1:
         return (s32)(data->field_4);
@@ -946,10 +906,9 @@ s32 ListMenuGetUnkIndicatorsStructFields(u8 taskId, u8 field)
 
 void ListMenuSetUnkIndicatorsStructField(u8 taskId, u8 field, s32 value)
 {
-    struct UnkIndicatorsStruct *data = (void*) &gTasks[taskId].data;
+    struct UnkIndicatorsStruct *data = (void*)&gTasks[taskId].data;
 
-    switch (field)
-    {
+    switch (field) {
     case 0:
     case 1:
         data->field_4 = (void*)(value);
@@ -1013,15 +972,13 @@ static void SpriteCallback_ScrollIndicatorArrow(struct Sprite *sprite)
 {
     s32 multiplier;
 
-    switch (sprite->tState)
-    {
+    switch (sprite->tState) {
     case 0:
         StartSpriteAnim(sprite, sprite->tAnimNum);
         sprite->tState++;
         break;
     case 1:
-        switch (sprite->tBounceDir)
-        {
+        switch (sprite->tBounceDir) {
         case 0:
             multiplier = sprite->tMultiplier;
             sprite->pos2.x = (gSineTable[(u8)(sprite->tSinePos)] * multiplier) / 256;
@@ -1076,19 +1033,16 @@ u8 AddScrollIndicatorArrowPair(const struct ScrollArrowsTemplate *arrowInfo, u16
     spriteSheet.tag = arrowInfo->tileTag;
     LoadCompressedSpriteSheet(&spriteSheet);
 
-    if (arrowInfo->palTag == SPRITE_INVALID_TAG)
-    {
+    if (arrowInfo->palTag == SPRITE_INVALID_TAG) {
         LoadPalette(sRedArrowPal, (16 * arrowInfo->palNum) + 0x100, 0x20);
-    }
-    else
-    {
+    } else {
         spritePal.data = sRedArrowPal;
         spritePal.tag = arrowInfo->palTag;
         LoadSpritePalette(&spritePal);
     }
 
     taskId = CreateTask(Task_ScrollIndicatorArrowPair, 0);
-    data = (void*) gTasks[taskId].data;
+    data = (void*)gTasks[taskId].data;
 
     data->field_0 = 0;
     data->scrollOffset = scrollOffset;
@@ -1099,8 +1053,7 @@ u8 AddScrollIndicatorArrowPair(const struct ScrollArrowsTemplate *arrowInfo, u16
     data->topSpriteId = AddScrollIndicatorArrowObject(arrowInfo->firstArrowType, arrowInfo->firstX, arrowInfo->firstY, arrowInfo->tileTag, arrowInfo->palTag);
     data->bottomSpriteId = AddScrollIndicatorArrowObject(arrowInfo->secondArrowType, arrowInfo->secondX, arrowInfo->secondY, arrowInfo->tileTag, arrowInfo->palTag);
 
-    if (arrowInfo->palTag == SPRITE_INVALID_TAG)
-    {
+    if (arrowInfo->palTag == SPRITE_INVALID_TAG) {
         gSprites[data->topSpriteId].oam.paletteNum = arrowInfo->palNum;
         gSprites[data->bottomSpriteId].oam.paletteNum = arrowInfo->palNum;
     }
@@ -1110,17 +1063,14 @@ u8 AddScrollIndicatorArrowPair(const struct ScrollArrowsTemplate *arrowInfo, u16
 
 u8 AddScrollIndicatorArrowPairParameterized(u32 arrowType, s32 commonPos, s32 firstPos, s32 secondPos, s32 fullyDownThreshold, s32 tileTag, s32 palTag, u16 *scrollOffset)
 {
-    if (arrowType == SCROLL_ARROW_UP || arrowType == SCROLL_ARROW_DOWN)
-    {
+    if (arrowType == SCROLL_ARROW_UP || arrowType == SCROLL_ARROW_DOWN) {
         gTempScrollArrowTemplate.firstArrowType = SCROLL_ARROW_UP;
         gTempScrollArrowTemplate.firstX = commonPos;
         gTempScrollArrowTemplate.firstY = firstPos;
         gTempScrollArrowTemplate.secondArrowType = SCROLL_ARROW_DOWN;
         gTempScrollArrowTemplate.secondX = commonPos;
         gTempScrollArrowTemplate.secondY = secondPos;
-    }
-    else
-    {
+    } else {
         gTempScrollArrowTemplate.firstArrowType = SCROLL_ARROW_LEFT;
         gTempScrollArrowTemplate.firstX = firstPos;
         gTempScrollArrowTemplate.firstY = commonPos;
@@ -1140,18 +1090,20 @@ u8 AddScrollIndicatorArrowPairParameterized(u32 arrowType, s32 commonPos, s32 fi
 
 static void Task_ScrollIndicatorArrowPair(u8 taskId)
 {
-    struct ScrollIndicatorPair *data = (void*) gTasks[taskId].data;
+    struct ScrollIndicatorPair *data = (void*)gTasks[taskId].data;
     u16 currItem = (*data->scrollOffset);
 
-    if (currItem == data->fullyUpThreshold && currItem != 0xFFFF)
+    if (currItem == data->fullyUpThreshold && currItem != 0xFFFF) {
         gSprites[data->topSpriteId].invisible = TRUE;
-    else
+    } else {
         gSprites[data->topSpriteId].invisible = FALSE;
+    }
 
-    if (currItem == data->fullyDownThreshold)
+    if (currItem == data->fullyDownThreshold) {
         gSprites[data->bottomSpriteId].invisible = TRUE;
-    else
+    } else {
         gSprites[data->bottomSpriteId].invisible = FALSE;
+    }
 }
 
 #define tIsScrolled data[15]
@@ -1159,15 +1111,12 @@ static void Task_ScrollIndicatorArrowPair(u8 taskId)
 void Task_ScrollIndicatorArrowPairOnMainMenu(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
-    struct ScrollIndicatorPair *scrollData = (void*) data;
+    struct ScrollIndicatorPair *scrollData = (void*)data;
 
-    if (tIsScrolled)
-    {
+    if (tIsScrolled) {
         gSprites[scrollData->topSpriteId].invisible = FALSE;
         gSprites[scrollData->bottomSpriteId].invisible = TRUE;
-    }
-    else
-    {
+    } else {
         gSprites[scrollData->topSpriteId].invisible = TRUE;
         gSprites[scrollData->bottomSpriteId].invisible = FALSE;
     }
@@ -1177,12 +1126,14 @@ void Task_ScrollIndicatorArrowPairOnMainMenu(u8 taskId)
 
 void RemoveScrollIndicatorArrowPair(u8 taskId)
 {
-    struct ScrollIndicatorPair *data = (void*) gTasks[taskId].data;
+    struct ScrollIndicatorPair *data = (void*)gTasks[taskId].data;
 
-    if (data->tileTag != SPRITE_INVALID_TAG)
+    if (data->tileTag != SPRITE_INVALID_TAG) {
         FreeSpriteTilesByTag(data->tileTag);
-    if (data->palTag != SPRITE_INVALID_TAG)
+    }
+    if (data->palTag != SPRITE_INVALID_TAG) {
         FreeSpritePaletteByTag(data->palTag);
+    }
 
     DestroySprite(&gSprites[data->topSpriteId]);
     DestroySprite(&gSprites[data->bottomSpriteId]);
@@ -1192,8 +1143,7 @@ void RemoveScrollIndicatorArrowPair(u8 taskId)
 
 static u8 ListMenuAddCursorObjectInternal(struct CursorStruct *cursor, u32 cursorKind)
 {
-    switch (cursorKind)
-    {
+    switch (cursorKind) {
     case 0:
     default:
         return ListMenuAddRedOutlineCursorObject(cursor);
@@ -1204,8 +1154,7 @@ static u8 ListMenuAddCursorObjectInternal(struct CursorStruct *cursor, u32 curso
 
 static void ListMenuUpdateCursorObject(u8 taskId, u16 x, u16 y, u32 cursorKind)
 {
-    switch (cursorKind)
-    {
+    switch (cursorKind) {
     case 0:
         ListMenuUpdateRedOutlineCursorObject(taskId, x, y);
         break;
@@ -1217,8 +1166,7 @@ static void ListMenuUpdateCursorObject(u8 taskId, u16 x, u16 y, u32 cursorKind)
 
 static void ListMenuRemoveCursorObject(u8 taskId, u32 cursorKind)
 {
-    switch (cursorKind)
-    {
+    switch (cursorKind) {
     case 0:
         ListMenuRemoveRedOutlineCursorObject(taskId);
         break;
@@ -1230,7 +1178,6 @@ static void ListMenuRemoveCursorObject(u8 taskId, u32 cursorKind)
 
 static void Task_RedOutlineCursor(u8 taskId)
 {
-
 }
 
 u8 ListMenuGetRedOutlineCursorSpriteCount(u16 rowWidth, u16 rowHeight)
@@ -1238,15 +1185,15 @@ u8 ListMenuGetRedOutlineCursorSpriteCount(u16 rowWidth, u16 rowHeight)
     s32 i;
     s32 count = 4;
 
-    if (rowWidth > 16)
-    {
-        for (i = 8; i < (rowWidth - 8); i += 8)
+    if (rowWidth > 16) {
+        for (i = 8; i < (rowWidth - 8); i += 8) {
             count += 2;
+        }
     }
-    if (rowHeight > 16)
-    {
-        for (i = 8; i < (rowHeight - 8); i += 8)
+    if (rowHeight > 16) {
+        for (i = 8; i < (rowHeight - 8); i += 8) {
             count += 2;
+        }
     }
 
     return count;
@@ -1276,10 +1223,8 @@ void ListMenuSetUpRedOutlineCursorSpriteOamTable(u16 rowWidth, u16 rowHeight, st
     subsprites[id].y = rowHeight + 128;
     id++;
 
-    if (rowWidth > 16)
-    {
-        for (i = 8; i < rowWidth - 8; i += 8)
-        {
+    if (rowWidth > 16) {
+        for (i = 8; i < rowWidth - 8; i += 8) {
             subsprites[id] = sSubsprite_RedOutline3;
             subsprites[id].x = i - 120;
             subsprites[id].y = -120;
@@ -1292,10 +1237,8 @@ void ListMenuSetUpRedOutlineCursorSpriteOamTable(u16 rowWidth, u16 rowHeight, st
         }
     }
 
-    if (rowHeight > 16)
-    {
-        for (j = 8; j < rowHeight - 8; j += 8)
-        {
+    if (rowHeight > 16) {
+        for (j = 8; j < rowHeight - 8; j += 8) {
             subsprites[id] = sSubsprite_RedOutline4;
             subsprites[id].x = -120;
             subsprites[id].y = j - 120;
@@ -1322,19 +1265,16 @@ static u8 ListMenuAddRedOutlineCursorObject(struct CursorStruct *cursor)
     spriteSheet.tag = cursor->tileTag;
     LoadCompressedSpriteSheet(&spriteSheet);
 
-    if (cursor->palTag == SPRITE_INVALID_TAG)
-    {
+    if (cursor->palTag == SPRITE_INVALID_TAG) {
         LoadPalette(sRedArrowPal, (16 * cursor->palNum) + 0x100, 0x20);
-    }
-    else
-    {
+    } else {
         spritePal.data = sRedArrowPal;
         spritePal.tag = cursor->palTag;
         LoadSpritePalette(&spritePal);
     }
 
     taskId = CreateTask(Task_RedOutlineCursor, 0);
-    data = (void*) gTasks[taskId].data;
+    data = (void*)gTasks[taskId].data;
 
     data->tileTag = cursor->tileTag;
     data->palTag = cursor->palTag;
@@ -1352,8 +1292,7 @@ static u8 ListMenuAddRedOutlineCursorObject(struct CursorStruct *cursor)
     gSprites[data->spriteId].subpriority = 0;
     gSprites[data->spriteId].subspriteTableNum = 0;
 
-    if (cursor->palTag == SPRITE_INVALID_TAG)
-    {
+    if (cursor->palTag == SPRITE_INVALID_TAG) {
         gSprites[data->spriteId].oam.paletteNum = cursor->palNum;
     }
 
@@ -1362,7 +1301,7 @@ static u8 ListMenuAddRedOutlineCursorObject(struct CursorStruct *cursor)
 
 static void ListMenuUpdateRedOutlineCursorObject(u8 taskId, u16 x, u16 y)
 {
-    struct RedOutlineCursor *data = (void*) gTasks[taskId].data;
+    struct RedOutlineCursor *data = (void*)gTasks[taskId].data;
 
     gSprites[data->spriteId].pos1.x = x + 120;
     gSprites[data->spriteId].pos1.y = y + 120;
@@ -1370,14 +1309,16 @@ static void ListMenuUpdateRedOutlineCursorObject(u8 taskId, u16 x, u16 y)
 
 static void ListMenuRemoveRedOutlineCursorObject(u8 taskId)
 {
-    struct RedOutlineCursor *data = (void*) gTasks[taskId].data;
+    struct RedOutlineCursor *data = (void*)gTasks[taskId].data;
 
     Free(data->subspritesPtr);
 
-    if (data->tileTag != SPRITE_INVALID_TAG)
+    if (data->tileTag != SPRITE_INVALID_TAG) {
         FreeSpriteTilesByTag(data->tileTag);
-    if (data->palTag != SPRITE_INVALID_TAG)
+    }
+    if (data->palTag != SPRITE_INVALID_TAG) {
         FreeSpritePaletteByTag(data->palTag);
+    }
 
     DestroySprite(&gSprites[data->spriteId]);
     DestroyTask(taskId);
@@ -1391,7 +1332,6 @@ static void SpriteCallback_RedArrowCursor(struct Sprite *sprite)
 
 static void Task_RedArrowCursor(u8 taskId)
 {
-
 }
 
 static u8 ListMenuAddRedArrowCursorObject(struct CursorStruct *cursor)
@@ -1407,19 +1347,16 @@ static u8 ListMenuAddRedArrowCursorObject(struct CursorStruct *cursor)
     spriteSheet.tag = cursor->tileTag;
     LoadCompressedSpriteSheet(&spriteSheet);
 
-    if (cursor->palTag == SPRITE_INVALID_TAG)
-    {
+    if (cursor->palTag == SPRITE_INVALID_TAG) {
         LoadPalette(sRedArrowPal, (16 * cursor->palNum) + 0x100, 0x20);
-    }
-    else
-    {
+    } else {
         spritePal.data = sRedArrowPal;
         spritePal.tag = cursor->palTag;
         LoadSpritePalette(&spritePal);
     }
 
     taskId = CreateTask(Task_RedArrowCursor, 0);
-    data = (void*) gTasks[taskId].data;
+    data = (void*)gTasks[taskId].data;
 
     data->tileTag = cursor->tileTag;
     data->palTag = cursor->palTag;
@@ -1432,8 +1369,7 @@ static u8 ListMenuAddRedArrowCursorObject(struct CursorStruct *cursor)
     gSprites[data->spriteId].pos2.x = 8;
     gSprites[data->spriteId].pos2.y = 8;
 
-    if (cursor->palTag == SPRITE_INVALID_TAG)
-    {
+    if (cursor->palTag == SPRITE_INVALID_TAG) {
         gSprites[data->spriteId].oam.paletteNum = cursor->palNum;
     }
 
@@ -1442,7 +1378,7 @@ static u8 ListMenuAddRedArrowCursorObject(struct CursorStruct *cursor)
 
 static void ListMenuUpdateRedArrowCursorObject(u8 taskId, u16 x, u16 y)
 {
-    struct RedArrowCursor *data = (void*) gTasks[taskId].data;
+    struct RedArrowCursor *data = (void*)gTasks[taskId].data;
 
     gSprites[data->spriteId].pos1.x = x;
     gSprites[data->spriteId].pos1.y = y;
@@ -1450,12 +1386,14 @@ static void ListMenuUpdateRedArrowCursorObject(u8 taskId, u16 x, u16 y)
 
 static void ListMenuRemoveRedArrowCursorObject(u8 taskId)
 {
-    struct RedArrowCursor *data = (void*) gTasks[taskId].data;
+    struct RedArrowCursor *data = (void*)gTasks[taskId].data;
 
-    if (data->tileTag != SPRITE_INVALID_TAG)
+    if (data->tileTag != SPRITE_INVALID_TAG) {
         FreeSpriteTilesByTag(data->tileTag);
-    if (data->palTag != SPRITE_INVALID_TAG)
+    }
+    if (data->palTag != SPRITE_INVALID_TAG) {
         FreeSpritePaletteByTag(data->palTag);
+    }
 
     DestroySprite(&gSprites[data->spriteId]);
     DestroyTask(taskId);

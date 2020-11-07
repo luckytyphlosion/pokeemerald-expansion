@@ -174,11 +174,9 @@ const struct SpriteTemplate gSpriteTemplate_RtcArrow =
 static void SpriteCB_ResetRtcCursor0(struct Sprite *sprite)
 {
     int state = gTasks[sprite->data[0]].data[2];
-    if (state != sprite->data[1])
-    {
+    if (state != sprite->data[1]) {
         sprite->data[1] = state;
-        switch (state)
-        {
+        switch (state) {
         case 1:
             sprite->invisible = FALSE;
             sprite->animNum = 1;
@@ -224,11 +222,9 @@ static void SpriteCB_ResetRtcCursor0(struct Sprite *sprite)
 static void SpriteCB_ResetRtcCursor1(struct Sprite *sprite)
 {
     int state = gTasks[sprite->data[0]].data[2];
-    if (state != sprite->data[1])
-    {
+    if (state != sprite->data[1]) {
         sprite->data[1] = state;
-        switch (state)
-        {
+        switch (state) {
         case 1:
             sprite->invisible = FALSE;
             sprite->animNum = 0;
@@ -328,32 +324,27 @@ static void ShowChooseTimeWindow(u8 windowId, u16 days, u8 hours, u8 minutes, u8
 
 static bool32 MoveTimeUpDown(s16 *val, int minVal, int maxVal, u16 keys)
 {
-    if (keys & DPAD_DOWN)
-    {
+    if (keys & DPAD_DOWN) {
         *val -= 1;
-        if (*val < minVal)
+        if (*val < minVal) {
             *val = maxVal;
-    }
-    else if (keys & DPAD_UP)
-    {
+        }
+    } else if (keys & DPAD_UP) {
         *val += 1;
-        if (*val > maxVal)
+        if (*val > maxVal) {
             *val = minVal;
-    }
-    else if (keys & DPAD_LEFT)
-    {
+        }
+    } else if (keys & DPAD_LEFT) {
         *val -= 10;
-        if (*val < minVal)
+        if (*val < minVal) {
             *val = maxVal;
-    }
-    else if (keys & DPAD_RIGHT)
-    {
+        }
+    } else if (keys & DPAD_RIGHT) {
         *val += 10;
-        if (*val > maxVal)
+        if (*val > maxVal) {
             *val = minVal;
-    }
-    else
-    {
+        }
+    } else {
         return FALSE;
     }
 
@@ -380,8 +371,7 @@ static void Task_ResetRtc_1(u8 taskId)
     u8 selection = data[2];
     const struct ResetRtcStruct *selectionInfo = &sUnknown_08510428[selection - 1];
 
-    if (JOY_NEW(B_BUTTON))
-    {
+    if (JOY_NEW(B_BUTTON)) {
         gTasks[taskId].func = Task_ResetRtc_2;
         data[1] = 0;
         data[2] = 6;
@@ -389,30 +379,24 @@ static void Task_ResetRtc_1(u8 taskId)
         return;
     }
 
-    if (JOY_NEW(DPAD_RIGHT))
-    {
-        if (selectionInfo->right)
-        {
+    if (JOY_NEW(DPAD_RIGHT)) {
+        if (selectionInfo->right) {
             data[2] = selectionInfo->right;
             PlaySE(SE_SELECT);
             return;
         }
     }
 
-    if (JOY_NEW(DPAD_LEFT))
-    {
-        if (selectionInfo->left)
-        {
+    if (JOY_NEW(DPAD_LEFT)) {
+        if (selectionInfo->left) {
             data[2] = selectionInfo->left;
             PlaySE(SE_SELECT);
             return;
         }
     }
 
-    if (selection == 5)
-    {
-        if (JOY_NEW(A_BUTTON))
-        {
+    if (selection == 5) {
+        if (JOY_NEW(A_BUTTON)) {
             gLocalTime.days = data[3];
             gLocalTime.hours = data[4];
             gLocalTime.minutes = data[5];
@@ -422,9 +406,7 @@ static void Task_ResetRtc_1(u8 taskId)
             data[1] = 1;
             data[2] = 6;
         }
-    }
-    else if (MoveTimeUpDown(&data[selectionInfo->dataIndex], selectionInfo->minVal, selectionInfo->maxVal, JOY_REPEAT(DPAD_UP | DPAD_DOWN)))
-    {
+    } else if (MoveTimeUpDown(&data[selectionInfo->dataIndex], selectionInfo->minVal, selectionInfo->maxVal, JOY_REPEAT(DPAD_UP | DPAD_DOWN))) {
         PlaySE(SE_SELECT);
         PrintTime(data[8], 0, 1, data[3], data[4], data[5], data[6]);
         CopyWindowToVram(data[8], 2);
@@ -505,8 +487,7 @@ static void Task_ShowResetRtcPrompt(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    switch (data[0])
-    {
+    switch (data[0]) {
     case 0:
         DrawStdFrameWithCustomTileAndPalette(0, FALSE, 0x214, 0xE);
         AddTextPrinterParameterized(0, 1, gText_PresentTime, 0, 1, TEXT_SPEED_FF, 0);
@@ -532,13 +513,10 @@ static void Task_ShowResetRtcPrompt(u8 taskId)
         ScheduleBgCopyTilemapToVram(0);
         data[0]++;
     case 1:
-        if (JOY_NEW(B_BUTTON))
-        {
+        if (JOY_NEW(B_BUTTON)) {
             DestroyTask(taskId);
             DoSoftReset();
-        }
-        else if (JOY_NEW(A_BUTTON))
-        {
+        } else if (JOY_NEW(A_BUTTON)) {
             PlaySE(SE_SELECT);
             DestroyTask(taskId);
         }
@@ -550,22 +528,17 @@ static void Task_ResetRtcScreen(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    switch (data[0])
-    {
+    switch (data[0]) {
     case 0:
         BeginNormalPaletteFade(0xFFFFFFFF, 1, 0x10, 0, RGB_WHITEALPHA);
         data[0] = 1;
         break;
     case 1:
-        if (!gPaletteFade.active)
-        {
-            if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT)
-            {
+        if (!gPaletteFade.active) {
+            if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT) {
                 ShowMessage(gText_NoSaveFileCantSetTime);
                 data[0] = 5;
-            }
-            else
-            {
+            } else {
                 RtcCalcLocalTime();
                 data[1] = CreateTask(Task_ShowResetRtcPrompt, 80);
                 data[0] = 2;
@@ -573,8 +546,7 @@ static void Task_ResetRtcScreen(u8 taskId)
         }
         break;
     case 2:
-        if (gTasks[data[1]].isActive != TRUE)
-        {
+        if (gTasks[data[1]].isActive != TRUE) {
             ClearStdWindowAndFrameToTransparent(0, FALSE);
             ShowMessage(gText_PleaseResetTime);
             gLocalTime = gSaveBlock2Ptr->lastBerryTreeUpdate;
@@ -583,15 +555,11 @@ static void Task_ResetRtcScreen(u8 taskId)
         }
         break;
     case 3:
-        if (gTasks[data[1]].data[0])
-        {
-            if (!gTasks[data[1]].data[1])
-            {
+        if (gTasks[data[1]].data[0]) {
+            if (!gTasks[data[1]].data[1]) {
                 DestroyTask(data[1]);
                 data[0] = 2;
-            }
-            else
-            {
+            } else {
                 DestroyTask(data[1]);
                 RtcReset();
                 RtcCalcLocalTimeOffset(
@@ -608,30 +576,23 @@ static void Task_ResetRtcScreen(u8 taskId)
         }
         break;
     case 4:
-        if (TrySavingData(SAVE_NORMAL) == SAVE_STATUS_OK)
-        {
+        if (TrySavingData(SAVE_NORMAL) == SAVE_STATUS_OK) {
             ShowMessage(gText_SaveCompleted);
             PlaySE(SE_DING_DONG);
-        }
-        else
-        {
+        } else {
             ShowMessage(gText_SaveFailed);
             PlaySE(SE_BOO);
         }
         data[0] = 5;
     case 5:
-        if (JOY_NEW(A_BUTTON))
-        {
+        if (JOY_NEW(A_BUTTON)) {
             BeginNormalPaletteFade(0xFFFFFFFF, 1, 0, 0x10, RGB_WHITEALPHA);
             data[0] = 6;
-        }
-        else
-        {
+        } else {
             break;
         }
     case 6:
-        if (!gPaletteFade.active)
-        {
+        if (!gPaletteFade.active) {
             DestroyTask(taskId);
             FreeAllWindowBuffers();
             DoSoftReset();

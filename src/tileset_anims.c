@@ -552,12 +552,11 @@ static void ResetTilesetAnimBuffer(void)
 
 static void AppendTilesetAnimToBuffer(const u16 *src, u16 *dest, u16 size)
 {
-    if (sTilesetDMA3TransferBufferSize < 20)
-    {
+    if (sTilesetDMA3TransferBufferSize < 20) {
         sTilesetDMA3TransferBuffer[sTilesetDMA3TransferBufferSize].src = src;
         sTilesetDMA3TransferBuffer[sTilesetDMA3TransferBufferSize].dest = dest;
         sTilesetDMA3TransferBuffer[sTilesetDMA3TransferBufferSize].size = size;
-        sTilesetDMA3TransferBufferSize ++;
+        sTilesetDMA3TransferBufferSize++;
     }
 }
 
@@ -565,8 +564,9 @@ void TransferTilesetAnimsBuffer(void)
 {
     int i;
 
-    for (i = 0; i < sTilesetDMA3TransferBufferSize; i ++)
+    for (i = 0; i < sTilesetDMA3TransferBufferSize; i++) {
         DmaCopy16(3, sTilesetDMA3TransferBuffer[i].src, sTilesetDMA3TransferBuffer[i].dest, sTilesetDMA3TransferBuffer[i].size);
+    }
 
     sTilesetDMA3TransferBufferSize = 0;
 }
@@ -586,15 +586,19 @@ void InitSecondaryTilesetAnimation(void)
 void UpdateTilesetAnimations(void)
 {
     ResetTilesetAnimBuffer();
-    if (++sPrimaryTilesetAnimCounter >= sPrimaryTilesetAnimCounterMax)
+    if (++sPrimaryTilesetAnimCounter >= sPrimaryTilesetAnimCounterMax) {
         sPrimaryTilesetAnimCounter = 0;
-    if (++sSecondaryTilesetAnimCounter >= sSecondaryTilesetAnimCounterMax)
+    }
+    if (++sSecondaryTilesetAnimCounter >= sSecondaryTilesetAnimCounterMax) {
         sSecondaryTilesetAnimCounter = 0;
+    }
 
-    if (sPrimaryTilesetAnimCallback)
+    if (sPrimaryTilesetAnimCallback) {
         sPrimaryTilesetAnimCallback(sPrimaryTilesetAnimCounter);
-    if (sSecondaryTilesetAnimCallback)
+    }
+    if (sSecondaryTilesetAnimCallback) {
         sSecondaryTilesetAnimCallback(sSecondaryTilesetAnimCounter);
+    }
 }
 
 static void _InitPrimaryTilesetAnimation(void)
@@ -602,8 +606,9 @@ static void _InitPrimaryTilesetAnimation(void)
     sPrimaryTilesetAnimCounter = 0;
     sPrimaryTilesetAnimCounterMax = 0;
     sPrimaryTilesetAnimCallback = NULL;
-    if (gMapHeader.mapLayout->primaryTileset && gMapHeader.mapLayout->primaryTileset->callback)
+    if (gMapHeader.mapLayout->primaryTileset && gMapHeader.mapLayout->primaryTileset->callback) {
         gMapHeader.mapLayout->primaryTileset->callback();
+    }
 }
 
 static void _InitSecondaryTilesetAnimation(void)
@@ -611,8 +616,9 @@ static void _InitSecondaryTilesetAnimation(void)
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = 0;
     sSecondaryTilesetAnimCallback = NULL;
-    if (gMapHeader.mapLayout->secondaryTileset && gMapHeader.mapLayout->secondaryTileset->callback)
+    if (gMapHeader.mapLayout->secondaryTileset && gMapHeader.mapLayout->secondaryTileset->callback) {
         gMapHeader.mapLayout->secondaryTileset->callback();
+    }
 }
 
 void InitTilesetAnim_General(void)
@@ -631,22 +637,28 @@ void InitTilesetAnim_Building(void)
 
 static void TilesetAnim_General(u16 timer)
 {
-    if (timer % 16 == 0)
+    if (timer % 16 == 0) {
         QueueAnimTiles_General_Flower(timer >> 4);
-    if (timer % 16 == 1)
+    }
+    if (timer % 16 == 1) {
         QueueAnimTiles_General_Water(timer >> 4);
-    if (timer % 16 == 2)
+    }
+    if (timer % 16 == 2) {
         QueueAnimTiles_General_SandWaterEdge(timer >> 4);
-    if (timer % 16 == 3)
+    }
+    if (timer % 16 == 3) {
         QueueAnimTiles_General_Waterfall(timer >> 4);
-    if (timer % 16 == 4)
+    }
+    if (timer % 16 == 4) {
         QueueAnimTiles_General_LandWaterEdge(timer >> 4);
+    }
 }
 
 static void TilesetAnim_Building(u16 timer)
 {
-    if (timer % 8 == 0)
+    if (timer % 8 == 0) {
         QueueAnimTiles_Building_TVTurnedOn(timer >> 3);
+    }
 }
 
 static void QueueAnimTiles_General_Flower(u16 timer)
@@ -836,123 +848,156 @@ void InitTilesetAnim_BattleDome(void)
 
 static void TilesetAnim_Rustboro(u16 timer)
 {
-    if (timer % 8 == 0)
-    {
+    if (timer % 8 == 0) {
         QueueAnimTiles_Rustboro_WindyWater(timer >> 3, 0);
         QueueAnimTiles_Rustboro_Fountain(timer >> 3);
     }
-    if (timer % 8 == 1)
+    if (timer % 8 == 1) {
         QueueAnimTiles_Rustboro_WindyWater(timer >> 3, 1);
-    if (timer % 8 == 2)
+    }
+    if (timer % 8 == 2) {
         QueueAnimTiles_Rustboro_WindyWater(timer >> 3, 2);
-    if (timer % 8 == 3)
+    }
+    if (timer % 8 == 3) {
         QueueAnimTiles_Rustboro_WindyWater(timer >> 3, 3);
-    if (timer % 8 == 4)
+    }
+    if (timer % 8 == 4) {
         QueueAnimTiles_Rustboro_WindyWater(timer >> 3, 4);
-    if (timer % 8 == 5)
+    }
+    if (timer % 8 == 5) {
         QueueAnimTiles_Rustboro_WindyWater(timer >> 3, 5);
-    if (timer % 8 == 6)
+    }
+    if (timer % 8 == 6) {
         QueueAnimTiles_Rustboro_WindyWater(timer >> 3, 6);
-    if (timer % 8 == 7)
+    }
+    if (timer % 8 == 7) {
         QueueAnimTiles_Rustboro_WindyWater(timer >> 3, 7);
+    }
 }
 
 static void TilesetAnim_Dewford(u16 timer)
 {
-    if (timer % 8 == 0)
+    if (timer % 8 == 0) {
         QueueAnimTiles_Dewford_Flag(timer >> 3);
+    }
 }
 
 static void TilesetAnim_Slateport(u16 timer)
 {
-    if (timer % 16 == 0)
+    if (timer % 16 == 0) {
         QueueAnimTiles_Slateport_Balloons(timer >> 4);
+    }
 }
 
 static void TilesetAnim_Mauville(u16 timer)
 {
-    if (timer % 8 == 0)
+    if (timer % 8 == 0) {
         QueueAnimTiles_Mauville_Flowers(timer >> 3, 0);
-    if (timer % 8 == 1)
+    }
+    if (timer % 8 == 1) {
         QueueAnimTiles_Mauville_Flowers(timer >> 3, 1);
-    if (timer % 8 == 2)
+    }
+    if (timer % 8 == 2) {
         QueueAnimTiles_Mauville_Flowers(timer >> 3, 2);
-    if (timer % 8 == 3)
+    }
+    if (timer % 8 == 3) {
         QueueAnimTiles_Mauville_Flowers(timer >> 3, 3);
-    if (timer % 8 == 4)
+    }
+    if (timer % 8 == 4) {
         QueueAnimTiles_Mauville_Flowers(timer >> 3, 4);
-    if (timer % 8 == 5)
+    }
+    if (timer % 8 == 5) {
         QueueAnimTiles_Mauville_Flowers(timer >> 3, 5);
-    if (timer % 8 == 6)
+    }
+    if (timer % 8 == 6) {
         QueueAnimTiles_Mauville_Flowers(timer >> 3, 6);
-    if (timer % 8 == 7)
+    }
+    if (timer % 8 == 7) {
         QueueAnimTiles_Mauville_Flowers(timer >> 3, 7);
+    }
 }
 
 static void TilesetAnim_Lavaridge(u16 timer)
 {
-    if (timer % 16 == 0)
+    if (timer % 16 == 0) {
         QueueAnimTiles_Lavaridge_Steam(timer >> 4);
-    if (timer % 16 == 1)
+    }
+    if (timer % 16 == 1) {
         QueueAnimTiles_Lavaridge_Lava(timer >> 4);
+    }
 }
 
 static void TilesetAnim_EverGrande(u16 timer)
 {
-    if (timer % 8 == 0)
+    if (timer % 8 == 0) {
         QueueAnimTiles_EverGrande_Flowers(timer >> 3, 0);
-    if (timer % 8 == 1)
+    }
+    if (timer % 8 == 1) {
         QueueAnimTiles_EverGrande_Flowers(timer >> 3, 1);
-    if (timer % 8 == 2)
+    }
+    if (timer % 8 == 2) {
         QueueAnimTiles_EverGrande_Flowers(timer >> 3, 2);
-    if (timer % 8 == 3)
+    }
+    if (timer % 8 == 3) {
         QueueAnimTiles_EverGrande_Flowers(timer >> 3, 3);
-    if (timer % 8 == 4)
+    }
+    if (timer % 8 == 4) {
         QueueAnimTiles_EverGrande_Flowers(timer >> 3, 4);
-    if (timer % 8 == 5)
+    }
+    if (timer % 8 == 5) {
         QueueAnimTiles_EverGrande_Flowers(timer >> 3, 5);
-    if (timer % 8 == 6)
+    }
+    if (timer % 8 == 6) {
         QueueAnimTiles_EverGrande_Flowers(timer >> 3, 6);
-    if (timer % 8 == 7)
+    }
+    if (timer % 8 == 7) {
         QueueAnimTiles_EverGrande_Flowers(timer >> 3, 7);
+    }
 }
 
 static void TilesetAnim_Pacifidlog(u16 timer)
 {
-    if (timer % 16 == 0)
+    if (timer % 16 == 0) {
         QueueAnimTiles_Pacifidlog_LogBridges(timer >> 4);
-    if (timer % 16 == 1)
+    }
+    if (timer % 16 == 1) {
         QueueAnimTiles_Pacifidlog_WaterCurrents(timer >> 4);
+    }
 }
 
 static void TilesetAnim_Sootopolis(u16 timer)
 {
-    if (timer % 16 == 0)
+    if (timer % 16 == 0) {
         QueueAnimTiles_Sootopolis_StormyWater(timer >> 4);
+    }
 }
 
 static void TilesetAnim_Underwater(u16 timer)
 {
-    if (timer % 16 == 0)
+    if (timer % 16 == 0) {
         QueueAnimTiles_Underwater_Seaweed(timer >> 4);
+    }
 }
 
 static void TilesetAnim_Cave(u16 timer)
 {
-    if (timer % 16 == 1)
+    if (timer % 16 == 1) {
         QueueAnimTiles_Cave_Lava(timer >> 4);
+    }
 }
 
 static void TilesetAnim_BattleFrontierOutsideWest(u16 timer)
 {
-    if (timer % 8 == 0)
+    if (timer % 8 == 0) {
         QueueAnimTiles_BattleFrontierOutsideWest_Flag(timer >> 3);
+    }
 }
 
 static void TilesetAnim_BattleFrontierOutsideEast(u16 timer)
 {
-    if (timer % 8 == 0)
+    if (timer % 8 == 0) {
         QueueAnimTiles_BattleFrontierOutsideEast_Flag(timer >> 3);
+    }
 }
 
 static void QueueAnimTiles_General_LandWaterEdge(u16 timer)
@@ -991,14 +1036,11 @@ static void QueueAnimTiles_Pacifidlog_WaterCurrents(u8 timer)
 static void QueueAnimTiles_Mauville_Flowers(u16 timer_div, u8 timer_mod)
 {
     timer_div -= timer_mod;
-    if (timer_div < 12) // almost certainly a typo
-    {
+    if (timer_div < 12) { // almost certainly a typo
         timer_div %= 12;
         AppendTilesetAnimToBuffer(gTilesetAnims_Mauville_Flower1[timer_div], gTilesetAnims_Mauville_Flower1_VDests[timer_mod], 0x80);
         AppendTilesetAnimToBuffer(gTilesetAnims_Mauville_Flower2[timer_div], gTilesetAnims_Mauville_Flower2_VDests[timer_mod], 0x80);
-    }
-    else
-    {
+    } else {
         timer_div %= 4;
         AppendTilesetAnimToBuffer(gTilesetAnims_Mauville_Flower1_B[timer_div], gTilesetAnims_Mauville_Flower1_VDests[timer_mod], 0x80);
         AppendTilesetAnimToBuffer(gTilesetAnims_Mauville_Flower2_B[timer_div], gTilesetAnims_Mauville_Flower2_VDests[timer_mod], 0x80);
@@ -1009,8 +1051,9 @@ static void QueueAnimTiles_Rustboro_WindyWater(u16 timer_div, u8 timer_mod)
 {
     timer_div -= timer_mod;
     timer_div %= 8;
-    if (gTilesetAnims_Rustboro_WindyWater[timer_div])
+    if (gTilesetAnims_Rustboro_WindyWater[timer_div]) {
         AppendTilesetAnimToBuffer(gTilesetAnims_Rustboro_WindyWater[timer_div], gTilesetAnims_Rustboro_WindyWater_VDests[timer_mod], 0x80);
+    }
 }
 
 static void QueueAnimTiles_Rustboro_Fountain(u16 timer)
@@ -1065,34 +1108,38 @@ static void QueueAnimTiles_Slateport_Balloons(u16 timer)
 
 static void TilesetAnim_MauvilleGym(u16 timer)
 {
-    if (timer % 2 == 0)
+    if (timer % 2 == 0) {
         QueueAnimTiles_MauvilleGym_ElectricGates(timer >> 1);
+    }
 }
 
 static void TilesetAnim_SootopolisGym(u16 timer)
 {
-    if (timer % 8 == 0)
+    if (timer % 8 == 0) {
         QueueAnimTiles_SootopolisGym_Waterfalls(timer >> 3);
+    }
 }
 
 static void TilesetAnim_EliteFour(u16 timer)
 {
-    if (timer % 64 == 1)
+    if (timer % 64 == 1) {
         QueueAnimTiles_EliteFour_GroundLights(timer >> 6);
-    if (timer % 8 == 1)
+    }
+    if (timer % 8 == 1) {
         QueueAnimTiles_EliteFour_WallLights(timer >> 3);
+    }
 }
 
 static void TilesetAnim_BikeShop(u16 timer)
 {
-    if (timer % 4 == 0)
+    if (timer % 4 == 0) {
         QueueAnimTiles_BikeShop_BlinkingLights(timer >> 2);
+    }
 }
 
 static void TilesetAnim_BattlePyramid(u16 timer)
 {
-    if (timer % 8 == 0)
-    {
+    if (timer % 8 == 0) {
         QueueAnimTiles_BattlePyramid_Torch(timer >> 3);
         QueueAnimTiles_BattlePyramid_StatueShadow(timer >> 3);
     }
@@ -1100,14 +1147,16 @@ static void TilesetAnim_BattlePyramid(u16 timer)
 
 static void TilesetAnim_BattleDome(u16 timer)
 {
-    if (timer % 4 == 0)
+    if (timer % 4 == 0) {
         BlendAnimPalette_BattleDome_FloorLights(timer >> 2);
+    }
 }
 
 static void TilesetAnim_BattleDome2(u16 timer)
 {
-    if (timer % 4 == 0)
+    if (timer % 4 == 0) {
         BlendAnimPalette_BattleDome_FloorLightsNoBlend(timer >> 2);
+    }
 }
 
 static void QueueAnimTiles_Building_TVTurnedOn(u16 timer)
@@ -1169,8 +1218,7 @@ static void BlendAnimPalette_BattleDome_FloorLights(u16 timer)
 {
     CpuCopy16(gTilesetAnims_BattleDomeFloorLightPals[timer % 4], gPlttBufferUnfaded + 0x80, 32);
     BlendPalette(0x80, 16, gPaletteFade.y, gPaletteFade.blendColor & 0x7FFF);
-    if ((u8)FindTaskIdByFunc(TransitionPhase1_Task_RunFuncs) != 0xFF )
-    {
+    if ((u8)FindTaskIdByFunc(TransitionPhase1_Task_RunFuncs) != 0xFF) {
         sSecondaryTilesetAnimCallback = TilesetAnim_BattleDome2;
         sSecondaryTilesetAnimCounterMax = 32;
     }
@@ -1179,10 +1227,10 @@ static void BlendAnimPalette_BattleDome_FloorLights(u16 timer)
 static void BlendAnimPalette_BattleDome_FloorLightsNoBlend(u16 timer)
 {
     CpuCopy16(gTilesetAnims_BattleDomeFloorLightPals[timer % 4], gPlttBufferUnfaded + 0x80, 32);
-    if ((u8)FindTaskIdByFunc(TransitionPhase1_Task_RunFuncs) == 0xFF )
-    {
+    if ((u8)FindTaskIdByFunc(TransitionPhase1_Task_RunFuncs) == 0xFF) {
         BlendPalette(0x80, 16, gPaletteFade.y, gPaletteFade.blendColor & 0x7FFF);
-        if (!--sSecondaryTilesetAnimCounterMax)
+        if (!--sSecondaryTilesetAnimCounterMax) {
             sSecondaryTilesetAnimCallback = NULL;
+        }
     }
 }

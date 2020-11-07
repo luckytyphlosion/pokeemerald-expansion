@@ -17,7 +17,7 @@ static void sub_811FC80(s16, s16, u16, u16);
 static void TaskDummy7(struct Sprite *);
 static void sub_811FF40(struct Sprite *);
 static void sub_811FF7C(struct Sprite *);
-static struct Sprite *sub_811FFD4(u16, u16, const u16 *, u16);
+static struct Sprite * sub_811FFD4(u16, u16, const u16 *, u16);
 
 // .rodata
 static const u16 gUnknown_0859E65C[] = INCBIN_U16("graphics/misc/mon_markings.gbapal");
@@ -303,12 +303,10 @@ bool8 sub_811F960(void)
     u16 i;
     u8 *dest = sMenu->menuWindowSpriteTiles + sMenu->tileLoadState * 0x100;
 
-    switch (sMenu->tileLoadState)
-    {
+    switch (sMenu->tileLoadState) {
     case 0:
         CpuFastCopy(sMenu->frameTiles, dest, TILE_SIZE_4BPP);
-        for (i = 0; i < 6; i++)
-        {
+        for (i = 0; i < 6; i++) {
             CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP, dest + TILE_SIZE_4BPP * (i + 1), TILE_SIZE_4BPP);
         }
         CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 2, dest + TILE_SIZE_4BPP * 7, TILE_SIZE_4BPP);
@@ -316,8 +314,7 @@ bool8 sub_811F960(void)
         break;
     default:
         CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 3, dest, TILE_SIZE_4BPP);
-        for (i = 0; i < 6; i++)
-        {
+        for (i = 0; i < 6; i++) {
             CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 4, dest + TILE_SIZE_4BPP * (i + 1), TILE_SIZE_4BPP);
         }
         CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 5, dest + TILE_SIZE_4BPP * 7, TILE_SIZE_4BPP);
@@ -325,8 +322,7 @@ bool8 sub_811F960(void)
         break;
     case 13:
         CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 6, dest, TILE_SIZE_4BPP);
-        for (i = 0; i < 6; i++)
-        {
+        for (i = 0; i < 6; i++) {
             CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 7, dest + TILE_SIZE_4BPP * (i + 1), TILE_SIZE_4BPP);
         }
         CpuFastCopy(sMenu->frameTiles + TILE_SIZE_4BPP * 8, dest + TILE_SIZE_4BPP * 7, TILE_SIZE_4BPP);
@@ -342,7 +338,9 @@ bool8 sub_811F960(void)
 void sub_811FA90(void)
 {
     sub_811F918();
-    while (sub_811F960());
+    while (sub_811F960()) {
+        ;
+    }
 }
 
 void sub_811FAA4(u8 markings, s16 x, s16 y)
@@ -350,8 +348,9 @@ void sub_811FAA4(u8 markings, s16 x, s16 y)
     u16 i;
     sMenu->cursorPos = 0;
     sMenu->markings = markings;
-    for (i = 0; i < NUM_MON_MARKINGS; i++)
+    for (i = 0; i < NUM_MON_MARKINGS; i++) {
         sMenu->markingsArray[i] = (sMenu->markings >> i) & 1;
+    }
     sub_811FC80(x, y, sMenu->baseTileTag, sMenu->basePaletteTag);
 }
 
@@ -359,32 +358,29 @@ void sub_811FAF8(void)
 {
     u16 i;
 
-    for (i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         FreeSpriteTilesByTag(sMenu->baseTileTag + i);
         FreeSpritePaletteByTag(sMenu->basePaletteTag + i);
     }
-    for (i = 0; i < 2; i++)
-    {
-        if (!sMenu->menuWindowSprites[i])
+    for (i = 0; i < 2; i++) {
+        if (!sMenu->menuWindowSprites[i]) {
             return;
+        }
         DestroySprite(sMenu->menuWindowSprites[i]);
         sMenu->menuWindowSprites[i] = NULL;
     }
-    for (i = 0; i < NUM_MON_MARKINGS; i++)
-    {
-        if (!sMenu->menuMarkingSprites[i])
+    for (i = 0; i < NUM_MON_MARKINGS; i++) {
+        if (!sMenu->menuMarkingSprites[i]) {
             return;
+        }
         DestroySprite(sMenu->menuMarkingSprites[i]);
         sMenu->menuMarkingSprites[i] = NULL;
     }
-    if (sMenu->unkSprite)
-    {
+    if (sMenu->unkSprite) {
         DestroySprite(sMenu->unkSprite);
         sMenu->unkSprite = NULL;
     }
-    if (sMenu->menuTextSprite)
-    {
+    if (sMenu->menuTextSprite) {
         DestroySprite(sMenu->menuTextSprite);
         sMenu->menuTextSprite = NULL;
     }
@@ -394,36 +390,35 @@ bool8 MonMarkingsMenuHandleInput(void)
 {
     u16 i;
 
-    if (JOY_NEW(DPAD_UP))
-    {
+    if (JOY_NEW(DPAD_UP)) {
         s8 pos;
         PlaySE(SE_SELECT);
         pos = --sMenu->cursorPos;
-        if (pos < 0)
+        if (pos < 0) {
             sMenu->cursorPos = 5;
+        }
         return TRUE;
     }
 
-    if (JOY_NEW(DPAD_DOWN))
-    {
+    if (JOY_NEW(DPAD_DOWN)) {
         s8 pos;
         PlaySE(SE_SELECT);
         pos = ++sMenu->cursorPos;
-        if (pos > 5)
+        if (pos > 5) {
             sMenu->cursorPos = 0;
+        }
         return TRUE;
     }
 
-    if (JOY_NEW(A_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON)) {
         PlaySE(SE_SELECT);
 
-        switch (sMenu->cursorPos)
-        {
+        switch (sMenu->cursorPos) {
         case 4:
             sMenu->markings = 0;
-            for (i = 0; i < NUM_MON_MARKINGS; i++)
+            for (i = 0; i < NUM_MON_MARKINGS; i++) {
                 sMenu->markings |= sMenu->markingsArray[i] << i;
+            }
             return FALSE;
         case 5:
             return FALSE;
@@ -433,8 +428,7 @@ bool8 MonMarkingsMenuHandleInput(void)
         return TRUE;
     }
 
-    if (JOY_NEW(B_BUTTON))
-    {
+    if (JOY_NEW(B_BUTTON)) {
         PlaySE(SE_SELECT);
         return FALSE;
     }
@@ -449,16 +443,16 @@ static void sub_811FC80(s16 x, s16 y, u16 baseTileTag, u16 basePaletteTag)
 
     struct SpriteSheet sheets[] =
     {
-        { sMenu->menuWindowSpriteTiles, 0x1000, baseTileTag },
-        { gPokenavConditionMarker_Gfx, 0x320, baseTileTag + 1 },
-        { NULL, 0 }
+        {sMenu->menuWindowSpriteTiles, 0x1000, baseTileTag},
+        {gPokenavConditionMarker_Gfx, 0x320, baseTileTag + 1},
+        {NULL, 0}
     };
 
     struct SpritePalette palettes[] =
     {
-        { sMenu->framePalette, basePaletteTag },
-        { gPokenavConditionMarker_Pal, basePaletteTag + 1},
-        { NULL, 0 }
+        {sMenu->framePalette, basePaletteTag},
+        {gPokenavConditionMarker_Pal, basePaletteTag + 1},
+        {NULL, 0}
     };
 
     struct SpriteTemplate sprTemplate =
@@ -475,16 +469,12 @@ static void sub_811FC80(s16 x, s16 y, u16 baseTileTag, u16 basePaletteTag)
     LoadSpriteSheets(sheets);
     LoadSpritePalettes(palettes);
 
-    for (i = 0; i < 2; i++)
-    {
+    for (i = 0; i < 2; i++) {
         spriteId = CreateSprite(&sprTemplate, x + 32, y + 32, 1);
-        if (spriteId != MAX_SPRITES)
-        {
+        if (spriteId != MAX_SPRITES) {
             sMenu->menuWindowSprites[i] = &gSprites[spriteId];
             StartSpriteAnim(&gSprites[spriteId], i);
-        }
-        else
-        {
+        } else {
             sMenu->menuWindowSprites[i] = NULL;
             return;
         }
@@ -498,16 +488,12 @@ static void sub_811FC80(s16 x, s16 y, u16 baseTileTag, u16 basePaletteTag)
     sprTemplate.callback = sub_811FF40;
     sprTemplate.oam = &gUnknown_0859EE84;
 
-    for (i = 0; i < NUM_MON_MARKINGS; i++)
-    {
+    for (i = 0; i < NUM_MON_MARKINGS; i++) {
         spriteId = CreateSprite(&sprTemplate, x + 32, y + 16 + 16 * i, 0);
-        if (spriteId != MAX_SPRITES)
-        {
+        if (spriteId != MAX_SPRITES) {
             sMenu->menuMarkingSprites[i] = &gSprites[spriteId];
             gSprites[spriteId].data[0] = i;
-        }
-        else
-        {
+        } else {
             sMenu->menuMarkingSprites[i] = NULL;
             return;
         }
@@ -517,8 +503,7 @@ static void sub_811FC80(s16 x, s16 y, u16 baseTileTag, u16 basePaletteTag)
 
     spriteId = CreateSprite(&sprTemplate, 0, 0, 0);
 
-    if (spriteId != MAX_SPRITES)
-    {
+    if (spriteId != MAX_SPRITES) {
         sMenu->menuTextSprite = &gSprites[spriteId];
         sMenu->menuTextSprite->oam.shape = SPRITE_SHAPE(32x32);
         sMenu->menuTextSprite->oam.size = SPRITE_SIZE(32x32);
@@ -526,25 +511,19 @@ static void sub_811FC80(s16 x, s16 y, u16 baseTileTag, u16 basePaletteTag)
         sMenu->menuTextSprite->pos1.x = x + MENU_TEXT_SPRITE_X_OFFSET;
         sMenu->menuTextSprite->pos1.y = y + 80;
         CalcCenterToCornerVec(sMenu->menuTextSprite, SPRITE_SHAPE(32x16), SPRITE_SIZE(32x16), ST_OAM_AFFINE_OFF);
-    }
-    else
-    {
+    } else {
         sMenu->menuTextSprite = NULL;
     }
 
     sprTemplate.callback = sub_811FF7C;
     spriteId = CreateSprite(&sprTemplate, x + 12, 0, 0);
-    if (spriteId != MAX_SPRITES)
-    {
+    if (spriteId != MAX_SPRITES) {
         sMenu->unkSprite = &gSprites[spriteId];
         sMenu->unkSprite->data[0] = y + 16;
         StartSpriteAnim(sMenu->unkSprite, 8);
-    }
-    else
-    {
+    } else {
         sMenu->unkSprite = NULL;
     }
-
 }
 
 static void TaskDummy7(struct Sprite *sprite)
@@ -553,10 +532,11 @@ static void TaskDummy7(struct Sprite *sprite)
 
 static void sub_811FF40(struct Sprite *sprite)
 {
-    if (sMenu->markingsArray[sprite->data[0]])
+    if (sMenu->markingsArray[sprite->data[0]]) {
         StartSpriteAnim(sprite, 2 * sprite->data[0] + 1);
-    else
+    } else {
         StartSpriteAnim(sprite, 2 * sprite->data[0]);
+    }
 }
 
 static void sub_811FF7C(struct Sprite *sprite)
@@ -564,26 +544,28 @@ static void sub_811FF7C(struct Sprite *sprite)
     sprite->pos1.y = (16 * sMenu->cursorPos) + sprite->data[0];
 }
 
-struct Sprite *CreateMonMarkingsSpriteWithPal(u16 tileTag, u16 paletteTag, const u16 *palette)
+struct Sprite * CreateMonMarkingsSpriteWithPal(u16 tileTag, u16 paletteTag, const u16 *palette)
 {
-    if (!palette)
+    if (!palette) {
         palette = gUnknown_0859E65C;
+    }
     return sub_811FFD4(tileTag, paletteTag, palette, 16);
 }
 
-struct Sprite *sub_811FFB4(u16 tileTag, u16 paletteTag, const u16 *palette)
+struct Sprite * sub_811FFB4(u16 tileTag, u16 paletteTag, const u16 *palette)
 {
-    if (!palette)
+    if (!palette) {
         palette = gUnknown_0859E65C;
+    }
     return sub_811FFD4(tileTag, paletteTag, palette, 1);
 }
 
-static struct Sprite *sub_811FFD4(u16 tileTag, u16 paletteTag, const u16 *palette, u16 size)
+static struct Sprite * sub_811FFD4(u16 tileTag, u16 paletteTag, const u16 *palette, u16 size)
 {
     u8 spriteId;
     struct SpriteTemplate sprTemplate;
-    struct SpriteSheet sheet = { gUnknown_0859E67C, 0x80, tileTag };
-    struct SpritePalette sprPalette = { palette, paletteTag };
+    struct SpriteSheet sheet = {gUnknown_0859E67C, 0x80, tileTag};
+    struct SpritePalette sprPalette = {palette, paletteTag};
 
     sprTemplate.tileTag = tileTag;
     sprTemplate.paletteTag = paletteTag;
@@ -599,10 +581,11 @@ static struct Sprite *sub_811FFD4(u16 tileTag, u16 paletteTag, const u16 *palett
     LoadSpritePalette(&sprPalette);
 
     spriteId = CreateSprite(&sprTemplate, 0, 0, 0);
-    if (spriteId != MAX_SPRITES)
-        return  &gSprites[spriteId];
-    else
+    if (spriteId != MAX_SPRITES) {
+        return &gSprites[spriteId];
+    } else {
         return NULL;
+    }
 }
 
 void sub_8120084(u8 markings, void *dest)

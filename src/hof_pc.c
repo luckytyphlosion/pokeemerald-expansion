@@ -35,6 +35,7 @@ static void ReshowPCMenuAfterHallOfFamePC(void)
 
 static void Task_WaitForPaletteFade(u8 taskId)
 {
-    if (!gPaletteFade.active)
+    if (!gPaletteFade.active) {
         DestroyTask(taskId);
+    }
 }

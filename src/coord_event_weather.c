@@ -25,19 +25,19 @@ static void CoordEventWeather_Route123Cycle(void);
 
 static const struct CoordEventWeather sCoordEventWeatherFuncs[] =
 {
-    { COORD_EVENT_WEATHER_SUNNY_CLOUDS,      CoordEventWeather_Clouds },
-    { COORD_EVENT_WEATHER_SUNNY,             CoordEventWeather_Sunny },
-    { COORD_EVENT_WEATHER_RAIN,              CoordEventWeather_Rain },
-    { COORD_EVENT_WEATHER_SNOW,              CoordEventWeather_Snow },
-    { COORD_EVENT_WEATHER_RAIN_THUNDERSTORM, CoordEventWeather_Thunderstorm },
-    { COORD_EVENT_WEATHER_FOG_HORIZONTAL,    CoordEventWeather_HorizontalFog },
-    { COORD_EVENT_WEATHER_FOG_DIAGONAL,      CoordEventWeather_DiagonalFog },
-    { COORD_EVENT_WEATHER_VOLCANIC_ASH,      CoordEventWeather_Ash },
-    { COORD_EVENT_WEATHER_SANDSTORM,         CoordEventWeather_Sandstorm },
-    { COORD_EVENT_WEATHER_SHADE,             CoordEventWeather_Shade },
-    { COORD_EVENT_WEATHER_DROUGHT,           CoordEventWeather_Drought },
-    { COORD_EVENT_WEATHER_ROUTE119_CYCLE,    CoordEventWeather_Route119Cycle },
-    { COORD_EVENT_WEATHER_ROUTE123_CYCLE,    CoordEventWeather_Route123Cycle },
+    {COORD_EVENT_WEATHER_SUNNY_CLOUDS,      CoordEventWeather_Clouds},
+    {COORD_EVENT_WEATHER_SUNNY,             CoordEventWeather_Sunny},
+    {COORD_EVENT_WEATHER_RAIN,              CoordEventWeather_Rain},
+    {COORD_EVENT_WEATHER_SNOW,              CoordEventWeather_Snow},
+    {COORD_EVENT_WEATHER_RAIN_THUNDERSTORM, CoordEventWeather_Thunderstorm},
+    {COORD_EVENT_WEATHER_FOG_HORIZONTAL,    CoordEventWeather_HorizontalFog},
+    {COORD_EVENT_WEATHER_FOG_DIAGONAL,      CoordEventWeather_DiagonalFog},
+    {COORD_EVENT_WEATHER_VOLCANIC_ASH,      CoordEventWeather_Ash},
+    {COORD_EVENT_WEATHER_SANDSTORM,         CoordEventWeather_Sandstorm},
+    {COORD_EVENT_WEATHER_SHADE,             CoordEventWeather_Shade},
+    {COORD_EVENT_WEATHER_DROUGHT,           CoordEventWeather_Drought},
+    {COORD_EVENT_WEATHER_ROUTE119_CYCLE,    CoordEventWeather_Route119Cycle},
+    {COORD_EVENT_WEATHER_ROUTE123_CYCLE,    CoordEventWeather_Route123Cycle},
 };
 
 static void CoordEventWeather_Clouds(void)
@@ -108,10 +108,8 @@ static void CoordEventWeather_Route123Cycle(void)
 void DoCoordEventWeather(u8 coordEventWeather)
 {
     u8 i;
-    for (i = 0; i < ARRAY_COUNT(sCoordEventWeatherFuncs); i++)
-    {
-        if (sCoordEventWeatherFuncs[i].coordEventWeather == coordEventWeather)
-        {
+    for (i = 0; i < ARRAY_COUNT(sCoordEventWeatherFuncs); i++) {
+        if (sCoordEventWeatherFuncs[i].coordEventWeather == coordEventWeather) {
             sCoordEventWeatherFuncs[i].func();
             return;
         }

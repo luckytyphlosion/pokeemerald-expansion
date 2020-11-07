@@ -27,22 +27,20 @@ static void Task_DrawFieldMessage(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    switch (task->tState)
-    {
-        case 0:
-           LoadMessageBoxAndBorderGfx();
-           task->tState++;
-           break;
-        case 1:
-           DrawDialogueFrame(0, 1);
-           task->tState++;
-           break;
-        case 2:
-            if (RunTextPrintersAndIsPrinter0Active() != TRUE)
-            {
-                sFieldMessageBoxMode = FIELD_MESSAGE_BOX_HIDDEN;
-                DestroyTask(taskId);
-            }
+    switch (task->tState) {
+    case 0:
+        LoadMessageBoxAndBorderGfx();
+        task->tState++;
+        break;
+    case 1:
+        DrawDialogueFrame(0, 1);
+        task->tState++;
+        break;
+    case 2:
+        if (RunTextPrintersAndIsPrinter0Active() != TRUE) {
+            sFieldMessageBoxMode = FIELD_MESSAGE_BOX_HIDDEN;
+            DestroyTask(taskId);
+        }
     }
 }
 
@@ -56,14 +54,16 @@ static void CreateTask_DrawFieldMessage(void)
 static void DestroyTask_DrawFieldMessage(void)
 {
     u8 taskId = FindTaskIdByFunc(Task_DrawFieldMessage);
-    if (taskId != 0xFF)
+    if (taskId != 0xFF) {
         DestroyTask(taskId);
+    }
 }
 
 bool8 ShowFieldMessage(const u8 *str)
 {
-    if (sFieldMessageBoxMode != FIELD_MESSAGE_BOX_HIDDEN)
+    if (sFieldMessageBoxMode != FIELD_MESSAGE_BOX_HIDDEN) {
         return FALSE;
+    }
     ExpandStringAndStartDrawFieldMessage(str, TRUE);
     sFieldMessageBoxMode = FIELD_MESSAGE_BOX_NORMAL;
     return TRUE;
@@ -71,8 +71,7 @@ bool8 ShowFieldMessage(const u8 *str)
 
 static void Task_HidePokenavMessageWhenDone(u8 taskId)
 {
-    if (!IsMatchCallTaskActive())
-    {
+    if (!IsMatchCallTaskActive()) {
         sFieldMessageBoxMode = FIELD_MESSAGE_BOX_HIDDEN;
         DestroyTask(taskId);
     }
@@ -80,8 +79,9 @@ static void Task_HidePokenavMessageWhenDone(u8 taskId)
 
 bool8 ShowPokenavFieldMessage(const u8 *str)
 {
-    if (sFieldMessageBoxMode != FIELD_MESSAGE_BOX_HIDDEN)
+    if (sFieldMessageBoxMode != FIELD_MESSAGE_BOX_HIDDEN) {
         return FALSE;
+    }
     StringExpandPlaceholders(gStringVar4, str);
     CreateTask(Task_HidePokenavMessageWhenDone, 0);
     StartMatchCallFromScript(str);
@@ -91,8 +91,9 @@ bool8 ShowPokenavFieldMessage(const u8 *str)
 
 bool8 ShowFieldAutoScrollMessage(const u8 *str)
 {
-    if (sFieldMessageBoxMode != FIELD_MESSAGE_BOX_HIDDEN)
+    if (sFieldMessageBoxMode != FIELD_MESSAGE_BOX_HIDDEN) {
         return FALSE;
+    }
     sFieldMessageBoxMode = FIELD_MESSAGE_BOX_AUTO_SCROLL;
     ExpandStringAndStartDrawFieldMessage(str, FALSE);
     return TRUE;
@@ -106,12 +107,13 @@ static bool8 ForceShowFieldAutoScrollMessage(const u8 *str)
     return TRUE;
 }
 
-// Same as ShowFieldMessage, but instead of accepting a 
+// Same as ShowFieldMessage, but instead of accepting a
 // string arg it just prints whats already in gStringVar4
 bool8 ShowFieldMessageFromBuffer(void)
 {
-    if (sFieldMessageBoxMode != FIELD_MESSAGE_BOX_HIDDEN)
+    if (sFieldMessageBoxMode != FIELD_MESSAGE_BOX_HIDDEN) {
         return FALSE;
+    }
     sFieldMessageBoxMode = FIELD_MESSAGE_BOX_NORMAL;
     StartDrawFieldMessage();
     return TRUE;
@@ -144,8 +146,9 @@ u8 GetFieldMessageBoxMode(void)
 
 bool8 IsFieldMessageBoxHidden(void)
 {
-    if (sFieldMessageBoxMode == FIELD_MESSAGE_BOX_HIDDEN)
+    if (sFieldMessageBoxMode == FIELD_MESSAGE_BOX_HIDDEN) {
         return TRUE;
+    }
     return FALSE;
 }
 

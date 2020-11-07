@@ -12,7 +12,7 @@
 #define ROTATING_GATE_PUZZLE_MAX 12
 #define GATE_ARM_MAX_LENGTH 2
 
-#define GATE_ROT(rotationDirection, arm, longArm)                                             \
+#define GATE_ROT(rotationDirection, arm, longArm)                                              \
     ((rotationDirection & 15) << 4) | ((arm & 7) << 1) | (longArm & 1)
 #define GATE_ROT_CW(arm, longArm) GATE_ROT(ROTATE_CLOCKWISE, arm, longArm)
 #define GATE_ROT_ACW(arm, longArm) GATE_ROT(ROTATE_ANTICLOCKWISE, arm, longArm)
@@ -194,14 +194,14 @@ struct RotatingGatePuzzle
 // Fortree
 static const struct RotatingGatePuzzle sRotatingGate_FortreePuzzleConfig[] =
 {
-    { 6,  7, GATE_SHAPE_T2, GATE_ORIENTATION_90},
-    { 9, 15, GATE_SHAPE_T2, GATE_ORIENTATION_180},
-    { 3, 19, GATE_SHAPE_T2, GATE_ORIENTATION_90},
-    { 2,  6, GATE_SHAPE_T1, GATE_ORIENTATION_90},
-    { 9, 12, GATE_SHAPE_T1, GATE_ORIENTATION_0},
-    { 6, 23, GATE_SHAPE_T1, GATE_ORIENTATION_0},
+    {6,  7, GATE_SHAPE_T2, GATE_ORIENTATION_90},
+    {9, 15, GATE_SHAPE_T2, GATE_ORIENTATION_180},
+    {3, 19, GATE_SHAPE_T2, GATE_ORIENTATION_90},
+    {2,  6, GATE_SHAPE_T1, GATE_ORIENTATION_90},
+    {9, 12, GATE_SHAPE_T1, GATE_ORIENTATION_0},
+    {6, 23, GATE_SHAPE_T1, GATE_ORIENTATION_0},
     {12, 22, GATE_SHAPE_T1, GATE_ORIENTATION_0},
-    { 6,  3, GATE_SHAPE_L4, GATE_ORIENTATION_180},
+    {6,  3, GATE_SHAPE_L4, GATE_ORIENTATION_180},
 };
 
 // Trickhouse
@@ -209,14 +209,14 @@ static const struct RotatingGatePuzzle sRotatingGate_TrickHousePuzzleConfig[] =
 {
     {14,  5, GATE_SHAPE_T1, GATE_ORIENTATION_90},
     {10,  6, GATE_SHAPE_L2, GATE_ORIENTATION_180},
-    { 6,  6, GATE_SHAPE_L4, GATE_ORIENTATION_90},
+    {6,  6, GATE_SHAPE_L4, GATE_ORIENTATION_90},
     {14,  8, GATE_SHAPE_T1, GATE_ORIENTATION_90},
-    { 3, 10, GATE_SHAPE_L3, GATE_ORIENTATION_270},
-    { 9, 14, GATE_SHAPE_L1, GATE_ORIENTATION_90},
-    { 3, 15, GATE_SHAPE_T3, GATE_ORIENTATION_0},
-    { 2, 17, GATE_SHAPE_L2, GATE_ORIENTATION_180},
+    {3, 10, GATE_SHAPE_L3, GATE_ORIENTATION_270},
+    {9, 14, GATE_SHAPE_L1, GATE_ORIENTATION_90},
+    {3, 15, GATE_SHAPE_T3, GATE_ORIENTATION_0},
+    {2, 17, GATE_SHAPE_L2, GATE_ORIENTATION_180},
     {12, 18, GATE_SHAPE_T3, GATE_ORIENTATION_270},
-    { 5, 18, GATE_SHAPE_L4, GATE_ORIENTATION_90},
+    {5, 18, GATE_SHAPE_L4, GATE_ORIENTATION_90},
     {10, 19, GATE_SHAPE_L3, GATE_ORIENTATION_180},
 };
 
@@ -521,11 +521,11 @@ static const u8 sRotatingGate_RotationInfoEast[4 * 4] =
 // These tables describe the relative coordinate positions the arms
 // must move through in order to be rotated.
 static const struct Coords8 sRotatingGate_ArmPositionsClockwiseRotation[] = {
-    { 0, -1 }, { 1, -2 }, { 0, 0 }, { 1, 0 }, { -1, 0 }, { -1, 1 }, { -1, -1 }, { -2, -1 },
+    {0, -1}, {1, -2}, {0, 0}, {1, 0}, {-1, 0}, {-1, 1}, {-1, -1}, {-2, -1},
 };
 
 static const struct Coords8 sRotatingGate_ArmPositionsAntiClockwiseRotation[] = {
-    { -1, -1 }, { -1, -2 }, { 0, -1 }, { 1, -1 }, { 0, 0 }, { 0, 1 }, { -1, 0 }, { -2, 0 },
+    {-1, -1}, {-1, -2}, {0, -1}, {1, -1}, {0, 0}, {0, 1}, {-1, 0}, {-2, 0},
 };
 
 // Describes where the gates "arms" are in the order north, east, south, west.
@@ -622,14 +622,12 @@ static EWRAM_DATA u8 gRotatingGate_PuzzleCount = 0;
 static s32 GetCurrentMapRotatingGatePuzzleType(void)
 {
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(FORTREE_CITY_GYM) &&
-        gSaveBlock1Ptr->location.mapNum == MAP_NUM(FORTREE_CITY_GYM))
-    {
+        gSaveBlock1Ptr->location.mapNum == MAP_NUM(FORTREE_CITY_GYM)) {
         return PUZZLE_FORTREE_CITY_GYM;
     }
 
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE110_TRICK_HOUSE_PUZZLE6) &&
-        gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE110_TRICK_HOUSE_PUZZLE6))
-    {
+        gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE110_TRICK_HOUSE_PUZZLE6)) {
         return PUZZLE_ROUTE110_TRICK_HOUSE_PUZZLE6;
     }
 
@@ -641,8 +639,7 @@ static void RotatingGate_ResetAllGateOrientations(void)
     s32 i;
     u8 *ptr = (u8 *)GetVarPointer(VAR_TEMP_0);
 
-    for (i = 0; i < gRotatingGate_PuzzleCount; i++)
-    {
+    for (i = 0; i < gRotatingGate_PuzzleCount; i++) {
         ptr[i] = gRotatingGate_PuzzleConfig[i].orientation;
     }
 }
@@ -661,15 +658,13 @@ static void RotatingGate_RotateInDirection(u8 gateId, u32 rotationDirection)
 {
     u8 orientation = RotatingGate_GetGateOrientation(gateId);
 
-    if (rotationDirection == ROTATE_ANTICLOCKWISE)
-    {
-        if (orientation)
+    if (rotationDirection == ROTATE_ANTICLOCKWISE) {
+        if (orientation) {
             orientation--;
-        else
+        } else {
             orientation = GATE_ORIENTATION_270;
-    }
-    else
-    {
+        }
+    } else {
         orientation = ++orientation % GATE_ORIENTATION_MAX;
     }
     RotatingGate_SetGateOrientation(gateId, orientation);
@@ -680,8 +675,7 @@ static void RotatingGate_LoadPuzzleConfig(void)
     s32 puzzleType = GetCurrentMapRotatingGatePuzzleType();
     u32 i;
 
-    switch (puzzleType)
-    {
+    switch (puzzleType) {
     case PUZZLE_FORTREE_CITY_GYM:
         gRotatingGate_PuzzleConfig = sRotatingGate_FortreePuzzleConfig;
         gRotatingGate_PuzzleCount =
@@ -697,8 +691,7 @@ static void RotatingGate_LoadPuzzleConfig(void)
         return;
     }
 
-    for (i = 0; i < ROTATING_GATE_PUZZLE_MAX - 1; i++)
-    {
+    for (i = 0; i < ROTATING_GATE_PUZZLE_MAX - 1; i++) {
         gRotatingGate_GateSpriteIds[i] = MAX_SPRITES;
     }
 }
@@ -714,14 +707,12 @@ static void RotatingGate_CreateGatesWithinViewport(s16 deltaX, s16 deltaY)
     s16 y = gSaveBlock1Ptr->pos.y - 2;
     s16 y2 = gSaveBlock1Ptr->pos.y + 0xe;
 
-    for (i = 0; i < gRotatingGate_PuzzleCount; i++)
-    {
+    for (i = 0; i < gRotatingGate_PuzzleCount; i++) {
         s16 x3 = gRotatingGate_PuzzleConfig[i].x + 7;
         s16 y3 = gRotatingGate_PuzzleConfig[i].y + 7;
 
         if (y <= y3 && y2 >= y3 && x <= x3 && x2 >= x3 &&
-            gRotatingGate_GateSpriteIds[i] == MAX_SPRITES)
-        {
+            gRotatingGate_GateSpriteIds[i] == MAX_SPRITES) {
             gRotatingGate_GateSpriteIds[i] = RotatingGate_CreateGate(i, deltaX, deltaY);
         }
     }
@@ -736,16 +727,18 @@ static u8 RotatingGate_CreateGate(u8 gateId, s16 deltaX, s16 deltaY)
 
     const struct RotatingGatePuzzle *gate = &gRotatingGate_PuzzleConfig[gateId];
 
-    if (gate->shape == GATE_SHAPE_L1 || gate->shape == GATE_SHAPE_T1)
+    if (gate->shape == GATE_SHAPE_L1 || gate->shape == GATE_SHAPE_T1) {
         template = sSpriteTemplate_RotatingGateRegular;
-    else
+    } else {
         template = sSpriteTemplate_RotatingGateLarge;
+    }
 
     template.tileTag = gate->shape + ROTATING_GATE_TILE_TAG;
 
     spriteId = CreateSprite(&template, 0, 0, 0x94);
-    if (spriteId == MAX_SPRITES)
+    if (spriteId == MAX_SPRITES) {
         return MAX_SPRITES;
+    }
 
     x = gate->x + 7;
     y = gate->y + 7;
@@ -769,22 +762,21 @@ static void SpriteCallback_RotatingGate(struct Sprite *sprite)
 
     RotatingGate_HideGatesOutsideViewport(sprite);
 
-    if (rotationDirection == ROTATE_ANTICLOCKWISE)
-    {
+    if (rotationDirection == ROTATE_ANTICLOCKWISE) {
         affineAnimation = orientation + 4;
 
-        if (GetPlayerSpeed() != 1)
+        if (GetPlayerSpeed() != 1) {
             affineAnimation += 8;
+        }
 
         PlaySE(SE_ROTATING_GATE);
         StartSpriteAffineAnim(sprite, affineAnimation);
-    }
-    else if (rotationDirection == ROTATE_CLOCKWISE)
-    {
+    } else if (rotationDirection == ROTATE_CLOCKWISE) {
         affineAnimation = orientation + 8;
 
-        if (GetPlayerSpeed() != 1)
+        if (GetPlayerSpeed() != 1) {
             affineAnimation += 8;
+        }
 
         PlaySE(SE_ROTATING_GATE);
         StartSpriteAffineAnim(sprite, affineAnimation);
@@ -805,13 +797,11 @@ static void RotatingGate_HideGatesOutsideViewport(struct Sprite *sprite)
     x2 = x + 0x40; // Dimensions of the rotating gate
     y2 = y + 0x40;
 
-    if ((s16)x > DISPLAY_WIDTH + 0x10 - 1 || x2 < -0x10)
-    {
+    if ((s16)x > DISPLAY_WIDTH + 0x10 - 1 || x2 < -0x10) {
         sprite->invisible = TRUE;
     }
 
-    if ((s16)y > DISPLAY_HEIGHT + 0x10 - 1 || y2 < -0x10)
-    {
+    if ((s16)y > DISPLAY_HEIGHT + 0x10 - 1 || y2 < -0x10) {
         sprite->invisible = TRUE;
     }
 }
@@ -831,16 +821,15 @@ static void RotatingGate_DestroyGatesOutsideViewport(void)
     s16 y = gSaveBlock1Ptr->pos.y - 2;
     s16 y2 = gSaveBlock1Ptr->pos.y + 0xe;
 
-    for (i = 0; i < gRotatingGate_PuzzleCount; i++)
-    {
+    for (i = 0; i < gRotatingGate_PuzzleCount; i++) {
         s16 xGate = gRotatingGate_PuzzleConfig[i].x + 7;
         s16 yGate = gRotatingGate_PuzzleConfig[i].y + 7;
 
-        if (gRotatingGate_GateSpriteIds[i] == MAX_SPRITES)
+        if (gRotatingGate_GateSpriteIds[i] == MAX_SPRITES) {
             continue;
+        }
 
-        if (xGate < x || xGate > x2 || yGate < y || yGate > y2)
-        {
+        if (xGate < x || xGate > x2 || yGate < y || yGate > y2) {
             struct Sprite *sprite = &gSprites[gRotatingGate_GateSpriteIds[i]];
             FreeSpriteOamMatrix(sprite);
             DestroySprite(sprite);
@@ -857,12 +846,13 @@ static s32 RotatingGate_CanRotate(u8 gateId, s32 rotationDirection)
     u8 shape;
     s32 i, j;
 
-    if (rotationDirection == ROTATE_ANTICLOCKWISE)
+    if (rotationDirection == ROTATE_ANTICLOCKWISE) {
         armPos = sRotatingGate_ArmPositionsAntiClockwiseRotation;
-    else if (rotationDirection == ROTATE_CLOCKWISE)
+    } else if (rotationDirection == ROTATE_CLOCKWISE) {
         armPos = sRotatingGate_ArmPositionsClockwiseRotation;
-    else
+    } else {
         return FALSE;
+    }
 
     orientation = RotatingGate_GetGateOrientation(gateId);
 
@@ -871,17 +861,15 @@ static s32 RotatingGate_CanRotate(u8 gateId, s32 rotationDirection)
     y = gRotatingGate_PuzzleConfig[gateId].y + 7;
 
     // Loop through the gate's "arms" clockwise (north, south, east, west)
-    for (i = GATE_ARM_NORTH; i <= GATE_ARM_WEST; i++)
-    {
+    for (i = GATE_ARM_NORTH; i <= GATE_ARM_WEST; i++) {
         // Ensure that no part of the arm collides with the map
-        for (j = 0; j < GATE_ARM_MAX_LENGTH; j++)
-        {
+        for (j = 0; j < GATE_ARM_MAX_LENGTH; j++) {
             u8 armIndex = 2 * ((orientation + i) % 4) + j;
 
-            if (sRotatingGate_ArmLayout[shape][2 * i + j])
-            {
-                if (MapGridIsImpassableAt(x + armPos[armIndex].x, y + armPos[armIndex].y) == TRUE)
+            if (sRotatingGate_ArmLayout[shape][2 * i + j]) {
+                if (MapGridIsImpassableAt(x + armPos[armIndex].x, y + armPos[armIndex].y) == TRUE) {
                     return FALSE;
+                }
             }
         }
     }
@@ -901,8 +889,7 @@ static s32 RotatingGate_HasArm(u8 gateId, u8 armInfo)
 
 static void RotatingGate_TriggerRotationAnimation(u8 gateId, s32 rotationDirection)
 {
-    if (gRotatingGate_GateSpriteIds[gateId] != MAX_SPRITES)
-    {
+    if (gRotatingGate_GateSpriteIds[gateId] != MAX_SPRITES) {
         struct Sprite *sprite = &gSprites[gRotatingGate_GateSpriteIds[gateId]];
         sprite->data[1] = rotationDirection;
         sprite->data[2] = RotatingGate_GetGateOrientation(gateId);
@@ -913,24 +900,24 @@ static u8 RotatingGate_GetRotationInfo(u8 direction, s16 x, s16 y)
 {
     const u8 *ptr;
 
-    if (direction == DIR_NORTH)
+    if (direction == DIR_NORTH) {
         ptr = sRotatingGate_RotationInfoNorth;
-    else if (direction == DIR_SOUTH)
+    } else if (direction == DIR_SOUTH) {
         ptr = sRotatingGate_RotationInfoSouth;
-    else if (direction == DIR_WEST)
+    } else if (direction == DIR_WEST) {
         ptr = sRotatingGate_RotationInfoWest;
-    else if (direction == DIR_EAST)
+    } else if (direction == DIR_EAST) {
         ptr = sRotatingGate_RotationInfoEast;
-    else
+    } else {
         return GATE_ROT_NONE;
+    }
 
     return ptr[y * 4 + x];
 }
 
 void RotatingGate_InitPuzzle(void)
 {
-    if (GetCurrentMapRotatingGatePuzzleType())
-    {
+    if (GetCurrentMapRotatingGatePuzzleType()) {
         RotatingGate_LoadPuzzleConfig();
         RotatingGate_ResetAllGateOrientations();
     }
@@ -938,8 +925,7 @@ void RotatingGate_InitPuzzle(void)
 
 void RotatingGatePuzzleCameraUpdate(u16 deltaX, u16 deltaY)
 {
-    if (GetCurrentMapRotatingGatePuzzleType())
-    {
+    if (GetCurrentMapRotatingGatePuzzleType()) {
         RotatingGate_CreateGatesWithinViewport(deltaX, deltaY);
         RotatingGate_DestroyGatesOutsideViewport();
     }
@@ -947,8 +933,7 @@ void RotatingGatePuzzleCameraUpdate(u16 deltaX, u16 deltaY)
 
 void RotatingGate_InitPuzzleAndGraphics(void)
 {
-    if (GetCurrentMapRotatingGatePuzzleType())
-    {
+    if (GetCurrentMapRotatingGatePuzzleType()) {
         LoadRotatingGatePics();
         RotatingGate_LoadPuzzleConfig();
         RotatingGate_CreateGatesWithinViewport(0, 0);
@@ -959,28 +944,24 @@ bool8 CheckForRotatingGatePuzzleCollision(u8 direction, s16 x, s16 y)
 {
     s32 i;
 
-    if (!GetCurrentMapRotatingGatePuzzleType())
+    if (!GetCurrentMapRotatingGatePuzzleType()) {
         return FALSE;
-    for (i = 0; i < gRotatingGate_PuzzleCount; i++)
-    {
+    }
+    for (i = 0; i < gRotatingGate_PuzzleCount; i++) {
         s16 gateX = gRotatingGate_PuzzleConfig[i].x + 7;
         s16 gateY = gRotatingGate_PuzzleConfig[i].y + 7;
 
-        if (gateX - 2 <= x && x <= gateX + 1 && gateY - 2 <= y && y <= gateY + 1)
-        {
+        if (gateX - 2 <= x && x <= gateX + 1 && gateY - 2 <= y && y <= gateY + 1) {
             s16 centerX = x - gateX + 2;
             s16 centerY = y - gateY + 2;
             u8 rotationInfo = RotatingGate_GetRotationInfo(direction, centerX, centerY);
 
-            if (rotationInfo != GATE_ROT_NONE)
-            {
+            if (rotationInfo != GATE_ROT_NONE) {
                 u8 rotationDirection = ((rotationInfo & 0xF0) >> 4);
                 u8 armInfo = rotationInfo & 0xF;
 
-                if (RotatingGate_HasArm(i, armInfo))
-                {
-                    if (RotatingGate_CanRotate(i, rotationDirection))
-                    {
+                if (RotatingGate_HasArm(i, armInfo)) {
+                    if (RotatingGate_CanRotate(i, rotationDirection)) {
                         RotatingGate_TriggerRotationAnimation(i, rotationDirection);
                         RotatingGate_RotateInDirection(i, rotationDirection);
                         return FALSE;
@@ -997,28 +978,24 @@ bool8 CheckForRotatingGatePuzzleCollisionWithoutAnimation(u8 direction, s16 x, s
 {
     s32 i;
 
-    if (!GetCurrentMapRotatingGatePuzzleType())
+    if (!GetCurrentMapRotatingGatePuzzleType()) {
         return FALSE;
-    for (i = 0; i < gRotatingGate_PuzzleCount; i++)
-    {
+    }
+    for (i = 0; i < gRotatingGate_PuzzleCount; i++) {
         s16 gateX = gRotatingGate_PuzzleConfig[i].x + 7;
         s16 gateY = gRotatingGate_PuzzleConfig[i].y + 7;
 
-        if (gateX - 2 <= x && x <= gateX + 1 && gateY - 2 <= y && y <= gateY + 1)
-        {
+        if (gateX - 2 <= x && x <= gateX + 1 && gateY - 2 <= y && y <= gateY + 1) {
             s16 centerX = x - gateX + 2;
             s16 centerY = y - gateY + 2;
             u8 rotationInfo = RotatingGate_GetRotationInfo(direction, centerX, centerY);
 
-            if (rotationInfo != GATE_ROT_NONE)
-            {
+            if (rotationInfo != GATE_ROT_NONE) {
                 u8 rotationDirection = ((rotationInfo & 0xF0) >> 4);
                 u8 armInfo = rotationInfo & 0xF;
 
-                if (RotatingGate_HasArm(i, armInfo))
-                {
-                    if (!RotatingGate_CanRotate(i, rotationDirection))
-                    {
+                if (RotatingGate_HasArm(i, armInfo)) {
+                    if (!RotatingGate_CanRotate(i, rotationDirection)) {
                         return TRUE;
                     }
                 }

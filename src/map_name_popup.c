@@ -207,19 +207,16 @@ bool8 sub_80D47D4(void)
 
 void ShowMapNamePopup(void)
 {
-    if (FlagGet(FLAG_HIDE_MAP_NAME_POPUP) != TRUE)
-    {
-        if (!FuncIsActiveTask(Task_MapNamePopUpWindow))
-        {
+    if (FlagGet(FLAG_HIDE_MAP_NAME_POPUP) != TRUE) {
+        if (!FuncIsActiveTask(Task_MapNamePopUpWindow)) {
             sPopupTaskId = CreateTask(Task_MapNamePopUpWindow, 90);
             SetGpuReg(REG_OFFSET_BG0VOFS, 40);
             gTasks[sPopupTaskId].data[0] = 6;
             gTasks[sPopupTaskId].data[2] = 40;
-        }
-        else
-        {
-            if (gTasks[sPopupTaskId].data[0] != 2)
+        } else {
+            if (gTasks[sPopupTaskId].data[0] != 2) {
                 gTasks[sPopupTaskId].data[0] = 2;
+            }
             gTasks[sPopupTaskId].data[3] = 1;
         }
     }
@@ -229,12 +226,10 @@ static void Task_MapNamePopUpWindow(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     case 6:
         task->data[4]++;
-        if (task->data[4] > 30)
-        {
+        if (task->data[4] > 30) {
             task->data[0] = 0;
             task->data[4] = 0;
             ShowMapNamePopUpWindow();
@@ -242,8 +237,7 @@ static void Task_MapNamePopUpWindow(u8 taskId)
         break;
     case 0:
         task->data[2] -= 2;
-        if (task->data[2] <= 0 )
-        {
+        if (task->data[2] <= 0) {
             task->data[2] = 0;
             task->data[0] = 1;
             gTasks[sPopupTaskId].data[1] = 0;
@@ -251,25 +245,20 @@ static void Task_MapNamePopUpWindow(u8 taskId)
         break;
     case 1:
         task->data[1]++;
-        if (task->data[1] > 120 )
-        {
+        if (task->data[1] > 120) {
             task->data[1] = 0;
             task->data[0] = 2;
         }
         break;
     case 2:
         task->data[2] += 2;
-        if (task->data[2] > 39)
-        {
+        if (task->data[2] > 39) {
             task->data[2] = 40;
-            if (task->data[3])
-            {
+            if (task->data[3]) {
                 task->data[0] = 6;
                 task->data[4] = 0;
                 task->data[3] = 0;
-            }
-            else
-            {
+            } else {
                 task->data[0] = 4;
                 return;
             }
@@ -288,8 +277,7 @@ static void Task_MapNamePopUpWindow(u8 taskId)
 
 void HideMapNamePopUpWindow(void)
 {
-    if (FuncIsActiveTask(Task_MapNamePopUpWindow))
-    {
+    if (FuncIsActiveTask(Task_MapNamePopUpWindow)) {
         ClearStdWindowAndFrame(GetMapNamePopUpWindowId(), TRUE);
         RemoveMapNamePopUpWindow();
         SetGpuReg_ForcedBlank(REG_OFFSET_BG0VOFS, 0);
@@ -304,22 +292,16 @@ static void ShowMapNamePopUpWindow(void)
     u8 x;
     const u8* mapDisplayHeaderSource;
 
-    if (InBattlePyramid())
-    {
-        if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_TOP)
-        {
+    if (InBattlePyramid()) {
+        if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_TOP) {
             withoutPrefixPtr = &(mapDisplayHeader[3]);
             mapDisplayHeaderSource = gBattlePyramid_MapHeaderStrings[7];
-        }
-        else
-        {
+        } else {
             withoutPrefixPtr = &(mapDisplayHeader[3]);
             mapDisplayHeaderSource = gBattlePyramid_MapHeaderStrings[gSaveBlock2Ptr->frontier.curChallengeBattleNum];
         }
         StringCopy(withoutPrefixPtr, mapDisplayHeaderSource);
-    }
-    else
-    {
+    } else {
         withoutPrefixPtr = &(mapDisplayHeader[3]);
         GetMapName(withoutPrefixPtr, gMapHeader.regionMapSectionId, 0);
     }
@@ -337,18 +319,16 @@ static void sub_80D4A78(u8 bg, u8 x, u8 y, u8 deltaX, u8 deltaY, u8 unused)
 {
     s32 i;
 
-    for (i = 0; i < 12; i++)
-    {
+    for (i = 0; i < 12; i++) {
         FillBgTilemapBufferRect(bg, 0x21D + i, i - 1 + x, y - 1, 1, 1, 0xE);
     }
     FillBgTilemapBufferRect(bg, 0x229, x - 1, y, 1, 1, 0xE);
     FillBgTilemapBufferRect(bg, 0x22A, deltaX + x, y, 1, 1, 0xE);
-    FillBgTilemapBufferRect(bg, 0x22B, x - 1, y + 1 , 1, 1, 0xE);
+    FillBgTilemapBufferRect(bg, 0x22B, x - 1, y + 1, 1, 1, 0xE);
     FillBgTilemapBufferRect(bg, 0x22C, deltaX + x, y + 1, 1, 1, 0xE);
     FillBgTilemapBufferRect(bg, 0x22D, x - 1, y + 2, 1, 1, 0xE);
     FillBgTilemapBufferRect(bg, 0x22E, deltaX + x, y + 2, 1, 1, 0xE);
-    for (i = 0; i < 12; i++)
-    {
+    for (i = 0; i < 12; i++) {
         FillBgTilemapBufferRect(bg, 0x22F + i, i - 1 + x, y + deltaY, 1, 1, 0xE);
     }
 }
@@ -359,21 +339,22 @@ static void LoadMapNamePopUpWindowBg(void)
     u8 popupWindowId = GetMapNamePopUpWindowId();
     u16 regionMapSectionId = gMapHeader.regionMapSectionId;
 
-    if (regionMapSectionId >= KANTO_MAPSEC_START)
-    {
-        if (regionMapSectionId > KANTO_MAPSEC_END)
+    if (regionMapSectionId >= KANTO_MAPSEC_START) {
+        if (regionMapSectionId > KANTO_MAPSEC_END) {
             regionMapSectionId -= KANTO_MAPSEC_COUNT;
-        else
+        } else {
             regionMapSectionId = 0; // Discard kanto region sections;
+        }
     }
     popUpThemeId = gRegionMapSectionId_To_PopUpThemeIdMapping[regionMapSectionId];
 
     LoadBgTiles(GetWindowAttribute(popupWindowId, WINDOW_BG), gMapPopUp_Outline_Table[popUpThemeId], 0x400, 0x21D);
     CallWindowFunction(popupWindowId, sub_80D4A78);
     PutWindowTilemap(popupWindowId);
-    if (gMapHeader.weather == WEATHER_UNDERWATER_BUBBLES)
+    if (gMapHeader.weather == WEATHER_UNDERWATER_BUBBLES) {
         LoadPalette(&gUnknown_0857F444, 0xE0, 0x20);
-    else
+    } else {
         LoadPalette(gMapPopUp_Palette_Table[popUpThemeId], 0xE0, 0x20);
+    }
     BlitBitmapToWindow(popupWindowId, gMapPopUp_Table[popUpThemeId], 0, 0, 80, 24);
 }

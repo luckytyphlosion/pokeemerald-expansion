@@ -78,10 +78,11 @@ void EnableNationalPokedex(void)
 
 bool32 IsNationalPokedexEnabled(void)
 {
-    if (gSaveBlock2Ptr->pokedex.nationalMagic == 0xDA && VarGet(VAR_NATIONAL_DEX) == 0x302 && FlagGet(FLAG_SYS_NATIONAL_DEX))
+    if (gSaveBlock2Ptr->pokedex.nationalMagic == 0xDA && VarGet(VAR_NATIONAL_DEX) == 0x302 && FlagGet(FLAG_SYS_NATIONAL_DEX)) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 void DisableMysteryEvent(void)
@@ -160,35 +161,39 @@ void EnableResetRTC(void)
 
 bool32 CanResetRTC(void)
 {
-    if (FlagGet(FLAG_SYS_RESET_RTC_ENABLE) && VarGet(VAR_RESET_RTC_ENABLE) == 0x920)
+    if (FlagGet(FLAG_SYS_RESET_RTC_ENABLE) && VarGet(VAR_RESET_RTC_ENABLE) == 0x920) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
-u16 *GetVarPointer(u16 id)
+u16 * GetVarPointer(u16 id)
 {
-    if (id < VARS_START)
+    if (id < VARS_START) {
         return NULL;
-    else if (id < SPECIAL_VARS_START)
+    } else if (id < SPECIAL_VARS_START) {
         return &gSaveBlock1Ptr->vars[id - VARS_START];
-    else
+    } else {
         return gSpecialVars[id - SPECIAL_VARS_START];
+    }
 }
 
 u16 VarGet(u16 id)
 {
     u16 *ptr = GetVarPointer(id);
-    if (!ptr)
+    if (!ptr) {
         return id;
+    }
     return *ptr;
 }
 
 bool8 VarSet(u16 id, u16 value)
 {
     u16 *ptr = GetVarPointer(id);
-    if (!ptr)
+    if (!ptr) {
         return FALSE;
+    }
     *ptr = value;
     return TRUE;
 }
@@ -198,29 +203,32 @@ u8 VarGetObjectEventGraphicsId(u8 id)
     return VarGet(VAR_OBJ_GFX_ID_0 + id);
 }
 
-u8 *GetFlagPointer(u16 id)
+u8 * GetFlagPointer(u16 id)
 {
-    if (id == 0)
+    if (id == 0) {
         return NULL;
-    else if (id < SPECIAL_FLAGS_START)
+    } else if (id < SPECIAL_FLAGS_START) {
         return &gSaveBlock1Ptr->flags[id / 8];
-    else
+    } else {
         return &gSpecialFlags[(id - SPECIAL_FLAGS_START) / 8];
+    }
 }
 
 u8 FlagSet(u16 id)
 {
     u8 *ptr = GetFlagPointer(id);
-    if (ptr)
+    if (ptr) {
         *ptr |= 1 << (id & 7);
+    }
     return 0;
 }
 
 u8 FlagClear(u16 id)
 {
     u8 *ptr = GetFlagPointer(id);
-    if (ptr)
+    if (ptr) {
         *ptr &= ~(1 << (id & 7));
+    }
     return 0;
 }
 
@@ -228,11 +236,13 @@ bool8 FlagGet(u16 id)
 {
     u8 *ptr = GetFlagPointer(id);
 
-    if (!ptr)
+    if (!ptr) {
         return FALSE;
+    }
 
-    if (!(((*ptr) >> (id & 7)) & 1))
+    if (!(((*ptr) >> (id & 7)) & 1)) {
         return FALSE;
+    }
 
     return TRUE;
 }

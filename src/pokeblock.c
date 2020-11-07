@@ -120,31 +120,31 @@ EWRAM_DATA static struct PokeblockMenuStruct *sPokeblockMenu = NULL;
 const s8 gPokeblockFlavorCompatibilityTable[NUM_NATURES * FLAVOR_COUNT] =
 {
     // Cool, Beauty, Cute, Smart, Tough
-          0,      0,    0,     0,     0, // Hardy
-          1,      0,    0,     0,    -1, // Lonely
-          1,      0,   -1,     0,     0, // Brave
-          1,     -1,    0,     0,     0, // Adamant
-          1,      0,    0,    -1,     0, // Naughty
-         -1,      0,    0,     0,     1, // Bold
-          0,      0,    0,     0,     0, // Docile
-          0,      0,   -1,     0,     1, // Relaxed
-          0,     -1,    0,     0,     1, // Impish
-          0,      0,    0,    -1,     1, // Lax
-         -1,      0,    1,     0,     0, // Timid
-          0,      0,    1,     0,    -1, // Hasty
-          0,      0,    0,     0,     0, // Serious
-          0,     -1,    1,     0,     0, // Jolly
-          0,      0,    1,    -1,     0, // Naive
-         -1,      1,    0,     0,     0, // Modest
-          0,      1,    0,     0,    -1, // Mild
-          0,      1,   -1,     0,     0, // Quiet
-          0,      0,    0,     0,     0, // Bashful
-          0,      1,    0,    -1,     0, // Rash
-         -1,      0,    0,     1,     0, // Calm
-          0,      0,    0,     1,    -1, // Gentle
-          0,      0,   -1,     1,     0, // Sassy
-          0,     -1,    0,     1,     0, // Careful
-          0,      0,    0,     0,     0  // Quirky
+    0,      0,    0,     0,     0,       // Hardy
+    1,      0,    0,     0,    -1,       // Lonely
+    1,      0,   -1,     0,     0,       // Brave
+    1,     -1,    0,     0,     0,       // Adamant
+    1,      0,    0,    -1,     0,       // Naughty
+    -1,      0,    0,     0,     1,      // Bold
+    0,      0,    0,     0,     0,       // Docile
+    0,      0,   -1,     0,     1,       // Relaxed
+    0,     -1,    0,     0,     1,       // Impish
+    0,      0,    0,    -1,     1,       // Lax
+    -1,      0,    1,     0,     0,      // Timid
+    0,      0,    1,     0,    -1,       // Hasty
+    0,      0,    0,     0,     0,       // Serious
+    0,     -1,    1,     0,     0,       // Jolly
+    0,      0,    1,    -1,     0,       // Naive
+    -1,      1,    0,     0,     0,      // Modest
+    0,      1,    0,     0,    -1,       // Mild
+    0,      1,   -1,     0,     0,       // Quiet
+    0,      0,    0,     0,     0,       // Bashful
+    0,      1,    0,    -1,     0,       // Rash
+    -1,      0,    0,     1,     0,      // Calm
+    0,      0,    0,     1,    -1,       // Gentle
+    0,      0,   -1,     1,     0,       // Sassy
+    0,     -1,    0,     1,     0,       // Careful
+    0,      0,    0,     0,     0        // Quirky
 };
 
 static const struct BgTemplate sBgTemplatesForPokeblockMenu[] =
@@ -283,11 +283,11 @@ static const u8 sTextColorInPokeblockMenu[3] = {0, 2, 3};
 
 static const struct Pokeblock sFavoritePokeblocksTable[] =
 {
-    { PBLOCK_CLR_RED,    20,  0,  0,  0,  0, 20},
-    { PBLOCK_CLR_BLUE,    0, 20,  0,  0,  0, 20},
-    { PBLOCK_CLR_PINK,    0,  0, 20,  0,  0, 20},
-    { PBLOCK_CLR_GREEN,   0,  0,  0, 20,  0, 20},
-    { PBLOCK_CLR_YELLOW,  0,  0,  0,  0, 20, 20}
+    {PBLOCK_CLR_RED,    20,  0,  0,  0,  0, 20},
+    {PBLOCK_CLR_BLUE,    0, 20,  0,  0,  0, 20},
+    {PBLOCK_CLR_PINK,    0,  0, 20,  0,  0, 20},
+    {PBLOCK_CLR_GREEN,   0,  0,  0, 20,  0, 20},
+    {PBLOCK_CLR_YELLOW,  0,  0,  0,  0, 20, 20}
 };
 
 static const struct WindowTemplate sWindowTemplatesForPokeblockMenu[] =
@@ -437,8 +437,7 @@ void OpenPokeblockCase(u8 caseId, void (*callback)(void))
     sPokeblockMenu->isSwapping = FALSE;
     sSavedPokeblockData.callback = callback;
 
-    switch (sPokeblockMenu->caseId)
-    {
+    switch (sPokeblockMenu->caseId) {
     case PBLOCK_CASE_BATTLE:
         sPokeblockMenu->pokeblockOptionsIds = sActionsInBattle;
         sPokeblockMenu->optionsNo = ARRAY_COUNT(sActionsInBattle);
@@ -488,14 +487,16 @@ static void VBlankCB_PokeblockMenu(void)
 
 static void CB2_InitPokeblockMenu(void)
 {
-    while (1)
-    {
-        if (MenuHelpers_CallLinkSomething() == TRUE)
+    while (1) {
+        if (MenuHelpers_CallLinkSomething() == TRUE) {
             break;
-        if (InitPokeblockMenu() == TRUE)
+        }
+        if (InitPokeblockMenu() == TRUE) {
             break;
-        if (MenuHelpers_LinkSomething() == TRUE)
+        }
+        if (MenuHelpers_LinkSomething() == TRUE) {
             break;
+        }
     }
 }
 
@@ -503,8 +504,7 @@ static bool8 InitPokeblockMenu(void)
 {
     u8 taskId;
 
-    switch (gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
         SetVBlankHBlankCallbacksToNull();
         ClearScheduledBgCopiesToVram();
@@ -528,8 +528,9 @@ static bool8 InitPokeblockMenu(void)
         gMain.state++;
         break;
     case 5:
-        if (sPokeblockMenu->caseId != PBLOCK_CASE_BATTLE)
+        if (sPokeblockMenu->caseId != PBLOCK_CASE_BATTLE) {
             ResetTasks();
+        }
         gMain.state++;
         break;
     case 6:
@@ -538,8 +539,9 @@ static bool8 InitPokeblockMenu(void)
         gMain.state++;
         break;
     case 7:
-        if (!LoadPokeblockMenuGfx())
+        if (!LoadPokeblockMenuGfx()) {
             return FALSE;
+        }
         gMain.state++;
         break;
     case 8:
@@ -619,16 +621,14 @@ static void HandleInitBackgrounds(void)
 
 static bool8 LoadPokeblockMenuGfx(void)
 {
-    switch (sPokeblockMenu->gfxState)
-    {
+    switch (sPokeblockMenu->gfxState) {
     case 0:
         ResetTempTileDataBuffers();
         DecompressAndCopyTileDataToVram(2, gMenuPokeblock_Gfx, 0, 0, 0);
         sPokeblockMenu->gfxState++;
         break;
     case 1:
-        if (FreeTempTileDataBuffersIfPossible() != TRUE)
-        {
+        if (FreeTempTileDataBuffersIfPossible() != TRUE) {
             LZDecompressWram(gMenuPokeblock_Tilemap, sPokeblockMenu->tilemap);
             sPokeblockMenu->gfxState++;
         }
@@ -664,8 +664,7 @@ static void HandleInitWindows(void)
     LoadMessageBoxGfx(0, 0xA, 0xD0);
     LoadPalette(gUnknown_0860F074, 0xF0, 0x20);
 
-    for (i = 0; i < ARRAY_COUNT(sWindowTemplatesForPokeblockMenu) - 1; i++)
-    {
+    for (i = 0; i < ARRAY_COUNT(sWindowTemplatesForPokeblockMenu) - 1; i++) {
         FillWindowPixelBuffer(i, PIXEL_FILL(0));
     }
 
@@ -691,8 +690,7 @@ static void PutPokeblockInfoText(void)
     PrintOnPokeblockWindow(5, gText_Bitter, 0);
     PrintOnPokeblockWindow(6, gText_Sour, 0);
 
-    for (i = 0; i < 8; i++)
-    {
+    for (i = 0; i < 8; i++) {
         PutWindowTilemap(i);
     }
 }
@@ -701,8 +699,7 @@ static void HandlePokeblockListMenuItems(void)
 {
     u16 i;
 
-    for (i = 0; i < sPokeblockMenu->itemsNo - 1; i++)
-    {
+    for (i = 0; i < sPokeblockMenu->itemsNo - 1; i++) {
         PutPokeblockListMenuString(sPokeblockMenu->menuItemsStrings[i], i);
         sPokeblockMenu->items[i].name = sPokeblockMenu->menuItemsStrings[i];
         sPokeblockMenu->items[i].id = i;
@@ -734,14 +731,14 @@ static void PutPokeblockListMenuString(u8 *dst, u16 pkblId)
 
 static void MovePokeblockMenuCursor(s32 pkblId, bool8 arg1, struct ListMenu *arg2)
 {
-    if (arg1 != TRUE)
-    {
+    if (arg1 != TRUE) {
         PlaySE(SE_SELECT);
         gSprites[sPokeblockMenu->pokeblockCaseSpriteId].callback = sub_8136470;
     }
 
-    if (!sPokeblockMenu->isSwapping)
+    if (!sPokeblockMenu->isSwapping) {
         sub_8135FCC(pkblId);
+    }
 }
 
 static void sub_8135FCC(s32 pkblId)
@@ -752,20 +749,15 @@ static void sub_8135FCC(s32 pkblId)
 
     FillWindowPixelBuffer(7, PIXEL_FILL(0));
 
-    if (pkblId != LIST_CANCEL)
-    {
+    if (pkblId != LIST_CANCEL) {
         pokeblock = &gSaveBlock1Ptr->pokeblocks[pkblId];
         rectTilemapSrc[0] = 0x17;
         rectTilemapSrc[1] = 0x18;
-        for (i = 0; i < FLAVOR_COUNT; i++)
-        {
-            if (GetPokeblockData(pokeblock, PBLOCK_SPICY + i) > 0)
-            {
+        for (i = 0; i < FLAVOR_COUNT; i++) {
+            if (GetPokeblockData(pokeblock, PBLOCK_SPICY + i) > 0) {
                 rectTilemapSrc[0] = (i << 0xC) + 0x17;
                 rectTilemapSrc[1] = (i << 0xC) + 0x18;
-            }
-            else
-            {
+            } else {
                 rectTilemapSrc[0] = 0xF;
                 rectTilemapSrc[1] = 0xF;
             }
@@ -773,14 +765,11 @@ static void sub_8135FCC(s32 pkblId)
         }
         ConvertIntToDecimalStringN(gStringVar1, GetPokeblocksFeel(pokeblock), STR_CONV_MODE_RIGHT_ALIGN, 2);
         PrintOnPokeblockWindow(7, gStringVar1, 4);
-    }
-    else
-    {
+    } else {
         rectTilemapSrc[0] = 0xF;
         rectTilemapSrc[1] = 0xF;
 
-        for (i = 0; i < FLAVOR_COUNT; i++)
-        {
+        for (i = 0; i < FLAVOR_COUNT; i++) {
             CopyToBgTilemapBufferRect(2, rectTilemapSrc, (i / 3 * 6) + 1, (i % 3 * 2) + 13, 1, 2);
         }
         CopyWindowToVram(7, 2);
@@ -800,12 +789,9 @@ static void CompactPokeblockSlots(void)
 {
     u16 i, j;
 
-    for (i = 0; i < POKEBLOCKS_COUNT - 1; i++)
-    {
-        for (j = i + 1; j < POKEBLOCKS_COUNT; j++)
-        {
-            if (gSaveBlock1Ptr->pokeblocks[i].color == PBLOCK_CLR_NONE)
-            {
+    for (i = 0; i < POKEBLOCKS_COUNT - 1; i++) {
+        for (j = i + 1; j < POKEBLOCKS_COUNT; j++) {
+            if (gSaveBlock1Ptr->pokeblocks[i].color == PBLOCK_CLR_NONE) {
                 struct Pokeblock temp = gSaveBlock1Ptr->pokeblocks[i];
                 gSaveBlock1Ptr->pokeblocks[i] = gSaveBlock1Ptr->pokeblocks[j];
                 gSaveBlock1Ptr->pokeblocks[j] = temp;
@@ -820,22 +806,22 @@ static void SwapSortPokeblocksInternalData(u32 id1, u32 id2)
     struct Pokeblock *pokeblocks = gSaveBlock1Ptr->pokeblocks;
     struct Pokeblock *copyPokeblock1;
 
-    if (id1 == id2)
+    if (id1 == id2) {
         return;
+    }
 
     copyPokeblock1 = Alloc(sizeof(struct Pokeblock));
     *copyPokeblock1 = pokeblocks[id1];
 
-    if (id2 > id1)
-    {
+    if (id2 > id1) {
         id2--;
-        for (count = id2, i = id1; i < count; i++)
+        for (count = id2, i = id1; i < count; i++) {
             pokeblocks[i] = pokeblocks[i + 1];
-    }
-    else
-    {
-        for (count = id2, i = id1; i > count; i--)
+        }
+    } else {
+        for (count = id2, i = id1; i > count; i--) {
             pokeblocks[i] = pokeblocks[i - 1];
+        }
     }
 
     pokeblocks[id2] = *copyPokeblock1;
@@ -854,62 +840,62 @@ static void SetMenuItemsCountAndMaxShowed(void)
 
     CompactPokeblockSlots();
 
-    for (sPokeblockMenu->itemsNo = 0, i = 0; i < POKEBLOCKS_COUNT; i++)
-    {
-        if (gSaveBlock1Ptr->pokeblocks[i].color != PBLOCK_CLR_NONE)
+    for (sPokeblockMenu->itemsNo = 0, i = 0; i < POKEBLOCKS_COUNT; i++) {
+        if (gSaveBlock1Ptr->pokeblocks[i].color != PBLOCK_CLR_NONE) {
             sPokeblockMenu->itemsNo++;
+        }
     }
 
     sPokeblockMenu->itemsNo++; // STOW CASE menu item
 
-    if (sPokeblockMenu->itemsNo > 9)
+    if (sPokeblockMenu->itemsNo > 9) {
         sPokeblockMenu->maxShowed = 9;
-    else
+    } else {
         sPokeblockMenu->maxShowed = sPokeblockMenu->itemsNo;
+    }
 }
 
 static void sub_81362E0(void)
 {
-    if (sSavedPokeblockData.lastItemPage != 0)
-    {
-        if (sSavedPokeblockData.lastItemPage + sPokeblockMenu->maxShowed > sPokeblockMenu->itemsNo)
+    if (sSavedPokeblockData.lastItemPage != 0) {
+        if (sSavedPokeblockData.lastItemPage + sPokeblockMenu->maxShowed > sPokeblockMenu->itemsNo) {
             sSavedPokeblockData.lastItemPage = sPokeblockMenu->itemsNo - sPokeblockMenu->maxShowed;
+        }
     }
 
-    if (sSavedPokeblockData.lastItemPage + sSavedPokeblockData.lastItemPos >= sPokeblockMenu->itemsNo)
-    {
-        if (sPokeblockMenu->itemsNo == 0)
+    if (sSavedPokeblockData.lastItemPage + sSavedPokeblockData.lastItemPos >= sPokeblockMenu->itemsNo) {
+        if (sPokeblockMenu->itemsNo == 0) {
             sSavedPokeblockData.lastItemPos = 0;
-        else
+        } else {
             sSavedPokeblockData.lastItemPos = sPokeblockMenu->itemsNo - 1;
+        }
     }
 }
 
 static void sub_8136344(void)
 {
-    if (sSavedPokeblockData.lastItemPos > 4)
-    {
+    if (sSavedPokeblockData.lastItemPos > 4) {
         u8 i;
 
         for (i = 0;
              (i < sSavedPokeblockData.lastItemPos - 4) && (sSavedPokeblockData.lastItemPage + sPokeblockMenu->maxShowed != sPokeblockMenu->itemsNo);
-             sSavedPokeblockData.lastItemPos--, sSavedPokeblockData.lastItemPage++, i++);
+             sSavedPokeblockData.lastItemPos--, sSavedPokeblockData.lastItemPage++, i++) {
+            ;
+        }
     }
 }
 
 static void sub_81363BC(void)
 {
-    if (sPokeblockMenu->unkTaskId == 0xFF)
-    {
+    if (sPokeblockMenu->unkTaskId == 0xFF) {
         sPokeblockMenu->unkTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 0xB0, 8, 0x98, sPokeblockMenu->itemsNo - sPokeblockMenu->maxShowed,
-                                                                            0x456, 0x456, &sSavedPokeblockData.lastItemPage);
+                                                                             0x456, 0x456, &sSavedPokeblockData.lastItemPage);
     }
 }
 
 static void sub_8136418(void)
 {
-    if (sPokeblockMenu->unkTaskId != 0xFF)
-    {
+    if (sPokeblockMenu->unkTaskId != 0xFF) {
         RemoveScrollIndicatorArrowPair(sPokeblockMenu->unkTaskId);
         sPokeblockMenu->unkTaskId = 0xFF;
     }
@@ -922,11 +908,11 @@ u8 CreatePokeblockCaseSprite(s16 x, s16 y, u8 subpriority)
 
 static void sub_8136470(struct Sprite *sprite)
 {
-    if (sprite->data[0] > 1)
+    if (sprite->data[0] > 1) {
         sprite->data[0] = 0;
+    }
 
-    switch (sprite->data[0])
-    {
+    switch (sprite->data[0]) {
     case 0:
         sprite->oam.affineMode = ST_OAM_AFFINE_NORMAL;
         sprite->affineAnims = sSpriteAffineAnimTable_85B26F0;
@@ -935,8 +921,7 @@ static void sub_8136470(struct Sprite *sprite)
         sprite->data[1] = 0;
         break;
     case 1:
-        if (++sprite->data[1] > 11)
-        {
+        if (++sprite->data[1] > 11) {
             sprite->oam.affineMode = ST_OAM_AFFINE_OFF;
             sprite->data[0] = 0;
             sprite->data[1] = 0;
@@ -957,20 +942,21 @@ static void Task_FreeDataAndExitPokeblockCase(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (!gPaletteFade.active)
-    {
-        if (sPokeblockMenu->caseId == PBLOCK_CASE_FEEDER || sPokeblockMenu->caseId == PBLOCK_CASE_GIVE)
+    if (!gPaletteFade.active) {
+        if (sPokeblockMenu->caseId == PBLOCK_CASE_FEEDER || sPokeblockMenu->caseId == PBLOCK_CASE_GIVE) {
             gFieldCallback = FieldCB_ContinueScriptHandleMusic;
+        }
 
         DestroyListMenuTask(data[0], &sSavedPokeblockData.lastItemPage, &sSavedPokeblockData.lastItemPos);
         sub_8136418();
         ResetSpriteData();
         FreeAllSpritePalettes();
 
-        if (sPokeblockMenu->callbackOnUse != NULL)
+        if (sPokeblockMenu->callbackOnUse != NULL) {
             SetMainCallback2(sPokeblockMenu->callbackOnUse);
-        else
+        } else {
             SetMainCallback2(sSavedPokeblockData.callback);
+        }
 
         FreeAllWindowBuffers();
         Free(sPokeblockMenu);
@@ -982,34 +968,27 @@ static void Task_HandlePokeblockMenuInput(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (!gPaletteFade.active && MenuHelpers_CallLinkSomething() != TRUE)
-    {
-        if (JOY_NEW(SELECT_BUTTON))
-        {
+    if (!gPaletteFade.active && MenuHelpers_CallLinkSomething() != TRUE) {
+        if (JOY_NEW(SELECT_BUTTON)) {
             ListMenuGetScrollAndRow(data[0], &sSavedPokeblockData.lastItemPage, &sSavedPokeblockData.lastItemPos);
-            if (sSavedPokeblockData.lastItemPage + sSavedPokeblockData.lastItemPos != sPokeblockMenu->itemsNo - 1)
-            {
+            if (sSavedPokeblockData.lastItemPage + sSavedPokeblockData.lastItemPos != sPokeblockMenu->itemsNo - 1) {
                 PlaySE(SE_SELECT);
                 HandlePokeblockMenuCursor(sSavedPokeblockData.lastItemPos, 0x2005);
                 data[2] = sSavedPokeblockData.lastItemPage + sSavedPokeblockData.lastItemPos;
                 sPokeblockMenu->isSwapping = TRUE;
                 gTasks[taskId].func = Task_HandlePokeblocksSwapInput;
             }
-        }
-        else
-        {
+        } else {
             u16 oldPosition = sSavedPokeblockData.lastItemPos;
             s32 itemId = ListMenu_ProcessInput(data[0]);
 
             ListMenuGetScrollAndRow(data[0], &sSavedPokeblockData.lastItemPage, &sSavedPokeblockData.lastItemPos);
-            if (oldPosition != sSavedPokeblockData.lastItemPos)
-            {
+            if (oldPosition != sSavedPokeblockData.lastItemPos) {
                 HandlePokeblockMenuCursor(oldPosition, 5);
                 HandlePokeblockMenuCursor(sSavedPokeblockData.lastItemPos, 0x1005);
             }
 
-            switch (itemId)
-            {
+            switch (itemId) {
             case LIST_NOTHING_CHOSEN:
                 break;
             case LIST_CANCEL:
@@ -1032,47 +1011,44 @@ static void Task_HandlePokeblocksSwapInput(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (MenuHelpers_CallLinkSomething() == TRUE)
+    if (MenuHelpers_CallLinkSomething() == TRUE) {
         return;
+    }
 
-    if (JOY_NEW(SELECT_BUTTON))
-    {
+    if (JOY_NEW(SELECT_BUTTON)) {
         PlaySE(SE_SELECT);
         ListMenuGetScrollAndRow(data[0], &sSavedPokeblockData.lastItemPage, &sSavedPokeblockData.lastItemPos);
         HandlePokeblocksSwap(taskId, FALSE);
-    }
-    else
-    {
+    } else {
         u16 i = sSavedPokeblockData.lastItemPage;
         u16 var = sSavedPokeblockData.lastItemPos;
         s32 itemId = ListMenu_ProcessInput(data[0]);
 
         ListMenuGetScrollAndRow(data[0], &sSavedPokeblockData.lastItemPage, &sSavedPokeblockData.lastItemPos);
-        if (i != sSavedPokeblockData.lastItemPage || var != sSavedPokeblockData.lastItemPos)
-        {
-            for (i = 0; i < 9; i++)
-            {
+        if (i != sSavedPokeblockData.lastItemPage || var != sSavedPokeblockData.lastItemPos) {
+            for (i = 0; i < 9; i++) {
                 var = i + sSavedPokeblockData.lastItemPage;
-                if (var == data[2])
+                if (var == data[2]) {
                     HandlePokeblockMenuCursor(i, 0x2005);
-                else
+                } else {
                     HandlePokeblockMenuCursor(i, 5);
+                }
             }
         }
 
         sub_81223FC(sPokeblockMenu->field_E75, FIELD_E75_COUNT, 0);
         sub_8122448(sPokeblockMenu->field_E75, FIELD_E75_COUNT, 0x80, (sSavedPokeblockData.lastItemPos * 16) + 8);
 
-        switch (itemId)
-        {
+        switch (itemId) {
         case LIST_NOTHING_CHOSEN:
             break;
         case LIST_CANCEL: // same id as STOW CASE field
             PlaySE(SE_SELECT);
-            if (JOY_NEW(A_BUTTON))
+            if (JOY_NEW(A_BUTTON)) {
                 HandlePokeblocksSwap(taskId, FALSE);
-            else
+            } else {
                 HandlePokeblocksSwap(taskId, TRUE);
+            }
             break;
         default:
             PlaySE(SE_SELECT);
@@ -1091,21 +1067,22 @@ static void HandlePokeblocksSwap(u8 taskId, bool8 noSwap)
     sPokeblockMenu->isSwapping = FALSE;
     DestroyListMenuTask(data[0], &sSavedPokeblockData.lastItemPage, &sSavedPokeblockData.lastItemPos);
 
-    if (!noSwap && data[2] != swappedFromId && data[2] != swappedFromId - 1)
-    {
+    if (!noSwap && data[2] != swappedFromId && data[2] != swappedFromId - 1) {
         SwapSortPokeblocksInternalData(data[2], swappedFromId);
         HandlePokeblockListMenuItems();
     }
 
-    if (data[2] < swappedFromId)
+    if (data[2] < swappedFromId) {
         sSavedPokeblockData.lastItemPos--;
+    }
 
     data[0] = ListMenuInit(&gMultiuseListMenuTemplate, sSavedPokeblockData.lastItemPage, sSavedPokeblockData.lastItemPos);
     ScheduleBgCopyTilemapToVram(0);
     sub_81223FC(sPokeblockMenu->field_E75, FIELD_E75_COUNT, 1);
 
-    for (i = 0; i < 9; i++)
+    for (i = 0; i < 9; i++) {
         HandlePokeblockMenuCursor(i, 5);
+    }
 
     HandlePokeblockMenuCursor(sSavedPokeblockData.lastItemPos, 0x1005);
     gTasks[taskId].func = Task_HandlePokeblockMenuInput;
@@ -1115,10 +1092,11 @@ static void PutPokeblockOptionsWindow(u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
-    if (sPokeblockMenu->optionsNo == 3)
+    if (sPokeblockMenu->optionsNo == 3) {
         data[1] = 8;
-    else
+    } else {
         data[1] = 9;
+    }
 
     sub_8136418();
     DrawStdFrameWithCustomTileAndPalette(data[1], 0, 1, 0xE);
@@ -1134,21 +1112,17 @@ static void Task_HandlePokeblockOptionsInput(u8 taskId)
 {
     s8 itemId;
 
-    if (MenuHelpers_CallLinkSomething() == TRUE)
+    if (MenuHelpers_CallLinkSomething() == TRUE) {
         return;
+    }
 
     itemId = Menu_ProcessInputNoWrap();
-    if (itemId == MENU_NOTHING_CHOSEN)
-    {
+    if (itemId == MENU_NOTHING_CHOSEN) {
         return;
-    }
-    else if (itemId == MENU_B_PRESSED)
-    {
+    } else if (itemId == MENU_B_PRESSED) {
         PlaySE(SE_SELECT);
         PokeblockAction_Cancel(taskId);
-    }
-    else
-    {
+    } else {
         PlaySE(SE_SELECT);
         sPokeblockMenuActions[sPokeblockMenu->pokeblockOptionsIds[itemId]].func.void_u8(taskId);
     }
@@ -1193,8 +1167,7 @@ static void TossPokeblockChoice_Yes(u8 taskId)
 
 static void HandleErasePokeblock(u8 taskId)
 {
-    if (JOY_NEW(A_BUTTON | B_BUTTON))
-    {
+    if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         s16 *data;
         u16 *lastPage, *lastPos;
 
@@ -1234,12 +1207,13 @@ static void PokeblockAction_UseInBattle(u8 taskId)
     TryClearPokeblock(gSpecialVar_ItemId);
 
     gSpecialVar_ItemId = gSaveBlock1Ptr->pokeblocks[gSpecialVar_ItemId].color << 8;
-    if (gain == 0)
+    if (gain == 0) {
         gSpecialVar_ItemId += 1;
-    else if (gain > 0)
+    } else if (gain > 0) {
         gSpecialVar_ItemId += 2;
-    else
+    } else {
         gSpecialVar_ItemId += 3;
+    }
 
     FadePaletteAndSetTaskToClosePokeblockCase(taskId);
 }
@@ -1288,8 +1262,9 @@ void ClearPokeblocks(void)
 {
     u8 i;
 
-    for (i = 0; i < POKEBLOCKS_COUNT; i++)
+    for (i = 0; i < POKEBLOCKS_COUNT; i++) {
         ClearPokeblock(i);
+    }
 }
 
 u8 GetHighestPokeblocksFlavorLevel(const struct Pokeblock *pokeblock)
@@ -1297,11 +1272,11 @@ u8 GetHighestPokeblocksFlavorLevel(const struct Pokeblock *pokeblock)
     u8 i;
     u8 maxFlavor = GetPokeblockData(pokeblock, PBLOCK_SPICY);
 
-    for (i = PBLOCK_SPICY; i < FLAVOR_COUNT; i++)
-    {
+    for (i = PBLOCK_SPICY; i < FLAVOR_COUNT; i++) {
         u8 currFlavor = GetPokeblockData(pokeblock, PBLOCK_SPICY + i);
-        if (maxFlavor < currFlavor)
+        if (maxFlavor < currFlavor) {
             maxFlavor = currFlavor;
+        }
     }
 
     return maxFlavor;
@@ -1310,8 +1285,9 @@ u8 GetHighestPokeblocksFlavorLevel(const struct Pokeblock *pokeblock)
 u8 GetPokeblocksFeel(const struct Pokeblock *pokeblock)
 {
     u8 feel = GetPokeblockData(pokeblock, PBLOCK_FEEL);
-    if (feel > POKEBLOCK_MAX_FEEL)
+    if (feel > POKEBLOCK_MAX_FEEL) {
         feel = POKEBLOCK_MAX_FEEL;
+    }
 
     return feel;
 }
@@ -1320,10 +1296,10 @@ s8 GetFirstFreePokeblockSlot(void)
 {
     u8 i;
 
-    for (i = 0; i < POKEBLOCKS_COUNT; i++)
-    {
-        if (gSaveBlock1Ptr->pokeblocks[i].color == PBLOCK_CLR_NONE)
+    for (i = 0; i < POKEBLOCKS_COUNT; i++) {
+        if (gSaveBlock1Ptr->pokeblocks[i].color == PBLOCK_CLR_NONE) {
             return i;
+        }
     }
 
     return -1;
@@ -1333,12 +1309,9 @@ bool32 AddPokeblock(const struct Pokeblock *pokeblock)
 {
     s8 slot = GetFirstFreePokeblockSlot();
 
-    if (slot == -1)
-    {
+    if (slot == -1) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         gSaveBlock1Ptr->pokeblocks[slot] = *pokeblock;
         return TRUE;
     }
@@ -1346,12 +1319,9 @@ bool32 AddPokeblock(const struct Pokeblock *pokeblock)
 
 bool32 TryClearPokeblock(u8 pkblId)
 {
-    if (gSaveBlock1Ptr->pokeblocks[pkblId].color == PBLOCK_CLR_NONE)
-    {
+    if (gSaveBlock1Ptr->pokeblocks[pkblId].color == PBLOCK_CLR_NONE) {
         return FALSE;
-    }
-    else
-    {
+    } else {
         ClearPokeblock(pkblId);
         return TRUE;
     }
@@ -1359,20 +1329,27 @@ bool32 TryClearPokeblock(u8 pkblId)
 
 s16 GetPokeblockData(const struct Pokeblock *pokeblock, u8 field)
 {
-    if (field == PBLOCK_COLOR)
+    if (field == PBLOCK_COLOR) {
         return pokeblock->color;
-    if (field == PBLOCK_SPICY)
+    }
+    if (field == PBLOCK_SPICY) {
         return pokeblock->spicy;
-    if (field == PBLOCK_DRY)
+    }
+    if (field == PBLOCK_DRY) {
         return pokeblock->dry;
-    if (field == PBLOCK_SWEET)
+    }
+    if (field == PBLOCK_SWEET) {
         return pokeblock->sweet;
-    if (field == PBLOCK_BITTER)
+    }
+    if (field == PBLOCK_BITTER) {
         return pokeblock->bitter;
-    if (field == PBLOCK_SOUR)
+    }
+    if (field == PBLOCK_SOUR) {
         return pokeblock->sour;
-    if (field == PBLOCK_FEEL)
+    }
+    if (field == PBLOCK_FEEL) {
         return pokeblock->feel;
+    }
 
     return 0;
 }
@@ -1382,11 +1359,11 @@ s16 PokeblockGetGain(u8 nature, const struct Pokeblock *pokeblock)
     u8 flavor;
     s16 curGain, totalGain = 0;
 
-    for (flavor = 0; flavor < FLAVOR_COUNT; flavor++)
-    {
+    for (flavor = 0; flavor < FLAVOR_COUNT; flavor++) {
         curGain = GetPokeblockData(pokeblock, flavor + PBLOCK_SPICY);
-        if (curGain > 0)
+        if (curGain > 0) {
             totalGain += curGain * gPokeblockFlavorCompatibilityTable[FLAVOR_COUNT * nature + flavor];
+        }
     }
 
     return totalGain;
@@ -1402,10 +1379,8 @@ bool8 CopyMonFavoritePokeblockName(u8 nature, u8 *dest)
 {
     u8 i;
 
-    for (i = 0; i < FLAVOR_COUNT; i++)
-    {
-        if (PokeblockGetGain(nature, &sFavoritePokeblocksTable[i]) > 0)
-        {
+    for (i = 0; i < FLAVOR_COUNT; i++) {
+        if (PokeblockGetGain(nature, &sFavoritePokeblocksTable[i]) > 0) {
             StringCopy(dest, gPokeblockNames[i + 1]);
             return TRUE;
         }
@@ -1419,10 +1394,10 @@ u8 GetPokeblocksFlavor(const struct Pokeblock *pokeblock)
     s16 bestFlavor = 0;
     s16 i;
 
-    for (i = 0; i < FLAVOR_COUNT; i++)
-    {
-        if (GetPokeblockData(pokeblock, bestFlavor + 1) < GetPokeblockData(pokeblock, i + 1))
+    for (i = 0; i < FLAVOR_COUNT; i++) {
+        if (GetPokeblockData(pokeblock, bestFlavor + 1) < GetPokeblockData(pokeblock, i + 1)) {
             bestFlavor = i;
+        }
     }
 
     return bestFlavor;

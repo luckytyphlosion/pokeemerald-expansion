@@ -91,13 +91,13 @@ static const u16 sMirageTowerCrumbles_Palette[] = INCBIN_U16("graphics/misc/mira
 
 const s16 sCeilingCrumblePositions[][3] =
 {
-    {  0,  10,  65},
-    { 17,   3,  50},
+    {0,  10,  65},
+    {17,   3,  50},
     {-12,   0,  75},
-    { 10,  15,  90},
-    {  7,   8,  65},
+    {10,  15,  90},
+    {7,   8,  65},
     {-18,   5,  75},
-    { 22, -10,  55},
+    {22, -10,  55},
     {-24,  -4,  65},
 };
 
@@ -261,8 +261,9 @@ static u16 gUnknown_030012A8[8];
 
 bool8 IsMirageTowerVisible(void)
 {
-    if (!(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE111) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE111)))
+    if (!(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE111) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE111))) {
         return FALSE;
+    }
     return FlagGet(FLAG_MIRAGE_TOWER_VISIBLE);
 }
 
@@ -278,16 +279,16 @@ void ClearMirageTowerPulseBlend(void)
 
 void TryStartMirageTowerPulseBlendEffect(void)
 {
-    if (sMirageTowerPulseBlend)
-    {
+    if (sMirageTowerPulseBlend) {
         sMirageTowerPulseBlend = NULL;
         return;
     }
 
     if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(ROUTE111)
-     || gSaveBlock1Ptr->location.mapNum != MAP_NUM(ROUTE111)
-     || !FlagGet(FLAG_MIRAGE_TOWER_VISIBLE))
+        || gSaveBlock1Ptr->location.mapNum != MAP_NUM(ROUTE111)
+        || !FlagGet(FLAG_MIRAGE_TOWER_VISIBLE)) {
         return;
+    }
 
     sMirageTowerPulseBlend = AllocZeroed(sizeof(*sMirageTowerPulseBlend));
     InitPulseBlend(&sMirageTowerPulseBlend->pulseBlend);
@@ -299,13 +300,15 @@ void TryStartMirageTowerPulseBlendEffect(void)
 void ClearMirageTowerPulseBlendEffect(void)
 {
     if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(ROUTE111)
-     || gSaveBlock1Ptr->location.mapNum   != MAP_NUM(ROUTE111)
-     || !FlagGet(FLAG_MIRAGE_TOWER_VISIBLE)
-     || sMirageTowerPulseBlend == NULL)
+        || gSaveBlock1Ptr->location.mapNum   != MAP_NUM(ROUTE111)
+        || !FlagGet(FLAG_MIRAGE_TOWER_VISIBLE)
+        || sMirageTowerPulseBlend == NULL) {
         return;
+    }
 
-    if (FuncIsActiveTask(UpdateMirageTowerPulseBlend))
+    if (FuncIsActiveTask(UpdateMirageTowerPulseBlend)) {
         DestroyTask(sMirageTowerPulseBlend->taskId);
+    }
 
     UnmarkUsedPulseBlendPalettes(&sMirageTowerPulseBlend->pulseBlend, 0x1, TRUE);
     UnloadUsedPulseBlendPalettes(&sMirageTowerPulseBlend->pulseBlend, 0x1, TRUE);
@@ -317,19 +320,18 @@ void SetMirageTowerVisibility(void)
     u16 rand;
     bool8 visible;
 
-    if (VarGet(VAR_MIRAGE_TOWER_STATE))
-    {
+    if (VarGet(VAR_MIRAGE_TOWER_STATE)) {
         FlagClear(FLAG_MIRAGE_TOWER_VISIBLE);
         return;
     }
 
     rand = Random();
     visible = rand & 1;
-    if (FlagGet(FLAG_FORCE_MIRAGE_TOWER_VISIBLE) == TRUE)
+    if (FlagGet(FLAG_FORCE_MIRAGE_TOWER_VISIBLE) == TRUE) {
         visible = TRUE;
+    }
 
-    if (visible)
-    {
+    if (visible) {
         FlagSet(FLAG_MIRAGE_TOWER_VISIBLE);
         TryStartMirageTowerPulseBlendEffect();
         return;
@@ -354,8 +356,7 @@ static void PlayerDescendMirageTower(u8 taskId)
     gSprites[fakePlayerObjectEvent->spriteId].pos2.y += 4;
     playerObjectEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
     if ((gSprites[fakePlayerObjectEvent->spriteId].pos1.y + gSprites[fakePlayerObjectEvent->spriteId].pos2.y) >=
-        (gSprites[playerObjectEvent->spriteId].pos1.y + gSprites[playerObjectEvent->spriteId].pos2.y))
-    {
+        (gSprites[playerObjectEvent->spriteId].pos1.y + gSprites[playerObjectEvent->spriteId].pos2.y)) {
         DestroyTask(taskId);
         EnableBothScriptContexts();
     }
@@ -379,15 +380,13 @@ static void DoScreenShake(u8 taskId)
 
     data = gTasks[taskId].data;
     data[1]++;
-    if (data[1] % data[3] == 0)
-    {
+    if (data[1] % data[3] == 0) {
         data[1] = 0;
         data[2]--;
         data[0] = -data[0];
         data[4] = -data[4];
         SetCameraPanning(data[0], data[4]);
-        if (data[2] == 0)
-        {
+        if (data[2] == 0) {
             IncrementCeilingCrumbleFinishedCount();
             DestroyTask(taskId);
             InstallCameraPanAheadCallback();
@@ -398,8 +397,9 @@ static void DoScreenShake(u8 taskId)
 static void IncrementCeilingCrumbleFinishedCount(void)
 {
     u8 taskId = FindTaskIdByFunc(WaitCeilingCrumble);
-    if (taskId != 0xFF)
+    if (taskId != 0xFF) {
         gTasks[taskId].data[0]++;
+    }
 }
 
 void DoMirageTowerCeilingCrumble(void)
@@ -414,8 +414,9 @@ static void WaitCeilingCrumble(u8 taskId)
 {
     u16 *data = (u16 *)gTasks[taskId].data;
     // Either wait 1000 frames, or until all 16 crumble sprites and the one screen-shake task are completed.
-    if (++data[1] == 1000 || data[0] == 17)
+    if (++data[1] == 1000 || data[0] == 17) {
         gTasks[taskId].func = FinishCeilingCrumbleTask;
+    }
 }
 
 static void FinishCeilingCrumbleTask(u8 taskId)
@@ -430,15 +431,13 @@ static void CreateCeilingCrumbleSprites(void)
     u8 i;
     u8 spriteId;
 
-    for (i = 0; i < 8; i++)
-    {
+    for (i = 0; i < 8; i++) {
         spriteId = CreateSprite(&sCeilingCrumbleSpriteTemplate1, sCeilingCrumblePositions[i][0] + 120, sCeilingCrumblePositions[i][1], 8);
         gSprites[spriteId].oam.priority = 0;
         gSprites[spriteId].oam.paletteNum = 0;
         gSprites[spriteId].data[0] = i;
     }
-    for (i = 0; i < 8; i++)
-    {
+    for (i = 0; i < 8; i++) {
         spriteId = CreateSprite(&sCeilingCrumbleSpriteTemplate2, sCeilingCrumblePositions[i][0] + 115, sCeilingCrumblePositions[i][1] - 3, 8);
         gSprites[spriteId].oam.priority = 0;
         gSprites[spriteId].oam.paletteNum = 0;
@@ -450,8 +449,7 @@ static void MoveCeilingCrumbleSprite(struct Sprite* sprite)
 {
     sprite->data[1] += 2;
     sprite->pos2.y = sprite->data[1] / 2;
-    if(((sprite->pos1.y) + (sprite->pos2.y)) >  sCeilingCrumblePositions[sprite->data[0]][2])
-    {
+    if (((sprite->pos1.y) + (sprite->pos2.y)) >  sCeilingCrumblePositions[sprite->data[0]][2]) {
         DestroySprite(sprite);
         IncrementCeilingCrumbleFinishedCount();
     }
@@ -460,8 +458,9 @@ static void MoveCeilingCrumbleSprite(struct Sprite* sprite)
 static void SetInvisibleMirageTowerMetatiles(void)
 {
     u8 i;
-    for (i = 0; i < ARRAY_COUNT(sInvisibleMirageTowerMetatiles); i++)
+    for (i = 0; i < ARRAY_COUNT(sInvisibleMirageTowerMetatiles); i++) {
         MapGridSetMetatileIdAt(sInvisibleMirageTowerMetatiles[i].x + 7, sInvisibleMirageTowerMetatiles[i].y + 7, sInvisibleMirageTowerMetatiles[i].metatileId);
+    }
     DrawWholeMapView();
 }
 
@@ -488,14 +487,11 @@ static void SetBgShakeOffsets(void)
 
 static void UpdateBgShake(u8 taskId)
 {
-    if (!gTasks[taskId].data[0])
-    {
+    if (!gTasks[taskId].data[0]) {
         sBgShakeOffsets->bgHOFS = -sBgShakeOffsets->bgHOFS;
         gTasks[taskId].data[0] = 2;
         SetBgShakeOffsets();
-    }
-    else
-    {
+    } else {
         gTasks[taskId].data[0]--;
     }
 }
@@ -504,8 +500,7 @@ static void InitMirageTowerShake(u8 taskId)
 {
     u8 zero;
 
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 0:
         FreeAllWindowBuffers();
         SetBgAttribute(0, BG_ATTR_PRIORITY, 2);
@@ -557,60 +552,58 @@ static void DoMirageTowerDisintegration(u8 taskId)
     u16 i;
     u8 index;
 
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 1:
         sUnknown_0203CF10 = AllocZeroed(OUTER_BUFFER_LENGTH * sizeof(struct Struct203CF10));
         break;
     case 3:
-        if (gTasks[taskId].data[3] <= (OUTER_BUFFER_LENGTH - 1))
-        {
-            if (gTasks[taskId].data[1] > 1)
-            {
+        if (gTasks[taskId].data[3] <= (OUTER_BUFFER_LENGTH - 1)) {
+            if (gTasks[taskId].data[1] > 1) {
                 index = gTasks[taskId].data[3];
                 sUnknown_0203CF10[index].buffer = Alloc(INNER_BUFFER_LENGTH);
-                for (i = 0; i <= (INNER_BUFFER_LENGTH - 1); i++)
+                for (i = 0; i <= (INNER_BUFFER_LENGTH - 1); i++) {
                     sUnknown_0203CF10[index].buffer[i] = i;
-                for (i = 0; i <= (INNER_BUFFER_LENGTH - 1); i++)
-                {
+                }
+                for (i = 0; i <= (INNER_BUFFER_LENGTH - 1); i++) {
                     u16 rand1, rand2, temp;
 
                     rand1 = Random() % 0x30;
                     rand2 = Random() % 0x30;
                     SWAP(sUnknown_0203CF10[index].buffer[rand2], sUnknown_0203CF10[index].buffer[rand1], temp);
                 }
-                if (gTasks[taskId].data[3] <= (OUTER_BUFFER_LENGTH - 1))
+                if (gTasks[taskId].data[3] <= (OUTER_BUFFER_LENGTH - 1)) {
                     gTasks[taskId].data[3]++;
+                }
                 gTasks[taskId].data[1] = 0;
             }
             gTasks[taskId].data[1]++;
         }
         index = gTasks[taskId].data[3];
-        for (i = (u8)(gTasks[taskId].data[2]); i < index; i++)
-        {
-            for (j = 0; j < 1; j++)
-            {
+        for (i = (u8)(gTasks[taskId].data[2]); i < index; i++) {
+            for (j = 0; j < 1; j++) {
                 sub_81BF2B8(sMirageTowerGfxBuffer,
                             ((((OUTER_BUFFER_LENGTH - 1) - i) * INNER_BUFFER_LENGTH) + sUnknown_0203CF10[i].buffer[(sUnknown_0203CF10[i].currIndex)++]),
                             0, INNER_BUFFER_LENGTH, 1);
             }
-            if (sUnknown_0203CF10[i].currIndex > (INNER_BUFFER_LENGTH - 1))
-            {
+            if (sUnknown_0203CF10[i].currIndex > (INNER_BUFFER_LENGTH - 1)) {
                 FREE_AND_SET_NULL(sUnknown_0203CF10[i].buffer);
                 gTasks[taskId].data[2]++;
-                if ((i % 2) == 1)
+                if ((i % 2) == 1) {
                     sBgShakeOffsets->bgVOFS--;
+                }
             }
         }
         LoadBgTiles(0, sMirageTowerGfxBuffer, MIRAGE_TOWER_GFX_LENGTH, 0);
-        if (sUnknown_0203CF10[OUTER_BUFFER_LENGTH - 1].currIndex > (INNER_BUFFER_LENGTH - 1))
+        if (sUnknown_0203CF10[OUTER_BUFFER_LENGTH - 1].currIndex > (INNER_BUFFER_LENGTH - 1)) {
             break;
+        }
         return;
     case 4:
         UnsetBgTilemapBuffer(0);
         bgShakeTaskId = FindTaskIdByFunc(UpdateBgShake);
-        if (bgShakeTaskId != 0xFF)
+        if (bgShakeTaskId != 0xFF) {
             DestroyTask(bgShakeTaskId);
+        }
         sBgShakeOffsets->bgVOFS = sBgShakeOffsets->bgHOFS = 0;
         SetBgShakeOffsets();
         break;
@@ -642,8 +635,7 @@ static void DoFossilFallAndSink(u8 taskId)
     u16 i;
     u8 *buffer;
 
-    switch (gTasks[taskId].data[0])
-    {
+    switch (gTasks[taskId].data[0]) {
     case 1:
         sUnknown_0203CF0C = AllocZeroed(sizeof(*sUnknown_0203CF0C));
         sUnknown_0203CF0C->frameImageTiles = AllocZeroed(ROOT_FOSSIL_GFX_LENGTH);
@@ -653,31 +645,32 @@ static void DoFossilFallAndSink(u8 taskId)
         break;
     case 2:
         buffer = sUnknown_0203CF0C->frameImageTiles;
-        for (i = 0; i < ROOT_FOSSIL_GFX_LENGTH; i++, buffer++)
+        for (i = 0; i < ROOT_FOSSIL_GFX_LENGTH; i++, buffer++) {
             *buffer = sRootFossil_Gfx[i];
+        }
         break;
     case 3:
         sUnknown_0203CF0C->frameImage->data = sUnknown_0203CF0C->frameImageTiles;
         sUnknown_0203CF0C->frameImage->size = ROOT_FOSSIL_GFX_LENGTH;
         break;
     case 4:
-        {
-            struct SpriteTemplate fossilTemplate;
+    {
+        struct SpriteTemplate fossilTemplate;
 
-            fossilTemplate = gUnknown_08617E00;
-            fossilTemplate.images = (struct SpriteFrameImage *)(sUnknown_0203CF0C->frameImage);
-            sUnknown_0203CF0C->spriteId = CreateSprite(&fossilTemplate, 128, -16, 1);
-            gSprites[sUnknown_0203CF0C->spriteId].centerToCornerVecX = 0;
-            gSprites[sUnknown_0203CF0C->spriteId].data[0] = gSprites[sUnknown_0203CF0C->spriteId].pos1.x;
-            gSprites[sUnknown_0203CF0C->spriteId].data[1] = 1;
-        }
+        fossilTemplate = gUnknown_08617E00;
+        fossilTemplate.images = (struct SpriteFrameImage *)(sUnknown_0203CF0C->frameImage);
+        sUnknown_0203CF0C->spriteId = CreateSprite(&fossilTemplate, 128, -16, 1);
+        gSprites[sUnknown_0203CF0C->spriteId].centerToCornerVecX = 0;
+        gSprites[sUnknown_0203CF0C->spriteId].data[0] = gSprites[sUnknown_0203CF0C->spriteId].pos1.x;
+        gSprites[sUnknown_0203CF0C->spriteId].data[1] = 1;
+    }
     case 5:
-        for (i = 0; i < ROOT_FOSSIL_GFX_RANDOMIZER_LENGTH; i++)
+        for (i = 0; i < ROOT_FOSSIL_GFX_RANDOMIZER_LENGTH; i++) {
             sUnknown_0203CF0C->unkC[i] = i;
+        }
         break;
     case 6:
-        for (i = 0; i < (ROOT_FOSSIL_GFX_RANDOMIZER_LENGTH * sizeof(u16)); i++)
-        {
+        for (i = 0; i < (ROOT_FOSSIL_GFX_RANDOMIZER_LENGTH * sizeof(u16)); i++) {
             u16 rand1, rand2, temp;
 
             rand1 = Random() % 0x100;
@@ -687,8 +680,9 @@ static void DoFossilFallAndSink(u8 taskId)
         gSprites[sUnknown_0203CF0C->spriteId].callback = sub_81BF248;
         break;
     case 7:
-        if (gSprites[sUnknown_0203CF0C->spriteId].callback != SpriteCallbackDummy)
+        if (gSprites[sUnknown_0203CF0C->spriteId].callback != SpriteCallbackDummy) {
             return;
+        }
         DestroySprite(&gSprites[sUnknown_0203CF0C->spriteId]);
         FREE_AND_SET_NULL(sUnknown_0203CF0C->unkC);
         FREE_AND_SET_NULL(sUnknown_0203CF0C->frameImage);
@@ -705,20 +699,16 @@ static void DoFossilFallAndSink(u8 taskId)
 
 static void sub_81BF248(struct Sprite *sprite)
 {
-    if (sUnknown_0203CF0C->unk10 >= (ROOT_FOSSIL_GFX_RANDOMIZER_LENGTH))
-    {
+    if (sUnknown_0203CF0C->unk10 >= (ROOT_FOSSIL_GFX_RANDOMIZER_LENGTH)) {
         sprite->callback = SpriteCallbackDummy;
-    }
-    else if (sprite->pos1.y >= 96)
-    {
+    } else if (sprite->pos1.y >= 96) {
         u8 i;
-        for (i = 0; i < 2; i++)
+        for (i = 0; i < 2; i++) {
             sub_81BF2B8(sUnknown_0203CF0C->frameImageTiles, sUnknown_0203CF0C->unkC[sUnknown_0203CF0C->unk10++], 0, 16, 0);
+        }
 
         StartSpriteAnim(sprite, 0);
-    }
-    else
-    {
+    } else {
         sprite->pos1.y++;
     }
 }

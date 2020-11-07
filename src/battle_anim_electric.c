@@ -248,22 +248,22 @@ const struct SpriteTemplate gAnchorShotChainTemplate =
 
 static const s8 sElectricChargingParticleCoordOffsets[][2] =
 {
-    { 58, -60},
+    {58, -60},
     {-56, -36},
-    {  8, -56},
+    {8, -56},
     {-16,  56},
-    { 58, -10},
+    {58, -10},
     {-58,  10},
-    { 48, -18},
+    {48, -18},
     {-8,   56},
-    { 16, -56},
+    {16, -56},
     {-58, -42},
-    { 58,  30},
+    {58,  30},
     {-48,  40},
-    { 12, -48},
-    { 48, -12},
+    {12, -48},
+    {48, -12},
     {-56,  18},
-    { 48,  48},
+    {48,  48},
 };
 
 static const union AnimCmd sAnim_ElectricChargingParticles_0[] =
@@ -515,17 +515,17 @@ const struct SpriteTemplate gFlashCannonGrayChargeTemplate =
 
 static const union AffineAnimCmd sSpriteAffineAnim_JudgmentBall[] =
 {
-	AFFINEANIMCMD_FRAME(16, 16, 0, 0),
-	AFFINEANIMCMD_FRAME(8, 8, 0, 15), //Half size
-	AFFINEANIMCMD_FRAME(0, 0, 0, 120), //Delay
-	AFFINEANIMCMD_FRAME(24, 24, 0, 5), //Normal size
-	AFFINEANIMCMD_FRAME(0, 0, 0, 10), //Delay
-	AFFINEANIMCMD_FRAME(-16, -16, 0, 15), //Revert to 1 px
-	AFFINEANIMCMD_END,
+    AFFINEANIMCMD_FRAME(16, 16, 0, 0),
+    AFFINEANIMCMD_FRAME(8, 8, 0, 15), //Half size
+    AFFINEANIMCMD_FRAME(0, 0, 0, 120), //Delay
+    AFFINEANIMCMD_FRAME(24, 24, 0, 5), //Normal size
+    AFFINEANIMCMD_FRAME(0, 0, 0, 10), //Delay
+    AFFINEANIMCMD_FRAME(-16, -16, 0, 15), //Revert to 1 px
+    AFFINEANIMCMD_END,
 };
 static const union AffineAnimCmd* const sSpriteAffineAnimTable_JudgmentBall[] =
 {
-	sSpriteAffineAnim_JudgmentBall,
+    sSpriteAffineAnim_JudgmentBall,
 };
 const struct SpriteTemplate gJudgmentBlackChargeTemplate =
 {
@@ -552,10 +552,11 @@ const struct SpriteTemplate gSeedFlareGreenChargeTemplate =
 // functions
 static void AnimLightning(struct Sprite *sprite)
 {
-    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
+    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
         sprite->pos1.x -= gBattleAnimArgs[0];
-    else
+    } else {
         sprite->pos1.x += gBattleAnimArgs[0];
+    }
 
     sprite->pos1.y += gBattleAnimArgs[1];
     sprite->callback = AnimLightning_Step;
@@ -563,24 +564,27 @@ static void AnimLightning(struct Sprite *sprite)
 
 static void AnimLightning_Step(struct Sprite *sprite)
 {
-    if (sprite->animEnded)
+    if (sprite->animEnded) {
         DestroyAnimSprite(sprite);
+    }
 }
 
 static void sub_810A214(struct Sprite *sprite)
 {
-    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
+    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
         sprite->pos1.x -= gBattleAnimArgs[0];
-    else
+    } else {
         sprite->pos1.x += gBattleAnimArgs[0];
+    }
 
     sprite->callback = sub_810A258;
 }
 
 static void sub_810A258(struct Sprite *sprite)
 {
-    if (sprite->affineAnimEnded)
+    if (sprite->affineAnimEnded) {
         DestroySpriteAndMatrix(sprite);
+    }
 }
 
 static void sub_810A274(struct Sprite *sprite)
@@ -588,13 +592,10 @@ static void sub_810A274(struct Sprite *sprite)
     sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2);
     sprite->pos1.y = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y_PIC_OFFSET);
 
-    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER)
-    {
+    if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
         sprite->pos1.x -= gBattleAnimArgs[0];
         sprite->pos1.y -= gBattleAnimArgs[1];
-    }
-    else
-    {
+    } else {
         sprite->pos1.x += gBattleAnimArgs[0];
         sprite->pos1.y += gBattleAnimArgs[1];
     }
@@ -612,8 +613,7 @@ void AnimSparkElectricity(struct Sprite *sprite)
     u32 matrixNum;
     s16 sineVal;
 
-    switch (gBattleAnimArgs[4])
-    {
+    switch (gBattleAnimArgs[4]) {
     case ANIM_ATTACKER:
         battler = gBattleAnimAttacker;
         break;
@@ -622,26 +622,25 @@ void AnimSparkElectricity(struct Sprite *sprite)
         battler = gBattleAnimTarget;
         break;
     case ANIM_ATK_PARTNER:
-        if (!IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker)))
+        if (!IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker))) {
             battler = gBattleAnimAttacker;
-        else
+        } else {
             battler = BATTLE_PARTNER(gBattleAnimAttacker);
+        }
         break;
     case ANIM_DEF_PARTNER:
-        if (IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker)))
+        if (IsBattlerSpriteVisible(BATTLE_PARTNER(gBattleAnimAttacker))) {
             battler = BATTLE_PARTNER(gBattleAnimTarget);
-        else
+        } else {
             battler = gBattleAnimTarget;
+        }
         break;
     }
 
-    if (gBattleAnimArgs[5] == 0)
-    {
+    if (gBattleAnimArgs[5] == 0) {
         sprite->pos1.x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X);
         sprite->pos1.y = GetBattlerSpriteCoord(battler, BATTLER_COORD_Y);
-    }
-    else
-    {
+    } else {
         sprite->pos1.x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X_2);
         sprite->pos1.y = GetBattlerSpriteCoord(battler, BATTLER_COORD_Y_PIC_OFFSET);
     }
@@ -649,8 +648,9 @@ void AnimSparkElectricity(struct Sprite *sprite)
     sprite->pos2.x = (gSineTable[gBattleAnimArgs[0]] * gBattleAnimArgs[1]) >> 8;
     sprite->pos2.y = (gSineTable[gBattleAnimArgs[0] + 64] * gBattleAnimArgs[1]) >> 8;
 
-    if (gBattleAnimArgs[6] & 1)
+    if (gBattleAnimArgs[6] & 1) {
         sprite->oam.priority = GetBattlerSpriteBGPriority(battler) + 1;
+    }
 
     matrixNum = sprite->oam.matrixNum;
     sineVal = gSineTable[gBattleAnimArgs[2]];
@@ -682,33 +682,34 @@ void AnimZapCannonSpark(struct Sprite *sprite)
 
 static void AnimZapCannonSpark_Step(struct Sprite *sprite)
 {
-    if (!AnimTranslateLinear(sprite))
-    {
+    if (!AnimTranslateLinear(sprite)) {
         sprite->pos2.x += Sin(sprite->data[7], sprite->data[5]);
         sprite->pos2.y += Cos(sprite->data[7], sprite->data[5]);
         sprite->data[7] = (sprite->data[7] + sprite->data[6]) & 0xFF;
-        if(!(sprite->data[7] % 3))
+        if (!(sprite->data[7] % 3)) {
             sprite->invisible ^= 1;
-    }
-    else
+        }
+    } else {
         DestroyAnimSprite(sprite);
+    }
 }
 
 static void AnimThunderboltOrb_Step(struct Sprite *sprite)
 {
-    if (--sprite->data[5] == -1)
-    {
+    if (--sprite->data[5] == -1) {
         sprite->invisible ^= 1;
         sprite->data[5] = sprite->data[4];
     }
-    if (sprite->data[3]-- <= 0)
+    if (sprite->data[3]-- <= 0) {
         DestroyAnimSprite(sprite);
+    }
 }
 
 static void AnimThunderboltOrb(struct Sprite *sprite)
 {
-    if (IsContest() || GetBattlerSide(gBattleAnimTarget) == B_SIDE_PLAYER)
+    if (IsContest() || GetBattlerSide(gBattleAnimTarget) == B_SIDE_PLAYER) {
         gBattleAnimArgs[1] = -gBattleAnimArgs[1];
+    }
 
     sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2) + gBattleAnimArgs[1];
     sprite->pos1.y = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y_PIC_OFFSET) + gBattleAnimArgs[2];
@@ -723,13 +724,15 @@ void AnimSparkElectricityFlashing(struct Sprite *sprite)
     u8 battler;
 
     sprite->data[0] = gBattleAnimArgs[3];
-    if (gBattleAnimArgs[7] & 0x8000)
+    if (gBattleAnimArgs[7] & 0x8000) {
         battler = gBattleAnimTarget;
-    else
+    } else {
         battler = gBattleAnimAttacker;
+    }
 
-    if (IsContest() || GetBattlerSide(battler) == B_SIDE_PLAYER)
+    if (IsContest() || GetBattlerSide(battler) == B_SIDE_PLAYER) {
         gBattleAnimArgs[0] = -gBattleAnimArgs[0];
+    }
 
     sprite->pos1.x = GetBattlerSpriteCoord(battler, BATTLER_COORD_X_2) + gBattleAnimArgs[0];
     sprite->pos1.y = GetBattlerSpriteCoord(battler, BATTLER_COORD_Y_PIC_OFFSET) + gBattleAnimArgs[1];
@@ -750,24 +753,28 @@ static void AnimSparkElectricityFlashing_Step(struct Sprite *sprite)
     sprite->pos2.y = Cos(sprite->data[7], sprite->data[5]);
 
     sprite->data[7] = (sprite->data[7] + sprite->data[6]) & 0xFF;
-    if (sprite->data[7] % sprite->data[4] == 0)
+    if (sprite->data[7] % sprite->data[4] == 0) {
         sprite->invisible ^= TRUE;
+    }
 
-    if (sprite->data[0]-- <= 0)
+    if (sprite->data[0]-- <= 0) {
         DestroyAnimSprite(sprite);
+    }
 }
 
 // Electricity arcs around the target. Used for Paralysis and various electric move hits
 static void AnimElectricity(struct Sprite *sprite)
 {
-    if (!InitSpritePosToAnimBattler(gBattleAnimArgs[4], sprite, FALSE))
+    if (!InitSpritePosToAnimBattler(gBattleAnimArgs[4], sprite, FALSE)) {
         return;
+    }
     sprite->oam.tileNum += gBattleAnimArgs[3] * 4;
 
-    if (gBattleAnimArgs[3] == 1)
+    if (gBattleAnimArgs[3] == 1) {
         sprite->oam.matrixNum = ST_OAM_HFLIP;
-    else if (gBattleAnimArgs[3] == 2)
+    } else if (gBattleAnimArgs[3] == 2) {
         sprite->oam.matrixNum = ST_OAM_VFLIP;
+    }
 
     sprite->data[0] = gBattleAnimArgs[2];
     sprite->callback = WaitAnimForDuration;
@@ -794,21 +801,17 @@ static void AnimTask_ElectricBolt_Step(u8 taskId)
     s16 x = gTasks[taskId].data[0];
     s16 y = gTasks[taskId].data[1];
 
-    if (!gTasks[taskId].data[2])
-    {
+    if (!gTasks[taskId].data[2]) {
         r8 = 0;
         r2 = 1;
         r12 = 16;
-    }
-    else
-    {
+    } else {
         r12 = 16;
         r8 = 8;
         r2 = 4;
     }
 
-    switch (gTasks[taskId].data[10])
-    {
+    switch (gTasks[taskId].data[10]) {
     case 0:
         r12 *= 1;
         spriteId = CreateSprite(&gElectricBoltSegmentSpriteTemplate, x, y + r12, 2);
@@ -842,8 +845,7 @@ static void AnimTask_ElectricBolt_Step(u8 taskId)
         return;
     }
 
-    if (r7)
-    {
+    if (r7) {
         gSprites[spriteId].oam.tileNum += r8;
         gSprites[spriteId].data[0] = sp;
         gSprites[spriteId].callback(&gSprites[spriteId]);
@@ -854,18 +856,16 @@ static void AnimTask_ElectricBolt_Step(u8 taskId)
 
 static void AnimElectricBoltSegment(struct Sprite *sprite)
 {
-    if (!sprite->data[0])
-    {
+    if (!sprite->data[0]) {
         sprite->oam.shape = SPRITE_SHAPE(8x16);
         sprite->oam.size = SPRITE_SIZE(8x16);
-    }
-    else
-    {
+    } else {
         sprite->oam.shape = SPRITE_SHAPE(16x16);
         sprite->oam.size = SPRITE_SIZE(16x16);
     }
-    if (++sprite->data[1] == 15)
+    if (++sprite->data[1] == 15) {
         DestroySprite(sprite);
+    }
 }
 
 // The horizontal bands of electricity used in Thunder Wave
@@ -875,10 +875,11 @@ void AnimThunderWave(struct Sprite *sprite)
 
     sprite->pos1.x += gBattleAnimArgs[0];
     sprite->pos1.y += gBattleAnimArgs[1];
-    if (gAnimMoveIndex == MOVE_THUNDER_WAVE)
+    if (gAnimMoveIndex == MOVE_THUNDER_WAVE) {
         spriteId = CreateSprite(&gThunderWaveSpriteTemplate, sprite->pos1.x + 32, sprite->pos1.y, sprite->subpriority);
-    else
+    } else {
         spriteId = CreateSprite(&gAnchorShotChainTemplate, sprite->pos1.x + 32, sprite->pos1.y, sprite->subpriority);
+    }
 
 
     gSprites[spriteId].oam.tileNum += 8;
@@ -889,14 +890,14 @@ void AnimThunderWave(struct Sprite *sprite)
 
 static void AnimThunderWave_Step(struct Sprite *sprite)
 {
-    if (++sprite->data[0] == 3)
-    {
+    if (++sprite->data[0] == 3) {
         sprite->data[0] = 0;
         sprite->invisible ^= 1;
     }
 
-    if (++sprite->data[1] == 51)
+    if (++sprite->data[1] == 51) {
         DestroyAnimSprite(sprite);
+    }
 }
 
 // Animates small electric orbs moving from around the battler inward. For Charge/Shock Wave
@@ -904,13 +905,10 @@ void AnimTask_ElectricChargingParticles(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    if (gBattleAnimArgs[0] == ANIM_ATTACKER)
-    {
+    if (gBattleAnimArgs[0] == ANIM_ATTACKER) {
         task->data[14] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
         task->data[15] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET);
-    }
-    else
-    {
+    } else {
         task->data[14] = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2);
         task->data[15] = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y_PIC_OFFSET);
     }
@@ -930,19 +928,17 @@ static void AnimTask_ElectricChargingParticles_Step(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    if (task->data[6])
-    {
-        if (++task->data[12] > task->data[13])
-        {
+    if (task->data[6]) {
+        if (++task->data[12] > task->data[13]) {
             u8 spriteId;
             task->data[12] = 0;
-            if (gAnimMoveIndex == MOVE_FLASH_CANNON || gAnimMoveIndex == MOVE_STEEL_BEAM)
+            if (gAnimMoveIndex == MOVE_FLASH_CANNON || gAnimMoveIndex == MOVE_STEEL_BEAM) {
                 spriteId = CreateSprite(&gLightOfRuinGrayChargeTemplate, task->data[14], task->data[15], 2);
-            else
+            } else {
                 spriteId = CreateSprite(&gElectricChargingParticlesSpriteTemplate, task->data[14], task->data[15], 2);
+            }
 
-            if (spriteId != MAX_SPRITES)
-            {
+            if (spriteId != MAX_SPRITES) {
                 struct Sprite *sprite = &gSprites[spriteId];
                 sprite->pos1.x += sElectricChargingParticleCoordOffsets[task->data[9]][0];
                 sprite->pos1.y += sElectricChargingParticleCoordOffsets[task->data[9]][1];
@@ -958,29 +954,29 @@ static void AnimTask_ElectricChargingParticles_Step(u8 taskId)
                 StoreSpriteCallbackInData6(sprite, AnimElectricChargingParticles);
                 sprite->callback = RunStoredCallbackWhenAnimEnds;
 
-                if (++task->data[9] > 15)
+                if (++task->data[9] > 15) {
                     task->data[9] = 0;
+                }
 
-                if (++task->data[10] >= task->data[11])
-                {
+                if (++task->data[10] >= task->data[11]) {
                     task->data[10] = 0;
-                    if (task->data[8] <= 5)
+                    if (task->data[8] <= 5) {
                         task->data[8]++;
+                    }
                 }
 
                 task->data[7]++;
                 task->data[6]--;
             }
         }
-    }
-    else if(task->data[7] == 0)
+    } else if (task->data[7] == 0) {
         DestroyAnimVisualTask(taskId);
+    }
 }
 
 static void AnimElectricChargingParticles_Step(struct Sprite *sprite)
 {
-    if (AnimTranslateLinear(sprite))
-    {
+    if (AnimTranslateLinear(sprite)) {
         gTasks[sprite->data[5]].data[7]--;
         DestroySprite(sprite);
     }
@@ -994,13 +990,10 @@ static void AnimElectricChargingParticles(struct Sprite *sprite)
 
 void AnimGrowingChargeOrb(struct Sprite *sprite)
 {
-    if (gBattleAnimArgs[0] == ANIM_ATTACKER)
-    {
+    if (gBattleAnimArgs[0] == ANIM_ATTACKER) {
         sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
         sprite->pos1.y = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET);
-    }
-    else
-    {
+    } else {
         sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2);
         sprite->pos1.y = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y_PIC_OFFSET);
     }
@@ -1012,13 +1005,10 @@ void AnimGrowingChargeOrb(struct Sprite *sprite)
 // The quick electric burst at the end of Charge / during the Volt Tackle hit
 void AnimElectricPuff(struct Sprite *sprite)
 {
-    if (gBattleAnimArgs[0] == ANIM_ATTACKER)
-    {
+    if (gBattleAnimArgs[0] == ANIM_ATTACKER) {
         sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
         sprite->pos1.y = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET);
-    }
-    else
-    {
+    } else {
         sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2);
         sprite->pos1.y = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y_PIC_OFFSET);
     }
@@ -1038,25 +1028,27 @@ static void AnimVoltTackleOrbSlide(struct Sprite *sprite)
     sprite->data[6] = GetAnimBattlerSpriteId(ANIM_ATTACKER);
     sprite->data[7] = 16;
 
-    if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_OPPONENT)
+    if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_OPPONENT) {
         sprite->data[7] *= -1;
+    }
 
     sprite->callback = AnimVoltTackleOrbSlide_Step;
 }
 
 static void AnimVoltTackleOrbSlide_Step(struct Sprite *sprite)
 {
-    switch (sprite->data[0])
-    {
+    switch (sprite->data[0]) {
     case 0:
-        if (++sprite->data[1] > 40)
+        if (++sprite->data[1] > 40) {
             sprite->data[0]++;
+        }
         break;
     case 1:
         sprite->pos1.x += sprite->data[7];
         gSprites[sprite->data[6]].pos2.x += sprite->data[7];
-        if ((u16)(sprite->pos1.x + 80) > 400)
+        if ((u16)(sprite->pos1.x + 80) > 400) {
             DestroySpriteAndMatrix(sprite);
+        }
     }
 }
 
@@ -1064,18 +1056,14 @@ void AnimTask_VoltTackleAttackerReappear(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     case 0:
         task->data[15] = GetAnimBattlerSpriteId(ANIM_ATTACKER);
         task->data[14] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
-        if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER)
-        {
+        if (GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER) {
             task->data[14] = -32;
             task->data[13] = 2;
-        }
-        else
-        {
+        } else {
             task->data[14] = 32;
             task->data[13] = -2;
         }
@@ -1084,29 +1072,26 @@ void AnimTask_VoltTackleAttackerReappear(u8 taskId)
         task->data[0]++;
         break;
     case 1:
-        if (++task->data[1] > 1)
-        {
+        if (++task->data[1] > 1) {
             task->data[1] = 0;
             gSprites[task->data[15]].invisible ^= 1;
 
-            if (task->data[14])
-            {
+            if (task->data[14]) {
                 task->data[14] += task->data[13];
                 gSprites[task->data[15]].pos2.x = task->data[14];
-            }
-            else
+            } else {
                 task->data[0]++;
-
+            }
         }
         break;
     case 2:
-        if (++task->data[1] > 1)
-        {
+        if (++task->data[1] > 1) {
             task->data[1] = 0;
             gSprites[task->data[15]].invisible ^= 1;
 
-            if (++task->data[2] == 8)
+            if (++task->data[2] == 8) {
                 task->data[0]++;
+            }
         }
         break;
     case 3:
@@ -1120,13 +1105,11 @@ void AnimTask_VoltTackleBolt(u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
-    switch(task->data[0])
-    {
+    switch (task->data[0]) {
     case 0:
         task->data[1] = GetBattlerSide(gBattleAnimAttacker) == B_SIDE_PLAYER ? 1 : -1;
 
-        switch (gBattleAnimArgs[0])
-        {
+        switch (gBattleAnimArgs[0]) {
         case 0:
             task->data[3] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
             task->data[5] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET);
@@ -1138,23 +1121,17 @@ void AnimTask_VoltTackleBolt(u8 taskId)
             task->data[4] = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2) - (task->data[1] * 32);
             break;
         default:
-            if ((gBattleAnimArgs[0] & 1) != 0)
-            {
+            if ((gBattleAnimArgs[0] & 1) != 0) {
                 task->data[3] = 256;
                 task->data[4] = -16;
-            }
-            else
-            {
+            } else {
                 task->data[3] = -16;
                 task->data[4] = 256;
             }
 
-            if (task->data[1] == 1)
-            {
+            if (task->data[1] == 1) {
                 task->data[5] = 80 - gBattleAnimArgs[0] * 10;
-            }
-            else
-            {
+            } else {
                 u16 temp;
                 task->data[5] = gBattleAnimArgs[0] * 10 + 40;
                 temp = task->data[3];
@@ -1163,13 +1140,10 @@ void AnimTask_VoltTackleBolt(u8 taskId)
             }
         }
 
-        if (task->data[3] < task->data[4])
-        {
+        if (task->data[3] < task->data[4]) {
             task->data[1] = 1;
             task->data[6] = 0;
-        }
-        else
-        {
+        } else {
             task->data[1] = -1;
             task->data[6] = 3;
         }
@@ -1177,53 +1151,51 @@ void AnimTask_VoltTackleBolt(u8 taskId)
         task->data[0]++;
         break;
     case 1:
-        if (++task->data[2] > 0)
-        {
+        if (++task->data[2] > 0) {
             task->data[2] = 0;
-            if (sub_810B154(task, taskId) || sub_810B154(task, taskId))
+            if (sub_810B154(task, taskId) || sub_810B154(task, taskId)) {
                 task->data[0]++;
+            }
         }
         break;
     case 2:
-        if (task->data[7] == 0)
+        if (task->data[7] == 0) {
             DestroyAnimVisualTask(taskId);
+        }
     }
 }
 
 static bool8 sub_810B154(struct Task *task, u8 taskId)
 {
     u8 spriteId = CreateSprite(&gVoltTackleBoltSpriteTemplate, task->data[3], task->data[5], 35);
-    if (spriteId != MAX_SPRITES)
-    {
+    if (spriteId != MAX_SPRITES) {
         gSprites[spriteId].data[6] = taskId;
         gSprites[spriteId].data[7] = 7;
         task->data[7]++;
     }
 
     task->data[6] += task->data[1];
-    if (task->data[6] < 0)
+    if (task->data[6] < 0) {
         task->data[6] = 3;
+    }
 
-    if (task->data[6] > 3)
+    if (task->data[6] > 3) {
         task->data[6] = 0;
+    }
 
     task->data[3] += task->data[1] * 16;
 
     if ((task->data[1] == 1 && task->data[3] >= task->data[4])
-        || (task->data[1] == -1 && task->data[3] <= task->data[4]))
-    {
+        || (task->data[1] == -1 && task->data[3] <= task->data[4])) {
         return TRUE;
-    }
-    else
-    {
+    } else {
         return FALSE;
     }
 }
 
 static void AnimVoltTackleBolt(struct Sprite *sprite)
 {
-    if (++sprite->data[0] > 12)
-    {
+    if (++sprite->data[0] > 12) {
         gTasks[sprite->data[6]].data[sprite->data[7]]--;
         FreeOamMatrix(sprite->oam.matrixNum);
         DestroySprite(sprite);
@@ -1232,8 +1204,7 @@ static void AnimVoltTackleBolt(struct Sprite *sprite)
 
 void AnimGrowingShockWaveOrb(struct Sprite *sprite)
 {
-    switch (sprite->data[0])
-    {
+    switch (sprite->data[0]) {
     case 0:
         sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
         sprite->pos1.y = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET);
@@ -1241,8 +1212,9 @@ void AnimGrowingShockWaveOrb(struct Sprite *sprite)
         sprite->data[0]++;
         break;
     case 1:
-        if (sprite->affineAnimEnded)
+        if (sprite->affineAnimEnded) {
             DestroySpriteAndMatrix(sprite);
+        }
         break;
     }
 }
@@ -1253,8 +1225,7 @@ void AnimTask_ShockWaveProgressingBolt(u8 taskId)
     struct Task *task = &gTasks[taskId];
     u8 target = GetAnimBattlerId(gBattleAnimArgs[0]);
 
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     case 0:
         task->data[6] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
         task->data[7] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET);
@@ -1271,58 +1242,58 @@ void AnimTask_ShockWaveProgressingBolt(u8 taskId)
         task->data[0]++;
         break;
     case 1:
-        if (++task->data[1] > 0)
-        {
+        if (++task->data[1] > 0) {
             task->data[1] = 0;
-            if (sub_810B430(task, taskId))
-            {
-                if (task->data[2] == 5)
+            if (sub_810B430(task, taskId)) {
+                if (task->data[2] == 5) {
                     task->data[0] = 3;
-                else
+                } else {
                     task->data[0]++;
+                }
             }
         }
 
-        if (task->data[11])
+        if (task->data[11]) {
             task->data[11]--;
+        }
         break;
     case 2:
-        if (task->data[11])
+        if (task->data[11]) {
             task->data[11]--;
+        }
 
-        if (++task->data[1] > 4)
-        {
+        if (++task->data[1] > 4) {
             task->data[1] = 0;
-            if (task->data[2] & 1)
-            {
+            if (task->data[2] & 1) {
                 task->data[7] = 4;
                 task->data[8] = 68;
                 task->data[4] = 0;
                 task->data[5] = 1;
-            }
-            else
-            {
+            } else {
                 task->data[7] = 68;
                 task->data[8] = 4;
                 task->data[4] = 7;
                 task->data[5] = -1;
             }
 
-            if (task->data[11])
+            if (task->data[11]) {
                 task->data[0] = 4;
-            else
+            } else {
                 task->data[0] = 1;
+            }
         }
         break;
     case 3:
-        if (task->data[3] == 0)
+        if (task->data[3] == 0) {
             DestroyAnimVisualTask(taskId);
+        }
         break;
     case 4:
-        if (task->data[11])
+        if (task->data[11]) {
             task->data[11]--;
-        else
+        } else {
             task->data[0] = 1;
+        }
         break;
     }
 }
@@ -1330,35 +1301,32 @@ void AnimTask_ShockWaveProgressingBolt(u8 taskId)
 static bool8 sub_810B430(struct Task *task, u8 taskId)
 {
     u8 spriteId = CreateSprite(&gShockWaveProgressingBoltSpriteTemplate, task->data[6], task->data[7], 35);
-    if (spriteId != MAX_SPRITES)
-    {
+    if (spriteId != MAX_SPRITES) {
         gSprites[spriteId].oam.tileNum += task->data[4];
         task->data[4] += task->data[5];
-        if (task->data[4] < 0)
+        if (task->data[4] < 0) {
             task->data[4] = 7;
-        if (task->data[4] > 7)
+        }
+        if (task->data[4] > 7) {
             task->data[4] = 0;
+        }
 
         gSprites[spriteId].data[6] = taskId;
         gSprites[spriteId].data[7] = 3;
         task->data[3]++;
     }
 
-    if (task->data[4] == 0 && task->data[5] > 0)
-    {
+    if (task->data[4] == 0 && task->data[5] > 0) {
         task->data[14] += task->data[15];
         PlaySE12WithPanning(SE_M_THUNDERBOLT, task->data[14]);
     }
 
     if ((task->data[5] < 0 && task->data[7] <= task->data[8])
-        || (task->data[5] > 0 && task->data[7] >= task->data[8]))
-    {
+        || (task->data[5] > 0 && task->data[7] >= task->data[8])) {
         task->data[2]++;
         task->data[6] += task->data[9];
         return TRUE;
-    }
-    else
-    {
+    } else {
         task->data[7] += task->data[5] * 8;
         return FALSE;
     }
@@ -1367,8 +1335,7 @@ static bool8 sub_810B430(struct Task *task, u8 taskId)
 // Just runs timer for sprite. See AnimTask_ShockWaveProgressingBolt
 static void AnimShockWaveProgressingBolt(struct Sprite *sprite)
 {
-    if (++sprite->data[0] > 12)
-    {
+    if (++sprite->data[0] > 12) {
         gTasks[sprite->data[6]].data[sprite->data[7]]--;
         DestroySprite(sprite);
     }
@@ -1379,13 +1346,11 @@ void AnimTask_ShockWaveLightning(u8 taskId)
     struct Task *task = &gTasks[taskId];
     u8 target = GetAnimBattlerId(gBattleAnimArgs[0]);
 
-    switch (task->data[0])
-    {
+    switch (task->data[0]) {
     case 0:
         task->data[15] = GetBattlerSpriteCoord(target, BATTLER_COORD_Y) + 32;
         task->data[14] = task->data[15];
-        while (task->data[14] > 16)
-        {
+        while (task->data[14] > 16) {
             task->data[14] -= 32;
         }
 
@@ -1394,16 +1359,17 @@ void AnimTask_ShockWaveLightning(u8 taskId)
         task->data[0]++;
         break;
     case 1:
-        if (++task->data[1] > 1)
-        {
+        if (++task->data[1] > 1) {
             task->data[1] = 0;
-            if (sub_810B614(task, taskId))
+            if (sub_810B614(task, taskId)) {
                 task->data[0]++;
+            }
         }
         break;
     case 2:
-        if (task->data[10] == 0)
+        if (task->data[10] == 0) {
             DestroyAnimVisualTask(taskId);
+        }
         break;
     }
 }
@@ -1411,23 +1377,22 @@ void AnimTask_ShockWaveLightning(u8 taskId)
 bool8 sub_810B614(struct Task *task, u8 taskId)
 {
     u8 spriteId = CreateSprite(&gLightningSpriteTemplate, task->data[13], task->data[14], task->data[12]);
-    if (spriteId != MAX_SPRITES)
-    {
+    if (spriteId != MAX_SPRITES) {
         gSprites[spriteId].callback = sub_810B684;
         gSprites[spriteId].data[6] = taskId;
         gSprites[spriteId].data[7] = 10;
         task->data[10]++;
     }
-    if (task->data[14] >= task->data[15])
+    if (task->data[14] >= task->data[15]) {
         return TRUE;
+    }
     task->data[14] += 32;
     return FALSE;
 }
 
 static void sub_810B684(struct Sprite *sprite)
 {
-    if (sprite->animEnded)
-    {
+    if (sprite->animEnded) {
         gTasks[sprite->data[6]].data[sprite->data[7]]--;
         DestroySprite(sprite);
     }

@@ -81,10 +81,11 @@ void SetMoney(u32* moneyPtr, u32 newValue)
 
 bool8 IsEnoughMoney(u32* moneyPtr, u32 cost)
 {
-    if (GetMoney(moneyPtr) >= cost)
+    if (GetMoney(moneyPtr) >= cost) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 void AddMoney(u32* moneyPtr, u32 toAdd)
@@ -92,16 +93,14 @@ void AddMoney(u32* moneyPtr, u32 toAdd)
     u32 toSet = GetMoney(moneyPtr);
 
     // can't have more money than MAX
-    if (toSet + toAdd > MAX_MONEY)
-    {
+    if (toSet + toAdd > MAX_MONEY) {
         toSet = MAX_MONEY;
-    }
-    else
-    {
+    } else {
         toSet += toAdd;
         // check overflow, can't have less money after you receive more
-        if (toSet < GetMoney(moneyPtr))
+        if (toSet < GetMoney(moneyPtr)) {
             toSet = MAX_MONEY;
+        }
     }
 
     SetMoney(moneyPtr, toSet);
@@ -112,10 +111,11 @@ void RemoveMoney(u32* moneyPtr, u32 toSub)
     u32 toSet = GetMoney(moneyPtr);
 
     // can't subtract more than you already have
-    if (toSet < toSub)
+    if (toSet < toSub) {
         toSet = 0;
-    else
+    } else {
         toSet -= toSub;
+    }
 
     SetMoney(moneyPtr, toSet);
 }
@@ -145,8 +145,9 @@ void PrintMoneyAmount(u8 windowId, u8 x, u8 y, int amount, u8 speed)
     strLength = 6 - StringLength(gStringVar1);
     txtPtr = gStringVar4;
 
-    while (strLength-- > 0)
+    while (strLength-- > 0) {
         *(txtPtr++) = 0x77;
+    }
 
     StringExpandPlaceholders(txtPtr, gText_PokedollarVar1);
     AddTextPrinterParameterized(windowId, 1, gStringVar4, x, y, speed, NULL);

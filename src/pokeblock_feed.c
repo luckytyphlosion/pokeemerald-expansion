@@ -86,139 +86,139 @@ EWRAM_DATA static struct CompressedSpritePalette sPokeblockSpritePal = {0};
 // const rom data
 static const u8 sNatureToMonPokeblockAnim[NUM_NATURES][2] =
 {
-    [NATURE_HARDY] = {  0, 0 },
-    [NATURE_LONELY] = {  3, 0 },
-    [NATURE_BRAVE] = {  4, 1 },
-    [NATURE_ADAMANT] = {  5, 0 },
-    [NATURE_NAUGHTY] = { 10, 0 },
-    [NATURE_BOLD] = { 13, 0 },
-    [NATURE_DOCILE] = { 15, 0 },
-    [NATURE_RELAXED] = { 16, 2 },
-    [NATURE_IMPISH] = { 18, 0 },
-    [NATURE_LAX] = { 19, 0 },
-    [NATURE_TIMID] = { 20, 0 },
-    [NATURE_HASTY] = { 25, 0 },
-    [NATURE_SERIOUS] = { 27, 3 },
-    [NATURE_JOLLY] = { 28, 0 },
-    [NATURE_NAIVE] = { 29, 0 },
-    [NATURE_MODEST] = { 33, 4 },
-    [NATURE_MILD] = { 36, 0 },
-    [NATURE_QUIET] = { 37, 0 },
-    [NATURE_BASHFUL] = { 39, 0 },
-    [NATURE_RASH] = { 42, 0 },
-    [NATURE_CALM] = { 45, 0 },
-    [NATURE_GENTLE] = { 46, 5 },
-    [NATURE_SASSY] = { 47, 6 },
-    [NATURE_CAREFUL] = { 48, 0 },
-    [NATURE_QUIRKY] = { 53, 0 },
+    [NATURE_HARDY] = {0, 0},
+    [NATURE_LONELY] = {3, 0},
+    [NATURE_BRAVE] = {4, 1},
+    [NATURE_ADAMANT] = {5, 0},
+    [NATURE_NAUGHTY] = {10, 0},
+    [NATURE_BOLD] = {13, 0},
+    [NATURE_DOCILE] = {15, 0},
+    [NATURE_RELAXED] = {16, 2},
+    [NATURE_IMPISH] = {18, 0},
+    [NATURE_LAX] = {19, 0},
+    [NATURE_TIMID] = {20, 0},
+    [NATURE_HASTY] = {25, 0},
+    [NATURE_SERIOUS] = {27, 3},
+    [NATURE_JOLLY] = {28, 0},
+    [NATURE_NAIVE] = {29, 0},
+    [NATURE_MODEST] = {33, 4},
+    [NATURE_MILD] = {36, 0},
+    [NATURE_QUIET] = {37, 0},
+    [NATURE_BASHFUL] = {39, 0},
+    [NATURE_RASH] = {42, 0},
+    [NATURE_CALM] = {45, 0},
+    [NATURE_GENTLE] = {46, 5},
+    [NATURE_SASSY] = {47, 6},
+    [NATURE_CAREFUL] = {48, 0},
+    [NATURE_QUIRKY] = {53, 0},
 };
 
 static const s16 sMonPokeblockAnims[][10] =
 {
     // HARDY
-    {   0,   4,   0,   8,  24,   0,   0,   0,  12,   0},
-    {   0,   4,   0,  16,  24,   0,   0,   0,  12,   0},
-    {   0,   4,   0,  32,  32,   0,   0,   0,  16,   1},
+    {0,   4,   0,   8,  24,   0,   0,   0,  12,   0},
+    {0,   4,   0,  16,  24,   0,   0,   0,  12,   0},
+    {0,   4,   0,  32,  32,   0,   0,   0,  16,   1},
 
     // LONELY
-    {   0,   3,   6,   0,  48,   0,   0,   0,  24,   1},
+    {0,   3,   6,   0,  48,   0,   0,   0,  24,   1},
 
     // BRAVE
-    {  64,  16, -24,   0,  32,   0,   0,   0,   0,   1},
+    {64,  16, -24,   0,  32,   0,   0,   0,   0,   1},
 
     // ADAMANT
-    {   0,   4,   8,   0,  16,   0,  -8,   0,   0,   0},
-    {   0,   0,   0,   0,  16,   0,   0,   0,   0,   0},
-    {   0,   4,   8,   0,  16,   0,  -8,   0,   0,   0},
-    {   0,   0,   0,   0,  16,   0,   0,   0,   0,   0},
-    {   0,   4, -16,   0,   4,   0,  16,   0,   0,   1},
+    {0,   4,   8,   0,  16,   0,  -8,   0,   0,   0},
+    {0,   0,   0,   0,  16,   0,   0,   0,   0,   0},
+    {0,   4,   8,   0,  16,   0,  -8,   0,   0,   0},
+    {0,   0,   0,   0,  16,   0,   0,   0,   0,   0},
+    {0,   4, -16,   0,   4,   0,  16,   0,   0,   1},
 
     // NAUGHTY
-    {   0,   3,   6,   0,  12,   0,   0,   0,   6,   0},
-    {   0,   3,  -6,   0,  12,   0,   0,   0,   6,   0},
-    {   0,  16,  16,   0,  45,   1,   0,   0,   0,   1},
+    {0,   3,   6,   0,  12,   0,   0,   0,   6,   0},
+    {0,   3,  -6,   0,  12,   0,   0,   0,   6,   0},
+    {0,  16,  16,   0,  45,   1,   0,   0,   0,   1},
 
     // BOLD
-    {   0,  16,   0,  24,  32,   0,   0,   0,  16,   0},
-    {   0,  16,   0,  23,  32,   0,   0,   0,  16,   1},
+    {0,  16,   0,  24,  32,   0,   0,   0,  16,   0},
+    {0,  16,   0,  23,  32,   0,   0,   0,  16,   1},
 
     // DOCILE
-    {   0,   0,   0,   0,  80,   0,   0,   0,   0,   1},
+    {0,   0,   0,   0,  80,   0,   0,   0,   0,   1},
 
     // RELAXED
-    {   0,   2,   8,   0,  32,   0,   0,   0,   0,   0},
-    {   0,   2,  -8,   0,  32,   0,   0,   0,   0,   1},
+    {0,   2,   8,   0,  32,   0,   0,   0,   0,   0},
+    {0,   2,  -8,   0,  32,   0,   0,   0,   0,   1},
 
     // IMPISH
-    {   0,  32,   2,   1,  48,   1,   0,   0,  24,   1},
+    {0,  32,   2,   1,  48,   1,   0,   0,  24,   1},
 
     // LAX
-    {   0,   2,  16,  16, 128,   0,   0,   0,   0,   1},
+    {0,   2,  16,  16, 128,   0,   0,   0,   0,   1},
 
     // TIMID
-    {   0,   2,  -8,   0,  48,   0, -24,   0,   0,   0},
-    {   0,   0,   0,   0,   8,   0,   0,   0,   0,   0},
-    {  64,  32,   2,   0,  36,   0,   0,   0,   0,   0},
-    {   0,   0,   0,   0,   8,   0,   0,   0,   0,   0},
-    {   0,   2,   8,   0,  48,   0,  24,   0,   0,   1},
+    {0,   2,  -8,   0,  48,   0, -24,   0,   0,   0},
+    {0,   0,   0,   0,   8,   0,   0,   0,   0,   0},
+    {64,  32,   2,   0,  36,   0,   0,   0,   0,   0},
+    {0,   0,   0,   0,   8,   0,   0,   0,   0,   0},
+    {0,   2,   8,   0,  48,   0,  24,   0,   0,   1},
 
     // HASTY
-    {  64,  24,  16,   0,  32,   0,   0,   0,   0,   0},
-    {   0,  28,   2,   1,  32,   1,   0,   0,  16,   1},
+    {64,  24,  16,   0,  32,   0,   0,   0,   0,   0},
+    {0,  28,   2,   1,  32,   1,   0,   0,  16,   1},
 
     // SERIOUS
-    {   0,   0,   0,   0,  32,   0,   0,   0,   0,   1},
+    {0,   0,   0,   0,  32,   0,   0,   0,   0,   1},
 
     // JOLLY
-    {  64,  16, -16,   2,  48,   0,   0,   0,  32,   1},
+    {64,  16, -16,   2,  48,   0,   0,   0,  32,   1},
 
     // NAIVE
-    {   0,  12,  -8,   4,  24,   0,   8,   0,  12,   0},
-    {   0,  12,   8,   8,  24,   0, -16,   0,  12,   0},
-    {   0,  12,  -8,  16,  24,   0,  16,   0,  12,   0},
-    {   0,  12,   8,  28,  24,   0,  -8,   0,  12,   1},
+    {0,  12,  -8,   4,  24,   0,   8,   0,  12,   0},
+    {0,  12,   8,   8,  24,   0, -16,   0,  12,   0},
+    {0,  12,  -8,  16,  24,   0,  16,   0,  12,   0},
+    {0,  12,   8,  28,  24,   0,  -8,   0,  12,   1},
 
     // MODEST
-    {   0,   0,   0,   0,   8,   0,   0,   0,   0,   0},
-    {  64,  16,  -4,   0,  32,   0,   0,   0,   0,   0},
-    {   0,   0,   0,   0,   8,   0,   0,   0,   0,   1},
+    {0,   0,   0,   0,   8,   0,   0,   0,   0,   0},
+    {64,  16,  -4,   0,  32,   0,   0,   0,   0,   0},
+    {0,   0,   0,   0,   8,   0,   0,   0,   0,   1},
 
     // MILD
-    { 128,   4,   0,   8,  64,   0,   0,   0,   0,   1},
+    {128,   4,   0,   8,  64,   0,   0,   0,   0,   1},
 
     // QUIET
-    {   0,   2,  16,   0,  48,   0,   0,   0,   0,   0},
-    { 128,   2,  16,   0,  48,   0,   0,   0,   0,   1},
+    {0,   2,  16,   0,  48,   0,   0,   0,   0,   0},
+    {128,   2,  16,   0,  48,   0,   0,   0,   0,   1},
 
     // BASHFUL
-    {   0,   2,  -4,   0,  48,   0, -48,   0,   0,   0},
-    {   0,   0,   0,   0,  80,   0,   0,   0,   0,   0},
-    {   0,   2,   8,   0,  24,   0,  48,   0,   0,   1},
+    {0,   2,  -4,   0,  48,   0, -48,   0,   0,   0},
+    {0,   0,   0,   0,  80,   0,   0,   0,   0,   0},
+    {0,   2,   8,   0,  24,   0,  48,   0,   0,   1},
 
     // RASH
-    {  64,   4,  64,  58,  52,   0, -88,   0,   0,   0},
-    {   0,   0,   0,   0,  80,   0,   0,   0,   0,   0},
-    {   0,  24,  80,   0,  32,   0,  88,   0,   0,   1},
+    {64,   4,  64,  58,  52,   0, -88,   0,   0,   0},
+    {0,   0,   0,   0,  80,   0,   0,   0,   0,   0},
+    {0,  24,  80,   0,  32,   0,  88,   0,   0,   1},
 
     // CALM
-    {   0,   2,  16,   4,  64,   0,   0,   0,   0,   1},
+    {0,   2,  16,   4,  64,   0,   0,   0,   0,   1},
 
     // GENTLE
-    {   0,   0,   0,   0,  32,   0,   0,   0,   0,   1},
+    {0,   0,   0,   0,  32,   0,   0,   0,   0,   1},
 
     // SASSY
-    {   0,   0,   0,   0,  42,   0,   0,   0,   0,   1},
+    {0,   0,   0,   0,  42,   0,   0,   0,   0,   1},
 
     // CAREFUL
-    {   0,   4,   0,   8,  24,   0,   0,   0,  12,   0},
-    {   0,   0,   0,   0,  12,   0,   0,   0,   0,   0},
-    {   0,   4,   0,  12,  24,   0,   0,   0,  12,   0},
-    {   0,   0,   0,   0,  12,   0,   0,   0,   0,   0},
-    {   0,   4,   0,   4,  24,   0,   0,   0,  12,   1},
+    {0,   4,   0,   8,  24,   0,   0,   0,  12,   0},
+    {0,   0,   0,   0,  12,   0,   0,   0,   0,   0},
+    {0,   4,   0,  12,  24,   0,   0,   0,  12,   0},
+    {0,   0,   0,   0,  12,   0,   0,   0,   0,   0},
+    {0,   4,   0,   4,  24,   0,   0,   0,  12,   1},
 
     // QUIRKY
-    {   0,   4,  16,  12,  64,   0,   0,   0,   0,   0},
-    {   0,  -4,  16,  12,  64,   0,   0,   0,   0,   1},
+    {0,   4,  16,  12,  64,   0,   0,   0,   0,   0},
+    {0,  -4,  16,  12,  64,   0,   0,   0,   0,   1},
 };
 
 static const union AffineAnimCmd sSpriteAffineAnim_8411E90[] =
@@ -532,8 +532,7 @@ static void VBlankCB_PokeblockFeed(void)
 
 static bool8 TransitionToPokeblockFeedScene(void)
 {
-    switch (gMain.state)
-    {
+    switch (gMain.state) {
     case 0:
         sPokeblockFeed = AllocZeroed(sizeof(*sPokeblockFeed));
         SetVBlankHBlankCallbacksToNull();
@@ -566,8 +565,7 @@ static bool8 TransitionToPokeblockFeedScene(void)
         gMain.state++;
         break;
     case 7:
-        if (LoadMonAndSceneGfx(&gPlayerParty[gPokeblockMonId]))
-        {
+        if (LoadMonAndSceneGfx(&gPlayerParty[gPokeblockMonId])) {
             gMain.state++;
         }
         break;
@@ -606,14 +604,16 @@ static bool8 TransitionToPokeblockFeedScene(void)
 
 void CB2_PreparePokeblockFeedScene(void)
 {
-    while (1)
-    {
-        if (MenuHelpers_CallLinkSomething() == TRUE)
+    while (1) {
+        if (MenuHelpers_CallLinkSomething() == TRUE) {
             break;
-        if (TransitionToPokeblockFeedScene() == TRUE)
+        }
+        if (TransitionToPokeblockFeedScene() == TRUE) {
             break;
-        if (MenuHelpers_LinkSomething() == TRUE)
+        }
+        if (MenuHelpers_LinkSomething() == TRUE) {
             break;
+        }
     }
 }
 
@@ -641,8 +641,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
     u32 personality, trainerId;
     const struct CompressedSpritePalette *palette;
 
-    switch (sPokeblockFeed->loadGfxState)
-    {
+    switch (sPokeblockFeed->loadGfxState) {
     case 0:
         species = GetMonData(mon, MON_DATA_SPECIES2);
         personality = GetMonData(mon, MON_DATA_PERSONALITY);
@@ -682,8 +681,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
         sPokeblockFeed->loadGfxState++;
         break;
     case 7:
-        if (FreeTempTileDataBuffersIfPossible() != TRUE)
-        {
+        if (FreeTempTileDataBuffersIfPossible() != TRUE) {
             LZDecompressWram(gUnknown_08D9BA44, sPokeblockFeed->tilemapBuffer);
             sPokeblockFeed->loadGfxState++;
         }
@@ -722,10 +720,8 @@ static void SetPokeblockSpritePal(u8 pokeblockCaseId)
 
 static void Task_HandlePokeblockFeed(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
-        switch (gTasks[taskId].tFrames)
-        {
+    if (!gPaletteFade.active) {
+        switch (gTasks[taskId].tFrames) {
         case 0:
             sPokeblockFeed->field_1050 = 0;
             sPokeblockFeed->field_1058 = 0;
@@ -745,10 +741,11 @@ static void Task_HandlePokeblockFeed(u8 taskId)
             return;
         }
 
-        if (sPokeblockFeed->field_1058 < sPokeblockFeed->field_1056)
+        if (sPokeblockFeed->field_1058 < sPokeblockFeed->field_1056) {
             sub_817A634();
-        else if (sPokeblockFeed->field_1058 == sPokeblockFeed->field_1056)
+        } else if (sPokeblockFeed->field_1058 == sPokeblockFeed->field_1056) {
             gTasks[taskId].tFrames = 254;
+        }
 
         sPokeblockFeed->field_1058++;
         gTasks[taskId].tFrames++;
@@ -764,8 +761,9 @@ static void LaunchPokeblockFeedTask(void)
 
 static void Task_WaitForAtePokeblockText(u8 taskId)
 {
-    if (RunTextPrintersRetIsActive(0) != TRUE)
+    if (RunTextPrintersRetIsActive(0) != TRUE) {
         gTasks[taskId].func = Task_PaletteFadeToReturn;
+    }
 }
 
 static void Task_HandleMonAtePokeblock(u8 taskId)
@@ -777,12 +775,13 @@ static void Task_HandleMonAtePokeblock(u8 taskId)
     GetMonNickname(mon, gStringVar1);
     PokeblockCopyName(pokeblock, gStringVar2);
 
-    if (gPokeblockGain == 0)
+    if (gPokeblockGain == 0) {
         StringExpandPlaceholders(gStringVar4, gText_Var1AteTheVar2);
-    else if (gPokeblockGain > 0)
+    } else if (gPokeblockGain > 0) {
         StringExpandPlaceholders(gStringVar4, gText_Var1HappilyAteVar2);
-    else
+    } else {
         StringExpandPlaceholders(gStringVar4, gText_Var1DisdainfullyAteVar2);
+    }
 
     gTextFlags.canABSpeedUpPrint = 1;
     AddTextPrinterParameterized2(0, 1, gStringVar4, GetPlayerTextSpeedDelay(), NULL, 2, 1, 3);
@@ -791,8 +790,7 @@ static void Task_HandleMonAtePokeblock(u8 taskId)
 
 static void Task_ReturnAfterPaletteFade(u8 taskId)
 {
-    if (!gPaletteFade.active)
-    {
+    if (!gPaletteFade.active) {
         ResetSpriteData();
         FreeAllSpritePalettes();
         m4aMPlayVolumeControl(&gMPlayInfo_BGM, -1, 0x100);
@@ -831,8 +829,7 @@ static u8 CreateMonSprite(struct Pokemon* mon)
     gSprites[spriteId].callback = SpriteCallbackDummy;
 
     sPokeblockFeed->noMonFlip = TRUE;
-    if (!IsMonSpriteNotFlipped(species))
-    {
+    if (!IsMonSpriteNotFlipped(species)) {
         gSprites[spriteId].affineAnims = sSpriteAffineAnimTable_MonNoFlip;
         gSprites[spriteId].oam.affineMode = ST_OAM_AFFINE_DOUBLE;
         CalcCenterToCornerVec(&gSprites[spriteId], gSprites[spriteId].oam.shape, gSprites[spriteId].oam.size, gSprites[spriteId].oam.affineMode);
@@ -857,10 +854,12 @@ static void sub_817A468(struct Sprite* sprite)
     sprite->pos1.y += sprite->tDelta;
     sprite->tDelta += sprite->tDeltaMod;
 
-    if (sprite->tDelta == 0)
+    if (sprite->tDelta == 0) {
         PlayCry1(sprite->tSpecies, 0);
-    if (sprite->tDelta == 9)
+    }
+    if (sprite->tDelta == 9) {
         sprite->callback = SpriteCallbackDummy;
+    }
 }
 
 #undef tDelta
@@ -882,10 +881,11 @@ static void DoPokeblockCaseThrowEffect(u8 spriteId, bool8 a1)
     FreeOamMatrix(gSprites[spriteId].oam.matrixNum);
     gSprites[spriteId].oam.affineMode = ST_OAM_AFFINE_DOUBLE;
 
-    if (!a1)
+    if (!a1) {
         gSprites[spriteId].affineAnims = sSpriteAffineAnimTable_85F0668;
-    else
+    } else {
         gSprites[spriteId].affineAnims = sSpriteAffineAnimTable_85F066C;
+    }
 
     InitSpriteAffineAnim(&gSprites[spriteId]);
 }
@@ -907,8 +907,9 @@ static void SpriteCB_ThrownPokeblock(struct Sprite* sprite)
     sprite->pos1.x -= 4;
     sprite->pos1.y += sprite->tDelta;
     sprite->tDelta += sprite->tDeltaMod;
-    if (sprite->tDelta == 10)
+    if (sprite->tDelta == 10) {
         DestroySprite(sprite);
+    }
 }
 
 #undef tDelta
@@ -922,11 +923,11 @@ static void sub_817A5CC(void)
     pokeblockFeed = sPokeblockFeed;
     pokeblockFeed->field_1056 = 1;
     animId = sNatureToMonPokeblockAnim[pokeblockFeed->nature][0];
-    for (i = 0; i < 8; i++, animId++)
-    {
+    for (i = 0; i < 8; i++, animId++) {
         pokeblockFeed->field_1056 += sMonPokeblockAnims[animId][4];
-        if (sMonPokeblockAnims[animId][9] == 1)
+        if (sMonPokeblockAnims[animId][9] == 1) {
             break;
+        }
     }
 }
 
@@ -934,8 +935,7 @@ static void sub_817A634(void)
 {
     struct PokeblockFeedStruct *pokeblockFeed = sPokeblockFeed;
 
-    switch (pokeblockFeed->field_1050)
-    {
+    switch (pokeblockFeed->field_1050) {
     case 0:
         pokeblockFeed->animId = sNatureToMonPokeblockAnim[pokeblockFeed->nature][0];
         pokeblockFeed->monSpritePtr = &gSprites[pokeblockFeed->monSpriteId_];
@@ -946,8 +946,7 @@ static void sub_817A634(void)
         break;
     case 10:
         sub_817A91C();
-        if (sNatureToMonPokeblockAnim[pokeblockFeed->nature][1] != 0)
-        {
+        if (sNatureToMonPokeblockAnim[pokeblockFeed->nature][1] != 0) {
             pokeblockFeed->monSpritePtr->oam.affineMode = ST_OAM_AFFINE_DOUBLE;
             pokeblockFeed->monSpritePtr->oam.matrixNum = 0;
             pokeblockFeed->monSpritePtr->affineAnims = sSpriteAffineAnimTable_85F04FC;
@@ -955,26 +954,22 @@ static void sub_817A634(void)
         }
         pokeblockFeed->field_1050 = 50;
     case 50:
-        if (sNatureToMonPokeblockAnim[pokeblockFeed->nature][1] != 0)
-        {
-            if (!pokeblockFeed->noMonFlip) // double negation, so mon's sprite is flipped
+        if (sNatureToMonPokeblockAnim[pokeblockFeed->nature][1] != 0) {
+            if (!pokeblockFeed->noMonFlip) { // double negation, so mon's sprite is flipped
                 StartSpriteAffineAnim(pokeblockFeed->monSpritePtr, sNatureToMonPokeblockAnim[pokeblockFeed->nature][1] + 10);
-            else
+            } else {
                 StartSpriteAffineAnim(pokeblockFeed->monSpritePtr, sNatureToMonPokeblockAnim[pokeblockFeed->nature][1]);
+            }
         }
         pokeblockFeed->field_1050 = 60;
         break;
     case 60:
-        if (sub_817A9E4() == TRUE)
-        {
-            if (pokeblockFeed->field_1060[9] == 0)
-            {
+        if (sub_817A9E4() == TRUE) {
+            if (pokeblockFeed->field_1060[9] == 0) {
                 pokeblockFeed->animId++;
                 sub_817A91C();
                 pokeblockFeed->field_1050 = 60;
-            }
-            else
-            {
+            } else {
                 FreeOamMatrix(pokeblockFeed->monSpritePtr->oam.matrixNum);
                 pokeblockFeed->field_1050 = 70;
             }
@@ -995,15 +990,13 @@ static bool8 sub_817A91C(void)
     struct PokeblockFeedStruct *pokeblockFeed = sPokeblockFeed;
     u8 i;
 
-    for (i = 0; i < 10; i++)
+    for (i = 0; i < 10; i++) {
         pokeblockFeed->field_1060[i] = sMonPokeblockAnims[pokeblockFeed->animId][i];
-
-    if (pokeblockFeed->field_1060[4] == 0)
-    {
-        return TRUE;
     }
-    else
-    {
+
+    if (pokeblockFeed->field_1060[4] == 0) {
+        return TRUE;
+    } else {
         pokeblockFeed->field_1060[10] = Sin(pokeblockFeed->field_1060[0], pokeblockFeed->field_1060[2]);
         pokeblockFeed->field_1060[11] = Cos(pokeblockFeed->field_1060[0], pokeblockFeed->field_1060[3]);
         pokeblockFeed->field_1060[12] = pokeblockFeed->field_1060[4];
@@ -1024,10 +1017,11 @@ static bool8 sub_817A9E4(void)
     sPokeblockFeed->monSpritePtr->pos2.x = sPokeblockFeed->field_850[var];
     sPokeblockFeed->monSpritePtr->pos2.y = sPokeblockFeed->field_C50[var];
 
-    if (--sPokeblockFeed->field_1060[4] == 0)
+    if (--sPokeblockFeed->field_1060[4] == 0) {
         return TRUE;
-    else
+    } else {
         return FALSE;
+    }
 }
 
 static bool8 FreeMonSpriteOamMatrix(void)
@@ -1045,8 +1039,7 @@ static void sub_817AA54(void)
     s16 var3 = pokeblockFeed->field_1060[13] + pokeblockFeed->field_1060[6];
     s16 r9 = pokeblockFeed->field_1060[14] + pokeblockFeed->field_1060[7];
 
-    for (i = 0; i < r7 - 1; i++)
-    {
+    for (i = 0; i < r7 - 1; i++) {
         s16 r1 = pokeblockFeed->field_850[r8 + i] - (var3);
         s16 r4 = pokeblockFeed->field_C50[r8 + i] - r9;
 
@@ -1065,8 +1058,7 @@ static void sub_817AB68(void)
     s16 r8 = pokeblockFeed->field_1060[13] - pokeblockFeed->field_1060[10];
     s16 r7 = pokeblockFeed->field_1060[14] - pokeblockFeed->field_1060[11];
 
-    while (1)
-    {
+    while (1) {
         u16 r5;
         u16 r4;
         u16 var;
@@ -1075,21 +1067,20 @@ static void sub_817AB68(void)
         r5 = var + pokeblockFeed->field_1060[3];
         pokeblockFeed->field_1060[3] = r5;
 
-        if (pokeblockFeed->field_1060[2] < 0)
+        if (pokeblockFeed->field_1060[2] < 0) {
             var_24 = TRUE;
+        }
 
         r4 = pokeblockFeed->field_1060[12] - pokeblockFeed->field_1060[4];
 
-        if (pokeblockFeed->field_1060[4] == 0)
+        if (pokeblockFeed->field_1060[4] == 0) {
             break;
+        }
 
-        if (!var_24)
-        {
+        if (!var_24) {
             pokeblockFeed->field_850[r4] = Sin(pokeblockFeed->field_1060[0], pokeblockFeed->field_1060[2] + r5 / 0x100) + r8;
             pokeblockFeed->field_C50[r4] = Cos(pokeblockFeed->field_1060[0], pokeblockFeed->field_1060[3] + r5 / 0x100) + r7;
-        }
-        else
-        {
+        } else {
             pokeblockFeed->field_850[r4] = Sin(pokeblockFeed->field_1060[0], pokeblockFeed->field_1060[2] - r5 / 0x100) + r8;
             pokeblockFeed->field_C50[r4] = Cos(pokeblockFeed->field_1060[0], pokeblockFeed->field_1060[3] - r5 / 0x100) + r7;
         }

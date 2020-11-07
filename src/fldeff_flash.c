@@ -77,15 +77,12 @@ bool8 SetUpFieldMove_Flash(void)
 {
     // In Ruby and Sapphire, Registeel's tomb is opened by using Fly. In Emerald,
     // Flash is used instead.
-    if (ShouldDoBrailleRegisteelEffect())
-    {
+    if (ShouldDoBrailleRegisteelEffect()) {
         gSpecialVar_Result = GetCursorSelectionMonId();
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = SetUpPuzzleEffectRegisteel;
         return TRUE;
-    }
-    else if (gMapHeader.cave == TRUE && !FlagGet(FLAG_SYS_USE_FLASH))
-    {
+    } else if (gMapHeader.cave == TRUE && !FlagGet(FLAG_SYS_USE_FLASH)) {
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
         gPostMenuFieldCallback = FieldCallback_Flash;
         return TRUE;
@@ -151,8 +148,9 @@ void CB2_DoChangeMap(void)
     REG_IME = ime;
     SetVBlankCallback(VBC_ChangeMapVBlank);
     SetMainCallback2(CB2_ChangeMapMain);
-    if (!TryDoMapTransition())
+    if (!TryDoMapTransition()) {
         SetMainCallback2(gMain.savedCallback);
+    }
 }
 
 static bool8 TryDoMapTransition(void)
@@ -161,10 +159,8 @@ static bool8 TryDoMapTransition(void)
     u8 fromType = GetLastUsedWarpMapType();
     u8 toType = GetCurrentMapType();
 
-    for (i = 0; sTransitionTypes[i].fromType; i++)
-    {
-        if (sTransitionTypes[i].fromType == fromType && sTransitionTypes[i].toType == toType)
-        {
+    for (i = 0; sTransitionTypes[i].fromType; i++) {
+        if (sTransitionTypes[i].fromType == fromType && sTransitionTypes[i].toType == toType) {
             sTransitionTypes[i].func();
             return TRUE;
         }
@@ -179,10 +175,8 @@ bool8 GetMapPairFadeToType(u8 _fromType, u8 _toType)
     u8 fromType = _fromType;
     u8 toType = _toType;
 
-    for (i = 0; sTransitionTypes[i].fromType; i++)
-    {
-        if (sTransitionTypes[i].fromType == fromType && sTransitionTypes[i].toType == toType)
-        {
+    for (i = 0; sTransitionTypes[i].fromType; i++) {
+        if (sTransitionTypes[i].fromType == fromType && sTransitionTypes[i].toType == toType) {
             return sTransitionTypes[i].isEnter;
         }
     }
@@ -196,10 +190,8 @@ bool8 GetMapPairFadeFromType(u8 _fromType, u8 _toType)
     u8 fromType = _fromType;
     u8 toType = _toType;
 
-    for (i = 0; sTransitionTypes[i].fromType; i++)
-    {
-        if (sTransitionTypes[i].fromType == fromType && sTransitionTypes[i].toType == toType)
-        {
+    for (i = 0; sTransitionTypes[i].fromType; i++) {
+        if (sTransitionTypes[i].fromType == fromType && sTransitionTypes[i].toType == toType) {
             return sTransitionTypes[i].isExit;
         }
     }
@@ -225,23 +217,23 @@ static void Task_ExitCaveTransition2(u8 taskId)
     LoadPalette(gCaveTransitionPalette_White, 0xE0, 0x20);
     LoadPalette(gUnknown_085B28A0, 0xE0, 0x10);
     SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG0
-                                | BLDCNT_EFFECT_BLEND
-                                | BLDCNT_TGT2_BG1
-                                | BLDCNT_TGT2_BG2
-                                | BLDCNT_TGT2_BG3
-                                | BLDCNT_TGT2_OBJ
-                                | BLDCNT_TGT2_BD);
+              | BLDCNT_EFFECT_BLEND
+              | BLDCNT_TGT2_BG1
+              | BLDCNT_TGT2_BG2
+              | BLDCNT_TGT2_BG3
+              | BLDCNT_TGT2_OBJ
+              | BLDCNT_TGT2_BD);
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
     SetGpuReg(REG_OFFSET_BLDY, 0);
     SetGpuReg(REG_OFFSET_BG0CNT, BGCNT_PRIORITY(0)
-                               | BGCNT_CHARBASE(3)
-                               | BGCNT_SCREENBASE(31)
-                               | BGCNT_16COLOR
-                               | BGCNT_TXT256x256);
+              | BGCNT_CHARBASE(3)
+              | BGCNT_SCREENBASE(31)
+              | BGCNT_16COLOR
+              | BGCNT_TXT256x256);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0
-                                | DISPCNT_OBJ_1D_MAP
-                                | DISPCNT_BG0_ON
-                                | DISPCNT_OBJ_ON);
+              | DISPCNT_OBJ_1D_MAP
+              | DISPCNT_BG0_ON
+              | DISPCNT_OBJ_ON);
     gTasks[taskId].func = Task_ExitCaveTransition3;
     gTasks[taskId].data[0] = 16;
     gTasks[taskId].data[1] = 0;
@@ -253,12 +245,9 @@ static void Task_ExitCaveTransition3(u8 taskId)
     u16 blend = count + 0x1000;
 
     SetGpuReg(REG_OFFSET_BLDALPHA, blend);
-    if (count <= 0x10)
-    {
+    if (count <= 0x10) {
         gTasks[taskId].data[1]++;
-    }
-    else
-    {
+    } else {
         gTasks[taskId].data[2] = 0;
         gTasks[taskId].func = Task_ExitCaveTransition4;
     }
@@ -271,13 +260,10 @@ static void Task_ExitCaveTransition4(u8 taskId)
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(16, 16));
     count = gTasks[taskId].data[2];
 
-    if (count < 8)
-    {
+    if (count < 8) {
         gTasks[taskId].data[2]++;
         LoadPalette(&gUnknown_085B28A0[count], 0xE0, 16 - 2 * count);
-    }
-    else
-    {
+    } else {
         LoadPalette(gCaveTransitionPalette_White, 0, 0x20);
         gTasks[taskId].func = Task_ExitCaveTransition5;
         gTasks[taskId].data[2] = 8;
@@ -286,10 +272,11 @@ static void Task_ExitCaveTransition4(u8 taskId)
 
 static void Task_ExitCaveTransition5(u8 taskId)
 {
-    if (gTasks[taskId].data[2])
+    if (gTasks[taskId].data[2]) {
         gTasks[taskId].data[2]--;
-    else
+    } else {
         SetMainCallback2(gMain.savedCallback);
+    }
 }
 
 static void DoEnterCaveTransition(void)
@@ -311,14 +298,14 @@ static void Task_EnterCaveTransition2(u8 taskId)
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
     SetGpuReg(REG_OFFSET_BLDY, 0);
     SetGpuReg(REG_OFFSET_BG0CNT, BGCNT_PRIORITY(0)
-                               | BGCNT_CHARBASE(3)
-                               | BGCNT_SCREENBASE(31)
-                               | BGCNT_16COLOR
-                               | BGCNT_TXT256x256);
+              | BGCNT_CHARBASE(3)
+              | BGCNT_SCREENBASE(31)
+              | BGCNT_16COLOR
+              | BGCNT_TXT256x256);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0
-                                | DISPCNT_OBJ_1D_MAP
-                                | DISPCNT_BG0_ON
-                                | DISPCNT_OBJ_ON);
+              | DISPCNT_OBJ_1D_MAP
+              | DISPCNT_BG0_ON
+              | DISPCNT_OBJ_ON);
     LoadPalette(gCaveTransitionPalette_White, 0xE0, 0x20);
     LoadPalette(gCaveTransitionPalette_Black, 0, 0x20);
     gTasks[taskId].func = Task_EnterCaveTransition3;
@@ -331,22 +318,19 @@ static void Task_EnterCaveTransition3(u8 taskId)
 {
     u16 count = gTasks[taskId].data[2];
 
-    if (count < 16)
-    {
+    if (count < 16) {
         gTasks[taskId].data[2]++;
         gTasks[taskId].data[2]++;
         LoadPalette(&gUnknown_085B2890[15 - count], 0xE0, 2 * (count + 1));
-    }
-    else
-    {
+    } else {
         SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(16, 16));
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT1_BG0
-                                    | BLDCNT_EFFECT_BLEND
-                                    | BLDCNT_TGT2_BG1
-                                    | BLDCNT_TGT2_BG2
-                                    | BLDCNT_TGT2_BG3
-                                    | BLDCNT_TGT2_OBJ
-                                    | BLDCNT_TGT2_BD);
+                  | BLDCNT_EFFECT_BLEND
+                  | BLDCNT_TGT2_BG1
+                  | BLDCNT_TGT2_BG2
+                  | BLDCNT_TGT2_BG3
+                  | BLDCNT_TGT2_OBJ
+                  | BLDCNT_TGT2_BD);
         gTasks[taskId].func = Task_EnterCaveTransition4;
     }
 }
@@ -357,12 +341,9 @@ static void Task_EnterCaveTransition4(u8 taskId)
     u16 blend = count + 0x1000;
 
     SetGpuReg(REG_OFFSET_BLDALPHA, blend);
-    if (count)
-    {
+    if (count) {
         gTasks[taskId].data[1]++;
-    }
-    else
-    {
+    } else {
         LoadPalette(gCaveTransitionPalette_Black, 0, 0x20);
         SetMainCallback2(gMain.savedCallback);
     }
