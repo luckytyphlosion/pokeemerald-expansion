@@ -530,7 +530,7 @@ static bool8 ShouldSwitch(void)
     return FALSE;
 }
 
-void AI_TrySwitchOrUseItem(void)
+u32 AI_TrySwitchOrUseItem(void)
 {
     struct Pokemon *party;
     u8 battlerIn1, battlerIn2;
@@ -584,13 +584,14 @@ void AI_TrySwitchOrUseItem(void)
             }
 
             *(gBattleStruct->monToSwitchIntoId + gActiveBattler) = *(gBattleStruct->AI_monToSwitchIntoId + gActiveBattler);
-            return;
+            return TRUE;
         } else if (ShouldUseItem()) {
-            return;
+            return TRUE;
         }
     }
 
-    BtlController_EmitTwoReturnValues(1, B_ACTION_USE_MOVE, (gActiveBattler ^ BIT_SIDE) << 8);
+    //BtlController_EmitTwoReturnValues(1, B_ACTION_USE_MOVE, (gActiveBattler ^ BIT_SIDE) << 8);
+    return FALSE;
 }
 
 // If there are two(or more) mons to choose from, always choose one that has baton pass

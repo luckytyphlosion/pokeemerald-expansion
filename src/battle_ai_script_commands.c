@@ -510,7 +510,11 @@ static u8 ChooseMoveOrAction_Singles(void)
 
     gActiveBattler = sBattler_AI;
     // If can switch.
-    if (CountUsablePartyMons(sBattler_AI) >= 1
+
+    // note by luckytyphlosion: apparently AI_CHOICE_SWITCH seems to be buggy
+    // and switching will be refactored anyway
+    // commenting out
+    /*if (CountUsablePartyMons(sBattler_AI) >= 1
         && !IsAbilityPreventingEscape(sBattler_AI)
         && !(gBattleMons[gActiveBattler].status2 & (STATUS2_WRAPPED | STATUS2_ESCAPE_PREVENTION))
         && !(gStatuses3[gActiveBattler] & STATUS3_ROOTED)
@@ -543,7 +547,7 @@ static u8 ChooseMoveOrAction_Singles(void)
                 return AI_CHOICE_SWITCH;
             }
         }
-    }
+    }*/
 
     numOfBestMoves = 1;
     currentMoveArray[0] = AI_THINKING_STRUCT->score[0];
