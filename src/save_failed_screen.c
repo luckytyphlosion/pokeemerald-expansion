@@ -157,7 +157,7 @@ static bool8 VerifySectorWipe(u16 sector);
 static bool8 WipeSectors(u32);
 
 // Although this is a general text printer, it's only used in this file.
-static void SaveFailedScreenTextPrint(const u8 *text, u8 var1, u8 var2)
+static void SaveFailedScreenTextPrint (const u8 *text, u8 var1, u8 var2)
 {
     u8 color[3];
 
@@ -167,7 +167,7 @@ static void SaveFailedScreenTextPrint(const u8 *text, u8 var1, u8 var2)
     AddTextPrinterParameterized4(gSaveFailedWindowIds[TEXT_WIN_ID], 1, var1 * 8, var2 * 8 + 1, 0, 0, color, 0, text);
 }
 
-void DoSaveFailedScreen(u8 saveType)
+void DoSaveFailedScreen (u8 saveType)
 {
     SetMainCallback2(CB2_SaveFailedScreen);
     gSaveFailedType = saveType;
@@ -177,14 +177,14 @@ void DoSaveFailedScreen(u8 saveType)
     gSaveFailedWindowIds[CLOCK_WIN_ID] = 0;
 }
 
-static void VBlankCB(void)
+static void VBlankCB (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void CB2_SaveFailedScreen(void)
+static void CB2_SaveFailedScreen (void)
 {
     switch (gMain.state) {
     case 0:
@@ -253,7 +253,7 @@ static void CB2_SaveFailedScreen(void)
     }
 }
 
-static void CB2_WipeSave(void)
+static void CB2_WipeSave (void)
 {
     u8 wipeTries = 0;
 
@@ -295,7 +295,7 @@ static void CB2_WipeSave(void)
     SetMainCallback2(CB2_FadeAndReturnToTitleScreen);
 }
 
-static void CB2_GameplayCannotBeContinued(void)
+static void CB2_GameplayCannotBeContinued (void)
 {
     gSaveFailedClockInfo[CLOCK_RUNNING] = FALSE;
 
@@ -307,7 +307,7 @@ static void CB2_GameplayCannotBeContinued(void)
     }
 }
 
-static void CB2_FadeAndReturnToTitleScreen(void)
+static void CB2_FadeAndReturnToTitleScreen (void)
 {
     gSaveFailedClockInfo[CLOCK_RUNNING] = FALSE;
 
@@ -318,7 +318,7 @@ static void CB2_FadeAndReturnToTitleScreen(void)
     }
 }
 
-static void CB2_ReturnToTitleScreen(void)
+static void CB2_ReturnToTitleScreen (void)
 {
     if (!UpdatePaletteFade()) {
         if (gGameContinueCallback == NULL) { // no callback exists, so do a soft reset.
@@ -330,7 +330,7 @@ static void CB2_ReturnToTitleScreen(void)
     }
 }
 
-static void VBlankCB_UpdateClockGraphics(void)
+static void VBlankCB_UpdateClockGraphics (void)
 {
     u32 n = (gMain.vblankCounter2 >> 3) & 7;
 
@@ -352,7 +352,7 @@ static void VBlankCB_UpdateClockGraphics(void)
     }
 }
 
-static bool8 VerifySectorWipe(u16 sector)
+static bool8 VerifySectorWipe (u16 sector)
 {
     u32 *ptr = (u32 *)&gSaveDataBuffer;
     u16 i;
@@ -368,7 +368,7 @@ static bool8 VerifySectorWipe(u16 sector)
     return FALSE;
 }
 
-static bool8 WipeSector(u16 sector)
+static bool8 WipeSector (u16 sector)
 {
     u16 i, j;
     bool8 failed = TRUE;
@@ -384,7 +384,7 @@ static bool8 WipeSector(u16 sector)
     return failed;
 }
 
-static bool8 WipeSectors(u32 sectorBits)
+static bool8 WipeSectors (u32 sectorBits)
 {
     u16 i;
 

@@ -10,7 +10,7 @@
 
 EWRAM_DATA u8 sCoinsWindowId = 0;
 
-void PrintCoinsString(u32 coinAmount)
+void PrintCoinsString (u32 coinAmount)
 {
     u32 xAlign;
 
@@ -21,7 +21,7 @@ void PrintCoinsString(u32 coinAmount)
     AddTextPrinterParameterized(sCoinsWindowId, 1, gStringVar4, xAlign, 1, 0, NULL);
 }
 
-void ShowCoinsWindow(u32 coinAmount, u8 x, u8 y)
+void ShowCoinsWindow (u32 coinAmount, u8 x, u8 y)
 {
     struct WindowTemplate template;
     SetWindowTemplateFields(&template, 0, x, y, 8, 2, 0xF, 0x141);
@@ -32,23 +32,23 @@ void ShowCoinsWindow(u32 coinAmount, u8 x, u8 y)
     PrintCoinsString(coinAmount);
 }
 
-void HideCoinsWindow(void)
+void HideCoinsWindow (void)
 {
     ClearStdWindowAndFrame(sCoinsWindowId, TRUE);
     RemoveWindow(sCoinsWindowId);
 }
 
-u16 GetCoins(void)
+u16 GetCoins (void)
 {
     return gSaveBlock1Ptr->coins ^ gSaveBlock2Ptr->encryptionKey;
 }
 
-void SetCoins(u16 coinAmount)
+void SetCoins (u16 coinAmount)
 {
     gSaveBlock1Ptr->coins = coinAmount ^ gSaveBlock2Ptr->encryptionKey;
 }
 
-bool8 AddCoins(u16 toAdd)
+bool8 AddCoins (u16 toAdd)
 {
     u16 newAmount;
     u16 ownedCoins = GetCoins();
@@ -69,7 +69,7 @@ bool8 AddCoins(u16 toAdd)
     return TRUE;
 }
 
-bool8 RemoveCoins(u16 toSub)
+bool8 RemoveCoins (u16 toSub)
 {
     u16 ownedCoins = GetCoins();
     if (ownedCoins >= toSub) {

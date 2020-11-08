@@ -118,7 +118,7 @@ static void ShiftSavedApprentices(void);
 
 #include "data/battle_frontier/apprentice.h"
 
-void BufferApprenticeChallengeText(u8 saveApprenticeId)
+void BufferApprenticeChallengeText (u8 saveApprenticeId)
 {
     u8 i, num;
     const u8 *challengeText;
@@ -135,12 +135,12 @@ void BufferApprenticeChallengeText(u8 saveApprenticeId)
     StringExpandPlaceholders(gStringVar4, challengeText);
 }
 
-void Apprentice_EnableBothScriptContexts(void)
+void Apprentice_EnableBothScriptContexts (void)
 {
     EnableBothScriptContexts();
 }
 
-void ResetApprenticeStruct(struct Apprentice *apprentice)
+void ResetApprenticeStruct (struct Apprentice *apprentice)
 {
     u8 i;
 
@@ -152,7 +152,7 @@ void ResetApprenticeStruct(struct Apprentice *apprentice)
     apprentice->id = NUM_APPRENTICES;
 }
 
-void ResetAllApprenticeData(void)
+void ResetAllApprenticeData (void)
 {
     u8 i, j;
 
@@ -176,12 +176,12 @@ void ResetAllApprenticeData(void)
     Script_ResetPlayerApprentice();
 }
 
-static bool8 GivenApprenticeLvlMode(void)
+static bool8 GivenApprenticeLvlMode (void)
 {
     return(PLAYER_APPRENTICE.lvlMode != 0);
 }
 
-static void SetApprenticeId(void)
+static void SetApprenticeId (void)
 {
     if (gSaveBlock2Ptr->apprentices[0].number == 0) {
         do {
@@ -194,12 +194,12 @@ static void SetApprenticeId(void)
     }
 }
 
-static void SetPlayersApprenticeLvlMode(u8 mode)
+static void SetPlayersApprenticeLvlMode (u8 mode)
 {
     PLAYER_APPRENTICE.lvlMode = mode;
 }
 
-static void ShuffleApprenticeSpecies(void)
+static void ShuffleApprenticeSpecies (void)
 {
     u8 species[APPRENTICE_SPECIES_COUNT];
     u8 i;
@@ -223,7 +223,7 @@ static void ShuffleApprenticeSpecies(void)
 
 // Pick one of the Apprentice's mons to ask the question about
 // Picking a move chooses a random mon, picking a held item is sequential (so that none are repeated)
-static u8 GetMonIdForQuestion(u8 questionId, u8 *party, u8 *partySlot)
+static u8 GetMonIdForQuestion (u8 questionId, u8 *party, u8 *partySlot)
 {
     u8 i, count;
     u8 monId = 0;
@@ -246,7 +246,7 @@ static u8 GetMonIdForQuestion(u8 questionId, u8 *party, u8 *partySlot)
 }
 
 // Sets the random order and data for the remaining questions after the initial "choose mon" questions
-static void SetRandomQuestionData(void)
+static void SetRandomQuestionData (void)
 {
     u8 questionOrder[APPRENTICE_MAX_QUESTIONS + 1];
     u8 partyOrder[MULTI_PARTY_SIZE];
@@ -315,19 +315,19 @@ static void SetRandomQuestionData(void)
 
 // No idea why a do-while loop is needed, but it will not match without it.
 
-#define APPRENTICE_SPECIES_ID(speciesArrId, monId) speciesArrId = (PLAYER_APPRENTICE.speciesIds[monId] >>  \
-                                                                  (((PLAYER_APPRENTICE.party >> monId) & 1) << 2)) & 0xF;  \
+#define APPRENTICE_SPECIES_ID(speciesArrId, monId) speciesArrId = (PLAYER_APPRENTICE.speciesIds[monId] >>   \
+                                                                  (((PLAYER_APPRENTICE.party >> monId) & 1) << 2)) & 0xF;   \
                                                    do {} while (0)
 
 // Why the need to have two macros do the exact thing differently?
-#define APPRENTICE_SPECIES_ID_2(speciesArrId, monId) {  u8 a0 = ((PLAYER_APPRENTICE.party >> monId) & 1); \
-                                                        speciesArrId = PLAYER_APPRENTICE.speciesIds[monId];      \
-                                                        speciesArrId = ((speciesArrId) >> (a0 << 2)) & 0xF;  \
+#define APPRENTICE_SPECIES_ID_2(speciesArrId, monId) {  u8 a0 = ((PLAYER_APPRENTICE.party >> monId) & 1);  \
+                                                        speciesArrId = PLAYER_APPRENTICE.speciesIds[monId];       \
+                                                        speciesArrId = ((speciesArrId) >> (a0 << 2)) & 0xF;   \
                                                      }
 
 // Get the second move choice for the "Which move" question
 // Unlike the first move choice, this can be either a level up move or a TM/HM move
-static u16 GetRandomAlternateMove(u8 monId)
+static u16 GetRandomAlternateMove (u8 monId)
 {
     u8 i, j;
     u8 id;
@@ -433,7 +433,7 @@ static u16 GetRandomAlternateMove(u8 monId)
     return moveId;
 }
 
-static bool8 TrySetMove(u8 monId, u16 moveId)
+static bool8 TrySetMove (u8 monId, u16 moveId)
 {
     u8 i;
 
@@ -447,7 +447,7 @@ static bool8 TrySetMove(u8 monId, u16 moveId)
     return TRUE;
 }
 
-static void GetLatestLearnedMoves(u16 species, u16 *moves)
+static void GetLatestLearnedMoves (u16 species, u16 *moves)
 {
     u8 i, j;
     u8 level, numLearnsetMoves;
@@ -478,7 +478,7 @@ static void GetLatestLearnedMoves(u16 species, u16 *moves)
 
 // Get the level up move or previously suggested move to be the first move choice
 // Compare to GetRandomAlternateMove, which gets the move that will be the second choice
-static u16 GetDefaultMove(u8 monId, u8 speciesArrayId, u8 moveSlot)
+static u16 GetDefaultMove (u8 monId, u8 speciesArrayId, u8 moveSlot)
 {
     u16 moves[MAX_MON_MOVES];
     u8 i, numQuestions;
@@ -504,7 +504,7 @@ static u16 GetDefaultMove(u8 monId, u8 speciesArrayId, u8 moveSlot)
     return moves[moveSlot];
 }
 
-static void SaveApprenticeParty(u8 numQuestions)
+static void SaveApprenticeParty (u8 numQuestions)
 {
     struct ApprenticeMon *apprenticeMons[MULTI_PARTY_SIZE];
     u8 i, j;
@@ -549,7 +549,7 @@ static void SaveApprenticeParty(u8 numQuestions)
     }
 }
 
-static void CreateApprenticeMenu(u8 menu)
+static void CreateApprenticeMenu (u8 menu)
 {
     u8 i;
     u8 windowId;
@@ -638,7 +638,7 @@ static void CreateApprenticeMenu(u8 menu)
 #define tWrapAround data[5]
 #define tWindowId data[6]
 
-static void Task_ChooseAnswer(u8 taskId)
+static void Task_ChooseAnswer (u8 taskId)
 {
     s8 input;
     s16 *data = gTasks[taskId].data;
@@ -670,7 +670,7 @@ static void Task_ChooseAnswer(u8 taskId)
     EnableBothScriptContexts();
 }
 
-static u8 CreateAndShowWindow(u8 left, u8 top, u8 width, u8 height)
+static u8 CreateAndShowWindow (u8 left, u8 top, u8 width, u8 height)
 {
     u8 windowId;
     struct WindowTemplate winTemplate = CreateWindowTemplate(0, left + 1, top + 1, width, height, 15, 100);
@@ -681,13 +681,13 @@ static u8 CreateAndShowWindow(u8 left, u8 top, u8 width, u8 height)
     return windowId;
 }
 
-static void RemoveAndHideWindow(u8 windowId)
+static void RemoveAndHideWindow (u8 windowId)
 {
     ClearStdWindowAndFrameToTransparent(windowId, TRUE);
     RemoveWindow(windowId);
 }
 
-static void CreateChooseAnswerTask(bool8 noBButton, u8 answers, u8 windowId)
+static void CreateChooseAnswerTask (bool8 noBButton, u8 answers, u8 windowId)
 {
     u8 taskId = CreateTask(Task_ChooseAnswer, 80);
     gTasks[taskId].tNoBButton = noBButton;
@@ -705,12 +705,12 @@ static void CreateChooseAnswerTask(bool8 noBButton, u8 answers, u8 windowId)
 #undef tWrapAround
 #undef tWindowId
 
-void CallApprenticeFunction(void)
+void CallApprenticeFunction (void)
 {
     sApprenticeFunctions[gSpecialVar_0x8004]();
 }
 
-static void Script_ResetPlayerApprentice(void)
+static void Script_ResetPlayerApprentice (void)
 {
     u8 i;
 
@@ -733,7 +733,7 @@ static void Script_ResetPlayerApprentice(void)
     }
 }
 
-static void Script_GivenApprenticeLvlMode(void)
+static void Script_GivenApprenticeLvlMode (void)
 {
     if (!GivenApprenticeLvlMode()) {
         gSpecialVar_Result = FALSE;
@@ -744,36 +744,36 @@ static void Script_GivenApprenticeLvlMode(void)
 
 // VAR_0x8005 is 1 + the selection value from the multichoice APPRENTICE_ASK_WHICH_LEVEL
 // i.e. APPRENTICE_LVL_MODE_50 or APPRENTICE_LVL_MODE_OPEN
-static void Script_SetApprenticeLvlMode(void)
+static void Script_SetApprenticeLvlMode (void)
 {
     SetPlayersApprenticeLvlMode(gSpecialVar_0x8005);
 }
 
 // Never called, APPRENTICE_FUNC_SET_ID is unused
-static void Script_SetApprenticeId(void)
+static void Script_SetApprenticeId (void)
 {
     SetApprenticeId();
 }
 
-static void Script_SetRandomQuestionData(void)
+static void Script_SetRandomQuestionData (void)
 {
     SetRandomQuestionData();
 }
 
-static void IncrementQuestionsAnswered(void)
+static void IncrementQuestionsAnswered (void)
 {
     PLAYER_APPRENTICE.questionsAnswered++;
 }
 
 // The first 3 questions answered after meeting the Apprentice are always selecting party mons
 //  after which this is never called
-static void GetNumApprenticePartyMonsAssigned(void)
+static void GetNumApprenticePartyMonsAssigned (void)
 {
     gSpecialVar_Result = PLAYER_APPRENTICE.questionsAnswered;
 }
 
 // Never called, APPRENTICE_FUNC_IS_FINAL_QUESTION is unused
-static void IsFinalQuestion(void)
+static void IsFinalQuestion (void)
 {
     s32 questionNum = CURRENT_QUESTION_NUM;
 
@@ -793,12 +793,12 @@ static void IsFinalQuestion(void)
     }
 }
 
-static void Script_CreateApprenticeMenu(void)
+static void Script_CreateApprenticeMenu (void)
 {
     CreateApprenticeMenu(gSpecialVar_0x8005);
 }
 
-static void Task_WaitForPrintingMessage(u8 taskId)
+static void Task_WaitForPrintingMessage (u8 taskId)
 {
     if (!RunTextPrintersAndIsPrinter0Active()) {
         DestroyTask(taskId);
@@ -810,7 +810,7 @@ static void Task_WaitForPrintingMessage(u8 taskId)
     }
 }
 
-static void PrintApprenticeMessage(void)
+static void PrintApprenticeMessage (void)
 {
     const u8 *string;
 
@@ -858,7 +858,7 @@ static void PrintApprenticeMessage(void)
     CreateTask(Task_WaitForPrintingMessage, 1);
 }
 
-static void Script_PrintApprenticeMessage(void)
+static void Script_PrintApprenticeMessage (void)
 {
     ScriptContext2_Enable();
     FreezeObjectEvents();
@@ -868,7 +868,7 @@ static void Script_PrintApprenticeMessage(void)
     PrintApprenticeMessage();
 }
 
-static void ApprenticeGetQuestion(void)
+static void ApprenticeGetQuestion (void)
 {
     if (PLAYER_APPRENTICE.questionsAnswered < NUM_WHICH_MON_QUESTIONS) {
         gSpecialVar_Result = APPRENTICE_QUESTION_WHICH_MON;
@@ -896,7 +896,7 @@ static void ApprenticeGetQuestion(void)
 
 // gSpecialVar_0x8005 is 0 or 1 for the mon selection (0 is already on the team)
 // gSpecialVar_0x8006 is 0-2 for the number of party mons selected so far
-static void SetApprenticePartyMon(void)
+static void SetApprenticePartyMon (void)
 {
     if (gSpecialVar_0x8005) {
         u8 partySlot = gSpecialVar_0x8006;
@@ -906,7 +906,7 @@ static void SetApprenticePartyMon(void)
 
 // gSpecialVar_0x8005 is 0 or 1 for the move selection
 // Selection 0 is implicitly the default move assigned
-static void SetApprenticeMonMove(void)
+static void SetApprenticeMonMove (void)
 {
     if (PLAYER_APPRENTICE.questionsAnswered >= NUM_WHICH_MON_QUESTIONS) {
         u8 id = CURRENT_QUESTION_NUM;
@@ -918,7 +918,7 @@ static void SetApprenticeMonMove(void)
     }
 }
 
-static void InitQuestionData(void)
+static void InitQuestionData (void)
 {
     u8 i;
     u8 count = 0;
@@ -961,12 +961,12 @@ static void InitQuestionData(void)
     }
 }
 
-static void FreeQuestionData(void)
+static void FreeQuestionData (void)
 {
     FREE_AND_SET_NULL(gApprenticeQuestionData);
 }
 
-static void ApprenticeBufferString(void)
+static void ApprenticeBufferString (void)
 {
     u8 *stringDst;
     u8 text[16];
@@ -1031,17 +1031,17 @@ static void ApprenticeBufferString(void)
     }
 }
 
-static void SetLeadApprenticeMon(void)
+static void SetLeadApprenticeMon (void)
 {
     PLAYER_APPRENTICE.leadMonId = gSpecialVar_0x8005;
 }
 
-static void Script_ApprenticeOpenBagMenu(void)
+static void Script_ApprenticeOpenBagMenu (void)
 {
     ApprenticeOpenBagMenu();
 }
 
-static void TrySetApprenticeHeldItem(void)
+static void TrySetApprenticeHeldItem (void)
 {
     u8 i, j;
     u8 count;
@@ -1073,7 +1073,7 @@ static void TrySetApprenticeHeldItem(void)
     gSpecialVar_Result = TRUE;
 }
 
-static void ShiftSavedApprentices(void)
+static void ShiftSavedApprentices (void)
 {
     s32 i;
     s32 apprenticeNum;
@@ -1106,7 +1106,7 @@ static void ShiftSavedApprentices(void)
 }
 
 // Apprentice is always saved in the first slot. Pre-existing Apprentices are moved by ShiftSavedApprentices
-static void SaveApprentice(void)
+static void SaveApprentice (void)
 {
     u8 i;
 
@@ -1134,7 +1134,7 @@ static void SaveApprentice(void)
 }
 
 // Never called, APPRENTICE_FUNC_SET_GFX_SAVED is unused
-static void SetSavedApprenticeTrainerGfxId(void)
+static void SetSavedApprenticeTrainerGfxId (void)
 {
     u8 i;
     u8 objectEventGfxId;
@@ -1158,7 +1158,7 @@ static void SetSavedApprenticeTrainerGfxId(void)
     }
 }
 
-static void SetPlayerApprenticeTrainerGfxId(void)
+static void SetPlayerApprenticeTrainerGfxId (void)
 {
     u8 i;
     u8 objectEventGfxId;
@@ -1184,17 +1184,17 @@ static void SetPlayerApprenticeTrainerGfxId(void)
 
 // Both of the below functions may have been dummied / used for debug
 // In all cases theres a conditional for VAR_0x8004 right after the call to these functions
-static void GetShouldCheckApprenticeGone(void)
+static void GetShouldCheckApprenticeGone (void)
 {
     gSpecialVar_0x8004 = TRUE;
 }
 
-static void GetShouldApprenticeLeave(void)
+static void GetShouldApprenticeLeave (void)
 {
     gSpecialVar_0x8004 = TRUE;
 }
 
-const u8 * GetApprenticeNameInLanguage(u32 apprenticeId, s32 language)
+const u8 * GetApprenticeNameInLanguage (u32 apprenticeId, s32 language)
 {
     const struct ApprenticeTrainer *apprentice = &gApprentices[apprenticeId];
 
@@ -1216,14 +1216,14 @@ const u8 * GetApprenticeNameInLanguage(u32 apprenticeId, s32 language)
 }
 
 // Functionally unused
-static void Task_SwitchToFollowupFuncAfterButtonPress(u8 taskId)
+static void Task_SwitchToFollowupFuncAfterButtonPress (u8 taskId)
 {
     if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)) {
         SwitchTaskToFollowupFunc(taskId);
     }
 }
 
-static void Task_ExecuteFuncAfterButtonPress(u8 taskId)
+static void Task_ExecuteFuncAfterButtonPress (u8 taskId)
 {
     if (JOY_NEW(A_BUTTON) || JOY_NEW(B_BUTTON)) {
         gApprenticeFunc = (void*)(u32)(((u16)gTasks[taskId].data[0] | (gTasks[taskId].data[1] << 16)));
@@ -1232,7 +1232,7 @@ static void Task_ExecuteFuncAfterButtonPress(u8 taskId)
     }
 }
 
-static void ExecuteFuncAfterButtonPress(void (*func)(void))
+static void ExecuteFuncAfterButtonPress (void (*func)(void))
 {
     u8 taskId = CreateTask(Task_ExecuteFuncAfterButtonPress, 1);
     gTasks[taskId].data[0] = (u32)(func);
@@ -1240,7 +1240,7 @@ static void ExecuteFuncAfterButtonPress(void (*func)(void))
 }
 
 // Unused
-static void ExecuteFollowupFuncAfterButtonPress(TaskFunc task)
+static void ExecuteFollowupFuncAfterButtonPress (TaskFunc task)
 {
     u8 taskId = CreateTask(Task_SwitchToFollowupFuncAfterButtonPress, 1);
     SetTaskFuncWithFollowupFunc(taskId, Task_SwitchToFollowupFuncAfterButtonPress, task);

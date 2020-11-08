@@ -165,7 +165,7 @@ extern const u8 gMultiBootProgram_BerryGlitchFix_End[];
 
 // .text
 
-void CB2_InitBerryFixProgram(void)
+void CB2_InitBerryFixProgram (void)
 {
     DisableInterrupts(0xFFFF); // all
     EnableInterrupts(INTR_FLAG_VBLANK);
@@ -181,7 +181,7 @@ void CB2_InitBerryFixProgram(void)
     SetMainCallback2(berry_fix_main);
 }
 
-static void berry_fix_main(void)
+static void berry_fix_main (void)
 {
     switch (berry_fix_mb_manager->state) {
     case 0:
@@ -239,7 +239,7 @@ static void berry_fix_main(void)
     }
 }
 
-static void berry_fix_gpu_set(void)
+static void berry_fix_gpu_set (void)
 {
     s32 width, left;
 
@@ -291,7 +291,7 @@ static void berry_fix_gpu_set(void)
     CopyWindowToVram(0, 2);
 }
 
-static int berry_fix_text_update(int checkval)
+static int berry_fix_text_update (int checkval)
 {
     if (berry_fix_mb_manager->unk1 == checkval) {
         return checkval;
@@ -306,7 +306,7 @@ static int berry_fix_text_update(int checkval)
     return berry_fix_mb_manager->unk1;
 }
 
-static void berry_fix_text_print(int scene)
+static void berry_fix_text_print (int scene)
 {
     FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 32, 32);
     FillWindowPixelBuffer(1, PIXEL_FILL(0xA));
@@ -335,7 +335,7 @@ static void berry_fix_text_print(int scene)
     ShowBg(1);
 }
 
-static void berry_fix_bg_hide(void)
+static void berry_fix_bg_hide (void)
 {
     HideBg(0);
     HideBg(1);

@@ -407,7 +407,7 @@ static const struct SpriteTemplate gBerryCheckCircleSpriteTemplate =
 };
 
 // code
-void RemoveBagSprite(u8 id)
+void RemoveBagSprite (u8 id)
 {
     u8 *spriteId = &gBagMenu->spriteId[id];
     if (*spriteId != 0xFF) {
@@ -419,14 +419,14 @@ void RemoveBagSprite(u8 id)
     }
 }
 
-void AddBagVisualSprite(u8 bagPocketId)
+void AddBagVisualSprite (u8 bagPocketId)
 {
     u8 *spriteId = &gBagMenu->spriteId[0];
     *spriteId = CreateSprite(&gBagSpriteTemplate, 68, 66, 0);
     SetBagVisualPocketId(bagPocketId, FALSE);
 }
 
-void SetBagVisualPocketId(u8 bagPocketId, bool8 isSwitchingPockets)
+void SetBagVisualPocketId (u8 bagPocketId, bool8 isSwitchingPockets)
 {
     struct Sprite *sprite = &gSprites[gBagMenu->spriteId[0]];
     if (isSwitchingPockets) {
@@ -439,7 +439,7 @@ void SetBagVisualPocketId(u8 bagPocketId, bool8 isSwitchingPockets)
     }
 }
 
-static void SpriteCB_BagVisualSwitchingPockets(struct Sprite *sprite)
+static void SpriteCB_BagVisualSwitchingPockets (struct Sprite *sprite)
 {
     if (sprite->pos2.y != 0) {
         sprite->pos2.y++;
@@ -449,7 +449,7 @@ static void SpriteCB_BagVisualSwitchingPockets(struct Sprite *sprite)
     }
 }
 
-void ShakeBagSprite(void)
+void ShakeBagSprite (void)
 {
     struct Sprite *sprite = &gSprites[gBagMenu->spriteId[0]];
     if (sprite->affineAnimEnded) {
@@ -458,7 +458,7 @@ void ShakeBagSprite(void)
     }
 }
 
-static void SpriteCB_ShakeBagSprite(struct Sprite *sprite)
+static void SpriteCB_ShakeBagSprite (struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded) {
         StartSpriteAffineAnim(sprite, 0);
@@ -466,7 +466,7 @@ static void SpriteCB_ShakeBagSprite(struct Sprite *sprite)
     }
 }
 
-void AddSwitchPocketRotatingBallSprite(s16 rotationDirection)
+void AddSwitchPocketRotatingBallSprite (s16 rotationDirection)
 {
     u8 *spriteId = &gBagMenu->spriteId[1];
     LoadSpriteSheet(&gRotatingBallTable);
@@ -475,13 +475,13 @@ void AddSwitchPocketRotatingBallSprite(s16 rotationDirection)
     gSprites[*spriteId].data[0] = rotationDirection;
 }
 
-static void UpdateSwitchPocketRotatingBallCoords(struct Sprite *sprite)
+static void UpdateSwitchPocketRotatingBallCoords (struct Sprite *sprite)
 {
     sprite->centerToCornerVecX = sprite->data[1] - ((sprite->data[3] + 1) & 1);
     sprite->centerToCornerVecY = sprite->data[1] - ((sprite->data[3] + 1) & 1);
 }
 
-static void SpriteCB_SwitchPocketRotatingBallInit(struct Sprite *sprite)
+static void SpriteCB_SwitchPocketRotatingBallInit (struct Sprite *sprite)
 {
     sprite->oam.affineMode = ST_OAM_AFFINE_NORMAL;
     if (sprite->data[0] == -1) {
@@ -497,7 +497,7 @@ static void SpriteCB_SwitchPocketRotatingBallInit(struct Sprite *sprite)
     sprite->callback = SpriteCB_SwitchPocketRotatingBallContinue;
 }
 
-static void SpriteCB_SwitchPocketRotatingBallContinue(struct Sprite *sprite)
+static void SpriteCB_SwitchPocketRotatingBallContinue (struct Sprite *sprite)
 {
     sprite->data[3]++;
     UpdateSwitchPocketRotatingBallCoords(sprite);
@@ -506,7 +506,7 @@ static void SpriteCB_SwitchPocketRotatingBallContinue(struct Sprite *sprite)
     }
 }
 
-void AddBagItemIconSprite(u16 itemId, u8 id)
+void AddBagItemIconSprite (u16 itemId, u8 id)
 {
     u8 *spriteId = &gBagMenu->spriteId[id + 2];
     if (*spriteId == 0xFF) {
@@ -523,27 +523,27 @@ void AddBagItemIconSprite(u16 itemId, u8 id)
     }
 }
 
-void RemoveBagItemIconSprite(u8 id)
+void RemoveBagItemIconSprite (u8 id)
 {
     RemoveBagSprite(id + 2);
 }
 
-void sub_80D4FAC(void)
+void sub_80D4FAC (void)
 {
     sub_8122344(&gBagMenu->spriteId[4], 8);
 }
 
-void sub_80D4FC8(u8 arg0)
+void sub_80D4FC8 (u8 arg0)
 {
     sub_81223FC(&gBagMenu->spriteId[4], 8, arg0);
 }
 
-void sub_80D4FEC(u8 arg0)
+void sub_80D4FEC (u8 arg0)
 {
     sub_8122448(&gBagMenu->spriteId[4], 136, 120, (arg0 + 1) * 16);
 }
 
-static void sub_80D5018(void *mem0, void *mem1)
+static void sub_80D5018 (void *mem0, void *mem1)
 {
     u8 i, j;
 
@@ -562,7 +562,7 @@ static void sub_80D5018(void *mem0, void *mem1)
     }
 }
 
-static void LoadBerryGfx(u8 berryId)
+static void LoadBerryGfx (u8 berryId)
 {
     struct CompressedSpritePalette pal;
 
@@ -577,19 +577,19 @@ static void LoadBerryGfx(u8 berryId)
     sub_80D5018(&gDecompressionBuffer[0x1000], &gDecompressionBuffer[0]);
 }
 
-u8 CreateBerryTagSprite(u8 id, s16 x, s16 y)
+u8 CreateBerryTagSprite (u8 id, s16 x, s16 y)
 {
     LoadBerryGfx(id);
     return CreateSprite(&gBerryPicSpriteTemplate, x, y, 0);
 }
 
-void FreeBerryTagSpritePalette(void)
+void FreeBerryTagSpritePalette (void)
 {
     FreeSpritePaletteByTag(TAG_BERRY_PIC_PAL);
 }
 
 // For throwing berries into the Berry Blender
-u8 CreateSpinningBerrySprite(u8 berryId, u8 x, u8 y, bool8 startAffine)
+u8 CreateSpinningBerrySprite (u8 berryId, u8 x, u8 y, bool8 startAffine)
 {
     u8 spriteId;
 
@@ -603,7 +603,7 @@ u8 CreateSpinningBerrySprite(u8 berryId, u8 x, u8 y, bool8 startAffine)
     return spriteId;
 }
 
-u8 CreateBerryFlavorCircleSprite(s16 x)
+u8 CreateBerryFlavorCircleSprite (s16 x)
 {
     return CreateSprite(&gBerryCheckCircleSpriteTemplate, x, 116, 0);
 }

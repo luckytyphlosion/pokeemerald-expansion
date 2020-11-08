@@ -1037,7 +1037,7 @@ static const struct YesNoFuncTable sYesNoTable_KeepPlaying =
     Task_StopPlaying
 };
 
-static void CB2_Roulette(void)
+static void CB2_Roulette (void)
 {
     RunTasks();
     AnimateSprites();
@@ -1047,7 +1047,7 @@ static void CB2_Roulette(void)
     }
 }
 
-static void VBlankCB_Roulette(void)
+static void VBlankCB_Roulette (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
@@ -1083,7 +1083,7 @@ static void VBlankCB_Roulette(void)
     }
 }
 
-static void InitRouletteBgAndWindows(void)
+static void InitRouletteBgAndWindows (void)
 {
     u32 size = 0;
 
@@ -1099,7 +1099,7 @@ static void InitRouletteBgAndWindows(void)
     sRoulette->gridTilemap = malloc_and_decompress(sGrid_Tilemap, &size);
 }
 
-static void FreeRoulette(void)
+static void FreeRoulette (void)
 {
     FREE_AND_SET_NULL(sRoulette->gridTilemap);
     FreeAllWindowBuffers();
@@ -1111,7 +1111,7 @@ static void FreeRoulette(void)
     FREE_AND_SET_NULL(sRoulette);
 }
 
-static void InitRouletteTableData(void)
+static void InitRouletteTableData (void)
 {
     u8 i;
     u16 bgColors[3] = {RGB(24, 4, 10), RGB(10, 19, 6), RGB(24, 4, 10)}; // 3rd is never used, same as 1st
@@ -1165,7 +1165,7 @@ static void InitRouletteTableData(void)
 #define tWinningSquare   data[12]
 #define tCoins           data[13]
 
-static void CB2_LoadRoulette(void)
+static void CB2_LoadRoulette (void)
 {
     u8 taskId;
 
@@ -1251,7 +1251,7 @@ static void CB2_LoadRoulette(void)
     gMain.state++;
 }
 
-static void Task_SpinWheel(u8 taskId)
+static void Task_SpinWheel (u8 taskId)
 {
     s16 sin;
     s16 cos;
@@ -1270,7 +1270,7 @@ static void Task_SpinWheel(u8 taskId)
     sRoulette->wheelRotation.c = -sin;
 }
 
-static void Task_StartPlaying(u8 taskId)
+static void Task_StartPlaying (u8 taskId)
 {
     if (UpdatePaletteFade() == 0) {
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_EFFECT_NONE |
@@ -1287,7 +1287,7 @@ static void Task_StartPlaying(u8 taskId)
     }
 }
 
-static void Task_AskKeepPlaying(u8 taskId)
+static void Task_AskKeepPlaying (u8 taskId)
 {
     DisplayYesNoMenuDefaultYes();
     DrawStdWindowFrame(sTextWindowId, 0);
@@ -1296,19 +1296,19 @@ static void Task_AskKeepPlaying(u8 taskId)
     DoYesNoFuncWithChoice(taskId, &sYesNoTable_KeepPlaying);
 }
 
-static void Task_ContinuePlaying(u8 taskId)
+static void Task_ContinuePlaying (u8 taskId)
 {
     ClearStdWindowAndFrame(0, TRUE);
     gTasks[taskId].func = Task_SelectFirstEmptySquare;
 }
 
-static void Task_StopPlaying(u8 taskId)
+static void Task_StopPlaying (u8 taskId)
 {
     DestroyTask(sRoulette->spinTaskId);
     ExitRoulette(taskId);
 }
 
-static void UpdateGridSelectionRect(u8 selectionId)
+static void UpdateGridSelectionRect (u8 selectionId)
 {
     u8 temp0, temp1;
     switch (selectionId) {
@@ -1340,13 +1340,13 @@ static void UpdateGridSelectionRect(u8 selectionId)
     }
 }
 
-static void UpdateGridSelection(u8 taskId)
+static void UpdateGridSelection (u8 taskId)
 {
     SetMultiplierSprite(gTasks[taskId].tSelectionId);
     UpdateGridSelectionRect(gTasks[taskId].tSelectionId);
 }
 
-static void Task_StartHandleBetGridInput(u8 taskId)
+static void Task_StartHandleBetGridInput (u8 taskId)
 {
     sRoulette->selectionRectDrawState = SELECT_STATE_DRAW;
     UpdateGridSelectionRect(gTasks[taskId].tSelectionId);
@@ -1355,7 +1355,7 @@ static void Task_StartHandleBetGridInput(u8 taskId)
     gTasks[taskId].func = Task_HandleBetGridInput;
 }
 
-static void Task_SelectFirstEmptySquare(u8 taskId)
+static void Task_SelectFirstEmptySquare (u8 taskId)
 {
     s16 i;
 
@@ -1384,7 +1384,7 @@ static void Task_SelectFirstEmptySquare(u8 taskId)
     gTasks[taskId].func = Task_StartHandleBetGridInput;
 }
 
-static bool8 CanMoveSelectionInDir(s16 *selectionId, u8 dir)
+static bool8 CanMoveSelectionInDir (s16 *selectionId, u8 dir)
 {
     s8 temp1 = 0;
     s8 temp = 0;
@@ -1427,7 +1427,7 @@ static bool8 CanMoveSelectionInDir(s16 *selectionId, u8 dir)
     return FALSE;
 }
 
-static void ProcessBetGridInput(u8 taskId)
+static void ProcessBetGridInput (u8 taskId)
 {
     u8 headerOffset = 0;
     bool8 dirPressed = FALSE;
@@ -1461,7 +1461,7 @@ static void ProcessBetGridInput(u8 taskId)
     }
 }
 
-static void Task_StartSpin(u8 taskId)
+static void Task_StartSpin (u8 taskId)
 {
     IncrementDailyRouletteUses();
     sRoulette->selectionRectDrawState = SELECT_STATE_ERASE;
@@ -1475,7 +1475,7 @@ static void Task_StartSpin(u8 taskId)
     gTasks[taskId].func = Task_SlideGridOffscreen;
 }
 
-static void Task_PlaceBet(u8 taskId)
+static void Task_PlaceBet (u8 taskId)
 {
     sRoulette->betSelection[sRoulette->curBallNum] = gTasks[taskId].tSelectionId;
     gTasks[taskId].tMultiplier = GetMultiplier(sRoulette->betSelection[sRoulette->curBallNum]);
@@ -1487,7 +1487,7 @@ static void Task_PlaceBet(u8 taskId)
     gTasks[taskId].func = Task_StartSpin;
 }
 
-static void Task_HandleBetGridInput(u8 taskId)
+static void Task_HandleBetGridInput (u8 taskId)
 {
     ProcessBetGridInput(taskId);
 
@@ -1519,7 +1519,7 @@ static void Task_HandleBetGridInput(u8 taskId)
     }
 }
 
-static void Task_SlideGridOffscreen(u8 taskId)
+static void Task_SlideGridOffscreen (u8 taskId)
 {
     if (gTasks[taskId].data[1]-- > 0) {
         // Slide wheel over
@@ -1544,7 +1544,7 @@ static void Task_SlideGridOffscreen(u8 taskId)
 // Half the value returned by this function is the max distance that can be added on per roll
 // i.e. the lower this value is, the closer the roll will be to a consistent distance
 // Odds of a lower value increase as play continues, if the player has Shroomish and/or Taillow in the party, and dependent on the time
-static u8 GetRandomForBallTravelDistance(u16 ballNum, u16 rand)
+static u8 GetRandomForBallTravelDistance (u16 ballNum, u16 rand)
 {
     switch (sRoulette->partySpeciesFlags) {
     case HAS_SHROOMISH:
@@ -1604,7 +1604,7 @@ static u8 GetRandomForBallTravelDistance(u16 ballNum, u16 rand)
     }
 }
 
-static void Task_InitBallRoll(u8 taskId)
+static void Task_InitBallRoll (u8 taskId)
 {
     u8 randTravelMod;
     s8 randTravelDist;
@@ -1650,7 +1650,7 @@ static void Task_InitBallRoll(u8 taskId)
     gTasks[taskId].func = Task_RollBall;
 }
 
-static void Task_RollBall(u8 taskId)
+static void Task_RollBall (u8 taskId)
 {
     sRoulette->ballRolling = TRUE;
     sRoulette->ball = &gSprites[sRoulette->spriteIds[sRoulette->curBallSpriteId]];
@@ -1662,7 +1662,7 @@ static void Task_RollBall(u8 taskId)
     gTasks[taskId].func = Task_RecordBallHit;
 }
 
-static void Task_RecordBallHit(u8 taskId)
+static void Task_RecordBallHit (u8 taskId)
 {
     // Wait for ball to finish rolling
     if (sRoulette->ballState != BALL_STATE_ROLLING) {
@@ -1696,7 +1696,7 @@ static void Task_RecordBallHit(u8 taskId)
     }
 }
 
-static void Task_SlideGridOnscreen(u8 taskId)
+static void Task_SlideGridOnscreen (u8 taskId)
 {
     if (gTasks[taskId].data[1]-- > 0) {
         // Slide wheel over
@@ -1719,7 +1719,7 @@ static void Task_SlideGridOnscreen(u8 taskId)
     }
 }
 
-static void Task_FlashBallOnWinningSquare(u8 taskId)
+static void Task_FlashBallOnWinningSquare (u8 taskId)
 {
     if (gTasks[taskId].data[1]-- > 1) {
         switch (gTasks[taskId].data[1] % 16) {
@@ -1739,7 +1739,7 @@ static void Task_FlashBallOnWinningSquare(u8 taskId)
     }
 }
 
-static void Task_TryIncrementWins(u8 taskId)
+static void Task_TryIncrementWins (u8 taskId)
 {
     switch (gTasks[taskId].tWonBet) {
     case TRUE:
@@ -1762,7 +1762,7 @@ static void Task_TryIncrementWins(u8 taskId)
     }
 }
 
-static void Task_PrintSpinResult(u8 taskId)
+static void Task_PrintSpinResult (u8 taskId)
 {
     switch (gTasks[taskId].tWonBet) {
     case TRUE:
@@ -1793,7 +1793,7 @@ static void Task_PrintSpinResult(u8 taskId)
 
 #define tPayout data[1]
 
-static void Task_GivePayout(u8 taskId)
+static void Task_GivePayout (u8 taskId)
 {
     switch (gTasks[taskId].data[7]) {
     case 0:
@@ -1820,7 +1820,7 @@ static void Task_GivePayout(u8 taskId)
     }
 }
 
-static void Task_PrintPayout(u8 taskId)
+static void Task_PrintPayout (u8 taskId)
 {
     ConvertIntToDecimalStringN(gStringVar1, (sRoulette->minBet * gTasks[taskId].tMultiplier), STR_CONV_MODE_LEFT_ALIGN, 2);
     StringExpandPlaceholders(gStringVar4, Roulette_Text_YouveWonXCoins);
@@ -1834,7 +1834,7 @@ static void Task_PrintPayout(u8 taskId)
 
 #undef tPayout
 
-static void Task_EndTurn(u8 taskId)
+static void Task_EndTurn (u8 taskId)
 {
     RouletteFlash_Stop(&sRoulette->flashUtil, 0xFFFF);
     sRoulette->flashUtil.palettes[FLASH_ICON].available = sRoulette->flashUtil.palettes[FLASH_ICON_2].available = sRoulette->flashUtil.palettes[FLASH_ICON_3].available = FALSE;
@@ -1842,7 +1842,7 @@ static void Task_EndTurn(u8 taskId)
     gTasks[taskId].func = Task_TryPrintEndTurnMsg;
 }
 
-static void Task_TryPrintEndTurnMsg(u8 taskId)
+static void Task_TryPrintEndTurnMsg (u8 taskId)
 {
     u8 i = 0;
     gTasks[taskId].tSelectionId = i;
@@ -1880,7 +1880,7 @@ static void Task_TryPrintEndTurnMsg(u8 taskId)
     }
 }
 
-static void Task_ClearBoard(u8 taskId)
+static void Task_ClearBoard (u8 taskId)
 {
     u8 i = 0;
 
@@ -1905,7 +1905,7 @@ static void Task_ClearBoard(u8 taskId)
     }
 }
 
-static void ExitRoulette(u8 taskId)
+static void ExitRoulette (u8 taskId)
 {
     RouletteFlash_Stop(&sRoulette->flashUtil, 0xFFFF);
     RouletteFlash_Reset(&sRoulette->flashUtil);
@@ -1920,7 +1920,7 @@ static void ExitRoulette(u8 taskId)
     gTasks[taskId].func = Task_ExitRoulette;
 }
 
-static void Task_ExitRoulette(u8 taskId)
+static void Task_ExitRoulette (u8 taskId)
 {
     if (UpdatePaletteFade() == 0) {
         SetVBlankCallback(NULL);
@@ -1940,7 +1940,7 @@ static void Task_ExitRoulette(u8 taskId)
     }
 }
 
-static void Task_WaitForNextTask(u8 taskId)
+static void Task_WaitForNextTask (u8 taskId)
 {
     if (sRoulette->taskWaitDelay == 0 || JOY_NEW(sRoulette->taskWaitKey)) {
         gTasks[taskId].func = sRoulette->nextTask;
@@ -1956,7 +1956,7 @@ static void Task_WaitForNextTask(u8 taskId)
     }
 }
 
-static void StartTaskAfterDelayOrInput(u8 taskId, TaskFunc task, u16 delay, u16 key)
+static void StartTaskAfterDelayOrInput (u8 taskId, TaskFunc task, u16 delay, u16 key)
 {
     sRoulette->prevTask = gTasks[taskId].func;
     if (task == NULL) {
@@ -1972,7 +1972,7 @@ static void StartTaskAfterDelayOrInput(u8 taskId, TaskFunc task, u16 delay, u16 
     gTasks[taskId].func = Task_WaitForNextTask;
 }
 
-static void ResetBallDataForNewSpin(u8 taskId)
+static void ResetBallDataForNewSpin (u8 taskId)
 {
     u8 i = 0;
     sRoulette->unk0 = FALSE;
@@ -1989,7 +1989,7 @@ static void ResetBallDataForNewSpin(u8 taskId)
     gTasks[taskId].data[1] = 0;
 }
 
-static void ResetHits(void)
+static void ResetHits (void)
 {
     u8 i;
     sRoulette->hitFlags = 0;
@@ -2009,7 +2009,7 @@ static void ResetHits(void)
     ShowHideGridBalls(TRUE, -1);
 }
 
-static u8 RecordHit(u8 taskId, u8 slotId)
+static u8 RecordHit (u8 taskId, u8 slotId)
 {
     u8 i, j;
     u32 columnFlags[NUM_BOARD_POKES] = {
@@ -2052,7 +2052,7 @@ static u8 RecordHit(u8 taskId, u8 slotId)
     return sRouletteSlots[slotId].gridSquare;
 }
 
-static bool8 IsHitInBetSelection(u8 gridSquare, u8 betSelection)
+static bool8 IsHitInBetSelection (u8 gridSquare, u8 betSelection)
 {
     u8 hit = gridSquare;
     if (--gridSquare < NUM_GRID_SELECTIONS) {
@@ -2087,7 +2087,7 @@ static bool8 IsHitInBetSelection(u8 gridSquare, u8 betSelection)
     return FALSE;
 }
 
-static void FlashSelectionOnWheel(u8 selectionId)
+static void FlashSelectionOnWheel (u8 selectionId)
 {
     u16 flashFlags = 0;
     u8 numSelected;
@@ -2170,7 +2170,7 @@ static void FlashSelectionOnWheel(u8 selectionId)
     }
 }
 
-static void DrawGridBackground(u8 selectionId)
+static void DrawGridBackground (u8 selectionId)
 {
     vu8 i, j;
     vu16 x, y;
@@ -2223,7 +2223,7 @@ static void DrawGridBackground(u8 selectionId)
     }
 }
 
-static u8 GetMultiplier(u8 selectionId)
+static u8 GetMultiplier (u8 selectionId)
 {
     u8 multipliers[5] = {0, 3, 4, 6, MAX_MULTIPLIER};
 
@@ -2256,7 +2256,7 @@ static u8 GetMultiplier(u8 selectionId)
     return 0;
 }
 
-static void UpdateWheelPosition(void)
+static void UpdateWheelPosition (void)
 {
     s32 bg2x;
     s32 bg2y;
@@ -3320,13 +3320,13 @@ static const struct SpriteTemplate sSpriteTemplate_TaillowShadow =
     .callback = SpriteCB_Taillow
 };
 
-static void Task_ShowMinBetYesNo(u8 taskId)
+static void Task_ShowMinBetYesNo (u8 taskId)
 {
     DisplayYesNoMenuDefaultYes();
     DoYesNoFuncWithChoice(taskId, &sYesNoTable_AcceptMinBet);
 }
 
-static void Task_FadeToRouletteGame(u8 taskId)
+static void Task_FadeToRouletteGame (u8 taskId)
 {
     if (!gPaletteFade.active) {
         SetVBlankCallback(NULL);
@@ -3335,7 +3335,7 @@ static void Task_FadeToRouletteGame(u8 taskId)
     }
 }
 
-static void Task_AcceptMinBet(u8 taskId)
+static void Task_AcceptMinBet (u8 taskId)
 {
     ClearStdWindowAndFrame(0, TRUE);
     HideCoinsWindow();
@@ -3346,7 +3346,7 @@ static void Task_AcceptMinBet(u8 taskId)
     gTasks[taskId].func = Task_FadeToRouletteGame;
 }
 
-static void Task_DeclineMinBet(u8 taskId)
+static void Task_DeclineMinBet (u8 taskId)
 {
     ClearStdWindowAndFrame(0, FALSE);
     HideCoinsWindow();
@@ -3354,7 +3354,7 @@ static void Task_DeclineMinBet(u8 taskId)
     DestroyTask(taskId);
 }
 
-static void Task_NotEnoughForMinBet(u8 taskId)
+static void Task_NotEnoughForMinBet (u8 taskId)
 {
     gTasks[taskId].data[0]++;
     if (JOY_NEW(A_BUTTON | B_BUTTON)) {
@@ -3366,7 +3366,7 @@ static void Task_NotEnoughForMinBet(u8 taskId)
     }
 }
 
-static void Task_PrintMinBet(u8 taskId)
+static void Task_PrintMinBet (u8 taskId)
 {
     if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         u32 minBet = sTableMinBets[GET_MIN_BET_ID(gSpecialVar_0x8004)];
@@ -3379,7 +3379,7 @@ static void Task_PrintMinBet(u8 taskId)
     }
 }
 
-static void Task_PrintRouletteEntryMsg(u8 taskId)
+static void Task_PrintRouletteEntryMsg (u8 taskId)
 {
     s32 minBet;
     PrintCoinsString(gTasks[taskId].tCoins);
@@ -3413,7 +3413,7 @@ static void Task_PrintRouletteEntryMsg(u8 taskId)
     }
 }
 
-void PlayRoulette(void)
+void PlayRoulette (void)
 {
     u8 taskId;
     ScriptContext2_Enable();
@@ -3422,7 +3422,7 @@ void PlayRoulette(void)
     gTasks[taskId].tCoins = GetCoins();
 }
 
-static void LoadOrFreeMiscSpritePalettesAndSheets(bool8 free)
+static void LoadOrFreeMiscSpritePalettesAndSheets (bool8 free)
 {
     if (!free) {
         FreeAllSpritePalettes();
@@ -3439,7 +3439,7 @@ static void LoadOrFreeMiscSpritePalettesAndSheets(bool8 free)
     }
 }
 
-static u8 CreateWheelIconSprite(const struct SpriteTemplate *template, u8 r1, u16 *angle)
+static u8 CreateWheelIconSprite (const struct SpriteTemplate *template, u8 r1, u16 *angle)
 {
     u16 temp;
     u8 spriteId = CreateSprite(template, 116, 80, template->oam->y);
@@ -3456,7 +3456,7 @@ static u8 CreateWheelIconSprite(const struct SpriteTemplate *template, u8 r1, u1
     return spriteId;
 }
 
-static void CreateGridSprites(void)
+static void CreateGridSprites (void)
 {
     u8 i, j;
     u8 spriteId;
@@ -3493,7 +3493,7 @@ static void CreateGridSprites(void)
 }
 
 // Unused
-static void DestroyGridSprites(void)
+static void DestroyGridSprites (void)
 {
     u8 i;
     for (i = 0; i < NUM_ROULETTE_SLOTS; i++) {
@@ -3501,7 +3501,7 @@ static void DestroyGridSprites(void)
     }
 }
 
-static void ShowHideGridIcons(bool8 hideAll, u8 hideSquare)
+static void ShowHideGridIcons (bool8 hideAll, u8 hideSquare)
 {
     u8 i;
     switch (hideAll) {
@@ -3529,7 +3529,7 @@ static void ShowHideGridIcons(bool8 hideAll, u8 hideSquare)
     }
 }
 
-static void CreateGridBallSprites(void)
+static void CreateGridBallSprites (void)
 {
     u8 i;
     for (i = 0; i < BALLS_PER_ROUND; i++) {
@@ -3542,7 +3542,7 @@ static void CreateGridBallSprites(void)
     }
 }
 
-static void ShowHideGridBalls(bool8 hideAll, u8 hideBallId)
+static void ShowHideGridBalls (bool8 hideAll, u8 hideBallId)
 {
     u8 i = 0;
     if (hideAll) {
@@ -3562,7 +3562,7 @@ static void ShowHideGridBalls(bool8 hideAll, u8 hideBallId)
     }
 }
 
-static void ShowHideWinSlotCursor(u8 selectionId)
+static void ShowHideWinSlotCursor (u8 selectionId)
 {
     if (selectionId == 0) {
         gSprites[sRoulette->spriteIds[SPR_WIN_SLOT_CURSOR]].invisible = TRUE;
@@ -3573,7 +3573,7 @@ static void ShowHideWinSlotCursor(u8 selectionId)
     }
 }
 
-static void CreateWheelIconSprites(void)
+static void CreateWheelIconSprites (void)
 {
     u8 i, j;
     u16 angle;
@@ -3596,7 +3596,7 @@ static void CreateWheelIconSprites(void)
     }
 }
 
-static void SpriteCB_WheelIcon(struct Sprite *sprite)
+static void SpriteCB_WheelIcon (struct Sprite *sprite)
 {
     s16 cos;
     s16 sin;
@@ -3617,7 +3617,7 @@ static void SpriteCB_WheelIcon(struct Sprite *sprite)
     gOamMatrices[matrixNum].c = -sin;
 }
 
-static void CreateInterfaceSprites(void)
+static void CreateInterfaceSprites (void)
 {
     u8 i;
     for (i = 0; i < ARRAY_COUNT(sSpriteSheets_Interface) - 1; i++) {
@@ -3649,7 +3649,7 @@ static void CreateInterfaceSprites(void)
     gSprites[sRoulette->spriteIds[SPR_WIN_SLOT_CURSOR]].invisible = TRUE;
 }
 
-static void SetCreditDigits(u16 num)
+static void SetCreditDigits (u16 num)
 {
     u8 i;
     u16 d = 1000;
@@ -3670,7 +3670,7 @@ static void SetCreditDigits(u16 num)
 }
 
 // Identical to GetMultiplier but with different data array
-static u8 GetMultiplierAnimId(u8 selectionId)
+static u8 GetMultiplierAnimId (u8 selectionId)
 {
     u8 animIds[5] = {0, 1, 2, 3, 4};
 
@@ -3700,14 +3700,14 @@ static u8 GetMultiplierAnimId(u8 selectionId)
     return 0;
 }
 
-static void SetMultiplierSprite(u8 selectionId)
+static void SetMultiplierSprite (u8 selectionId)
 {
     struct Sprite *sprite = &gSprites[sRoulette->spriteIds[SPR_MULTIPLIER]];
     sprite->animCmdIndex = GetMultiplierAnimId(selectionId);
     sprite->oam.tileNum = sprite->sheetTileStart + (*sprite->anims + sprite->animCmdIndex)->type;
 }
 
-static void SetBallCounterNumLeft(u8 numBalls)
+static void SetBallCounterNumLeft (u8 numBalls)
 {
     u8 i;
     u8 t = 0;
@@ -3758,12 +3758,12 @@ static void SetBallCounterNumLeft(u8 numBalls)
     }
 }
 
-static void SpriteCB_GridSquare(struct Sprite *sprite)
+static void SpriteCB_GridSquare (struct Sprite *sprite)
 {
     sprite->pos2.x = sRoulette->gridX;
 }
 
-static void CreateWheelCenterSprite(void)
+static void CreateWheelCenterSprite (void)
 {
     u8 spriteId;
     struct SpriteSheet s;
@@ -3782,7 +3782,7 @@ static void CreateWheelCenterSprite(void)
     gSprites[spriteId].coordOffsetEnabled = TRUE;
 }
 
-static void SpriteCB_WheelCenter(struct Sprite *sprite)
+static void SpriteCB_WheelCenter (struct Sprite *sprite)
 {
     u32 matrixNum = sprite->oam.matrixNum;
     struct OamMatrix *matrix = &gOamMatrices[0];
@@ -3792,7 +3792,7 @@ static void SpriteCB_WheelCenter(struct Sprite *sprite)
     matrix[matrixNum].c = sRoulette->wheelRotation.c;
 }
 
-static void CreateWheelBallSprites(void)
+static void CreateWheelBallSprites (void)
 {
     u8 i;
     for (i = 0; i < BALLS_PER_ROUND; i++) {
@@ -3804,7 +3804,7 @@ static void CreateWheelBallSprites(void)
     }
 }
 
-static void HideWheelBalls(void)
+static void HideWheelBalls (void)
 {
     u8 spriteId = sRoulette->spriteIds[SPR_WHEEL_BALLS];
     u8 i;
@@ -3829,23 +3829,23 @@ static void HideWheelBalls(void)
 #define sBallDistToCenter data[4]
 #define sBallWheelAngle   data[6]
 
-#define LandBall()                                                                                   \
-{                                                                                                    \
-    sRoulette->ballState = BALL_STATE_LANDED;                                                        \
-    sRoulette->ballRolling = FALSE;                                                                  \
-    StartSpriteAnim(sprite, sprite->animCmdIndex + 3);                                               \
-    UpdateSlotBelowBall(sprite);                                                                     \
-    sprite->sBallDistToCenter = 30;                                                                  \
-    UpdateBallRelativeWheelAngle(sprite);                                                            \
-    sprite->sBallWheelAngle = (sprite->sBallWheelAngle / DEGREES_PER_SLOT) * DEGREES_PER_SLOT + 15;  \
-    sprite->callback = SpriteCB_BallLandInSlot;                                                      \
-    m4aSongNumStartOrChange(SE_BRIDGE_WALK);                                                               \
+#define LandBall()                                                                                    \
+{                                                                                                     \
+    sRoulette->ballState = BALL_STATE_LANDED;                                                         \
+    sRoulette->ballRolling = FALSE;                                                                   \
+    StartSpriteAnim(sprite, sprite->animCmdIndex + 3);                                                \
+    UpdateSlotBelowBall(sprite);                                                                      \
+    sprite->sBallDistToCenter = 30;                                                                   \
+    UpdateBallRelativeWheelAngle(sprite);                                                             \
+    sprite->sBallWheelAngle = (sprite->sBallWheelAngle / DEGREES_PER_SLOT) * DEGREES_PER_SLOT + 15;   \
+    sprite->callback = SpriteCB_BallLandInSlot;                                                       \
+    m4aSongNumStartOrChange(SE_BRIDGE_WALK);                                                                \
 }
 
 // "wheelAngle" and "sBallAngle" are relative to the screen (e.g. 180 degrees for either is always screen bottom)
 // "sBallWheelAngle" is the ball's angle relative to the wheel
 //   e.g. if the ball is screen right (90), but wheel is upside down (180), sBallWheelAngle is 270 (because the ball is wheel left)
-static s16 UpdateBallRelativeWheelAngle(struct Sprite *sprite)
+static s16 UpdateBallRelativeWheelAngle (struct Sprite *sprite)
 {
     if (sRoulette->wheelAngle > sprite->sBallAngle) {
         sprite->sBallWheelAngle = 360 - sRoulette->wheelAngle + sprite->sBallAngle;
@@ -3859,13 +3859,13 @@ static s16 UpdateBallRelativeWheelAngle(struct Sprite *sprite)
     return sprite->sBallWheelAngle;
 }
 
-static u8 UpdateSlotBelowBall(struct Sprite *sprite)
+static u8 UpdateSlotBelowBall (struct Sprite *sprite)
 {
     sRoulette->hitSlot = UpdateBallRelativeWheelAngle(sprite) / (float)DEGREES_PER_SLOT;
     return sRoulette->hitSlot;
 }
 
-static s16 GetBallDistanceToSlotMidpoint(struct Sprite *sprite)
+static s16 GetBallDistanceToSlotMidpoint (struct Sprite *sprite)
 {
     s16 angleIntoSlot = UpdateBallRelativeWheelAngle(sprite) % DEGREES_PER_SLOT;
     u16 distanceToMidpoint;
@@ -3884,7 +3884,7 @@ static s16 GetBallDistanceToSlotMidpoint(struct Sprite *sprite)
     }
 }
 
-static void UpdateBallPos(struct Sprite *sprite)
+static void UpdateBallPos (struct Sprite *sprite)
 {
     s16 sin, cos;
     sRoulette->ballAngleSpeed += sRoulette->ballAngleAccel;
@@ -3911,7 +3911,7 @@ static void UpdateBallPos(struct Sprite *sprite)
 }
 
 // Snap to the bottom of the slot and continue to spin with the wheel
-static void SpriteCB_BallLandInSlot(struct Sprite *sprite)
+static void SpriteCB_BallLandInSlot (struct Sprite *sprite)
 {
     s16 sin, cos;
     sprite->sBallAngle = sRoulette->wheelAngle + sprite->sBallWheelAngle;
@@ -3925,7 +3925,7 @@ static void SpriteCB_BallLandInSlot(struct Sprite *sprite)
     sprite->pos2.y += gSpriteCoordOffsetY;
 }
 
-static void SpriteCB_UnstickBall_ShroomishBallFall(struct Sprite *sprite)
+static void SpriteCB_UnstickBall_ShroomishBallFall (struct Sprite *sprite)
 {
     UpdateBallPos(sprite);
     sprite->data[2]++;
@@ -3952,7 +3952,7 @@ static void SpriteCB_UnstickBall_ShroomishBallFall(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_UnstickBall_Shroomish(struct Sprite *sprite)
+static void SpriteCB_UnstickBall_Shroomish (struct Sprite *sprite)
 {
     float slotOffset, ballFallDist, ballFallSpeed;
     UpdateBallPos(sprite);
@@ -3991,7 +3991,7 @@ static void SpriteCB_UnstickBall_Shroomish(struct Sprite *sprite)
     sprite->data[2] = 0;
 }
 
-static void SpriteCB_UnstickBall_TaillowDrop(struct Sprite *sprite)
+static void SpriteCB_UnstickBall_TaillowDrop (struct Sprite *sprite)
 {
     sprite->pos2.y = (s16)(sprite->data[2] * 0.05f * sprite->data[2]) - 45;
     sprite->data[2]++;
@@ -4001,7 +4001,7 @@ static void SpriteCB_UnstickBall_TaillowDrop(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_UnstickBall_TaillowPickUp(struct Sprite *sprite)
+static void SpriteCB_UnstickBall_TaillowPickUp (struct Sprite *sprite)
 {
     if (sprite->data[2]++ < 45) {
         sprite->pos2.y--;
@@ -4031,7 +4031,7 @@ static void SpriteCB_UnstickBall_TaillowPickUp(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_UnstickBall_Taillow(struct Sprite *sprite)
+static void SpriteCB_UnstickBall_Taillow (struct Sprite *sprite)
 {
     UpdateBallPos(sprite);
 
@@ -4053,7 +4053,7 @@ static void SpriteCB_UnstickBall_Taillow(struct Sprite *sprite)
 
 // The below SpriteCB_UnstickBall_* callbacks handle the ball while its being cleared by Shroomish/Taillow
 // For what Shroomish/Taillow do during this sequence, see SpriteCB_Shroomish / SpriteCB_Taillow
-static void SpriteCB_UnstickBall(struct Sprite *sprite)
+static void SpriteCB_UnstickBall (struct Sprite *sprite)
 {
     UpdateBallPos(sprite);
     switch (sRoulette->useTaillow) {
@@ -4071,7 +4071,7 @@ static void SpriteCB_UnstickBall(struct Sprite *sprite)
 
 #define sStillStuck data[0]
 
-static void SpriteCB_RollBall_TryLandAdjacent(struct Sprite *sprite)
+static void SpriteCB_RollBall_TryLandAdjacent (struct Sprite *sprite)
 {
     UpdateBallPos(sprite);
 
@@ -4092,7 +4092,7 @@ static void SpriteCB_RollBall_TryLandAdjacent(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_RollBall_TryLand(struct Sprite *sprite)
+static void SpriteCB_RollBall_TryLand (struct Sprite *sprite)
 {
     UpdateBallPos(sprite);
     sprite->data[2] = 0;
@@ -4140,7 +4140,7 @@ static void SpriteCB_RollBall_TryLand(struct Sprite *sprite)
 
 #undef sStillStuck
 
-static void SpriteCB_RollBall_Slow(struct Sprite *sprite)
+static void SpriteCB_RollBall_Slow (struct Sprite *sprite)
 {
     UpdateBallPos(sprite);
     if (sRoulette->ballAngleSpeed > 0.5f) {
@@ -4166,7 +4166,7 @@ static void SpriteCB_RollBall_Slow(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_RollBall_Medium(struct Sprite *sprite)
+static void SpriteCB_RollBall_Medium (struct Sprite *sprite)
 {
     UpdateBallPos(sprite);
     if (sRoulette->ballDistToCenter > 40.0f) {
@@ -4182,7 +4182,7 @@ static void SpriteCB_RollBall_Medium(struct Sprite *sprite)
     sprite->callback = SpriteCB_RollBall_Slow;
 }
 
-static void SpriteCB_RollBall_Fast(struct Sprite *sprite)
+static void SpriteCB_RollBall_Fast (struct Sprite *sprite)
 {
     UpdateBallPos(sprite);
     if (sRoulette->ballDistToCenter > 60.0f) {
@@ -4199,7 +4199,7 @@ static void SpriteCB_RollBall_Fast(struct Sprite *sprite)
     sprite->callback = SpriteCB_RollBall_Medium;
 }
 
-static void SpriteCB_RollBall_Start(struct Sprite *sprite)
+static void SpriteCB_RollBall_Start (struct Sprite *sprite)
 {
     sprite->sState = 1;
     sprite->data[2] = 0;
@@ -4213,7 +4213,7 @@ static void SpriteCB_RollBall_Start(struct Sprite *sprite)
 #define sBallShadowSpriteId data[5]
 #define sMonShadowSpriteId  data[6]
 
-static void CreateShroomishSprite(struct Sprite *ball)
+static void CreateShroomishSprite (struct Sprite *ball)
 {
     u16 t;
     u8 i;
@@ -4245,7 +4245,7 @@ static void CreateShroomishSprite(struct Sprite *ball)
     sRoulette->ball = ball;
 }
 
-static void CreateTaillowSprite(struct Sprite *ball)
+static void CreateTaillowSprite (struct Sprite *ball)
 {
     u8 i = 0;
     s16 t;
@@ -4271,7 +4271,7 @@ static void CreateTaillowSprite(struct Sprite *ball)
     sRoulette->ball = ball;
 }
 
-static void SetBallStuck(struct Sprite *sprite)
+static void SetBallStuck (struct Sprite *sprite)
 {
     u8 slotId;
     u16 angle;
@@ -4369,7 +4369,7 @@ static const u16 sShroomishShadowAlphas[] = {
     0x010,
 };
 
-static void SpriteCB_ShroomishExit(struct Sprite *sprite)
+static void SpriteCB_ShroomishExit (struct Sprite *sprite)
 {
     // Delay for screen shaking, then exit left
     if (sprite->data[1]++ >= sprite->data[3]) {
@@ -4386,7 +4386,7 @@ static void SpriteCB_ShroomishExit(struct Sprite *sprite)
 }
 
 // Handles both the screen shake and ball shadow effect for when Shroomish unsticks the ball
-static void SpriteCB_ShroomishShakeScreen(struct Sprite *sprite)
+static void SpriteCB_ShroomishShakeScreen (struct Sprite *sprite)
 {
     int screenShakeIdx;
     u16 screenShakeOffsets[][4] = {
@@ -4411,7 +4411,7 @@ static void SpriteCB_ShroomishShakeScreen(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_ShroomishFall(struct Sprite *sprite)
+static void SpriteCB_ShroomishFall (struct Sprite *sprite)
 {
     float timer;
     sprite->data[1]++;
@@ -4432,7 +4432,7 @@ static void SpriteCB_ShroomishFall(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_Shroomish(struct Sprite *sprite)
+static void SpriteCB_Shroomish (struct Sprite *sprite)
 {
     if (sprite->data[7] == 0) {
         // Wait for the ball to be a specific angle (or its 180 degree opposite) specified by the table
@@ -4478,12 +4478,12 @@ static void SpriteCB_Shroomish(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_TaillowShadow_Flash(struct Sprite *sprite)
+static void SpriteCB_TaillowShadow_Flash (struct Sprite *sprite)
 {
     sprite->invisible ^= 1;
 }
 
-static void SpriteCB_Taillow_FlyAway(struct Sprite *sprite)
+static void SpriteCB_Taillow_FlyAway (struct Sprite *sprite)
 {
     if (sprite->pos1.y > -16) {
         sprite->pos1.y--;
@@ -4498,7 +4498,7 @@ static void SpriteCB_Taillow_FlyAway(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_Taillow_PickUpBall(struct Sprite *sprite)
+static void SpriteCB_Taillow_PickUpBall (struct Sprite *sprite)
 {
     if (sprite->data[1] >= 0) {
         sprite->data[1]--;
@@ -4525,7 +4525,7 @@ static void SpriteCB_Taillow_PickUpBall(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_Taillow_FlyIn(struct Sprite *sprite)
+static void SpriteCB_Taillow_FlyIn (struct Sprite *sprite)
 {
     s8 xMoveOffsets[2] = {-1, 1};
     s8 yMoveOffsets[][2] = {
@@ -4564,7 +4564,7 @@ static void SpriteCB_Taillow_FlyIn(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_TaillowShadow_FlyIn(struct Sprite *sprite)
+static void SpriteCB_TaillowShadow_FlyIn (struct Sprite *sprite)
 {
     s8 moveDir[2] = {-1, 1};
 
@@ -4576,7 +4576,7 @@ static void SpriteCB_TaillowShadow_FlyIn(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_Taillow(struct Sprite *sprite)
+static void SpriteCB_Taillow (struct Sprite *sprite)
 {
     if (sRoulette->ball->sStuckOnWheelLeft == FALSE) {
         if (sRoulette->ball->sBallAngle == sRouletteTables[sRoulette->tableId].taillow.rightStartAngle + 90) {

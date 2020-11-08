@@ -502,12 +502,12 @@ static const u16 sLongStreakPrizeItems[] =
 };
 
 // code
-void CallBattleArenaFunction(void)
+void CallBattleArenaFunction (void)
 {
     sArenaFunctions[gSpecialVar_0x8004]();
 }
 
-u8 BattleArena_ShowJudgmentWindow(u8 *state)
+u8 BattleArena_ShowJudgmentWindow (u8 *state)
 {
     int i;
     u8 ret = 0;
@@ -621,7 +621,7 @@ u8 BattleArena_ShowJudgmentWindow(u8 *state)
     return ret;
 }
 
-static void ShowJudgmentSprite(u8 x, u8 y, u8 category, u8 battler)
+static void ShowJudgmentSprite (u8 x, u8 y, u8 category, u8 battler)
 {
     int animNum = 0;
     int pointsPlayer = 0;
@@ -667,14 +667,14 @@ static void ShowJudgmentSprite(u8 x, u8 y, u8 category, u8 battler)
     StartSpriteAnim(&gSprites[pointsPlayer], animNum);
 }
 
-static void SpriteCb_JudgmentIcon(struct Sprite *sprite)
+static void SpriteCb_JudgmentIcon (struct Sprite *sprite)
 {
     if (gBattleCommunication[0] > 8) {
         DestroySprite(sprite);
     }
 }
 
-void BattleArena_InitPoints(void)
+void BattleArena_InitPoints (void)
 {
     s8 *mindPoints = gBattleStruct->arenaMindPoints;
     s8 *skillPoints = gBattleStruct->arenaSkillPoints;
@@ -688,13 +688,13 @@ void BattleArena_InitPoints(void)
     hpAtStart[1] = gBattleMons[1].hp;
 }
 
-void BattleArena_AddMindPoints(u8 battler)
+void BattleArena_AddMindPoints (u8 battler)
 {
     s8 *mindPoints = gBattleStruct->arenaMindPoints;
     mindPoints[battler] += sMindRatings[gCurrentMove];
 }
 
-void BattleArena_AddSkillPoints(u8 battler)
+void BattleArena_AddSkillPoints (u8 battler)
 {
     s8 *skillPoints = gBattleStruct->arenaSkillPoints;
 
@@ -719,7 +719,7 @@ void BattleArena_AddSkillPoints(u8 battler)
     }
 }
 
-void BattleArena_DeductMindPoints(u8 battler, u16 stringId)
+void BattleArena_DeductMindPoints (u8 battler, u16 stringId)
 {
     s8 *skillPoints = gBattleStruct->arenaSkillPoints;
 
@@ -748,7 +748,7 @@ void BattleArena_DeductMindPoints(u8 battler, u16 stringId)
     }
 }
 
-void sub_81A586C(u8 battler) // Unused.
+void sub_81A586C (u8 battler) // Unused.
 {
     u16 *hpAtStart = gBattleStruct->arenaStartHp;
 
@@ -758,7 +758,7 @@ void sub_81A586C(u8 battler) // Unused.
     }
 }
 
-static void InitArenaChallenge(void)
+static void InitArenaChallenge (void)
 {
     bool32 isCurrent;
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
@@ -781,7 +781,7 @@ static void InitArenaChallenge(void)
     gTrainerBattleOpponent_A = 0;
 }
 
-static void GetArenaData(void)
+static void GetArenaData (void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
@@ -802,7 +802,7 @@ static void GetArenaData(void)
     }
 }
 
-static void SetArenaData(void)
+static void SetArenaData (void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
@@ -831,7 +831,7 @@ static void SetArenaData(void)
     }
 }
 
-static void SaveArenaChallenge(void)
+static void SaveArenaChallenge (void)
 {
     gSaveBlock2Ptr->frontier.challengeStatus = gSpecialVar_0x8005;
     VarSet(VAR_TEMP_0, 0);
@@ -839,7 +839,7 @@ static void SaveArenaChallenge(void)
     SaveGameFrontier();
 }
 
-static void SetArenaPrize(void)
+static void SetArenaPrize (void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
@@ -850,7 +850,7 @@ static void SetArenaPrize(void)
     }
 }
 
-static void GiveArenaPrize(void)
+static void GiveArenaPrize (void)
 {
     if (AddBagItem(gSaveBlock2Ptr->frontier.arenaPrize, 1) == TRUE) {
         CopyItemName(gSaveBlock2Ptr->frontier.arenaPrize, gStringVar1);
@@ -861,12 +861,12 @@ static void GiveArenaPrize(void)
     }
 }
 
-static void BufferArenaOpponentName(void)
+static void BufferArenaOpponentName (void)
 {
     GetFrontierTrainerName(gStringVar1, gTrainerBattleOpponent_A);
 }
 
-void DrawArenaRefereeTextBox(void)
+void DrawArenaRefereeTextBox (void)
 {
     u8 width = 27;
     u8 palNum = 7;
@@ -889,7 +889,7 @@ void DrawArenaRefereeTextBox(void)
     FillBgTilemapBufferRect(0, 0x836, 29, 19, 1,  1, palNum);
 }
 
-void RemoveArenaRefereeTextBox(void)
+void RemoveArenaRefereeTextBox (void)
 {
     u8 width;
     u8 height;

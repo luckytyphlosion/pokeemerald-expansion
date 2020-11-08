@@ -91,7 +91,7 @@ const struct SpriteTemplate gSlideMonToOffsetAndBackSpriteTemplate =
 // arg 2: y pixel offset
 // arg 3: num times to shake
 // arg 4: frame delay
-void AnimTask_ShakeMon(u8 taskId)
+void AnimTask_ShakeMon (u8 taskId)
 {
     u8 spriteId;
     spriteId = GetAnimBattlerSpriteId(gBattleAnimArgs[0]);
@@ -111,7 +111,7 @@ void AnimTask_ShakeMon(u8 taskId)
     AnimTask_ShakeMon_Step(taskId);
 }
 
-static void AnimTask_ShakeMon_Step(u8 taskId)
+static void AnimTask_ShakeMon_Step (u8 taskId)
 {
     if (gTasks[taskId].data[3] == 0) {
         if (gSprites[gTasks[taskId].data[0]].pos2.x == 0) {
@@ -143,7 +143,7 @@ static void AnimTask_ShakeMon_Step(u8 taskId)
 // arg 2: y pixel offset
 // arg 3: num times to shake
 // arg 4: frame delay
-void AnimTask_ShakeMon2(u8 taskId)
+void AnimTask_ShakeMon2 (u8 taskId)
 {
     u8 spriteId;
     bool8 destroy = FALSE;
@@ -198,7 +198,7 @@ void AnimTask_ShakeMon2(u8 taskId)
     gTasks[taskId].func(taskId);
 }
 
-static void AnimTask_ShakeMon2_Step(u8 taskId)
+static void AnimTask_ShakeMon2_Step (u8 taskId)
 {
     if (gTasks[taskId].data[3] == 0) {
         if (gSprites[gTasks[taskId].data[0]].pos2.x == gTasks[taskId].data[4]) {
@@ -233,7 +233,7 @@ static void AnimTask_ShakeMon2_Step(u8 taskId)
 // arg 2: y offset
 // arg 3: num shakes
 // arg 4: delay
-void AnimTask_ShakeMonInPlace(u8 taskId)
+void AnimTask_ShakeMonInPlace (u8 taskId)
 {
     u8 spriteId = GetAnimBattlerSpriteId(gBattleAnimArgs[0]);
     if (spriteId == 0xff) {
@@ -254,7 +254,7 @@ void AnimTask_ShakeMonInPlace(u8 taskId)
     gTasks[taskId].func(taskId);
 }
 
-static void AnimTask_ShakeMonInPlace_Step(u8 taskId)
+static void AnimTask_ShakeMonInPlace_Step (u8 taskId)
 {
     if (gTasks[taskId].data[3] == 0) {
         if (gTasks[taskId].data[1] & 1) {
@@ -287,7 +287,7 @@ static void AnimTask_ShakeMonInPlace_Step(u8 taskId)
 // arg 2: frame delay between each movement
 // arg 3: downward speed (subpixel)
 // arg 4: duration
-void AnimTask_ShakeAndSinkMon(u8 taskId)
+void AnimTask_ShakeAndSinkMon (u8 taskId)
 {
     u8 spriteId = GetAnimBattlerSpriteId(gBattleAnimArgs[0]);
     gSprites[spriteId].pos2.x = gBattleAnimArgs[1];
@@ -300,7 +300,7 @@ void AnimTask_ShakeAndSinkMon(u8 taskId)
     gTasks[taskId].func(taskId);
 }
 
-static void AnimTask_ShakeAndSinkMon_Step(u8 taskId)
+static void AnimTask_ShakeAndSinkMon_Step (u8 taskId)
 {
     s16 x;
     u8 spriteId;
@@ -331,7 +331,7 @@ static void AnimTask_ShakeAndSinkMon_Step(u8 taskId)
 // arg 2: ellipse height
 // arg 3: num loops
 // arg 4: speed (valid values are 0-5)
-void AnimTask_TranslateMonElliptical(u8 taskId)
+void AnimTask_TranslateMonElliptical (u8 taskId)
 {
     u8 i;
     u8 spriteId;
@@ -356,7 +356,7 @@ void AnimTask_TranslateMonElliptical(u8 taskId)
     gTasks[taskId].func(taskId);
 }
 
-static void AnimTask_TranslateMonElliptical_Step(u8 taskId)
+static void AnimTask_TranslateMonElliptical_Step (u8 taskId)
 {
     u8 spriteId = gTasks[taskId].data[0];
     gSprites[spriteId].pos2.x = Sin(gTasks[taskId].data[5], gTasks[taskId].data[1]);
@@ -385,7 +385,7 @@ static void AnimTask_TranslateMonElliptical_Step(u8 taskId)
 // arg 2: ellipse height
 // arg 3: num loops
 // arg 4: speed (valid values are 0-5)
-void AnimTask_TranslateMonEllipticalRespectSide(u8 taskId)
+void AnimTask_TranslateMonEllipticalRespectSide (u8 taskId)
 {
     if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
         gBattleAnimArgs[1] = -gBattleAnimArgs[1];
@@ -398,7 +398,7 @@ void AnimTask_TranslateMonEllipticalRespectSide(u8 taskId)
 // horizontally, and then moves back in the opposite direction.
 // arg 0: duration of single lunge direction
 // arg 1: x pixel delta that is applied each frame
-static void DoHorizontalLunge(struct Sprite *sprite)
+static void DoHorizontalLunge (struct Sprite *sprite)
 {
     sprite->invisible = TRUE;
     if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
@@ -415,7 +415,7 @@ static void DoHorizontalLunge(struct Sprite *sprite)
     sprite->callback = TranslateMonSpriteLinear;
 }
 
-static void ReverseHorizontalLungeDirection(struct Sprite *sprite)
+static void ReverseHorizontalLungeDirection (struct Sprite *sprite)
 {
     sprite->data[0] = sprite->data[4];
     sprite->data[1] = -sprite->data[1];
@@ -428,7 +428,7 @@ static void ReverseHorizontalLungeDirection(struct Sprite *sprite)
 // arg 0: duration of single dip direction
 // arg 1: y pixel delta that is applied each frame
 // arg 2: battler
-static void DoVerticalDip(struct Sprite *sprite)
+static void DoVerticalDip (struct Sprite *sprite)
 {
     u8 spriteId;
     sprite->invisible = TRUE;
@@ -442,7 +442,7 @@ static void DoVerticalDip(struct Sprite *sprite)
     sprite->callback = TranslateMonSpriteLinear;
 }
 
-static void ReverseVerticalDipDirection(struct Sprite *sprite)
+static void ReverseVerticalDipDirection (struct Sprite *sprite)
 {
     sprite->data[0] = sprite->data[4];
     sprite->data[2] = -sprite->data[2];
@@ -455,7 +455,7 @@ static void ReverseVerticalDipDirection(struct Sprite *sprite)
 // arg 0: 1 = target or 0 = attacker
 // arg 1: direction (0 = horizontal and vertical, 1 = horizontal only, 2 = vertical only)
 // arg 2: duration
-static void SlideMonToOriginalPos(struct Sprite *sprite)
+static void SlideMonToOriginalPos (struct Sprite *sprite)
 {
     u32 monSpriteId;
     if (!gBattleAnimArgs[0]) {
@@ -487,7 +487,7 @@ static void SlideMonToOriginalPos(struct Sprite *sprite)
     sprite->callback = SlideMonToOriginalPos_Step;
 }
 
-static void SlideMonToOriginalPos_Step(struct Sprite *sprite)
+static void SlideMonToOriginalPos_Step (struct Sprite *sprite)
 {
     s8 monSpriteId;
     u8 lo;
@@ -523,7 +523,7 @@ static void SlideMonToOriginalPos_Step(struct Sprite *sprite)
 // arg 2: target y pixel offset
 // arg 3: mirror vertical translation for opposite battle side
 // arg 4: duration
-static void SlideMonToOffset(struct Sprite *sprite)
+static void SlideMonToOffset (struct Sprite *sprite)
 {
     u8 battler;
     u8 monSpriteId;
@@ -555,7 +555,7 @@ static void SlideMonToOffset(struct Sprite *sprite)
     sprite->callback = TranslateMonSpriteLinearFixedPoint;
 }
 
-static void SlideMonToOffsetAndBack(struct Sprite *sprite)
+static void SlideMonToOffsetAndBack (struct Sprite *sprite)
 {
     u8 spriteId;
     u8 battlerId;
@@ -593,7 +593,7 @@ static void SlideMonToOffsetAndBack(struct Sprite *sprite)
 }
 
 
-static void SlideMonToOffsetAndBack_End(struct Sprite *sprite)
+static void SlideMonToOffsetAndBack_End (struct Sprite *sprite)
 {
     gSprites[sprite->data[5]].pos2.x = 0;
     gSprites[sprite->data[5]].pos2.y = 0;
@@ -610,7 +610,7 @@ static void SlideMonToOffsetAndBack_End(struct Sprite *sprite)
 // arg 4: delay before starting lunge
 // arg 5: target x offset for lunge
 // arg 6: lunge duration
-void AnimTask_WindUpLunge(u8 taskId)
+void AnimTask_WindUpLunge (u8 taskId)
 {
     s16 wavePeriod = 0x8000 / gBattleAnimArgs[3];
     if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
@@ -628,7 +628,7 @@ void AnimTask_WindUpLunge(u8 taskId)
     gTasks[taskId].func = AnimTask_WindUpLunge_Step1;
 }
 
-static void AnimTask_WindUpLunge_Step1(u8 taskId)
+static void AnimTask_WindUpLunge_Step1 (u8 taskId)
 {
     u8 spriteId;
     spriteId = gTasks[taskId].data[0];
@@ -641,7 +641,7 @@ static void AnimTask_WindUpLunge_Step1(u8 taskId)
     }
 }
 
-static void AnimTask_WindUpLunge_Step2(u8 taskId)
+static void AnimTask_WindUpLunge_Step2 (u8 taskId)
 {
     u8 spriteId;
     if (gTasks[taskId].data[4] > 0) {
@@ -658,7 +658,7 @@ static void AnimTask_WindUpLunge_Step2(u8 taskId)
 }
 
 // To move a mon off-screen when pushed out by Roar/Whirlwind
-void AnimTask_SlideOffScreen(u8 taskId)
+void AnimTask_SlideOffScreen (u8 taskId)
 {
     u8 spriteId;
     switch (gBattleAnimArgs[0]) {
@@ -693,7 +693,7 @@ void AnimTask_SlideOffScreen(u8 taskId)
     gTasks[taskId].func = AnimTask_SlideOffScreen_Step;
 }
 
-static void AnimTask_SlideOffScreen_Step(u8 taskId)
+static void AnimTask_SlideOffScreen_Step (u8 taskId)
 {
     u8 spriteId = gTasks[taskId].data[0];
     gSprites[spriteId].pos2.x += gTasks[taskId].data[1];
@@ -711,7 +711,7 @@ static void AnimTask_SlideOffScreen_Step(u8 taskId)
 // arg 2: wave period
 // arg 3: num sways
 // arg 4: which mon (0 = attacker, 1`= target)
-void AnimTask_SwayMon(u8 taskId)
+void AnimTask_SwayMon (u8 taskId)
 {
     u8 spriteId;
     if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
@@ -739,7 +739,7 @@ void AnimTask_SwayMon(u8 taskId)
     gTasks[taskId].func = AnimTask_SwayMonStep;
 }
 
-static void AnimTask_SwayMonStep(u8 taskId)
+static void AnimTask_SwayMonStep (u8 taskId)
 {
     s16 sineValue;
     u8 spriteId;
@@ -781,7 +781,7 @@ static void AnimTask_SwayMonStep(u8 taskId)
 // arg 2: duration
 // arg 3: anim bank
 // arg 4: sprite object mode
-void AnimTask_ScaleMonAndRestore(u8 taskId)
+void AnimTask_ScaleMonAndRestore (u8 taskId)
 {
     u8 spriteId;
     spriteId = GetAnimBattlerSpriteId(gBattleAnimArgs[3]);
@@ -796,7 +796,7 @@ void AnimTask_ScaleMonAndRestore(u8 taskId)
     gTasks[taskId].func = AnimTask_ScaleMonAndRestore_Step;
 }
 
-static void AnimTask_ScaleMonAndRestore_Step(u8 taskId)
+static void AnimTask_ScaleMonAndRestore_Step (u8 taskId)
 {
     u8 spriteId;
     gTasks[taskId].data[10] += gTasks[taskId].data[0];
@@ -817,7 +817,7 @@ static void AnimTask_ScaleMonAndRestore_Step(u8 taskId)
     }
 }
 
-void AnimTask_RotateMonSpriteToSide(u8 taskId)
+void AnimTask_RotateMonSpriteToSide (u8 taskId)
 {
     u8 spriteId;
     spriteId = GetAnimBattlerSpriteId(gBattleAnimArgs[2]);
@@ -851,7 +851,7 @@ void AnimTask_RotateMonSpriteToSide(u8 taskId)
 }
 
 // Rotates mon to side and back to original position. For Peck and when a held item activates
-void AnimTask_RotateMonToSideAndRestore(u8 taskId)
+void AnimTask_RotateMonToSideAndRestore (u8 taskId)
 {
     u8 spriteId;
     spriteId = GetAnimBattlerSpriteId(gBattleAnimArgs[2]);
@@ -881,7 +881,7 @@ void AnimTask_RotateMonToSideAndRestore(u8 taskId)
     gTasks[taskId].func = AnimTask_RotateMonSpriteToSide_Step;
 }
 
-static void AnimTask_RotateMonSpriteToSide_Step(u8 taskId)
+static void AnimTask_RotateMonSpriteToSide_Step (u8 taskId)
 {
     gTasks[taskId].data[3] += gTasks[taskId].data[4];
     SetSpriteRotScale(gTasks[taskId].data[5], 0x100, 0x100, gTasks[taskId].data[3]);
@@ -905,7 +905,7 @@ static void AnimTask_RotateMonSpriteToSide_Step(u8 taskId)
     }
 }
 
-void AnimTask_ShakeTargetBasedOnMovePowerOrDmg(u8 taskId)
+void AnimTask_ShakeTargetBasedOnMovePowerOrDmg (u8 taskId)
 {
     if (!gBattleAnimArgs[0]) {
         gTasks[taskId].data[15] = gAnimMovePower / 12;
@@ -938,7 +938,7 @@ void AnimTask_ShakeTargetBasedOnMovePowerOrDmg(u8 taskId)
     gTasks[taskId].func = AnimTask_ShakeTargetBasedOnMovePowerOrDmg_Step;
 }
 
-static void AnimTask_ShakeTargetBasedOnMovePowerOrDmg_Step(u8 taskId)
+static void AnimTask_ShakeTargetBasedOnMovePowerOrDmg_Step (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     if (++task->data[0] > task->data[1]) {
@@ -975,7 +975,7 @@ static void AnimTask_ShakeTargetBasedOnMovePowerOrDmg_Step(u8 taskId)
 #define tPlayerSide data[5]
 #define tRotMax     data[6] // Can't fully flip back sprites
 
-void AnimTask_RotateVertically(u8 taskId)
+void AnimTask_RotateVertically (u8 taskId)
 {
     u8 spriteId = GetAnimBattlerSpriteId(gBattleAnimArgs[0]);
 
@@ -988,7 +988,7 @@ void AnimTask_RotateVertically(u8 taskId)
     gTasks[taskId].func = AnimTask_RotateVerticallyStep;
 }
 
-static void AnimTask_RotateVerticallyStep(u8 taskId)
+static void AnimTask_RotateVerticallyStep (u8 taskId)
 {
     switch (gTasks[taskId].tPhase) {
     case 0: // flip upside-down

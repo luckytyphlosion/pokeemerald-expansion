@@ -136,7 +136,7 @@ static const struct SpriteTemplate sSpriteTemplate_CutGrass =
 };
 
 // code
-bool8 SetUpFieldMove_Cut(void)
+bool8 SetUpFieldMove_Cut (void)
 {
     s16 x, y;
     u8 i, j;
@@ -248,13 +248,13 @@ bool8 SetUpFieldMove_Cut(void)
     }
 }
 
-static void FieldCallback_CutGrass(void)
+static void FieldCallback_CutGrass (void)
 {
     FieldEffectStart(FLDEFF_USE_CUT_ON_GRASS);
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
 }
 
-bool8 FldEff_UseCutOnGrass(void)
+bool8 FldEff_UseCutOnGrass (void)
 {
     u8 taskId = CreateFieldMoveTask();
 
@@ -264,13 +264,13 @@ bool8 FldEff_UseCutOnGrass(void)
     return FALSE;
 }
 
-static void FieldCallback_CutTree(void)
+static void FieldCallback_CutTree (void)
 {
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
     ScriptContext1_SetupScript(EventScript_UseCut);
 }
 
-bool8 FldEff_UseCutOnTree(void)
+bool8 FldEff_UseCutOnTree (void)
 {
     u8 taskId = CreateFieldMoveTask();
 
@@ -280,13 +280,13 @@ bool8 FldEff_UseCutOnTree(void)
     return FALSE;
 }
 
-static void StartCutGrassFieldEffect(void)
+static void StartCutGrassFieldEffect (void)
 {
     FieldEffectActiveListRemove(FLDEFF_USE_CUT_ON_GRASS);
     FieldEffectStart(FLDEFF_CUT_GRASS);
 }
 
-bool8 FldEff_CutGrass(void)
+bool8 FldEff_CutGrass (void)
 {
     s16 x, y;
     u8 i = 0;
@@ -321,7 +321,7 @@ bool8 FldEff_CutGrass(void)
 }
 
 // set map grid metatile depending on x, y
-static void SetCutGrassMetatile(s16 x, s16 y)
+static void SetCutGrassMetatile (s16 x, s16 y)
 {
     s32 metatileId = MapGridGetMetatileIdAt(x, y);
 
@@ -369,7 +369,7 @@ enum
     LONG_GRASS_BASE_RIGHT
 };
 
-static u8 GetLongGrassCaseAt(s16 x, s16 y)
+static u8 GetLongGrassCaseAt (s16 x, s16 y)
 {
     u16 metatileId = MapGridGetMetatileIdAt(x, y);
 
@@ -386,7 +386,7 @@ static u8 GetLongGrassCaseAt(s16 x, s16 y)
     }
 }
 
-static void SetCutGrassMetatiles(s16 x, s16 y)
+static void SetCutGrassMetatiles (s16 x, s16 y)
 {
     s16 i;
     s16 lowerY = y + sCutSquareSide;
@@ -431,7 +431,7 @@ static void SetCutGrassMetatiles(s16 x, s16 y)
     }
 }
 
-static void HandleLongGrassOnHyper(u8 caseId, s16 x, s16 y)
+static void HandleLongGrassOnHyper (u8 caseId, s16 x, s16 y)
 {
     s16 newX;
     bool8 arr[3];
@@ -515,7 +515,7 @@ static void HandleLongGrassOnHyper(u8 caseId, s16 x, s16 y)
     }
 }
 
-static void CutGrassSpriteCallback1(struct Sprite *sprite)
+static void CutGrassSpriteCallback1 (struct Sprite *sprite)
 {
     sprite->data[0] = 8;
     sprite->data[1] = 0;
@@ -523,7 +523,7 @@ static void CutGrassSpriteCallback1(struct Sprite *sprite)
     sprite->callback = CutGrassSpriteCallback2;
 }
 
-static void CutGrassSpriteCallback2(struct Sprite *sprite)
+static void CutGrassSpriteCallback2 (struct Sprite *sprite)
 {
     sprite->pos2.x = Sin(sprite->data[2], sprite->data[0]);
     sprite->pos2.y = Cos(sprite->data[2], sprite->data[0]);
@@ -539,7 +539,7 @@ static void CutGrassSpriteCallback2(struct Sprite *sprite)
     }
 }
 
-static void CutGrassSpriteCallbackEnd(struct Sprite *sprite)
+static void CutGrassSpriteCallbackEnd (struct Sprite *sprite)
 {
     u8 i;
 
@@ -557,7 +557,7 @@ static void CutGrassSpriteCallbackEnd(struct Sprite *sprite)
     }
 }
 
-void FixLongGrassMetatilesWindowTop(s16 x, s16 y)
+void FixLongGrassMetatilesWindowTop (s16 x, s16 y)
 {
     u8 metatileBehavior = MapGridGetMetatileBehaviorAt(x, y);
     if (MetatileBehavior_IsLongGrass_Duplicate(metatileBehavior)) {
@@ -578,7 +578,7 @@ void FixLongGrassMetatilesWindowTop(s16 x, s16 y)
     }
 }
 
-void FixLongGrassMetatilesWindowBottom(s16 x, s16 y)
+void FixLongGrassMetatilesWindowBottom (s16 x, s16 y)
 {
     if (MapGridGetMetatileIdAt(x, y) == METATILE_General_Grass) {
         u8 metatileBehavior = MapGridGetMetatileBehaviorAt(x, y + 1);
@@ -602,7 +602,7 @@ void FixLongGrassMetatilesWindowBottom(s16 x, s16 y)
     }
 }
 
-static void StartCutTreeFieldEffect(void)
+static void StartCutTreeFieldEffect (void)
 {
     PlaySE(SE_M_CUT);
     FieldEffectActiveListRemove(FLDEFF_USE_CUT_ON_TREE);

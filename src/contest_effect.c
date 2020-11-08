@@ -57,7 +57,7 @@ static s16 RoundUp(s16);
 
 #include "data/contest_moves.h"
 
-bool8 AreMovesContestCombo(u16 lastMove, u16 nextMove)
+bool8 AreMovesContestCombo (u16 lastMove, u16 nextMove)
 {
     int i;
     u8 lastMoveComboStarterId = gContestMoves[lastMove].comboStarterId;
@@ -75,26 +75,26 @@ bool8 AreMovesContestCombo(u16 lastMove, u16 nextMove)
 }
 
 // A highly appealing move.
-static void ContestEffect_HighlyAppealing(void)
+static void ContestEffect_HighlyAppealing (void)
 {
 }
 
 // After this move, the user is more easily startled.
-static void ContestEffect_UserMoreEasilyStartled(void)
+static void ContestEffect_UserMoreEasilyStartled (void)
 {
     eContestantStatus[eContestAppealResults.contestant].moreEasilyStartled = TRUE;
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_MORE_CONSCIOUS);
 }
 
 // Makes a great appeal, but allows no more to the end.
-static void ContestEffect_GreatAppealButNoMoreMoves(void)
+static void ContestEffect_GreatAppealButNoMoreMoves (void)
 {
     eContestantStatus[eContestAppealResults.contestant].exploded = TRUE;
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_NO_APPEAL);
 }
 
 // Can be used repeatedly without boring the JUDGE.
-static void ContestEffect_RepetitionNotBoring(void)
+static void ContestEffect_RepetitionNotBoring (void)
 {
     eContestantStatus[eContestAppealResults.contestant].usedRepeatableMove = TRUE;
     eContestantStatus[eContestAppealResults.contestant].repeatedMove = FALSE;
@@ -102,35 +102,35 @@ static void ContestEffect_RepetitionNotBoring(void)
 }
 
 // Can avoid being startled by others once.
-static void ContestEffect_AvoidStartleOnce(void)
+static void ContestEffect_AvoidStartleOnce (void)
 {
     eContestantStatus[eContestAppealResults.contestant].jamSafetyCount = 1;
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_SETTLE_DOWN);
 }
 
 // Can avoid being startled by others.
-static void ContestEffect_AvoidStartle(void)
+static void ContestEffect_AvoidStartle (void)
 {
     eContestantStatus[eContestAppealResults.contestant].immune = TRUE;
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_OBLIVIOUS_TO_OTHERS);
 }
 
 // Can avoid being startled by others a little.
-static void ContestEffect_AvoidStartleSlightly(void)
+static void ContestEffect_AvoidStartleSlightly (void)
 {
     eContestantStatus[eContestAppealResults.contestant].jamReduction = 20;
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_LESS_AWARE);
 }
 
 // After this move, the user is less likely to be startled.
-static void ContestEffect_UserLessEasilyStartled(void)
+static void ContestEffect_UserLessEasilyStartled (void)
 {
     eContestantStatus[eContestAppealResults.contestant].resistant = TRUE;
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_STOPPED_CARING);
 }
 
 // Slightly startles the POKÈMON in front.
-static void ContestEffect_StartleFrontMon(void)
+static void ContestEffect_StartleFrontMon (void)
 {
     u8 idx = 0;
     u8 a = eContestAppealResults.contestant;
@@ -154,7 +154,7 @@ static void ContestEffect_StartleFrontMon(void)
 }
 
 // Slightly startles those that have made appeals.
-static void ContestEffect_StartlePrevMons(void)
+static void ContestEffect_StartlePrevMons (void)
 {
     u8 idx = 0;
     u8 contestant = eContestAppealResults.contestant;
@@ -178,7 +178,7 @@ static void ContestEffect_StartlePrevMons(void)
 }
 
 // Startles the POKÈMON that appealed before the user.
-static void ContestEffect_StartlePrevMon2(void)
+static void ContestEffect_StartlePrevMon2 (void)
 {
     u8 rval = Random() % 10;
     int jam;
@@ -196,7 +196,7 @@ static void ContestEffect_StartlePrevMon2(void)
 }
 
 // Startles all POKÈMON that appealed before the user.
-static void ContestEffect_StartlePrevMons2(void)
+static void ContestEffect_StartlePrevMons2 (void)
 {
     u8 numStartled = 0;
     u8 contestant = eContestAppealResults.contestant;
@@ -242,7 +242,7 @@ static void ContestEffect_StartlePrevMons2(void)
 }
 
 // Shifts the JUDGE's attention from others.
-static void ContestEffect_ShiftJudgeAttention(void)
+static void ContestEffect_ShiftJudgeAttention (void)
 {
     bool32 hitAny = FALSE;
     u8 contestant = eContestAppealResults.contestant;
@@ -268,7 +268,7 @@ static void ContestEffect_ShiftJudgeAttention(void)
 }
 
 // Startles the POKÈMON that has the JUDGE's attention.
-static void ContestEffect_StartleMonWithJudgesAttention(void)
+static void ContestEffect_StartleMonWithJudgesAttention (void)
 {
     u8 numStartled = 0;
     u8 contestant = eContestAppealResults.contestant;
@@ -298,7 +298,7 @@ static void ContestEffect_StartleMonWithJudgesAttention(void)
 }
 
 // Jams the others, and misses one turn of appeals.
-static void ContestEffect_JamsOthersButMissOneTurn(void)
+static void ContestEffect_JamsOthersButMissOneTurn (void)
 {
     eContestantStatus[eContestAppealResults.contestant].turnSkipped = TRUE;
     ContestEffect_StartlePrevMons();
@@ -306,7 +306,7 @@ static void ContestEffect_JamsOthersButMissOneTurn(void)
 }
 
 // Startles POKÈMON that made a same-type appeal.
-static void ContestEffect_StartleMonsSameTypeAppeal(void)
+static void ContestEffect_StartleMonsSameTypeAppeal (void)
 {
     u16 move = eContestantStatus[eContestAppealResults.contestant].currMove;
     JamByMoveCategory(gContestMoves[move].contestCategory);
@@ -314,42 +314,42 @@ static void ContestEffect_StartleMonsSameTypeAppeal(void)
 }
 
 // Badly startles POKÈMON that made COOL appeals.
-static void ContestEffect_StartleMonsCoolAppeal(void)
+static void ContestEffect_StartleMonsCoolAppeal (void)
 {
     JamByMoveCategory(CONTEST_CATEGORY_COOL);
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_ATTEMPT_STARTLE);
 }
 
 // Badly startles POKÈMON that made BEAUTY appeals.
-static void ContestEffect_StartleMonsBeautyAppeal(void)
+static void ContestEffect_StartleMonsBeautyAppeal (void)
 {
     JamByMoveCategory(CONTEST_CATEGORY_BEAUTY);
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_ATTEMPT_STARTLE);
 }
 
 // Badly startles POKÈMON that made CUTE appeals.
-static void ContestEffect_StartleMonsCuteAppeal(void)
+static void ContestEffect_StartleMonsCuteAppeal (void)
 {
     JamByMoveCategory(CONTEST_CATEGORY_CUTE);
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_ATTEMPT_STARTLE);
 }
 
 // Badly startles POKÈMON that made SMART appeals.
-static void ContestEffect_StartleMonsSmartAppeal(void)
+static void ContestEffect_StartleMonsSmartAppeal (void)
 {
     JamByMoveCategory(CONTEST_CATEGORY_SMART);
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_ATTEMPT_STARTLE);
 }
 
 // Badly startles POKÈMON that made TOUGH appeals.
-static void ContestEffect_StartleMonsToughAppeal(void)
+static void ContestEffect_StartleMonsToughAppeal (void)
 {
     JamByMoveCategory(CONTEST_CATEGORY_TOUGH);
     SetContestantEffectStringID(eContestAppealResults.contestant, CONTEST_STRING_ATTEMPT_STARTLE);
 }
 
 // Makes one POKÈMON after the user nervous.
-static void ContestEffect_MakeFollowingMonNervous(void)
+static void ContestEffect_MakeFollowingMonNervous (void)
 {
     bool32 hitAny = FALSE;
 
@@ -376,7 +376,7 @@ static void ContestEffect_MakeFollowingMonNervous(void)
 }
 
 // Makes all POKÈMON after the user nervous.
-static void ContestEffect_MakeFollowingMonsNervous(void)
+static void ContestEffect_MakeFollowingMonsNervous (void)
 {
     u8 numUnnerved = 0;
     bool32 contestantUnnerved = FALSE;
@@ -445,7 +445,7 @@ static void ContestEffect_MakeFollowingMonsNervous(void)
 }
 
 // Worsens the condition of those that made appeals.
-static void ContestEffect_WorsenConditionOfPrevMons(void)
+static void ContestEffect_WorsenConditionOfPrevMons (void)
 {
     u8 numHit = 0;
     int i;
@@ -468,7 +468,7 @@ static void ContestEffect_WorsenConditionOfPrevMons(void)
 }
 
 // Badly startles POKÈMON in good condition.
-static void ContestEffect_BadlyStartlesMonsInGoodCondition(void)
+static void ContestEffect_BadlyStartlesMonsInGoodCondition (void)
 {
     u8 numHit = 0;
     int i;
@@ -494,7 +494,7 @@ static void ContestEffect_BadlyStartlesMonsInGoodCondition(void)
 }
 
 // The appeal works great if performed first.
-static void ContestEffect_BetterIfFirst(void)
+static void ContestEffect_BetterIfFirst (void)
 {
     if (gContestantTurnOrder[eContestAppealResults.contestant] == 0) {
         u16 move = eContestantStatus[eContestAppealResults.contestant].currMove;
@@ -504,7 +504,7 @@ static void ContestEffect_BetterIfFirst(void)
 }
 
 // The appeal works great if performed last.
-static void ContestEffect_BetterIfLast(void)
+static void ContestEffect_BetterIfLast (void)
 {
     if (gContestantTurnOrder[eContestAppealResults.contestant] == 3) {
         u16 move = eContestantStatus[eContestAppealResults.contestant].currMove;
@@ -514,7 +514,7 @@ static void ContestEffect_BetterIfLast(void)
 }
 
 // Makes the appeal as good as those before it.
-static void ContestEffect_AppealAsGoodAsPrevOnes(void)
+static void ContestEffect_AppealAsGoodAsPrevOnes (void)
 {
     int i;
     int appealSum;
@@ -538,7 +538,7 @@ static void ContestEffect_AppealAsGoodAsPrevOnes(void)
 }
 
 // Makes the appeal as good as the one before it.
-static void ContestEffect_AppealAsGoodAsPrevOne(void)
+static void ContestEffect_AppealAsGoodAsPrevOne (void)
 {
     s16 appeal = 0;
 
@@ -559,7 +559,7 @@ static void ContestEffect_AppealAsGoodAsPrevOne(void)
 }
 
 // The appeal works better the later it is performed.
-static void ContestEffect_BetterWhenLater(void)
+static void ContestEffect_BetterWhenLater (void)
 {
     u8 whichTurn = eContestAppealResults.turnOrder[eContestAppealResults.contestant];
     if (whichTurn == 0) {
@@ -579,7 +579,7 @@ static void ContestEffect_BetterWhenLater(void)
 }
 
 // The appeal's quality varies depending on its timing.
-static void ContestEffect_QualityDependsOnTiming(void)
+static void ContestEffect_QualityDependsOnTiming (void)
 {
     u8 rval = Random() % 10;
     s16 appeal;
@@ -603,7 +603,7 @@ static void ContestEffect_QualityDependsOnTiming(void)
     eContestantStatus[eContestAppealResults.contestant].appeal = appeal;
 }
 
-static void ContestEffect_BetterIfSameType(void)
+static void ContestEffect_BetterIfSameType (void)
 {
     s8 turnOrder = eContestAppealResults.turnOrder[eContestAppealResults.contestant];
     s8 i = turnOrder - 1, j;
@@ -636,7 +636,7 @@ static void ContestEffect_BetterIfSameType(void)
 }
 
 // Works well if different in type than the one before.
-static void ContestEffect_BetterIfDiffType(void)
+static void ContestEffect_BetterIfDiffType (void)
 {
     if (eContestAppealResults.turnOrder[eContestAppealResults.contestant] != 0) {
         u16 move = eContestantStatus[eContestAppealResults.contestant].currMove;
@@ -654,7 +654,7 @@ static void ContestEffect_BetterIfDiffType(void)
 }
 
 // Affected by how well the appeal in front goes.
-static void ContestEffect_AffectedByPrevAppeal(void)
+static void ContestEffect_AffectedByPrevAppeal (void)
 {
     if (eContestAppealResults.turnOrder[eContestAppealResults.contestant] != 0) {
         int i;
@@ -674,7 +674,7 @@ static void ContestEffect_AffectedByPrevAppeal(void)
 }
 
 // Ups the user's condition. Helps prevent nervousness.
-static void ContestEffect_ImproveConditionPreventNervousness(void)
+static void ContestEffect_ImproveConditionPreventNervousness (void)
 {
     if (eContestantStatus[eContestAppealResults.contestant].condition < 30) {
         eContestantStatus[eContestAppealResults.contestant].condition += 10;
@@ -686,7 +686,7 @@ static void ContestEffect_ImproveConditionPreventNervousness(void)
 }
 
 // The appeal works well if the user's condition is good.
-static void ContestEffect_BetterWithGoodCondition(void)
+static void ContestEffect_BetterWithGoodCondition (void)
 {
     eContestantStatus[eContestAppealResults.contestant].appealTripleCondition = TRUE;
     if (eContestantStatus[eContestAppealResults.contestant].condition != 0) {
@@ -697,7 +697,7 @@ static void ContestEffect_BetterWithGoodCondition(void)
 }
 
 // The next appeal can be made earlier next turn.
-static void ContestEffect_NextAppealEarlier(void)
+static void ContestEffect_NextAppealEarlier (void)
 {
     s8 i;
     s8 j;
@@ -736,7 +736,7 @@ static void ContestEffect_NextAppealEarlier(void)
 }
 
 // The next appeal can be made later next turn.
-static void ContestEffect_NextAppealLater(void)
+static void ContestEffect_NextAppealLater (void)
 {
     s8 i;
     s8 j;
@@ -775,13 +775,13 @@ static void ContestEffect_NextAppealLater(void)
 }
 
 // Makes the next turn's order more easily scrambled.
-static void ContestEffect_MakeScramblingTurnOrderEasier(void)
+static void ContestEffect_MakeScramblingTurnOrderEasier (void)
 {
     // dummied out?
 }
 
 // Scrambles the order of appeals on the next turn.
-static void ContestEffect_ScrambleNextTurnOrder(void)
+static void ContestEffect_ScrambleNextTurnOrder (void)
 {
     s8 i;
     s8 j;
@@ -820,7 +820,7 @@ static void ContestEffect_ScrambleNextTurnOrder(void)
 }
 
 // An appeal that excites the audience in any CONTEST.
-static void ContestEffect_ExciteAudienceInAnyContest(void)
+static void ContestEffect_ExciteAudienceInAnyContest (void)
 {
     if (gContestMoves[eContestantStatus[eContestAppealResults.contestant].currMove].contestCategory != gSpecialVar_ContestCategory) {
         eContestantStatus[eContestAppealResults.contestant].overrideCategoryExcitementMod = TRUE;
@@ -828,7 +828,7 @@ static void ContestEffect_ExciteAudienceInAnyContest(void)
 }
 
 // Badly startles all POKÈMON that made good appeals.
-static void ContestEffect_BadlyStartleMonsWithGoodAppeals(void)
+static void ContestEffect_BadlyStartleMonsWithGoodAppeals (void)
 {
     int i;
     u8 numJammed = 0;
@@ -855,7 +855,7 @@ static void ContestEffect_BadlyStartleMonsWithGoodAppeals(void)
 }
 
 // The appeal works best the more the crowd is excited.
-static void ContestEffect_BetterWhenAudienceExcited(void)
+static void ContestEffect_BetterWhenAudienceExcited (void)
 {
     s16 appeal;
 
@@ -879,7 +879,7 @@ static void ContestEffect_BetterWhenAudienceExcited(void)
 }
 
 // Temporarily stops the crowd from growing excited.
-static void ContestEffect_DontExciteAudience(void)
+static void ContestEffect_DontExciteAudience (void)
 {
     if (!eContestExcitement.frozen) {
         eContestExcitement.frozen = TRUE;
@@ -888,7 +888,7 @@ static void ContestEffect_DontExciteAudience(void)
     }
 }
 
-static void JamByMoveCategory(u8 category)
+static void JamByMoveCategory (u8 category)
 {
     int i;
     int numJammed = 0;
@@ -913,7 +913,7 @@ static void JamByMoveCategory(u8 category)
     }
 }
 
-static bool8 CanUnnerveContestant(u8 i)
+static bool8 CanUnnerveContestant (u8 i)
 {
     eContestAppealResults.unnervedPokes[i] = 1;
     if (eContestantStatus[i].immune) {
@@ -930,7 +930,7 @@ static bool8 CanUnnerveContestant(u8 i)
     }
 }
 
-static bool8 WasAtLeastOneOpponentJammed(void)
+static bool8 WasAtLeastOneOpponentJammed (void)
 {
     s16 jamBuffer[CONTESTANT_COUNT] = {0};
     int i;
@@ -967,13 +967,13 @@ static bool8 WasAtLeastOneOpponentJammed(void)
     return FALSE;
 }
 
-static void JamContestant(u8 i, u8 jam)
+static void JamContestant (u8 i, u8 jam)
 {
     eContestantStatus[i].appeal -= jam;
     eContestantStatus[i].jam += jam;
 }
 
-static s16 RoundTowardsZero(s16 score)
+static s16 RoundTowardsZero (s16 score)
 {
     s16 absScore = abs(score) % 10;
     if (score < 0) {
@@ -986,7 +986,7 @@ static s16 RoundTowardsZero(s16 score)
     return score;
 }
 
-static s16 RoundUp(s16 score)
+static s16 RoundUp (s16 score)
 {
     s16 absScore = abs(score) % 10;
     if (absScore != 0) {

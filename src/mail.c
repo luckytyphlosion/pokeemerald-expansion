@@ -242,7 +242,7 @@ static const struct MailLayout sUnknown_0859F458[] = {
 
 // .text
 
-void ReadMail(struct MailStruct *mail, void (*callback)(void), bool8 flag)
+void ReadMail (struct MailStruct *mail, void (*callback)(void), bool8 flag)
 {
     u16 buffer[2];
     u16 species;
@@ -289,7 +289,7 @@ void ReadMail(struct MailStruct *mail, void (*callback)(void), bool8 flag)
     SetMainCallback2(CB2_InitMailRead);
 }
 
-static bool8 MailReadBuildGraphics(void)
+static bool8 MailReadBuildGraphics (void)
 {
     u16 icon;
 
@@ -414,7 +414,7 @@ static bool8 MailReadBuildGraphics(void)
     return FALSE;
 }
 
-static void CB2_InitMailRead(void)
+static void CB2_InitMailRead (void)
 {
     do {
         if (MailReadBuildGraphics() == TRUE) {
@@ -424,7 +424,7 @@ static void CB2_InitMailRead(void)
     } while (MenuHelpers_LinkSomething() != TRUE);
 }
 
-static void sub_8121A1C(void)
+static void sub_8121A1C (void)
 {
     u16 i;
     u8 total;
@@ -445,7 +445,7 @@ static void sub_8121A1C(void)
     }
 }
 
-static void sub_8121B1C(void)
+static void sub_8121B1C (void)
 {
     u16 i;
     u8 strbuf[0x20];
@@ -475,14 +475,14 @@ static void sub_8121B1C(void)
     CopyWindowToVram(1, 3);
 }
 
-static void VBlankCB_MailRead(void)
+static void VBlankCB_MailRead (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void CB2_MailRead(void)
+static void CB2_MailRead (void)
 {
     if (sMailRead->animsActive != 0) {
         AnimateSprites();
@@ -491,14 +491,14 @@ static void CB2_MailRead(void)
     sMailRead->callback2();
 }
 
-static void CB2_WaitForPaletteExitOnKeyPress(void)
+static void CB2_WaitForPaletteExitOnKeyPress (void)
 {
     if (!UpdatePaletteFade()) {
         sMailRead->callback2 = CB2_ExitOnKeyPress;
     }
 }
 
-static void CB2_ExitOnKeyPress(void)
+static void CB2_ExitOnKeyPress (void)
 {
     if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
@@ -506,7 +506,7 @@ static void CB2_ExitOnKeyPress(void)
     }
 }
 
-static void CB2_ExitMailReadFreeVars(void)
+static void CB2_ExitMailReadFreeVars (void)
 {
     if (!UpdatePaletteFade()) {
         SetMainCallback2(sMailRead->callback);

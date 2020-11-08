@@ -10,7 +10,7 @@ enum
 
 static u8 sPlayTimeCounterState;
 
-void PlayTimeCounter_Reset(void)
+void PlayTimeCounter_Reset (void)
 {
     sPlayTimeCounterState = STOPPED;
 
@@ -20,7 +20,7 @@ void PlayTimeCounter_Reset(void)
     gSaveBlock2Ptr->playTimeVBlanks = 0;
 }
 
-void PlayTimeCounter_Start(void)
+void PlayTimeCounter_Start (void)
 {
     sPlayTimeCounterState = RUNNING;
 
@@ -29,12 +29,12 @@ void PlayTimeCounter_Start(void)
     }
 }
 
-void PlayTimeCounter_Stop(void)
+void PlayTimeCounter_Stop (void)
 {
     sPlayTimeCounterState = STOPPED;
 }
 
-void PlayTimeCounter_Update(void)
+void PlayTimeCounter_Update (void)
 {
     if (sPlayTimeCounterState != RUNNING) {
         return;
@@ -68,7 +68,7 @@ void PlayTimeCounter_Update(void)
     }
 }
 
-void PlayTimeCounter_SetToMax(void)
+void PlayTimeCounter_SetToMax (void)
 {
     sPlayTimeCounterState = MAXED_OUT;
 

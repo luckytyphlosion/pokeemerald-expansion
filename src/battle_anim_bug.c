@@ -191,7 +191,7 @@ const struct SpriteTemplate gTailGlowOrbSpriteTemplate =
     .callback = AnimTailGlowOrb,
 };
 
-static void AnimMegahornHorn(struct Sprite *sprite)
+static void AnimMegahornHorn (struct Sprite *sprite)
 {
     if (IsContest()) {
         StartSpriteAffineAnim(sprite, 2);
@@ -216,7 +216,7 @@ static void AnimMegahornHorn(struct Sprite *sprite)
     StoreSpriteCallbackInData6(sprite, DestroyAnimSprite);
 }
 
-static void AnimLeechLifeNeedle(struct Sprite *sprite)
+static void AnimLeechLifeNeedle (struct Sprite *sprite)
 {
     if (IsContest()) {
         gBattleAnimArgs[0] = -gBattleAnimArgs[0];
@@ -244,7 +244,7 @@ static void AnimLeechLifeNeedle(struct Sprite *sprite)
 // arg 2: controls the left-to-right movement
 // arg 3: amplitude
 // arg 4: if targets both opponents
-static void AnimTranslateWebThread(struct Sprite *sprite)
+static void AnimTranslateWebThread (struct Sprite *sprite)
 {
     if (IsContest()) {
         gBattleAnimArgs[2] /= 2;
@@ -267,7 +267,7 @@ static void AnimTranslateWebThread(struct Sprite *sprite)
     sprite->callback = AnimTranslateWebThread_Step;
 }
 
-static void AnimTranslateWebThread_Step(struct Sprite *sprite)
+static void AnimTranslateWebThread_Step (struct Sprite *sprite)
 {
     if (AnimTranslateLinear(sprite)) {
         DestroyAnimSprite(sprite);
@@ -279,7 +279,7 @@ static void AnimTranslateWebThread_Step(struct Sprite *sprite)
 }
 
 // Second stage of String Shot
-static void AnimStringWrap(struct Sprite *sprite)
+static void AnimStringWrap (struct Sprite *sprite)
 {
     SetAverageBattlerPositions(gBattleAnimTarget, 0, &sprite->pos1.x, &sprite->pos1.y);
     if (GetBattlerSide(gBattleAnimAttacker)) {
@@ -296,7 +296,7 @@ static void AnimStringWrap(struct Sprite *sprite)
     sprite->callback = AnimStringWrap_Step;
 }
 
-void AnimStringWrap_Step(struct Sprite *sprite)
+void AnimStringWrap_Step (struct Sprite *sprite)
 {
     if (++sprite->data[0] == 3) {
         sprite->data[0] = 0;
@@ -311,7 +311,7 @@ void AnimStringWrap_Step(struct Sprite *sprite)
 // arg0: x
 // arg1: y
 // arg2: targets both
-void AnimSpiderWeb(struct Sprite *sprite)
+void AnimSpiderWeb (struct Sprite *sprite)
 {
     SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL | BLDCNT_EFFECT_BLEND);
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(16, 0));
@@ -331,7 +331,7 @@ void AnimSpiderWeb(struct Sprite *sprite)
     sprite->callback = AnimSpiderWeb_Step;
 }
 
-static void AnimSpiderWeb_Step(struct Sprite *sprite)
+static void AnimSpiderWeb_Step (struct Sprite *sprite)
 {
     if (sprite->data[2] < 20) {
         sprite->data[2]++;
@@ -346,7 +346,7 @@ static void AnimSpiderWeb_Step(struct Sprite *sprite)
     }
 }
 
-static void AnimSpiderWeb_End(struct Sprite *sprite)
+static void AnimSpiderWeb_End (struct Sprite *sprite)
 {
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
@@ -360,7 +360,7 @@ static void AnimSpiderWeb_End(struct Sprite *sprite)
 // arg 2: target x pixel offset
 // arg 3: target y pixel offset
 // arg 4: duration
-static void AnimTranslateStinger(struct Sprite *sprite)
+static void AnimTranslateStinger (struct Sprite *sprite)
 {
     s16 lVarX, lVarY;
     u16 rot;
@@ -404,7 +404,7 @@ static void AnimTranslateStinger(struct Sprite *sprite)
 // arg 3: target y pixel offset
 // arg 4: duration
 // arg 5: wave amplitude
-void AnimMissileArc(struct Sprite *sprite)
+void AnimMissileArc (struct Sprite *sprite)
 {
     InitSpritePosToAnimAttacker(sprite, 1);
 
@@ -422,7 +422,7 @@ void AnimMissileArc(struct Sprite *sprite)
     sprite->invisible = TRUE;
 }
 
-void AnimMissileArc_Step(struct Sprite *sprite)
+void AnimMissileArc_Step (struct Sprite *sprite)
 {
     sprite->invisible = FALSE;
 
@@ -453,7 +453,7 @@ void AnimMissileArc_Step(struct Sprite *sprite)
     }
 }
 
-static void AnimTailGlowOrb(struct Sprite *sprite)
+static void AnimTailGlowOrb (struct Sprite *sprite)
 {
     if (gBattleAnimArgs[0] == ANIM_ATTACKER) {
         sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimAttacker, 2);

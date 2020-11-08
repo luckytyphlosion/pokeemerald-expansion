@@ -5,24 +5,24 @@
 #include "pokemon.h"
 #include "text.h"
 
-EWRAM_DATA ALIGNED(4) u8 gDecompressionBuffer[0x4000] =
+EWRAM_DATA ALIGNED (4) u8 gDecompressionBuffer[0x4000] =
 {
     0
 };
 
 static void DuplicateDeoxysTiles(void *pointer, s32 species);
 
-void LZDecompressWram(const u32 *src, void *dest)
+void LZDecompressWram (const u32 *src, void *dest)
 {
     LZ77UnCompWram(src, dest);
 }
 
-void LZDecompressVram(const u32 *src, void *dest)
+void LZDecompressVram (const u32 *src, void *dest)
 {
     LZ77UnCompVram(src, dest);
 }
 
-u16 LoadCompressedSpriteSheet(const struct CompressedSpriteSheet *src)
+u16 LoadCompressedSpriteSheet (const struct CompressedSpriteSheet *src)
 {
     struct SpriteSheet dest;
 
@@ -33,7 +33,7 @@ u16 LoadCompressedSpriteSheet(const struct CompressedSpriteSheet *src)
     return LoadSpriteSheet(&dest);
 }
 
-void LoadCompressedSpriteSheetOverrideBuffer(const struct CompressedSpriteSheet *src, void *buffer)
+void LoadCompressedSpriteSheetOverrideBuffer (const struct CompressedSpriteSheet *src, void *buffer)
 {
     struct SpriteSheet dest;
 
@@ -44,7 +44,7 @@ void LoadCompressedSpriteSheetOverrideBuffer(const struct CompressedSpriteSheet 
     LoadSpriteSheet(&dest);
 }
 
-void LoadCompressedSpritePalette(const struct CompressedSpritePalette *src)
+void LoadCompressedSpritePalette (const struct CompressedSpritePalette *src)
 {
     struct SpritePalette dest;
 
@@ -54,7 +54,7 @@ void LoadCompressedSpritePalette(const struct CompressedSpritePalette *src)
     LoadSpritePalette(&dest);
 }
 
-void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePalette *a, void *buffer)
+void LoadCompressedSpritePaletteOverrideBuffer (const struct CompressedSpritePalette *a, void *buffer)
 {
     struct SpritePalette dest;
 
@@ -64,7 +64,7 @@ void LoadCompressedSpritePaletteOverrideBuffer(const struct CompressedSpritePale
     LoadSpritePalette(&dest);
 }
 
-void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void* buffer, s32 species)
+void DecompressPicFromTable (const struct CompressedSpriteSheet *src, void* buffer, s32 species)
 {
     if (species > NUM_SPECIES) {
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
@@ -74,7 +74,7 @@ void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void* buffe
     DuplicateDeoxysTiles(buffer, species);
 }
 
-void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
+void HandleLoadSpecialPokePic (const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
 {
     bool8 isFrontPic;
 
@@ -86,7 +86,7 @@ void HandleLoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *des
     LoadSpecialPokePic_2(src, dest, species, personality, isFrontPic);
 }
 
-void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
+void LoadSpecialPokePic (const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
 {
     if (species == SPECIES_UNOWN) {
         u16 i = (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 3)) % 0x1C;
@@ -113,12 +113,12 @@ void LoadSpecialPokePic(const struct CompressedSpriteSheet *src, void *dest, s32
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
 
-void Unused_LZDecompressWramIndirect(const void **src, void *dest)
+void Unused_LZDecompressWramIndirect (const void **src, void *dest)
 {
     LZ77UnCompWram(*src, dest);
 }
 
-void sub_803471C(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tiles)
+void sub_803471C (s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tiles)
 {
     /*
        This function appears to emulate behaviour found in the GB(C) versions regarding how the Pokemon images
@@ -248,13 +248,13 @@ void sub_803471C(s32 object_size, s32 object_count, u8 *src_tiles, u8 *dest_tile
     }
 }
 
-u32 GetDecompressedDataSize(const u32 *ptr)
+u32 GetDecompressedDataSize (const u32 *ptr)
 {
     const u8 *ptr8 = (const u8 *)ptr;
     return (ptr8[3] << 16) | (ptr8[2] << 8) | (ptr8[1]);
 }
 
-bool8 LoadCompressedSpriteSheetUsingHeap(const struct CompressedSpriteSheet* src)
+bool8 LoadCompressedSpriteSheetUsingHeap (const struct CompressedSpriteSheet* src)
 {
     struct SpriteSheet dest;
     void* buffer;
@@ -271,7 +271,7 @@ bool8 LoadCompressedSpriteSheetUsingHeap(const struct CompressedSpriteSheet* src
     return FALSE;
 }
 
-bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette *src)
+bool8 LoadCompressedSpritePaletteUsingHeap (const struct CompressedSpritePalette *src)
 {
     struct SpritePalette dest;
     void* buffer;
@@ -286,7 +286,7 @@ bool8 LoadCompressedSpritePaletteUsingHeap(const struct CompressedSpritePalette 
     return FALSE;
 }
 
-void DecompressPicFromTable_2(const struct CompressedSpriteSheet *src, void* buffer, s32 species) // a copy of DecompressPicFromTable
+void DecompressPicFromTable_2 (const struct CompressedSpriteSheet *src, void* buffer, s32 species) // a copy of DecompressPicFromTable
 {
     if (species > NUM_SPECIES) {
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
@@ -296,7 +296,7 @@ void DecompressPicFromTable_2(const struct CompressedSpriteSheet *src, void* buf
     DuplicateDeoxysTiles(buffer, species);
 }
 
-void LoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic) // a copy of LoadSpecialPokePic
+void LoadSpecialPokePic_2 (const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic) // a copy of LoadSpecialPokePic
 {
     if (species == SPECIES_UNOWN) {
         u16 i = (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 3)) % 0x1C;
@@ -323,7 +323,7 @@ void LoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
 
-void HandleLoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality) // a copy of HandleLoadSpecialPokePic
+void HandleLoadSpecialPokePic_2 (const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality) // a copy of HandleLoadSpecialPokePic
 {
     bool8 isFrontPic;
 
@@ -335,7 +335,7 @@ void HandleLoadSpecialPokePic_2(const struct CompressedSpriteSheet *src, void *d
     LoadSpecialPokePic_2(src, dest, species, personality, isFrontPic);
 }
 
-void DecompressPicFromTable_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void* buffer, s32 species)
+void DecompressPicFromTable_DontHandleDeoxys (const struct CompressedSpriteSheet *src, void* buffer, s32 species)
 {
     if (species > NUM_SPECIES) {
         LZ77UnCompWram(gMonFrontPicTable[0].data, buffer);
@@ -344,7 +344,7 @@ void DecompressPicFromTable_DontHandleDeoxys(const struct CompressedSpriteSheet 
     }
 }
 
-void HandleLoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
+void HandleLoadSpecialPokePic_DontHandleDeoxys (const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality)
 {
     bool8 isFrontPic;
 
@@ -356,7 +356,7 @@ void HandleLoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteShee
     LoadSpecialPokePic_DontHandleDeoxys(src, dest, species, personality, isFrontPic);
 }
 
-void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
+void LoadSpecialPokePic_DontHandleDeoxys (const struct CompressedSpriteSheet *src, void *dest, s32 species, u32 personality, bool8 isFrontPic)
 {
     if (species == SPECIES_UNOWN) {
         u16 i = (((personality & 0x3000000) >> 18) | ((personality & 0x30000) >> 12) | ((personality & 0x300) >> 6) | (personality & 3)) % 0x1C;
@@ -382,7 +382,7 @@ void LoadSpecialPokePic_DontHandleDeoxys(const struct CompressedSpriteSheet *src
     DrawSpindaSpots(species, personality, dest, isFrontPic);
 }
 
-static void DuplicateDeoxysTiles(void *pointer, s32 species)
+static void DuplicateDeoxysTiles (void *pointer, s32 species)
 {
     if (species == SPECIES_DEOXYS) {
         CpuCopy32(pointer + 0x800, pointer, 0x800);

@@ -36,7 +36,7 @@ static const TaskFunc sBattleIntroSlideFuncs[] =
     BattleIntroSlide3, // BATTLE_TERRAIN_PLAIN
 };
 
-void SetAnimBgAttribute(u8 bgId, u8 attributeId, u8 value)
+void SetAnimBgAttribute (u8 bgId, u8 attributeId, u8 value)
 {
     if (bgId < 4) {
         sBgCnt = GetGpuReg(gUnknown_0859741A[bgId]);
@@ -68,7 +68,7 @@ void SetAnimBgAttribute(u8 bgId, u8 attributeId, u8 value)
     }
 }
 
-int GetAnimBgAttribute(u8 bgId, u8 attributeId)
+int GetAnimBgAttribute (u8 bgId, u8 attributeId)
 {
     u16 bgCnt;
 
@@ -95,7 +95,7 @@ int GetAnimBgAttribute(u8 bgId, u8 attributeId)
     return 0;
 }
 
-void HandleIntroSlide(u8 terrain)
+void HandleIntroSlide (u8 terrain)
 {
     u8 taskId;
 
@@ -121,7 +121,7 @@ void HandleIntroSlide(u8 terrain)
     gTasks[taskId].data[6] = 0;
 }
 
-void sub_811828C(u8 taskId)
+void sub_811828C (u8 taskId)
 {
     DestroyTask(taskId);
     gBattle_BG1_X = 0;
@@ -135,7 +135,7 @@ void sub_811828C(u8 taskId)
     SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR | WINOUT_WINOBJ_BG_ALL | WINOUT_WINOBJ_OBJ | WINOUT_WINOBJ_CLR);
 }
 
-static void BattleIntroSlide1(u8 taskId)
+static void BattleIntroSlide1 (u8 taskId)
 {
     int i;
 
@@ -213,7 +213,7 @@ static void BattleIntroSlide1(u8 taskId)
     }
 }
 
-static void BattleIntroSlide2(u8 taskId)
+static void BattleIntroSlide2 (u8 taskId)
 {
     int i;
 
@@ -318,7 +318,7 @@ static void BattleIntroSlide2(u8 taskId)
     }
 }
 
-static void BattleIntroSlide3(u8 taskId)
+static void BattleIntroSlide3 (u8 taskId)
 {
     int i;
 
@@ -400,7 +400,7 @@ static void BattleIntroSlide3(u8 taskId)
     }
 }
 
-static void BattleIntroSlideLink(u8 taskId)
+static void BattleIntroSlideLink (u8 taskId)
 {
     int i;
 
@@ -474,7 +474,7 @@ static void BattleIntroSlideLink(u8 taskId)
     }
 }
 
-static void BattleIntroSlidePartner(u8 taskId)
+static void BattleIntroSlidePartner (u8 taskId)
 {
     switch (gTasks[taskId].data[0]) {
     case 0:
@@ -545,7 +545,7 @@ static void BattleIntroSlidePartner(u8 taskId)
     }
 }
 
-void sub_8118FBC(int bgId, u8 arg1, u8 arg2, u8 battlerPosition, u8 arg4, u8 *arg5, u16 *arg6, u16 tilesOffset)
+void sub_8118FBC (int bgId, u8 arg1, u8 arg2, u8 battlerPosition, u8 arg4, u8 *arg5, u16 *arg6, u16 tilesOffset)
 {
     int i, j;
     u8 battler = GetBattlerAtPosition(battlerPosition);
@@ -562,7 +562,7 @@ void sub_8118FBC(int bgId, u8 arg1, u8 arg2, u8 battlerPosition, u8 arg4, u8 *ar
     LoadBgTilemap(bgId, arg6, BG_SCREEN_SIZE, 0);
 }
 
-void unref_sub_8119094(u8 arg0, u8 arg1, u8 battlerPosition, u8 arg3, u8 arg4, u16 arg5, u8 arg6, u8 arg7)
+void unref_sub_8119094 (u8 arg0, u8 arg1, u8 battlerPosition, u8 arg3, u8 arg4, u16 arg5, u8 arg6, u8 arg7)
 {
     int i, j, offset;
 

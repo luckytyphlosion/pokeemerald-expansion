@@ -163,7 +163,7 @@ static const struct OamData sContestPaintingMonOamData =
 
 const u16 gUnknown_085B0838[] = {RGB(0, 0, 0), RGB(0, 0, 0)};
 
-void SetContestWinnerForPainting(int contestWinnerId)
+void SetContestWinnerForPainting (int contestWinnerId)
 {
     // probably fakematching
     u8 *ptr1 = &gUnknown_02039F5D;
@@ -173,19 +173,19 @@ void SetContestWinnerForPainting(int contestWinnerId)
     *ptr2 = FALSE;
 }
 
-void CB2_ContestPainting(void)
+void CB2_ContestPainting (void)
 {
     ShowContestPainting();
 }
 
-static void CB2_HoldContestPainting(void)
+static void CB2_HoldContestPainting (void)
 {
     HoldContestPainting();
     RunTextPrinters();
     UpdatePaletteFade();
 }
 
-static void CB2_QuitContestPainting(void)
+static void CB2_QuitContestPainting (void)
 {
     SetMainCallback2(gMain.savedCallback);
     FREE_AND_SET_NULL(gContestPaintingMonPalette);
@@ -195,7 +195,7 @@ static void CB2_QuitContestPainting(void)
     FreeMonSpritesGfx();
 }
 
-static void ShowContestPainting(void)
+static void ShowContestPainting (void)
 {
     switch (gMain.state) {
     case 0:
@@ -236,7 +236,7 @@ static void ShowContestPainting(void)
     }
 }
 
-static void HoldContestPainting(void)
+static void HoldContestPainting (void)
 {
     switch (gContestPaintingState) {
     case 0:
@@ -268,7 +268,7 @@ static void HoldContestPainting(void)
     }
 }
 
-static void InitContestPaintingWindow(void)
+static void InitContestPaintingWindow (void)
 {
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sContestPaintingBgTemplates, ARRAY_COUNT(sContestPaintingBgTemplates));
@@ -283,7 +283,7 @@ static void InitContestPaintingWindow(void)
     ShowBg(1);
 }
 
-static void PrintContestPaintingCaption(u8 contestType, bool8 arg1)
+static void PrintContestPaintingCaption (u8 contestType, bool8 arg1)
 {
     int x;
     u8 category;
@@ -311,7 +311,7 @@ static void PrintContestPaintingCaption(u8 contestType, bool8 arg1)
     CopyBgTilemapBufferToVram(1);
 }
 
-static void InitContestPaintingBg(void)
+static void InitContestPaintingBg (void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     REG_IE |= INTR_FLAG_VBLANK;
@@ -322,7 +322,7 @@ static void InitContestPaintingBg(void)
     SetGpuReg(REG_OFFSET_BLDY, 0);
 }
 
-static void InitContestPaintingVars(bool8 arg0)
+static void InitContestPaintingVars (bool8 arg0)
 {
     if (arg0 == FALSE) {
         gUnknown_030011F6 = FALSE;
@@ -335,7 +335,7 @@ static void InitContestPaintingVars(bool8 arg0)
     }
 }
 
-static void UpdateContestPaintingMosaicEffect(void)
+static void UpdateContestPaintingMosaicEffect (void)
 {
     if (!gUnknown_030011F6) {
         SetGpuReg(REG_OFFSET_MOSAIC, 0);
@@ -346,7 +346,7 @@ static void UpdateContestPaintingMosaicEffect(void)
     }
 }
 
-static void VBlankCB_ContestPainting(void)
+static void VBlankCB_ContestPainting (void)
 {
     UpdateContestPaintingMosaicEffect();
     LoadOam();
@@ -354,7 +354,7 @@ static void VBlankCB_ContestPainting(void)
     TransferPlttBuffer();
 }
 
-static void InitContestMonPixels(u16 species, u8 whichSprite)
+static void InitContestMonPixels (u16 species, u8 whichSprite)
 {
     const void *pal = GetMonSpritePalFromSpeciesAndPersonality(species, gContestPaintingWinner->trainerId, gContestPaintingWinner->personality);
     LZDecompressVram(pal, gContestPaintingMonPalette);
@@ -375,7 +375,7 @@ static void InitContestMonPixels(u16 species, u8 whichSprite)
     }
 }
 
-static void _InitContestMonPixels(u8 *spriteGfx, u16 *palette, u16 (*destPixels)[64][64])
+static void _InitContestMonPixels (u8 *spriteGfx, u16 *palette, u16 (*destPixels)[64][64])
 {
     u16 tileY, tileX, pixelY, pixelX;
     u8 colorIndex;
@@ -403,7 +403,7 @@ static void _InitContestMonPixels(u8 *spriteGfx, u16 *palette, u16 (*destPixels)
 
 #define VRAM_PICTURE_DATA(x, y) (((u16 *)(BG_SCREEN_ADDR(12)))[(y) * 32 + (x)])
 
-static void LoadContestPaintingFrame(u8 contestWinnerId, bool8 arg1)
+static void LoadContestPaintingFrame (u8 contestWinnerId, bool8 arg1)
 {
     u8 x, y;
 
@@ -481,7 +481,7 @@ static void LoadContestPaintingFrame(u8 contestWinnerId, bool8 arg1)
 
 #undef VRAM_PICTURE_DATA
 
-static void InitPaintingMonOamData(u8 contestWinnerId)
+static void InitPaintingMonOamData (u8 contestWinnerId)
 {
     gMain.oamBuffer[0] = sContestPaintingMonOamData;
     gMain.oamBuffer[0].tileNum = 0;
@@ -495,7 +495,7 @@ static void InitPaintingMonOamData(u8 contestWinnerId)
     }
 }
 
-static u8 GetImageEffectForContestWinner(u8 contestWinnerId)
+static u8 GetImageEffectForContestWinner (u8 contestWinnerId)
 {
     u8 contestCategory;
 
@@ -521,13 +521,13 @@ static u8 GetImageEffectForContestWinner(u8 contestWinnerId)
     return contestCategory;
 }
 
-static void AllocPaintingResources(void)
+static void AllocPaintingResources (void)
 {
     gContestPaintingMonPalette = AllocZeroed(OBJ_PLTT_SIZE);
     gContestMonPixels = AllocZeroed(0x2000);
 }
 
-static void DoContestPaintingImageProcessing(u8 imageEffect)
+static void DoContestPaintingImageProcessing (u8 imageEffect)
 {
     gImageProcessingContext.canvasPixels = gContestMonPixels;
     gImageProcessingContext.canvasPalette = gContestPaintingMonPalette;
@@ -563,7 +563,7 @@ static void DoContestPaintingImageProcessing(u8 imageEffect)
     LoadPalette(gContestPaintingMonPalette, 0x100, 0x200);
 }
 
-static void CreateContestPaintingPicture(u8 contestWinnerId, bool8 arg1)
+static void CreateContestPaintingPicture (u8 contestWinnerId, bool8 arg1)
 {
     AllocPaintingResources();
     InitContestMonPixels(gContestPaintingWinner->species, 0);

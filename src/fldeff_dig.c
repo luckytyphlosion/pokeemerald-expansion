@@ -14,7 +14,7 @@ static void FieldCallback_Dig(void);
 static void StartDigFieldEffect(void);
 
 // text
-bool8 SetUpFieldMove_Dig(void)
+bool8 SetUpFieldMove_Dig (void)
 {
     if (CanUseDigOrEscapeRopeOnCurMap() == TRUE) {
         gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
@@ -25,14 +25,14 @@ bool8 SetUpFieldMove_Dig(void)
     }
 }
 
-static void FieldCallback_Dig(void)
+static void FieldCallback_Dig (void)
 {
     Overworld_ResetStateAfterDigEscRope();
     FieldEffectStart(FLDEFF_USE_DIG);
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
 }
 
-bool8 FldEff_UseDig(void)
+bool8 FldEff_UseDig (void)
 {
     u8 taskId = CreateFieldMoveTask();
 
@@ -44,7 +44,7 @@ bool8 FldEff_UseDig(void)
     return FALSE;
 }
 
-static void StartDigFieldEffect(void)
+static void StartDigFieldEffect (void)
 {
     u8 taskId;
 

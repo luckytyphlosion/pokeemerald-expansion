@@ -1540,7 +1540,7 @@ static const u8 gHandCursorTiles[] = INCBIN_U8("graphics/pokemon_storage/hand_cu
 static const u8 gHandCursorShadowTiles[] = INCBIN_U8("graphics/pokemon_storage/hand_cursor_shadow.4bpp");
 
 // code
-void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero2, s32 bytesToBuffer)
+void DrawTextWindowAndBufferTiles (const u8 *string, void *dst, u8 zero1, u8 zero2, s32 bytesToBuffer)
 {
     s32 i, tileBytesToBuffer, remainingBytes;
     u16 windowId;
@@ -1588,7 +1588,7 @@ void DrawTextWindowAndBufferTiles(const u8 *string, void *dst, u8 zero1, u8 zero
 }
 
 // Unused
-void sub_80C6EAC(const u8 *string, void *dst, u16 arg2, u8 arg3, u8 clr2, u8 clr3)
+void sub_80C6EAC (const u8 *string, void *dst, u16 arg2, u8 arg3, u8 clr2, u8 clr3)
 {
     u32 var;
     u8 windowId;
@@ -1612,7 +1612,7 @@ void sub_80C6EAC(const u8 *string, void *dst, u16 arg2, u8 arg3, u8 clr2, u8 clr
     RemoveWindow(windowId);
 }
 
-u8 CountMonsInBox(u8 boxId)
+u8 CountMonsInBox (u8 boxId)
 {
     u16 i, count;
 
@@ -1625,7 +1625,7 @@ u8 CountMonsInBox(u8 boxId)
     return count;
 }
 
-s16 GetFirstFreeBoxSpot(u8 boxId)
+s16 GetFirstFreeBoxSpot (u8 boxId)
 {
     u16 i;
 
@@ -1638,7 +1638,7 @@ s16 GetFirstFreeBoxSpot(u8 boxId)
     return -1; // all spots are taken
 }
 
-u8 CountPartyNonEggMons(void)
+u8 CountPartyNonEggMons (void)
 {
     u16 i, count;
 
@@ -1652,7 +1652,7 @@ u8 CountPartyNonEggMons(void)
     return count;
 }
 
-u8 CountPartyAliveNonEggMonsExcept(u8 slotToIgnore)
+u8 CountPartyAliveNonEggMonsExcept (u8 slotToIgnore)
 {
     u16 i, count;
 
@@ -1668,12 +1668,12 @@ u8 CountPartyAliveNonEggMonsExcept(u8 slotToIgnore)
     return count;
 }
 
-u16 CountPartyAliveNonEggMons_IgnoreVar0x8004Slot(void)
+u16 CountPartyAliveNonEggMons_IgnoreVar0x8004Slot (void)
 {
     return CountPartyAliveNonEggMonsExcept(gSpecialVar_0x8004);
 }
 
-u8 CountPartyMons(void)
+u8 CountPartyMons (void)
 {
     u16 i, count;
 
@@ -1686,7 +1686,7 @@ u8 CountPartyMons(void)
     return count;
 }
 
-u8 * StringCopyAndFillWithSpaces(u8 *dst, const u8 *src, u16 n)
+u8 * StringCopyAndFillWithSpaces (u8 *dst, const u8 *src, u16 n)
 {
     u8 *str;
 
@@ -1698,7 +1698,7 @@ u8 * StringCopyAndFillWithSpaces(u8 *dst, const u8 *src, u16 n)
     return str;
 }
 
-static void sub_80C7128(u16 *dest, u16 dest_left, u16 dest_top, const u16 *src, u16 src_left, u16 src_top, u16 dest_width, u16 dest_height, u16 src_width)
+static void sub_80C7128 (u16 *dest, u16 dest_left, u16 dest_top, const u16 *src, u16 src_left, u16 src_top, u16 dest_width, u16 dest_height, u16 src_width)
 {
     u16 i;
 
@@ -1712,7 +1712,7 @@ static void sub_80C7128(u16 *dest, u16 dest_left, u16 dest_top, const u16 *src, 
     }
 }
 
-static void sub_80C71A4(u16 *dest, u16 dest_left, u16 dest_top, u16 width, u16 height)
+static void sub_80C71A4 (u16 *dest, u16 dest_left, u16 dest_top, u16 width, u16 height)
 {
     u16 i;
 
@@ -1723,7 +1723,7 @@ static void sub_80C71A4(u16 *dest, u16 dest_left, u16 dest_top, u16 width, u16 h
     }
 }
 
-static void Task_PokemonStorageSystemPC(u8 taskId)
+static void Task_PokemonStorageSystemPC (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -1821,7 +1821,7 @@ static void Task_PokemonStorageSystemPC(u8 taskId)
     }
 }
 
-void ShowPokemonStorageSystemPC(void)
+void ShowPokemonStorageSystemPC (void)
 {
     u8 taskId = CreateTask(Task_PokemonStorageSystemPC, 80);
     gTasks[taskId].data[0] = 0;
@@ -1829,7 +1829,7 @@ void ShowPokemonStorageSystemPC(void)
     ScriptContext2_Enable();
 }
 
-static void FieldCb_ReturnToPcMenu(void)
+static void FieldCb_ReturnToPcMenu (void)
 {
     u8 taskId;
     MainCallback vblankCb = gMain.vblankCallback;
@@ -1843,7 +1843,7 @@ static void FieldCb_ReturnToPcMenu(void)
     FadeInFromBlack();
 }
 
-static void CreatePCMenu(u8 whichMenu, s16 *windowIdPtr)
+static void CreatePCMenu (u8 whichMenu, s16 *windowIdPtr)
 {
     s16 windowId;
     struct WindowTemplate winTemplate = gUnknown_085716E8;
@@ -1856,14 +1856,14 @@ static void CreatePCMenu(u8 whichMenu, s16 *windowIdPtr)
     *windowIdPtr = windowId;
 }
 
-static void Cb2_ExitPSS(void)
+static void Cb2_ExitPSS (void)
 {
     sPreviousBoxOption = GetCurrentBoxOption();
     gFieldCallback = FieldCb_ReturnToPcMenu;
     SetMainCallback2(CB2_ReturnToField);
 }
 
-static s16 StorageSystemGetNextMonIndex(struct BoxPokemon *box, s8 startIdx, u8 stopIdx, u8 mode)
+static s16 StorageSystemGetNextMonIndex (struct BoxPokemon *box, s8 startIdx, u8 stopIdx, u8 mode)
 {
     s16 i;
     s16 direction;
@@ -1888,7 +1888,7 @@ static s16 StorageSystemGetNextMonIndex(struct BoxPokemon *box, s8 startIdx, u8 
     return -1;
 }
 
-void ResetPokemonStorageSystem(void)
+void ResetPokemonStorageSystem (void)
 {
     u16 boxId, boxPosition;
 
@@ -1908,7 +1908,7 @@ void ResetPokemonStorageSystem(void)
     ResetWaldaWallpaper();
 }
 
-static void sub_80C77E8(struct UnkPSSStruct_2002370 *a0, u16 tileTag, u16 palTag, u8 a3, bool32 loadPal)
+static void sub_80C77E8 (struct UnkPSSStruct_2002370 *a0, u16 tileTag, u16 palTag, u8 a3, bool32 loadPal)
 {
     struct SpritePalette palette =
     {
@@ -1933,7 +1933,7 @@ static void sub_80C77E8(struct UnkPSSStruct_2002370 *a0, u16 tileTag, u16 palTag
     a0->unk_023c = loadPal;
 }
 
-static void sub_80C7890(void)
+static void sub_80C7890 (void)
 {
     if (gUnknown_02039D04->unk_023c) {
         FreeSpritePaletteByTag(gUnknown_02039D04->unk_0242);
@@ -1942,17 +1942,17 @@ static void sub_80C7890(void)
     FreeSpriteTilesByTag(gUnknown_02039D04->unk_0240 + 1);
 }
 
-static void sub_80C78D4(u8 curBox)
+static void sub_80C78D4 (u8 curBox)
 {
     sub_80C7958(curBox);
 }
 
-static void sub_80C78E4(void)
+static void sub_80C78E4 (void)
 {
     sub_80C7B14();
 }
 
-static u8 HandleBoxChooseSelectionInput(void)
+static u8 HandleBoxChooseSelectionInput (void)
 {
     if (JOY_NEW(B_BUTTON)) {
         PlaySE(SE_SELECT);
@@ -1972,7 +1972,7 @@ static u8 HandleBoxChooseSelectionInput(void)
     return 200;
 }
 
-static void sub_80C7958(u8 curBox)
+static void sub_80C7958 (u8 curBox)
 {
     u16 i;
     u8 spriteId;
@@ -2021,7 +2021,7 @@ static void sub_80C7958(u8 curBox)
     sub_80C7BE4();
 }
 
-static void sub_80C7B14(void)
+static void sub_80C7B14 (void)
 {
     u16 i;
     if (gUnknown_02039D04->unk_0000) {
@@ -2041,7 +2041,7 @@ static void sub_80C7B14(void)
     }
 }
 
-static void sub_80C7B80(void)
+static void sub_80C7B80 (void)
 {
     if (++gUnknown_02039D04->curBox >= TOTAL_BOXES_COUNT) {
         gUnknown_02039D04->curBox = 0;
@@ -2049,13 +2049,13 @@ static void sub_80C7B80(void)
     sub_80C7BE4();
 }
 
-static void sub_80C7BB4(void)
+static void sub_80C7BB4 (void)
 {
     gUnknown_02039D04->curBox = (gUnknown_02039D04->curBox == 0 ? TOTAL_BOXES_COUNT - 1 : gUnknown_02039D04->curBox - 1);
     sub_80C7BE4();
 }
 
-static void sub_80C7BE4(void)
+static void sub_80C7BE4 (void)
 {
     u8 numBoxMonsText[16];
     struct WindowTemplate winTemplate;
@@ -2086,7 +2086,7 @@ static void sub_80C7BE4(void)
     RemoveWindow(windowId);
 }
 
-static void sub_80C7CF4(struct Sprite *sprite)
+static void sub_80C7CF4 (struct Sprite *sprite)
 {
     if (++sprite->data[1] > 3) {
         sprite->data[1] = 0;
@@ -2098,7 +2098,7 @@ static void sub_80C7CF4(struct Sprite *sprite)
     }
 }
 
-static void VblankCb_PSS(void)
+static void VblankCb_PSS (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
@@ -2107,7 +2107,7 @@ static void VblankCb_PSS(void)
     SetGpuReg(REG_OFFSET_BG2HOFS, sPSSData->bg2_X);
 }
 
-static void Cb2_PSS(void)
+static void Cb2_PSS (void)
 {
     RunTasks();
     DoScheduledBgTilemapCopiesToVram();
@@ -2117,7 +2117,7 @@ static void Cb2_PSS(void)
     BuildOamBuffer();
 }
 
-static void Cb2_EnterPSS(u8 boxOption)
+static void Cb2_EnterPSS (u8 boxOption)
 {
     ResetTasks();
     sCurrentBoxOption = boxOption;
@@ -2135,7 +2135,7 @@ static void Cb2_EnterPSS(u8 boxOption)
     }
 }
 
-static void Cb2_ReturnToPSS(void)
+static void Cb2_ReturnToPSS (void)
 {
     ResetTasks();
     sPSSData = Alloc(sizeof(struct PokemonStorageSystemData));
@@ -2150,7 +2150,7 @@ static void Cb2_ReturnToPSS(void)
     }
 }
 
-static void ResetAllBgCoords(void)
+static void ResetAllBgCoords (void)
 {
     SetGpuReg(REG_OFFSET_BG0HOFS, 0);
     SetGpuReg(REG_OFFSET_BG0VOFS, 0);
@@ -2162,7 +2162,7 @@ static void ResetAllBgCoords(void)
     SetGpuReg(REG_OFFSET_BG3VOFS, 0);
 }
 
-static void sub_80C7E98(void)
+static void sub_80C7E98 (void)
 {
     ResetPaletteFade();
     ResetSpriteData();
@@ -2179,14 +2179,14 @@ static void sub_80C7E98(void)
     sPSSData->unk_02C7 = 0;
 }
 
-static void sub_80C7F1C(void)
+static void sub_80C7F1C (void)
 {
     sub_80CDC0C();
     sInPartyMenu = (sPSSData->boxOption == BOX_OPTION_DEPOSIT);
     gUnknown_02039D0E = 0;
 }
 
-static void SetMonIconTransparency(void)
+static void SetMonIconTransparency (void)
 {
     if (sPSSData->boxOption == BOX_OPTION_MOVE_ITEMS) {
         SetGpuReg(REG_OFFSET_BLDCNT, BLDCNT_TGT2_ALL);
@@ -2195,13 +2195,13 @@ static void SetMonIconTransparency(void)
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_ON | DISPCNT_BG_ALL_ON | DISPCNT_OBJ_1D_MAP);
 }
 
-static void SetPSSCallback(TaskFunc newFunc)
+static void SetPSSCallback (TaskFunc newFunc)
 {
     gTasks[sPSSData->taskId].func = newFunc;
     sPSSData->state = 0;
 }
 
-static void Cb_InitPSS(u8 taskId)
+static void Cb_InitPSS (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2301,7 +2301,7 @@ static void Cb_InitPSS(u8 taskId)
     sPSSData->state++;
 }
 
-static void Cb_ShowPSS(u8 taskId)
+static void Cb_ShowPSS (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2317,7 +2317,7 @@ static void Cb_ShowPSS(u8 taskId)
     }
 }
 
-static void Cb_ReshowPSS(u8 taskId)
+static void Cb_ReshowPSS (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2348,7 +2348,7 @@ static void Cb_ReshowPSS(u8 taskId)
     }
 }
 
-static void Cb_MainPSS(u8 taskId)
+static void Cb_MainPSS (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2583,7 +2583,7 @@ static void Cb_MainPSS(u8 taskId)
     }
 }
 
-static void Cb_ShowPartyPokemon(u8 taskId)
+static void Cb_ShowPartyPokemon (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2598,7 +2598,7 @@ static void Cb_ShowPartyPokemon(u8 taskId)
     }
 }
 
-static void Cb_HidePartyPokemon(u8 taskId)
+static void Cb_HidePartyPokemon (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2623,7 +2623,7 @@ static void Cb_HidePartyPokemon(u8 taskId)
     }
 }
 
-static void Cb_OnSelectedMon(u8 taskId)
+static void Cb_OnSelectedMon (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2760,7 +2760,7 @@ static void Cb_OnSelectedMon(u8 taskId)
     }
 }
 
-static void Cb_MoveMon(u8 taskId)
+static void Cb_MoveMon (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2779,7 +2779,7 @@ static void Cb_MoveMon(u8 taskId)
     }
 }
 
-static void Cb_PlaceMon(u8 taskId)
+static void Cb_PlaceMon (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2798,7 +2798,7 @@ static void Cb_PlaceMon(u8 taskId)
     }
 }
 
-static void Cb_ShiftMon(u8 taskId)
+static void Cb_ShiftMon (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2814,7 +2814,7 @@ static void Cb_ShiftMon(u8 taskId)
     }
 }
 
-static void Cb_WithdrawMon(u8 taskId)
+static void Cb_WithdrawMon (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -2858,7 +2858,7 @@ static void Cb_WithdrawMon(u8 taskId)
     }
 }
 
-static void Cb_DepositMenu(u8 taskId)
+static void Cb_DepositMenu (u8 taskId)
 {
     u8 boxId;
 
@@ -2913,7 +2913,7 @@ static void Cb_DepositMenu(u8 taskId)
     }
 }
 
-static void Cb_ReleaseMon(u8 taskId)
+static void Cb_ReleaseMon (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3025,7 +3025,7 @@ static void Cb_ReleaseMon(u8 taskId)
     }
 }
 
-static void Cb_ShowMarkMenu(u8 taskId)
+static void Cb_ShowMarkMenu (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3046,7 +3046,7 @@ static void Cb_ShowMarkMenu(u8 taskId)
     }
 }
 
-static void Cb_TakeItemForMoving(u8 taskId)
+static void Cb_TakeItemForMoving (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3079,7 +3079,7 @@ static void Cb_TakeItemForMoving(u8 taskId)
     }
 }
 
-static void Cb_GiveMovingItemToMon(u8 taskId)
+static void Cb_GiveMovingItemToMon (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3114,7 +3114,7 @@ static void Cb_GiveMovingItemToMon(u8 taskId)
     }
 }
 
-static void Cb_ItemToBag(u8 taskId)
+static void Cb_ItemToBag (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3156,7 +3156,7 @@ static void Cb_ItemToBag(u8 taskId)
     }
 }
 
-static void Cb_SwitchSelectedItem(u8 taskId)
+static void Cb_SwitchSelectedItem (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3195,7 +3195,7 @@ static void Cb_SwitchSelectedItem(u8 taskId)
     }
 }
 
-static void Cb_ShowItemInfo(u8 taskId)
+static void Cb_ShowItemInfo (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3239,7 +3239,7 @@ static void Cb_ShowItemInfo(u8 taskId)
     }
 }
 
-static void Cb_CloseBoxWhileHoldingItem(u8 taskId)
+static void Cb_CloseBoxWhileHoldingItem (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3290,7 +3290,7 @@ static void Cb_CloseBoxWhileHoldingItem(u8 taskId)
     }
 }
 
-static void Cb_HandleMovingMonFromParty(u8 taskId)
+static void Cb_HandleMovingMonFromParty (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3307,7 +3307,7 @@ static void Cb_HandleMovingMonFromParty(u8 taskId)
     }
 }
 
-static void Cb_PrintCantStoreMail(u8 taskId)
+static void Cb_PrintCantStoreMail (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3333,7 +3333,7 @@ static void Cb_PrintCantStoreMail(u8 taskId)
     }
 }
 
-static void Cb_HandleBoxOptions(u8 taskId)
+static void Cb_HandleBoxOptions (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3373,7 +3373,7 @@ static void Cb_HandleBoxOptions(u8 taskId)
     }
 }
 
-static void Cb_HandleWallpapers(u8 taskId)
+static void Cb_HandleWallpapers (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3450,7 +3450,7 @@ static void Cb_HandleWallpapers(u8 taskId)
     }
 }
 
-static void Cb_JumpBox(u8 taskId)
+static void Cb_JumpBox (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3490,7 +3490,7 @@ static void Cb_JumpBox(u8 taskId)
     }
 }
 
-static void Cb_NameBox(u8 taskId)
+static void Cb_NameBox (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3508,7 +3508,7 @@ static void Cb_NameBox(u8 taskId)
     }
 }
 
-static void Cb_ShowMonSummary(u8 taskId)
+static void Cb_ShowMonSummary (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3526,7 +3526,7 @@ static void Cb_ShowMonSummary(u8 taskId)
     }
 }
 
-static void Cb_GiveItemFromBag(u8 taskId)
+static void Cb_GiveItemFromBag (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3543,7 +3543,7 @@ static void Cb_GiveItemFromBag(u8 taskId)
     }
 }
 
-static void Cb_OnCloseBoxPressed(u8 taskId)
+static void Cb_OnCloseBoxPressed (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3595,7 +3595,7 @@ static void Cb_OnCloseBoxPressed(u8 taskId)
     }
 }
 
-static void Cb_OnBPressed(u8 taskId)
+static void Cb_OnBPressed (u8 taskId)
 {
     switch (sPSSData->state) {
     case 0:
@@ -3647,7 +3647,7 @@ static void Cb_OnBPressed(u8 taskId)
     }
 }
 
-static void Cb_ChangeScreen(u8 taskId)
+static void Cb_ChangeScreen (u8 taskId)
 {
     struct BoxPokemon *boxMons;
     u8 mode, monIndex, maxMonIndex;
@@ -3690,7 +3690,7 @@ static void Cb_ChangeScreen(u8 taskId)
     DestroyTask(taskId);
 }
 
-static void GiveChosenBagItem(void)
+static void GiveChosenBagItem (void)
 {
     u16 item = gSpecialVar_ItemId;
 
@@ -3707,7 +3707,7 @@ static void GiveChosenBagItem(void)
     }
 }
 
-static void FreePSSData(void)
+static void FreePSSData (void)
 {
     sub_80D25F0();
     sub_80D01B8();
@@ -3715,20 +3715,20 @@ static void FreePSSData(void)
     FreeAllWindowBuffers();
 }
 
-static void SetScrollingBackground(void)
+static void SetScrollingBackground (void)
 {
     SetGpuReg(REG_OFFSET_BG3CNT, BGCNT_PRIORITY(3) | BGCNT_CHARBASE(3) | BGCNT_16COLOR | BGCNT_SCREENBASE(31));
     DecompressAndLoadBgGfxUsingHeap(3, gPokemonStorageScrollingBGTileset, 0, 0, 0);
     LZ77UnCompVram(gPokemonStorageScrollingBGTilemap, (void *)BG_SCREEN_ADDR(31));
 }
 
-static void ScrollBackground(void)
+static void ScrollBackground (void)
 {
     ChangeBgX(3, 128, 1);
     ChangeBgY(3, 128, 2);
 }
 
-static void LoadPSSMenuGfx(void)
+static void LoadPSSMenuGfx (void)
 {
     InitBgsFromTemplates(0, gUnknown_08572734, ARRAY_COUNT(gUnknown_08572734));
     DecompressAndLoadBgGfxUsingHeap(1, gPSSMenu_Gfx, 0, 0, 0);
@@ -3738,7 +3738,7 @@ static void LoadPSSMenuGfx(void)
     ScheduleBgCopyTilemapToVram(1);
 }
 
-static bool8 InitPSSWindows(void)
+static bool8 InitPSSWindows (void)
 {
     if (!InitWindows(gUnknown_08572714)) {
         return FALSE;
@@ -3748,12 +3748,12 @@ static bool8 InitPSSWindows(void)
     }
 }
 
-static void LoadWaveformSpritePalette(void)
+static void LoadWaveformSpritePalette (void)
 {
     LoadSpritePalette(&gWaveformSpritePalette);
 }
 
-static void sub_80CA0D8(void)
+static void sub_80CA0D8 (void)
 {
     LoadPalette(gUnknown_085723DC, 0, 0x20);
     LoadPalette(gUnknown_085723FC, 0x20, 0x20);
@@ -3771,7 +3771,7 @@ static void sub_80CA0D8(void)
     RefreshCursorMonData();
 }
 
-static void sub_80CA154(void)
+static void sub_80CA154 (void)
 {
     sPSSData->field_D94 = sub_811FFB4(TAG_TILE_10, TAG_PAL_DAC8, NULL);
     sPSSData->field_D94->oam.priority = 1;
@@ -3781,7 +3781,7 @@ static void sub_80CA154(void)
     sPSSData->field_DA0 = (void*)OBJ_VRAM0 + 32 * GetSpriteTileStartByTag(TAG_TILE_10);
 }
 
-static void sub_80CA1C4(void)
+static void sub_80CA1C4 (void)
 {
     u16 i;
     struct SpriteSheet sheet = gWaveformSpriteSheet;
@@ -3793,7 +3793,7 @@ static void sub_80CA1C4(void)
     }
 }
 
-static void RefreshCursorMonData(void)
+static void RefreshCursorMonData (void)
 {
     LoadCursorMonGfx(sPSSData->cursorMonSpecies, sPSSData->cursorMonPersonality);
     PrintCursorMonInfo();
@@ -3801,7 +3801,7 @@ static void RefreshCursorMonData(void)
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void BoxSetMosaic(void)
+static void BoxSetMosaic (void)
 {
     RefreshCursorMonData();
     if (sPSSData->cursorMonSprite) {
@@ -3813,12 +3813,12 @@ static void BoxSetMosaic(void)
     }
 }
 
-static u8 sub_80CA2B8(void)
+static u8 sub_80CA2B8 (void)
 {
     return sPSSData->cursorMonSprite->oam.mosaic;
 }
 
-static void sub_80CA2D0(struct Sprite *sprite)
+static void sub_80CA2D0 (struct Sprite *sprite)
 {
     sprite->data[0] -= sprite->data[1];
     if (sprite->data[0] < 0) {
@@ -3831,7 +3831,7 @@ static void sub_80CA2D0(struct Sprite *sprite)
     }
 }
 
-static void LoadCursorMonSprite(void)
+static void LoadCursorMonSprite (void)
 {
     u16 i;
     u16 tileStart;
@@ -3877,7 +3877,7 @@ static void LoadCursorMonSprite(void)
     }
 }
 
-static void LoadCursorMonGfx(u16 species, u32 pid)
+static void LoadCursorMonGfx (u16 species, u32 pid)
 {
     if (sPSSData->cursorMonSprite == NULL) {
         return;
@@ -3894,7 +3894,7 @@ static void LoadCursorMonGfx(u16 species, u32 pid)
     }
 }
 
-static void PrintCursorMonInfo(void)
+static void PrintCursorMonInfo (void)
 {
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
     if (sPSSData->boxOption != BOX_OPTION_MOVE_ITEMS) {
@@ -3918,7 +3918,7 @@ static void PrintCursorMonInfo(void)
     }
 }
 
-static void sub_80CA65C(void)
+static void sub_80CA65C (void)
 {
     u16 i;
 
@@ -3938,7 +3938,7 @@ static void sub_80CA65C(void)
     ScheduleBgCopyTilemapToVram(1);
 }
 
-static void sub_80CA704(void)
+static void sub_80CA704 (void)
 {
     LZ77UnCompWram(gUnknown_08DD36C8, sPSSData->field_B0);
     LoadPalette(gPSSMenu_Pal, 0x10, 0x20);
@@ -3963,7 +3963,7 @@ static void sub_80CA704(void)
     sPSSData->unk_02C7 = 0;
 }
 
-static void SetUpShowPartyMenu(void)
+static void SetUpShowPartyMenu (void)
 {
     sPSSData->field_2C0 = 20;
     sPSSData->field_2C2 = 2;
@@ -3971,7 +3971,7 @@ static void SetUpShowPartyMenu(void)
     CreatePartyMonsSprites(FALSE);
 }
 
-static bool8 ShowPartyMenu(void)
+static bool8 ShowPartyMenu (void)
 {
     if (sPSSData->field_2C5 == 20) {
         return FALSE;
@@ -3991,7 +3991,7 @@ static bool8 ShowPartyMenu(void)
     }
 }
 
-static void SetUpHidePartyMenu(void)
+static void SetUpHidePartyMenu (void)
 {
     sPSSData->field_2C0 = 0;
     sPSSData->field_2C2 = 22;
@@ -4001,7 +4001,7 @@ static void SetUpHidePartyMenu(void)
     }
 }
 
-static bool8 HidePartyMenu(void)
+static bool8 HidePartyMenu (void)
 {
     if (sPSSData->field_2C5 != 20) {
         sPSSData->field_2C0++;
@@ -4027,7 +4027,7 @@ static bool8 HidePartyMenu(void)
     return FALSE;
 }
 
-static void sub_80CA984(bool8 arg0)
+static void sub_80CA984 (bool8 arg0)
 {
     if (arg0) {
         sub_80D27AC(2, 0, 0, 9, 2);
@@ -4039,14 +4039,14 @@ static void sub_80CA984(bool8 arg0)
     ScheduleBgCopyTilemapToVram(1);
 }
 
-static void sub_80CA9C0(void)
+static void sub_80CA9C0 (void)
 {
     sPSSData->unk_02C7 = 1;
     sPSSData->unk_02C8 = 30;
     sPSSData->unk_02C9 = TRUE;
 }
 
-static void sub_80CA9EC(void)
+static void sub_80CA9EC (void)
 {
     if (sPSSData->unk_02C7) {
         sPSSData->unk_02C7 = 0;
@@ -4054,7 +4054,7 @@ static void sub_80CA9EC(void)
     }
 }
 
-static void sub_80CAA14(void)
+static void sub_80CAA14 (void)
 {
     if (sPSSData->unk_02C7 && ++sPSSData->unk_02C8 > 30) {
         sPSSData->unk_02C8 = 0;
@@ -4063,7 +4063,7 @@ static void sub_80CAA14(void)
     }
 }
 
-static void sub_80CAA74(void)
+static void sub_80CAA74 (void)
 {
     u8 i;
 
@@ -4073,7 +4073,7 @@ static void sub_80CAA74(void)
     }
 }
 
-static void sub_80CAAA8(u8 arg0, bool8 isPartyMon)
+static void sub_80CAAA8 (u8 arg0, bool8 isPartyMon)
 {
     u16 i, j, index;
     const u16 *data;
@@ -4096,7 +4096,7 @@ static void sub_80CAAA8(u8 arg0, bool8 isPartyMon)
     }
 }
 
-static void sub_80CAB20(void)
+static void sub_80CAB20 (void)
 {
     sub_80CAA74();
     sub_80D27AC(1, 0, 0, 12, 22);
@@ -4104,14 +4104,14 @@ static void sub_80CAB20(void)
     ScheduleBgCopyTilemapToVram(1);
 }
 
-static void SetUpDoShowPartyMenu(void)
+static void SetUpDoShowPartyMenu (void)
 {
     sPSSData->showPartyMenuState = 0;
     PlaySE(SE_WIN_OPEN);
     SetUpShowPartyMenu();
 }
 
-static bool8 DoShowPartyMenu(void)
+static bool8 DoShowPartyMenu (void)
 {
     switch (sPSSData->showPartyMenuState) {
     case 0:
@@ -4134,7 +4134,7 @@ static bool8 DoShowPartyMenu(void)
     return TRUE;
 }
 
-static void sub_80CABE0(void)
+static void sub_80CABE0 (void)
 {
     if (sLastUsedBox != StorageGetCurrentBox()) {
         FlagClear(FLAG_SHOWN_BOX_WAS_FULL_MESSAGE);
@@ -4142,7 +4142,7 @@ static void sub_80CABE0(void)
     }
 }
 
-static void sub_80CAC1C(void)
+static void sub_80CAC1C (void)
 {
     SetGpuReg(REG_OFFSET_BG0CNT, BGCNT_PRIORITY(0) | BGCNT_CHARBASE(0) | BGCNT_SCREENBASE(29));
     LoadUserWindowBorderGfx(1, 2, 208);
@@ -4150,7 +4150,7 @@ static void sub_80CAC1C(void)
     CopyBgTilemapBufferToVram(0);
 }
 
-static void PrintStorageActionText(u8 id)
+static void PrintStorageActionText (u8 id)
 {
     u8 *txtPtr;
 
@@ -4193,19 +4193,19 @@ static void PrintStorageActionText(u8 id)
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void ShowYesNoWindow(s8 cursorPos)
+static void ShowYesNoWindow (s8 cursorPos)
 {
     CreateYesNoMenu(&sYesNoWindowTemplate, 11, 14, 0);
     Menu_MoveCursorNoWrapAround(cursorPos);
 }
 
-static void ClearBottomWindow(void)
+static void ClearBottomWindow (void)
 {
     ClearStdWindowAndFrameToTransparent(1, FALSE);
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void AddWallpaperSetsMenu(void)
+static void AddWallpaperSetsMenu (void)
 {
     InitMenu();
     SetMenuText(18);
@@ -4218,7 +4218,7 @@ static void AddWallpaperSetsMenu(void)
     AddMenu();
 }
 
-static void AddWallpapersMenu(u8 wallpaperSet)
+static void AddWallpapersMenu (u8 wallpaperSet)
 {
     InitMenu();
     switch (wallpaperSet) {
@@ -4250,12 +4250,12 @@ static void AddWallpapersMenu(u8 wallpaperSet)
     AddMenu();
 }
 
-static u8 GetCurrentBoxOption(void)
+static u8 GetCurrentBoxOption (void)
 {
     return sCurrentBoxOption;
 }
 
-static void sub_80CAEAC(void)
+static void sub_80CAEAC (void)
 {
     if (!IsCursorOnBox()) {
         if (sInPartyMenu) {
@@ -4271,7 +4271,7 @@ static void sub_80CAEAC(void)
     }
 }
 
-static void sub_80CAF04(void)
+static void sub_80CAF04 (void)
 {
     u16 i;
 
@@ -4293,12 +4293,12 @@ static void sub_80CAF04(void)
     sPSSData->field_78C = 0;
 }
 
-static u8 sub_80CAFAC(void)
+static u8 sub_80CAFAC (void)
 {
     return(IsCursorInBox() ? 2 : 1);
 }
 
-static void CreateMovingMonIcon(void)
+static void CreateMovingMonIcon (void)
 {
     u32 personality = GetMonData(&sPSSData->movingMon, MON_DATA_PERSONALITY);
     u16 species = GetMonData(&sPSSData->movingMon, MON_DATA_SPECIES2);
@@ -4308,7 +4308,7 @@ static void CreateMovingMonIcon(void)
     sPSSData->movingMonSprite->callback = sub_80CC100;
 }
 
-static void sub_80CB028(u8 boxId)
+static void sub_80CB028 (u8 boxId)
 {
     u8 boxPosition;
     u16 i, j, count;
@@ -4340,7 +4340,7 @@ static void sub_80CB028(u8 boxId)
     }
 }
 
-static void sub_80CB140(u8 boxPosition)
+static void sub_80CB140 (u8 boxPosition)
 {
     u16 species = GetCurrentBoxMonData(boxPosition, MON_DATA_SPECIES2);
 
@@ -4356,7 +4356,7 @@ static void sub_80CB140(u8 boxPosition)
     }
 }
 
-static void sub_80CB1F0(s16 arg0)
+static void sub_80CB1F0 (s16 arg0)
 {
     u16 i;
 
@@ -4369,7 +4369,7 @@ static void sub_80CB1F0(s16 arg0)
     }
 }
 
-static void sub_80CB234(struct Sprite *sprite)
+static void sub_80CB234 (struct Sprite *sprite)
 {
     if (sprite->data[1] != 0) {
         sprite->data[1]--;
@@ -4381,7 +4381,7 @@ static void sub_80CB234(struct Sprite *sprite)
     }
 }
 
-static void sub_80CB278(struct Sprite *sprite)
+static void sub_80CB278 (struct Sprite *sprite)
 {
     if (sprite->data[4] != 0) {
         sprite->data[4]--;
@@ -4394,7 +4394,7 @@ static void sub_80CB278(struct Sprite *sprite)
     }
 }
 
-static void DestroyAllIconsInRow(u8 row)
+static void DestroyAllIconsInRow (u8 row)
 {
     u16 column;
     u8 boxPosition = row;
@@ -4408,7 +4408,7 @@ static void DestroyAllIconsInRow(u8 row)
     }
 }
 
-static u8 sub_80CB2F8(u8 row, u16 times, s16 xDelta)
+static u8 sub_80CB2F8 (u8 row, u16 times, s16 xDelta)
 {
     s32 i;
     u16 y = 44;
@@ -4460,7 +4460,7 @@ static u8 sub_80CB2F8(u8 row, u16 times, s16 xDelta)
     return count;
 }
 
-static void sub_80CB4CC(u8 boxId, s8 direction)
+static void sub_80CB4CC (u8 boxId, s8 direction)
 {
     sPSSData->field_C6A = 0;
     sPSSData->field_C6B = boxId;
@@ -4479,7 +4479,7 @@ static void sub_80CB4CC(u8 boxId, s8 direction)
     sub_80CB1F0(sPSSData->field_C64);
 }
 
-static bool8 sub_80CB584(void)
+static bool8 sub_80CB584 (void)
 {
     if (sPSSData->field_C60 != 0) {
         sPSSData->field_C60--;
@@ -4518,7 +4518,7 @@ static bool8 sub_80CB584(void)
     return TRUE;
 }
 
-static void SetBoxSpeciesAndPersonalities(u8 boxId)
+static void SetBoxSpeciesAndPersonalities (u8 boxId)
 {
     s32 i, j, boxPosition;
 
@@ -4536,7 +4536,7 @@ static void SetBoxSpeciesAndPersonalities(u8 boxId)
     sPSSData->field_C5C = boxId;
 }
 
-static void DestroyBoxMonIconAtPosition(u8 boxPosition)
+static void DestroyBoxMonIconAtPosition (u8 boxPosition)
 {
     if (sPSSData->boxMonsSprites[boxPosition] != NULL) {
         DestroyBoxMonIcon(sPSSData->boxMonsSprites[boxPosition]);
@@ -4544,14 +4544,14 @@ static void DestroyBoxMonIconAtPosition(u8 boxPosition)
     }
 }
 
-static void SetBoxMonIconObjMode(u8 boxPosition, u8 objMode)
+static void SetBoxMonIconObjMode (u8 boxPosition, u8 objMode)
 {
     if (sPSSData->boxMonsSprites[boxPosition] != NULL) {
         sPSSData->boxMonsSprites[boxPosition]->oam.objMode = objMode;
     }
 }
 
-static void CreatePartyMonsSprites(bool8 arg0)
+static void CreatePartyMonsSprites (bool8 arg0)
 {
     u16 i, count;
     u16 species = GetMonData(&gPlayerParty[0], MON_DATA_SPECIES2);
@@ -4586,7 +4586,7 @@ static void CreatePartyMonsSprites(bool8 arg0)
     }
 }
 
-static void sub_80CB950(void)
+static void sub_80CB950 (void)
 {
     u16 i, count;
 
@@ -4603,12 +4603,12 @@ static void sub_80CB950(void)
     }
 }
 
-static u8 sub_80CB9BC(void)
+static u8 sub_80CB9BC (void)
 {
     return sPSSData->field_C5E;
 }
 
-static void sub_80CB9D0(struct Sprite *sprite, u16 partyId)
+static void sub_80CB9D0 (struct Sprite *sprite, u16 partyId)
 {
     s16 x, y;
 
@@ -4627,7 +4627,7 @@ static void sub_80CB9D0(struct Sprite *sprite, u16 partyId)
     sprite->callback = sub_80CBA3C;
 }
 
-static void sub_80CBA3C(struct Sprite *sprite)
+static void sub_80CBA3C (struct Sprite *sprite)
 {
     if (sprite->data[6] != 0) {
         s16 x = sprite->data[2] += sprite->data[4];
@@ -4649,7 +4649,7 @@ static void sub_80CBA3C(struct Sprite *sprite)
     }
 }
 
-static void DestroyMovingMonIcon(void)
+static void DestroyMovingMonIcon (void)
 {
     if (sPSSData->movingMonSprite != NULL) {
         DestroyBoxMonIcon(sPSSData->movingMonSprite);
@@ -4657,7 +4657,7 @@ static void DestroyMovingMonIcon(void)
     }
 }
 
-static void sub_80CBAF0(s16 yDelta)
+static void sub_80CBAF0 (s16 yDelta)
 {
     u16 i, posY;
 
@@ -4675,7 +4675,7 @@ static void sub_80CBAF0(s16 yDelta)
     }
 }
 
-static void DestroyPartyMonIcon(u8 partyId)
+static void DestroyPartyMonIcon (u8 partyId)
 {
     if (sPSSData->partySprites[partyId] != NULL) {
         DestroyBoxMonIcon(sPSSData->partySprites[partyId]);
@@ -4683,7 +4683,7 @@ static void DestroyPartyMonIcon(u8 partyId)
     }
 }
 
-static void DestroyAllPartyMonIcons(void)
+static void DestroyAllPartyMonIcons (void)
 {
     u16 i;
 
@@ -4695,14 +4695,14 @@ static void DestroyAllPartyMonIcons(void)
     }
 }
 
-static void SetPartyMonIconObjMode(u8 partyId, u8 objMode)
+static void SetPartyMonIconObjMode (u8 partyId, u8 objMode)
 {
     if (sPSSData->partySprites[partyId] != NULL) {
         sPSSData->partySprites[partyId]->oam.objMode = objMode;
     }
 }
 
-static void sub_80CBC14(u8 mode, u8 id)
+static void sub_80CBC14 (u8 mode, u8 id)
 {
     if (mode == MODE_PARTY) {
         sPSSData->movingMonSprite = sPSSData->partySprites[id];
@@ -4719,7 +4719,7 @@ static void sub_80CBC14(u8 mode, u8 id)
     sPSSData->movingMonSprite->subpriority = 7;
 }
 
-static void sub_80CBCAC(u8 boxId, u8 position)
+static void sub_80CBCAC (u8 boxId, u8 position)
 {
     if (boxId == TOTAL_BOXES_COUNT) { // party mon
         sPSSData->partySprites[position] = sPSSData->movingMonSprite;
@@ -4734,7 +4734,7 @@ static void sub_80CBCAC(u8 boxId, u8 position)
     sPSSData->movingMonSprite = NULL;
 }
 
-static void sub_80CBD5C(u8 boxId, u8 position)
+static void sub_80CBD5C (u8 boxId, u8 position)
 {
     if (boxId == TOTAL_BOXES_COUNT) { // party mon
         sPSSData->field_B00 = &sPSSData->partySprites[position];
@@ -4746,7 +4746,7 @@ static void sub_80CBD5C(u8 boxId, u8 position)
     sPSSData->field_C5D = 0;
 }
 
-static bool8 sub_80CBDC4(void)
+static bool8 sub_80CBDC4 (void)
 {
     if (sPSSData->field_C5D == 16) {
         return FALSE;
@@ -4779,7 +4779,7 @@ static bool8 sub_80CBDC4(void)
     return TRUE;
 }
 
-static void sub_80CBF14(u8 mode, u8 position)
+static void sub_80CBF14 (u8 mode, u8 position)
 {
     switch (mode) {
     case MODE_PARTY:
@@ -4803,7 +4803,7 @@ static void sub_80CBF14(u8 mode, u8 position)
     }
 }
 
-static bool8 sub_80CBFD8(void)
+static bool8 sub_80CBFD8 (void)
 {
     if (*sPSSData->field_B04 == NULL || (*sPSSData->field_B04)->invisible) {
         return FALSE;
@@ -4816,7 +4816,7 @@ static bool8 sub_80CBFD8(void)
     return TRUE;
 }
 
-static void sub_80CC020(void)
+static void sub_80CC020 (void)
 {
     if (*sPSSData->field_B04 != NULL) {
         FreeOamMatrix((*sPSSData->field_B04)->oam.matrixNum);
@@ -4825,7 +4825,7 @@ static void sub_80CC020(void)
     }
 }
 
-static void sub_80CC064(void)
+static void sub_80CC064 (void)
 {
     if (*sPSSData->field_B04 != NULL) {
         (*sPSSData->field_B04)->invisible = FALSE;
@@ -4833,7 +4833,7 @@ static void sub_80CC064(void)
     }
 }
 
-static bool8 sub_80CC0A0(void)
+static bool8 sub_80CC0A0 (void)
 {
     if (sPSSData->field_B04 == NULL) {
         return FALSE;
@@ -4846,18 +4846,18 @@ static bool8 sub_80CC0A0(void)
     return TRUE;
 }
 
-static void SetMovingMonPriority(u8 priority)
+static void SetMovingMonPriority (u8 priority)
 {
     sPSSData->movingMonSprite->oam.priority = priority;
 }
 
-static void sub_80CC100(struct Sprite *sprite)
+static void sub_80CC100 (struct Sprite *sprite)
 {
     sprite->pos1.x = sPSSData->field_CB4->pos1.x;
     sprite->pos1.y = sPSSData->field_CB4->pos1.y + sPSSData->field_CB4->pos2.y + 4;
 }
 
-static u16 sub_80CC124(u16 species)
+static u16 sub_80CC124 (u16 species)
 {
     u16 i, var;
 
@@ -4886,7 +4886,7 @@ static u16 sub_80CC124(u16 species)
     return var;
 }
 
-static void sub_80CC1E0(u16 species)
+static void sub_80CC1E0 (u16 species)
 {
     u16 i;
 
@@ -4900,7 +4900,7 @@ static void sub_80CC1E0(u16 species)
     }
 }
 
-static struct Sprite * CreateMonIconSprite(u16 species, u32 personality, s16 x, s16 y, u8 oamPriority, u8 subpriority)
+static struct Sprite * CreateMonIconSprite (u16 species, u32 personality, s16 x, s16 y, u8 oamPriority, u8 subpriority)
 {
     u16 tileNum;
     u8 spriteId;
@@ -4925,25 +4925,25 @@ static struct Sprite * CreateMonIconSprite(u16 species, u32 personality, s16 x, 
     return &gSprites[spriteId];
 }
 
-static void DestroyBoxMonIcon(struct Sprite *sprite)
+static void DestroyBoxMonIcon (struct Sprite *sprite)
 {
     sub_80CC1E0(sprite->data[0]);
     DestroySprite(sprite);
 }
 
-static void sub_80CC32C(u8 boxId)
+static void sub_80CC32C (u8 boxId)
 {
     u8 taskId = CreateTask(sub_80CC370, 2);
 
     gTasks[taskId].data[2] = boxId;
 }
 
-static bool8 sub_80CC35C(void)
+static bool8 sub_80CC35C (void)
 {
     return FuncIsActiveTask(sub_80CC370);
 }
 
-static void sub_80CC370(u8 taskId)
+static void sub_80CC370 (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -4985,7 +4985,7 @@ static void sub_80CC370(u8 taskId)
     task->data[0]++;
 }
 
-static void SetUpScrollToBox(u8 boxId)
+static void SetUpScrollToBox (u8 boxId)
 {
     s8 direction = DetermineBoxScrollDirection(boxId);
 
@@ -5004,7 +5004,7 @@ static void SetUpScrollToBox(u8 boxId)
     sPSSData->field_A63 = 0;
 }
 
-static bool8 ScrollToBox(void)
+static bool8 ScrollToBox (void)
 {
     bool8 var;
 
@@ -5038,7 +5038,7 @@ static bool8 ScrollToBox(void)
     return TRUE;
 }
 
-static s8 DetermineBoxScrollDirection(u8 boxId)
+static s8 DetermineBoxScrollDirection (u8 boxId)
 {
     u8 i;
     u8 currentBox = StorageGetCurrentBox();
@@ -5053,14 +5053,14 @@ static s8 DetermineBoxScrollDirection(u8 boxId)
     return (i < TOTAL_BOXES_COUNT / 2) ? 1 : -1;
 }
 
-static void SetWallpaperForCurrentBox(u8 wallpaperId)
+static void SetWallpaperForCurrentBox (u8 wallpaperId)
 {
     u8 boxId = StorageGetCurrentBox();
     SetBoxWallpaper(boxId, wallpaperId);
     sPSSData->wallpaperChangeState = 0;
 }
 
-static bool8 DoWallpaperGfxChange(void)
+static bool8 DoWallpaperGfxChange (void)
 {
     switch (sPSSData->wallpaperChangeState) {
     case 0:
@@ -5093,7 +5093,7 @@ static bool8 DoWallpaperGfxChange(void)
     return TRUE;
 }
 
-static void LoadWallpaperGfx(u8 boxId, s8 direction)
+static void LoadWallpaperGfx (u8 boxId, s8 direction)
 {
     u8 wallpaperId;
     const struct WallpaperTable *wallpaperGfx;
@@ -5147,7 +5147,7 @@ static void LoadWallpaperGfx(u8 boxId, s8 direction)
     CopyBgTilemapBufferToVram(2);
 }
 
-static bool32 WaitForWallpaperGfxLoad(void)
+static bool32 WaitForWallpaperGfxLoad (void)
 {
     if (IsDma3ManagerBusyWithBgCopy()) {
         return FALSE;
@@ -5160,7 +5160,7 @@ static bool32 WaitForWallpaperGfxLoad(void)
     return TRUE;
 }
 
-static void sub_80CCA3C(const void *tilemap, s8 direction, u8 arg2)
+static void sub_80CCA3C (const void *tilemap, s8 direction, u8 arg2)
 {
     s16 var = (arg2 * 2) + 3;
     s16 x = ((sPSSData->bg2_X / 8 + 10) + (direction * 24)) & 0x3F;
@@ -5179,7 +5179,7 @@ static void sub_80CCA3C(const void *tilemap, s8 direction, u8 arg2)
     FillBgTilemapBufferRect(2, 0, x, 2, 4, 0x12, 0x11);
 }
 
-static void sub_80CCAE0(void *arg0)
+static void sub_80CCAE0 (void *arg0)
 {
     u16 i;
     u16 *dest = arg0;
@@ -5203,7 +5203,7 @@ static void sub_80CCAE0(void *arg0)
     }
 }
 
-static void sub_80CCB50(u8 boxId)
+static void sub_80CCB50 (u8 boxId)
 {
     u8 tagIndex;
     s16 r6;
@@ -5243,7 +5243,7 @@ static void sub_80CCB50(u8 boxId)
     sPSSData->field_6F8 = 0;
 }
 
-static void sub_80CCCFC(u8 boxId, s8 direction)
+static void sub_80CCCFC (u8 boxId, s8 direction)
 {
     u16 r8;
     s16 x, x2;
@@ -5286,7 +5286,7 @@ static void sub_80CCCFC(u8 boxId, s8 direction)
     }
 }
 
-static void sub_80CCEE0(void)
+static void sub_80CCEE0 (void)
 {
     if (sPSSData->field_6F8 == 0) {
         FreeSpriteTilesByTag(TAG_TILE_4);
@@ -5298,7 +5298,7 @@ static void sub_80CCEE0(void)
     sPSSData->field_720[1] = sPSSData->field_728[1];
 }
 
-static void sub_80CCF30(struct Sprite *sprite)
+static void sub_80CCF30 (struct Sprite *sprite)
 {
     if (sprite->data[2] != 0) {
         sprite->data[2]--;
@@ -5307,7 +5307,7 @@ static void sub_80CCF30(struct Sprite *sprite)
     }
 }
 
-static void sub_80CCF64(struct Sprite *sprite)
+static void sub_80CCF64 (struct Sprite *sprite)
 {
     if (sprite->data[1] != 0) {
         sprite->data[1]--;
@@ -5320,7 +5320,7 @@ static void sub_80CCF64(struct Sprite *sprite)
     }
 }
 
-static void sub_80CCF9C(void)
+static void sub_80CCF9C (void)
 {
     u8 boxId = StorageGetCurrentBox();
     u8 wallpaperId = GetBoxWallpaper(boxId);
@@ -5331,12 +5331,12 @@ static void sub_80CCF9C(void)
     }
 }
 
-static s16 sub_80CD00C(const u8 *string)
+static s16 sub_80CD00C (const u8 *string)
 {
     return 0xB0 - GetStringWidth(1, string, 0) / 2;
 }
 
-static void sub_80CD02C(void)
+static void sub_80CD02C (void)
 {
     u16 i;
 
@@ -5355,7 +5355,7 @@ static void sub_80CD02C(void)
     }
 }
 
-static void sub_80CD0B8(s8 direction)
+static void sub_80CD0B8 (s8 direction)
 {
     u16 i;
 
@@ -5378,7 +5378,7 @@ static void sub_80CD0B8(s8 direction)
     sPSSData->field_730[1]->data[7] = 1;
 }
 
-static void sub_80CD158(void)
+static void sub_80CD158 (void)
 {
     u16 i;
 
@@ -5390,7 +5390,7 @@ static void sub_80CD158(void)
     sub_80CD1A8(TRUE);
 }
 
-static void sub_80CD1A8(bool8 a0)
+static void sub_80CD1A8 (bool8 a0)
 {
     u16 i;
 
@@ -5408,7 +5408,7 @@ static void sub_80CD1A8(bool8 a0)
     }
 }
 
-static void sub_80CD210(struct Sprite *sprite)
+static void sub_80CD210 (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -5444,7 +5444,7 @@ static void sub_80CD210(struct Sprite *sprite)
     }
 }
 
-static struct Sprite * sub_80CD2E8(u16 x, u16 y, u8 animId, u8 priority, u8 subpriority)
+static struct Sprite * sub_80CD2E8 (u16 x, u16 y, u8 animId, u8 priority, u8 subpriority)
 {
     u8 spriteId = CreateSprite(&gUnknown_0857B0E0, x, y, subpriority);
     if (spriteId == MAX_SPRITES) {
@@ -5458,7 +5458,7 @@ static struct Sprite * sub_80CD2E8(u16 x, u16 y, u8 animId, u8 priority, u8 subp
     return &gSprites[spriteId];
 }
 
-static void sub_80CD36C(void)
+static void sub_80CD36C (void)
 {
     if (sPSSData->boxOption != BOX_OPTION_DEPOSIT) {
         sBoxCursorArea = CURSOR_AREA_IN_BOX;
@@ -5478,7 +5478,7 @@ static void sub_80CD36C(void)
     sub_80CEB40();
 }
 
-static void sub_80CD3EC(void)
+static void sub_80CD3EC (void)
 {
     sub_80CFC14();
     sub_80CEBDC();
@@ -5490,7 +5490,7 @@ static void sub_80CD3EC(void)
     }
 }
 
-static void sub_80CD444(u8 cursorArea, u8 cursorPosition, u16 *x, u16 *y)
+static void sub_80CD444 (u8 cursorArea, u8 cursorPosition, u16 *x, u16 *y)
 {
     switch (cursorArea) {
     case CURSOR_AREA_IN_BOX:
@@ -5524,7 +5524,7 @@ static void sub_80CD444(u8 cursorArea, u8 cursorPosition, u16 *x, u16 *y)
     }
 }
 
-static u16 sub_80CD504(void)
+static u16 sub_80CD504 (void)
 {
     switch (sBoxCursorArea) {
     case CURSOR_AREA_IN_PARTY:
@@ -5536,7 +5536,7 @@ static u16 sub_80CD504(void)
     }
 }
 
-static bool8 sub_80CD554(void)
+static bool8 sub_80CD554 (void)
 {
     s16 tmp;
 
@@ -5579,7 +5579,7 @@ static bool8 sub_80CD554(void)
     return TRUE;
 }
 
-static void sub_80CD6AC(u8 newCurosrArea, u8 newCursorPosition)
+static void sub_80CD6AC (u8 newCurosrArea, u8 newCursorPosition)
 {
     u16 x, y;
 
@@ -5590,7 +5590,7 @@ static void sub_80CD6AC(u8 newCurosrArea, u8 newCursorPosition)
     sPSSData->field_CCE = y;
 }
 
-static void sub_80CD70C(void)
+static void sub_80CD70C (void)
 {
     int r7, r0;
 
@@ -5636,7 +5636,7 @@ static void sub_80CD70C(void)
     sPSSData->field_CC0 = sPSSData->field_CB4->pos1.y << 8;
 }
 
-static void sub_80CD894(u8 newCurosrArea, u8 newCursorPosition)
+static void sub_80CD894 (u8 newCurosrArea, u8 newCursorPosition)
 {
     sub_80CD6AC(newCurosrArea, newCursorPosition);
     sub_80CD70C();
@@ -5691,7 +5691,7 @@ static void sub_80CD894(u8 newCurosrArea, u8 newCursorPosition)
     }
 }
 
-static void sub_80CDA68(void)
+static void sub_80CDA68 (void)
 {
     sBoxCursorArea = sPSSData->field_CD4;
     sBoxCursorPosition = sPSSData->field_CD5;
@@ -5729,7 +5729,7 @@ static void sub_80CDA68(void)
     }
 }
 
-static void sub_80CDBA0(void)
+static void sub_80CDBA0 (void)
 {
     u8 partyCount;
 
@@ -5747,29 +5747,29 @@ static void sub_80CDBA0(void)
     sub_80CD894(CURSOR_AREA_IN_PARTY, partyCount);
 }
 
-static void sub_80CDBF8(u8 cursorBoxPosition)
+static void sub_80CDBF8 (u8 cursorBoxPosition)
 {
     sub_80CD894(CURSOR_AREA_IN_BOX, cursorBoxPosition);
 }
 
 EWRAM_DATA static u8 gUnknown_02039D7E = 0;
 
-static void sub_80CDC0C(void)
+static void sub_80CDC0C (void)
 {
     gUnknown_02039D7E = 0;
 }
 
-static void sub_80CDC18(void)
+static void sub_80CDC18 (void)
 {
     gUnknown_02039D7E = sBoxCursorPosition;
 }
 
-static u8 sub_80CDC2C(void)
+static u8 sub_80CDC2C (void)
 {
     return gUnknown_02039D7E;
 }
 
-static void InitMonPlaceChange(u8 a0)
+static void InitMonPlaceChange (u8 a0)
 {
     static bool8 (*const placeChangeFuncs[])(void) =
     {
@@ -5782,7 +5782,7 @@ static void InitMonPlaceChange(u8 a0)
     sPSSData->monPlaceChangeState = 0;
 }
 
-static void sub_80CDC64(bool8 arg0)
+static void sub_80CDC64 (bool8 arg0)
 {
     if (!arg0) {
         sPSSData->monPlaceChangeFunc = sub_80CDEB4;
@@ -5793,12 +5793,12 @@ static void sub_80CDC64(bool8 arg0)
     sPSSData->monPlaceChangeState = 0;
 }
 
-static bool8 DoMonPlaceChange(void)
+static bool8 DoMonPlaceChange (void)
 {
     return sPSSData->monPlaceChangeFunc();
 }
 
-static bool8 MonPlaceChange_Move(void)
+static bool8 MonPlaceChange_Move (void)
 {
     switch (sPSSData->monPlaceChangeState) {
     case 0:
@@ -5827,7 +5827,7 @@ static bool8 MonPlaceChange_Move(void)
     return TRUE;
 }
 
-static bool8 MonPlaceChange_Place(void)
+static bool8 MonPlaceChange_Place (void)
 {
     switch (sPSSData->monPlaceChangeState) {
     case 0:
@@ -5850,7 +5850,7 @@ static bool8 MonPlaceChange_Place(void)
     return TRUE;
 }
 
-static bool8 MonPlaceChange_Shift(void)
+static bool8 MonPlaceChange_Shift (void)
 {
     switch (sPSSData->monPlaceChangeState) {
     case 0:
@@ -5882,17 +5882,17 @@ static bool8 MonPlaceChange_Shift(void)
     return TRUE;
 }
 
-static bool8 sub_80CDEB4(void)
+static bool8 sub_80CDEB4 (void)
 {
     return sub_80CDED4();
 }
 
-static bool8 sub_80CDEC4(void)
+static bool8 sub_80CDEC4 (void)
 {
     return sub_80CDF08();
 }
 
-static bool8 sub_80CDED4(void)
+static bool8 sub_80CDED4 (void)
 {
     switch (sPSSData->field_CB4->pos2.y) {
     default:
@@ -5908,7 +5908,7 @@ static bool8 sub_80CDED4(void)
     return TRUE;
 }
 
-static bool8 sub_80CDF08(void)
+static bool8 sub_80CDF08 (void)
 {
     switch (sPSSData->field_CB4->pos2.y) {
     case 0:
@@ -5921,7 +5921,7 @@ static bool8 sub_80CDF08(void)
     return TRUE;
 }
 
-static void MoveMon(void)
+static void MoveMon (void)
 {
     switch (sBoxCursorArea) {
     case CURSOR_AREA_IN_PARTY:
@@ -5941,7 +5941,7 @@ static void MoveMon(void)
     sIsMonBeingMoved = TRUE;
 }
 
-static void PlaceMon(void)
+static void PlaceMon (void)
 {
     u8 boxId;
 
@@ -5962,12 +5962,12 @@ static void PlaceMon(void)
     sIsMonBeingMoved = FALSE;
 }
 
-static void sub_80CE00C(void)
+static void sub_80CE00C (void)
 {
     sub_80CEB40();
 }
 
-static void SetMovedMonData(u8 boxId, u8 position)
+static void SetMovedMonData (u8 boxId, u8 position)
 {
     if (boxId == TOTAL_BOXES_COUNT) {
         sPSSData->movingMon = gPlayerParty[sBoxCursorPosition];
@@ -5980,7 +5980,7 @@ static void SetMovedMonData(u8 boxId, u8 position)
     sMovingMonOrigBoxPos = position;
 }
 
-static void SetPlacedMonData(u8 boxId, u8 position)
+static void SetPlacedMonData (u8 boxId, u8 position)
 {
     if (boxId == TOTAL_BOXES_COUNT) {
         gPlayerParty[position] = sPSSData->movingMon;
@@ -5990,7 +5990,7 @@ static void SetPlacedMonData(u8 boxId, u8 position)
     }
 }
 
-static void PurgeMonOrBoxMon(u8 boxId, u8 position)
+static void PurgeMonOrBoxMon (u8 boxId, u8 position)
 {
     if (boxId == TOTAL_BOXES_COUNT) {
         ZeroMonData(&gPlayerParty[position]);
@@ -5999,7 +5999,7 @@ static void PurgeMonOrBoxMon(u8 boxId, u8 position)
     }
 }
 
-static void SetShiftedMonData(u8 boxId, u8 position)
+static void SetShiftedMonData (u8 boxId, u8 position)
 {
     if (boxId == TOTAL_BOXES_COUNT) {
         sPSSData->field_2108 = gPlayerParty[position];
@@ -6014,7 +6014,7 @@ static void SetShiftedMonData(u8 boxId, u8 position)
     sMovingMonOrigBoxPos = position;
 }
 
-static bool8 TryStorePartyMonInBox(u8 boxId)
+static bool8 TryStorePartyMonInBox (u8 boxId)
 {
     s16 boxPosition = GetFirstFreeBoxSpot(boxId);
     if (boxPosition == -1) {
@@ -6039,13 +6039,13 @@ static bool8 TryStorePartyMonInBox(u8 boxId)
     return TRUE;
 }
 
-static void sub_80CE22C(void)
+static void sub_80CE22C (void)
 {
     StartSpriteAnim(sPSSData->field_CB4, 0);
     sub_80CEB40();
 }
 
-static void sub_80CE250(void)
+static void sub_80CE250 (void)
 {
     u8 mode;
 
@@ -6061,7 +6061,7 @@ static void sub_80CE250(void)
     StringCopy(sPSSData->field_21E0, sPSSData->cursorMonNick);
 }
 
-static bool8 sub_80CE2A8(void)
+static bool8 sub_80CE2A8 (void)
 {
     if (!sub_80CBFD8()) {
         StartSpriteAnim(sPSSData->field_CB4, 0);
@@ -6071,7 +6071,7 @@ static bool8 sub_80CE2A8(void)
     }
 }
 
-static void ReleaseMon(void)
+static void ReleaseMon (void)
 {
     u8 boxId;
 
@@ -6090,7 +6090,7 @@ static void ReleaseMon(void)
     sub_80CEB40();
 }
 
-static void sub_80CE324(void)
+static void sub_80CE324 (void)
 {
     if (sIsMonBeingMoved) {
         StartSpriteAnim(sPSSData->field_CB4, 3);
@@ -6112,7 +6112,7 @@ struct
     {MAP_GROUP(EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MAP_NUM(EVER_GRANDE_CITY_POKEMON_LEAGUE_2F), MOVE_ROCK_SMASH},
 };
 
-static void sub_80CE350(u16 *moves)
+static void sub_80CE350 (u16 *moves)
 {
     s32 i;
 
@@ -6127,7 +6127,7 @@ static void sub_80CE350(u16 *moves)
     *moves = MOVES_COUNT;
 }
 
-static void InitCanRelaseMonVars(void)
+static void InitCanRelaseMonVars (void)
 {
     if (!AtLeastThreeUsableMons()) {
         sPSSData->field_216D = 1;
@@ -6162,7 +6162,7 @@ static void InitCanRelaseMonVars(void)
     sPSSData->field_2172 = 0;
 }
 
-static bool32 AtLeastThreeUsableMons(void)
+static bool32 AtLeastThreeUsableMons (void)
 {
     s32 i, j, count;
 
@@ -6190,7 +6190,7 @@ static bool32 AtLeastThreeUsableMons(void)
     return FALSE;
 }
 
-static s8 RunCanReleaseMon(void)
+static s8 RunCanReleaseMon (void)
 {
     u16 i;
     u16 knownMoves;
@@ -6242,14 +6242,14 @@ static s8 RunCanReleaseMon(void)
     return -1;
 }
 
-static void sub_80CE760(void)
+static void sub_80CE760 (void)
 {
     if (sIsMonBeingMoved) {
         gUnknown_02039D14 = sPSSData->movingMon;
     }
 }
 
-static void sub_80CE790(void)
+static void sub_80CE790 (void)
 {
     if (sIsMonBeingMoved) {
         if (sMovingMonOrigBoxId == TOTAL_BOXES_COUNT) {
@@ -6260,7 +6260,7 @@ static void sub_80CE790(void)
     }
 }
 
-static void sub_80CE7E8(void)
+static void sub_80CE7E8 (void)
 {
     if (sIsMonBeingMoved) {
         sub_80CE760();
@@ -6281,7 +6281,7 @@ static void sub_80CE7E8(void)
     }
 }
 
-static void sub_80CE8E4(void)
+static void sub_80CE8E4 (void)
 {
     if (sIsMonBeingMoved) {
         sub_80CE790();
@@ -6290,7 +6290,7 @@ static void sub_80CE8E4(void)
     }
 }
 
-s16 CompactPartySlots(void)
+s16 CompactPartySlots (void)
 {
     s16 retVal = -1;
     u16 i, last;
@@ -6313,7 +6313,7 @@ s16 CompactPartySlots(void)
     return retVal;
 }
 
-static void SetMonMarkings(u8 markings)
+static void SetMonMarkings (u8 markings)
 {
     sPSSData->cursorMonMarkings = markings;
     if (sIsMonBeingMoved) {
@@ -6328,7 +6328,7 @@ static void SetMonMarkings(u8 markings)
     }
 }
 
-static bool8 CanMovePartyMon(void)
+static bool8 CanMovePartyMon (void)
 {
     if (sBoxCursorArea == CURSOR_AREA_IN_PARTY && !sIsMonBeingMoved && CountPartyAliveNonEggMonsExcept(sBoxCursorPosition) == 0) {
         return TRUE;
@@ -6337,7 +6337,7 @@ static bool8 CanMovePartyMon(void)
     }
 }
 
-static bool8 CanShiftMon(void)
+static bool8 CanShiftMon (void)
 {
     if (sIsMonBeingMoved) {
         if (sBoxCursorArea == CURSOR_AREA_IN_PARTY && CountPartyAliveNonEggMonsExcept(sBoxCursorPosition) == 0) {
@@ -6350,27 +6350,27 @@ static bool8 CanShiftMon(void)
     return FALSE;
 }
 
-static bool8 IsMonBeingMoved(void)
+static bool8 IsMonBeingMoved (void)
 {
     return sIsMonBeingMoved;
 }
 
-static bool8 IsCursorOnBox(void)
+static bool8 IsCursorOnBox (void)
 {
     return(sBoxCursorArea == CURSOR_AREA_BOX);
 }
 
-static bool8 IsCursorOnCloseBox(void)
+static bool8 IsCursorOnCloseBox (void)
 {
     return(sBoxCursorArea == CURSOR_AREA_BUTTONS && sBoxCursorPosition == 1);
 }
 
-static bool8 IsCursorInBox(void)
+static bool8 IsCursorInBox (void)
 {
     return(sBoxCursorArea == CURSOR_AREA_IN_BOX);
 }
 
-static void sub_80CEB40(void)
+static void sub_80CEB40 (void)
 {
     sPSSData->setMosaic = (sIsMonBeingMoved == FALSE);
     if (!sIsMonBeingMoved) {
@@ -6392,7 +6392,7 @@ static void sub_80CEB40(void)
     }
 }
 
-static void sub_80CEBDC(void)
+static void sub_80CEBDC (void)
 {
     if (sIsMonBeingMoved) {
         SetCursorMonData(&gUnknown_02039D14, MODE_PARTY);
@@ -6401,7 +6401,7 @@ static void sub_80CEBDC(void)
     }
 }
 
-static void SetCursorMonData(void *pokemon, u8 mode)
+static void SetCursorMonData (void *pokemon, u8 mode)
 {
     u8 *txtPtr;
     u16 gender;
@@ -6531,7 +6531,7 @@ static void SetCursorMonData(void *pokemon, u8 mode)
     }
 }
 
-static u8 HandleInput_InBox(void)
+static u8 HandleInput_InBox (void)
 {
     switch (sPSSData->inBoxMovingMode) {
     case 0:
@@ -6544,7 +6544,7 @@ static u8 HandleInput_InBox(void)
     }
 }
 
-static u8 InBoxInput_Normal(void)
+static u8 InBoxInput_Normal (void)
 {
     u8 retVal;
     s8 cursorArea;
@@ -6660,7 +6660,7 @@ static u8 InBoxInput_Normal(void)
     return retVal;
 }
 
-static u8 InBoxInput_GrabbingMultiple(void)
+static u8 InBoxInput_GrabbingMultiple (void)
 {
     if (JOY_HELD(A_BUTTON)) {
         if (JOY_REPEAT(DPAD_UP)) {
@@ -6708,7 +6708,7 @@ static u8 InBoxInput_GrabbingMultiple(void)
     }
 }
 
-static u8 InBoxInput_MovingMultiple(void)
+static u8 InBoxInput_MovingMultiple (void)
 {
     if (JOY_REPEAT(DPAD_UP)) {
         if (sub_80D0580(0)) {
@@ -6762,7 +6762,7 @@ static u8 InBoxInput_MovingMultiple(void)
     }
 }
 
-static u8 HandleInput_InParty(void)
+static u8 HandleInput_InParty (void)
 {
     u8 retVal;
     bool8 gotoBox;
@@ -6871,7 +6871,7 @@ static u8 HandleInput_InParty(void)
     return retVal;
 }
 
-static u8 HandleInput_OnBox(void)
+static u8 HandleInput_OnBox (void)
 {
     u8 retVal;
     s8 cursorArea;
@@ -6939,7 +6939,7 @@ static u8 HandleInput_OnBox(void)
     return retVal;
 }
 
-static u8 HandleInput_OnButtons(void)
+static u8 HandleInput_OnButtons (void)
 {
     u8 retVal;
     s8 cursorArea;
@@ -7009,7 +7009,7 @@ static u8 HandleInput_OnButtons(void)
     return retVal;
 }
 
-static u8 HandleInput(void)
+static u8 HandleInput (void)
 {
     struct
     {
@@ -7036,7 +7036,7 @@ static u8 HandleInput(void)
     return 0;
 }
 
-static void AddBoxMenu(void)
+static void AddBoxMenu (void)
 {
     InitMenu();
     SetMenuText(9);
@@ -7045,7 +7045,7 @@ static void AddBoxMenu(void)
     SetMenuText(0);
 }
 
-static u8 sub_80CFA5C(void)
+static u8 sub_80CFA5C (void)
 {
     InitMenu();
     if (sPSSData->boxOption != BOX_OPTION_MOVE_ITEMS) {
@@ -7055,7 +7055,7 @@ static u8 sub_80CFA5C(void)
     }
 }
 
-static bool8 sub_80CFA84(void)
+static bool8 sub_80CFA84 (void)
 {
     u16 var0 = sub_80CD504();
 
@@ -7109,7 +7109,7 @@ static bool8 sub_80CFA84(void)
     return TRUE;
 }
 
-static bool8 sub_80CFB44(void)
+static bool8 sub_80CFB44 (void)
 {
     if (sPSSData->cursorMonSpecies == SPECIES_EGG) {
         return FALSE;
@@ -7149,13 +7149,13 @@ static bool8 sub_80CFB44(void)
     return TRUE;
 }
 
-static void sub_80CFBF4(struct Sprite *sprite)
+static void sub_80CFBF4 (struct Sprite *sprite)
 {
     sprite->pos1.x = sPSSData->field_CB4->pos1.x;
     sprite->pos1.y = sPSSData->field_CB4->pos1.y + 20;
 }
 
-static void sub_80CFC14(void)
+static void sub_80CFC14 (void)
 {
     u16 x, y;
     u8 spriteId;
@@ -7276,18 +7276,18 @@ static void sub_80CFC14(void)
     }
 }
 
-static void sub_80CFDC4(void)
+static void sub_80CFDC4 (void)
 {
     sCanOnlyMove = !sCanOnlyMove;
     sPSSData->field_CB4->oam.paletteNum = sPSSData->field_CD8[sCanOnlyMove];
 }
 
-static u8 GetBoxCursorPosition(void)
+static u8 GetBoxCursorPosition (void)
 {
     return sBoxCursorPosition;
 }
 
-static void sub_80CFE14(u8 *arg0, u8 *arg1)
+static void sub_80CFE14 (u8 *arg0, u8 *arg1)
 {
     if (sBoxCursorArea == CURSOR_AREA_IN_BOX) {
         *arg0 = sBoxCursorPosition % IN_BOX_ROWS;
@@ -7298,36 +7298,36 @@ static void sub_80CFE14(u8 *arg0, u8 *arg1)
     }
 }
 
-static void sub_80CFE54(u8 animNum)
+static void sub_80CFE54 (u8 animNum)
 {
     StartSpriteAnim(sPSSData->field_CB4, animNum);
 }
 
-static u8 sub_80CFE78(void)
+static u8 sub_80CFE78 (void)
 {
     return sMovingMonOrigBoxId;
 }
 
-static void sub_80CFE84(void)
+static void sub_80CFE84 (void)
 {
     sPSSData->field_CB4->oam.priority = 1;
 }
 
-static void sub_80CFEA8(void)
+static void sub_80CFEA8 (void)
 {
     if (sBoxCursorArea == CURSOR_AREA_IN_BOX) {
         sub_80D0E50(CURSOR_AREA_IN_BOX, sBoxCursorPosition);
     }
 }
 
-static void sub_80CFECC(void)
+static void sub_80CFECC (void)
 {
     if (sBoxCursorArea == CURSOR_AREA_IN_BOX) {
         sub_80D0D8C(CURSOR_AREA_IN_BOX, sBoxCursorPosition);
     }
 }
 
-static void InitMenu(void)
+static void InitMenu (void)
 {
     sPSSData->menuItemsCount = 0;
     sPSSData->menuWidth = 0;
@@ -7379,7 +7379,7 @@ static const u8 *const gUnknown_0857BA80[] =
     gPCText_Simple,
 };
 
-static void SetMenuText(u8 textId)
+static void SetMenuText (u8 textId)
 {
     if (sPSSData->menuItemsCount < 7) {
         u8 len;
@@ -7396,7 +7396,7 @@ static void SetMenuText(u8 textId)
     }
 }
 
-static s8 sub_80CFF98(u8 arg0)
+static s8 sub_80CFF98 (u8 arg0)
 {
     if (arg0 >= sPSSData->menuItemsCount) {
         return -1;
@@ -7405,7 +7405,7 @@ static s8 sub_80CFF98(u8 arg0)
     }
 }
 
-static void AddMenu(void)
+static void AddMenu (void)
 {
     sPSSData->menuWindow.width = sPSSData->menuWidth + 2;
     sPSSData->menuWindow.height = 2 * sPSSData->menuItemsCount;
@@ -7420,12 +7420,12 @@ static void AddMenu(void)
     sPSSData->field_CAE = 0;
 }
 
-static bool8 sub_80D00A8(void)
+static bool8 sub_80D00A8 (void)
 {
     return FALSE;
 }
 
-static s16 sub_80D00AC(void)
+static s16 sub_80D00AC (void)
 {
     s32 textId = -2;
 
@@ -7458,7 +7458,7 @@ static s16 sub_80D00AC(void)
     return textId;
 }
 
-static void sub_80D013C(void)
+static void sub_80D013C (void)
 {
     ClearStdWindowAndFrameToTransparent(sPSSData->field_CB0, TRUE);
     RemoveWindow(sPSSData->field_CB0);
@@ -7500,7 +7500,7 @@ EWRAM_DATA static struct
 }
 *sMoveMonsPtr = NULL;
 
-static bool8 sub_80D0164(void)
+static bool8 sub_80D0164 (void)
 {
     sMoveMonsPtr = Alloc(sizeof(*sMoveMonsPtr));
     if (sMoveMonsPtr != NULL) {
@@ -7514,20 +7514,20 @@ static bool8 sub_80D0164(void)
     return FALSE;
 }
 
-static void sub_80D01B8(void)
+static void sub_80D01B8 (void)
 {
     if (sMoveMonsPtr != NULL) {
         Free(sMoveMonsPtr);
     }
 }
 
-static void sub_80D01D0(u8 arg0)
+static void sub_80D01D0 (u8 arg0)
 {
     sMoveMonsPtr->field_0 = arg0;
     sMoveMonsPtr->state = 0;
 }
 
-static bool8 sub_80D01E4(void)
+static bool8 sub_80D01E4 (void)
 {
     switch (sMoveMonsPtr->field_0) {
     case 0:
@@ -7547,7 +7547,7 @@ static bool8 sub_80D01E4(void)
     return FALSE;
 }
 
-static bool8 sub_80D024C(void)
+static bool8 sub_80D024C (void)
 {
     switch (sMoveMonsPtr->state) {
     case 0:
@@ -7583,7 +7583,7 @@ static bool8 sub_80D024C(void)
     return TRUE;
 }
 
-static bool8 sub_80D0344(void)
+static bool8 sub_80D0344 (void)
 {
     switch (sMoveMonsPtr->state) {
     case 0:
@@ -7608,7 +7608,7 @@ static bool8 sub_80D0344(void)
     return TRUE;
 }
 
-static bool8 sub_80D03B0(void)
+static bool8 sub_80D03B0 (void)
 {
     switch (sMoveMonsPtr->state) {
     case 0:
@@ -7628,7 +7628,7 @@ static bool8 sub_80D03B0(void)
     return TRUE;
 }
 
-static bool8 sub_80D0420(void)
+static bool8 sub_80D0420 (void)
 {
     u8 var1, var2;
 
@@ -7659,7 +7659,7 @@ static bool8 sub_80D0420(void)
     return TRUE;
 }
 
-static bool8 sub_80D04A0(void)
+static bool8 sub_80D04A0 (void)
 {
     u8 var1 = sub_80CD554();
     u8 var2 = sub_80D0894();
@@ -7671,7 +7671,7 @@ static bool8 sub_80D04A0(void)
     }
 }
 
-static bool8 sub_80D04C8(void)
+static bool8 sub_80D04C8 (void)
 {
     switch (sMoveMonsPtr->state) {
     case 0:
@@ -7709,7 +7709,7 @@ static bool8 sub_80D04C8(void)
     return TRUE;
 }
 
-static bool8 sub_80D0580(u8 arg0)
+static bool8 sub_80D0580 (u8 arg0)
 {
     switch (arg0) {
     case 0:
@@ -7745,7 +7745,7 @@ static bool8 sub_80D0580(u8 arg0)
     return TRUE;
 }
 
-static void sub_80D062C(void)
+static void sub_80D062C (void)
 {
     s16 var = (abs(sMoveMonsPtr->fromRow - sMoveMonsPtr->field_6)) - (abs(sMoveMonsPtr->fromRow - sMoveMonsPtr->toRow));
     s16 var2 = (abs(sMoveMonsPtr->fromColumn - sMoveMonsPtr->field_7)) - (abs(sMoveMonsPtr->fromColumn - sMoveMonsPtr->toColumn));
@@ -7769,7 +7769,7 @@ static void sub_80D062C(void)
     }
 }
 
-static void sub_80D06D0(u8 arg0, u8 arg1, u8 arg2)
+static void sub_80D06D0 (u8 arg0, u8 arg1, u8 arg2)
 {
     u8 var1 = arg1;
 
@@ -7783,7 +7783,7 @@ static void sub_80D06D0(u8 arg0, u8 arg1, u8 arg2)
     }
 }
 
-static void sub_80D0708(u8 arg0, u8 arg1, u8 arg2)
+static void sub_80D0708 (u8 arg0, u8 arg1, u8 arg2)
 {
     u8 var1 = arg1;
 
@@ -7797,7 +7797,7 @@ static void sub_80D0708(u8 arg0, u8 arg1, u8 arg2)
     }
 }
 
-static void sub_80D0740(u8 arg0, u8 arg1, u8 arg2)
+static void sub_80D0740 (u8 arg0, u8 arg1, u8 arg2)
 {
     u8 var1 = arg1;
 
@@ -7811,7 +7811,7 @@ static void sub_80D0740(u8 arg0, u8 arg1, u8 arg2)
     }
 }
 
-static void sub_80D0778(u8 arg0, u8 arg1, u8 arg2)
+static void sub_80D0778 (u8 arg0, u8 arg1, u8 arg2)
 {
     u8 var1 = arg1;
 
@@ -7825,7 +7825,7 @@ static void sub_80D0778(u8 arg0, u8 arg1, u8 arg2)
     }
 }
 
-static void sub_80D07B0(u8 arg0, u8 arg1)
+static void sub_80D07B0 (u8 arg0, u8 arg1)
 {
     u8 position = arg0 + (6 * arg1);
     u16 species = GetCurrentBoxMonData(position, MON_DATA_SPECIES2);
@@ -7849,7 +7849,7 @@ static void sub_80D07B0(u8 arg0, u8 arg1)
     }
 }
 
-static void sub_80D0834(u8 arg0, u8 arg1)
+static void sub_80D0834 (u8 arg0, u8 arg1)
 {
     u8 position = arg0 + (6 * arg1);
     u16 species = GetCurrentBoxMonData(position, MON_DATA_SPECIES2);
@@ -7864,14 +7864,14 @@ static void sub_80D0834(u8 arg0, u8 arg1)
     }
 }
 
-static void sub_80D0884(u16 arg0, u16 arg1, u16 arg2)
+static void sub_80D0884 (u16 arg0, u16 arg1, u16 arg2)
 {
     sMoveMonsPtr->bgX = arg0;
     sMoveMonsPtr->bgY = arg1;
     sMoveMonsPtr->field_10 = arg2;
 }
 
-static u8 sub_80D0894(void)
+static u8 sub_80D0894 (void)
 {
     if (sMoveMonsPtr->field_10 != 0) {
         ChangeBgX(0, sMoveMonsPtr->bgX, 1);
@@ -7882,7 +7882,7 @@ static u8 sub_80D0894(void)
     return sMoveMonsPtr->field_10;
 }
 
-static void sub_80D08CC(void)
+static void sub_80D08CC (void)
 {
     s32 i, j, r8, r9;
     s32 rowCount, columnCount;
@@ -7909,7 +7909,7 @@ static void sub_80D08CC(void)
     }
 }
 
-static void sub_80D09A4(void)
+static void sub_80D09A4 (void)
 {
     s32 i, j;
     s32 rowCount = sMoveMonsPtr->minRow + sMoveMonsPtr->rowsTotal;
@@ -7926,7 +7926,7 @@ static void sub_80D09A4(void)
     }
 }
 
-static void sub_80D0A1C(void)
+static void sub_80D0A1C (void)
 {
     s32 i, j;
     s32 rowCount = sMoveMonsPtr->minRow + sMoveMonsPtr->rowsTotal;
@@ -7945,7 +7945,7 @@ static void sub_80D0A1C(void)
     }
 }
 
-static void sub_80D0AAC(void)
+static void sub_80D0AAC (void)
 {
     s32 i, j;
     s32 rowCount = sMoveMonsPtr->minRow + sMoveMonsPtr->rowsTotal;
@@ -7965,7 +7965,7 @@ static void sub_80D0AAC(void)
     }
 }
 
-static void sub_80D0B5C(void)
+static void sub_80D0B5C (void)
 {
     ChangeBgX(0, 0, 0);
     ChangeBgY(0, 0, 0);
@@ -7975,12 +7975,12 @@ static void sub_80D0B5C(void)
     CopyBgTilemapBufferToVram(0);
 }
 
-static u8 sub_80D0BA4(void)
+static u8 sub_80D0BA4 (void)
 {
     return (IN_BOX_ROWS * sMoveMonsPtr->fromColumn) + sMoveMonsPtr->fromRow;
 }
 
-static bool8 sub_80D0BC0(void)
+static bool8 sub_80D0BC0 (void)
 {
     s32 i, j;
     s32 rowCount = sMoveMonsPtr->minRow + sMoveMonsPtr->rowsTotal;
@@ -8093,7 +8093,7 @@ static const struct SpriteTemplate gSpriteTemplate_857BC70 =
     .callback = SpriteCallbackDummy,
 };
 
-static void sub_80D0C60(void)
+static void sub_80D0C60 (void)
 {
     s32 i;
     u8 spriteId;
@@ -8142,7 +8142,7 @@ static void sub_80D1B94(struct Sprite *sprite);
 static void sub_80D1CCC(struct Sprite *sprite);
 static void sub_80D1C30(struct Sprite *sprite);
 
-static void sub_80D0D8C(u8 cursorArea, u8 cursorPos)
+static void sub_80D0D8C (u8 cursorArea, u8 cursorPos)
 {
     u16 heldItem;
 
@@ -8182,7 +8182,7 @@ static void sub_80D0D8C(u8 cursorArea, u8 cursorPos)
     }
 }
 
-static void sub_80D0E50(u8 cursorArea, u8 cursorPos)
+static void sub_80D0E50 (u8 cursorArea, u8 cursorPos)
 {
     u8 id;
 
@@ -8195,7 +8195,7 @@ static void sub_80D0E50(u8 cursorArea, u8 cursorPos)
     sub_80D1604(id, 0, cursorArea, cursorPos);
 }
 
-static void Item_FromMonToMoving(u8 cursorArea, u8 cursorPos)
+static void Item_FromMonToMoving (u8 cursorArea, u8 cursorPos)
 {
     u8 id;
     u16 item;
@@ -8220,7 +8220,7 @@ static void Item_FromMonToMoving(u8 cursorArea, u8 cursorPos)
     sPSSData->movingItem = sPSSData->cursorMonItem;
 }
 
-static void sub_80D0F38(u16 item)
+static void sub_80D0F38 (u16 item)
 {
     const u32 *tiles = GetItemIconPic(item);
     const u32 *pal = GetItemIconPalette(item);
@@ -8234,7 +8234,7 @@ static void sub_80D0F38(u16 item)
     sPSSData->movingItem = item;
 }
 
-static void Item_SwitchMonsWithMoving(u8 cursorArea, u8 cursorPos)
+static void Item_SwitchMonsWithMoving (u8 cursorArea, u8 cursorPos)
 {
     u8 id;
     u16 item;
@@ -8261,7 +8261,7 @@ static void Item_SwitchMonsWithMoving(u8 cursorArea, u8 cursorPos)
     sub_80D1604(id, 4, cursorArea, cursorPos);
 }
 
-static void Item_GiveMovingToMon(u8 cursorArea, u8 cursorPos)
+static void Item_GiveMovingToMon (u8 cursorArea, u8 cursorPos)
 {
     u8 id;
 
@@ -8281,7 +8281,7 @@ static void Item_GiveMovingToMon(u8 cursorArea, u8 cursorPos)
     }
 }
 
-static void Item_TakeMons(u8 cursorArea, u8 cursorPos)
+static void Item_TakeMons (u8 cursorArea, u8 cursorPos)
 {
     u8 id;
     u16 item;
@@ -8303,7 +8303,7 @@ static void Item_TakeMons(u8 cursorArea, u8 cursorPos)
     }
 }
 
-static void sub_80D1194(void)
+static void sub_80D1194 (void)
 {
     if (sPSSData->boxOption == BOX_OPTION_MOVE_ITEMS) {
         u8 id = sub_80D1370(2, 0);
@@ -8312,7 +8312,7 @@ static void sub_80D1194(void)
     }
 }
 
-static void sub_80D11CC(void)
+static void sub_80D11CC (void)
 {
     s32 i;
 
@@ -8327,7 +8327,7 @@ static void sub_80D11CC(void)
     }
 }
 
-static bool8 sub_80D1218(void)
+static bool8 sub_80D1218 (void)
 {
     s32 i;
 
@@ -8345,7 +8345,7 @@ static bool8 sub_80D1218(void)
     return FALSE;
 }
 
-static bool8 IsActiveItemMoving(void)
+static bool8 IsActiveItemMoving (void)
 {
     s32 i;
 
@@ -8360,17 +8360,17 @@ static bool8 IsActiveItemMoving(void)
     return FALSE;
 }
 
-static const u8 * GetMovingItemName(void)
+static const u8 * GetMovingItemName (void)
 {
     return ItemId_GetName(sPSSData->movingItem);
 }
 
-static u16 GetMovingItem(void)
+static u16 GetMovingItem (void)
 {
     return sPSSData->movingItem;
 }
 
-static u8 sub_80D12E8(void)
+static u8 sub_80D12E8 (void)
 {
     u8 i;
 
@@ -8384,7 +8384,7 @@ static u8 sub_80D12E8(void)
     return 3;
 }
 
-static bool32 sub_80D1324(u8 cursorArea, u8 cursorPos)
+static bool32 sub_80D1324 (u8 cursorArea, u8 cursorPos)
 {
     s32 i;
 
@@ -8399,7 +8399,7 @@ static bool32 sub_80D1324(u8 cursorArea, u8 cursorPos)
     return FALSE;
 }
 
-static u8 sub_80D1370(u8 cursorArea, u8 cursorPos)
+static u8 sub_80D1370 (u8 cursorArea, u8 cursorPos)
 {
     u8 i;
 
@@ -8414,7 +8414,7 @@ static u8 sub_80D1370(u8 cursorArea, u8 cursorPos)
     return 3;
 }
 
-static u8 sub_80D13C4(struct Sprite *sprite)
+static u8 sub_80D13C4 (struct Sprite *sprite)
 {
     u8 i;
 
@@ -8428,7 +8428,7 @@ static u8 sub_80D13C4(struct Sprite *sprite)
     return 3;
 }
 
-static void sub_80D140C(u8 id, u8 cursorArea, u8 cursorPos)
+static void sub_80D140C (u8 id, u8 cursorArea, u8 cursorPos)
 {
     u8 row, column;
 
@@ -8460,7 +8460,7 @@ static void sub_80D140C(u8 id, u8 cursorArea, u8 cursorPos)
     sPSSData->field_2204[id].unk9 = cursorPos;
 }
 
-static void sub_80D1524(u8 id, const u32 *itemTiles, const u32 *itemPal)
+static void sub_80D1524 (u8 id, const u32 *itemTiles, const u32 *itemPal)
 {
     s32 i;
 
@@ -8479,7 +8479,7 @@ static void sub_80D1524(u8 id, const u32 *itemTiles, const u32 *itemPal)
     LoadPalette(sPSSData->field_42C4, sPSSData->field_2204[id].palIndex, 0x20);
 }
 
-static void sub_80D15D4(u8 id, u8 animNum)
+static void sub_80D15D4 (u8 id, u8 animNum)
 {
     if (id >= 3) {
         return;
@@ -8488,7 +8488,7 @@ static void sub_80D15D4(u8 id, u8 animNum)
     StartSpriteAffineAnim(sPSSData->field_2204[id].sprite, animNum);
 }
 
-static void sub_80D1604(u8 id, u8 arg1, u8 arg2, u8 arg3)
+static void sub_80D1604 (u8 id, u8 arg1, u8 arg2, u8 arg3)
 {
     if (id >= 3) {
         return;
@@ -8527,7 +8527,7 @@ static void sub_80D1604(u8 id, u8 arg1, u8 arg2, u8 arg3)
     }
 }
 
-static void sub_80D1740(u8 id, bool8 arg1)
+static void sub_80D1740 (u8 id, bool8 arg1)
 {
     if (id >= 3) {
         return;
@@ -8537,17 +8537,17 @@ static void sub_80D1740(u8 id, bool8 arg1)
     sPSSData->field_2204[id].sprite->invisible = (arg1 == FALSE);
 }
 
-static const u32 * GetItemIconPic(u16 itemId)
+static const u32 * GetItemIconPic (u16 itemId)
 {
     return GetItemIconPicOrPalette(itemId, 0);
 }
 
-static const u32 * GetItemIconPalette(u16 itemId)
+static const u32 * GetItemIconPalette (u16 itemId)
 {
     return GetItemIconPicOrPalette(itemId, 1);
 }
 
-static void PrintItemDescription(void)
+static void PrintItemDescription (void)
 {
     const u8 *description;
 
@@ -8561,14 +8561,14 @@ static void PrintItemDescription(void)
     AddTextPrinterParameterized5(2, 1, description, 4, 0, 0, NULL, 0, 1);
 }
 
-static void sub_80D1818(void)
+static void sub_80D1818 (void)
 {
     sPSSData->field_2236 = 0x15;
     LoadBgTiles(0, gUnknown_0857BB24, 0x80, 0x13A);
     sub_80D19B4(0);
 }
 
-static bool8 sub_80D184C(void)
+static bool8 sub_80D184C (void)
 {
     s32 i, var;
 
@@ -8586,7 +8586,7 @@ static bool8 sub_80D184C(void)
     return(sPSSData->field_2236 != 0);
 }
 
-static bool8 sub_80D18E4(void)
+static bool8 sub_80D18E4 (void)
 {
     s32 i, var;
 
@@ -8613,7 +8613,7 @@ static bool8 sub_80D18E4(void)
     return TRUE;
 }
 
-static void sub_80D19B4(u32 arg0)
+static void sub_80D19B4 (u32 arg0)
 {
     if (arg0 != 0) {
         FillBgTilemapBufferRect(0, 0x13A, 0, 0xC, arg0, 1, 0xFu);
@@ -8625,7 +8625,7 @@ static void sub_80D19B4(u32 arg0)
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void sub_80D1A48(struct Sprite *sprite)
+static void sub_80D1A48 (struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded) {
         sub_80D1740(sprite->data[0], FALSE);
@@ -8633,7 +8633,7 @@ static void sub_80D1A48(struct Sprite *sprite)
     }
 }
 
-static void sub_80D1A74(struct Sprite *sprite)
+static void sub_80D1A74 (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -8655,14 +8655,14 @@ static void sub_80D1A74(struct Sprite *sprite)
     }
 }
 
-static void sub_80D1AD8(struct Sprite *sprite)
+static void sub_80D1AD8 (struct Sprite *sprite)
 {
     sprite->pos1.x = sPSSData->field_CB4->pos1.x + 4;
     sprite->pos1.y = sPSSData->field_CB4->pos1.y + sPSSData->field_CB4->pos2.y + 8;
     sprite->oam.priority = sPSSData->field_CB4->oam.priority;
 }
 
-static void sub_80D1B14(struct Sprite *sprite)
+static void sub_80D1B14 (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -8685,7 +8685,7 @@ static void sub_80D1B14(struct Sprite *sprite)
     }
 }
 
-static void sub_80D1B94(struct Sprite *sprite)
+static void sub_80D1B94 (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -8710,7 +8710,7 @@ static void sub_80D1B94(struct Sprite *sprite)
     }
 }
 
-static void sub_80D1C30(struct Sprite *sprite)
+static void sub_80D1C30 (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -8735,7 +8735,7 @@ static void sub_80D1C30(struct Sprite *sprite)
     }
 }
 
-static void sub_80D1CCC(struct Sprite *sprite)
+static void sub_80D1CCC (struct Sprite *sprite)
 {
     sprite->pos1.y -= 8;
     if (sprite->pos1.y + sprite->pos2.y < -16) {
@@ -8744,28 +8744,28 @@ static void sub_80D1CCC(struct Sprite *sprite)
     }
 }
 
-void nullsub_pss(void)
+void nullsub_pss (void)
 {
 }
 
-void nullsub_98(void)
+void nullsub_98 (void)
 {
 }
 
 // Functions here are general utility functions.
-u8 StorageGetCurrentBox(void)
+u8 StorageGetCurrentBox (void)
 {
     return gPokemonStoragePtr->currentBox;
 }
 
-static void SetCurrentBox(u8 boxId)
+static void SetCurrentBox (u8 boxId)
 {
     if (boxId < TOTAL_BOXES_COUNT) {
         gPokemonStoragePtr->currentBox = boxId;
     }
 }
 
-u32 GetBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request)
+u32 GetBoxMonDataAt (u8 boxId, u8 boxPosition, s32 request)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         return GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], request);
@@ -8774,24 +8774,24 @@ u32 GetBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request)
     }
 }
 
-void SetBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request, const void *value)
+void SetBoxMonDataAt (u8 boxId, u8 boxPosition, s32 request, const void *value)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         SetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], request, value);
     }
 }
 
-u32 GetCurrentBoxMonData(u8 boxPosition, s32 request)
+u32 GetCurrentBoxMonData (u8 boxPosition, s32 request)
 {
     return GetBoxMonDataAt(gPokemonStoragePtr->currentBox, boxPosition, request);
 }
 
-void SetCurrentBoxMonData(u8 boxPosition, s32 request, const void *value)
+void SetCurrentBoxMonData (u8 boxPosition, s32 request, const void *value)
 {
     SetBoxMonDataAt(gPokemonStoragePtr->currentBox, boxPosition, request, value);
 }
 
-void GetBoxMonNickAt(u8 boxId, u8 boxPosition, u8 *dst)
+void GetBoxMonNickAt (u8 boxId, u8 boxPosition, u8 *dst)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_NICKNAME, dst);
@@ -8800,7 +8800,7 @@ void GetBoxMonNickAt(u8 boxId, u8 boxPosition, u8 *dst)
     }
 }
 
-u32 GetBoxMonLevelAt(u8 boxId, u8 boxPosition)
+u32 GetBoxMonLevelAt (u8 boxId, u8 boxPosition)
 {
     u32 lvl;
 
@@ -8814,14 +8814,14 @@ u32 GetBoxMonLevelAt(u8 boxId, u8 boxPosition)
     return lvl;
 }
 
-void SetBoxMonNickAt(u8 boxId, u8 boxPosition, const u8 *nick)
+void SetBoxMonNickAt (u8 boxId, u8 boxPosition, const u8 *nick)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         SetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], MON_DATA_NICKNAME, nick);
     }
 }
 
-u32 GetAndCopyBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request, void *dst)
+u32 GetAndCopyBoxMonDataAt (u8 boxId, u8 boxPosition, s32 request, void *dst)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         return GetBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition], request, dst);
@@ -8830,21 +8830,21 @@ u32 GetAndCopyBoxMonDataAt(u8 boxId, u8 boxPosition, s32 request, void *dst)
     }
 }
 
-void SetBoxMonAt(u8 boxId, u8 boxPosition, struct BoxPokemon *src)
+void SetBoxMonAt (u8 boxId, u8 boxPosition, struct BoxPokemon *src)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         gPokemonStoragePtr->boxes[boxId][boxPosition] = *src;
     }
 }
 
-void CopyBoxMonAt(u8 boxId, u8 boxPosition, struct BoxPokemon *dst)
+void CopyBoxMonAt (u8 boxId, u8 boxPosition, struct BoxPokemon *dst)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         *dst = gPokemonStoragePtr->boxes[boxId][boxPosition];
     }
 }
 
-void CreateBoxMonAt(u8 boxId, u8 boxPosition, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 personality, u8 otIDType, u32 otID)
+void CreateBoxMonAt (u8 boxId, u8 boxPosition, u16 species, u8 level, u8 fixedIV, u8 hasFixedPersonality, u32 personality, u8 otIDType, u32 otID)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         CreateBoxMon(&gPokemonStoragePtr->boxes[boxId][boxPosition],
@@ -8856,21 +8856,21 @@ void CreateBoxMonAt(u8 boxId, u8 boxPosition, u16 species, u8 level, u8 fixedIV,
     }
 }
 
-void ZeroBoxMonAt(u8 boxId, u8 boxPosition)
+void ZeroBoxMonAt (u8 boxId, u8 boxPosition)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         ZeroBoxMonData(&gPokemonStoragePtr->boxes[boxId][boxPosition]);
     }
 }
 
-void BoxMonAtToMon(u8 boxId, u8 boxPosition, struct Pokemon *dst)
+void BoxMonAtToMon (u8 boxId, u8 boxPosition, struct Pokemon *dst)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         BoxMonToMon(&gPokemonStoragePtr->boxes[boxId][boxPosition], dst);
     }
 }
 
-struct BoxPokemon * GetBoxedMonPtr(u8 boxId, u8 boxPosition)
+struct BoxPokemon * GetBoxedMonPtr (u8 boxId, u8 boxPosition)
 {
     if (boxId < TOTAL_BOXES_COUNT && boxPosition < IN_BOX_COUNT) {
         return &gPokemonStoragePtr->boxes[boxId][boxPosition];
@@ -8879,7 +8879,7 @@ struct BoxPokemon * GetBoxedMonPtr(u8 boxId, u8 boxPosition)
     }
 }
 
-u8 * GetBoxNamePtr(u8 boxId)
+u8 * GetBoxNamePtr (u8 boxId)
 {
     if (boxId < TOTAL_BOXES_COUNT) {
         return gPokemonStoragePtr->boxNames[boxId];
@@ -8888,7 +8888,7 @@ u8 * GetBoxNamePtr(u8 boxId)
     }
 }
 
-u8 GetBoxWallpaper(u8 boxId)
+u8 GetBoxWallpaper (u8 boxId)
 {
     if (boxId < TOTAL_BOXES_COUNT) {
         return gPokemonStoragePtr->boxWallpapers[boxId];
@@ -8897,14 +8897,14 @@ u8 GetBoxWallpaper(u8 boxId)
     }
 }
 
-void SetBoxWallpaper(u8 boxId, u8 wallpaperId)
+void SetBoxWallpaper (u8 boxId, u8 wallpaperId)
 {
     if (boxId < TOTAL_BOXES_COUNT && wallpaperId < WALLPAPER_COUNT) {
         gPokemonStoragePtr->boxWallpapers[boxId] = wallpaperId;
     }
 }
 
-s16 sub_80D214C(struct BoxPokemon *boxMons, u8 currIndex, u8 maxIndex, u8 arg3)
+s16 sub_80D214C (struct BoxPokemon *boxMons, u8 currIndex, u8 maxIndex, u8 arg3)
 {
     s16 i;
     s16 adder = -1;
@@ -8931,7 +8931,7 @@ s16 sub_80D214C(struct BoxPokemon *boxMons, u8 currIndex, u8 maxIndex, u8 arg3)
     return -1;
 }
 
-bool8 CheckFreePokemonStorageSpace(void)
+bool8 CheckFreePokemonStorageSpace (void)
 {
     s32 i, j;
 
@@ -8946,7 +8946,7 @@ bool8 CheckFreePokemonStorageSpace(void)
     return FALSE;
 }
 
-bool32 CheckBoxMonSanityAt(u32 boxId, u32 boxPosition)
+bool32 CheckBoxMonSanityAt (u32 boxId, u32 boxPosition)
 {
     if (boxId < TOTAL_BOXES_COUNT
         && boxPosition < IN_BOX_COUNT
@@ -8959,7 +8959,7 @@ bool32 CheckBoxMonSanityAt(u32 boxId, u32 boxPosition)
     }
 }
 
-u32 CountStorageNonEggMons(void)
+u32 CountStorageNonEggMons (void)
 {
     s32 i, j;
     u32 count = 0;
@@ -8976,7 +8976,7 @@ u32 CountStorageNonEggMons(void)
     return count;
 }
 
-u32 CountAllStorageMons(void)
+u32 CountAllStorageMons (void)
 {
     s32 i, j;
     u32 count = 0;
@@ -8993,7 +8993,7 @@ u32 CountAllStorageMons(void)
     return count;
 }
 
-bool32 AnyStorageMonWithMove(u16 moveId)
+bool32 AnyStorageMonWithMove (u16 moveId)
 {
     u16 moves[] = {moveId, MOVES_COUNT};
     s32 i, j;
@@ -9011,7 +9011,7 @@ bool32 AnyStorageMonWithMove(u16 moveId)
     return FALSE;
 }
 
-void ResetWaldaWallpaper(void)
+void ResetWaldaWallpaper (void)
 {
     gSaveBlock1Ptr->waldaPhrase.iconId = 0;
     gSaveBlock1Ptr->waldaPhrase.patternId = 0;
@@ -9021,62 +9021,62 @@ void ResetWaldaWallpaper(void)
     gSaveBlock1Ptr->waldaPhrase.text[0] = EOS;
 }
 
-void SetWaldaWallpaperLockedOrUnlocked(bool32 unlocked)
+void SetWaldaWallpaperLockedOrUnlocked (bool32 unlocked)
 {
     gSaveBlock1Ptr->waldaPhrase.patternUnlocked = unlocked;
 }
 
-bool32 IsWaldaWallpaperUnlocked(void)
+bool32 IsWaldaWallpaperUnlocked (void)
 {
     return gSaveBlock1Ptr->waldaPhrase.patternUnlocked;
 }
 
-u32 GetWaldaWallpaperPatternId(void)
+u32 GetWaldaWallpaperPatternId (void)
 {
     return gSaveBlock1Ptr->waldaPhrase.patternId;
 }
 
-void SetWaldaWallpaperPatternId(u8 id)
+void SetWaldaWallpaperPatternId (u8 id)
 {
     if (id < FRIENDS_WALLPAPERS_COUNT) {
         gSaveBlock1Ptr->waldaPhrase.patternId = id;
     }
 }
 
-u32 GetWaldaWallpaperIconId(void)
+u32 GetWaldaWallpaperIconId (void)
 {
     return gSaveBlock1Ptr->waldaPhrase.iconId;
 }
 
-void SetWaldaWallpaperIconId(u8 id)
+void SetWaldaWallpaperIconId (u8 id)
 {
     if (id < 30) {
         gSaveBlock1Ptr->waldaPhrase.iconId = id;
     }
 }
 
-u16 * GetWaldaWallpaperColorsPtr(void)
+u16 * GetWaldaWallpaperColorsPtr (void)
 {
     return gSaveBlock1Ptr->waldaPhrase.colors;
 }
 
-void SetWaldaWallpaperColors(u16 color1, u16 color2)
+void SetWaldaWallpaperColors (u16 color1, u16 color2)
 {
     gSaveBlock1Ptr->waldaPhrase.colors[0] = color1;
     gSaveBlock1Ptr->waldaPhrase.colors[1] = color2;
 }
 
-u8 * GetWaldaPhrasePtr(void)
+u8 * GetWaldaPhrasePtr (void)
 {
     return gSaveBlock1Ptr->waldaPhrase.text;
 }
 
-void SetWaldaPhrase(const u8 *src)
+void SetWaldaPhrase (const u8 *src)
 {
     StringCopy(gSaveBlock1Ptr->waldaPhrase.text, src);
 }
 
-bool32 IsWaldaPhraseEmpty(void)
+bool32 IsWaldaPhraseEmpty (void)
 {
     return(gSaveBlock1Ptr->waldaPhrase.text[0] == EOS);
 }
@@ -9087,7 +9087,7 @@ bool32 IsWaldaPhraseEmpty(void)
 EWRAM_DATA static struct UnkStruct_2039D84 *gUnknown_02039D84 = NULL;
 EWRAM_DATA static u16 gUnknown_02039D88 = 0;
 
-static void sub_80D259C(u8 count)
+static void sub_80D259C (u8 count)
 {
     u16 i;
 
@@ -9099,12 +9099,12 @@ static void sub_80D259C(u8 count)
     }
 }
 
-static void sub_80D25F0(void)
+static void sub_80D25F0 (void)
 {
     Free(gUnknown_02039D84);
 }
 
-static void sub_80D2604(void)
+static void sub_80D2604 (void)
 {
     s32 i;
 
@@ -9136,7 +9136,7 @@ static const sUnkVars[][4] =
     },
 };
 
-static void sub_80D2644(u8 id, u8 bg, const void *arg2, u16 arg3, u16 arg4)
+static void sub_80D2644 (u8 id, u8 bg, const void *arg2, u16 arg3, u16 arg4)
 {
     u16 bgScreenSize, bgType;
 
@@ -9171,7 +9171,7 @@ static void sub_80D2644(u8 id, u8 bg, const void *arg2, u16 arg3, u16 arg4)
     gUnknown_02039D84[id].field_2C = 1;
 }
 
-static void sub_80D2740(u8 id, const void *arg1)
+static void sub_80D2740 (u8 id, const void *arg1)
 {
     if (id >= gUnknown_02039D88) {
         return;
@@ -9181,7 +9181,7 @@ static void sub_80D2740(u8 id, const void *arg1)
     gUnknown_02039D84[id].field_2C = 1;
 }
 
-static void sub_80D2770(u8 id, u16 arg1, u16 arg2)
+static void sub_80D2770 (u8 id, u16 arg1, u16 arg2)
 {
     if (id >= gUnknown_02039D88) {
         return;
@@ -9192,7 +9192,7 @@ static void sub_80D2770(u8 id, u16 arg1, u16 arg2)
     gUnknown_02039D84[id].field_2C = 1;
 }
 
-static void sub_80D27AC(u8 id, u16 arg1, u16 arg2, u16 arg3, u16 arg4)
+static void sub_80D27AC (u8 id, u16 arg1, u16 arg2, u16 arg3, u16 arg4)
 {
     if (id >= gUnknown_02039D88) {
         return;
@@ -9205,7 +9205,7 @@ static void sub_80D27AC(u8 id, u16 arg1, u16 arg2, u16 arg3, u16 arg4)
     gUnknown_02039D84[id].field_2C = 1;
 }
 
-static void sub_80D27F4(u8 id, u8 arg1, s8 arg2)
+static void sub_80D27F4 (u8 id, u8 arg1, s8 arg2)
 {
     if (id >= gUnknown_02039D88) {
         return;
@@ -9239,7 +9239,7 @@ static void sub_80D27F4(u8 id, u8 arg1, s8 arg2)
     gUnknown_02039D84[id].field_2C = 1;
 }
 
-static void sub_80D2918(u8 id)
+static void sub_80D2918 (u8 id)
 {
     if (id >= gUnknown_02039D88) {
         return;
@@ -9253,7 +9253,7 @@ static void sub_80D2918(u8 id)
     gUnknown_02039D84[id].field_0[0] = gUnknown_02039D84[id].field_0[1];
 }
 
-static void sub_80D2960(u8 id)
+static void sub_80D2960 (u8 id)
 {
     s32 i;
     u32 adder = gUnknown_02039D84[id].field_2A * gUnknown_02039D84[id].field_20;
@@ -9271,7 +9271,7 @@ static void sub_80D2960(u8 id)
     }
 }
 
-static void sub_80D29F8(u8 id)
+static void sub_80D29F8 (u8 id)
 {
     s32 i;
     u32 adder = gUnknown_02039D84[id].field_2A * gUnknown_02039D84[id].field_24;
@@ -9291,7 +9291,7 @@ static void sub_80D29F8(u8 id)
 
 EWRAM_DATA static struct UnkStruct_2000020 *gUnknown_02039D8C = NULL;
 
-static void sub_80D2A90(struct UnkStruct_2000020 *arg0, struct UnkStruct_2000028 *arg1, u32 arg2)
+static void sub_80D2A90 (struct UnkStruct_2000020 *arg0, struct UnkStruct_2000028 *arg1, u32 arg2)
 {
     gUnknown_02039D8C = arg0;
     arg0->unk_00 = arg1;
@@ -9299,7 +9299,7 @@ static void sub_80D2A90(struct UnkStruct_2000020 *arg0, struct UnkStruct_2000028
     arg0->unk_04 = 0;
 }
 
-static void sub_80D2AA4(void)
+static void sub_80D2AA4 (void)
 {
     u16 i;
 
@@ -9313,7 +9313,7 @@ static void sub_80D2AA4(void)
     }
 }
 
-static bool8 sub_80D2AEC(u8 *dest, u16 dLeft, u16 dTop, const u8 *src, u16 sLeft, u16 sTop, u16 width, u16 height, u16 unkArg)
+static bool8 sub_80D2AEC (u8 *dest, u16 dLeft, u16 dTop, const u8 *src, u16 sLeft, u16 sTop, u16 width, u16 height, u16 unkArg)
 {
     struct UnkStruct_2000028 *unkStruct;
 
@@ -9331,7 +9331,7 @@ static bool8 sub_80D2AEC(u8 *dest, u16 dLeft, u16 dTop, const u8 *src, u16 sLeft
     return TRUE;
 }
 
-static void sub_80D2B88(struct UnkStruct_2000028 *unkStruct)
+static void sub_80D2B88 (struct UnkStruct_2000028 *unkStruct)
 {
     u16 i;
 
@@ -9342,7 +9342,7 @@ static void sub_80D2B88(struct UnkStruct_2000028 *unkStruct)
     }
 }
 
-static bool8 sub_80D2BC0(void *dest, u16 dLeft, u16 dTop, u16 width, u16 height)
+static bool8 sub_80D2BC0 (void *dest, u16 dLeft, u16 dTop, u16 width, u16 height)
 {
     struct UnkStruct_2000028 *unkStruct;
 
@@ -9358,7 +9358,7 @@ static bool8 sub_80D2BC0(void *dest, u16 dLeft, u16 dTop, u16 width, u16 height)
     return TRUE;
 }
 
-static void sub_80D2C1C(struct UnkStruct_2000028 *unkStruct)
+static void sub_80D2C1C (struct UnkStruct_2000028 *unkStruct)
 {
     u16 i;
 

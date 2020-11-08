@@ -66,7 +66,7 @@ void SealedChamberShakingEffect(u8);
 void DoBrailleRegirockEffect(void);
 void DoBrailleRegisteelEffect(void);
 
-bool8 ShouldDoBrailleDigEffect(void)
+bool8 ShouldDoBrailleDigEffect (void)
 {
     if (!FlagGet(FLAG_SYS_BRAILLE_DIG)
         && (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SEALED_CHAMBER_OUTER_ROOM)
@@ -85,7 +85,7 @@ bool8 ShouldDoBrailleDigEffect(void)
     return FALSE;
 }
 
-void DoBrailleDigEffect(void)
+void DoBrailleDigEffect (void)
 {
     MapGridSetMetatileIdAt(16, 8, METATILE_Cave_SealedChamberEntrance_TopLeft);
     MapGridSetMetatileIdAt(17, 8, METATILE_Cave_SealedChamberEntrance_TopMid);
@@ -99,7 +99,7 @@ void DoBrailleDigEffect(void)
     ScriptContext2_Disable();
 }
 
-bool8 CheckRelicanthWailord(void)
+bool8 CheckRelicanthWailord (void)
 {
     // Emerald change: why did they flip it?
     // First comes Wailord
@@ -115,7 +115,7 @@ bool8 CheckRelicanthWailord(void)
 
 // THEORY: this was caused by block commenting out all of the older R/S braille functions but leaving the call to it itself, which creates the nullsub.
 // the code is shown below to show what this might look like.
-void ShouldDoBrailleRegirockEffectOld(void)
+void ShouldDoBrailleRegirockEffectOld (void)
 {
     /*
         if (!FlagGet(FLAG_SYS_REGIROCK_PUZZLE_COMPLETED) && (gSaveBlock1.location.mapGroup == MAP_GROUP_DESERT_RUINS && gSaveBlock1.location.mapNum == MAP_ID_DESERT_RUINS))
@@ -194,7 +194,7 @@ void ShouldDoBrailleRegirockEffectOld(void)
      */
 }
 
-void DoSealedChamberShakingEffect1(void)
+void DoSealedChamberShakingEffect1 (void)
 {
     u8 taskId = CreateTask(SealedChamberShakingEffect, 9);
 
@@ -206,7 +206,7 @@ void DoSealedChamberShakingEffect1(void)
     SetCameraPanningCallback(0);
 }
 
-void DoSealedChamberShakingEffect2(void)
+void DoSealedChamberShakingEffect2 (void)
 {
     u8 taskId = CreateTask(SealedChamberShakingEffect, 9);
 
@@ -218,7 +218,7 @@ void DoSealedChamberShakingEffect2(void)
     SetCameraPanningCallback(0);
 }
 
-void SealedChamberShakingEffect(u8 taskId)
+void SealedChamberShakingEffect (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -238,7 +238,7 @@ void SealedChamberShakingEffect(u8 taskId)
 }
 
 // moved later in the function because it was rewritten.
-bool8 ShouldDoBrailleRegirockEffect(void)
+bool8 ShouldDoBrailleRegirockEffect (void)
 {
     if (!FlagGet(FLAG_SYS_REGIROCK_PUZZLE_COMPLETED)
         && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(DESERT_RUINS)
@@ -258,19 +258,19 @@ bool8 ShouldDoBrailleRegirockEffect(void)
     return FALSE;
 }
 
-void SetUpPuzzleEffectRegirock(void)
+void SetUpPuzzleEffectRegirock (void)
 {
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
     FieldEffectStart(FLDEFF_USE_TOMB_PUZZLE_EFFECT);
 }
 
-void UseRegirockHm_Callback(void)
+void UseRegirockHm_Callback (void)
 {
     FieldEffectActiveListRemove(FLDEFF_USE_TOMB_PUZZLE_EFFECT);
     DoBrailleRegirockEffect();
 }
 
-void DoBrailleRegirockEffect(void)
+void DoBrailleRegirockEffect (void)
 {
     MapGridSetMetatileIdAt(14, 26, METATILE_Cave_SealedChamberEntrance_TopLeft);
     MapGridSetMetatileIdAt(15, 26, METATILE_Cave_SealedChamberEntrance_TopMid);
@@ -284,7 +284,7 @@ void DoBrailleRegirockEffect(void)
     ScriptContext2_Disable();
 }
 
-bool8 ShouldDoBrailleRegisteelEffect(void)
+bool8 ShouldDoBrailleRegisteelEffect (void)
 {
     if (!FlagGet(FLAG_SYS_REGISTEEL_PUZZLE_COMPLETED) && (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ANCIENT_TOMB) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ANCIENT_TOMB))) {
         if (gSaveBlock1Ptr->pos.x == 8 && gSaveBlock1Ptr->pos.y == 25) {
@@ -295,19 +295,19 @@ bool8 ShouldDoBrailleRegisteelEffect(void)
     return FALSE;
 }
 
-void SetUpPuzzleEffectRegisteel(void)
+void SetUpPuzzleEffectRegisteel (void)
 {
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
     FieldEffectStart(FLDEFF_USE_TOMB_PUZZLE_EFFECT);
 }
 
-void UseRegisteelHm_Callback(void)
+void UseRegisteelHm_Callback (void)
 {
     FieldEffectActiveListRemove(FLDEFF_USE_TOMB_PUZZLE_EFFECT);
     DoBrailleRegisteelEffect();
 }
 
-void DoBrailleRegisteelEffect(void)
+void DoBrailleRegisteelEffect (void)
 {
     MapGridSetMetatileIdAt(14, 26, METATILE_Cave_SealedChamberEntrance_TopLeft);
     MapGridSetMetatileIdAt(15, 26, METATILE_Cave_SealedChamberEntrance_TopMid);
@@ -322,7 +322,7 @@ void DoBrailleRegisteelEffect(void)
 }
 
 // theory: another commented out DoBrailleWait and Task_BrailleWait.
-void DoBrailleWait(void)
+void DoBrailleWait (void)
 {
     /*
        if (!FlagGet(FLAG_SYS_BRAILLE_REGICE_COMPLETED))
@@ -399,7 +399,7 @@ void DoBrailleWait(void)
 }
 
 // this used to be FldEff_UseFlyAncientTomb . why did GF merge the 2 functions?
-bool8 FldEff_UsePuzzleEffect(void)
+bool8 FldEff_UsePuzzleEffect (void)
 {
     u8 taskId = CreateFieldMoveTask();
 
@@ -413,7 +413,7 @@ bool8 FldEff_UsePuzzleEffect(void)
     return FALSE;
 }
 
-bool8 ShouldDoBrailleRegicePuzzle(void)
+bool8 ShouldDoBrailleRegicePuzzle (void)
 {
     u8 i;
 

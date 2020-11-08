@@ -356,14 +356,14 @@ ALIGNED(2) const u8 sMG_Ereader_TextColor_1[]      = {0, 1, 2};
 ALIGNED(2) const u8 sMG_Ereader_TextColor_1_Copy[] = {0, 1, 2};
 ALIGNED(2) const u8 sMG_Ereader_TextColor_2[]      = {1, 2, 3};
 
-void vblankcb_mystery_gift_e_reader_run(void)
+void vblankcb_mystery_gift_e_reader_run (void)
 {
     ProcessSpriteCopyRequests();
     LoadOam();
     TransferPlttBuffer();
 }
 
-void c2_mystery_gift_e_reader_run(void)
+void c2_mystery_gift_e_reader_run (void)
 {
     RunTasks();
     RunTextPrinters();
@@ -371,7 +371,7 @@ void c2_mystery_gift_e_reader_run(void)
     BuildOamBuffer();
 }
 
-bool32 HandleMysteryGiftOrEReaderSetup(s32 mg_or_ereader)
+bool32 HandleMysteryGiftOrEReaderSetup (s32 mg_or_ereader)
 {
     switch (gMain.state) {
     case 0:
@@ -439,7 +439,7 @@ bool32 HandleMysteryGiftOrEReaderSetup(s32 mg_or_ereader)
     return FALSE;
 }
 
-void c2_mystery_gift(void)
+void c2_mystery_gift (void)
 {
     if (HandleMysteryGiftOrEReaderSetup(0)) {
         SetMainCallback2(c2_mystery_gift_e_reader_run);
@@ -449,7 +449,7 @@ void c2_mystery_gift(void)
     RunTasks();
 }
 
-void c2_ereader(void)
+void c2_ereader (void)
 {
     if (HandleMysteryGiftOrEReaderSetup(1)) {
         SetMainCallback2(c2_mystery_gift_e_reader_run);
@@ -458,7 +458,7 @@ void c2_ereader(void)
     }
 }
 
-void MainCB_FreeAllBuffersAndReturnToInitTitleScreen(void)
+void MainCB_FreeAllBuffersAndReturnToInitTitleScreen (void)
 {
     gGiftIsFromEReader = FALSE;
     FreeAllWindowBuffers();
@@ -469,7 +469,7 @@ void MainCB_FreeAllBuffersAndReturnToInitTitleScreen(void)
     SetMainCallback2(CB2_InitTitleScreen);
 }
 
-void PrintMysteryGiftOrEReaderTopMenu(bool8 mg_or_ereader, bool32 usePickOkCancel)
+void PrintMysteryGiftOrEReaderTopMenu (bool8 mg_or_ereader, bool32 usePickOkCancel)
 {
     const u8 * header;
     const u8 * options;
@@ -488,12 +488,12 @@ void PrintMysteryGiftOrEReaderTopMenu(bool8 mg_or_ereader, bool32 usePickOkCance
     PutWindowTilemap(0);
 }
 
-void MG_DrawTextBorder(u8 windowId)
+void MG_DrawTextBorder (u8 windowId)
 {
     DrawTextBorderOuter(windowId, 0x01, 0xF);
 }
 
-void MG_DrawCheckerboardPattern(u32 bg)
+void MG_DrawCheckerboardPattern (u32 bg)
 {
     s32 i = 0, j;
 
@@ -510,7 +510,7 @@ void MG_DrawCheckerboardPattern(u32 bg)
     }
 }
 
-void ClearScreenInBg0(bool32 ignoreTopTwoRows)
+void ClearScreenInBg0 (bool32 ignoreTopTwoRows)
 {
     switch (ignoreTopTwoRows) {
     case 0:
@@ -523,7 +523,7 @@ void ClearScreenInBg0(bool32 ignoreTopTwoRows)
     CopyBgTilemapBufferToVram(0);
 }
 
-void AddTextPrinterToWindow1(const u8 *str)
+void AddTextPrinterToWindow1 (const u8 *str)
 {
     StringExpandPlaceholders(gStringVar4, str);
     FillWindowPixelBuffer(1, 0x11);
@@ -533,14 +533,14 @@ void AddTextPrinterToWindow1(const u8 *str)
     CopyWindowToVram(1, 3);
 }
 
-static void ClearTextWindow(void)
+static void ClearTextWindow (void)
 {
     rbox_fill_rectangle(1);
     ClearWindowTilemap(1);
     CopyWindowToVram(1, 1);
 }
 
-bool32 MG_PrintTextOnWindow1AndWaitButton(u8 *textState, const u8 *str)
+bool32 MG_PrintTextOnWindow1AndWaitButton (u8 *textState, const u8 *str)
 {
     switch (*textState) {
     case 0:
@@ -565,17 +565,17 @@ bool32 MG_PrintTextOnWindow1AndWaitButton(u8 *textState, const u8 *str)
     return FALSE;
 }
 
-static void HideDownArrow(void)
+static void HideDownArrow (void)
 {
     DrawDownArrow(1, 0xD0, 0x14, 1, FALSE, &sDownArrowCounterAndYCoordIdx[0], &sDownArrowCounterAndYCoordIdx[1]);
 }
 
-static void ShowDownArrow(void)
+static void ShowDownArrow (void)
 {
     DrawDownArrow(1, 0xD0, 0x14, 1, TRUE, &sDownArrowCounterAndYCoordIdx[0], &sDownArrowCounterAndYCoordIdx[1]);
 }
 
-bool32 unref_HideDownArrowAndWaitButton(u8 * textState)
+bool32 unref_HideDownArrowAndWaitButton (u8 * textState)
 {
     switch (*textState) {
     case 0:
@@ -592,7 +592,7 @@ bool32 unref_HideDownArrowAndWaitButton(u8 * textState)
     return FALSE;
 }
 
-static bool32 PrintStringAndWait2Seconds(u8 * counter, const u8 * str)
+static bool32 PrintStringAndWait2Seconds (u8 * counter, const u8 * str)
 {
     if (*counter == 0) {
         AddTextPrinterToWindow1(str);
@@ -606,7 +606,7 @@ static bool32 PrintStringAndWait2Seconds(u8 * counter, const u8 * str)
     }
 }
 
-static u32 MysteryGift_HandleThreeOptionMenu(u8 * unused0, u16 * unused1, u8 whichMenu)
+static u32 MysteryGift_HandleThreeOptionMenu (u8 * unused0, u16 * unused1, u8 whichMenu)
 {
     struct ListMenuTemplate listMenuTemplate = sListMenuTemplate_ThreeOptions;
     struct WindowTemplate windowTemplate = sWindowTemplate_ThreeOptions;
@@ -636,7 +636,7 @@ static u32 MysteryGift_HandleThreeOptionMenu(u8 * unused0, u16 * unused1, u8 whi
     return response;
 }
 
-s8 mevent_message_print_and_prompt_yes_no(u8 * textState, u16 * windowId, bool8 yesNoBoxPlacement, const u8 * str)
+s8 mevent_message_print_and_prompt_yes_no (u8 * textState, u16 * windowId, bool8 yesNoBoxPlacement, const u8 * str)
 {
     struct WindowTemplate windowTemplate;
     s8 input;
@@ -689,7 +689,7 @@ s8 mevent_message_print_and_prompt_yes_no(u8 * textState, u16 * windowId, bool8 
     return -2;
 }
 
-static s32 HandleMysteryGiftListMenu(u8 * textState, u16 * windowId, bool32 cannotToss, bool32 cannotSend)
+static s32 HandleMysteryGiftListMenu (u8 * textState, u16 * windowId, bool32 cannotToss, bool32 cannotSend)
 {
     struct WindowTemplate windowTemplate;
     s32 input;
@@ -745,7 +745,7 @@ static s32 HandleMysteryGiftListMenu(u8 * textState, u16 * windowId, bool32 cann
     return -1;
 }
 
-static bool32 ValidateCardOrNews(bool32 cardOrNews)
+static bool32 ValidateCardOrNews (bool32 cardOrNews)
 {
     if (cardOrNews == 0) {
         return ValidateReceivedWonderCard();
@@ -754,7 +754,7 @@ static bool32 ValidateCardOrNews(bool32 cardOrNews)
     }
 }
 
-static bool32 HandleLoadWonderCardOrNews(u8 * state, bool32 cardOrNews)
+static bool32 HandleLoadWonderCardOrNews (u8 * state, bool32 cardOrNews)
 {
     s32 v0;
 
@@ -787,7 +787,7 @@ static bool32 HandleLoadWonderCardOrNews(u8 * state, bool32 cardOrNews)
     return FALSE;
 }
 
-static bool32 DestroyNewsOrCard(bool32 cardOrNews)
+static bool32 DestroyNewsOrCard (bool32 cardOrNews)
 {
     if (cardOrNews == 0) {
         DestroyWonderCard();
@@ -797,7 +797,7 @@ static bool32 DestroyNewsOrCard(bool32 cardOrNews)
     return TRUE;
 }
 
-static bool32 TearDownCardOrNews_ReturnToTopMenu(bool32 cardOrNews, bool32 arg1)
+static bool32 TearDownCardOrNews_ReturnToTopMenu (bool32 cardOrNews, bool32 arg1)
 {
     if (cardOrNews == 0) {
         if (FadeOutFromWonderCard(arg1) != 0) {
@@ -816,7 +816,7 @@ static bool32 TearDownCardOrNews_ReturnToTopMenu(bool32 cardOrNews, bool32 arg1)
     }
 }
 
-static s32 mevent_message_prompt_discard(u8 * textState, u16 * windowId, bool32 cardOrNews)
+static s32 mevent_message_prompt_discard (u8 * textState, u16 * windowId, bool32 cardOrNews)
 {
     if (cardOrNews == 0) {
         return mevent_message_print_and_prompt_yes_no(textState, windowId, TRUE, gText_IfThrowAwayCardEventWontHappen);
@@ -825,7 +825,7 @@ static s32 mevent_message_prompt_discard(u8 * textState, u16 * windowId, bool32 
     }
 }
 
-static bool32 mevent_message_was_thrown_away(u8 * textState, bool32 cardOrNews)
+static bool32 mevent_message_was_thrown_away (u8 * textState, bool32 cardOrNews)
 {
     if (cardOrNews == 0) {
         return MG_PrintTextOnWindow1AndWaitButton(textState, gText_WonderCardThrownAway);
@@ -834,7 +834,7 @@ static bool32 mevent_message_was_thrown_away(u8 * textState, bool32 cardOrNews)
     }
 }
 
-static bool32 mevent_save_game(u8 * state)
+static bool32 mevent_save_game (u8 * state)
 {
     switch (*state) {
     case 0:
@@ -863,7 +863,7 @@ static bool32 mevent_save_game(u8 * state)
     return FALSE;
 }
 
-static const u8 * mevent_message(u32 * a0, u8 a1, u8 cardOrNews, u32 msgId)
+static const u8 * mevent_message (u32 * a0, u8 a1, u8 cardOrNews, u32 msgId)
 {
     const u8 * msg = NULL;
     *a0 = 0;
@@ -932,7 +932,7 @@ static const u8 * mevent_message(u32 * a0, u8 a1, u8 cardOrNews, u32 msgId)
     return msg;
 }
 
-static bool32 PrintMGSuccessMessage(u8 * state, const u8 * arg1, u16 * arg2)
+static bool32 PrintMGSuccessMessage (u8 * state, const u8 * arg1, u16 * arg2)
 {
     switch (*state) {
     case 0:
@@ -959,7 +959,7 @@ static bool32 PrintMGSuccessMessage(u8 * state, const u8 * arg1, u16 * arg2)
     return FALSE;
 }
 
-static const u8 * mevent_message_stamp_card_etc_send_status(u32 * a0, u8 unused, u32 msgId)
+static const u8 * mevent_message_stamp_card_etc_send_status (u32 * a0, u8 unused, u32 msgId)
 {
     const u8 * result = gText_CommunicationError;
     *a0 = 0;
@@ -1015,7 +1015,7 @@ static const u8 * mevent_message_stamp_card_etc_send_status(u32 * a0, u8 unused,
     return result;
 }
 
-static bool32 PrintMGSendStatus(u8 * state, u16 * arg1, u8 arg2, u32 msgId)
+static bool32 PrintMGSendStatus (u8 * state, u16 * arg1, u8 arg2, u32 msgId)
 {
     u32 flag;
     const u8 * str = mevent_message_stamp_card_etc_send_status(&flag, arg2, msgId);
@@ -1026,7 +1026,7 @@ static bool32 PrintMGSendStatus(u8 * state, u16 * arg1, u8 arg2, u32 msgId)
     }
 }
 
-void task_add_00_mystery_gift(void)
+void task_add_00_mystery_gift (void)
 {
     u8 taskId = CreateTask(task00_mystery_gift, 0);
     struct MysteryGiftTaskData * data = (void *)gTasks[taskId].data;
@@ -1044,7 +1044,7 @@ void task_add_00_mystery_gift(void)
     data->buffer = AllocZeroed(0x40);
 }
 
-void task00_mystery_gift(u8 taskId)
+void task00_mystery_gift (u8 taskId)
 {
     struct MysteryGiftTaskData *data = (void *)gTasks[taskId].data;
     u32 sp0, flag;
@@ -1501,12 +1501,12 @@ void task00_mystery_gift(u8 taskId)
     }
 }
 
-u16 GetMysteryGiftBaseBlock(void)
+u16 GetMysteryGiftBaseBlock (void)
 {
     return 0x1A9;
 }
 
-void bgid_upload_textbox_1(u8 bgId)
+void bgid_upload_textbox_1 (u8 bgId)
 {
     DecompressAndLoadBgGfxUsingHeap(bgId, gUnkTextboxBorderGfx, 0x100, 0, 0);
 }

@@ -293,7 +293,7 @@ static const s16 sEggShardVelocities[][2] =
 
 // code
 
-static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
+static void CreateHatchedMon (struct Pokemon *egg, struct Pokemon *temp)
 {
     u16 species;
     u32 personality, pokerus;
@@ -343,7 +343,7 @@ static void CreateHatchedMon(struct Pokemon *egg, struct Pokemon *temp)
     *egg = *temp;
 }
 
-static void AddHatchedMonToParty(u8 id)
+static void AddHatchedMonToParty (u8 id)
 {
     u8 isEgg = 0x46; // ?
     u16 pokeNum;
@@ -379,12 +379,12 @@ static void AddHatchedMonToParty(u8 id)
     CalculateMonStats(mon);
 }
 
-void ScriptHatchMon(void)
+void ScriptHatchMon (void)
 {
     AddHatchedMonToParty(gSpecialVar_0x8004);
 }
 
-static bool8 _CheckDaycareMonReceivedMail(struct DayCare *daycare, u8 daycareId)
+static bool8 _CheckDaycareMonReceivedMail (struct DayCare *daycare, u8 daycareId)
 {
     u8 nickname[32];
     struct DaycareMon *daycareMon = &daycare->mons[daycareId];
@@ -401,12 +401,12 @@ static bool8 _CheckDaycareMonReceivedMail(struct DayCare *daycare, u8 daycareId)
     return FALSE;
 }
 
-bool8 CheckDaycareMonReceivedMail(void)
+bool8 CheckDaycareMonReceivedMail (void)
 {
     return _CheckDaycareMonReceivedMail(&gSaveBlock1Ptr->daycare, gSpecialVar_0x8004);
 }
 
-static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc)
+static u8 EggHatchCreateMonSprite (u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc)
 {
     u8 r5 = 0;
     u8 spriteID = 0;
@@ -442,21 +442,21 @@ static u8 EggHatchCreateMonSprite(u8 a0, u8 switchID, u8 pokeID, u16* speciesLoc
     return spriteID;
 }
 
-static void VBlankCB_EggHatch(void)
+static void VBlankCB_EggHatch (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-void EggHatch(void)
+void EggHatch (void)
 {
     ScriptContext2_Enable();
     CreateTask(Task_EggHatch, 10);
     FadeScreen(FADE_TO_BLACK, 0);
 }
 
-static void Task_EggHatch(u8 taskID)
+static void Task_EggHatch (u8 taskID)
 {
     if (!gPaletteFade.active) {
         CleanupOverworldWindowsAndTilemaps();
@@ -466,7 +466,7 @@ static void Task_EggHatch(u8 taskID)
     }
 }
 
-static void CB2_EggHatch_0(void)
+static void CB2_EggHatch_0 (void)
 {
     switch (gMain.state) {
     case 0:
@@ -552,7 +552,7 @@ static void CB2_EggHatch_0(void)
     UpdatePaletteFade();
 }
 
-static void EggHatchSetMonNickname(void)
+static void EggHatchSetMonNickname (void)
 {
     SetMonData(&gPlayerParty[gSpecialVar_0x8004], MON_DATA_NICKNAME, gStringVar3);
     FreeMonSpritesGfx();
@@ -560,7 +560,7 @@ static void EggHatchSetMonNickname(void)
     SetMainCallback2(CB2_ReturnToField);
 }
 
-static void Task_EggHatchPlayBGM(u8 taskID)
+static void Task_EggHatchPlayBGM (u8 taskID)
 {
     if (gTasks[taskID].data[0] == 0) {
         StopMapMusic();
@@ -577,7 +577,7 @@ static void Task_EggHatchPlayBGM(u8 taskID)
     gTasks[taskID].data[0]++;
 }
 
-static void CB2_EggHatch_1(void)
+static void CB2_EggHatch_1 (void)
 {
     u16 species;
     u8 gender;
@@ -686,7 +686,7 @@ static void CB2_EggHatch_1(void)
     UpdatePaletteFade();
 }
 
-static void SpriteCB_Egg_0(struct Sprite* sprite)
+static void SpriteCB_Egg_0 (struct Sprite* sprite)
 {
     if (++sprite->data[0] > 20) {
         sprite->callback = SpriteCB_Egg_1;
@@ -702,7 +702,7 @@ static void SpriteCB_Egg_0(struct Sprite* sprite)
     }
 }
 
-static void SpriteCB_Egg_1(struct Sprite* sprite)
+static void SpriteCB_Egg_1 (struct Sprite* sprite)
 {
     if (++sprite->data[2] > 30) {
         if (++sprite->data[0] > 20) {
@@ -720,7 +720,7 @@ static void SpriteCB_Egg_1(struct Sprite* sprite)
     }
 }
 
-static void SpriteCB_Egg_2(struct Sprite* sprite)
+static void SpriteCB_Egg_2 (struct Sprite* sprite)
 {
     if (++sprite->data[2] > 30) {
         if (++sprite->data[0] > 38) {
@@ -747,7 +747,7 @@ static void SpriteCB_Egg_2(struct Sprite* sprite)
     }
 }
 
-static void SpriteCB_Egg_3(struct Sprite* sprite)
+static void SpriteCB_Egg_3 (struct Sprite* sprite)
 {
     if (++sprite->data[0] > 50) {
         sprite->callback = SpriteCB_Egg_4;
@@ -755,7 +755,7 @@ static void SpriteCB_Egg_3(struct Sprite* sprite)
     }
 }
 
-static void SpriteCB_Egg_4(struct Sprite* sprite)
+static void SpriteCB_Egg_4 (struct Sprite* sprite)
 {
     s16 i;
     if (sprite->data[0] == 0) {
@@ -775,7 +775,7 @@ static void SpriteCB_Egg_4(struct Sprite* sprite)
     }
 }
 
-static void SpriteCB_Egg_5(struct Sprite* sprite)
+static void SpriteCB_Egg_5 (struct Sprite* sprite)
 {
     if (sprite->data[0] == 0) {
         gSprites[sEggHatchData->pokeSpriteID].invisible = FALSE;
@@ -793,7 +793,7 @@ static void SpriteCB_Egg_5(struct Sprite* sprite)
     sprite->data[0]++;
 }
 
-static void SpriteCB_EggShard(struct Sprite* sprite)
+static void SpriteCB_EggShard (struct Sprite* sprite)
 {
     sprite->data[4] += sprite->data[1];
     sprite->data[5] += sprite->data[2];
@@ -808,7 +808,7 @@ static void SpriteCB_EggShard(struct Sprite* sprite)
     }
 }
 
-static void CreateRandomEggShardSprite(void)
+static void CreateRandomEggShardSprite (void)
 {
     u16 spriteAnimIndex;
 
@@ -819,7 +819,7 @@ static void CreateRandomEggShardSprite(void)
     CreateEggShardSprite(120, 60, velocity1, velocity2, 100, spriteAnimIndex);
 }
 
-static void CreateEggShardSprite(u8 x, u8 y, s16 data1, s16 data2, s16 data3, u8 spriteAnimIndex)
+static void CreateEggShardSprite (u8 x, u8 y, s16 data1, s16 data2, s16 data3, u8 spriteAnimIndex)
 {
     u8 spriteID = CreateSprite(&sSpriteTemplate_EggShard, x, y, 4);
     gSprites[spriteID].data[1] = data1;
@@ -828,7 +828,7 @@ static void CreateEggShardSprite(u8 x, u8 y, s16 data1, s16 data2, s16 data3, u8
     StartSpriteAnim(&gSprites[spriteID], spriteAnimIndex);
 }
 
-static void EggHatchPrintMessage(u8 windowId, u8* string, u8 x, u8 y, u8 speed)
+static void EggHatchPrintMessage (u8 windowId, u8* string, u8 x, u8 y, u8 speed)
 {
     FillWindowPixelBuffer(windowId, PIXEL_FILL(15));
     sEggHatchData->textColor[0] = 0;
@@ -837,7 +837,7 @@ static void EggHatchPrintMessage(u8 windowId, u8* string, u8 x, u8 y, u8 speed)
     AddTextPrinterParameterized4(windowId, 1, x, y, 0, 0, sEggHatchData->textColor, speed, string);
 }
 
-u8 GetEggCyclesToSubtract(void)
+u8 GetEggCyclesToSubtract (void)
 {
     u8 count, i;
     for (count = CalculatePlayerPartyCount(), i = 0; i < count; i++) {
@@ -851,7 +851,7 @@ u8 GetEggCyclesToSubtract(void)
     return 1;
 }
 
-u16 CountPartyAliveNonEggMons(void)
+u16 CountPartyAliveNonEggMons (void)
 {
     u16 aliveNonEggMonsCount = CountStorageNonEggMons();
     aliveNonEggMonsCount += CountPartyAliveNonEggMonsExcept(PARTY_SIZE);

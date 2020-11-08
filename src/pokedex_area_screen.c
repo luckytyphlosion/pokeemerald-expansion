@@ -292,12 +292,12 @@ static const struct SpriteTemplate sAreaUnknownSpriteTemplate =
     SpriteCallbackDummy
 };
 
-static void ResetDrawAreaGlowState(void)
+static void ResetDrawAreaGlowState (void)
 {
     sPokedexAreaScreen->drawAreaGlowState = 0;
 }
 
-static bool8 DrawAreaGlow(void)
+static bool8 DrawAreaGlow (void)
 {
     switch (sPokedexAreaScreen->drawAreaGlowState) {
     case 0:
@@ -327,7 +327,7 @@ static bool8 DrawAreaGlow(void)
     return TRUE;
 }
 
-static void FindMapsWithMon(u16 species)
+static void FindMapsWithMon (u16 species)
 {
     u16 i;
     struct Roamer *roamer;
@@ -387,7 +387,7 @@ static void FindMapsWithMon(u16 species)
     }
 }
 
-static void SetAreaHasMon(u16 mapGroup, u16 mapNum)
+static void SetAreaHasMon (u16 mapGroup, u16 mapNum)
 {
     if (sPokedexAreaScreen->numOverworldAreas < 0x40) {
         sPokedexAreaScreen->overworldAreasWithMons[sPokedexAreaScreen->numOverworldAreas].mapGroup = mapGroup;
@@ -397,7 +397,7 @@ static void SetAreaHasMon(u16 mapGroup, u16 mapNum)
     }
 }
 
-static void SetSpecialMapHasMon(u16 mapGroup, u16 mapNum)
+static void SetSpecialMapHasMon (u16 mapGroup, u16 mapNum)
 {
     int i;
 
@@ -430,12 +430,12 @@ static void SetSpecialMapHasMon(u16 mapGroup, u16 mapNum)
     }
 }
 
-static u16 GetRegionMapSectionId(u8 mapGroup, u8 mapNum)
+static u16 GetRegionMapSectionId (u8 mapGroup, u8 mapNum)
 {
     return Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId;
 }
 
-static bool8 MapHasMon(const struct WildPokemonHeader *info, u16 species)
+static bool8 MapHasMon (const struct WildPokemonHeader *info, u16 species)
 {
     if (GetRegionMapSectionId(info->mapGroup, info->mapNum) == MAPSEC_ALTERING_CAVE) {
         sPokedexAreaScreen->unk6E2++;
@@ -459,7 +459,7 @@ static bool8 MapHasMon(const struct WildPokemonHeader *info, u16 species)
     return FALSE;
 }
 
-static bool8 MonListHasMon(const struct WildPokemonInfo *info, u16 species, u16 size)
+static bool8 MonListHasMon (const struct WildPokemonInfo *info, u16 species, u16 size)
 {
     u16 i;
     if (info != NULL) {
@@ -472,7 +472,7 @@ static bool8 MonListHasMon(const struct WildPokemonInfo *info, u16 species, u16 
     return FALSE;
 }
 
-static void BuildAreaGlowTilemap(void)
+static void BuildAreaGlowTilemap (void)
 {
     u16 i, y, x, j;
     u16 val;
@@ -559,7 +559,7 @@ static void BuildAreaGlowTilemap(void)
     }
 }
 
-static void StartAreaGlow(void)
+static void StartAreaGlow (void)
 {
     if (sPokedexAreaScreen->numSpecialAreas && sPokedexAreaScreen->numOverworldAreas == 0) {
         sPokedexAreaScreen->whichMarkersFlashing = 1;
@@ -577,7 +577,7 @@ static void StartAreaGlow(void)
     DoAreaGlow();
 }
 
-static void DoAreaGlow(void)
+static void DoAreaGlow (void)
 {
     u16 x, y;
     u16 i;
@@ -625,7 +625,7 @@ static void DoAreaGlow(void)
 
 #define tState data[0]
 
-void ShowPokedexAreaScreen(u16 species, u8 *screenSwitchState)
+void ShowPokedexAreaScreen (u16 species, u8 *screenSwitchState)
 {
     u8 taskId;
 
@@ -637,7 +637,7 @@ void ShowPokedexAreaScreen(u16 species, u8 *screenSwitchState)
     gTasks[taskId].tState = 0;
 }
 
-static void Task_ShowPokedexAreaScreen(u8 taskId)
+static void Task_ShowPokedexAreaScreen (u8 taskId)
 {
     switch (gTasks[taskId].tState) {
     case 0:
@@ -699,7 +699,7 @@ static void Task_ShowPokedexAreaScreen(u8 taskId)
     gTasks[taskId].tState++;
 }
 
-static void Task_HandlePokedexAreaScreenInput(u8 taskId)
+static void Task_HandlePokedexAreaScreenInput (u8 taskId)
 {
     DoAreaGlow();
     switch (gTasks[taskId].tState) {
@@ -741,13 +741,13 @@ static void Task_HandlePokedexAreaScreenInput(u8 taskId)
     gTasks[taskId].tState++;
 }
 
-static void sub_813D6B4(void)
+static void sub_813D6B4 (void)
 {
     SetBgAttribute(3, BG_ATTR_CHARBASEINDEX, 0);
     SetBgAttribute(3, BG_ATTR_PALETTEMODE, 0);
 }
 
-static void CreateAreaMarkerSprites(void)
+static void CreateAreaMarkerSprites (void)
 {
     u8 spriteId;
     static s16 x;
@@ -775,7 +775,7 @@ static void CreateAreaMarkerSprites(void)
     sPokedexAreaScreen->numAreaMarkerSprites = numSprites;
 }
 
-static void DestroyAreaMarkerSprites(void)
+static void DestroyAreaMarkerSprites (void)
 {
     u16 i;
     FreeSpriteTilesByTag(2);
@@ -793,7 +793,7 @@ static void DestroyAreaMarkerSprites(void)
     }
 }
 
-static void LoadAreaUnknownGraphics(void)
+static void LoadAreaUnknownGraphics (void)
 {
     struct SpriteSheet spriteSheet = {
         .data = sPokedexAreaScreen->areaUnknownGraphicsBuffer,
@@ -805,7 +805,7 @@ static void LoadAreaUnknownGraphics(void)
     LoadSpritePalette(&sAreaUnknownSpritePalette);
 }
 
-static void CreateAreaUnknownSprites(void)
+static void CreateAreaUnknownSprites (void)
 {
     u16 i;
     u8 spriteId;

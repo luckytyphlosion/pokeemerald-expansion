@@ -53,7 +53,7 @@ const struct SpriteTemplate gItemIconSpriteTemplate =
 };
 
 // code
-bool8 AllocItemIconTemporaryBuffers(void)
+bool8 AllocItemIconTemporaryBuffers (void)
 {
     gItemIconDecompressionBuffer = gItemIconDecompressionBuffer; // needed to match
     gItemIconDecompressionBuffer = Alloc(0x120);
@@ -71,13 +71,13 @@ bool8 AllocItemIconTemporaryBuffers(void)
     return TRUE;
 }
 
-void FreeItemIconTemporaryBuffers(void)
+void FreeItemIconTemporaryBuffers (void)
 {
     Free(gItemIconDecompressionBuffer);
     Free(gItemIcon4x4Buffer);
 }
 
-void CopyItemIconPicTo4x4Buffer(const void *src, void *dest)
+void CopyItemIconPicTo4x4Buffer (const void *src, void *dest)
 {
     u8 i;
 
@@ -86,7 +86,7 @@ void CopyItemIconPicTo4x4Buffer(const void *src, void *dest)
     }
 }
 
-u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
+u8 AddItemIconSprite (u16 tilesTag, u16 paletteTag, u16 itemId)
 {
     if (!AllocItemIconTemporaryBuffers()) {
         return MAX_SPRITES;
@@ -120,7 +120,7 @@ u8 AddItemIconSprite(u16 tilesTag, u16 paletteTag, u16 itemId)
     }
 }
 
-u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u16 tilesTag, u16 paletteTag, u16 itemId)
+u8 AddCustomItemIconSprite (const struct SpriteTemplate *customSpriteTemplate, u16 tilesTag, u16 paletteTag, u16 itemId)
 {
     if (!AllocItemIconTemporaryBuffers()) {
         return MAX_SPRITES;
@@ -154,7 +154,7 @@ u8 AddCustomItemIconSprite(const struct SpriteTemplate *customSpriteTemplate, u1
     }
 }
 
-const void * GetItemIconPicOrPalette(u16 itemId, u8 which)
+const void * GetItemIconPicOrPalette (u16 itemId, u8 which)
 {
     if (itemId == 0xFFFF) {
         itemId = ITEM_FIELD_ARROW;

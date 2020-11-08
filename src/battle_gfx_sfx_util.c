@@ -88,7 +88,7 @@ static const struct SpritePalette sSpritePalettes_HealthBoxHealthBar[2] =
 };
 
 // code
-void AllocateBattleSpritesData(void)
+void AllocateBattleSpritesData (void)
 {
     gBattleSpritesDataPtr = AllocZeroed(sizeof(struct BattleSpriteData));
     gBattleSpritesDataPtr->battlerData = AllocZeroed(sizeof(struct BattleSpriteInfo) * MAX_BATTLERS_COUNT);
@@ -97,7 +97,7 @@ void AllocateBattleSpritesData(void)
     gBattleSpritesDataPtr->battleBars = AllocZeroed(sizeof(struct BattleBarInfo) * MAX_BATTLERS_COUNT);
 }
 
-void FreeBattleSpritesData(void)
+void FreeBattleSpritesData (void)
 {
     if (gBattleSpritesDataPtr == NULL) {
         return;
@@ -111,7 +111,7 @@ void FreeBattleSpritesData(void)
 }
 
 // Pokemon chooses move to use in Battle Palace rather than player
-u16 ChooseMoveAndTargetInBattlePalace(void)
+u16 ChooseMoveAndTargetInBattlePalace (void)
 {
     s32 i, var1, var2;
     s32 chosenMoveId = -1;
@@ -274,7 +274,7 @@ u16 ChooseMoveAndTargetInBattlePalace(void)
 #undef numValidMoveGroups
 #undef validMoveGroup
 
-static u8 GetBattlePalaceMoveGroup(u16 move)
+static u8 GetBattlePalaceMoveGroup (u16 move)
 {
     switch (gBattleMoves[move].target) {
     case MOVE_TARGET_SELECTED:
@@ -298,7 +298,7 @@ static u8 GetBattlePalaceMoveGroup(u16 move)
     }
 }
 
-static u16 GetBattlePalaceTarget(void)
+static u16 GetBattlePalaceTarget (void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_DOUBLE) {
         u8 opposing1, opposing2;
@@ -336,7 +336,7 @@ static u16 GetBattlePalaceTarget(void)
     return (gActiveBattler ^ BIT_SIDE) << 8;
 }
 
-void sub_805D714(struct Sprite *sprite)
+void sub_805D714 (struct Sprite *sprite)
 {
     u8 spriteId = sprite->data[1];
 
@@ -356,7 +356,7 @@ void sub_805D714(struct Sprite *sprite)
     }
 }
 
-void sub_805D770(struct Sprite *sprite, bool8 arg1)
+void sub_805D770 (struct Sprite *sprite, bool8 arg1)
 {
     sprite->animPaused = 1;
     sprite->callback = SpriteCallbackDummy;
@@ -370,7 +370,7 @@ void sub_805D770(struct Sprite *sprite, bool8 arg1)
     AnimateSprite(sprite);
 }
 
-void sub_805D7AC(struct Sprite *sprite)
+void sub_805D7AC (struct Sprite *sprite)
 {
     if (!(gIntroSlideFlags & 1)) {
         sprite->pos2.x += sprite->data[0];
@@ -384,7 +384,7 @@ void sub_805D7AC(struct Sprite *sprite)
     }
 }
 
-static void sub_805D7EC(struct Sprite *sprite)
+static void sub_805D7EC (struct Sprite *sprite)
 {
     sprite->pos2.y -= 2;
     if (sprite->pos2.y == 0) {
@@ -392,7 +392,7 @@ static void sub_805D7EC(struct Sprite *sprite)
     }
 }
 
-void InitAndLaunchChosenStatusAnimation(bool8 isStatus2, u32 status)
+void InitAndLaunchChosenStatusAnimation (bool8 isStatus2, u32 status)
 {
     gBattleSpritesDataPtr->healthBoxesData[gActiveBattler].statusAnimActive = 1;
     if (!isStatus2) {
@@ -428,7 +428,7 @@ void InitAndLaunchChosenStatusAnimation(bool8 isStatus2, u32 status)
 
 #define tBattlerId data[0]
 
-bool8 TryHandleLaunchBattleTableAnimation(u8 activeBattler, u8 atkBattler, u8 defBattler, u8 tableId, u16 argument)
+bool8 TryHandleLaunchBattleTableAnimation (u8 activeBattler, u8 atkBattler, u8 defBattler, u8 tableId, u16 argument)
 {
     u8 taskId;
 
@@ -464,7 +464,7 @@ bool8 TryHandleLaunchBattleTableAnimation(u8 activeBattler, u8 atkBattler, u8 de
     return FALSE;
 }
 
-static void Task_ClearBitWhenBattleTableAnimDone(u8 taskId)
+static void Task_ClearBitWhenBattleTableAnimDone (u8 taskId)
 {
     gAnimScriptCallback();
     if (!gAnimScriptActive) {
@@ -475,7 +475,7 @@ static void Task_ClearBitWhenBattleTableAnimDone(u8 taskId)
 
 #undef tBattlerId
 
-static bool8 ShouldAnimBeDoneRegardlessOfSubsitute(u8 animId)
+static bool8 ShouldAnimBeDoneRegardlessOfSubsitute (u8 animId)
 {
     switch (animId) {
     case B_ANIM_SUBSTITUTE_FADE:
@@ -492,7 +492,7 @@ static bool8 ShouldAnimBeDoneRegardlessOfSubsitute(u8 animId)
 
 #define tBattlerId data[0]
 
-void InitAndLaunchSpecialAnimation(u8 activeBattler, u8 atkBattler, u8 defBattler, u8 tableId)
+void InitAndLaunchSpecialAnimation (u8 activeBattler, u8 atkBattler, u8 defBattler, u8 tableId)
 {
     u8 taskId;
 
@@ -504,7 +504,7 @@ void InitAndLaunchSpecialAnimation(u8 activeBattler, u8 atkBattler, u8 defBattle
     gBattleSpritesDataPtr->healthBoxesData[gTasks[taskId].tBattlerId].specialAnimActive = 1;
 }
 
-static void Task_ClearBitWhenSpecialAnimDone(u8 taskId)
+static void Task_ClearBitWhenSpecialAnimDone (u8 taskId)
 {
     gAnimScriptCallback();
     if (!gAnimScriptActive) {
@@ -516,7 +516,7 @@ static void Task_ClearBitWhenSpecialAnimDone(u8 taskId)
 #undef tBattlerId
 
 // Great function to include newly added moves that don't have animation yet.
-bool8 IsMoveWithoutAnimation(u16 moveId, u8 animationTurn)
+bool8 IsMoveWithoutAnimation (u16 moveId, u8 animationTurn)
 {
     if (moveId >= (MOVES_COUNT - 1)) {
         return TRUE;
@@ -525,7 +525,7 @@ bool8 IsMoveWithoutAnimation(u16 moveId, u8 animationTurn)
     }
 }
 
-bool8 mplay_80342A4(u8 battlerId)
+bool8 mplay_80342A4 (u8 battlerId)
 {
     u8 zero = 0;
 
@@ -546,7 +546,7 @@ bool8 mplay_80342A4(u8 battlerId)
     return TRUE;
 }
 
-static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 opponent)
+static void BattleLoadMonSpriteGfx (struct Pokemon *mon, u32 battlerId, bool32 opponent)
 {
     u32 monsPersonality, currentPersonality, otId, species, paletteOffset, position;
     const void *lzPaletteData;
@@ -607,21 +607,21 @@ static void BattleLoadMonSpriteGfx(struct Pokemon *mon, u32 battlerId, bool32 op
     }
 }
 
-void BattleLoadOpponentMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
+void BattleLoadOpponentMonSpriteGfx (struct Pokemon *mon, u8 battlerId)
 {
     BattleLoadMonSpriteGfx(mon, battlerId, TRUE);
 }
 
-void BattleLoadPlayerMonSpriteGfx(struct Pokemon *mon, u8 battlerId)
+void BattleLoadPlayerMonSpriteGfx (struct Pokemon *mon, u8 battlerId)
 {
     BattleLoadMonSpriteGfx(mon, battlerId, FALSE);
 }
 
-void nullsub_24(u16 species)
+void nullsub_24 (u16 species)
 {
 }
 
-void DecompressTrainerFrontPic(u16 frontPicId, u8 battlerId)
+void DecompressTrainerFrontPic (u16 frontPicId, u8 battlerId)
 {
     u8 position = GetBattlerPosition(battlerId);
     DecompressPicFromTable_2(&gTrainerFrontPicTable[frontPicId],
@@ -630,7 +630,7 @@ void DecompressTrainerFrontPic(u16 frontPicId, u8 battlerId)
     LoadCompressedSpritePalette(&gTrainerFrontPicPaletteTable[frontPicId]);
 }
 
-void DecompressTrainerBackPic(u16 backPicId, u8 battlerId)
+void DecompressTrainerBackPic (u16 backPicId, u8 battlerId)
 {
     u8 position = GetBattlerPosition(battlerId);
     DecompressPicFromTable_2(&gTrainerBackPicTable[backPicId],
@@ -640,17 +640,17 @@ void DecompressTrainerBackPic(u16 backPicId, u8 battlerId)
                           0x100 + 16 * battlerId, 0x20);
 }
 
-void nullsub_25(u8 arg0)
+void nullsub_25 (u8 arg0)
 {
 }
 
-void FreeTrainerFrontPicPalette(u16 frontPicId)
+void FreeTrainerFrontPicPalette (u16 frontPicId)
 {
     FreeSpritePaletteByTag(gTrainerFrontPicPaletteTable[frontPicId].tag);
 }
 
 // Unused.
-void BattleLoadAllHealthBoxesGfxAtOnce(void)
+void BattleLoadAllHealthBoxesGfxAtOnce (void)
 {
     u8 numberOfBattlers = 0;
     u8 i;
@@ -673,7 +673,7 @@ void BattleLoadAllHealthBoxesGfxAtOnce(void)
     }
 }
 
-bool8 BattleLoadAllHealthBoxesGfx(u8 state)
+bool8 BattleLoadAllHealthBoxesGfx (u8 state)
 {
     bool8 retVal = FALSE;
 
@@ -723,12 +723,12 @@ bool8 BattleLoadAllHealthBoxesGfx(u8 state)
     return retVal;
 }
 
-void LoadBattleBarGfx(u8 arg0)
+void LoadBattleBarGfx (u8 arg0)
 {
     LZDecompressWram(gUnknown_08C093F0, gMonSpritesGfxPtr->barFontGfx);
 }
 
-bool8 BattleInitAllSprites(u8 *state1, u8 *battlerId)
+bool8 BattleInitAllSprites (u8 *state1, u8 *battlerId)
 {
     bool8 retVal = FALSE;
 
@@ -800,19 +800,19 @@ bool8 BattleInitAllSprites(u8 *state1, u8 *battlerId)
     return retVal;
 }
 
-void ClearSpritesHealthboxAnimData(void)
+void ClearSpritesHealthboxAnimData (void)
 {
     memset(gBattleSpritesDataPtr->healthBoxesData, 0, sizeof(struct BattleHealthboxInfo) * MAX_BATTLERS_COUNT);
     memset(gBattleSpritesDataPtr->animationData, 0, sizeof(struct BattleAnimationInfo));
 }
 
-static void ClearSpritesBattlerHealthboxAnimData(void)
+static void ClearSpritesBattlerHealthboxAnimData (void)
 {
     ClearSpritesHealthboxAnimData();
     memset(gBattleSpritesDataPtr->battlerData, 0, sizeof(struct BattleSpriteInfo) * MAX_BATTLERS_COUNT);
 }
 
-void CopyAllBattleSpritesInvisibilities(void)
+void CopyAllBattleSpritesInvisibilities (void)
 {
     s32 i;
 
@@ -821,12 +821,12 @@ void CopyAllBattleSpritesInvisibilities(void)
     }
 }
 
-void CopyBattleSpriteInvisibility(u8 battlerId)
+void CopyBattleSpriteInvisibility (u8 battlerId)
 {
     gBattleSpritesDataPtr->battlerData[battlerId].invisible = gSprites[gBattlerSpriteIds[battlerId]].invisible;
 }
 
-void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform, bool32 megaEvo)
+void HandleSpeciesGfxDataChange (u8 battlerAtk, u8 battlerDef, bool8 notTransform, bool32 megaEvo)
 {
     u32 personalityValue, otId, position, paletteOffset, targetSpecies;
     const void *lzPaletteData, *src;
@@ -910,7 +910,7 @@ void HandleSpeciesGfxDataChange(u8 battlerAtk, u8 battlerDef, bool8 notTransform
     }
 }
 
-void BattleLoadSubstituteOrMonSpriteGfx(u8 battlerId, bool8 loadMonSprite)
+void BattleLoadSubstituteOrMonSpriteGfx (u8 battlerId, bool8 loadMonSprite)
 {
     s32 i, position, palOffset;
 
@@ -947,7 +947,7 @@ void BattleLoadSubstituteOrMonSpriteGfx(u8 battlerId, bool8 loadMonSprite)
     }
 }
 
-void LoadBattleMonGfxAndAnimate(u8 battlerId, bool8 loadMonSprite, u8 spriteId)
+void LoadBattleMonGfxAndAnimate (u8 battlerId, bool8 loadMonSprite, u8 spriteId)
 {
     BattleLoadSubstituteOrMonSpriteGfx(battlerId, loadMonSprite);
     StartSpriteAnim(&gSprites[spriteId], gBattleMonForms[battlerId]);
@@ -959,19 +959,19 @@ void LoadBattleMonGfxAndAnimate(u8 battlerId, bool8 loadMonSprite, u8 spriteId)
     }
 }
 
-void TrySetBehindSubstituteSpriteBit(u8 battlerId, u16 move)
+void TrySetBehindSubstituteSpriteBit (u8 battlerId, u16 move)
 {
     if (move == MOVE_SUBSTITUTE) {
         gBattleSpritesDataPtr->battlerData[battlerId].behindSubstitute = 1;
     }
 }
 
-void ClearBehindSubstituteBit(u8 battlerId)
+void ClearBehindSubstituteBit (u8 battlerId)
 {
     gBattleSpritesDataPtr->battlerData[battlerId].behindSubstitute = 0;
 }
 
-void HandleLowHpMusicChange(struct Pokemon *mon, u8 battlerId)
+void HandleLowHpMusicChange (struct Pokemon *mon, u8 battlerId)
 {
     u16 hp = GetMonData(mon, MON_DATA_HP);
     u16 maxHP = GetMonData(mon, MON_DATA_MAX_HP);
@@ -996,7 +996,7 @@ void HandleLowHpMusicChange(struct Pokemon *mon, u8 battlerId)
     }
 }
 
-void BattleStopLowHpSound(void)
+void BattleStopLowHpSound (void)
 {
     u8 playerBattler = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
 
@@ -1008,7 +1008,7 @@ void BattleStopLowHpSound(void)
     m4aSongNumStop(SE_LOW_HEALTH);
 }
 
-u8 GetMonHPBarLevel(struct Pokemon *mon)
+u8 GetMonHPBarLevel (struct Pokemon *mon)
 {
     u16 hp = GetMonData(mon, MON_DATA_HP);
     u16 maxHP = GetMonData(mon, MON_DATA_MAX_HP);
@@ -1016,7 +1016,7 @@ u8 GetMonHPBarLevel(struct Pokemon *mon)
     return GetHPBarLevel(hp, maxHP);
 }
 
-void HandleBattleLowHpMusicChange(void)
+void HandleBattleLowHpMusicChange (void)
 {
     if (gMain.inBattle) {
         u8 playerBattler1 = GetBattlerAtPosition(B_POSITION_PLAYER_LEFT);
@@ -1033,7 +1033,7 @@ void HandleBattleLowHpMusicChange(void)
     }
 }
 
-void sub_805EB9C(u8 affineMode)
+void sub_805EB9C (u8 affineMode)
 {
     s32 i;
 
@@ -1052,7 +1052,7 @@ void sub_805EB9C(u8 affineMode)
 
 #define tBattlerId data[0]
 
-void LoadAndCreateEnemyShadowSprites(void)
+void LoadAndCreateEnemyShadowSprites (void)
 {
     u8 battlerId;
 
@@ -1069,7 +1069,7 @@ void LoadAndCreateEnemyShadowSprites(void)
     }
 }
 
-void SpriteCB_EnemyShadow(struct Sprite *shadowSprite)
+void SpriteCB_EnemyShadow (struct Sprite *shadowSprite)
 {
     bool8 invisible = FALSE;
     u8 battlerId = shadowSprite->tBattlerId;
@@ -1097,12 +1097,12 @@ void SpriteCB_EnemyShadow(struct Sprite *shadowSprite)
 
 #undef tBattlerId
 
-void SpriteCB_SetInvisible(struct Sprite *sprite)
+void SpriteCB_SetInvisible (struct Sprite *sprite)
 {
     sprite->invisible = TRUE;
 }
 
-void SetBattlerShadowSpriteCallback(u8 battlerId, u16 species)
+void SetBattlerShadowSpriteCallback (u8 battlerId, u16 species)
 {
     // The player's shadow is never seen.
     if (GetBattlerSide(battlerId) == B_SIDE_PLAYER) {
@@ -1120,12 +1120,12 @@ void SetBattlerShadowSpriteCallback(u8 battlerId, u16 species)
     }
 }
 
-void HideBattlerShadowSprite(u8 battlerId)
+void HideBattlerShadowSprite (u8 battlerId)
 {
     gSprites[gBattleSpritesDataPtr->healthBoxesData[battlerId].shadowSpriteId].callback = SpriteCB_SetInvisible;
 }
 
-void sub_805EF14(void)
+void sub_805EF14 (void)
 {
     u16 *vramPtr = (u16*)(VRAM + 0x240);
     s32 i;
@@ -1150,7 +1150,7 @@ void sub_805EF14(void)
     }
 }
 
-void ClearTemporarySpeciesSpriteData(u8 battlerId, bool8 dontClearSubstitute)
+void ClearTemporarySpeciesSpriteData (u8 battlerId, bool8 dontClearSubstitute)
 {
     gBattleSpritesDataPtr->battlerData[battlerId].transformSpecies = SPECIES_NONE;
     gBattleMonForms[battlerId] = 0;
@@ -1159,7 +1159,7 @@ void ClearTemporarySpeciesSpriteData(u8 battlerId, bool8 dontClearSubstitute)
     }
 }
 
-void AllocateMonSpritesGfx(void)
+void AllocateMonSpritesGfx (void)
 {
     u8 i = 0, j;
 
@@ -1182,7 +1182,7 @@ void AllocateMonSpritesGfx(void)
     gMonSpritesGfxPtr->barFontGfx = AllocZeroed(0x1000);
 }
 
-void FreeMonSpritesGfx(void)
+void FreeMonSpritesGfx (void)
 {
     if (gMonSpritesGfxPtr == NULL) {
         return;
@@ -1204,7 +1204,7 @@ void FreeMonSpritesGfx(void)
     FREE_AND_SET_NULL(gMonSpritesGfxPtr);
 }
 
-bool32 ShouldPlayNormalMonCry(struct Pokemon *mon)
+bool32 ShouldPlayNormalMonCry (struct Pokemon *mon)
 {
     s16 hp, maxHP;
     s32 barLevel;

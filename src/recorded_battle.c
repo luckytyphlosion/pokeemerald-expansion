@@ -20,10 +20,10 @@
 #include "constants/rgb.h"
 
 #define BATTLER_RECORD_SIZE 664
-#define ILLEGAL_BATTLE_TYPES ((BATTLE_TYPE_LINK | BATTLE_TYPE_SAFARI | BATTLE_TYPE_FIRST_BATTLE                   \
-                              | BATTLE_TYPE_WALLY_TUTORIAL | BATTLE_TYPE_ROAMER | BATTLE_TYPE_EREADER_TRAINER     \
-                              | BATTLE_TYPE_KYOGRE_GROUDON | BATTLE_TYPE_LEGENDARY | BATTLE_TYPE_REGI             \
-                              | BATTLE_TYPE_RECORDED | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE         \
+#define ILLEGAL_BATTLE_TYPES ((BATTLE_TYPE_LINK | BATTLE_TYPE_SAFARI | BATTLE_TYPE_FIRST_BATTLE                    \
+                              | BATTLE_TYPE_WALLY_TUTORIAL | BATTLE_TYPE_ROAMER | BATTLE_TYPE_EREADER_TRAINER      \
+                              | BATTLE_TYPE_KYOGRE_GROUDON | BATTLE_TYPE_LEGENDARY | BATTLE_TYPE_REGI              \
+                              | BATTLE_TYPE_RECORDED | BATTLE_TYPE_TRAINER_HILL | BATTLE_TYPE_SECRET_BASE          \
                               | BATTLE_TYPE_GROUDON | BATTLE_TYPE_KYOGRE | BATTLE_TYPE_RAYQUAZA))
 
 struct PlayerInfo
@@ -109,7 +109,7 @@ static bool32 CopyRecordedBattleFromSave(struct RecordedBattleSave *dst);
 static void RecordedBattle_RestoreSavedParties(void);
 static void CB2_RecordedBattle(void);
 
-void sub_8184DA4(u8 arg0)
+void sub_8184DA4 (u8 arg0)
 {
     s32 i, j;
 
@@ -131,7 +131,7 @@ void sub_8184DA4(u8 arg0)
     }
 }
 
-void sub_8184E58(void)
+void sub_8184E58 (void)
 {
     s32 i, j;
 
@@ -182,14 +182,14 @@ void sub_8184E58(void)
     }
 }
 
-void RecordedBattle_SetBattlerAction(u8 battlerId, u8 action)
+void RecordedBattle_SetBattlerAction (u8 battlerId, u8 action)
 {
     if (sRecordedBytesNo[battlerId] < BATTLER_RECORD_SIZE && sUnknown_0203C7AC != 2) {
         sBattleRecords[battlerId][sRecordedBytesNo[battlerId]++] = action;
     }
 }
 
-void RecordedBattle_ClearBattlerAction(u8 battlerId, u8 bytesToClear)
+void RecordedBattle_ClearBattlerAction (u8 battlerId, u8 bytesToClear)
 {
     s32 i;
 
@@ -202,7 +202,7 @@ void RecordedBattle_ClearBattlerAction(u8 battlerId, u8 bytesToClear)
     }
 }
 
-u8 RecordedBattle_GetBattlerAction(u8 battlerId)
+u8 RecordedBattle_GetBattlerAction (u8 battlerId)
 {
     // Trying to read past array or invalid action byte, battle is over.
     if (sRecordedBytesNo[battlerId] >= BATTLER_RECORD_SIZE || sBattleRecords[battlerId][sRecordedBytesNo[battlerId]] == 0xFF) {
@@ -216,12 +216,12 @@ u8 RecordedBattle_GetBattlerAction(u8 battlerId)
     }
 }
 
-u8 sub_81850D0(void)
+u8 sub_81850D0 (void)
 {
     return sUnknown_0203C7AC;
 }
 
-u8 sub_81850DC(u8 *arg0)
+u8 sub_81850DC (u8 *arg0)
 {
     u8 i, j;
     u8 ret = 0;
@@ -242,7 +242,7 @@ u8 sub_81850DC(u8 *arg0)
     return ret;
 }
 
-void sub_81851A8(u8 *arg0)
+void sub_81851A8 (u8 *arg0)
 {
     s32 i;
     u8 var1 = 2;
@@ -270,13 +270,13 @@ void sub_81851A8(u8 *arg0)
     }
 }
 
-static u8 sub_8185278(u8 *arg0, u8 *arg1, u8 *arg2)
+static u8 sub_8185278 (u8 *arg0, u8 *arg1, u8 *arg2)
 {
     (*arg2)--;
     return arg0[(*arg1)++];
 }
 
-bool32 CanCopyRecordedBattleSaveData(void)
+bool32 CanCopyRecordedBattleSaveData (void)
 {
     struct RecordedBattleSave *dst = AllocZeroed(sizeof(struct RecordedBattleSave));
     bool32 ret = CopyRecordedBattleFromSave(dst);
@@ -284,7 +284,7 @@ bool32 CanCopyRecordedBattleSaveData(void)
     return ret;
 }
 
-static bool32 IsRecordedBattleSaveValid(struct RecordedBattleSave *save)
+static bool32 IsRecordedBattleSaveValid (struct RecordedBattleSave *save)
 {
     if (save->battleFlags == 0) {
         return FALSE;
@@ -299,7 +299,7 @@ static bool32 IsRecordedBattleSaveValid(struct RecordedBattleSave *save)
     return TRUE;
 }
 
-static bool32 RecordedBattleToSave(struct RecordedBattleSave *battleSave, struct RecordedBattleSave *saveSection)
+static bool32 RecordedBattleToSave (struct RecordedBattleSave *battleSave, struct RecordedBattleSave *saveSection)
 {
     memset(saveSection, 0, 0x1000);
     memcpy(saveSection, battleSave, sizeof(*battleSave));
@@ -313,7 +313,7 @@ static bool32 RecordedBattleToSave(struct RecordedBattleSave *battleSave, struct
     }
 }
 
-bool32 MoveRecordedBattleToSaveData(void)
+bool32 MoveRecordedBattleToSaveData (void)
 {
     s32 i, j;
     bool32 ret;
@@ -458,7 +458,7 @@ bool32 MoveRecordedBattleToSaveData(void)
     return ret;
 }
 
-static bool32 TryCopyRecordedBattleSaveData(struct RecordedBattleSave *dst, struct SaveSection *saveBuffer)
+static bool32 TryCopyRecordedBattleSaveData (struct RecordedBattleSave *dst, struct SaveSection *saveBuffer)
 {
     if (TryReadSpecialSaveSection(SECTOR_ID_RECORDED_BATTLE, (void*)(saveBuffer)) != SAVE_STATUS_OK) {
         return FALSE;
@@ -473,7 +473,7 @@ static bool32 TryCopyRecordedBattleSaveData(struct RecordedBattleSave *dst, stru
     return TRUE;
 }
 
-static bool32 CopyRecordedBattleFromSave(struct RecordedBattleSave *dst)
+static bool32 CopyRecordedBattleFromSave (struct RecordedBattleSave *dst)
 {
     struct SaveSection *savBuffer = AllocZeroed(sizeof(struct SaveSection));
     bool32 ret = TryCopyRecordedBattleSaveData(dst, savBuffer);
@@ -482,7 +482,7 @@ static bool32 CopyRecordedBattleFromSave(struct RecordedBattleSave *dst)
     return ret;
 }
 
-static void CB2_RecordedBattleEnd(void)
+static void CB2_RecordedBattleEnd (void)
 {
     gSaveBlock2Ptr->frontier.lvlMode = sLvlMode;
     gBattleOutcome = 0;
@@ -497,7 +497,7 @@ static void CB2_RecordedBattleEnd(void)
 
 #define tFramesToWait data[0]
 
-static void Task_StartAfterCountdown(u8 taskId)
+static void Task_StartAfterCountdown (u8 taskId)
 {
     if (--gTasks[taskId].tFramesToWait == 0) {
         gMain.savedCallback = CB2_RecordedBattleEnd;
@@ -506,7 +506,7 @@ static void Task_StartAfterCountdown(u8 taskId)
     }
 }
 
-static void SetVariablesForRecordedBattle(struct RecordedBattleSave *src)
+static void SetVariablesForRecordedBattle (struct RecordedBattleSave *src)
 {
     bool8 var;
     s32 i, j;
@@ -571,7 +571,7 @@ static void SetVariablesForRecordedBattle(struct RecordedBattleSave *src)
     }
 }
 
-void PlayRecordedBattle(void (*CB2_After)(void))
+void PlayRecordedBattle (void (*CB2_After)(void))
 {
     struct RecordedBattleSave *battleSave = AllocZeroed(sizeof(struct RecordedBattleSave));
     if (CopyRecordedBattleFromSave(battleSave) == TRUE) {
@@ -592,24 +592,24 @@ void PlayRecordedBattle(void (*CB2_After)(void))
 
 #undef tFramesToWait
 
-static void CB2_RecordedBattle(void)
+static void CB2_RecordedBattle (void)
 {
     AnimateSprites();
     BuildOamBuffer();
     RunTasks();
 }
 
-u8 GetRecordedBattleFrontierFacility(void)
+u8 GetRecordedBattleFrontierFacility (void)
 {
     return sFrontierFacility;
 }
 
-u8 GetRecordedBattleFronterBrainSymbol(void)
+u8 GetRecordedBattleFronterBrainSymbol (void)
 {
     return sFrontierBrainSymbol;
 }
 
-void RecordedBattle_SaveParties(void)
+void RecordedBattle_SaveParties (void)
 {
     s32 i;
 
@@ -619,7 +619,7 @@ void RecordedBattle_SaveParties(void)
     }
 }
 
-static void RecordedBattle_RestoreSavedParties(void)
+static void RecordedBattle_RestoreSavedParties (void)
 {
     s32 i;
 
@@ -629,7 +629,7 @@ static void RecordedBattle_RestoreSavedParties(void)
     }
 }
 
-u8 GetActiveBattlerLinkPlayerGender(void)
+u8 GetActiveBattlerLinkPlayerGender (void)
 {
     s32 i;
 
@@ -646,32 +646,32 @@ u8 GetActiveBattlerLinkPlayerGender(void)
     return 0;
 }
 
-void sub_8185F84(void)
+void sub_8185F84 (void)
 {
     sUnknown_0203C7B5 = 0;
 }
 
-void sub_8185F90(u16 arg0)
+void sub_8185F90 (u16 arg0)
 {
     sUnknown_0203C7B5 |= (arg0 & 0x8000) >> 0xF;
 }
 
-u8 sub_8185FAC(void)
+u8 sub_8185FAC (void)
 {
     return sUnknown_0203C7B5;
 }
 
-u8 GetBattleSceneInRecordedBattle(void)
+u8 GetBattleSceneInRecordedBattle (void)
 {
     return sBattleScene;
 }
 
-u8 GetTextSpeedInRecordedBattle(void)
+u8 GetTextSpeedInRecordedBattle (void)
 {
     return sTextSpeed;
 }
 
-void RecordedBattle_CopyBattlerMoves(void)
+void RecordedBattle_CopyBattlerMoves (void)
 {
     s32 i;
 
@@ -692,7 +692,7 @@ void RecordedBattle_CopyBattlerMoves(void)
 
 #define ACTION_MOVE_CHANGE 6
 
-void sub_818603C(u8 arg0)
+void sub_818603C (u8 arg0)
 {
     s32 battlerId, j, k;
 
@@ -777,22 +777,22 @@ void sub_818603C(u8 arg0)
     }
 }
 
-u32 GetAiScriptsInRecordedBattle(void)
+u32 GetAiScriptsInRecordedBattle (void)
 {
     return sAI_Scripts;
 }
 
-void sub_8186444(void)
+void sub_8186444 (void)
 {
     sUnknown_0203CCD0 = 1;
 }
 
-bool8 sub_8186450(void)
+bool8 sub_8186450 (void)
 {
     return(sUnknown_0203CCD0 == 0);
 }
 
-void sub_8186468(u8 *dst)
+void sub_8186468 (u8 *dst)
 {
     s32 i;
 
@@ -804,32 +804,32 @@ void sub_8186468(u8 *dst)
     ConvertInternationalString(dst, sRecordMixFriendLanguage);
 }
 
-u8 GetRecordedBattleRecordMixFriendClass(void)
+u8 GetRecordedBattleRecordMixFriendClass (void)
 {
     return sRecordMixFriendClass;
 }
 
-u8 GetRecordedBattleApprenticeId(void)
+u8 GetRecordedBattleApprenticeId (void)
 {
     return sApprenticeId;
 }
 
-u8 GetRecordedBattleRecordMixFriendLanguage(void)
+u8 GetRecordedBattleRecordMixFriendLanguage (void)
 {
     return sRecordMixFriendLanguage;
 }
 
-u8 GetRecordedBattleApprenticeLanguage(void)
+u8 GetRecordedBattleApprenticeLanguage (void)
 {
     return sApprenticeLanguage;
 }
 
-void RecordedBattle_SaveBattleOutcome(void)
+void RecordedBattle_SaveBattleOutcome (void)
 {
     sBattleOutcome = gBattleOutcome;
 }
 
-u16 * GetRecordedBattleEasyChatSpeech(void)
+u16 * GetRecordedBattleEasyChatSpeech (void)
 {
     return sEasyChatSpeech;
 }

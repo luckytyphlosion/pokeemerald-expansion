@@ -207,7 +207,7 @@ static const struct ListMenuTemplate sRegistryListMenuTemplate =
     .cursorKind = 0,
 };
 
-static void ClearSecretBase(struct SecretBase *secretBase)
+static void ClearSecretBase (struct SecretBase *secretBase)
 {
     u16 i;
     CpuFastFill16(0, secretBase, sizeof(struct SecretBase));
@@ -216,7 +216,7 @@ static void ClearSecretBase(struct SecretBase *secretBase)
     }
 }
 
-void ClearSecretBases(void)
+void ClearSecretBases (void)
 {
     u16 i;
     for (i = 0; i < SECRET_BASES_COUNT; i++) {
@@ -224,12 +224,12 @@ void ClearSecretBases(void)
     }
 }
 
-static void SetCurSecretBaseId(void)
+static void SetCurSecretBaseId (void)
 {
     sCurSecretBaseId = gSpecialVar_0x8004;
 }
 
-void TrySetCurSecretBaseIndex(void)
+void TrySetCurSecretBaseIndex (void)
 {
     u16 i;
 
@@ -243,7 +243,7 @@ void TrySetCurSecretBaseIndex(void)
     }
 }
 
-void CheckPlayerHasSecretBase(void)
+void CheckPlayerHasSecretBase (void)
 {
     // The player's secret base is always the first in the array.
     if (gSaveBlock1Ptr->secretBases[0].secretBaseId) {
@@ -253,7 +253,7 @@ void CheckPlayerHasSecretBase(void)
     }
 }
 
-static u8 GetSecretBaseTypeInFrontOfPlayer_(void)
+static u8 GetSecretBaseTypeInFrontOfPlayer_ (void)
 {
     s16 x, y;
     s16 behavior;
@@ -288,12 +288,12 @@ static u8 GetSecretBaseTypeInFrontOfPlayer_(void)
     return 0;
 }
 
-void GetSecretBaseTypeInFrontOfPlayer(void)
+void GetSecretBaseTypeInFrontOfPlayer (void)
 {
     gSpecialVar_0x8007 = GetSecretBaseTypeInFrontOfPlayer_();
 }
 
-static void FindMetatileIdMapCoords(s16 *x, s16 *y, u16 metatileId)
+static void FindMetatileIdMapCoords (s16 *x, s16 *y, u16 metatileId)
 {
     s16 i, j;
     const struct MapLayout *mapLayout = gMapHeader.mapLayout;
@@ -310,7 +310,7 @@ static void FindMetatileIdMapCoords(s16 *x, s16 *y, u16 metatileId)
 }
 
 // Opens or closes the secret base entrance metatile in front of the player.
-void ToggleSecretBaseEntranceMetatile(void)
+void ToggleSecretBaseEntranceMetatile (void)
 {
     u16 i;
     s16 x, y;
@@ -335,7 +335,7 @@ void ToggleSecretBaseEntranceMetatile(void)
     }
 }
 
-static u8 GetNameLength(const u8 *secretBaseOwnerName)
+static u8 GetNameLength (const u8 *secretBaseOwnerName)
 {
     u8 i;
     for (i = 0; i < PLAYER_NAME_LENGTH; i++) {
@@ -347,7 +347,7 @@ static u8 GetNameLength(const u8 *secretBaseOwnerName)
     return PLAYER_NAME_LENGTH;
 }
 
-void SetPlayerSecretBase(void)
+void SetPlayerSecretBase (void)
 {
     u16 i;
 
@@ -363,7 +363,7 @@ void SetPlayerSecretBase(void)
     VarSet(VAR_SECRET_BASE_MAP, gMapHeader.regionMapSectionId);
 }
 
-void SetOccupiedSecretBaseEntranceMetatiles(struct MapEvents const *events)
+void SetOccupiedSecretBaseEntranceMetatiles (struct MapEvents const *events)
 {
     u16 bgId;
     u16 i, j;
@@ -388,13 +388,13 @@ void SetOccupiedSecretBaseEntranceMetatiles(struct MapEvents const *events)
     }
 }
 
-static void SetSecretBaseWarpDestination(void)
+static void SetSecretBaseWarpDestination (void)
 {
     s8 offset = (sCurSecretBaseId / 10) * 4;
     SetWarpDestinationToMapWarp(MAP_GROUP(SECRET_BASE_RED_CAVE1), sSecretBaseEntrancePositions[offset], sSecretBaseEntrancePositions[offset + 1]);
 }
 
-static void Task_EnterSecretBase(u8 taskId)
+static void Task_EnterSecretBase (u8 taskId)
 {
     u16 secretBaseId;
 
@@ -419,14 +419,14 @@ static void Task_EnterSecretBase(u8 taskId)
     }
 }
 
-void EnterSecretBase(void)
+void EnterSecretBase (void)
 {
     CreateTask(Task_EnterSecretBase, 0);
     FadeScreen(FADE_TO_BLACK, 0);
     SetDynamicWarp(0, gSaveBlock1Ptr->location.mapGroup, gSaveBlock1Ptr->location.mapNum, -1);
 }
 
-bool8 SecretBaseMapPopupEnabled(void)
+bool8 SecretBaseMapPopupEnabled (void)
 {
     if (gMapHeader.mapType == MAP_TYPE_SECRET_BASE && VarGet(VAR_INIT_SECRET_BASE) == 0) {
         return FALSE;
@@ -435,7 +435,7 @@ bool8 SecretBaseMapPopupEnabled(void)
     return TRUE;
 }
 
-static void EnterNewlyCreatedSecretBase_WaitFadeIn(u8 taskId)
+static void EnterNewlyCreatedSecretBase_WaitFadeIn (u8 taskId)
 {
     ObjectEventTurn(&gObjectEvents[gPlayerAvatar.objectEventId], DIR_NORTH);
     if (IsWeatherNotFadingIn() == TRUE) {
@@ -444,7 +444,7 @@ static void EnterNewlyCreatedSecretBase_WaitFadeIn(u8 taskId)
     }
 }
 
-static void EnterNewlyCreatedSecretBase_StartFadeIn(void)
+static void EnterNewlyCreatedSecretBase_StartFadeIn (void)
 {
     s16 x, y;
 
@@ -459,7 +459,7 @@ static void EnterNewlyCreatedSecretBase_StartFadeIn(void)
     CreateTask(EnterNewlyCreatedSecretBase_WaitFadeIn, 0);
 }
 
-static void Task_EnterNewlyCreatedSecretBase(u8 taskId)
+static void Task_EnterNewlyCreatedSecretBase (u8 taskId)
 {
     if (!gPaletteFade.active) {
         s8 offset = sCurSecretBaseId / 10 * 4;
@@ -476,13 +476,13 @@ static void Task_EnterNewlyCreatedSecretBase(u8 taskId)
     }
 }
 
-void EnterNewlyCreatedSecretBase(void)
+void EnterNewlyCreatedSecretBase (void)
 {
     CreateTask(Task_EnterNewlyCreatedSecretBase, 0);
     FadeScreen(FADE_TO_BLACK, 0);
 }
 
-bool8 CurMapIsSecretBase(void)
+bool8 CurMapIsSecretBase (void)
 {
     if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(SECRET_BASE_RED_CAVE1)
         && (u8)gSaveBlock1Ptr->location.mapNum <= MAP_NUM(SECRET_BASE_SHRUB4)) {
@@ -492,7 +492,7 @@ bool8 CurMapIsSecretBase(void)
     }
 }
 
-void InitSecretBaseAppearance(bool8 hidePC)
+void InitSecretBaseAppearance (bool8 hidePC)
 {
     u16 secretBaseId;
     u16 x, y;
@@ -521,7 +521,7 @@ void InitSecretBaseAppearance(bool8 hidePC)
     }
 }
 
-void InitSecretBaseDecorationSprites(void)
+void InitSecretBaseDecorationSprites (void)
 {
     u8 i;
     u8 *decorations;
@@ -596,7 +596,7 @@ void InitSecretBaseDecorationSprites(void)
     }
 }
 
-void HideSecretBaseDecorationSprites(void)
+void HideSecretBaseDecorationSprites (void)
 {
     u8 objectEventId;
     u16 flag;
@@ -613,12 +613,12 @@ void HideSecretBaseDecorationSprites(void)
     }
 }
 
-void SetSecretBaseOwnerGfxId(void)
+void SetSecretBaseOwnerGfxId (void)
 {
     VarSet(VAR_OBJ_GFX_ID_F, sSecretBaseOwnerGfxIds[GetSecretBaseOwnerType(VarGet(VAR_CURRENT_SECRET_BASE))]);
 }
 
-void SetCurSecretBaseIdFromPosition(const struct MapPosition *position, const struct MapEvents *events)
+void SetCurSecretBaseIdFromPosition (const struct MapPosition *position, const struct MapEvents *events)
 {
     s16 i;
     for (i = 0; i < events->bgEventCount; i++) {
@@ -629,14 +629,14 @@ void SetCurSecretBaseIdFromPosition(const struct MapPosition *position, const st
     }
 }
 
-void WarpIntoSecretBase(const struct MapPosition *position, const struct MapEvents *events)
+void WarpIntoSecretBase (const struct MapPosition *position, const struct MapEvents *events)
 {
     SetCurSecretBaseIdFromPosition(position, events);
     TrySetCurSecretBaseIndex();
     ScriptContext1_SetupScript(SecretBase_EventScript_Enter);
 }
 
-bool8 TrySetCurSecretBase(void)
+bool8 TrySetCurSecretBase (void)
 {
     SetCurSecretBaseId();
     TrySetCurSecretBaseIndex();
@@ -647,7 +647,7 @@ bool8 TrySetCurSecretBase(void)
     return TRUE;
 }
 
-static void Task_WarpOutOfSecretBase(u8 taskId)
+static void Task_WarpOutOfSecretBase (u8 taskId)
 {
     switch (gTasks[taskId].data[0]) {
     case 0:
@@ -670,13 +670,13 @@ static void Task_WarpOutOfSecretBase(u8 taskId)
     }
 }
 
-static void WarpOutOfSecretBase(void)
+static void WarpOutOfSecretBase (void)
 {
     CreateTask(Task_WarpOutOfSecretBase, 0);
     FadeScreen(FADE_TO_BLACK, 0);
 }
 
-void IsCurSecretBaseOwnedByAnotherPlayer(void)
+void IsCurSecretBaseOwnedByAnotherPlayer (void)
 {
     if (gSaveBlock1Ptr->secretBases[0].secretBaseId != sCurSecretBaseId) {
         gSpecialVar_Result = TRUE;
@@ -685,19 +685,19 @@ void IsCurSecretBaseOwnedByAnotherPlayer(void)
     }
 }
 
-static u8 * GetSecretBaseName(u8 *dest, u8 secretBaseId)
+static u8 * GetSecretBaseName (u8 *dest, u8 secretBaseId)
 {
     *StringCopyN(dest, gSaveBlock1Ptr->secretBases[secretBaseId].trainerName, GetNameLength(gSaveBlock1Ptr->secretBases[secretBaseId].trainerName)) = EOS;
     ConvertInternationalString(dest, gSaveBlock1Ptr->secretBases[secretBaseId].language);
     return StringAppend(dest, gText_ApostropheSBase);
 }
 
-u8 * GetSecretBaseMapName(u8 *dest)
+u8 * GetSecretBaseMapName (u8 *dest)
 {
     return GetSecretBaseName(dest, VarGet(VAR_CURRENT_SECRET_BASE));
 }
 
-void CopyCurSecretBaseOwnerName_StrVar1(void)
+void CopyCurSecretBaseOwnerName_StrVar1 (void)
 {
     u8 secretBaseId;
     const u8 *name;
@@ -708,7 +708,7 @@ void CopyCurSecretBaseOwnerName_StrVar1(void)
     ConvertInternationalString(gStringVar1, gSaveBlock1Ptr->secretBases[secretBaseId].language);
 }
 
-static bool8 IsSecretBaseRegistered(u8 secretBaseId)
+static bool8 IsSecretBaseRegistered (u8 secretBaseId)
 {
     if (gSaveBlock1Ptr->secretBases[secretBaseId].registryStatus) {
         return TRUE;
@@ -717,7 +717,7 @@ static bool8 IsSecretBaseRegistered(u8 secretBaseId)
     return FALSE;
 }
 
-static u8 GetAverageEVs(struct Pokemon *pokemon)
+static u8 GetAverageEVs (struct Pokemon *pokemon)
 {
     u16 evTotal;
     evTotal  = GetMonData(pokemon, MON_DATA_HP_EV);
@@ -729,7 +729,7 @@ static u8 GetAverageEVs(struct Pokemon *pokemon)
     return evTotal / 6;
 }
 
-void SetPlayerSecretBaseParty(void)
+void SetPlayerSecretBaseParty (void)
 {
     u16 i;
     u16 moveIdx;
@@ -767,7 +767,7 @@ void SetPlayerSecretBaseParty(void)
     }
 }
 
-void ClearAndLeaveSecretBase(void)
+void ClearAndLeaveSecretBase (void)
 {
     u16 temp = gSaveBlock1Ptr->secretBases[0].numSecretBasesReceived;
     ClearSecretBase(&gSaveBlock1Ptr->secretBases[0]);
@@ -775,13 +775,13 @@ void ClearAndLeaveSecretBase(void)
     WarpOutOfSecretBase();
 }
 
-void MoveOutOfSecretBase(void)
+void MoveOutOfSecretBase (void)
 {
     IncrementGameStat(GAME_STAT_MOVED_SECRET_BASE);
     ClearAndLeaveSecretBase();
 }
 
-static void ClosePlayerSecretBaseEntrance(void)
+static void ClosePlayerSecretBaseEntrance (void)
 {
     u16 i;
     u16 j;
@@ -807,7 +807,7 @@ static void ClosePlayerSecretBaseEntrance(void)
 
 // When the player moves to a new secret base by interacting with a new secret base
 // entrance in the overworld.
-void MoveOutOfSecretBaseFromOutside(void)
+void MoveOutOfSecretBaseFromOutside (void)
 {
     u16 temp;
 
@@ -818,7 +818,7 @@ void MoveOutOfSecretBaseFromOutside(void)
     gSaveBlock1Ptr->secretBases[0].numSecretBasesReceived = temp;
 }
 
-static u8 GetNumRegisteredSecretBases(void)
+static u8 GetNumRegisteredSecretBases (void)
 {
     s16 i;
     u8 count = 0;
@@ -831,7 +831,7 @@ static u8 GetNumRegisteredSecretBases(void)
     return count;
 }
 
-void GetCurSecretBaseRegistrationValidity(void)
+void GetCurSecretBaseRegistrationValidity (void)
 {
     if (IsSecretBaseRegistered(VarGet(VAR_CURRENT_SECRET_BASE)) == TRUE) {
         gSpecialVar_Result = 1;
@@ -842,23 +842,23 @@ void GetCurSecretBaseRegistrationValidity(void)
     }
 }
 
-void ToggleCurSecretBaseRegistry(void)
+void ToggleCurSecretBaseRegistry (void)
 {
     gSaveBlock1Ptr->secretBases[VarGet(VAR_CURRENT_SECRET_BASE)].registryStatus ^= 1;
     FlagSet(FLAG_SECRET_BASE_REGISTRY_ENABLED);
 }
 
-void ShowSecretBaseDecorationMenu(void)
+void ShowSecretBaseDecorationMenu (void)
 {
     CreateTask(DoSecretBaseDecorationMenu, 0);
 }
 
-void ShowSecretBaseRegistryMenu(void)
+void ShowSecretBaseRegistryMenu (void)
 {
     CreateTask(Task_ShowSecretBaseRegistryMenu, 0);
 }
 
-static void Task_ShowSecretBaseRegistryMenu(u8 taskId)
+static void Task_ShowSecretBaseRegistryMenu (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     ScriptContext2_Enable();
@@ -877,7 +877,7 @@ static void Task_ShowSecretBaseRegistryMenu(u8 taskId)
     }
 }
 
-static void BuildRegistryMenuItems(u8 taskId)
+static void BuildRegistryMenuItems (u8 taskId)
 {
     s16 *data;
     u8 i;
@@ -910,14 +910,14 @@ static void BuildRegistryMenuItems(u8 taskId)
     gMultiuseListMenuTemplate.maxShowed = data[3];
 }
 
-static void RegistryMenu_OnCursorMove(s32 unused, bool8 flag, struct ListMenu *menu)
+static void RegistryMenu_OnCursorMove (s32 unused, bool8 flag, struct ListMenu *menu)
 {
     if (flag != TRUE) {
         PlaySE(SE_SELECT);
     }
 }
 
-static void FinalizeRegistryMenu(u8 taskId)
+static void FinalizeRegistryMenu (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     SetStandardWindowBorderStyle(data[6], 0);
@@ -926,13 +926,13 @@ static void FinalizeRegistryMenu(u8 taskId)
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void AddRegistryMenuScrollArrows(u8 taskId)
+static void AddRegistryMenuScrollArrows (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     data[8] = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 0xbc, 0x0c, 0x94, data[0] - data[3], 0x13f8, 0x13f8, &data[2]);
 }
 
-static void HandleRegistryMenuInput(u8 taskId)
+static void HandleRegistryMenuInput (u8 taskId)
 {
     s16 *data;
     s32 input;
@@ -962,7 +962,7 @@ static void HandleRegistryMenuInput(u8 taskId)
     }
 }
 
-static void ShowRegistryMenuActions(u8 taskId)
+static void ShowRegistryMenuActions (u8 taskId)
 {
     struct WindowTemplate template;
     s16 *data = gTasks[taskId].data;
@@ -977,7 +977,7 @@ static void ShowRegistryMenuActions(u8 taskId)
     gTasks[taskId].func = HandleRegistryMenuActionsInput;
 }
 
-static void HandleRegistryMenuActionsInput(u8 taskId)
+static void HandleRegistryMenuActionsInput (u8 taskId)
 {
     s8 input = Menu_ProcessInputNoWrap();
     switch (input) {
@@ -994,7 +994,7 @@ static void HandleRegistryMenuActionsInput(u8 taskId)
     }
 }
 
-static void ShowRegistryMenuDeleteConfirmation(u8 taskId)
+static void ShowRegistryMenuDeleteConfirmation (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     ClearStdWindowAndFrame(data[6], FALSE);
@@ -1008,13 +1008,13 @@ static void ShowRegistryMenuDeleteConfirmation(u8 taskId)
     DisplayItemMessageOnField(taskId, gStringVar4, ShowRegistryMenuDeleteYesNo);
 }
 
-static void ShowRegistryMenuDeleteYesNo(u8 taskId)
+static void ShowRegistryMenuDeleteYesNo (u8 taskId)
 {
     DisplayYesNoMenuDefaultYes();
     DoYesNoFuncWithChoice(taskId, &sDeleteRegistryYesNoFuncs);
 }
 
-void DeleteRegistry_Yes_Callback(u8 taskId)
+void DeleteRegistry_Yes_Callback (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     ClearDialogWindowAndFrame(0, 0);
@@ -1026,12 +1026,12 @@ void DeleteRegistry_Yes_Callback(u8 taskId)
     gTasks[taskId].func = HandleRegistryMenuInput;
 }
 
-static void DeleteRegistry_Yes(u8 taskId)
+static void DeleteRegistry_Yes (u8 taskId)
 {
     DisplayItemMessageOnField(taskId, gText_RegisteredDataDeleted, DeleteRegistry_Yes_Callback);
 }
 
-static void DeleteRegistry_No(u8 taskId)
+static void DeleteRegistry_No (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     ClearDialogWindowAndFrame(0, 0);
@@ -1040,7 +1040,7 @@ static void DeleteRegistry_No(u8 taskId)
     gTasks[taskId].func = HandleRegistryMenuInput;
 }
 
-static void ReturnToMainRegistryMenu(u8 taskId)
+static void ReturnToMainRegistryMenu (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     AddRegistryMenuScrollArrows(taskId);
@@ -1051,7 +1051,7 @@ static void ReturnToMainRegistryMenu(u8 taskId)
     gTasks[taskId].func = HandleRegistryMenuInput;
 }
 
-static void GoToSecretBasePCRegisterMenu(u8 taskId)
+static void GoToSecretBasePCRegisterMenu (u8 taskId)
 {
     if (VarGet(VAR_CURRENT_SECRET_BASE) == 0) {
         ScriptContext1_SetupScript(SecretBase_EventScript_PCCancel);
@@ -1062,13 +1062,13 @@ static void GoToSecretBasePCRegisterMenu(u8 taskId)
     DestroyTask(taskId);
 }
 
-static u8 GetSecretBaseOwnerType(u8 secretBaseId)
+static u8 GetSecretBaseOwnerType (u8 secretBaseId)
 {
     return (gSaveBlock1Ptr->secretBases[secretBaseId].trainerId[0] % 5)
            + (gSaveBlock1Ptr->secretBases[secretBaseId].gender * 5);
 }
 
-const u8 * GetSecretBaseTrainerLoseText(void)
+const u8 * GetSecretBaseTrainerLoseText (void)
 {
     u8 ownerType = GetSecretBaseOwnerType(VarGet(VAR_CURRENT_SECRET_BASE));
     if (ownerType == 0) {
@@ -1094,19 +1094,19 @@ const u8 * GetSecretBaseTrainerLoseText(void)
     }
 }
 
-void PrepSecretBaseBattleFlags(void)
+void PrepSecretBaseBattleFlags (void)
 {
     TryGainNewFanFromCounter(FANCOUNTER_BATTLED_AT_BASE);
     gTrainerBattleOpponent_A = TRAINER_SECRET_BASE;
     gBattleTypeFlags = BATTLE_TYPE_TRAINER | BATTLE_TYPE_SECRET_BASE;
 }
 
-void SetBattledOwnerFromResult(void)
+void SetBattledOwnerFromResult (void)
 {
     gSaveBlock1Ptr->secretBases[VarGet(VAR_CURRENT_SECRET_BASE)].battledOwnerToday = gSpecialVar_Result;
 }
 
-void GetSecretBaseOwnerAndState(void)
+void GetSecretBaseOwnerAndState (void)
 {
     u16 secretBaseId;
     u8 i;
@@ -1123,7 +1123,7 @@ void GetSecretBaseOwnerAndState(void)
     gSpecialVar_Result = gSaveBlock1Ptr->secretBases[secretBaseId].battledOwnerToday;
 }
 
-void SecretBasePerStepCallback(u8 taskId)
+void SecretBasePerStepCallback (u8 taskId)
 {
     s16 x;
     s16 y;
@@ -1236,7 +1236,7 @@ void SecretBasePerStepCallback(u8 taskId)
     }
 }
 
-static void SetSecretBaseDataAndLanguage(u8 secretBaseId, struct SecretBase *secretBase, u32 version, u32 language)
+static void SetSecretBaseDataAndLanguage (u8 secretBaseId, struct SecretBase *secretBase, u32 version, u32 language)
 {
     int stringLength;
     u8 *name;
@@ -1261,7 +1261,7 @@ static void SetSecretBaseDataAndLanguage(u8 secretBaseId, struct SecretBase *sec
     }
 }
 
-static bool8 SecretBasesHaveSameTrainerId(struct SecretBase *secretBase1, struct SecretBase *secretBase2)
+static bool8 SecretBasesHaveSameTrainerId (struct SecretBase *secretBase1, struct SecretBase *secretBase2)
 {
     u8 i;
     for (i = 0; i < TRAINER_ID_LENGTH; i++) {
@@ -1273,7 +1273,7 @@ static bool8 SecretBasesHaveSameTrainerId(struct SecretBase *secretBase1, struct
     return TRUE;
 }
 
-static bool8 SecretBasesHaveSameTrainerName(struct SecretBase *sbr1, struct SecretBase *sbr2)
+static bool8 SecretBasesHaveSameTrainerName (struct SecretBase *sbr1, struct SecretBase *sbr2)
 {
     u8 i;
     for (i = 0; i < PLAYER_NAME_LENGTH && (sbr1->trainerName[i] != EOS || sbr2->trainerName[i] != EOS); i++) {
@@ -1285,7 +1285,7 @@ static bool8 SecretBasesHaveSameTrainerName(struct SecretBase *sbr1, struct Secr
     return TRUE;
 }
 
-static bool8 SecretBasesBelongToSamePlayer(struct SecretBase *secretBase1, struct SecretBase *secretBase2)
+static bool8 SecretBasesBelongToSamePlayer (struct SecretBase *secretBase1, struct SecretBase *secretBase2)
 {
     if (secretBase1->gender == secretBase2->gender
         && SecretBasesHaveSameTrainerId(secretBase1, secretBase2)
@@ -1296,7 +1296,7 @@ static bool8 SecretBasesBelongToSamePlayer(struct SecretBase *secretBase1, struc
     return FALSE;
 }
 
-static s16 GetSecretBaseIndexFromId(u8 secretBaseId)
+static s16 GetSecretBaseIndexFromId (u8 secretBaseId)
 {
     s16 i;
     for (i = 0; i < SECRET_BASES_COUNT; i++) {
@@ -1308,7 +1308,7 @@ static s16 GetSecretBaseIndexFromId(u8 secretBaseId)
     return -1;
 }
 
-static u8 FindAvailableSecretBaseIndex(void)
+static u8 FindAvailableSecretBaseIndex (void)
 {
     s16 i;
     for (i = 1; i < SECRET_BASES_COUNT; i++) {
@@ -1320,7 +1320,7 @@ static u8 FindAvailableSecretBaseIndex(void)
     return 0;
 }
 
-static u8 sub_80EAA18(void)
+static u8 sub_80EAA18 (void)
 {
     s16 i;
     for (i = 1; i < SECRET_BASES_COUNT; i++) {
@@ -1332,7 +1332,7 @@ static u8 sub_80EAA18(void)
     return 0;
 }
 
-static u8 sub_80EAA64(struct SecretBase *secretBase, u32 version, u32 language)
+static u8 sub_80EAA64 (struct SecretBase *secretBase, u32 version, u32 language)
 {
     s16 index;
 
@@ -1370,7 +1370,7 @@ static u8 sub_80EAA64(struct SecretBase *secretBase, u32 version, u32 language)
 
 // Moves the registered secret bases to the beginning of the array, so that
 // they won't be forgotten during record mixing.
-static void SortSecretBasesByRegistryStatus(void)
+static void SortSecretBasesByRegistryStatus (void)
 {
     u8 i;
     u8 j;
@@ -1387,7 +1387,7 @@ static void SortSecretBasesByRegistryStatus(void)
     }
 }
 
-void sub_80EABA4(struct SecretBaseRecordMixer *mixer, u8 registryStatus)
+void sub_80EABA4 (struct SecretBaseRecordMixer *mixer, u8 registryStatus)
 {
     u16 i;
     for (i = 1; i < SECRET_BASES_COUNT; i++) {
@@ -1397,7 +1397,7 @@ void sub_80EABA4(struct SecretBaseRecordMixer *mixer, u8 registryStatus)
     }
 }
 
-bool8 SecretBaseBelongsToPlayer(struct SecretBase *secretBase)
+bool8 SecretBaseBelongsToPlayer (struct SecretBase *secretBase)
 {
     u8 i;
 
@@ -1429,7 +1429,7 @@ bool8 SecretBaseBelongsToPlayer(struct SecretBase *secretBase)
 #define DELETED_BASE_B  (1 << 1)
 #define DELETED_BASE_C  (1 << 2)
 
-void DeleteFirstOldBaseFromPlayerInRecordMixingFriendsRecords(struct SecretBase *basesA, struct SecretBase *basesB, struct SecretBase *basesC)
+void DeleteFirstOldBaseFromPlayerInRecordMixingFriendsRecords (struct SecretBase *basesA, struct SecretBase *basesB, struct SecretBase *basesC)
 {
     u8 i;
     u8 sbFlags = 0;
@@ -1467,7 +1467,7 @@ void DeleteFirstOldBaseFromPlayerInRecordMixingFriendsRecords(struct SecretBase 
 #undef DELETED_BASE_C
 
 // returns TRUE if secretBase was deleted, FALSE otherwise
-static bool8 ClearDuplicateOwnedSecretBases(struct SecretBase *secretBase, struct SecretBase *secretBases, u8 c)
+static bool8 ClearDuplicateOwnedSecretBases (struct SecretBase *secretBase, struct SecretBase *secretBases, u8 c)
 {
     u8 i;
 
@@ -1494,7 +1494,7 @@ static bool8 ClearDuplicateOwnedSecretBases(struct SecretBase *secretBase, struc
     return FALSE;
 }
 
-void sub_80EAD94(struct SecretBase *basesA, struct SecretBase *basesB, struct SecretBase *basesC, struct SecretBase *basesD)
+void sub_80EAD94 (struct SecretBase *basesA, struct SecretBase *basesB, struct SecretBase *basesC, struct SecretBase *basesD)
 {
     u8 i;
 
@@ -1529,7 +1529,7 @@ void sub_80EAD94(struct SecretBase *basesA, struct SecretBase *basesB, struct Se
     }
 }
 
-void sub_80EAE90(struct SecretBase *base, u32 version, u32 language)
+void sub_80EAE90 (struct SecretBase *base, u32 version, u32 language)
 {
     if (base->sbr_field_1_0 == 1) {
         sub_80EAA64(base, version, language);
@@ -1537,7 +1537,7 @@ void sub_80EAE90(struct SecretBase *base, u32 version, u32 language)
     }
 }
 
-void sub_80EAEB4(struct SecretBaseRecordMixer *mixers)
+void sub_80EAEB4 (struct SecretBaseRecordMixer *mixers)
 {
     u16 i;
 
@@ -1548,7 +1548,7 @@ void sub_80EAEB4(struct SecretBaseRecordMixer *mixers)
     }
 }
 
-void sub_80EAEF4(struct SecretBaseRecordMixer *mixers)
+void sub_80EAEF4 (struct SecretBaseRecordMixer *mixers)
 {
     DeleteFirstOldBaseFromPlayerInRecordMixingFriendsRecords(mixers[0].secretBases, mixers[1].secretBases, mixers[2].secretBases);
     sub_80EAD94(gSaveBlock1Ptr->secretBases, mixers[0].secretBases, mixers[1].secretBases, mixers[2].secretBases);
@@ -1564,18 +1564,18 @@ void sub_80EAEF4(struct SecretBaseRecordMixer *mixers)
     sub_80EABA4(&mixers[2], 0);
 }
 
-#define INIT_SECRET_BASE_RECORD_MIXER(linkId1, linkId2, linkId3)         \
-            mixers[0].secretBases = secretBases + linkId1 * recordSize;  \
-            mixers[0].version = gLinkPlayers[linkId1].version & 0xFF;    \
-            mixers[0].language = gLinkPlayers[linkId1].language;         \
-            mixers[1].secretBases = secretBases + linkId2 * recordSize;  \
-            mixers[1].version = gLinkPlayers[linkId2].version & 0xFF;    \
-            mixers[1].language = gLinkPlayers[linkId2].language;         \
-            mixers[2].secretBases = secretBases + linkId3 * recordSize;  \
-            mixers[2].version = gLinkPlayers[linkId3].version & 0xFF;    \
+#define INIT_SECRET_BASE_RECORD_MIXER(linkId1, linkId2, linkId3)          \
+            mixers[0].secretBases = secretBases + linkId1 * recordSize;   \
+            mixers[0].version = gLinkPlayers[linkId1].version & 0xFF;     \
+            mixers[0].language = gLinkPlayers[linkId1].language;          \
+            mixers[1].secretBases = secretBases + linkId2 * recordSize;   \
+            mixers[1].version = gLinkPlayers[linkId2].version & 0xFF;     \
+            mixers[1].language = gLinkPlayers[linkId2].language;          \
+            mixers[2].secretBases = secretBases + linkId3 * recordSize;   \
+            mixers[2].version = gLinkPlayers[linkId3].version & 0xFF;     \
             mixers[2].language = gLinkPlayers[linkId3].language;
 
-void ReceiveSecretBasesData(void *secretBases, size_t recordSize, u8 linkIdx)
+void ReceiveSecretBasesData (void *secretBases, size_t recordSize, u8 linkIdx)
 {
     struct SecretBaseRecordMixer mixers[3];
     u16 i;
@@ -1628,7 +1628,7 @@ void ReceiveSecretBasesData(void *secretBases, size_t recordSize, u8 linkIdx)
     }
 }
 
-void ClearJapaneseSecretBases(struct SecretBase *bases)
+void ClearJapaneseSecretBases (struct SecretBase *bases)
 {
     u32 i;
     for (i = 0; i < SECRET_BASES_COUNT; i++) {
@@ -1638,7 +1638,7 @@ void ClearJapaneseSecretBases(struct SecretBase *bases)
     }
 }
 
-void InitSecretBaseVars(void)
+void InitSecretBaseVars (void)
 {
     VarSet(VAR_SECRET_BASE_STEP_COUNTER, 0);
     VarSet(VAR_SECRET_BASE_LAST_ITEM_USED, 0);
@@ -1653,7 +1653,7 @@ void InitSecretBaseVars(void)
     sInFriendSecretBase = FALSE;
 }
 
-void CheckLeftFriendsSecretBase(void)
+void CheckLeftFriendsSecretBase (void)
 {
     if (VarGet(VAR_SECRET_BASE_IS_NOT_LOCAL) && sInFriendSecretBase == TRUE && !CurMapIsSecretBase()) {
         VarSet(VAR_SECRET_BASE_IS_NOT_LOCAL, FALSE);
@@ -1667,21 +1667,21 @@ void CheckLeftFriendsSecretBase(void)
     }
 }
 
-void CheckInteractedWithFriendsDollDecor(void)
+void CheckInteractedWithFriendsDollDecor (void)
 {
     if (VarGet(VAR_CURRENT_SECRET_BASE) != 0) {
         VarSet(VAR_SECRET_BASE_HIGH_TV_FLAGS, VarGet(VAR_SECRET_BASE_HIGH_TV_FLAGS) | SECRET_BASE_USED_DOLL);
     }
 }
 
-void CheckInteractedWithFriendsCushionDecor(void)
+void CheckInteractedWithFriendsCushionDecor (void)
 {
     if (VarGet(VAR_CURRENT_SECRET_BASE) != 0) {
         VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) | SECRET_BASE_USED_CUSHION);
     }
 }
 
-void DeclinedSecretBaseBattle(void)
+void DeclinedSecretBaseBattle (void)
 {
     if (VarGet(VAR_CURRENT_SECRET_BASE) != 0) {
         VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) & ~(SECRET_BASE_BATTLED_WON | SECRET_BASE_BATTLED_LOST | SECRET_BASE_DECLINED_BATTLE));
@@ -1690,7 +1690,7 @@ void DeclinedSecretBaseBattle(void)
     }
 }
 
-void WonSecretBaseBattle(void)
+void WonSecretBaseBattle (void)
 {
     if (VarGet(VAR_CURRENT_SECRET_BASE) != 0) {
         VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) & ~(SECRET_BASE_BATTLED_WON | SECRET_BASE_BATTLED_LOST | SECRET_BASE_DECLINED_BATTLE));
@@ -1699,7 +1699,7 @@ void WonSecretBaseBattle(void)
     }
 }
 
-void LostSecretBaseBattle(void)
+void LostSecretBaseBattle (void)
 {
     if (VarGet(VAR_CURRENT_SECRET_BASE) != 0) {
         VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) & ~(SECRET_BASE_BATTLED_WON | SECRET_BASE_BATTLED_LOST | SECRET_BASE_DECLINED_BATTLE));
@@ -1708,7 +1708,7 @@ void LostSecretBaseBattle(void)
     }
 }
 
-void DrewSecretBaseBattle(void)
+void DrewSecretBaseBattle (void)
 {
     if (VarGet(VAR_CURRENT_SECRET_BASE) != 0) {
         VarSet(VAR_SECRET_BASE_LOW_TV_FLAGS, VarGet(VAR_SECRET_BASE_LOW_TV_FLAGS) & ~(SECRET_BASE_BATTLED_WON | SECRET_BASE_BATTLED_LOST | SECRET_BASE_DECLINED_BATTLE));
@@ -1717,7 +1717,7 @@ void DrewSecretBaseBattle(void)
     }
 }
 
-void CheckInteractedWithFriendsPosterDecor(void)
+void CheckInteractedWithFriendsPosterDecor (void)
 {
     s16 x, y;
 
@@ -1745,7 +1745,7 @@ void CheckInteractedWithFriendsPosterDecor(void)
     }
 }
 
-void CheckInteractedWithFriendsFurnitureBottom(void)
+void CheckInteractedWithFriendsFurnitureBottom (void)
 {
     s16 x, y;
 
@@ -1828,7 +1828,7 @@ void CheckInteractedWithFriendsFurnitureBottom(void)
     }
 }
 
-void CheckInteractedWithFriendsFurnitureMiddle(void)
+void CheckInteractedWithFriendsFurnitureMiddle (void)
 {
     s16 x, y;
 
@@ -1852,7 +1852,7 @@ void CheckInteractedWithFriendsFurnitureMiddle(void)
     }
 }
 
-void CheckInteractedWithFriendsFurnitureTop(void)
+void CheckInteractedWithFriendsFurnitureTop (void)
 {
     s16 x, y;
 
@@ -1900,7 +1900,7 @@ void CheckInteractedWithFriendsFurnitureTop(void)
     }
 }
 
-void CheckInteractedWithFriendsSandOrnament(void)
+void CheckInteractedWithFriendsSandOrnament (void)
 {
     s16 x, y;
 

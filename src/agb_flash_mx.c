@@ -51,7 +51,7 @@ const struct FlashSetupInfo DefaultFlash =
     }
 };
 
-u16 EraseFlashChip_MX(void)
+u16 EraseFlashChip_MX (void)
 {
     u16 result;
     u16 readFlash1Buffer[0x20];
@@ -74,7 +74,7 @@ u16 EraseFlashChip_MX(void)
     return result;
 }
 
-u16 EraseFlashSector_MX(u16 sectorNum)
+u16 EraseFlashSector_MX (u16 sectorNum)
 {
     u16 numTries;
     u16 result;
@@ -120,7 +120,7 @@ u16 EraseFlashSector_MX(u16 sectorNum)
     return result;
 }
 
-u16 ProgramFlashByte_MX(u16 sectorNum, u32 offset, u8 data)
+u16 ProgramFlashByte_MX (u16 sectorNum, u32 offset, u8 data)
 {
     u8 *addr;
     u16 readFlash1Buffer[0x20];
@@ -146,7 +146,7 @@ u16 ProgramFlashByte_MX(u16 sectorNum, u32 offset, u8 data)
     return WaitForFlashWrite(1, addr, data);
 }
 
-static u16 ProgramByte(u8 *src, u8 *dest)
+static u16 ProgramByte (u8 *src, u8 *dest)
 {
     FLASH_WRITE(0x5555, 0xAA);
     FLASH_WRITE(0x2AAA, 0x55);
@@ -156,7 +156,7 @@ static u16 ProgramByte(u8 *src, u8 *dest)
     return WaitForFlashWrite(1, dest, *src);
 }
 
-u16 ProgramFlashSector_MX(u16 sectorNum, u8 *src)
+u16 ProgramFlashSector_MX (u16 sectorNum, u8 *src)
 {
     u16 result;
     u8 *dest;

@@ -48,7 +48,7 @@ struct SaveBlock2 *gSaveBlock2Ptr;
 struct PokemonStorage *gPokemonStoragePtr;
 
 // code
-void CheckForFlashMemory(void)
+void CheckForFlashMemory (void)
 {
     if (!IdentifyFlash()) {
         gFlashMemoryPresent = TRUE;
@@ -58,17 +58,17 @@ void CheckForFlashMemory(void)
     }
 }
 
-void ClearSav2(void)
+void ClearSav2 (void)
 {
     CpuFill16(0, &gSaveblock2, sizeof(struct SaveBlock2) + sizeof(gSaveblock2_DMA));
 }
 
-void ClearSav1(void)
+void ClearSav1 (void)
 {
     CpuFill16(0, &gSaveblock1, sizeof(struct SaveBlock1) + sizeof(gSaveblock1_DMA));
 }
 
-void SetSaveBlocksPointers(u16 offset)
+void SetSaveBlocksPointers (u16 offset)
 {
     struct SaveBlock1** sav1_LocalVar = &gSaveBlock1Ptr;
 
@@ -82,7 +82,7 @@ void SetSaveBlocksPointers(u16 offset)
     SetDecorationInventoriesPointers();
 }
 
-void MoveSaveBlocks_ResetHeap(void)
+void MoveSaveBlocks_ResetHeap (void)
 {
     void *vblankCB, *hblankCB;
     u32 encryptionKey;
@@ -132,33 +132,33 @@ void MoveSaveBlocks_ResetHeap(void)
     gSaveBlock2Ptr->encryptionKey = encryptionKey;
 }
 
-u32 UseContinueGameWarp(void)
+u32 UseContinueGameWarp (void)
 {
     return gSaveBlock2Ptr->specialSaveWarpFlags & CONTINUE_GAME_WARP;
 }
 
-void ClearContinueGameWarpStatus(void)
+void ClearContinueGameWarpStatus (void)
 {
     gSaveBlock2Ptr->specialSaveWarpFlags &= ~CONTINUE_GAME_WARP;
 }
 
-void SetContinueGameWarpStatus(void)
+void SetContinueGameWarpStatus (void)
 {
     gSaveBlock2Ptr->specialSaveWarpFlags |= CONTINUE_GAME_WARP;
 }
 
-void SetContinueGameWarpStatusToDynamicWarp(void)
+void SetContinueGameWarpStatusToDynamicWarp (void)
 {
     SetContinueGameWarpToDynamicWarp(0);
     gSaveBlock2Ptr->specialSaveWarpFlags |= CONTINUE_GAME_WARP;
 }
 
-void ClearContinueGameWarpStatus2(void)
+void ClearContinueGameWarpStatus2 (void)
 {
     gSaveBlock2Ptr->specialSaveWarpFlags &= ~CONTINUE_GAME_WARP;
 }
 
-void SavePlayerParty(void)
+void SavePlayerParty (void)
 {
     int i;
 
@@ -169,7 +169,7 @@ void SavePlayerParty(void)
     }
 }
 
-void LoadPlayerParty(void)
+void LoadPlayerParty (void)
 {
     int i;
 
@@ -180,7 +180,7 @@ void LoadPlayerParty(void)
     }
 }
 
-void SaveObjectEvents(void)
+void SaveObjectEvents (void)
 {
     int i;
 
@@ -189,7 +189,7 @@ void SaveObjectEvents(void)
     }
 }
 
-void LoadObjectEvents(void)
+void LoadObjectEvents (void)
 {
     int i;
 
@@ -198,19 +198,19 @@ void LoadObjectEvents(void)
     }
 }
 
-void SaveSerializedGame(void)
+void SaveSerializedGame (void)
 {
     SavePlayerParty();
     SaveObjectEvents();
 }
 
-void LoadSerializedGame(void)
+void LoadSerializedGame (void)
 {
     LoadPlayerParty();
     LoadObjectEvents();
 }
 
-void LoadPlayerBag(void)
+void LoadPlayerBag (void)
 {
     int i;
 
@@ -247,7 +247,7 @@ void LoadPlayerBag(void)
     gLastEncryptionKey = gSaveBlock2Ptr->encryptionKey;
 }
 
-void SavePlayerBag(void)
+void SavePlayerBag (void)
 {
     int i;
     u32 encryptionKeyBackup;
@@ -288,19 +288,19 @@ void SavePlayerBag(void)
     gSaveBlock2Ptr->encryptionKey = encryptionKeyBackup; // updated twice?
 }
 
-void ApplyNewEncryptionKeyToHword(u16 *hWord, u32 newKey)
+void ApplyNewEncryptionKeyToHword (u16 *hWord, u32 newKey)
 {
     *hWord ^= gSaveBlock2Ptr->encryptionKey;
     *hWord ^= newKey;
 }
 
-void ApplyNewEncryptionKeyToWord(u32 *word, u32 newKey)
+void ApplyNewEncryptionKeyToWord (u32 *word, u32 newKey)
 {
     *word ^= gSaveBlock2Ptr->encryptionKey;
     *word ^= newKey;
 }
 
-static void ApplyNewEncryptionKeyToAllEncryptedData(u32 encryptionKey)
+static void ApplyNewEncryptionKeyToAllEncryptedData (u32 encryptionKey)
 {
     ApplyNewEncryptionKeyToGameStats(encryptionKey);
     ApplyNewEncryptionKeyToBagItems_(encryptionKey);

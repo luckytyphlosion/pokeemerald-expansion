@@ -142,7 +142,7 @@ static const u8 sUnknown_085B58D9[][16] = {
     {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00}
 };
 
-static void CB2_BeginEvolutionScene(void)
+static void CB2_BeginEvolutionScene (void)
 {
     UpdatePaletteFade();
     RunTasks();
@@ -163,7 +163,7 @@ static void CB2_BeginEvolutionScene(void)
 #define TASK_BIT_CAN_STOP       0x1
 #define TASK_BIT_LEARN_MOVE     0x80
 
-static void Task_BeginEvolutionScene(u8 taskID)
+static void Task_BeginEvolutionScene (u8 taskID)
 {
     struct Pokemon* mon = NULL;
     switch (gTasks[taskID].tState) {
@@ -189,7 +189,7 @@ static void Task_BeginEvolutionScene(u8 taskID)
     }
 }
 
-void BeginEvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, u8 partyID)
+void BeginEvolutionScene (struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, u8 partyID)
 {
     u8 taskID = CreateTask(Task_BeginEvolutionScene, 0);
     gTasks[taskID].tState = 0;
@@ -199,7 +199,7 @@ void BeginEvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStop
     SetMainCallback2(CB2_BeginEvolutionScene);
 }
 
-void EvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, u8 partyID)
+void EvolutionScene (struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, u8 partyID)
 {
     u8 name[20];
     u16 currSpecies;
@@ -301,7 +301,7 @@ void EvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, bool8 canStopEvo, 
     SetMainCallback2(CB2_EvolutionSceneUpdate);
 }
 
-static void CB2_EvolutionSceneLoadGraphics(void)
+static void CB2_EvolutionSceneLoadGraphics (void)
 {
     u8 ID;
     const struct CompressedSpritePalette* pokePal;
@@ -372,7 +372,7 @@ static void CB2_EvolutionSceneLoadGraphics(void)
     ShowBg(3);
 }
 
-static void CB2_TradeEvolutionSceneLoadGraphics(void)
+static void CB2_TradeEvolutionSceneLoadGraphics (void)
 {
     struct Pokemon* Mon = &gPlayerParty[gTasks[sEvoStructPtr->evoTaskID].tPartyID];
     u16 postEvoSpecies = gTasks[sEvoStructPtr->evoTaskID].tPostEvoSpecies;
@@ -456,7 +456,7 @@ static void CB2_TradeEvolutionSceneLoadGraphics(void)
     }
 }
 
-void TradeEvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, u8 preEvoSpriteID, u8 partyID)
+void TradeEvolutionScene (struct Pokemon* mon, u16 speciesToEvolve, u8 preEvoSpriteID, u8 partyID)
 {
     u8 name[20];
     u16 currSpecies;
@@ -518,7 +518,7 @@ void TradeEvolutionScene(struct Pokemon* mon, u16 speciesToEvolve, u8 preEvoSpri
     SetMainCallback2(CB2_TradeEvolutionSceneUpdate);
 }
 
-static void CB2_EvolutionSceneUpdate(void)
+static void CB2_EvolutionSceneUpdate (void)
 {
     AnimateSprites();
     BuildOamBuffer();
@@ -527,7 +527,7 @@ static void CB2_EvolutionSceneUpdate(void)
     RunTasks();
 }
 
-static void CB2_TradeEvolutionSceneUpdate(void)
+static void CB2_TradeEvolutionSceneUpdate (void)
 {
     AnimateSprites();
     BuildOamBuffer();
@@ -536,7 +536,7 @@ static void CB2_TradeEvolutionSceneUpdate(void)
     RunTasks();
 }
 
-static void CreateShedinja(u16 preEvoSpecies, struct Pokemon* mon)
+static void CreateShedinja (u16 preEvoSpecies, struct Pokemon* mon)
 {
     u32 data = 0;
     if (gEvolutionTable[preEvoSpecies][0].method == EVO_LEVEL_NINJASK && gPlayerPartyCount < 6) {
@@ -581,7 +581,7 @@ static void CreateShedinja(u16 preEvoSpecies, struct Pokemon* mon)
     }
 }
 
-static void Task_EvolutionScene(u8 taskID)
+static void Task_EvolutionScene (u8 taskID)
 {
     u32 var;
     struct Pokemon* mon = &gPlayerParty[gTasks[taskID].tPartyID];
@@ -932,7 +932,7 @@ static void Task_EvolutionScene(u8 taskID)
     }
 }
 
-static void Task_TradeEvolutionScene(u8 taskID)
+static void Task_TradeEvolutionScene (u8 taskID)
 {
     u32 var = 0;
     struct Pokemon* mon = &gPlayerParty[gTasks[taskID].tPartyID];
@@ -1244,28 +1244,11 @@ static void Task_TradeEvolutionScene(u8 taskID)
 #undef tEvoWasStopped
 #undef tPartyID
 
-static void EvoDummyFunc(void)
+static void EvoDummyFunc (void)
 {
 }
 
-static void VBlankCB_EvolutionScene(void)
-{
-    SetGpuReg(REG_OFFSET_BG0HOFS, gBattle_BG0_X);
-    SetGpuReg(REG_OFFSET_BG0VOFS, gBattle_BG0_Y);
-    SetGpuReg(REG_OFFSET_BG1HOFS, gBattle_BG1_X);
-    SetGpuReg(REG_OFFSET_BG1VOFS, gBattle_BG1_Y);
-    SetGpuReg(REG_OFFSET_BG2HOFS, gBattle_BG2_X);
-    SetGpuReg(REG_OFFSET_BG2VOFS, gBattle_BG2_Y);
-    SetGpuReg(REG_OFFSET_BG3HOFS, gBattle_BG3_X);
-    SetGpuReg(REG_OFFSET_BG3VOFS, gBattle_BG3_Y);
-
-    LoadOam();
-    ProcessSpriteCopyRequests();
-    TransferPlttBuffer();
-    ScanlineEffect_InitHBlankDmaTransfer();
-}
-
-static void VBlankCB_TradeEvolutionScene(void)
+static void VBlankCB_EvolutionScene (void)
 {
     SetGpuReg(REG_OFFSET_BG0HOFS, gBattle_BG0_X);
     SetGpuReg(REG_OFFSET_BG0VOFS, gBattle_BG0_Y);
@@ -1282,7 +1265,24 @@ static void VBlankCB_TradeEvolutionScene(void)
     ScanlineEffect_InitHBlankDmaTransfer();
 }
 
-static void sub_813FDEC(u8 taskId)
+static void VBlankCB_TradeEvolutionScene (void)
+{
+    SetGpuReg(REG_OFFSET_BG0HOFS, gBattle_BG0_X);
+    SetGpuReg(REG_OFFSET_BG0VOFS, gBattle_BG0_Y);
+    SetGpuReg(REG_OFFSET_BG1HOFS, gBattle_BG1_X);
+    SetGpuReg(REG_OFFSET_BG1VOFS, gBattle_BG1_Y);
+    SetGpuReg(REG_OFFSET_BG2HOFS, gBattle_BG2_X);
+    SetGpuReg(REG_OFFSET_BG2VOFS, gBattle_BG2_Y);
+    SetGpuReg(REG_OFFSET_BG3HOFS, gBattle_BG3_X);
+    SetGpuReg(REG_OFFSET_BG3VOFS, gBattle_BG3_Y);
+
+    LoadOam();
+    ProcessSpriteCopyRequests();
+    TransferPlttBuffer();
+    ScanlineEffect_InitHBlankDmaTransfer();
+}
+
+static void sub_813FDEC (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -1313,7 +1313,7 @@ static void sub_813FDEC(u8 taskId)
     }
 }
 
-static void sub_813FEA4(bool8 isLink)
+static void sub_813FEA4 (bool8 isLink)
 {
     u8 taskId = CreateTask(sub_813FEE8, 7);
 
@@ -1324,7 +1324,7 @@ static void sub_813FEA4(bool8 isLink)
     }
 }
 
-static void sub_813FEE8(u8 taskId)
+static void sub_813FEE8 (u8 taskId)
 {
     u16 *outer_X, *outer_Y;
 
@@ -1359,7 +1359,7 @@ static void sub_813FEE8(u8 taskId)
     }
 }
 
-static void InitMovingBgValues(u16 *movingBgs)
+static void InitMovingBgValues (u16 *movingBgs)
 {
     s32 i, j;
 
@@ -1370,7 +1370,7 @@ static void InitMovingBgValues(u16 *movingBgs)
     }
 }
 
-static void InitMovingBackgroundTask(bool8 isLink)
+static void InitMovingBackgroundTask (bool8 isLink)
 {
     u8 innerBgId, outerBgId;
 
@@ -1411,7 +1411,7 @@ static void InitMovingBackgroundTask(bool8 isLink)
     sub_813FEA4(isLink);
 }
 
-static void sub_8140100(void) // unused
+static void sub_8140100 (void) // unused
 {
     u8 taskId = FindTaskIdByFunc(sub_813FDEC);
 
@@ -1422,7 +1422,7 @@ static void sub_8140100(void) // unused
     FillPalette(0, 0xA0, 0x20);
 }
 
-static void sub_8140134(void)
+static void sub_8140134 (void)
 {
     u8 taskId;
 
@@ -1437,7 +1437,7 @@ static void sub_8140134(void)
     sub_8140174();
 }
 
-static void sub_8140174(void)
+static void sub_8140174 (void)
 {
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
     gBattle_BG1_X = 0;
@@ -1449,12 +1449,12 @@ static void sub_8140174(void)
     Free(sEvoMovingBgPtr);
 }
 
-static void EvoScene_DoMonAnimation(u8 monSpriteId, u16 speciesId)
+static void EvoScene_DoMonAnimation (u8 monSpriteId, u16 speciesId)
 {
     DoMonFrontSpriteAnimation(&gSprites[monSpriteId], speciesId, FALSE, 0);
 }
 
-static bool32 EvoScene_IsMonAnimFinished(u8 monSpriteId)
+static bool32 EvoScene_IsMonAnimFinished (u8 monSpriteId)
 {
     if (gSprites[monSpriteId].callback == SpriteCallbackDummy) {
         return TRUE;

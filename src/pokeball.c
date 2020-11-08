@@ -322,7 +322,7 @@ const struct SpriteTemplate gBallSpriteTemplates[POKEBALL_COUNT] =
 #define tBattler         data[3]
 #define tOpponentBattler data[4]
 
-u8 DoPokeballSendOutAnimation(s16 pan, u8 kindOfThrow)
+u8 DoPokeballSendOutAnimation (s16 pan, u8 kindOfThrow)
 {
     u8 taskId;
 
@@ -339,7 +339,7 @@ u8 DoPokeballSendOutAnimation(s16 pan, u8 kindOfThrow)
 
 #define sBattler         data[6]
 
-static void Task_DoPokeballSendOutAnim(u8 taskId)
+static void Task_DoPokeballSendOutAnim (u8 taskId)
 {
     u32 throwCaseId, ballId, battlerId, ballSpriteId;
     bool32 notSendOut = FALSE;
@@ -396,7 +396,7 @@ static void Task_DoPokeballSendOutAnim(u8 taskId)
     PlaySE(SE_BALL_THROW);
 }
 
-static void SpriteCB_TestBallThrow(struct Sprite *sprite)
+static void SpriteCB_TestBallThrow (struct Sprite *sprite)
 {
     if (TranslateAnimHorizontalArc(sprite)) {
         u16 ballId;
@@ -427,13 +427,13 @@ static void SpriteCB_TestBallThrow(struct Sprite *sprite)
 #undef tBattler
 #undef tOpponentBattler
 
-static void sub_80756D4(struct Sprite *sprite)
+static void sub_80756D4 (struct Sprite *sprite)
 {
     sprite->callback = sub_80756E0;
 }
 
 // Start something for battler
-static void sub_80756E0(struct Sprite *sprite)
+static void sub_80756E0 (struct Sprite *sprite)
 {
     if (++sprite->data[5] == 10) {
         sprite->data[5] = 0;
@@ -445,7 +445,7 @@ static void sub_80756E0(struct Sprite *sprite)
 }
 
 // Shrink player
-static void sub_807574C(struct Sprite *sprite)
+static void sub_807574C (struct Sprite *sprite)
 {
     sprite->data[5]++;
     if (sprite->data[5] == 11) {
@@ -462,7 +462,7 @@ static void sub_807574C(struct Sprite *sprite)
     }
 }
 
-static void sub_80757E4(struct Sprite *sprite)
+static void sub_80757E4 (struct Sprite *sprite)
 {
     if (sprite->animEnded) {
         sprite->data[5]++;
@@ -477,7 +477,7 @@ static void sub_80757E4(struct Sprite *sprite)
     }
 }
 
-static void sub_8075838(struct Sprite *sprite)
+static void sub_8075838 (struct Sprite *sprite)
 {
     bool8 r5 = FALSE;
 
@@ -530,7 +530,7 @@ static void sub_8075838(struct Sprite *sprite)
     }
 }
 
-static void sub_8075930(struct Sprite *sprite)
+static void sub_8075930 (struct Sprite *sprite)
 {
     sprite->data[3]++;
     if (sprite->data[3] == 31) {
@@ -542,7 +542,7 @@ static void sub_8075930(struct Sprite *sprite)
     }
 }
 
-static void sub_8075970(struct Sprite *sprite)
+static void sub_8075970 (struct Sprite *sprite)
 {
     switch (sprite->data[3] & 0xFF) {
     case 0:
@@ -613,7 +613,7 @@ static void sub_8075970(struct Sprite *sprite)
 #define tCryTaskFrames          data[10]
 #define tCryTaskState           data[15]
 
-static void Task_PlayCryWhenReleasedFromBall(u8 taskId)
+static void Task_PlayCryWhenReleasedFromBall (u8 taskId)
 {
     u8 wantedCry = gTasks[taskId].tCryTaskWantedCry;
     s8 pan = gTasks[taskId].tCryTaskPan;
@@ -692,7 +692,7 @@ static void Task_PlayCryWhenReleasedFromBall(u8 taskId)
     }
 }
 
-static void SpriteCB_ReleaseMonFromBall(struct Sprite *sprite)
+static void SpriteCB_ReleaseMonFromBall (struct Sprite *sprite)
 {
     u8 battlerId = sprite->sBattler;
     u32 ballId;
@@ -777,7 +777,7 @@ static void SpriteCB_ReleaseMonFromBall(struct Sprite *sprite)
 #undef tCryTaskFrames
 #undef tCryTaskState
 
-static void sub_8075FB4(struct Sprite *sprite)
+static void sub_8075FB4 (struct Sprite *sprite)
 {
     sprite->animPaused = TRUE;
     sprite->callback = sub_80760F8;
@@ -786,7 +786,7 @@ static void sub_8075FB4(struct Sprite *sprite)
     sprite->data[5] = 0;
 }
 
-static void HandleBallAnimEnd(struct Sprite *sprite)
+static void HandleBallAnimEnd (struct Sprite *sprite)
 {
     bool8 affineAnimEnded = FALSE;
     u8 battlerId = sprite->sBattler;
@@ -824,7 +824,7 @@ static void HandleBallAnimEnd(struct Sprite *sprite)
     }
 }
 
-static void sub_80760F8(struct Sprite *sprite)
+static void sub_80760F8 (struct Sprite *sprite)
 {
     u8 battlerId = sprite->sBattler;
 
@@ -845,7 +845,7 @@ static void sub_80760F8(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_PlayerMonSendOut_1(struct Sprite *sprite)
+static void SpriteCB_PlayerMonSendOut_1 (struct Sprite *sprite)
 {
     sprite->data[0] = 25;
     sprite->data[2] = GetBattlerSpriteCoord(sprite->sBattler, 2);
@@ -858,7 +858,7 @@ static void SpriteCB_PlayerMonSendOut_1(struct Sprite *sprite)
 
 #define HIBYTE(x) (((x) >> 8) & 0xFF)
 
-static void SpriteCB_PlayerMonSendOut_2(struct Sprite *sprite)
+static void SpriteCB_PlayerMonSendOut_2 (struct Sprite *sprite)
 {
     u32 r6;
     u32 r7;
@@ -910,7 +910,7 @@ static void SpriteCB_PlayerMonSendOut_2(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_ReleaseMon2FromBall(struct Sprite *sprite)
+static void SpriteCB_ReleaseMon2FromBall (struct Sprite *sprite)
 {
     if (sprite->data[0]++ > 24) {
         sprite->data[0] = 0;
@@ -918,7 +918,7 @@ static void SpriteCB_ReleaseMon2FromBall(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_OpponentMonSendOut(struct Sprite *sprite)
+static void SpriteCB_OpponentMonSendOut (struct Sprite *sprite)
 {
     sprite->data[0]++;
     if (sprite->data[0] > 15) {
@@ -934,17 +934,17 @@ static void SpriteCB_OpponentMonSendOut(struct Sprite *sprite)
 
 #undef sBattler
 
-static u8 AnimateBallOpenParticlesForPokeball(u8 x, u8 y, u8 kindOfStars, u8 d)
+static u8 AnimateBallOpenParticlesForPokeball (u8 x, u8 y, u8 kindOfStars, u8 d)
 {
     return AnimateBallOpenParticles(x, y, kindOfStars, d, BALL_POKE);
 }
 
-static u8 LaunchBallFadeMonTaskForPokeball(bool8 unFadeLater, u8 battlerId, u32 arg2)
+static u8 LaunchBallFadeMonTaskForPokeball (bool8 unFadeLater, u8 battlerId, u32 arg2)
 {
     return LaunchBallFadeMonTask(unFadeLater, battlerId, arg2, BALL_POKE);
 }
 
-void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 battlerId, u8 x, u8 y, u8 oamPriority, u8 subpriortiy, u8 g, u32 h, u16 species)
+void CreatePokeballSpriteToReleaseMon (u8 monSpriteId, u8 battlerId, u8 x, u8 y, u8 oamPriority, u8 subpriortiy, u8 g, u32 h, u16 species)
 {
     u8 spriteId;
 
@@ -970,7 +970,7 @@ void CreatePokeballSpriteToReleaseMon(u8 monSpriteId, u8 battlerId, u8 x, u8 y, 
     gSprites[monSpriteId].invisible = TRUE;
 }
 
-static void sub_8076524(struct Sprite *sprite)
+static void sub_8076524 (struct Sprite *sprite)
 {
     if (sprite->data[1] == 0) {
         u8 r5;
@@ -998,7 +998,7 @@ static void sub_8076524(struct Sprite *sprite)
     }
 }
 
-static void sub_80765E0(struct Sprite *sprite)
+static void sub_80765E0 (struct Sprite *sprite)
 {
     bool8 r12 = FALSE;
     bool8 r6 = FALSE;
@@ -1041,7 +1041,7 @@ static void sub_80765E0(struct Sprite *sprite)
     }
 }
 
-u8 CreateTradePokeballSprite(u8 a, u8 b, u8 x, u8 y, u8 oamPriority, u8 subPriority, u8 g, u32 h)
+u8 CreateTradePokeballSprite (u8 a, u8 b, u8 x, u8 y, u8 oamPriority, u8 subPriority, u8 g, u32 h)
 {
     u8 spriteId;
 
@@ -1058,7 +1058,7 @@ u8 CreateTradePokeballSprite(u8 a, u8 b, u8 x, u8 y, u8 oamPriority, u8 subPrior
     return spriteId;
 }
 
-static void sub_80767D4(struct Sprite *sprite)
+static void sub_80767D4 (struct Sprite *sprite)
 {
     if (sprite->data[1] == 0) {
         u8 r6;
@@ -1084,7 +1084,7 @@ static void sub_80767D4(struct Sprite *sprite)
     }
 }
 
-static void sub_807687C(struct Sprite *sprite)
+static void sub_807687C (struct Sprite *sprite)
 {
     u8 r1;
 
@@ -1104,19 +1104,19 @@ static void sub_807687C(struct Sprite *sprite)
     }
 }
 
-static void sub_80768F0(struct Sprite *sprite)
+static void sub_80768F0 (struct Sprite *sprite)
 {
     if (sprite->animEnded) {
         sprite->callback = SpriteCallbackDummy;
     }
 }
 
-static void Unref_DestroySpriteAndFreeResources(struct Sprite *sprite)
+static void Unref_DestroySpriteAndFreeResources (struct Sprite *sprite)
 {
     DestroySpriteAndFreeResources(sprite);
 }
 
-void sub_8076918(u8 battlerId)
+void sub_8076918 (u8 battlerId)
 {
     struct Sprite *healthboxSprite = &gSprites[gHealthboxSpriteIds[battlerId]];
 
@@ -1137,7 +1137,7 @@ void sub_8076918(u8 battlerId)
     }
 }
 
-static void sub_80769A8(struct Sprite *sprite)
+static void sub_80769A8 (struct Sprite *sprite)
 {
     sprite->data[1]++;
     if (sprite->data[1] == 20) {
@@ -1146,7 +1146,7 @@ static void sub_80769A8(struct Sprite *sprite)
     }
 }
 
-static void sub_80769CC(struct Sprite *sprite)
+static void sub_80769CC (struct Sprite *sprite)
 {
     sprite->pos2.x -= sprite->data[0];
     sprite->pos2.y -= sprite->data[1];
@@ -1155,7 +1155,7 @@ static void sub_80769CC(struct Sprite *sprite)
     }
 }
 
-void DoHitAnimHealthboxEffect(u8 battlerId)
+void DoHitAnimHealthboxEffect (u8 battlerId)
 {
     u8 spriteId;
 
@@ -1165,7 +1165,7 @@ void DoHitAnimHealthboxEffect(u8 battlerId)
     gSprites[spriteId].callback = SpriteCB_HitAnimHealthoxEffect;
 }
 
-static void SpriteCB_HitAnimHealthoxEffect(struct Sprite *sprite)
+static void SpriteCB_HitAnimHealthoxEffect (struct Sprite *sprite)
 {
     u8 r1 = sprite->data[1];
 
@@ -1179,7 +1179,7 @@ static void SpriteCB_HitAnimHealthoxEffect(struct Sprite *sprite)
     }
 }
 
-void LoadBallGfx(u8 ballId)
+void LoadBallGfx (u8 ballId)
 {
     u16 var;
 
@@ -1199,13 +1199,13 @@ void LoadBallGfx(u8 ballId)
     }
 }
 
-void FreeBallGfx(u8 ballId)
+void FreeBallGfx (u8 ballId)
 {
     FreeSpriteTilesByTag(gBallSpriteSheets[ballId].tag);
     FreeSpritePaletteByTag(gBallSpritePalettes[ballId].tag);
 }
 
-static u16 GetBattlerPokeballItemId(u8 battlerId)
+static u16 GetBattlerPokeballItemId (u8 battlerId)
 {
     struct Pokemon *mon, *illusionMon;
 

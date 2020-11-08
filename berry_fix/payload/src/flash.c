@@ -39,11 +39,11 @@ EWRAM_DATA struct PokemonStorage gPokemonStorage = {};
 #define SECTOR_DATA_SIZE 3968
 #define SECTOR_FOOTER_SIZE 128
 
-#define SAVEBLOCK_CHUNK(structure, chunkNum)                                 \
-{                                                                            \
-    (u8 *)&structure + chunkNum * SECTOR_DATA_SIZE,                          \
-    min(sizeof(structure) - chunkNum * SECTOR_DATA_SIZE, SECTOR_DATA_SIZE)   \
-}                                                                            \
+#define SAVEBLOCK_CHUNK(structure, chunkNum)                                  \
+{                                                                             \
+    (u8 *)&structure + chunkNum * SECTOR_DATA_SIZE,                           \
+    min(sizeof(structure) - chunkNum * SECTOR_DATA_SIZE, SECTOR_DATA_SIZE)    \
+}                                                                             \
 
 static const struct SaveBlockChunk sSaveBlockChunks[] =
 {
@@ -69,7 +69,7 @@ const u16 gInfoMessagesPal[] = INCBIN_U16("graphics/msg_box.gbapal");
 const u8 gInfoMessagesTilemap[] = INCBIN_U8("graphics/msg_box.tilemap.lz");
 const u8 gInfoMessagesGfx[] = INCBIN_U8("graphics/msg_box.4bpp.lz");
 
-bool32 flash_maincb_ident_is_valid(void)
+bool32 flash_maincb_ident_is_valid (void)
 {
     gFlashIdentIsValid = TRUE;
     if (!IdentifyFlash()) {
@@ -80,27 +80,27 @@ bool32 flash_maincb_ident_is_valid(void)
     return FALSE;
 }
 
-void Call_ReadFlash(u16 sectorNum, ptrdiff_t offset, void * dest, size_t size)
+void Call_ReadFlash (u16 sectorNum, ptrdiff_t offset, void * dest, size_t size)
 {
     ReadFlash(sectorNum, offset, dest, size);
 }
 
-u8 Call_WriteSaveBlockChunks(u16 a0, const struct SaveBlockChunk * a1)
+u8 Call_WriteSaveBlockChunks (u16 a0, const struct SaveBlockChunk * a1)
 {
     return WriteSaveBlockChunks(a0, a1);
 }
 
-u8 Call_TryReadAllSaveSectorsCurrentSlot(u16 a0, const struct SaveBlockChunk * a1)
+u8 Call_TryReadAllSaveSectorsCurrentSlot (u16 a0, const struct SaveBlockChunk * a1)
 {
     return TryReadAllSaveSectorsCurrentSlot(a0, a1);
 }
 
-u32 * GetDamagedSaveSectorsPtr(void)
+u32 * GetDamagedSaveSectorsPtr (void)
 {
     return &gDamagedSaveSectors;
 }
 
-s32 flash_write_save_block_chunks(u8 a0)
+s32 flash_write_save_block_chunks (u8 a0)
 {
     u8 i;
 
@@ -122,7 +122,7 @@ s32 flash_write_save_block_chunks(u8 a0)
     return 0;
 }
 
-u8 flash_write_save_block_chunks_check_damage(u8 a0)
+u8 flash_write_save_block_chunks_check_damage (u8 a0)
 {
     flash_write_save_block_chunks(a0);
     if (*GetDamagedSaveSectorsPtr() == 0) {
@@ -131,12 +131,12 @@ u8 flash_write_save_block_chunks_check_damage(u8 a0)
     return 0xFF;
 }
 
-u8 flash_maincb_read_save(u32 unused)
+u8 flash_maincb_read_save (u32 unused)
 {
     return Call_TryReadAllSaveSectorsCurrentSlot(0xFFFF, sSaveBlockChunks);
 }
 
-void msg_load_gfx(void)
+void msg_load_gfx (void)
 {
     REG_DISPCNT = 0;
     REG_BG0HOFS = 0;
@@ -149,7 +149,7 @@ void msg_load_gfx(void)
     REG_DISPCNT = DISPCNT_BG0_ON;
 }
 
-void msg_display(enum MsgBoxUpdateMessage a0)
+void msg_display (enum MsgBoxUpdateMessage a0)
 {
     switch (a0) {
     case MSGBOX_WILL_NOW_UPDATE:
@@ -175,7 +175,7 @@ void msg_display(enum MsgBoxUpdateMessage a0)
     }
 }
 
-void Save_EraseAllData(void)
+void Save_EraseAllData (void)
 {
     u16 i;
     for (i = 0; i < 32; i++) {
@@ -183,14 +183,14 @@ void Save_EraseAllData(void)
     }
 }
 
-void Save_ResetSaveCounters(void)
+void Save_ResetSaveCounters (void)
 {
     gSaveCounter = 0;
     gFirstSaveSector = 0;
     gDamagedSaveSectors = 0;
 }
 
-bool32 SetSectorDamagedStatus(u8 op, u8 sectorNum)
+bool32 SetSectorDamagedStatus (u8 op, u8 sectorNum)
 {
     bool32 retVal = FALSE;
 
@@ -211,7 +211,7 @@ bool32 SetSectorDamagedStatus(u8 op, u8 sectorNum)
     return retVal;
 }
 
-u8 WriteSaveBlockChunks(u16 chunkId, const struct SaveBlockChunk *chunks)
+u8 WriteSaveBlockChunks (u16 chunkId, const struct SaveBlockChunk *chunks)
 {
     u32 retVal;
     u16 i;
@@ -243,7 +243,7 @@ u8 WriteSaveBlockChunks(u16 chunkId, const struct SaveBlockChunk *chunks)
     return retVal;
 }
 
-u8 WriteSingleChunk(u16 chunkId, const struct SaveBlockChunk * chunks)
+u8 WriteSingleChunk (u16 chunkId, const struct SaveBlockChunk * chunks)
 {
     u16 i;
     u16 sectorNum;
@@ -275,7 +275,7 @@ u8 WriteSingleChunk(u16 chunkId, const struct SaveBlockChunk * chunks)
     return TryWriteSector(sectorNum, gFastSaveSection->data);
 }
 
-u8 HandleWriteSectorNBytes(u8 sectorNum, u8 *data, u16 size)
+u8 HandleWriteSectorNBytes (u8 sectorNum, u8 *data, u16 size)
 {
     u16 i;
     struct SaveSector *section = eSaveSection;
@@ -293,7 +293,7 @@ u8 HandleWriteSectorNBytes(u8 sectorNum, u8 *data, u16 size)
     return TryWriteSector(sectorNum, section->data);
 }
 
-u8 TryWriteSector(u8 sectorNum, u8 *data)
+u8 TryWriteSector (u8 sectorNum, u8 *data)
 {
     if (ProgramFlashSectorAndVerify(sectorNum, data)) { // is damaged?
         SetSectorDamagedStatus(SECTOR_DAMAGED, sectorNum); // set damaged sector bits.
@@ -304,7 +304,7 @@ u8 TryWriteSector(u8 sectorNum, u8 *data)
     }
 }
 
-u32 RestoreSaveBackupVarsAndIncrement(const struct SaveBlockChunk *chunk) // chunk is unused
+u32 RestoreSaveBackupVarsAndIncrement (const struct SaveBlockChunk *chunk) // chunk is unused
 {
     gFastSaveSection = eSaveSection;
     gLastKnownGoodSector = gFirstSaveSector;
@@ -317,7 +317,7 @@ u32 RestoreSaveBackupVarsAndIncrement(const struct SaveBlockChunk *chunk) // chu
     return 0;
 }
 
-u32 RestoreSaveBackupVars(const struct SaveBlockChunk *chunk)
+u32 RestoreSaveBackupVars (const struct SaveBlockChunk *chunk)
 {
     gFastSaveSection = eSaveSection;
     gLastKnownGoodSector = gFirstSaveSector;
@@ -327,7 +327,7 @@ u32 RestoreSaveBackupVars(const struct SaveBlockChunk *chunk)
     return 0;
 }
 
-u8 WriteSingleChunkAndIncrement(u16 a1, const struct SaveBlockChunk * chunk)
+u8 WriteSingleChunkAndIncrement (u16 a1, const struct SaveBlockChunk * chunk)
 {
     u8 retVal;
 
@@ -347,7 +347,7 @@ u8 WriteSingleChunkAndIncrement(u16 a1, const struct SaveBlockChunk * chunk)
     return retVal;
 }
 
-u8 ErasePreviousChunk(u16 a1, const struct SaveBlockChunk *chunk)
+u8 ErasePreviousChunk (u16 a1, const struct SaveBlockChunk *chunk)
 {
     u8 retVal = SAVE_STATUS_OK;
 
@@ -361,7 +361,7 @@ u8 ErasePreviousChunk(u16 a1, const struct SaveBlockChunk *chunk)
     return retVal;
 }
 
-u8 EraseCurrentChunk(u16 chunkId, const struct SaveBlockChunk *chunks)
+u8 EraseCurrentChunk (u16 chunkId, const struct SaveBlockChunk *chunks)
 {
     u16 i;
     u16 sector;
@@ -429,7 +429,7 @@ u8 EraseCurrentChunk(u16 chunkId, const struct SaveBlockChunk *chunks)
     }
 }
 
-u8 WriteSomeFlashByteToPrevSector(u16 a1, const struct SaveBlockChunk *chunk)
+u8 WriteSomeFlashByteToPrevSector (u16 a1, const struct SaveBlockChunk *chunk)
 {
     u16 sector;
 
@@ -451,7 +451,7 @@ u8 WriteSomeFlashByteToPrevSector(u16 a1, const struct SaveBlockChunk *chunk)
     }
 }
 
-u8 WriteSomeFlashByte0x25ToPrevSector(u16 a1, const struct SaveBlockChunk *chunk)
+u8 WriteSomeFlashByte0x25ToPrevSector (u16 a1, const struct SaveBlockChunk *chunk)
 {
     u16 sector;
 
@@ -471,7 +471,7 @@ u8 WriteSomeFlashByte0x25ToPrevSector(u16 a1, const struct SaveBlockChunk *chunk
     }
 }
 
-u8 TryReadAllSaveSectorsCurrentSlot(u16 a1, const struct SaveBlockChunk *chunk)
+u8 TryReadAllSaveSectorsCurrentSlot (u16 a1, const struct SaveBlockChunk *chunk)
 {
     u8 retVal;
     gFastSaveSection = eSaveSection;
@@ -485,7 +485,7 @@ u8 TryReadAllSaveSectorsCurrentSlot(u16 a1, const struct SaveBlockChunk *chunk)
     return retVal;
 }
 
-u8 ReadAllSaveSectorsCurrentSlot(u16 a1, const struct SaveBlockChunk *chunks)
+u8 ReadAllSaveSectorsCurrentSlot (u16 a1, const struct SaveBlockChunk *chunks)
 {
     u16 i;
     u16 checksum;
@@ -511,7 +511,7 @@ u8 ReadAllSaveSectorsCurrentSlot(u16 a1, const struct SaveBlockChunk *chunks)
     return 1;
 }
 
-u8 GetSaveValidStatus(const struct SaveBlockChunk *chunks)
+u8 GetSaveValidStatus (const struct SaveBlockChunk *chunks)
 {
     u16 sector;
     bool8 signatureValid;
@@ -620,7 +620,7 @@ u8 GetSaveValidStatus(const struct SaveBlockChunk *chunks)
     return 2;
 }
 
-u8 ReadSomeUnknownSectorAndVerify(u8 sector, u8 *data, u16 size)
+u8 ReadSomeUnknownSectorAndVerify (u8 sector, u8 *data, u16 size)
 {
     u16 i;
     struct SaveSector *section = eSaveSection;
@@ -641,13 +641,13 @@ u8 ReadSomeUnknownSectorAndVerify(u8 sector, u8 *data, u16 size)
     }
 }
 
-u32 DoReadFlashWholeSection(u8 sector, struct SaveSector *section)
+u32 DoReadFlashWholeSection (u8 sector, struct SaveSector *section)
 {
     ReadFlash(sector, 0, section->data, sizeof(struct SaveSector));
     return 1;
 }
 
-u16 CalculateChecksum(const void *data, u16 size)
+u16 CalculateChecksum (const void *data, u16 size)
 {
     u16 i;
     u32 checksum = 0;
@@ -660,19 +660,19 @@ u16 CalculateChecksum(const void *data, u16 size)
     return((checksum >> 16) + checksum);
 }
 
-void nullsub_0201182C()
+void nullsub_0201182C ()
 {
 }
 
-void nullsub_02011830()
+void nullsub_02011830 ()
 {
 }
 
-void nullsub_02011834()
+void nullsub_02011834 ()
 {
 }
 
-u16 * get_var_addr(u16 a0)
+u16 * get_var_addr (u16 a0)
 {
     if (a0 < VARS_START) {
         return NULL;
@@ -683,7 +683,7 @@ u16 * get_var_addr(u16 a0)
     return NULL;
 }
 
-bool32 flash_maincb_check_need_reset_pacifidlog_tm(void)
+bool32 flash_maincb_check_need_reset_pacifidlog_tm (void)
 {
     u8 sp0;
     u16 * data = get_var_addr(VAR_PACIFIDLOG_TM_RECEIVED_DAY);
@@ -695,7 +695,7 @@ bool32 flash_maincb_check_need_reset_pacifidlog_tm(void)
     }
 }
 
-bool32 flash_maincb_reset_pacifidlog_tm(void)
+bool32 flash_maincb_reset_pacifidlog_tm (void)
 {
     u8 sp0;
     if (flash_maincb_check_need_reset_pacifidlog_tm() == TRUE) {

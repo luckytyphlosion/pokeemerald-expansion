@@ -51,7 +51,7 @@ static const u8 sMatchCallOptionsHasCheckPage[] =
     MATCH_CALL_OPTION_CANCEL
 };
 
-bool32 PokenavCallback_Init_MatchCall(void)
+bool32 PokenavCallback_Init_MatchCall (void)
 {
     struct Pokenav3Struct *state = AllocSubstruct(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN, sizeof(struct Pokenav3Struct));
     if (!state) {
@@ -65,18 +65,18 @@ bool32 PokenavCallback_Init_MatchCall(void)
     return TRUE;
 }
 
-u32 GetMatchCallCallback(void)
+u32 GetMatchCallCallback (void)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     return state->callback(state);
 }
 
-void FreeMatchCallSubstruct1(void)
+void FreeMatchCallSubstruct1 (void)
 {
     FreePokenavSubstruct(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
 }
 
-static u32 CB2_HandleMatchCallInput(struct Pokenav3Struct *state)
+static u32 CB2_HandleMatchCallInput (struct Pokenav3Struct *state)
 {
     int selection;
 
@@ -122,12 +122,12 @@ static u32 CB2_HandleMatchCallInput(struct Pokenav3Struct *state)
     return POKENAV_MC_FUNC_NONE;
 }
 
-static u32 GetExitMatchCallMenuId(struct Pokenav3Struct *state)
+static u32 GetExitMatchCallMenuId (struct Pokenav3Struct *state)
 {
     return POKENAV_MAIN_MENU_CURSOR_ON_MATCH_CALL;
 }
 
-static u32 CB2_HandleMatchCallOptionsInput(struct Pokenav3Struct *state)
+static u32 CB2_HandleMatchCallOptionsInput (struct Pokenav3Struct *state)
 {
     if ((JOY_NEW(DPAD_UP)) && state->optionCursorPos) {
         state->optionCursorPos--;
@@ -169,7 +169,7 @@ static u32 CB2_HandleMatchCallOptionsInput(struct Pokenav3Struct *state)
     return POKENAV_MC_FUNC_NONE;
 }
 
-static u32 CB2_HandleCheckPageInput(struct Pokenav3Struct *state)
+static u32 CB2_HandleCheckPageInput (struct Pokenav3Struct *state)
 {
     if (JOY_REPEAT(DPAD_UP)) {
         return POKENAV_MC_FUNC_CHECK_PAGE_UP;
@@ -186,7 +186,7 @@ static u32 CB2_HandleCheckPageInput(struct Pokenav3Struct *state)
     return POKENAV_MC_FUNC_NONE;
 }
 
-static u32 CB2_HandleCallInput(struct Pokenav3Struct *state)
+static u32 CB2_HandleCallInput (struct Pokenav3Struct *state)
 {
     if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         state->callback = CB2_HandleMatchCallInput;
@@ -196,7 +196,7 @@ static u32 CB2_HandleCallInput(struct Pokenav3Struct *state)
     return POKENAV_MC_FUNC_NONE;
 }
 
-static u32 sub_81CAD20(s32 taskState)
+static u32 sub_81CAD20 (s32 taskState)
 {
     int i, j;
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
@@ -245,7 +245,7 @@ static u32 sub_81CAD20(s32 taskState)
     return LT_FINISH;
 }
 
-bool32 IsRematchEntryRegistered(int rematchIndex)
+bool32 IsRematchEntryRegistered (int rematchIndex)
 {
     if (rematchIndex < REMATCH_TABLE_ENTRIES) {
         return FlagGet(FLAG_MATCH_CALL_REGISTERED + rematchIndex);
@@ -254,31 +254,31 @@ bool32 IsRematchEntryRegistered(int rematchIndex)
     return FALSE;
 }
 
-int sub_81CAE28(void)
+int sub_81CAE28 (void)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     return state->unk10;
 }
 
-int GetNumberRegistered(void)
+int GetNumberRegistered (void)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     return state->numRegistered;
 }
 
-int sub_81CAE48(void)
+int sub_81CAE48 (void)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     return state->unkC;
 }
 
-int unref_sub_81CAE58(void)
+int unref_sub_81CAE58 (void)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     return state->numRegistered - state->unkC;
 }
 
-int unref_sub_81CAE6C(int arg0)
+int unref_sub_81CAE6C (int arg0)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     arg0 += state->unkC;
@@ -289,19 +289,19 @@ int unref_sub_81CAE6C(int arg0)
     return state->matchCallEntries[arg0].headerId;
 }
 
-struct PokenavMatchCallEntries * sub_81CAE94(void)
+struct PokenavMatchCallEntries * sub_81CAE94 (void)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     return state->matchCallEntries;
 }
 
-u16 GetMatchCallMapSec(int index)
+u16 GetMatchCallMapSec (int index)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     return state->matchCallEntries[index].mapSec;
 }
 
-bool32 ShouldDrawRematchPokeballIcon(int index)
+bool32 ShouldDrawRematchPokeballIcon (int index)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     if (!state->matchCallEntries[index].isSpecialTrainer) {
@@ -317,7 +317,7 @@ bool32 ShouldDrawRematchPokeballIcon(int index)
     return gSaveBlock1Ptr->trainerRematches[index] != 0;
 }
 
-int GetMatchCallTrainerPic(int index)
+int GetMatchCallTrainerPic (int index)
 {
     int headerId;
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
@@ -337,7 +337,7 @@ int GetMatchCallTrainerPic(int index)
     return gFacilityClassToPicIndex[index];
 }
 
-const u8 * GetMatchCallMessageText(int index, u8 *arg1)
+const u8 * GetMatchCallMessageText (int index, u8 *arg1)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     *arg1 = 0;
@@ -354,7 +354,7 @@ const u8 * GetMatchCallMessageText(int index, u8 *arg1)
     return gStringVar4;
 }
 
-const u8 * GetMatchCallFlavorText(int index, int checkPageEntry)
+const u8 * GetMatchCallFlavorText (int index, int checkPageEntry)
 {
     int rematchId;
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
@@ -370,13 +370,13 @@ const u8 * GetMatchCallFlavorText(int index, int checkPageEntry)
     return gMatchCallFlavorTexts[rematchId][checkPageEntry];
 }
 
-u16 GetMatchCallOptionCursorPos(void)
+u16 GetMatchCallOptionCursorPos (void)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     return state->optionCursorPos;
 }
 
-u16 GetMatchCallOptionId(int optionId)
+u16 GetMatchCallOptionId (int optionId)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     if (state->maxOptionId < optionId) {
@@ -386,7 +386,7 @@ u16 GetMatchCallOptionId(int optionId)
     return state->matchCallOptions[optionId];
 }
 
-void BufferMatchCallNameAndDesc(struct PokenavMatchCallEntries *matchCallEntry, u8 *str)
+void BufferMatchCallNameAndDesc (struct PokenavMatchCallEntries *matchCallEntry, u8 *str)
 {
     const u8 *trainerName;
     const u8 *className;
@@ -408,14 +408,14 @@ void BufferMatchCallNameAndDesc(struct PokenavMatchCallEntries *matchCallEntry, 
     }
 }
 
-u8 GetMatchTableMapSectionId(int rematchIndex)
+u8 GetMatchTableMapSectionId (int rematchIndex)
 {
     int mapGroup = gRematchTable[rematchIndex].mapGroup;
     int mapNum = gRematchTable[rematchIndex].mapNum;
     return Overworld_GetMapHeaderByGroupAndId(mapGroup, mapNum)->regionMapSectionId;
 }
 
-int GetIndexDeltaOfNextCheckPageDown(int index)
+int GetIndexDeltaOfNextCheckPageDown (int index)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     int count = 1;
@@ -433,7 +433,7 @@ int GetIndexDeltaOfNextCheckPageDown(int index)
     return 0;
 }
 
-int GetIndexDeltaOfNextCheckPageUp(int index)
+int GetIndexDeltaOfNextCheckPageUp (int index)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     int count = -1;
@@ -451,7 +451,7 @@ int GetIndexDeltaOfNextCheckPageUp(int index)
     return 0;
 }
 
-bool32 unref_sub_81CB16C(void)
+bool32 unref_sub_81CB16C (void)
 {
     int i;
 
@@ -473,7 +473,7 @@ bool32 unref_sub_81CB16C(void)
     return FALSE;
 }
 
-static bool32 sub_81CB1D0(void)
+static bool32 sub_81CB1D0 (void)
 {
     struct Pokenav3Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_MAIN);
     int selection = GetSelectedPokenavListIndex();

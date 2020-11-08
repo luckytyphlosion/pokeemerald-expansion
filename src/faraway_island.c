@@ -35,7 +35,7 @@ static const s16 sFarawayIslandRockCoords[4][2] =
     {13 + 7, 13 + 7},
 };
 
-static u8 GetMewObjectEventId(void)
+static u8 GetMewObjectEventId (void)
 {
     u8 objectEventId;
     TryGetObjectEventIdByLocalIdAndMap(1, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, &objectEventId);
@@ -44,7 +44,7 @@ static u8 GetMewObjectEventId(void)
 
 // When the player enters Faraway Island interior it begins a "hide and seek" minigame where Mew disappears into the grass
 // This function returns the direction Mew will take a step, and is run every time the player takes a step
-u32 GetMewMoveDirection(void)
+u32 GetMewMoveDirection (void)
 {
     u8 i;
     int mewSafeFromTrap;
@@ -255,7 +255,7 @@ u32 GetMewMoveDirection(void)
 }
 
 // Mew can move to any Tall/Long Grass metatile the player isn't currently on
-static bool8 CanMewMoveToCoords(s16 x, s16 y)
+static bool8 CanMewMoveToCoords (s16 x, s16 y)
 {
     if (gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.x == x
         && gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.y == y) {
@@ -266,7 +266,7 @@ static bool8 CanMewMoveToCoords(s16 x, s16 y)
 }
 
 // Last ditch effort to move, clear move candidates and try all directions again
-static u8 GetValidMewMoveDirection(u8 ignoredDir)
+static u8 GetValidMewMoveDirection (u8 ignoredDir)
 {
     u8 i;
     u8 count = 0;
@@ -302,7 +302,7 @@ static u8 GetValidMewMoveDirection(u8 ignoredDir)
     return sMewDirectionCandidates[0];
 }
 
-void UpdateFarawayIslandStepCounter(void)
+void UpdateFarawayIslandStepCounter (void)
 {
     u16 steps = VarGet(VAR_FARAWAY_ISLAND_STEP_COUNTER);
     if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(FARAWAY_ISLAND_INTERIOR)
@@ -316,7 +316,7 @@ void UpdateFarawayIslandStepCounter(void)
     }
 }
 
-bool8 ObjectEventIsFarawayIslandMew(struct ObjectEvent *objectEvent)
+bool8 ObjectEventIsFarawayIslandMew (struct ObjectEvent *objectEvent)
 {
     if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(FARAWAY_ISLAND_INTERIOR)
         && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(FARAWAY_ISLAND_INTERIOR)) {
@@ -328,7 +328,7 @@ bool8 ObjectEventIsFarawayIslandMew(struct ObjectEvent *objectEvent)
     return FALSE;
 }
 
-bool8 IsMewPlayingHideAndSeek(void)
+bool8 IsMewPlayingHideAndSeek (void)
 {
     if (gSaveBlock1Ptr->location.mapNum == MAP_NUM(FARAWAY_ISLAND_INTERIOR)
         && gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(FARAWAY_ISLAND_INTERIOR)) {
@@ -342,7 +342,7 @@ bool8 IsMewPlayingHideAndSeek(void)
 
 // Every 4th step Mew will shake the grass it steps into
 // Otherwise its movement leaves grass undisturbed
-bool8 ShouldMewShakeGrass(struct ObjectEvent *objectEvent)
+bool8 ShouldMewShakeGrass (struct ObjectEvent *objectEvent)
 {
     if (VarGet(VAR_FARAWAY_ISLAND_STEP_COUNTER) != 0xFFFF
         && VarGet(VAR_FARAWAY_ISLAND_STEP_COUNTER) % 4 == 0) {
@@ -352,7 +352,7 @@ bool8 ShouldMewShakeGrass(struct ObjectEvent *objectEvent)
     return FALSE;
 }
 
-void SetMewAboveGrass(void)
+void SetMewAboveGrass (void)
 {
     s16 x;
     s16 y;
@@ -391,14 +391,14 @@ void SetMewAboveGrass(void)
     }
 }
 
-void DestroyMewEmergingGrassSprite(void)
+void DestroyMewEmergingGrassSprite (void)
 {
     if (sGrassSpriteId != MAX_SPRITES) {
         DestroySprite(&gSprites[sGrassSpriteId]);
     }
 }
 
-static bool8 ShouldMewMoveNorth(struct ObjectEvent *mew, u8 index)
+static bool8 ShouldMewMoveNorth (struct ObjectEvent *mew, u8 index)
 {
     if (sPlayerToMewDeltaY > 0 && CanMewMoveToCoords(mew->currentCoords.x, mew->currentCoords.y - 1)) {
         sMewDirectionCandidates[index] = DIR_NORTH;
@@ -408,7 +408,7 @@ static bool8 ShouldMewMoveNorth(struct ObjectEvent *mew, u8 index)
     return FALSE;
 }
 
-static bool8 ShouldMewMoveEast(struct ObjectEvent *mew, u8 index)
+static bool8 ShouldMewMoveEast (struct ObjectEvent *mew, u8 index)
 {
     if (sPlayerToMewDeltaX < 0 && CanMewMoveToCoords(mew->currentCoords.x + 1, mew->currentCoords.y)) {
         sMewDirectionCandidates[index] = DIR_EAST;
@@ -418,7 +418,7 @@ static bool8 ShouldMewMoveEast(struct ObjectEvent *mew, u8 index)
     return FALSE;
 }
 
-static bool8 ShouldMewMoveSouth(struct ObjectEvent *mew, u8 index)
+static bool8 ShouldMewMoveSouth (struct ObjectEvent *mew, u8 index)
 {
     if (sPlayerToMewDeltaY < 0 && CanMewMoveToCoords(mew->currentCoords.x, mew->currentCoords.y + 1)) {
         sMewDirectionCandidates[index] = DIR_SOUTH;
@@ -428,7 +428,7 @@ static bool8 ShouldMewMoveSouth(struct ObjectEvent *mew, u8 index)
     return FALSE;
 }
 
-static bool8 ShouldMewMoveWest(struct ObjectEvent *mew, u8 index)
+static bool8 ShouldMewMoveWest (struct ObjectEvent *mew, u8 index)
 {
     if (sPlayerToMewDeltaX > 0 && CanMewMoveToCoords(mew->currentCoords.x - 1, mew->currentCoords.y)) {
         sMewDirectionCandidates[index] = DIR_WEST;
@@ -438,7 +438,7 @@ static bool8 ShouldMewMoveWest(struct ObjectEvent *mew, u8 index)
     return FALSE;
 }
 
-static u8 GetRandomMewDirectionCandidate(u8 numDirections)
+static u8 GetRandomMewDirectionCandidate (u8 numDirections)
 {
     return sMewDirectionCandidates[VarGet(VAR_FARAWAY_ISLAND_STEP_COUNTER) % numDirections];
 }

@@ -81,7 +81,7 @@ void InitIntrHandlers(void);
 static void WaitForVBlank(void);
 void EnableVCountIntrAtLine150(void);
 
-void AgbMain()
+void AgbMain ()
 {
 #if MODERN
     // Modern compilers are liberal with the stack on entry to this function,
@@ -167,14 +167,14 @@ void AgbMain()
     }
 }
 
-static void UpdateLinkAndCallCallbacks(void)
+static void UpdateLinkAndCallCallbacks (void)
 {
     if (!HandleLinkConnection()) {
         CallCallbacks();
     }
 }
 
-static void InitMainCallbacks(void)
+static void InitMainCallbacks (void)
 {
     gMain.vblankCounter1 = 0;
     gTrainerHillVBlankCounter = NULL;
@@ -185,7 +185,7 @@ static void InitMainCallbacks(void)
     gPokemonStoragePtr = &gPokemonStorage;
 }
 
-static void CallCallbacks(void)
+static void CallCallbacks (void)
 {
     if (gMain.callback1) {
         gMain.callback1();
@@ -196,18 +196,18 @@ static void CallCallbacks(void)
     }
 }
 
-void SetMainCallback2(MainCallback callback)
+void SetMainCallback2 (MainCallback callback)
 {
     gMain.callback2 = callback;
     gMain.state = 0;
 }
 
-void StartTimer1(void)
+void StartTimer1 (void)
 {
     REG_TM1CNT_H = 0x80;
 }
 
-void SeedRngAndSetTrainerId(void)
+void SeedRngAndSetTrainerId (void)
 {
     u16 val = REG_TM1CNT_L;
     SeedRng(val);
@@ -215,12 +215,12 @@ void SeedRngAndSetTrainerId(void)
     gTrainerId = val;
 }
 
-u16 GetGeneratedTrainerIdLower(void)
+u16 GetGeneratedTrainerIdLower (void)
 {
     return gTrainerId;
 }
 
-void EnableVCountIntrAtLine150(void)
+void EnableVCountIntrAtLine150 (void)
 {
     u16 gpuReg = (GetGpuReg(REG_OFFSET_DISPSTAT) & 0xFF) | (150 << 8);
     SetGpuReg(REG_OFFSET_DISPSTAT, gpuReg | DISPSTAT_VCOUNT_INTR);
@@ -235,7 +235,7 @@ void EnableVCountIntrAtLine150(void)
 //    SeedRng(seed);
 //}
 
-void InitKeys(void)
+void InitKeys (void)
 {
     gKeyRepeatContinueDelay = 5;
     gKeyRepeatStartDelay = 40;
@@ -247,7 +247,7 @@ void InitKeys(void)
     gMain.newKeysRaw = 0;
 }
 
-static void ReadKeys(void)
+static void ReadKeys (void)
 {
     u16 keyInput = REG_KEYINPUT ^ KEYS_MASK;
     gMain.newKeysRaw = keyInput & ~gMain.heldKeysRaw;
@@ -287,7 +287,7 @@ static void ReadKeys(void)
     }
 }
 
-void InitIntrHandlers(void)
+void InitIntrHandlers (void)
 {
     int i;
 
@@ -308,33 +308,33 @@ void InitIntrHandlers(void)
     EnableInterrupts(0x1);
 }
 
-void SetVBlankCallback(IntrCallback callback)
+void SetVBlankCallback (IntrCallback callback)
 {
     gMain.vblankCallback = callback;
 }
 
-void SetHBlankCallback(IntrCallback callback)
+void SetHBlankCallback (IntrCallback callback)
 {
     gMain.hblankCallback = callback;
 }
 
-void SetVCountCallback(IntrCallback callback)
+void SetVCountCallback (IntrCallback callback)
 {
     gMain.vcountCallback = callback;
 }
 
-void RestoreSerialTimer3IntrHandlers(void)
+void RestoreSerialTimer3IntrHandlers (void)
 {
     gIntrTable[1] = SerialIntr;
     gIntrTable[2] = Timer3Intr;
 }
 
-void SetSerialCallback(IntrCallback callback)
+void SetSerialCallback (IntrCallback callback)
 {
     gMain.serialCallback = callback;
 }
 
-static void VBlankIntr(void)
+static void VBlankIntr (void)
 {
     if (gWirelessCommType != 0) {
         RfuVSync();
@@ -372,12 +372,12 @@ static void VBlankIntr(void)
     gMain.intrCheck |= INTR_FLAG_VBLANK;
 }
 
-void InitFlashTimer(void)
+void InitFlashTimer (void)
 {
     SetFlashTimerIntr(2, gIntrTable + 0x7);
 }
 
-static void HBlankIntr(void)
+static void HBlankIntr (void)
 {
     if (gMain.hblankCallback) {
         gMain.hblankCallback();
@@ -387,7 +387,7 @@ static void HBlankIntr(void)
     gMain.intrCheck |= INTR_FLAG_HBLANK;
 }
 
-static void VCountIntr(void)
+static void VCountIntr (void)
 {
     if (gMain.vcountCallback) {
         gMain.vcountCallback();
@@ -398,7 +398,7 @@ static void VCountIntr(void)
     gMain.intrCheck |= INTR_FLAG_VCOUNT;
 }
 
-static void SerialIntr(void)
+static void SerialIntr (void)
 {
     if (gMain.serialCallback) {
         gMain.serialCallback();
@@ -408,11 +408,11 @@ static void SerialIntr(void)
     gMain.intrCheck |= INTR_FLAG_SERIAL;
 }
 
-static void IntrDummy(void)
+static void IntrDummy (void)
 {
 }
 
-static void WaitForVBlank(void)
+static void WaitForVBlank (void)
 {
     gMain.intrCheck &= ~INTR_FLAG_VBLANK;
 
@@ -421,17 +421,17 @@ static void WaitForVBlank(void)
     }
 }
 
-void SetTrainerHillVBlankCounter(u32 *counter)
+void SetTrainerHillVBlankCounter (u32 *counter)
 {
     gTrainerHillVBlankCounter = counter;
 }
 
-void ClearTrainerHillVBlankCounter(void)
+void ClearTrainerHillVBlankCounter (void)
 {
     gTrainerHillVBlankCounter = NULL;
 }
 
-void DoSoftReset(void)
+void DoSoftReset (void)
 {
     REG_IME = 0;
     m4aSoundVSyncOff();
@@ -443,7 +443,7 @@ void DoSoftReset(void)
     SoftReset(RESET_ALL);
 }
 
-void ClearPokemonCrySongs(void)
+void ClearPokemonCrySongs (void)
 {
     CpuFill16(0, gPokemonCrySongs, MAX_POKEMON_CRIES * sizeof(struct PokemonCrySong));
 }

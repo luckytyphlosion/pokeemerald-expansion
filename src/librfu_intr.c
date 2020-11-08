@@ -11,7 +11,7 @@ static void Callback_Dummy_M(int reqCommandId, int error, void (*callbackM)());
 static void Callback_Dummy_S(u16 reqCommandId, void (*callbackS)(u16));
 static void Callback_Dummy_ID(void (*callbackId)(void));
 
-void IntrSIO32(void)
+void IntrSIO32 (void)
 {
     if (gSTWIStatus->state == 10) {
         if (gSTWIStatus->callbackID != NULL) {
@@ -26,7 +26,7 @@ void IntrSIO32(void)
     }
 }
 
-static void sio32intr_clock_master(void)
+static void sio32intr_clock_master (void)
 {
     u32 regSIODATA32;
     u32 ackLen;
@@ -120,7 +120,7 @@ static void sio32intr_clock_master(void)
     }
 }
 
-static void sio32intr_clock_slave(void)
+static void sio32intr_clock_slave (void)
 {
     u32 regSIODATA32;
     u32 r0;
@@ -259,7 +259,7 @@ static void sio32intr_clock_slave(void)
     }
 }
 
-static u16 handshake_wait(u16 slot)
+static u16 handshake_wait (u16 slot)
 {
     do {
         if ((gSTWIStatus->timerActive & 0xFF) == 1) {
@@ -270,7 +270,7 @@ static u16 handshake_wait(u16 slot)
     return 0;
 }
 
-static void STWI_set_timer_in_RAM(u8 count)
+static void STWI_set_timer_in_RAM (u8 count)
 {
     vu16* regTMCNTL = (vu16*)(REG_ADDR_TMCNT_L + gSTWIStatus->timerSelect * 4);
     vu16* regTMCNTH = (vu16*)(REG_ADDR_TMCNT_H + gSTWIStatus->timerSelect * 4);
@@ -298,14 +298,14 @@ static void STWI_set_timer_in_RAM(u8 count)
     REG_IME = 1;
 }
 
-static void STWI_stop_timer_in_RAM(void)
+static void STWI_stop_timer_in_RAM (void)
 {
     gSTWIStatus->timerState = 0;
     REG_TMCNT_L(gSTWIStatus->timerSelect) = 0;
     REG_TMCNT_H(gSTWIStatus->timerSelect) = 0;
 }
 
-static void STWI_init_slave(void)
+static void STWI_init_slave (void)
 {
     gSTWIStatus->state = 5; // slave receive req init
     gSTWIStatus->msMode = AGB_CLK_SLAVE;
@@ -323,19 +323,19 @@ static void STWI_init_slave(void)
 }
 
 NAKED
-static void Callback_Dummy_M(int reqCommandId, int error, void (*callbackM)())
+static void Callback_Dummy_M (int reqCommandId, int error, void (*callbackM)())
 {
     asm ("bx r2");
 }
 
 NAKED
-static void Callback_Dummy_S(u16 reqCommandId, void (*callbackS)(u16))
+static void Callback_Dummy_S (u16 reqCommandId, void (*callbackS)(u16))
 {
     asm ("bx r1");
 }
 
 NAKED
-static void Callback_Dummy_ID(void (*callbackId)(void))
+static void Callback_Dummy_ID (void (*callbackId)(void))
 {
     asm ("bx r0");
 }

@@ -1026,7 +1026,7 @@ const u16 sSpriteImageSizes[3][4] =
     },
 };
 
-u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u32 personality, bool32 handleDeoxys)
+u8 CreateMonIcon (u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, u32 personality, bool32 handleDeoxys)
 {
     u8 spriteId;
     struct MonIconSpriteTemplate iconTemplate =
@@ -1050,7 +1050,7 @@ u8 CreateMonIcon(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u
     return spriteId;
 }
 
-u8 sub_80D2D78(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, bool32 extra)
+u8 sub_80D2D78 (u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 subpriority, bool32 extra)
 {
     u8 spriteId;
     struct MonIconSpriteTemplate iconTemplate =
@@ -1071,7 +1071,7 @@ u8 sub_80D2D78(u16 species, void (*callback)(struct Sprite *), s16 x, s16 y, u8 
     return spriteId;
 }
 
-u16 GetIconSpecies(u16 species, u32 personality)
+u16 GetIconSpecies (u16 species, u32 personality)
 {
     u16 result;
 
@@ -1094,7 +1094,7 @@ u16 GetIconSpecies(u16 species, u32 personality)
     return result;
 }
 
-u16 GetUnownLetterByPersonality(u32 personality)
+u16 GetUnownLetterByPersonality (u32 personality)
 {
     if (!personality) {
         return 0;
@@ -1103,7 +1103,7 @@ u16 GetUnownLetterByPersonality(u32 personality)
     }
 }
 
-u16 sub_80D2E84(u16 species)
+u16 sub_80D2E84 (u16 species)
 {
     u16 value;
 
@@ -1122,17 +1122,17 @@ u16 sub_80D2E84(u16 species)
     }
 }
 
-const u8 * GetMonIconPtr(u16 species, u32 personality, bool32 handleDeoxys)
+const u8 * GetMonIconPtr (u16 species, u32 personality, bool32 handleDeoxys)
 {
     return GetMonIconTiles(GetIconSpecies(species, personality), handleDeoxys);
 }
 
-void FreeAndDestroyMonIconSprite(struct Sprite *sprite)
+void FreeAndDestroyMonIconSprite (struct Sprite *sprite)
 {
     sub_80D328C(sprite);
 }
 
-void LoadMonIconPalettes(void)
+void LoadMonIconPalettes (void)
 {
     u8 i;
     for (i = 0; i < ARRAY_COUNT(gMonIconPaletteTable); i++) {
@@ -1141,7 +1141,7 @@ void LoadMonIconPalettes(void)
 }
 
 // unused
-void SafeLoadMonIconPalette(u16 species)
+void SafeLoadMonIconPalette (u16 species)
 {
     u8 palIndex;
     if (species > NUM_SPECIES) {
@@ -1153,7 +1153,7 @@ void SafeLoadMonIconPalette(u16 species)
     }
 }
 
-void LoadMonIconPalette(u16 species)
+void LoadMonIconPalette (u16 species)
 {
     u8 palIndex = gMonIconPaletteIndices[species];
     if (IndexOfSpritePaletteTag(gMonIconPaletteTable[palIndex].tag) == 0xFF) {
@@ -1161,7 +1161,7 @@ void LoadMonIconPalette(u16 species)
     }
 }
 
-void FreeMonIconPalettes(void)
+void FreeMonIconPalettes (void)
 {
     u8 i;
     for (i = 0; i < 6; i++) {
@@ -1170,7 +1170,7 @@ void FreeMonIconPalettes(void)
 }
 
 // unused
-void SafeFreeMonIconPalette(u16 species)
+void SafeFreeMonIconPalette (u16 species)
 {
     u8 palIndex;
     if (species > NUM_SPECIES) {
@@ -1180,19 +1180,19 @@ void SafeFreeMonIconPalette(u16 species)
     FreeSpritePaletteByTag(gMonIconPaletteTable[palIndex].tag);
 }
 
-void FreeMonIconPalette(u16 species)
+void FreeMonIconPalette (u16 species)
 {
     u8 palIndex;
     palIndex = gMonIconPaletteIndices[species];
     FreeSpritePaletteByTag(gMonIconPaletteTable[palIndex].tag);
 }
 
-void SpriteCB_MonIcon(struct Sprite *sprite)
+void SpriteCB_MonIcon (struct Sprite *sprite)
 {
     UpdateMonIconFrame(sprite);
 }
 
-const u8* GetMonIconTiles(u16 species, bool32 handleDeoxys)
+const u8* GetMonIconTiles (u16 species, bool32 handleDeoxys)
 {
     const u8* iconSprite = gMonIconTable[species];
     if (species == SPECIES_DEOXYS && handleDeoxys == TRUE) {
@@ -1201,7 +1201,7 @@ const u8* GetMonIconTiles(u16 species, bool32 handleDeoxys)
     return iconSprite;
 }
 
-void sub_80D304C(u16 offset)
+void sub_80D304C (u16 offset)
 {
     s32 i;
     const struct SpritePalette* monIconPalettePtr;
@@ -1216,7 +1216,7 @@ void sub_80D304C(u16 offset)
     }
 }
 
-u8 GetValidMonIconPalIndex(u16 species)
+u8 GetValidMonIconPalIndex (u16 species)
 {
     if (species > NUM_SPECIES) {
         species = 260;
@@ -1224,12 +1224,12 @@ u8 GetValidMonIconPalIndex(u16 species)
     return gMonIconPaletteIndices[species];
 }
 
-u8 GetMonIconPaletteIndexFromSpecies(u16 species)
+u8 GetMonIconPaletteIndexFromSpecies (u16 species)
 {
     return gMonIconPaletteIndices[species];
 }
 
-const u16* GetValidMonIconPalettePtr(u16 species)
+const u16* GetValidMonIconPalettePtr (u16 species)
 {
     if (species > NUM_SPECIES) {
         species = 260;
@@ -1237,7 +1237,7 @@ const u16* GetValidMonIconPalettePtr(u16 species)
     return gMonIconPaletteTable[gMonIconPaletteIndices[species]].data;
 }
 
-u8 UpdateMonIconFrame(struct Sprite *sprite)
+u8 UpdateMonIconFrame (struct Sprite *sprite)
 {
     u8 result = 0;
 
@@ -1269,7 +1269,7 @@ u8 UpdateMonIconFrame(struct Sprite *sprite)
     return result;
 }
 
-static u8 CreateMonIconSprite(struct MonIconSpriteTemplate *iconTemplate, s16 x, s16 y, u8 subpriority)
+static u8 CreateMonIconSprite (struct MonIconSpriteTemplate *iconTemplate, s16 x, s16 y, u8 subpriority)
 {
     u8 spriteId;
 
@@ -1293,14 +1293,14 @@ static u8 CreateMonIconSprite(struct MonIconSpriteTemplate *iconTemplate, s16 x,
     return spriteId;
 }
 
-void sub_80D328C(struct Sprite *sprite)
+void sub_80D328C (struct Sprite *sprite)
 {
     struct SpriteFrameImage image = {NULL, sSpriteImageSizes[sprite->oam.shape][sprite->oam.size]};
     sprite->images = &image;
     DestroySprite(sprite);
 }
 
-void SetPartyHPBarSprite(struct Sprite *sprite, u8 animNum)
+void SetPartyHPBarSprite (struct Sprite *sprite, u8 animNum)
 {
     sprite->animNum = animNum;
     sprite->animDelayCounter = 0;

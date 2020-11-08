@@ -46,7 +46,7 @@ void GetMonConditionGraphData(s16 id, u8 arg1);
 void ConditionGraphDrawMonPic(s16 id, u8 arg1);
 
 // code
-bool32 PokenavCallback_Init_PartyCondition(void)
+bool32 PokenavCallback_Init_PartyCondition (void)
 {
     struct PokenavSub11 *structPtr = AllocSubstruct(POKENAV_SUBSTRUCT_CONDITION_GRAPH, sizeof(struct PokenavSub11));
 
@@ -61,7 +61,7 @@ bool32 PokenavCallback_Init_PartyCondition(void)
     return TRUE;
 }
 
-bool32 PokenavCallback_Init_ConditionGraphFromSearch(void)
+bool32 PokenavCallback_Init_ConditionGraphFromSearch (void)
 {
     struct PokenavSub11 *structPtr = AllocSubstruct(POKENAV_SUBSTRUCT_CONDITION_GRAPH, sizeof(struct PokenavSub11));
 
@@ -76,14 +76,14 @@ bool32 PokenavCallback_Init_ConditionGraphFromSearch(void)
     return TRUE;
 }
 
-u32 GetPartyConditionCallback(void)
+u32 GetPartyConditionCallback (void)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
 
     return structPtr->callback(structPtr);
 }
 
-u32 HandlePartyConditionInput(struct PokenavSub11 *structPtr)
+u32 HandlePartyConditionInput (struct PokenavSub11 *structPtr)
 {
     struct PokenavSub18 *monListPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MON_LIST);
     u32 ret = ConditionGraphHandleDpadInput(structPtr);
@@ -111,7 +111,7 @@ u32 HandlePartyConditionInput(struct PokenavSub11 *structPtr)
     return ret;
 }
 
-u32 ConditionMenu_OpenMarkingsMenu(struct PokenavSub11 *structPtr)
+u32 ConditionMenu_OpenMarkingsMenu (struct PokenavSub11 *structPtr)
 {
     struct PokenavSub18 *monListPtr;
     u8 markings;
@@ -137,7 +137,7 @@ u32 ConditionMenu_OpenMarkingsMenu(struct PokenavSub11 *structPtr)
     return ret;
 }
 
-u32 GetConditionReturnCallback(struct PokenavSub11 *structPtr)
+u32 GetConditionReturnCallback (struct PokenavSub11 *structPtr)
 {
     if (structPtr->searchMode == 0) {
         return POKENAV_CONDITION_MENU;
@@ -146,7 +146,7 @@ u32 GetConditionReturnCallback(struct PokenavSub11 *structPtr)
     }
 }
 
-void FreePartyConditionSubstruct1(void)
+void FreePartyConditionSubstruct1 (void)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     if (structPtr->searchMode == 0) {
@@ -156,7 +156,7 @@ void FreePartyConditionSubstruct1(void)
     FreePokenavSubstruct(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
 }
 
-u8 ConditionGraphHandleDpadInput(struct PokenavSub11 *structPtr)
+u8 ConditionGraphHandleDpadInput (struct PokenavSub11 *structPtr)
 {
     struct PokenavSub18 *monListPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MON_LIST);
     u8 ret = 0;
@@ -176,7 +176,7 @@ u8 ConditionGraphHandleDpadInput(struct PokenavSub11 *structPtr)
     return ret;
 }
 
-u8 SwitchConditionSummaryIndex(u8 moveUp)
+u8 SwitchConditionSummaryIndex (u8 moveUp)
 {
     u16 r7;
     bool8 wasNotLastMon, isNotLastMon;
@@ -215,7 +215,7 @@ u8 SwitchConditionSummaryIndex(u8 moveUp)
     }
 }
 
-bool32 LoadPartyConditionMenuGfx(void)
+bool32 LoadPartyConditionMenuGfx (void)
 {
     s32 var;
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
@@ -282,7 +282,7 @@ bool32 LoadPartyConditionMenuGfx(void)
     return FALSE;
 }
 
-bool32 SetConditionGraphData(u8 mode)
+bool32 SetConditionGraphData (u8 mode)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
 
@@ -301,7 +301,7 @@ bool32 SetConditionGraphData(u8 mode)
     return FALSE;
 }
 
-u8 * CopyStringLeftAlignedToConditionData(u8 *dst, const u8 *src, s16 n)
+u8 * CopyStringLeftAlignedToConditionData (u8 *dst, const u8 *src, s16 n)
 {
     while (*src != EOS) {
         *dst++ = *src++, n--;
@@ -315,7 +315,7 @@ u8 * CopyStringLeftAlignedToConditionData(u8 *dst, const u8 *src, s16 n)
     return dst;
 }
 
-u8 * CopyMonConditionNameGender(u8 *str, u16 id, bool8 arg3)
+u8 * CopyMonConditionNameGender (u8 *str, u16 id, bool8 arg3)
 {
     u16 boxId, monId, gender, species, level, lvlDigits;
     struct BoxPokemon *boxMon;
@@ -405,7 +405,7 @@ u8 * CopyMonConditionNameGender(u8 *str, u16 id, bool8 arg3)
     return str_;
 }
 
-void CopyMonNameGenderLocation(s16 id, u8 arg1)
+void CopyMonNameGenderLocation (s16 id, u8 arg1)
 {
     u16 boxId, i;
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
@@ -437,7 +437,7 @@ void CopyMonNameGenderLocation(s16 id, u8 arg1)
     }
 }
 
-void InitPartyConditionListParameters(void)
+void InitPartyConditionListParameters (void)
 {
     u16 i, count;
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
@@ -461,14 +461,14 @@ void InitPartyConditionListParameters(void)
     structPtr->state = 0;
 }
 
-void sub_81CD9F8(void)
+void sub_81CD9F8 (void)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     structPtr->searchMode = 1;
     structPtr->state = 0;
 }
 
-void GetMonConditionGraphData(s16 id, u8 arg1)
+void GetMonConditionGraphData (s16 id, u8 arg1)
 {
     u16 boxId, monId, i;
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
@@ -496,7 +496,7 @@ void GetMonConditionGraphData(s16 id, u8 arg1)
     }
 }
 
-void ConditionGraphDrawMonPic(s16 index, u8 arg1)
+void ConditionGraphDrawMonPic (s16 index, u8 arg1)
 {
     u16 boxId, monId, species;
     u32 personality, tid;
@@ -516,73 +516,73 @@ void ConditionGraphDrawMonPic(s16 index, u8 arg1)
     LZ77UnCompWram(GetMonSpritePalFromSpeciesAndPersonality(species, tid, personality), structPtr->monPal[arg1]);
 }
 
-u16 GetMonListCount(void)
+u16 GetMonListCount (void)
 {
     struct PokenavSub18 *monListPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MON_LIST);
     return monListPtr->listCount;
 }
 
-u16 GetConditionGraphCurrentMonIndex(void)
+u16 GetConditionGraphCurrentMonIndex (void)
 {
     struct PokenavSub18 *monListPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MON_LIST);
     return monListPtr->currIndex;
 }
 
-struct ConditionGraph * GetConditionGraphDataPtr(void)
+struct ConditionGraph * GetConditionGraphDataPtr (void)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     return &structPtr->conditionData;
 }
 
-u8 GetMonMarkIndex(void)
+u8 GetMonMarkIndex (void)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     return structPtr->mark;
 }
 
-u8 sub_81CDC9C(void)
+u8 sub_81CDC9C (void)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     return structPtr->monIndex;
 }
 
-void * GetConditionMonPicGfx(u8 id)
+void * GetConditionMonPicGfx (u8 id)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     return structPtr->monPicGfx[id];
 }
 
-void * GetConditionMonPal(u8 id)
+void * GetConditionMonPal (u8 id)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     return structPtr->monPal[id];
 }
 
-u8 sub_81CDCEC(void)
+u8 sub_81CDCEC (void)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     return structPtr->unk6789;
 }
 
-u8 * GetConditionMonNameBuffer(u8 id)
+u8 * GetConditionMonNameBuffer (u8 id)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     return structPtr->nameBuffer[id];
 }
 
-u8 * GetConditionMonLocationBuffer(u8 id)
+u8 * GetConditionMonLocationBuffer (u8 id)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     return structPtr->searchLocBuffer[id];
 }
 
-u16 GetConditionMonDataBuffer(void)
+u16 GetConditionMonDataBuffer (void)
 {
     struct PokenavSub18 *monListPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MON_LIST);
     return monListPtr->monData[monListPtr->currIndex].data;
 }
 
-bool32 IsConditionMenuSearchMode(void)
+bool32 IsConditionMenuSearchMode (void)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     if (structPtr->searchMode == 1) {
@@ -592,7 +592,7 @@ bool32 IsConditionMenuSearchMode(void)
     }
 }
 
-u8 TryGetMonMarkId(void)
+u8 TryGetMonMarkId (void)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     if (structPtr->searchMode == 1) {
@@ -602,7 +602,7 @@ u8 TryGetMonMarkId(void)
     }
 }
 
-u8 GetMonSheen(void)
+u8 GetMonSheen (void)
 {
     struct PokenavSub11 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_CONDITION_GRAPH);
     return structPtr->sheen[structPtr->mark];

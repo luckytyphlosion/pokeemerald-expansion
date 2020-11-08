@@ -198,14 +198,14 @@ static const u8 * const gBattlePyramid_MapHeaderStrings[] =
 };
 
 // text
-bool8 sub_80D47D4(void)
+bool8 sub_80D47D4 (void)
 {
     HideStartMenu();
     ShowMapNamePopup();
     return TRUE;
 }
 
-void ShowMapNamePopup(void)
+void ShowMapNamePopup (void)
 {
     if (FlagGet(FLAG_HIDE_MAP_NAME_POPUP) != TRUE) {
         if (!FuncIsActiveTask(Task_MapNamePopUpWindow)) {
@@ -222,7 +222,7 @@ void ShowMapNamePopup(void)
     }
 }
 
-static void Task_MapNamePopUpWindow(u8 taskId)
+static void Task_MapNamePopUpWindow (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -275,7 +275,7 @@ static void Task_MapNamePopUpWindow(u8 taskId)
     SetGpuReg(REG_OFFSET_BG0VOFS, task->data[2]);
 }
 
-void HideMapNamePopUpWindow(void)
+void HideMapNamePopUpWindow (void)
 {
     if (FuncIsActiveTask(Task_MapNamePopUpWindow)) {
         ClearStdWindowAndFrame(GetMapNamePopUpWindowId(), TRUE);
@@ -285,7 +285,7 @@ void HideMapNamePopUpWindow(void)
     }
 }
 
-static void ShowMapNamePopUpWindow(void)
+static void ShowMapNamePopUpWindow (void)
 {
     u8 mapDisplayHeader[24];
     u8 *withoutPrefixPtr;
@@ -315,7 +315,7 @@ static void ShowMapNamePopUpWindow(void)
     CopyWindowToVram(GetMapNamePopUpWindowId(), 3);
 }
 
-static void sub_80D4A78(u8 bg, u8 x, u8 y, u8 deltaX, u8 deltaY, u8 unused)
+static void sub_80D4A78 (u8 bg, u8 x, u8 y, u8 deltaX, u8 deltaY, u8 unused)
 {
     s32 i;
 
@@ -333,7 +333,7 @@ static void sub_80D4A78(u8 bg, u8 x, u8 y, u8 deltaX, u8 deltaY, u8 unused)
     }
 }
 
-static void LoadMapNamePopUpWindowBg(void)
+static void LoadMapNamePopUpWindowBg (void)
 {
     u8 popUpThemeId;
     u8 popupWindowId = GetMapNamePopUpWindowId();

@@ -126,23 +126,23 @@ static const struct WindowTemplate sBerryPowderWindowTemplates[] =
     },
 };
 
-static u32 DecryptBerryPowder(u32 *powder)
+static u32 DecryptBerryPowder (u32 *powder)
 {
     return *powder ^ gSaveBlock2Ptr->encryptionKey;
 }
 
-void SetBerryPowder(u32 *powder, u32 amount)
+void SetBerryPowder (u32 *powder, u32 amount)
 {
     *powder = amount ^ gSaveBlock2Ptr->encryptionKey;
 }
 
-void ApplyNewEncryptionKeyToBerryPowder(u32 encryptionKey)
+void ApplyNewEncryptionKeyToBerryPowder (u32 encryptionKey)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
     ApplyNewEncryptionKeyToWord(powder, encryptionKey);
 }
 
-static bool8 HasEnoughBerryPowder_(u32 cost)
+static bool8 HasEnoughBerryPowder_ (u32 cost)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
     if (DecryptBerryPowder(powder) < cost) {
@@ -152,7 +152,7 @@ static bool8 HasEnoughBerryPowder_(u32 cost)
     }
 }
 
-bool8 HasEnoughBerryPowder(void)
+bool8 HasEnoughBerryPowder (void)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
     if (DecryptBerryPowder(powder) < gSpecialVar_0x8004) {
@@ -162,7 +162,7 @@ bool8 HasEnoughBerryPowder(void)
     }
 }
 
-bool8 GiveBerryPowder(u32 amountToAdd)
+bool8 GiveBerryPowder (u32 amountToAdd)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
     u32 amount = DecryptBerryPowder(powder) + amountToAdd;
@@ -175,7 +175,7 @@ bool8 GiveBerryPowder(u32 amountToAdd)
     }
 }
 
-static bool8 TakeBerryPowder_(u32 cost)
+static bool8 TakeBerryPowder_ (u32 cost)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
     if (!HasEnoughBerryPowder_(cost)) {
@@ -186,7 +186,7 @@ static bool8 TakeBerryPowder_(u32 cost)
     return TRUE;
 }
 
-bool8 TakeBerryPowder(void)
+bool8 TakeBerryPowder (void)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
     if (!HasEnoughBerryPowder_(gSpecialVar_0x8004)) {
@@ -197,32 +197,32 @@ bool8 TakeBerryPowder(void)
     return TRUE;
 }
 
-u32 GetBerryPowder(void)
+u32 GetBerryPowder (void)
 {
     u32 *powder = &gSaveBlock2Ptr->berryCrush.berryPowderAmount;
     return DecryptBerryPowder(powder);
 }
 
-static void PrintBerryPowderAmount(u8 windowId, int amount, u8 x, u8 y, u8 speed)
+static void PrintBerryPowderAmount (u8 windowId, int amount, u8 x, u8 y, u8 speed)
 {
     ConvertIntToDecimalStringN(gStringVar1, amount, STR_CONV_MODE_RIGHT_ALIGN, 5);
     AddTextPrinterParameterized(windowId, 1, gStringVar1, x, y, speed, NULL);
 }
 
-static void DrawPlayerPowderAmount(u8 windowId, u16 baseTileOffset, u8 paletteNum, u32 amount)
+static void DrawPlayerPowderAmount (u8 windowId, u16 baseTileOffset, u8 paletteNum, u32 amount)
 {
     DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, baseTileOffset, paletteNum);
     AddTextPrinterParameterized(windowId, 1, gText_Powder, 0, 1, TEXT_SPEED_FF, NULL);
     PrintBerryPowderAmount(windowId, amount, 26, 17, 0);
 }
 
-void PrintPlayerBerryPowderAmount(void)
+void PrintPlayerBerryPowderAmount (void)
 {
     u32 amount = GetBerryPowder();
     PrintBerryPowderAmount(sBerryPowderVendorWindowId, amount, 26, 17, 0);
 }
 
-void DisplayBerryPowderVendorMenu(void)
+void DisplayBerryPowderVendorMenu (void)
 {
     struct WindowTemplate template;
     SetWindowTemplateFields(&template, 0, 1, 1, 7, 4, 15, 0x1C);
@@ -233,7 +233,7 @@ void DisplayBerryPowderVendorMenu(void)
     DrawPlayerPowderAmount(sBerryPowderVendorWindowId, 0x21D, 13, GetBerryPowder());
 }
 
-void RemoveBerryPowderVendorMenu(void)
+void RemoveBerryPowderVendorMenu (void)
 {
     ClearWindowTilemap(sBerryPowderVendorWindowId);
     ClearStdWindowAndFrameToTransparent(sBerryPowderVendorWindowId, TRUE);

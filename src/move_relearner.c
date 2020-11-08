@@ -355,7 +355,7 @@ static void FreeMoveRelearnerResources(void);
 static void RemoveScrollArrows(void);
 static void HideHeartSpritesAndShowTeachMoveText(bool8);
 
-static void VBlankCB_MoveRelearner(void)
+static void VBlankCB_MoveRelearner (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
@@ -363,7 +363,7 @@ static void VBlankCB_MoveRelearner(void)
 }
 
 // Script arguments: The pokemon to teach is in VAR_0x8004
-void TeachMoveRelearnerMove(void)
+void TeachMoveRelearnerMove (void)
 {
     ScriptContext2_Enable();
     CreateTask(Task_WaitForFadeOut, 10);
@@ -371,7 +371,7 @@ void TeachMoveRelearnerMove(void)
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
 }
 
-static void Task_WaitForFadeOut(u8 taskId)
+static void Task_WaitForFadeOut (u8 taskId)
 {
     if (!gPaletteFade.active) {
         SetMainCallback2(CB2_InitLearnMove);
@@ -380,7 +380,7 @@ static void Task_WaitForFadeOut(u8 taskId)
     }
 }
 
-static void CB2_InitLearnMove(void)
+static void CB2_InitLearnMove (void)
 {
     ResetSpriteData();
     FreeAllSpritePalettes();
@@ -408,7 +408,7 @@ static void CB2_InitLearnMove(void)
     SetMainCallback2(CB2_MoveRelearnerMain);
 }
 
-static void CB2_InitLearnMoveReturnFromSelectMove(void)
+static void CB2_InitLearnMoveReturnFromSelectMove (void)
 {
     ResetSpriteData();
     FreeAllSpritePalettes();
@@ -433,7 +433,7 @@ static void CB2_InitLearnMoveReturnFromSelectMove(void)
     SetMainCallback2(CB2_MoveRelearnerMain);
 }
 
-static void InitMoveRelearnerBackgroundLayers(void)
+static void InitMoveRelearnerBackgroundLayers (void)
 {
     ResetVramOamAndBgCntRegs();
     ResetBgsAndClearDma3BusyFlags(0);
@@ -447,7 +447,7 @@ static void InitMoveRelearnerBackgroundLayers(void)
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
 }
 
-static void CB2_MoveRelearnerMain(void)
+static void CB2_MoveRelearnerMain (void)
 {
     DoMoveRelearnerMain();
     RunTasks();
@@ -457,14 +457,14 @@ static void CB2_MoveRelearnerMain(void)
     UpdatePaletteFade();
 }
 
-static void FormatAndPrintText(const u8 *src)
+static void FormatAndPrintText (const u8 *src)
 {
     StringExpandPlaceholders(gStringVar4, src);
     MoveRelearnerPrintText(gStringVar4);
 }
 
 // See the state machine doc at the top of the file.
-static void DoMoveRelearnerMain(void)
+static void DoMoveRelearnerMain (void)
 {
     switch (sMoveRelearnerStruct->state) {
     case MENU_STATE_FADE_TO_BLACK:
@@ -691,7 +691,7 @@ static void DoMoveRelearnerMain(void)
     }
 }
 
-static void FreeMoveRelearnerResources(void)
+static void FreeMoveRelearnerResources (void)
 {
     RemoveScrollArrows();
     DestroyListMenuTask(sMoveRelearnerStruct->moveListMenuTask, &sMoveRelearnerMenuSate.listOffset, &sMoveRelearnerMenuSate.listRow);
@@ -703,7 +703,7 @@ static void FreeMoveRelearnerResources(void)
 
 // Note: The hearts are already made invisible by MoveRelearnerShowHideHearts,
 // which is called whenever the cursor in either list changes.
-static void HideHeartSpritesAndShowTeachMoveText(bool8 onlyHideSprites)
+static void HideHeartSpritesAndShowTeachMoveText (bool8 onlyHideSprites)
 {
     s32 i;
 
@@ -718,7 +718,7 @@ static void HideHeartSpritesAndShowTeachMoveText(bool8 onlyHideSprites)
     }
 }
 
-static void HandleInput(bool8 showContest)
+static void HandleInput (bool8 showContest)
 {
     s32 itemId = ListMenu_ProcessInput(sMoveRelearnerStruct->moveListMenuTask);
     ListMenuGetScrollAndRow(sMoveRelearnerStruct->moveListMenuTask, &sMoveRelearnerMenuSate.listOffset, &sMoveRelearnerMenuSate.listRow);
@@ -762,7 +762,7 @@ static void HandleInput(bool8 showContest)
     }
 }
 
-static s32 GetCurrentSelectedMove(void)
+static s32 GetCurrentSelectedMove (void)
 {
     return sMoveRelearnerStruct->menuItems[sMoveRelearnerMenuSate.listRow + sMoveRelearnerMenuSate.listOffset].id;
 }
@@ -773,7 +773,7 @@ static s32 GetCurrentSelectedMove(void)
 // "justShowHearts." The code for showing/hiding the heards was moved
 // to MoveRelearnerShowHideHearts, which is called whenever a new move is
 // selected and whenever the display mode changes.
-static void ShowTeachMoveText(bool8 shouldDoNothingInstead)
+static void ShowTeachMoveText (bool8 shouldDoNothingInstead)
 {
     if (shouldDoNothingInstead == FALSE) {
         StringExpandPlaceholders(gStringVar4, gText_TeachWhichMoveToPkmn);
@@ -782,7 +782,7 @@ static void ShowTeachMoveText(bool8 shouldDoNothingInstead)
     }
 }
 
-static void CreateUISprites(void)
+static void CreateUISprites (void)
 {
     int i;
 
@@ -807,7 +807,7 @@ static void CreateUISprites(void)
     }
 }
 
-static void AddScrollArrows(void)
+static void AddScrollArrows (void)
 {
     if (sMoveRelearnerStruct->moveDisplayArrowTask == 0xFF) {
         sMoveRelearnerStruct->moveDisplayArrowTask = AddScrollIndicatorArrowPair(&sDisplayModeArrowsTemplate, &sMoveRelearnerStruct->scrollOffset);
@@ -820,7 +820,7 @@ static void AddScrollArrows(void)
     }
 }
 
-static void RemoveScrollArrows(void)
+static void RemoveScrollArrows (void)
 {
     if (sMoveRelearnerStruct->moveDisplayArrowTask != 0xFF) {
         RemoveScrollIndicatorArrowPair(sMoveRelearnerStruct->moveDisplayArrowTask);
@@ -833,7 +833,7 @@ static void RemoveScrollArrows(void)
     }
 }
 
-static void CreateLearnableMovesList(void)
+static void CreateLearnableMovesList (void)
 {
     s32 i;
     u8 nickname[POKEMON_NAME_LENGTH + 1];
@@ -853,7 +853,7 @@ static void CreateLearnableMovesList(void)
     sMoveRelearnerStruct->numToShowAtOnce = LoadMoveRelearnerMovesList(sMoveRelearnerStruct->menuItems, sMoveRelearnerStruct->numMenuChoices);
 }
 
-void MoveRelearnerShowHideHearts(s32 moveId)
+void MoveRelearnerShowHideHearts (s32 moveId)
 {
     u16 numHearts;
     u16 i;

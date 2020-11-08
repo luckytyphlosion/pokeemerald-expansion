@@ -20,7 +20,7 @@ BSS_DATA struct
 static volatile bool8 gDma3ManagerLocked;
 static u8 gDma3RequestCursor;
 
-void ClearDma3Requests(void)
+void ClearDma3Requests (void)
 {
     int i;
 
@@ -36,7 +36,7 @@ void ClearDma3Requests(void)
     gDma3ManagerLocked = FALSE;
 }
 
-void ProcessDma3Requests(void)
+void ProcessDma3Requests (void)
 {
     u16 bytesTransferred;
 
@@ -93,7 +93,7 @@ void ProcessDma3Requests(void)
     }
 }
 
-s16 RequestDma3Copy(const void *src, void *dest, u16 size, u8 mode)
+s16 RequestDma3Copy (const void *src, void *dest, u16 size, u8 mode)
 {
     int cursor;
     int i = 0;
@@ -125,7 +125,7 @@ s16 RequestDma3Copy(const void *src, void *dest, u16 size, u8 mode)
     return -1;  // no free DMA request was found
 }
 
-s16 RequestDma3Fill(s32 value, void *dest, u16 size, u8 mode)
+s16 RequestDma3Fill (s32 value, void *dest, u16 size, u8 mode)
 {
     int cursor;
     int i = 0;
@@ -158,7 +158,7 @@ s16 RequestDma3Fill(s32 value, void *dest, u16 size, u8 mode)
     return -1;  // no free DMA request was found
 }
 
-s16 CheckForSpaceForDma3Request(s16 index)
+s16 CheckForSpaceForDma3Request (s16 index)
 {
     int i = 0;
 

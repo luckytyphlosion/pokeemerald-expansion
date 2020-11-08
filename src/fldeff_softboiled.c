@@ -15,7 +15,7 @@ static void Task_DisplayHPRestoredMessage(u8 taskId);
 static void Task_FinishSoftboiled(u8 taskId);
 static void CantUseSoftboiledOnMon(u8 taskId);
 
-bool8 SetUpFieldMove_SoftBoiled(void)
+bool8 SetUpFieldMove_SoftBoiled (void)
 {
     u16 maxHp;
     u16 hp;
@@ -31,7 +31,7 @@ bool8 SetUpFieldMove_SoftBoiled(void)
     return FALSE;
 }
 
-void ChooseMonForSoftboiled(u8 taskId)
+void ChooseMonForSoftboiled (u8 taskId)
 {
     gPartyMenu.action = PARTY_ACTION_SOFTBOILED;
     gPartyMenu.slotId2 =  gPartyMenu.slotId;
@@ -40,7 +40,7 @@ void ChooseMonForSoftboiled(u8 taskId)
     gTasks[taskId].func = Task_HandleChooseMonInput;
 }
 
-void Task_TryUseSoftboiledOnPartyMon(u8 taskId)
+void Task_TryUseSoftboiledOnPartyMon (u8 taskId)
 {
     u16 hp;
 
@@ -64,13 +64,13 @@ void Task_TryUseSoftboiledOnPartyMon(u8 taskId)
     PartyMenuModifyHP(taskId, userPartyId, -1, GetMonData(&gPlayerParty[userPartyId], MON_DATA_MAX_HP) / 5, Task_SoftboiledRestoreHealth);
 }
 
-static void Task_SoftboiledRestoreHealth(u8 taskId)
+static void Task_SoftboiledRestoreHealth (u8 taskId)
 {
     PlaySE(SE_USE_ITEM);
     PartyMenuModifyHP(taskId, gPartyMenu.slotId2, 1, GetMonData(&gPlayerParty[gPartyMenu.slotId], MON_DATA_MAX_HP) / 5, Task_DisplayHPRestoredMessage);
 }
 
-static void Task_DisplayHPRestoredMessage(u8 taskId)
+static void Task_DisplayHPRestoredMessage (u8 taskId)
 {
     GetMonNickname(&gPlayerParty[gPartyMenu.slotId2], gStringVar1);
     StringExpandPlaceholders(gStringVar4, gText_PkmnHPRestoredByVar2);
@@ -79,7 +79,7 @@ static void Task_DisplayHPRestoredMessage(u8 taskId)
     gTasks[taskId].func = Task_FinishSoftboiled;
 }
 
-static void Task_FinishSoftboiled(u8 taskId)
+static void Task_FinishSoftboiled (u8 taskId)
 {
     if (IsPartyMenuTextPrinterActive() == TRUE) {
         return;
@@ -94,7 +94,7 @@ static void Task_FinishSoftboiled(u8 taskId)
     gTasks[taskId].func = Task_HandleChooseMonInput;
 }
 
-static void Task_ChooseNewMonForSoftboiled(u8 taskId)
+static void Task_ChooseNewMonForSoftboiled (u8 taskId)
 {
     if (IsPartyMenuTextPrinterActive() == TRUE) {
         return;
@@ -103,7 +103,7 @@ static void Task_ChooseNewMonForSoftboiled(u8 taskId)
     gTasks[taskId].func = Task_HandleChooseMonInput;
 }
 
-static void CantUseSoftboiledOnMon(u8 taskId)
+static void CantUseSoftboiledOnMon (u8 taskId)
 {
     PlaySE(SE_SELECT);
     DisplayPartyMenuMessage(gText_CantBeUsedOnPkmn, FALSE);

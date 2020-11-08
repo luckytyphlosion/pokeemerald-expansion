@@ -182,12 +182,12 @@ static const u16 sInitialRentalMonRanges[][2] =
 };
 
 // code
-void CallBattleFactoryFunction(void)
+void CallBattleFactoryFunction (void)
 {
     sBattleFactoryFunctions[gSpecialVar_0x8004]();
 }
 
-static void InitFactoryChallenge(void)
+static void InitFactoryChallenge (void)
 {
     u8 i;
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
@@ -214,7 +214,7 @@ static void InitFactoryChallenge(void)
     gTrainerBattleOpponent_A = 0;
 }
 
-static void GetBattleFactoryData(void)
+static void GetBattleFactoryData (void)
 {
     int lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     int battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -232,7 +232,7 @@ static void GetBattleFactoryData(void)
     }
 }
 
-static void SetBattleFactoryData(void)
+static void SetBattleFactoryData (void)
 {
     int lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     int battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -257,7 +257,7 @@ static void SetBattleFactoryData(void)
     }
 }
 
-static void SaveFactoryChallenge(void)
+static void SaveFactoryChallenge (void)
 {
     gSaveBlock2Ptr->frontier.challengeStatus = gSpecialVar_0x8005;
     VarSet(VAR_TEMP_0, 0);
@@ -265,31 +265,31 @@ static void SaveFactoryChallenge(void)
     SaveGameFrontier();
 }
 
-static void nullsub_75(void)
+static void nullsub_75 (void)
 {
 }
 
-static void nullsub_123(void)
+static void nullsub_123 (void)
 {
 }
 
-static void SelectInitialRentalMons(void)
+static void SelectInitialRentalMons (void)
 {
     ZeroPlayerPartyMons();
     DoBattleFactorySelectScreen();
 }
 
-static void SwapRentalMons(void)
+static void SwapRentalMons (void)
 {
     DoBattleFactorySwapScreen();
 }
 
-static void SetPerformedRentalSwap(void)
+static void SetPerformedRentalSwap (void)
 {
     sPerformedRentalSwap = TRUE;
 }
 
-static void GenerateOpponentMons(void)
+static void GenerateOpponentMons (void)
 {
     int i, j, k;
     u16 species[FRONTIER_PARTY_SIZE];
@@ -361,12 +361,12 @@ static void GenerateOpponentMons(void)
     }
 }
 
-static void SetOpponentGfxVar(void)
+static void SetOpponentGfxVar (void)
 {
     SetBattleFacilityTrainerGfxId(gTrainerBattleOpponent_A, 0);
 }
 
-static void SetRentalsToOpponentParty(void)
+static void SetRentalsToOpponentParty (void)
 {
     u8 i;
 
@@ -385,7 +385,7 @@ static void SetRentalsToOpponentParty(void)
     }
 }
 
-static void SetPlayerAndOpponentParties(void)
+static void SetPlayerAndOpponentParties (void)
 {
     int i, j, k;
     int count = 0;
@@ -487,7 +487,7 @@ static void SetPlayerAndOpponentParties(void)
     }
 }
 
-static void GenerateInitialRentalMons(void)
+static void GenerateInitialRentalMons (void)
 {
     int i, j;
     u8 firstMonId;
@@ -580,7 +580,7 @@ static void GenerateInitialRentalMons(void)
     }
 }
 
-static void GetOpponentMostCommonMonType(void)
+static void GetOpponentMostCommonMonType (void)
 {
     u8 i;
     u8 typesCount[NUMBER_OF_MON_TYPES];
@@ -617,7 +617,7 @@ static void GetOpponentMostCommonMonType(void)
     }
 }
 
-static void GetOpponentBattleStyle(void)
+static void GetOpponentBattleStyle (void)
 {
     u8 i, j, count;
     u8 stylePoints[FACTORY_NUM_STYLES];
@@ -650,7 +650,7 @@ static void GetOpponentBattleStyle(void)
     }
 }
 
-static u8 GetMoveBattleStyle(u16 move)
+static u8 GetMoveBattleStyle (u16 move)
 {
     const u16 *moves;
     u8 i, j;
@@ -665,13 +665,13 @@ static u8 GetMoveBattleStyle(u16 move)
     return FACTORY_STYLE_NONE;
 }
 
-bool8 InBattleFactory(void)
+bool8 InBattleFactory (void)
 {
     return gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_FACTORY_PRE_BATTLE_ROOM
            || gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_FACTORY_BATTLE_ROOM;
 }
 
-static void RestorePlayerPartyHeldItems(void)
+static void RestorePlayerPartyHeldItems (void)
 {
     u8 i;
 
@@ -688,7 +688,7 @@ static void RestorePlayerPartyHeldItems(void)
     }
 }
 
-u8 GetFactoryMonFixedIV(u8 arg0, u8 arg1)
+u8 GetFactoryMonFixedIV (u8 arg0, u8 arg1)
 {
     u8 a1;
     u8 a2 = (arg1 != 0) ? 1 : 0;
@@ -702,7 +702,7 @@ u8 GetFactoryMonFixedIV(u8 arg0, u8 arg1)
     return sFixedIVTable[a1][a2];
 }
 
-void FillFactoryBrainParty(void)
+void FillFactoryBrainParty (void)
 {
     int i, j, k;
     u16 species[FRONTIER_PARTY_SIZE];
@@ -777,7 +777,7 @@ void FillFactoryBrainParty(void)
     }
 }
 
-static u16 GetFactoryMonId(u8 lvlMode, u8 challengeNum, bool8 useBetterRange)
+static u16 GetFactoryMonId (u8 lvlMode, u8 challengeNum, bool8 useBetterRange)
 {
     u16 numMons, monId;
     u16 adder; // Used to skip past early mons for open level
@@ -811,7 +811,7 @@ static u16 GetFactoryMonId(u8 lvlMode, u8 challengeNum, bool8 useBetterRange)
     return monId;
 }
 
-u8 GetNumPastRentalsRank(u8 battleMode, u8 lvlMode)
+u8 GetNumPastRentalsRank (u8 battleMode, u8 lvlMode)
 {
     u8 ret;
     u8 rents = gSaveBlock2Ptr->frontier.factoryRentsCount[battleMode][lvlMode];
@@ -833,7 +833,7 @@ u8 GetNumPastRentalsRank(u8 battleMode, u8 lvlMode)
     return ret;
 }
 
-u32 GetAiScriptsInBattleFactory(void)
+u32 GetAiScriptsInBattleFactory (void)
 {
     int lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
 
@@ -855,7 +855,7 @@ u32 GetAiScriptsInBattleFactory(void)
     }
 }
 
-void SetMonMoveAvoidReturn(struct Pokemon *mon, u16 moveArg, u8 moveSlot)
+void SetMonMoveAvoidReturn (struct Pokemon *mon, u16 moveArg, u8 moveSlot)
 {
     u16 move = moveArg;
     if (moveArg == MOVE_RETURN) {

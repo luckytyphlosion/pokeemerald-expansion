@@ -7,14 +7,14 @@
 // this file handles fading the palettes for the color/icon selections on the Roulette wheel
 // but it also handles the "pulse blend" effect of Mirage Tower
 
-void RouletteFlash_Reset(struct RouletteFlashUtil *flash)
+void RouletteFlash_Reset (struct RouletteFlashUtil *flash)
 {
     flash->enabled = 0;
     flash->flags = 0;
     memset(&flash->palettes, 0, sizeof(flash->palettes));
 }
 
-u8 RouletteFlash_Add(struct RouletteFlashUtil *flash, u8 id, const struct RouletteFlashSettings *settings)
+u8 RouletteFlash_Add (struct RouletteFlashUtil *flash, u8 id, const struct RouletteFlashSettings *settings)
 {
     if (id >= ARRAY_COUNT(flash->palettes) || flash->palettes[id].available) {
         return 0xFF;
@@ -42,7 +42,7 @@ u8 RouletteFlash_Add(struct RouletteFlashUtil *flash, u8 id, const struct Roulet
 }
 
 // Unused
-static u8 RouletteFlash_Remove(struct RouletteFlashUtil *flash, u8 id)
+static u8 RouletteFlash_Remove (struct RouletteFlashUtil *flash, u8 id)
 {
     if (id >= ARRAY_COUNT(flash->palettes)) {
         return 0xFF;
@@ -55,7 +55,7 @@ static u8 RouletteFlash_Remove(struct RouletteFlashUtil *flash, u8 id)
     return id;
 }
 
-static u8 RouletteFlash_FadePalette(struct RouletteFlashPalette *pal)
+static u8 RouletteFlash_FadePalette (struct RouletteFlashPalette *pal)
 {
     u8 i;
     u8 returnval;
@@ -118,7 +118,7 @@ static u8 RouletteFlash_FadePalette(struct RouletteFlashPalette *pal)
     return returnval;
 }
 
-static u8 RouletteFlash_FlashPalette(struct RouletteFlashPalette *pal)
+static u8 RouletteFlash_FlashPalette (struct RouletteFlashPalette *pal)
 {
     u8 i = 0;
     switch (pal->state) {
@@ -140,7 +140,7 @@ static u8 RouletteFlash_FlashPalette(struct RouletteFlashPalette *pal)
     return 1;
 }
 
-void RouletteFlash_Run(struct RouletteFlashUtil *flash)
+void RouletteFlash_Run (struct RouletteFlashUtil *flash)
 {
     u8 i = 0;
 
@@ -161,7 +161,7 @@ void RouletteFlash_Run(struct RouletteFlashUtil *flash)
     }
 }
 
-void RouletteFlash_Enable(struct RouletteFlashUtil *flash, u16 flags)
+void RouletteFlash_Enable (struct RouletteFlashUtil *flash, u16 flags)
 {
     u8 i = 0;
 
@@ -176,7 +176,7 @@ void RouletteFlash_Enable(struct RouletteFlashUtil *flash, u16 flags)
     }
 }
 
-void RouletteFlash_Stop(struct RouletteFlashUtil *flash, u16 flags)
+void RouletteFlash_Stop (struct RouletteFlashUtil *flash, u16 flags)
 {
     u8 i;
 
@@ -210,7 +210,7 @@ void RouletteFlash_Stop(struct RouletteFlashUtil *flash, u16 flags)
     }
 }
 
-void InitPulseBlend(struct PulseBlend *pulseBlend)
+void InitPulseBlend (struct PulseBlend *pulseBlend)
 {
     u8 i = 0;
     pulseBlend->usedPulseBlendPalettes = 0;
@@ -220,7 +220,7 @@ void InitPulseBlend(struct PulseBlend *pulseBlend)
     }
 }
 
-int InitPulseBlendPaletteSettings(struct PulseBlend *pulseBlend, const struct PulseBlendSettings *settings)
+int InitPulseBlendPaletteSettings (struct PulseBlend *pulseBlend, const struct PulseBlendSettings *settings)
 {
     u8 i = 0;
     struct PulseBlendPalette *pulseBlendPalette = NULL;
@@ -250,7 +250,7 @@ int InitPulseBlendPaletteSettings(struct PulseBlend *pulseBlend, const struct Pu
     return i;
 }
 
-static void ClearPulseBlendPalettesSettings(struct PulseBlendPalette *pulseBlendPalette)
+static void ClearPulseBlendPalettesSettings (struct PulseBlendPalette *pulseBlendPalette)
 {
     u16 i;
 
@@ -270,7 +270,7 @@ static void ClearPulseBlendPalettesSettings(struct PulseBlendPalette *pulseBlend
     pulseBlendPalette->delayCounter = 0;
 }
 
-void UnloadUsedPulseBlendPalettes(struct PulseBlend *pulseBlend, u16 pulseBlendPaletteSelector, u8 multiSelection)
+void UnloadUsedPulseBlendPalettes (struct PulseBlend *pulseBlend, u16 pulseBlendPaletteSelector, u8 multiSelection)
 {
     u16 i = 0;
 
@@ -287,7 +287,7 @@ void UnloadUsedPulseBlendPalettes(struct PulseBlend *pulseBlend, u16 pulseBlendP
     }
 }
 
-void MarkUsedPulseBlendPalettes(struct PulseBlend *pulseBlend, u16 pulseBlendPaletteSelector, u8 multiSelection)
+void MarkUsedPulseBlendPalettes (struct PulseBlend *pulseBlend, u16 pulseBlendPaletteSelector, u8 multiSelection)
 {
     u8 i = 0;
 
@@ -307,7 +307,7 @@ void MarkUsedPulseBlendPalettes(struct PulseBlend *pulseBlend, u16 pulseBlendPal
     }
 }
 
-void UnmarkUsedPulseBlendPalettes(struct PulseBlend *pulseBlend, u16 pulseBlendPaletteSelector, u8 multiSelection)
+void UnmarkUsedPulseBlendPalettes (struct PulseBlend *pulseBlend, u16 pulseBlendPaletteSelector, u8 multiSelection)
 {
     u16 i;
     struct PulseBlendPalette *pulseBlendPalette;
@@ -344,7 +344,7 @@ void UnmarkUsedPulseBlendPalettes(struct PulseBlend *pulseBlend, u16 pulseBlendP
     }
 }
 
-void UpdatePulseBlend(struct PulseBlend *pulseBlend)
+void UpdatePulseBlend (struct PulseBlend *pulseBlend)
 {
     struct PulseBlendPalette *pulseBlendPalette;
     u8 i = 0;
@@ -404,7 +404,7 @@ void UpdatePulseBlend(struct PulseBlend *pulseBlend)
 }
 
 // Below used for the Roulette grid
-void ClearTilemapRect(u16 *dest, u16 src, u8 left, u8 top, u8 width, u8 height)
+void ClearTilemapRect (u16 *dest, u16 src, u8 left, u8 top, u8 width, u8 height)
 {
     u16 *_dest;
     u8 i;
@@ -419,7 +419,7 @@ void ClearTilemapRect(u16 *dest, u16 src, u8 left, u8 top, u8 width, u8 height)
     }
 }
 
-void SetTilemapRect(u16 *dest, u16 *src, u8 left, u8 top, u8 width, u8 height)
+void SetTilemapRect (u16 *dest, u16 *src, u8 left, u8 top, u8 width, u8 height)
 {
     u16 *_dest;
     u16 *_src = src;

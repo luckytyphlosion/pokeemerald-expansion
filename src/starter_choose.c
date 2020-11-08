@@ -353,7 +353,7 @@ static const struct SpriteTemplate sSpriteTemplate_StarterCircle =
 };
 
 // .text
-u16 GetStarterPokemon(u16 chosenStarterId)
+u16 GetStarterPokemon (u16 chosenStarterId)
 {
     if (chosenStarterId > STARTER_MON_COUNT) {
         chosenStarterId = 0;
@@ -361,7 +361,7 @@ u16 GetStarterPokemon(u16 chosenStarterId)
     return sStarterMon[chosenStarterId];
 }
 
-static void VblankCB_StarterChoose(void)
+static void VblankCB_StarterChoose (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
@@ -377,7 +377,7 @@ static void VblankCB_StarterChoose(void)
 #define sTaskId data[0]
 #define sBallId data[1]
 
-void CB2_ChooseStarter(void)
+void CB2_ChooseStarter (void)
 {
     u16 savedIme;
     u8 taskId;
@@ -469,7 +469,7 @@ void CB2_ChooseStarter(void)
     sStarterLabelWindowId = 0xFF;
 }
 
-static void CB2_StarterChoose(void)
+static void CB2_StarterChoose (void)
 {
     RunTasks();
     AnimateSprites();
@@ -478,7 +478,7 @@ static void CB2_StarterChoose(void)
     UpdatePaletteFade();
 }
 
-static void Task_StarterChoose(u8 taskId)
+static void Task_StarterChoose (u8 taskId)
 {
     CreateStarterPokemonLabel(gTasks[taskId].tStarterSelection);
     DrawStdFrameWithCustomTileAndPalette(0, FALSE, 0x2A8, 0xD);
@@ -488,7 +488,7 @@ static void Task_StarterChoose(u8 taskId)
     gTasks[taskId].func = Task_HandleStarterChooseInput;
 }
 
-static void Task_HandleStarterChooseInput(u8 taskId)
+static void Task_HandleStarterChooseInput (u8 taskId)
 {
     u8 selection = gTasks[taskId].tStarterSelection;
 
@@ -517,7 +517,7 @@ static void Task_HandleStarterChooseInput(u8 taskId)
     }
 }
 
-static void Task_WaitForStarterSprite(u8 taskId)
+static void Task_WaitForStarterSprite (u8 taskId)
 {
     if (gSprites[gTasks[taskId].tCircleSpriteId].affineAnimEnded &&
         gSprites[gTasks[taskId].tCircleSpriteId].pos1.x == STARTER_PKMN_POS_X &&
@@ -526,7 +526,7 @@ static void Task_WaitForStarterSprite(u8 taskId)
     }
 }
 
-static void Task_AskConfirmStarter(u8 taskId)
+static void Task_AskConfirmStarter (u8 taskId)
 {
     PlayCry1(GetStarterPokemon(gTasks[taskId].tStarterSelection), 0);
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
@@ -536,7 +536,7 @@ static void Task_AskConfirmStarter(u8 taskId)
     gTasks[taskId].func = Task_HandleConfirmStarterInput;
 }
 
-static void Task_HandleConfirmStarterInput(u8 taskId)
+static void Task_HandleConfirmStarterInput (u8 taskId)
 {
     u8 spriteId;
 
@@ -562,12 +562,12 @@ static void Task_HandleConfirmStarterInput(u8 taskId)
     }
 }
 
-static void Task_DeclineStarter(u8 taskId)
+static void Task_DeclineStarter (u8 taskId)
 {
     gTasks[taskId].func = Task_StarterChoose;
 }
 
-static void CreateStarterPokemonLabel(u8 selection)
+static void CreateStarterPokemonLabel (u8 selection)
 {
     u8 categoryText[32];
     struct WindowTemplate winTemplate;
@@ -603,7 +603,7 @@ static void CreateStarterPokemonLabel(u8 selection)
     SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(labelTop, labelBottom));
 }
 
-static void ClearStarterLabel(void)
+static void ClearStarterLabel (void)
 {
     FillWindowPixelBuffer(sStarterLabelWindowId, PIXEL_FILL(0));
     ClearWindowTilemap(sStarterLabelWindowId);
@@ -614,19 +614,19 @@ static void ClearStarterLabel(void)
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void Task_MoveStarterChooseCursor(u8 taskId)
+static void Task_MoveStarterChooseCursor (u8 taskId)
 {
     ClearStarterLabel();
     gTasks[taskId].func = Task_CreateStarterLabel;
 }
 
-static void Task_CreateStarterLabel(u8 taskId)
+static void Task_CreateStarterLabel (u8 taskId)
 {
     CreateStarterPokemonLabel(gTasks[taskId].tStarterSelection);
     gTasks[taskId].func = Task_HandleStarterChooseInput;
 }
 
-static u8 CreatePokemonFrontSprite(u16 species, u8 x, u8 y)
+static u8 CreatePokemonFrontSprite (u16 species, u8 x, u8 y)
 {
     u8 spriteId;
 
@@ -635,7 +635,7 @@ static u8 CreatePokemonFrontSprite(u16 species, u8 x, u8 y)
     return spriteId;
 }
 
-static void SpriteCB_SelectionHand(struct Sprite *sprite)
+static void SpriteCB_SelectionHand (struct Sprite *sprite)
 {
     // Float up and down above selected pokeball
     sprite->pos1.x = sCursorCoords[gTasks[sprite->data[0]].tStarterSelection][0];
@@ -644,7 +644,7 @@ static void SpriteCB_SelectionHand(struct Sprite *sprite)
     sprite->data[1] = (u8)(sprite->data[1]) + 4;
 }
 
-static void SpriteCB_Pokeball(struct Sprite *sprite)
+static void SpriteCB_Pokeball (struct Sprite *sprite)
 {
     // Animate pokeball if currently selected
     if (gTasks[sprite->sTaskId].tStarterSelection == sprite->sBallId) {
@@ -654,7 +654,7 @@ static void SpriteCB_Pokeball(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_StarterPokemon(struct Sprite *sprite)
+static void SpriteCB_StarterPokemon (struct Sprite *sprite)
 {
     // Move sprite to upper center of screen
     if (sprite->pos1.x > STARTER_PKMN_POS_X) {

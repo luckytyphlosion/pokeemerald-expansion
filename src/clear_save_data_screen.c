@@ -71,14 +71,14 @@ static const struct WindowTemplate sClearSaveYesNo[] =
     }
 };
 
-void CB2_InitClearSaveDataScreen(void)
+void CB2_InitClearSaveDataScreen (void)
 {
     if (SetupClearSaveDataScreen()) {
         CreateTask(Task_DoClearSaveDataScreenYesNo, 0);
     }
 }
 
-static void Task_DoClearSaveDataScreenYesNo(u8 taskId)
+static void Task_DoClearSaveDataScreenYesNo (u8 taskId)
 {
     DrawStdFrameWithCustomTileAndPalette(0, 0, 2, 14);
     AddTextPrinterParameterized(0, 1, gText_ClearAllSaveData, 0, 1, 0, 0);
@@ -86,7 +86,7 @@ static void Task_DoClearSaveDataScreenYesNo(u8 taskId)
     gTasks[taskId].func = Task_ClearSaveDataScreenYesNoChoice;
 }
 
-static void Task_ClearSaveDataScreenYesNoChoice(u8 taskId)
+static void Task_ClearSaveDataScreenYesNoChoice (u8 taskId)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case 0:
@@ -102,25 +102,25 @@ static void Task_ClearSaveDataScreenYesNoChoice(u8 taskId)
     }
 }
 
-static void Task_ClearSaveData(u8 taskId)
+static void Task_ClearSaveData (u8 taskId)
 {
     ClearSaveData();
     DestroyTask(taskId);
     SetMainCallback2(CB2_FadeAndDoReset);
 }
 
-static void MainCB(void)
+static void MainCB (void)
 {
     RunTasks();
     UpdatePaletteFade();
 }
 
-static void VBlankCB(void)
+static void VBlankCB (void)
 {
     TransferPlttBuffer();
 }
 
-static bool8 SetupClearSaveDataScreen(void)
+static bool8 SetupClearSaveDataScreen (void)
 {
     u16 i;
 
@@ -179,7 +179,7 @@ static bool8 SetupClearSaveDataScreen(void)
     return FALSE;
 }
 
-static void CB2_FadeAndDoReset(void)
+static void CB2_FadeAndDoReset (void)
 {
     switch (gMain.state) {
     case 0:
@@ -197,7 +197,7 @@ static void CB2_FadeAndDoReset(void)
     }
 }
 
-static void InitClearSaveDataScreenWindows(void)
+static void InitClearSaveDataScreenWindows (void)
 {
     InitWindows(sClearSaveTextWindow);
     DeactivateAllTextPrinters();

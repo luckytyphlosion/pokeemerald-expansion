@@ -10,7 +10,7 @@ const struct FlashSetupInfo * const sSetupInfos[] =
     &DefaultFlash
 };
 
-u16 IdentifyFlash(void)
+u16 IdentifyFlash (void)
 {
     u16 result;
     u16 flashId;
@@ -47,7 +47,7 @@ u16 IdentifyFlash(void)
     return result;
 }
 
-u16 WaitForFlashWrite_Common(u8 phase, u8 *addr, u8 lastData)
+u16 WaitForFlashWrite_Common (u8 phase, u8 *addr, u8 lastData)
 {
     u16 result = 0;
     u8 status;

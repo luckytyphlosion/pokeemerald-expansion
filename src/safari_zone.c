@@ -37,22 +37,22 @@ EWRAM_DATA static struct PokeblockFeeder sPokeblockFeeders[NUM_POKEBLOCK_FEEDERS
 static void ClearAllPokeblockFeeders(void);
 static void DecrementFeederStepCounters(void);
 
-bool32 GetSafariZoneFlag(void)
+bool32 GetSafariZoneFlag (void)
 {
     return FlagGet(FLAG_SYS_SAFARI_MODE);
 }
 
-void SetSafariZoneFlag(void)
+void SetSafariZoneFlag (void)
 {
     FlagSet(FLAG_SYS_SAFARI_MODE);
 }
 
-void ResetSafariZoneFlag(void)
+void ResetSafariZoneFlag (void)
 {
     FlagClear(FLAG_SYS_SAFARI_MODE);
 }
 
-void EnterSafariMode(void)
+void EnterSafariMode (void)
 {
     IncrementGameStat(GAME_STAT_ENTERED_SAFARI_ZONE);
     SetSafariZoneFlag();
@@ -63,7 +63,7 @@ void EnterSafariMode(void)
     sSafariZonePkblkUses = 0;
 }
 
-void ExitSafariMode(void)
+void ExitSafariMode (void)
 {
     sub_80EE44C(sSafariZoneCaughtMons, sSafariZonePkblkUses);
     ResetSafariZoneFlag();
@@ -72,7 +72,7 @@ void ExitSafariMode(void)
     sSafariZoneStepCounter = 0;
 }
 
-bool8 SafariZoneTakeStep(void)
+bool8 SafariZoneTakeStep (void)
 {
     if (GetSafariZoneFlag() == FALSE) {
         return FALSE;
@@ -87,12 +87,12 @@ bool8 SafariZoneTakeStep(void)
     return FALSE;
 }
 
-void SafariZoneRetirePrompt(void)
+void SafariZoneRetirePrompt (void)
 {
     ScriptContext1_SetupScript(SafariZone_EventScript_RetirePrompt);
 }
 
-void CB2_EndSafariBattle(void)
+void CB2_EndSafariBattle (void)
 {
     sSafariZonePkblkUses += gBattleResults.pokeblockThrows;
     if (gBattleOutcome == B_OUTCOME_CAUGHT) {
@@ -112,17 +112,17 @@ void CB2_EndSafariBattle(void)
     }
 }
 
-static void ClearPokeblockFeeder(u8 index)
+static void ClearPokeblockFeeder (u8 index)
 {
     memset(&sPokeblockFeeders[index], 0, sizeof(struct PokeblockFeeder));
 }
 
-static void ClearAllPokeblockFeeders(void)
+static void ClearAllPokeblockFeeders (void)
 {
     memset(sPokeblockFeeders, 0, sizeof(sPokeblockFeeders));
 }
 
-void GetPokeblockFeederInFront(void)
+void GetPokeblockFeederInFront (void)
 {
     s16 x, y;
     u16 i;
@@ -142,7 +142,7 @@ void GetPokeblockFeederInFront(void)
     gSpecialVar_Result = -1;
 }
 
-void GetPokeblockFeederWithinRange(void)
+void GetPokeblockFeederWithinRange (void)
 {
     s16 x, y;
     u16 i;
@@ -171,7 +171,7 @@ void GetPokeblockFeederWithinRange(void)
 }
 
 // unused
-struct Pokeblock * SafariZoneGetPokeblockInFront(void)
+struct Pokeblock * SafariZoneGetPokeblockInFront (void)
 {
     GetPokeblockFeederInFront();
 
@@ -182,7 +182,7 @@ struct Pokeblock * SafariZoneGetPokeblockInFront(void)
     }
 }
 
-struct Pokeblock * SafariZoneGetActivePokeblock(void)
+struct Pokeblock * SafariZoneGetActivePokeblock (void)
 {
     GetPokeblockFeederWithinRange();
 
@@ -193,7 +193,7 @@ struct Pokeblock * SafariZoneGetActivePokeblock(void)
     }
 }
 
-void SafariZoneActivatePokeblockFeeder(u8 pkblId)
+void SafariZoneActivatePokeblockFeeder (u8 pkblId)
 {
     s16 x, y;
     u8 i;
@@ -215,7 +215,7 @@ void SafariZoneActivatePokeblockFeeder(u8 pkblId)
     }
 }
 
-static void DecrementFeederStepCounters(void)
+static void DecrementFeederStepCounters (void)
 {
     u8 i;
 
@@ -230,7 +230,7 @@ static void DecrementFeederStepCounters(void)
 }
 
 // unused
-bool8 GetInFrontFeederPokeblockAndSteps(void)
+bool8 GetInFrontFeederPokeblockAndSteps (void)
 {
     GetPokeblockFeederInFront();
 

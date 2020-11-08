@@ -272,7 +272,7 @@ static const struct SpriteTemplate gUnknown_0853EF60 =
 };
 
 // Unused
-u8 sub_80A9C70(u8 battlerId, bool8 b)
+u8 sub_80A9C70 (u8 battlerId, bool8 b)
 {
     u8 battlerSpriteId = gBattlerSpriteIds[battlerId];
     u8 taskId = CreateTask(sub_80A9DB4, 10);
@@ -309,7 +309,7 @@ u8 sub_80A9C70(u8 battlerId, bool8 b)
     return taskId;
 }
 
-static void sub_80A9DB4(u8 taskId)
+static void sub_80A9DB4 (u8 taskId)
 {
     if (gTasks[taskId].data[2] == 2) {
         gTasks[taskId].data[2] = 0;
@@ -337,7 +337,7 @@ static void sub_80A9DB4(u8 taskId)
     }
 }
 
-static void sub_80A9E44(struct Sprite *sprite)
+static void sub_80A9E44 (struct Sprite *sprite)
 {
     if (sprite->data[6] == 0) {
         sprite->invisible = FALSE;
@@ -348,7 +348,7 @@ static void sub_80A9E44(struct Sprite *sprite)
     }
 }
 
-static void sub_80A9E78(struct Sprite *sprite)
+static void sub_80A9E78 (struct Sprite *sprite)
 {
     sprite->pos2.x = Cos(sprite->data[0], 32);
     sprite->pos2.y = Sin(sprite->data[0], 8);
@@ -370,7 +370,7 @@ static void sub_80A9E78(struct Sprite *sprite)
     }
 }
 
-void AnimTask_FrozenIceCube(u8 taskId)
+void AnimTask_FrozenIceCube (u8 taskId)
 {
     s16 x = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2) - 32;
     s16 y = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_Y_PIC_OFFSET) - 36;
@@ -390,7 +390,7 @@ void AnimTask_FrozenIceCube(u8 taskId)
     gTasks[taskId].func = AnimTask_FrozenIceCube_Step1;
 }
 
-static void AnimTask_FrozenIceCube_Step1(u8 taskId)
+static void AnimTask_FrozenIceCube_Step1 (u8 taskId)
 {
     gTasks[taskId].data[1]++;
     if (gTasks[taskId].data[1] == 10) {
@@ -403,7 +403,7 @@ static void AnimTask_FrozenIceCube_Step1(u8 taskId)
     }
 }
 
-static void AnimTask_FrozenIceCube_Step2(u8 taskId)
+static void AnimTask_FrozenIceCube_Step2 (u8 taskId)
 {
     u8 palIndex = IndexOfSpritePaletteTag(ANIM_TAG_ICE_CUBE);
 
@@ -432,7 +432,7 @@ static void AnimTask_FrozenIceCube_Step2(u8 taskId)
     }
 }
 
-static void AnimTask_FrozenIceCube_Step3(u8 taskId)
+static void AnimTask_FrozenIceCube_Step3 (u8 taskId)
 {
     gTasks[taskId].data[1]--;
     if (gTasks[taskId].data[1] == -1) {
@@ -445,7 +445,7 @@ static void AnimTask_FrozenIceCube_Step3(u8 taskId)
     }
 }
 
-static void AnimTask_FrozenIceCube_Step4(u8 taskId)
+static void AnimTask_FrozenIceCube_Step4 (u8 taskId)
 {
     gTasks[taskId].data[1]++;
     if (gTasks[taskId].data[1] == 37) {
@@ -462,7 +462,7 @@ static void AnimTask_FrozenIceCube_Step4(u8 taskId)
 
 #define CASE(by, stat) case (STAT_ANIM_ ## by + stat - 1)
 
-void AnimTask_StatsChange(u8 taskId)
+void AnimTask_StatsChange (u8 taskId)
 {
     bool16 goesDown = FALSE;
     s16 animStatId = 0;
@@ -522,7 +522,7 @@ void AnimTask_StatsChange(u8 taskId)
 
 #undef CASE
 
-void LaunchStatusAnimation(u8 battlerId, u8 statusAnimId)
+void LaunchStatusAnimation (u8 battlerId, u8 statusAnimId)
 {
     u8 taskId;
 
@@ -533,7 +533,7 @@ void LaunchStatusAnimation(u8 battlerId, u8 statusAnimId)
     gTasks[taskId].data[0] = battlerId;
 }
 
-static void Task_DoStatusAnimation(u8 taskId)
+static void Task_DoStatusAnimation (u8 taskId)
 {
     gAnimScriptCallback();
     if (!gAnimScriptActive) {

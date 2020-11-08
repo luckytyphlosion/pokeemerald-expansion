@@ -94,7 +94,7 @@ static const struct SpriteTemplate gUnknown_0859F524 =
 };
 
 // code
-void ResetVramOamAndBgCntRegs(void)
+void ResetVramOamAndBgCntRegs (void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     SetGpuReg(REG_OFFSET_BG3CNT, 0);
@@ -106,7 +106,7 @@ void ResetVramOamAndBgCntRegs(void)
     CpuFill16(0, (void*)PLTT, PLTT_SIZE);
 }
 
-void ResetAllBgsCoordinates(void)
+void ResetAllBgsCoordinates (void)
 {
     ChangeBgX(0, 0, 0);
     ChangeBgY(0, 0, 0);
@@ -118,13 +118,13 @@ void ResetAllBgsCoordinates(void)
     ChangeBgY(3, 0, 0);
 }
 
-void SetVBlankHBlankCallbacksToNull(void)
+void SetVBlankHBlankCallbacksToNull (void)
 {
     SetVBlankCallback(NULL);
     SetHBlankCallback(NULL);
 }
 
-void DisplayMessageAndContinueTask(u8 taskId, u8 windowId, u16 arg2, u8 arg3, u8 fontId, u8 textSpeed, const u8 *string, void *taskFunc)
+void DisplayMessageAndContinueTask (u8 taskId, u8 windowId, u16 arg2, u8 arg3, u8 fontId, u8 textSpeed, const u8 *string, void *taskFunc)
 {
     gUnknown_0203A140 = windowId;
     DrawDialogFrameWithCustomTileAndPalette(windowId, TRUE, arg2, arg3);
@@ -139,33 +139,33 @@ void DisplayMessageAndContinueTask(u8 taskId, u8 windowId, u16 arg2, u8 arg3, u8
     gTasks[taskId].func = Task_ContinueTaskAfterMessagePrints;
 }
 
-bool16 RunTextPrintersRetIsActive(u8 textPrinterId)
+bool16 RunTextPrintersRetIsActive (u8 textPrinterId)
 {
     RunTextPrinters();
     return IsTextPrinterActive(textPrinterId);
 }
 
-static void Task_ContinueTaskAfterMessagePrints(u8 taskId)
+static void Task_ContinueTaskAfterMessagePrints (u8 taskId)
 {
     if (!RunTextPrintersRetIsActive(gUnknown_0203A140)) {
         gUnknown_0300117C(taskId);
     }
 }
 
-void DoYesNoFuncWithChoice(u8 taskId, const struct YesNoFuncTable *data)
+void DoYesNoFuncWithChoice (u8 taskId, const struct YesNoFuncTable *data)
 {
     gUnknown_0203A138 = *data;
     gTasks[taskId].func = Task_CallYesOrNoCallback;
 }
 
-void CreateYesNoMenuWithCallbacks(u8 taskId, const struct WindowTemplate *template, u8 arg2, u8 arg3, u8 arg4, u16 tileStart, u8 palette, const struct YesNoFuncTable *yesNo)
+void CreateYesNoMenuWithCallbacks (u8 taskId, const struct WindowTemplate *template, u8 arg2, u8 arg3, u8 arg4, u16 tileStart, u8 palette, const struct YesNoFuncTable *yesNo)
 {
     CreateYesNoMenu(template, tileStart, palette, 0);
     gUnknown_0203A138 = *yesNo;
     gTasks[taskId].func = Task_CallYesOrNoCallback;
 }
 
-static void Task_CallYesOrNoCallback(u8 taskId)
+static void Task_CallYesOrNoCallback (u8 taskId)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case 0:
@@ -180,7 +180,7 @@ static void Task_CallYesOrNoCallback(u8 taskId)
     }
 }
 
-bool8 AdjustQuantityAccordingToDPadInput(s16 *arg0, u16 arg1)
+bool8 AdjustQuantityAccordingToDPadInput (s16 *arg0, u16 arg1)
 {
     s16 valBefore = (*arg0);
 
@@ -237,7 +237,7 @@ bool8 AdjustQuantityAccordingToDPadInput(s16 *arg0, u16 arg1)
     return FALSE;
 }
 
-u8 GetLRKeysPressed(void)
+u8 GetLRKeysPressed (void)
 {
     if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR) {
         if (JOY_NEW(L_BUTTON)) {
@@ -251,7 +251,7 @@ u8 GetLRKeysPressed(void)
     return 0;
 }
 
-u8 GetLRKeysPressedAndHeld(void)
+u8 GetLRKeysPressedAndHeld (void)
 {
     if (gSaveBlock2Ptr->optionsButtonMode == OPTIONS_BUTTON_MODE_LR) {
         if (JOY_REPEAT(L_BUTTON)) {
@@ -265,7 +265,7 @@ u8 GetLRKeysPressedAndHeld(void)
     return 0;
 }
 
-bool8 sub_8122148(u16 itemId)
+bool8 sub_8122148 (u16 itemId)
 {
     if (itemId != ITEM_ENIGMA_BERRY) {
         return TRUE;
@@ -278,7 +278,7 @@ bool8 sub_8122148(u16 itemId)
     }
 }
 
-bool8 itemid_80BF6D8_mail_related(u16 itemId)
+bool8 itemid_80BF6D8_mail_related (u16 itemId)
 {
     if (IsUpdateLinkStateCBActive() != TRUE && InUnionRoom() != TRUE) {
         return TRUE;
@@ -289,7 +289,7 @@ bool8 itemid_80BF6D8_mail_related(u16 itemId)
     }
 }
 
-bool8 MenuHelpers_LinkSomething(void)
+bool8 MenuHelpers_LinkSomething (void)
 {
     if (IsUpdateLinkStateCBActive() == TRUE || gReceivedRemoteLinkPlayers == 1) {
         return TRUE;
@@ -298,7 +298,7 @@ bool8 MenuHelpers_LinkSomething(void)
     }
 }
 
-static bool8 sub_81221D0(void)
+static bool8 sub_81221D0 (void)
 {
     if (!MenuHelpers_LinkSomething()) {
         return FALSE;
@@ -307,7 +307,7 @@ static bool8 sub_81221D0(void)
     }
 }
 
-bool8 MenuHelpers_CallLinkSomething(void)
+bool8 MenuHelpers_CallLinkSomething (void)
 {
     if (sub_81221D0() == TRUE) {
         return TRUE;
@@ -318,7 +318,7 @@ bool8 MenuHelpers_CallLinkSomething(void)
     }
 }
 
-void sub_812220C(struct ItemSlot *slots, u8 count, u8 *arg2, u8 *usedSlotsCount, u8 maxUsedSlotsCount)
+void sub_812220C (struct ItemSlot *slots, u8 count, u8 *arg2, u8 *usedSlotsCount, u8 maxUsedSlotsCount)
 {
     u16 i;
     struct ItemSlot *slots_ = slots;
@@ -338,7 +338,7 @@ void sub_812220C(struct ItemSlot *slots, u8 count, u8 *arg2, u8 *usedSlotsCount,
     }
 }
 
-void sub_812225C(u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 numItems)
+void sub_812225C (u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 numItems)
 {
     if (*scrollOffset != 0 && *scrollOffset + maxShownItems > numItems) {
         *scrollOffset = numItems - maxShownItems;
@@ -353,7 +353,7 @@ void sub_812225C(u16 *scrollOffset, u16 *cursorPos, u8 maxShownItems, u8 numItem
     }
 }
 
-void sub_8122298(u16 *arg0, u16 *arg1, u8 arg2, u8 arg3, u8 arg4)
+void sub_8122298 (u16 *arg0, u16 *arg1, u8 arg2, u8 arg3, u8 arg4)
 {
     u8 i;
 
@@ -380,13 +380,13 @@ void sub_8122298(u16 *arg0, u16 *arg1, u8 arg2, u8 arg3, u8 arg4)
     }
 }
 
-void LoadListMenuArrowsGfx(void)
+void LoadListMenuArrowsGfx (void)
 {
     LoadCompressedSpriteSheet(&gUnknown_0859F514);
     LoadCompressedSpritePalette(&gUnknown_0859F51C);
 }
 
-void sub_8122344(u8 *spriteIds, u8 count)
+void sub_8122344 (u8 *spriteIds, u8 count)
 {
     u8 i;
 
@@ -400,7 +400,7 @@ void sub_8122344(u8 *spriteIds, u8 count)
     }
 }
 
-void sub_81223B0(u8 *spriteIds, u8 count)
+void sub_81223B0 (u8 *spriteIds, u8 count)
 {
     u8 i;
 
@@ -413,7 +413,7 @@ void sub_81223B0(u8 *spriteIds, u8 count)
     }
 }
 
-void sub_81223FC(u8 *spriteIds, u8 count, bool8 invisible)
+void sub_81223FC (u8 *spriteIds, u8 count, bool8 invisible)
 {
     u8 i;
 
@@ -422,7 +422,7 @@ void sub_81223FC(u8 *spriteIds, u8 count, bool8 invisible)
     }
 }
 
-void sub_8122448(u8 *spriteIds, u8 count, s16 x, u16 y)
+void sub_8122448 (u8 *spriteIds, u8 count, s16 x, u16 y)
 {
     u8 i;
     bool8 unknownBit = count & 0x80;

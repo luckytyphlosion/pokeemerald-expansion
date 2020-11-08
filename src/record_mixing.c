@@ -168,13 +168,13 @@ static const u8 gUnknown_0858CFBE[3][4] =
 
 #define BUFFER_CHUNK_SIZE 200
 
-void RecordMixingPlayerSpotTriggered(void)
+void RecordMixingPlayerSpotTriggered (void)
 {
     CreateTask_EnterCableClubSeat(Task_RecordMixing_Main);
 }
 
 // these variables were const in R/S, but had to become changeable because of saveblocks changing RAM position
-static void SetSrcLookupPointers(void)
+static void SetSrcLookupPointers (void)
 {
     sSecretBasesSave = gSaveBlock1Ptr->secretBases;
     sTvShowsSave = gSaveBlock1Ptr->tvShows;
@@ -188,7 +188,7 @@ static void SetSrcLookupPointers(void)
     sBattleTowerSave_Duplicate = &gSaveBlock2Ptr->frontier.towerPlayer;
 }
 
-static void PrepareUnknownExchangePacket(struct PlayerRecordsRS *dest)
+static void PrepareUnknownExchangePacket (struct PlayerRecordsRS *dest)
 {
     memcpy(dest->secretBases, sSecretBasesSave, sizeof(dest->secretBases));
     memcpy(dest->tvShows, sTvShowsSave, sizeof(dest->tvShows));
@@ -204,7 +204,7 @@ static void PrepareUnknownExchangePacket(struct PlayerRecordsRS *dest)
     }
 }
 
-static void PrepareExchangePacketForRubySapphire(struct PlayerRecordsRS *dest)
+static void PrepareExchangePacketForRubySapphire (struct PlayerRecordsRS *dest)
 {
     memcpy(dest->secretBases, sSecretBasesSave, sizeof(dest->secretBases));
     ClearJapaneseSecretBases(dest->secretBases);
@@ -224,7 +224,7 @@ static void PrepareExchangePacketForRubySapphire(struct PlayerRecordsRS *dest)
     }
 }
 
-static void PrepareExchangePacket(void)
+static void PrepareExchangePacket (void)
 {
     SetPlayerSecretBaseParty();
     sub_80F0BB8();
@@ -256,7 +256,7 @@ static void PrepareExchangePacket(void)
     }
 }
 
-static void ReceiveExchangePacket(u32 which)
+static void ReceiveExchangePacket (u32 which)
 {
     if (Link_AnyPartnersPlayingRubyOrSapphire()) {
         // Ruby/Sapphire
@@ -286,7 +286,7 @@ static void ReceiveExchangePacket(u32 which)
     }
 }
 
-static void PrintTextOnRecordMixing(const u8 *src)
+static void PrintTextOnRecordMixing (const u8 *src)
 {
     DrawDialogueFrame(0, 0);
     AddTextPrinterParameterized(0, 1, src, 0, 1, 0, NULL);
@@ -295,7 +295,7 @@ static void PrintTextOnRecordMixing(const u8 *src)
 
 #define tCounter data[0]
 
-static void Task_RecordMixing_SoundEffect(u8 taskId)
+static void Task_RecordMixing_SoundEffect (u8 taskId)
 {
     if (++gTasks[taskId].tCounter == 50) {
         PlaySE(SE_M_ATTRACT);
@@ -309,7 +309,7 @@ static void Task_RecordMixing_SoundEffect(u8 taskId)
 #define tSndEffTaskId data[15]
 
 // Note: Currently, special var 8005 contains the player's spot id.
-static void Task_RecordMixing_Main(u8 taskId)
+static void Task_RecordMixing_Main (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -374,7 +374,7 @@ static void Task_RecordMixing_Main(u8 taskId)
 #undef tState
 #undef tSndEffTaskId
 
-static void Task_MixingRecordsRecv(u8 taskId)
+static void Task_MixingRecordsRecv (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -465,7 +465,7 @@ static void Task_MixingRecordsRecv(u8 taskId)
     }
 }
 
-static void Task_SendPacket(u8 taskId)
+static void Task_SendPacket (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     // does this send the data 24 times?
@@ -503,7 +503,7 @@ static void Task_SendPacket(u8 taskId)
     }
 }
 
-static void Task_CopyReceiveBuffer(u8 taskId)
+static void Task_CopyReceiveBuffer (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     u8 status = GetBlockReceivedStatus();
@@ -539,7 +539,7 @@ static void Task_CopyReceiveBuffer(u8 taskId)
     }
 }
 
-static void sub_80E776C(u8 taskId)
+static void sub_80E776C (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -548,7 +548,7 @@ static void sub_80E776C(u8 taskId)
     }
 }
 
-static void Task_ReceivePacket(u8 taskId)
+static void Task_ReceivePacket (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -558,34 +558,34 @@ static void Task_ReceivePacket(u8 taskId)
     }
 }
 
-static void Task_SendPacket_SwitchToReceive(u8 taskId)
+static void Task_SendPacket_SwitchToReceive (u8 taskId)
 {
     gTasks[taskId].func = Task_ReceivePacket;
     gUnknown_03001130 = TRUE;
 }
 
-static void * LoadPtrFromTaskData(const u16 *asShort)
+static void * LoadPtrFromTaskData (const u16 *asShort)
 {
     return (void *)(asShort[0] | (asShort[1] << 16));
 }
 
-static void StorePtrInTaskData(void *records, u16 *asShort)
+static void StorePtrInTaskData (void *records, u16 *asShort)
 {
     asShort[0] = (u32)records;
     asShort[1] = ((u32)records >> 16);
 }
 
-static u8 GetMultiplayerId_(void)
+static u8 GetMultiplayerId_ (void)
 {
     return GetMultiplayerId();
 }
 
-static void * GetPlayerRecvBuffer(u8 id)
+static void * GetPlayerRecvBuffer (u8 id)
 {
     return gBlockRecvBuffer[id];
 }
 
-static void ShufflePlayerIndices(u32 *data)
+static void ShufflePlayerIndices (u32 *data)
 {
     u32 i;
     u32 linkTrainerId;
@@ -612,7 +612,7 @@ static void ShufflePlayerIndices(u32 *data)
     }
 }
 
-static void ReceiveOldManData(OldMan *oldMan, size_t recordSize, u8 which)
+static void ReceiveOldManData (OldMan *oldMan, size_t recordSize, u8 which)
 {
     u8 version;
     u16 language;
@@ -634,7 +634,7 @@ static void ReceiveOldManData(OldMan *oldMan, size_t recordSize, u8 which)
     ResetMauvilleOldManFlag();
 }
 
-static void ReceiveBattleTowerData(void *battleTowerRecord, size_t recordSize, u8 which)
+static void ReceiveBattleTowerData (void *battleTowerRecord, size_t recordSize, u8 which)
 {
     struct EmeraldBattleTowerRecord *dest;
     struct BattleTowerPokemon *btPokemon;
@@ -662,7 +662,7 @@ static void ReceiveBattleTowerData(void *battleTowerRecord, size_t recordSize, u
     PutNewBattleTowerRecord((void *)battleTowerRecord + recordSize * which);
 }
 
-static void ReceiveLilycoveLadyData(LilycoveLady *lilycoveLady, size_t recordSize, u8 which)
+static void ReceiveLilycoveLadyData (LilycoveLady *lilycoveLady, size_t recordSize, u8 which)
 {
     LilycoveLady *dest;
     u32 mixIndices[MAX_LINK_PLAYERS];
@@ -689,12 +689,12 @@ static void ReceiveLilycoveLadyData(LilycoveLady *lilycoveLady, size_t recordSiz
     }
 }
 
-static u8 sub_80E7A9C(struct DayCareMail *rmMail)
+static u8 sub_80E7A9C (struct DayCareMail *rmMail)
 {
     return rmMail->message.itemId;
 }
 
-static void ExchangeMail(struct RecordMixingDayCareMail *src, size_t recordSize, u8 (*idxs)[2], u8 which0, u8 which1)
+static void ExchangeMail (struct RecordMixingDayCareMail *src, size_t recordSize, u8 (*idxs)[2], u8 which0, u8 which1)
 {
     struct DayCareMail buffer;
     struct RecordMixingDayCareMail *mail1;
@@ -708,7 +708,7 @@ static void ExchangeMail(struct RecordMixingDayCareMail *src, size_t recordSize,
     mail2->mail[idxs[which1][1]] = buffer;
 }
 
-static void sub_80E7B2C(const u8 *src)
+static void sub_80E7B2C (const u8 *src)
 {
     u8 sum;
     s32 i;
@@ -721,12 +721,12 @@ static void sub_80E7B2C(const u8 *src)
     gUnknown_03001160 = sum;
 }
 
-static u8 sub_80E7B54(void)
+static u8 sub_80E7B54 (void)
 {
     return gUnknown_03001160;
 }
 
-static void ReceiveDaycareMailData(struct RecordMixingDayCareMail *src, size_t recordSize, u8 which, TVShow *shows)
+static void ReceiveDaycareMailData (struct RecordMixingDayCareMail *src, size_t recordSize, u8 which, TVShow *shows)
 {
     u16 i, j;
     u8 linkPlayerCount;
@@ -882,7 +882,7 @@ static void ReceiveDaycareMailData(struct RecordMixingDayCareMail *src, size_t r
 }
 
 
-static void ReceiveGiftItem(u16 *item, u8 which)
+static void ReceiveGiftItem (u16 *item, u8 which)
 {
     if (which != 0 && *item != ITEM_NONE && GetPocketByItemId(*item) == POCKET_KEY_ITEMS) {
         if (!CheckBagHasItem(*item, 1) && !CheckPCHasItem(*item, 1) && AddBagItem(*item, 1)) {
@@ -897,7 +897,7 @@ static void ReceiveGiftItem(u16 *item, u8 which)
     }
 }
 
-static void Task_DoRecordMixing(u8 taskId)
+static void Task_DoRecordMixing (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -969,7 +969,7 @@ static void Task_DoRecordMixing(u8 taskId)
 
 // New Emerald functions
 
-static void GetSavedApprentices(struct Apprentice *dst, struct Apprentice *src)
+static void GetSavedApprentices (struct Apprentice *dst, struct Apprentice *src)
 {
     s32 i, id;
     s32 apprenticeSaveId, oldPlayerApprenticeSaveId;
@@ -1018,7 +1018,7 @@ static void GetSavedApprentices(struct Apprentice *dst, struct Apprentice *src)
     }
 }
 
-void GetPlayerHallRecords(struct PlayerHallRecords *dst)
+void GetPlayerHallRecords (struct PlayerHallRecords *dst)
 {
     s32 i, j;
 
@@ -1053,7 +1053,7 @@ void GetPlayerHallRecords(struct PlayerHallRecords *dst)
     }
 }
 
-static bool32 IsApprenticeAlreadySaved(struct Apprentice *mixApprentice, struct Apprentice *apprentices)
+static bool32 IsApprenticeAlreadySaved (struct Apprentice *mixApprentice, struct Apprentice *apprentices)
 {
     s32 i;
 
@@ -1067,7 +1067,7 @@ static bool32 IsApprenticeAlreadySaved(struct Apprentice *mixApprentice, struct 
     return FALSE;
 }
 
-static void ReceiveApprenticeData(struct Apprentice *mixApprentice, size_t recordSize, u32 multiplayerId)
+static void ReceiveApprenticeData (struct Apprentice *mixApprentice, size_t recordSize, u32 multiplayerId)
 {
     s32 i, numApprentices, apprenticeId;
     struct Apprentice *mixApprenticePtr;
@@ -1101,7 +1101,7 @@ static void ReceiveApprenticeData(struct Apprentice *mixApprentice, size_t recor
     }
 }
 
-static void sub_80E8578(struct RecordMixingHallRecords *dst, void *hallRecords, size_t recordSize, u32 arg3, s32 linkPlayerCount)
+static void sub_80E8578 (struct RecordMixingHallRecords *dst, void *hallRecords, size_t recordSize, u32 arg3, s32 linkPlayerCount)
 {
     s32 i, j, k, l;
     s32 var_68;
@@ -1169,7 +1169,7 @@ static void sub_80E8578(struct RecordMixingHallRecords *dst, void *hallRecords, 
     }
 }
 
-static void sub_80E8880(struct RankingHall1P *arg0, struct RankingHall1P *arg1)
+static void sub_80E8880 (struct RankingHall1P *arg0, struct RankingHall1P *arg1)
 {
     s32 i, j;
 
@@ -1190,7 +1190,7 @@ static void sub_80E8880(struct RankingHall1P *arg0, struct RankingHall1P *arg1)
     }
 }
 
-static void sub_80E88CC(struct RankingHall2P *arg0, struct RankingHall2P *arg1)
+static void sub_80E88CC (struct RankingHall2P *arg0, struct RankingHall2P *arg1)
 {
     s32 i, j;
 
@@ -1211,7 +1211,7 @@ static void sub_80E88CC(struct RankingHall2P *arg0, struct RankingHall2P *arg1)
     }
 }
 
-static void sub_80E8924(struct RecordMixingHallRecords *arg0)
+static void sub_80E8924 (struct RecordMixingHallRecords *arg0)
 {
     s32 i, j;
 
@@ -1225,7 +1225,7 @@ static void sub_80E8924(struct RecordMixingHallRecords *arg0)
     }
 }
 
-static void ReceiveRankingHallRecords(struct PlayerHallRecords *hallRecords, size_t recordSize, u32 arg2)
+static void ReceiveRankingHallRecords (struct PlayerHallRecords *hallRecords, size_t recordSize, u32 arg2)
 {
     u8 linkPlayerCount = GetLinkPlayerCount();
     struct RecordMixingHallRecords *largeStructPtr = AllocZeroed(sizeof(struct RecordMixingHallRecords));
@@ -1236,7 +1236,7 @@ static void ReceiveRankingHallRecords(struct PlayerHallRecords *hallRecords, siz
     Free(largeStructPtr);
 }
 
-static void sub_80E89F8(struct RecordMixingDayCareMail *dst)
+static void sub_80E89F8 (struct RecordMixingDayCareMail *dst)
 {
     gUnknown_02039F9C.mail[0] = gSaveBlock1Ptr->daycare.mons[0].mail;
     gUnknown_02039F9C.mail[1] = gSaveBlock1Ptr->daycare.mons[1].mail;
@@ -1244,7 +1244,7 @@ static void sub_80E89F8(struct RecordMixingDayCareMail *dst)
     *dst = *gUnknown_03001148;
 }
 
-static void SanitizeDayCareMailForRuby(struct RecordMixingDayCareMail *src)
+static void SanitizeDayCareMailForRuby (struct RecordMixingDayCareMail *src)
 {
     s32 i;
 
@@ -1260,11 +1260,11 @@ static void SanitizeDayCareMailForRuby(struct RecordMixingDayCareMail *src)
     }
 }
 
-static void SanitizeRubyBattleTowerRecord(struct RSBattleTowerRecord *src)
+static void SanitizeRubyBattleTowerRecord (struct RSBattleTowerRecord *src)
 {
 }
 
-static void SanitizeEmeraldBattleTowerRecord(struct EmeraldBattleTowerRecord *dst)
+static void SanitizeEmeraldBattleTowerRecord (struct EmeraldBattleTowerRecord *dst)
 {
     s32 i;
 

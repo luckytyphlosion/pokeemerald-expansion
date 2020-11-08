@@ -428,7 +428,7 @@ static const struct ListMenuTemplate sPokeblockListMenuTemplate =
 };
 
 // code
-void OpenPokeblockCase(u8 caseId, void (*callback)(void))
+void OpenPokeblockCase (u8 caseId, void (*callback)(void))
 {
     sPokeblockMenu = Alloc(sizeof(struct PokeblockMenuStruct));
     sPokeblockMenu->caseId = caseId;
@@ -459,17 +459,17 @@ void OpenPokeblockCase(u8 caseId, void (*callback)(void))
     SetMainCallback2(CB2_InitPokeblockMenu);
 }
 
-void OpenPokeblockCaseInBattle(void)
+void OpenPokeblockCaseInBattle (void)
 {
     OpenPokeblockCase(PBLOCK_CASE_BATTLE, CB2_SetUpReshowBattleScreenAfterMenu2);
 }
 
-void OpenPokeblockCaseOnFeeder(void)
+void OpenPokeblockCaseOnFeeder (void)
 {
     OpenPokeblockCase(PBLOCK_CASE_FEEDER, CB2_ReturnToField);
 }
 
-static void CB2_PokeblockMenu(void)
+static void CB2_PokeblockMenu (void)
 {
     RunTasks();
     AnimateSprites();
@@ -478,14 +478,14 @@ static void CB2_PokeblockMenu(void)
     UpdatePaletteFade();
 }
 
-static void VBlankCB_PokeblockMenu(void)
+static void VBlankCB_PokeblockMenu (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void CB2_InitPokeblockMenu(void)
+static void CB2_InitPokeblockMenu (void)
 {
     while (1) {
         if (MenuHelpers_CallLinkSomething() == TRUE) {
@@ -500,7 +500,7 @@ static void CB2_InitPokeblockMenu(void)
     }
 }
 
-static bool8 InitPokeblockMenu(void)
+static bool8 InitPokeblockMenu (void)
 {
     u8 taskId;
 
@@ -601,7 +601,7 @@ static bool8 InitPokeblockMenu(void)
     return FALSE;
 }
 
-static void HandleInitBackgrounds(void)
+static void HandleInitBackgrounds (void)
 {
     ResetVramOamAndBgCntRegs();
     ResetBgsAndClearDma3BusyFlags(0);
@@ -619,7 +619,7 @@ static void HandleInitBackgrounds(void)
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
 }
 
-static bool8 LoadPokeblockMenuGfx(void)
+static bool8 LoadPokeblockMenuGfx (void)
 {
     switch (sPokeblockMenu->gfxState) {
     case 0:
@@ -654,7 +654,7 @@ static bool8 LoadPokeblockMenuGfx(void)
     return FALSE;
 }
 
-static void HandleInitWindows(void)
+static void HandleInitWindows (void)
 {
     u8 i;
 
@@ -672,12 +672,12 @@ static void HandleInitWindows(void)
     ScheduleBgCopyTilemapToVram(1);
 }
 
-static void PrintOnPokeblockWindow(u8 windowId, const u8 *string, s32 x)
+static void PrintOnPokeblockWindow (u8 windowId, const u8 *string, s32 x)
 {
     AddTextPrinterParameterized4(windowId, 1, x, 1, 0, 0, sTextColorInPokeblockMenu, 0, string);
 }
 
-static void PutPokeblockInfoText(void)
+static void PutPokeblockInfoText (void)
 {
     u8 i;
 
@@ -695,7 +695,7 @@ static void PutPokeblockInfoText(void)
     }
 }
 
-static void HandlePokeblockListMenuItems(void)
+static void HandlePokeblockListMenuItems (void)
 {
     u16 i;
 
@@ -716,7 +716,7 @@ static void HandlePokeblockListMenuItems(void)
     gMultiuseListMenuTemplate.maxShowed = sPokeblockMenu->maxShowed;
 }
 
-static void PutPokeblockListMenuString(u8 *dst, u16 pkblId)
+static void PutPokeblockListMenuString (u8 *dst, u16 pkblId)
 {
     struct Pokeblock *pkblock = &gSaveBlock1Ptr->pokeblocks[pkblId];
     u8 *txtPtr = StringCopy(dst, gPokeblockNames[pkblock->color]);
@@ -729,7 +729,7 @@ static void PutPokeblockListMenuString(u8 *dst, u16 pkblId)
     StringExpandPlaceholders(txtPtr, gText_LvVar1);
 }
 
-static void MovePokeblockMenuCursor(s32 pkblId, bool8 arg1, struct ListMenu *arg2)
+static void MovePokeblockMenuCursor (s32 pkblId, bool8 arg1, struct ListMenu *arg2)
 {
     if (arg1 != TRUE) {
         PlaySE(SE_SELECT);
@@ -741,7 +741,7 @@ static void MovePokeblockMenuCursor(s32 pkblId, bool8 arg1, struct ListMenu *arg
     }
 }
 
-static void sub_8135FCC(s32 pkblId)
+static void sub_8135FCC (s32 pkblId)
 {
     u8 i;
     struct Pokeblock *pokeblock;
@@ -779,13 +779,13 @@ static void sub_8135FCC(s32 pkblId)
     ScheduleBgCopyTilemapToVram(2);
 }
 
-static void HandlePokeblockMenuCursor(u16 cursorPos, u16 arg1)
+static void HandlePokeblockMenuCursor (u16 cursorPos, u16 arg1)
 {
     FillBgTilemapBufferRect_Palette0(2, arg1, 0xF, (cursorPos * 2) + 1, 0xE, 2);
     ScheduleBgCopyTilemapToVram(2);
 }
 
-static void CompactPokeblockSlots(void)
+static void CompactPokeblockSlots (void)
 {
     u16 i, j;
 
@@ -800,7 +800,7 @@ static void CompactPokeblockSlots(void)
     }
 }
 
-static void SwapSortPokeblocksInternalData(u32 id1, u32 id2)
+static void SwapSortPokeblocksInternalData (u32 id1, u32 id2)
 {
     s16 i, count;
     struct Pokeblock *pokeblocks = gSaveBlock1Ptr->pokeblocks;
@@ -828,13 +828,13 @@ static void SwapSortPokeblocksInternalData(u32 id1, u32 id2)
     Free(copyPokeblock1);
 }
 
-void ResetPokeblockScrollPositions(void)
+void ResetPokeblockScrollPositions (void)
 {
     sSavedPokeblockData.lastItemPos = 0;
     sSavedPokeblockData.lastItemPage = 0;
 }
 
-static void SetMenuItemsCountAndMaxShowed(void)
+static void SetMenuItemsCountAndMaxShowed (void)
 {
     u16 i;
 
@@ -855,7 +855,7 @@ static void SetMenuItemsCountAndMaxShowed(void)
     }
 }
 
-static void sub_81362E0(void)
+static void sub_81362E0 (void)
 {
     if (sSavedPokeblockData.lastItemPage != 0) {
         if (sSavedPokeblockData.lastItemPage + sPokeblockMenu->maxShowed > sPokeblockMenu->itemsNo) {
@@ -872,7 +872,7 @@ static void sub_81362E0(void)
     }
 }
 
-static void sub_8136344(void)
+static void sub_8136344 (void)
 {
     if (sSavedPokeblockData.lastItemPos > 4) {
         u8 i;
@@ -885,7 +885,7 @@ static void sub_8136344(void)
     }
 }
 
-static void sub_81363BC(void)
+static void sub_81363BC (void)
 {
     if (sPokeblockMenu->unkTaskId == 0xFF) {
         sPokeblockMenu->unkTaskId = AddScrollIndicatorArrowPairParameterized(SCROLL_ARROW_UP, 0xB0, 8, 0x98, sPokeblockMenu->itemsNo - sPokeblockMenu->maxShowed,
@@ -893,7 +893,7 @@ static void sub_81363BC(void)
     }
 }
 
-static void sub_8136418(void)
+static void sub_8136418 (void)
 {
     if (sPokeblockMenu->unkTaskId != 0xFF) {
         RemoveScrollIndicatorArrowPair(sPokeblockMenu->unkTaskId);
@@ -901,12 +901,12 @@ static void sub_8136418(void)
     }
 }
 
-u8 CreatePokeblockCaseSprite(s16 x, s16 y, u8 subpriority)
+u8 CreatePokeblockCaseSprite (s16 x, s16 y, u8 subpriority)
 {
     return CreateSprite(&sSpriteTemplate_PokeblockCase, x, y, subpriority);
 }
 
-static void sub_8136470(struct Sprite *sprite)
+static void sub_8136470 (struct Sprite *sprite)
 {
     if (sprite->data[0] > 1) {
         sprite->data[0] = 0;
@@ -932,13 +932,13 @@ static void sub_8136470(struct Sprite *sprite)
     }
 }
 
-static void FadePaletteAndSetTaskToClosePokeblockCase(u8 taskId)
+static void FadePaletteAndSetTaskToClosePokeblockCase (u8 taskId)
 {
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_FreeDataAndExitPokeblockCase;
 }
 
-static void Task_FreeDataAndExitPokeblockCase(u8 taskId)
+static void Task_FreeDataAndExitPokeblockCase (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -964,7 +964,7 @@ static void Task_FreeDataAndExitPokeblockCase(u8 taskId)
     }
 }
 
-static void Task_HandlePokeblockMenuInput(u8 taskId)
+static void Task_HandlePokeblockMenuInput (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -1007,7 +1007,7 @@ static void Task_HandlePokeblockMenuInput(u8 taskId)
     }
 }
 
-static void Task_HandlePokeblocksSwapInput(u8 taskId)
+static void Task_HandlePokeblocksSwapInput (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -1058,7 +1058,7 @@ static void Task_HandlePokeblocksSwapInput(u8 taskId)
     }
 }
 
-static void HandlePokeblocksSwap(u8 taskId, bool8 noSwap)
+static void HandlePokeblocksSwap (u8 taskId, bool8 noSwap)
 {
     u8 i;
     s16 *data = gTasks[taskId].data;
@@ -1088,7 +1088,7 @@ static void HandlePokeblocksSwap(u8 taskId, bool8 noSwap)
     gTasks[taskId].func = Task_HandlePokeblockMenuInput;
 }
 
-static void PutPokeblockOptionsWindow(u8 taskId)
+static void PutPokeblockOptionsWindow (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -1108,7 +1108,7 @@ static void PutPokeblockOptionsWindow(u8 taskId)
     gTasks[taskId].func = Task_HandlePokeblockOptionsInput;
 }
 
-static void Task_HandlePokeblockOptionsInput(u8 taskId)
+static void Task_HandlePokeblockOptionsInput (u8 taskId)
 {
     s8 itemId;
 
@@ -1128,23 +1128,23 @@ static void Task_HandlePokeblockOptionsInput(u8 taskId)
     }
 }
 
-static void PokeblockAction_UseOnField(u8 taskId)
+static void PokeblockAction_UseOnField (u8 taskId)
 {
     sPokeblockMenu->callbackOnUse = UsePokeblockOnField;
     FadePaletteAndSetTaskToClosePokeblockCase(taskId);
 }
 
-static void UsePokeblockOnField(void)
+static void UsePokeblockOnField (void)
 {
     ChooseMonToGivePokeblock(&gSaveBlock1Ptr->pokeblocks[gSpecialVar_ItemId], ReturnToPokeblockCaseOnField);
 }
 
-static void ReturnToPokeblockCaseOnField(void)
+static void ReturnToPokeblockCaseOnField (void)
 {
     OpenPokeblockCase(PBLOCK_CASE_FIELD, sSavedPokeblockData.callback);
 }
 
-static void PokeblockAction_Toss(u8 taskId)
+static void PokeblockAction_Toss (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -1154,18 +1154,18 @@ static void PokeblockAction_Toss(u8 taskId)
     DisplayMessageAndContinueTask(taskId, 10, 10, 13, 1, GetPlayerTextSpeedDelay(), gStringVar4, CreateTossPokeblockYesNoMenu);
 }
 
-static void CreateTossPokeblockYesNoMenu(u8 taskId)
+static void CreateTossPokeblockYesNoMenu (u8 taskId)
 {
     CreateYesNoMenuWithCallbacks(taskId, &sTossPkblockWindowTemplate, 1, 0, 2, 1, 0xE, &sTossYesNoFuncTable);
 }
 
-static void TossPokeblockChoice_Yes(u8 taskId)
+static void TossPokeblockChoice_Yes (u8 taskId)
 {
     StringExpandPlaceholders(gStringVar4, gText_Var1ThrownAway);
     DisplayMessageAndContinueTask(taskId, 10, 10, 13, 1, GetPlayerTextSpeedDelay(), gStringVar4, HandleErasePokeblock);
 }
 
-static void HandleErasePokeblock(u8 taskId)
+static void HandleErasePokeblock (u8 taskId)
 {
     if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         s16 *data;
@@ -1191,7 +1191,7 @@ static void HandleErasePokeblock(u8 taskId)
     }
 }
 
-static void TossPokeblockChoice_No(u8 taskId)
+static void TossPokeblockChoice_No (u8 taskId)
 {
     ClearDialogWindowAndFrameToTransparent(10, FALSE);
     ScheduleBgCopyTilemapToVram(1);
@@ -1199,7 +1199,7 @@ static void TossPokeblockChoice_No(u8 taskId)
     gTasks[taskId].func = Task_HandlePokeblockMenuInput;
 }
 
-static void PokeblockAction_UseInBattle(u8 taskId)
+static void PokeblockAction_UseInBattle (u8 taskId)
 {
     u8 nature = GetNature(&gEnemyParty[0]);
     s16 gain = PokeblockGetGain(nature, &gSaveBlock1Ptr->pokeblocks[gSpecialVar_ItemId]);
@@ -1218,7 +1218,7 @@ static void PokeblockAction_UseInBattle(u8 taskId)
     FadePaletteAndSetTaskToClosePokeblockCase(taskId);
 }
 
-static void PokeblockAction_UseOnPokeblockFeeder(u8 taskId)
+static void PokeblockAction_UseOnPokeblockFeeder (u8 taskId)
 {
     SafariZoneActivatePokeblockFeeder(gSpecialVar_ItemId);
     StringCopy(gStringVar1, gPokeblockNames[gSaveBlock1Ptr->pokeblocks[gSpecialVar_ItemId].color]);
@@ -1228,7 +1228,7 @@ static void PokeblockAction_UseOnPokeblockFeeder(u8 taskId)
     FadePaletteAndSetTaskToClosePokeblockCase(taskId);
 }
 
-static void PokeblockAction_GiveToContestLady(u8 taskId)
+static void PokeblockAction_GiveToContestLady (u8 taskId)
 {
     gSpecialVar_0x8004 = GivePokeblockToContestLady(&gSaveBlock1Ptr->pokeblocks[gSpecialVar_ItemId]);
     gSpecialVar_Result = gSpecialVar_ItemId;
@@ -1237,7 +1237,7 @@ static void PokeblockAction_GiveToContestLady(u8 taskId)
     FadePaletteAndSetTaskToClosePokeblockCase(taskId);
 }
 
-static void PokeblockAction_Cancel(u8 taskId)
+static void PokeblockAction_Cancel (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -1247,7 +1247,7 @@ static void PokeblockAction_Cancel(u8 taskId)
     gTasks[taskId].func = Task_HandlePokeblockMenuInput;
 }
 
-static void ClearPokeblock(u8 pkblId)
+static void ClearPokeblock (u8 pkblId)
 {
     gSaveBlock1Ptr->pokeblocks[pkblId].color = 0;
     gSaveBlock1Ptr->pokeblocks[pkblId].spicy = 0;
@@ -1258,7 +1258,7 @@ static void ClearPokeblock(u8 pkblId)
     gSaveBlock1Ptr->pokeblocks[pkblId].feel = 0;
 }
 
-void ClearPokeblocks(void)
+void ClearPokeblocks (void)
 {
     u8 i;
 
@@ -1267,7 +1267,7 @@ void ClearPokeblocks(void)
     }
 }
 
-u8 GetHighestPokeblocksFlavorLevel(const struct Pokeblock *pokeblock)
+u8 GetHighestPokeblocksFlavorLevel (const struct Pokeblock *pokeblock)
 {
     u8 i;
     u8 maxFlavor = GetPokeblockData(pokeblock, PBLOCK_SPICY);
@@ -1282,7 +1282,7 @@ u8 GetHighestPokeblocksFlavorLevel(const struct Pokeblock *pokeblock)
     return maxFlavor;
 }
 
-u8 GetPokeblocksFeel(const struct Pokeblock *pokeblock)
+u8 GetPokeblocksFeel (const struct Pokeblock *pokeblock)
 {
     u8 feel = GetPokeblockData(pokeblock, PBLOCK_FEEL);
     if (feel > POKEBLOCK_MAX_FEEL) {
@@ -1292,7 +1292,7 @@ u8 GetPokeblocksFeel(const struct Pokeblock *pokeblock)
     return feel;
 }
 
-s8 GetFirstFreePokeblockSlot(void)
+s8 GetFirstFreePokeblockSlot (void)
 {
     u8 i;
 
@@ -1305,7 +1305,7 @@ s8 GetFirstFreePokeblockSlot(void)
     return -1;
 }
 
-bool32 AddPokeblock(const struct Pokeblock *pokeblock)
+bool32 AddPokeblock (const struct Pokeblock *pokeblock)
 {
     s8 slot = GetFirstFreePokeblockSlot();
 
@@ -1317,7 +1317,7 @@ bool32 AddPokeblock(const struct Pokeblock *pokeblock)
     }
 }
 
-bool32 TryClearPokeblock(u8 pkblId)
+bool32 TryClearPokeblock (u8 pkblId)
 {
     if (gSaveBlock1Ptr->pokeblocks[pkblId].color == PBLOCK_CLR_NONE) {
         return FALSE;
@@ -1327,7 +1327,7 @@ bool32 TryClearPokeblock(u8 pkblId)
     }
 }
 
-s16 GetPokeblockData(const struct Pokeblock *pokeblock, u8 field)
+s16 GetPokeblockData (const struct Pokeblock *pokeblock, u8 field)
 {
     if (field == PBLOCK_COLOR) {
         return pokeblock->color;
@@ -1354,7 +1354,7 @@ s16 GetPokeblockData(const struct Pokeblock *pokeblock, u8 field)
     return 0;
 }
 
-s16 PokeblockGetGain(u8 nature, const struct Pokeblock *pokeblock)
+s16 PokeblockGetGain (u8 nature, const struct Pokeblock *pokeblock)
 {
     u8 flavor;
     s16 curGain, totalGain = 0;
@@ -1369,13 +1369,13 @@ s16 PokeblockGetGain(u8 nature, const struct Pokeblock *pokeblock)
     return totalGain;
 }
 
-void PokeblockCopyName(const struct Pokeblock *pokeblock, u8 *dest)
+void PokeblockCopyName (const struct Pokeblock *pokeblock, u8 *dest)
 {
     u8 color = GetPokeblockData(pokeblock, PBLOCK_COLOR);
     StringCopy(dest, gPokeblockNames[color]);
 }
 
-bool8 CopyMonFavoritePokeblockName(u8 nature, u8 *dest)
+bool8 CopyMonFavoritePokeblockName (u8 nature, u8 *dest)
 {
     u8 i;
 
@@ -1389,7 +1389,7 @@ bool8 CopyMonFavoritePokeblockName(u8 nature, u8 *dest)
     return FALSE;
 }
 
-u8 GetPokeblocksFlavor(const struct Pokeblock *pokeblock)
+u8 GetPokeblocksFlavor (const struct Pokeblock *pokeblock)
 {
     s16 bestFlavor = 0;
     s16 i;

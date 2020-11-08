@@ -66,7 +66,7 @@ const u8 sTextColorTable[][3] = {
     {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY},
     {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY}
 };
-const u8 ALIGNED(4) gUnknown_082F0E18[3] =
+const u8 ALIGNED (4) gUnknown_082F0E18[3] =
 {
     7, 4, 7
 };
@@ -153,7 +153,7 @@ const struct UnkStruct_8467FB8 gUnknown_082F1D60[8] = {
     {1, 0, 0, 7, gWonderCardBgGfx8, gWonderCardBgTilemap8, gWonderCardBgPal8}
 };
 
-bool32 InitWonderCardResources(struct WonderCard * r5, struct MEventBuffer_3430_Sub * r6)
+bool32 InitWonderCardResources (struct WonderCard * r5, struct MEventBuffer_3430_Sub * r6)
 {
     if (r5 == NULL || r6 == NULL) {
         return FALSE;
@@ -177,7 +177,7 @@ bool32 InitWonderCardResources(struct WonderCard * r5, struct MEventBuffer_3430_
     return TRUE;
 }
 
-void DestroyWonderCardResources(void)
+void DestroyWonderCardResources (void)
 {
     if (sWonderCardData != NULL) {
         *sWonderCardData = (struct UnkStruct_203F3C8){};
@@ -186,7 +186,7 @@ void DestroyWonderCardResources(void)
     }
 }
 
-s32 FadeToWonderCardMenu(void)
+s32 FadeToWonderCardMenu (void)
 {
     if (sWonderCardData == NULL) {
         return -1;
@@ -254,7 +254,7 @@ s32 FadeToWonderCardMenu(void)
     return 0;
 }
 
-s32 FadeOutFromWonderCard(bool32 flag)
+s32 FadeOutFromWonderCard (bool32 flag)
 {
     if (sWonderCardData == NULL) {
         return -1;
@@ -303,7 +303,7 @@ s32 FadeOutFromWonderCard(bool32 flag)
     return 0;
 }
 
-void sub_801BEF8(void)
+void sub_801BEF8 (void)
 {
     u16 i = 0;
     u16 r6;
@@ -363,7 +363,7 @@ void sub_801BEF8(void)
     }
 }
 
-void sub_801C178(u8 whichWindow)
+void sub_801C178 (u8 whichWindow)
 {
     s8 sp0C = 0;
     s32 windowId = sWonderCardData->unk_0176[whichWindow];
@@ -411,7 +411,7 @@ void sub_801C178(u8 whichWindow)
     CopyWindowToVram(windowId, 3);
 }
 
-void sub_801C4C0(void)
+void sub_801C4C0 (void)
 {
     u8 r7 = 0;
     sWonderCardData->unk_017C = 0xFF;
@@ -433,7 +433,7 @@ void sub_801C4C0(void)
     }
 }
 
-void sub_801C61C(void)
+void sub_801C61C (void)
 {
     u8 r6 = 0;
     if (sWonderCardData->unk_017C != 0xFF) {
@@ -532,7 +532,7 @@ const struct UnkStruct_8467FB8 gUnknown_082F24C8[] = {
     {1, 0, 0, 0, gWonderNewsGfx8, gWonderNewsTilemap8, gWonderNewsPal8}
 };
 
-bool32 InitWonderNewsResources(const struct WonderNews * a0)
+bool32 InitWonderNewsResources (const struct WonderNews * a0)
 {
     if (a0 == NULL) {
         return FALSE;
@@ -550,7 +550,7 @@ bool32 InitWonderNewsResources(const struct WonderNews * a0)
     return TRUE;
 }
 
-void DestroyWonderNewsResources(void)
+void DestroyWonderNewsResources (void)
 {
     if (sWonderNewsData != NULL) {
         *sWonderNewsData = (struct UnkStruct_203F3CC){};
@@ -559,7 +559,7 @@ void DestroyWonderNewsResources(void)
     }
 }
 
-s32 FadeToWonderNewsMenu(void)
+s32 FadeToWonderNewsMenu (void)
 {
     if (sWonderNewsData == NULL) {
         return -1;
@@ -638,7 +638,7 @@ s32 FadeToWonderNewsMenu(void)
     return 0;
 }
 
-s32 FadeOutFromWonderNews(bool32 flag)
+s32 FadeOutFromWonderNews (bool32 flag)
 {
     if (sWonderNewsData == NULL) {
         return -1;
@@ -700,7 +700,7 @@ s32 FadeOutFromWonderNews(bool32 flag)
     return 0;
 }
 
-void MENews_RemoveScrollIndicatorArrowPair(void)
+void MENews_RemoveScrollIndicatorArrowPair (void)
 {
     if (!sWonderNewsData->unk_01C0_0 && sWonderNewsData->unk_01C1 != 0xFF) {
         RemoveScrollIndicatorArrowPair(sWonderNewsData->unk_01C1);
@@ -710,7 +710,7 @@ void MENews_RemoveScrollIndicatorArrowPair(void)
 }
 
 
-void MENews_AddScrollIndicatorArrowPair(void)
+void MENews_AddScrollIndicatorArrowPair (void)
 {
     if (sWonderNewsData->unk_01C0_0) {
         sWonderNewsData->unk_01C1 = AddScrollIndicatorArrowPair(&sWonderNewsData->unk_0394, &sWonderNewsData->unk_01C6);
@@ -718,7 +718,7 @@ void MENews_AddScrollIndicatorArrowPair(void)
     }
 }
 
-u32 MENews_GetInput(u16 input)
+u32 MENews_GetInput (u16 input)
 {
     if (sWonderNewsData->unk_01C2_0) {
         sub_801CFA4();
@@ -760,7 +760,7 @@ u32 MENews_GetInput(u16 input)
     }
 }
 
-void sub_801CDCC(void)
+void sub_801CDCC (void)
 {
     u8 i = 0;
     memcpy(sWonderNewsData->unk_01CE, sWonderNewsData->unk_0000.unk_04, 40);
@@ -776,7 +776,7 @@ void sub_801CDCC(void)
     sWonderNewsData->unk_0394.fullyDownThreshold = sWonderNewsData->unk_01C4;
 }
 
-void sub_801CE7C(void)
+void sub_801CE7C (void)
 {
     u8 i = 0;
     s32 x;
@@ -796,7 +796,7 @@ void sub_801CE7C(void)
     CopyWindowToVram(sWonderNewsData->unk_01C8[1], 3);
 }
 
-void sub_801CFA4(void)
+void sub_801CFA4 (void)
 {
     u16 r4 = sWonderNewsData->unk_01C2_1;
     r4 <<= 8;

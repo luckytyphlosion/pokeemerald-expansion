@@ -223,7 +223,7 @@ static const struct SpritePalette sCryMeterNeedleSpritePalettes[] =
     {}
 };
 
-bool8 LoadCryWaveformWindow(struct CryScreenWindow *window, u8 windowId)
+bool8 LoadCryWaveformWindow (struct CryScreenWindow *window, u8 windowId)
 {
     u8 i;
     u8 finished = FALSE;
@@ -266,7 +266,7 @@ bool8 LoadCryWaveformWindow(struct CryScreenWindow *window, u8 windowId)
     return finished;
 }
 
-void UpdateCryWaveformWindow(u8 windowId)
+void UpdateCryWaveformWindow (u8 windowId)
 {
     u8 waveformIdx;
 
@@ -316,7 +316,7 @@ void UpdateCryWaveformWindow(u8 windowId)
     sDexCryScreen->cryState++;
 }
 
-void CryScreenPlayButton(u16 species)
+void CryScreenPlayButton (u16 species)
 {
     if (gMPlayInfo_BGM.status & MUSICPLAYER_STATUS_PAUSE && !sDexCryScreen->cryOverrideCountdown) {
         if (!sDexCryScreen->cryRepeatDelay) {
@@ -332,13 +332,13 @@ void CryScreenPlayButton(u16 species)
     }
 }
 
-static void PlayCryScreenCry(u16 species)
+static void PlayCryScreenCry (u16 species)
 {
     PlayCry2(species, 0, 125, 10);
     sDexCryScreen->cryState = 1;
 }
 
-static void BufferCryWaveformSegment(void)
+static void BufferCryWaveformSegment (void)
 {
     u8 i;
     s8 *baseBuffer;
@@ -356,13 +356,13 @@ static void BufferCryWaveformSegment(void)
     }
 }
 
-static void DrawWaveformFlatline(void)
+static void DrawWaveformFlatline (void)
 {
     DrawWaveformSegment(sDexCryScreen->playStartPos * 8 + sDexCryScreen->playhead - 2, 0);
     DrawWaveformSegment(sDexCryScreen->playStartPos * 8 + sDexCryScreen->playhead - 1, 0);
 }
 
-static void AdvancePlayhead(u8 windowId)
+static void AdvancePlayhead (u8 windowId)
 {
     u8 i;
     u16 offset;
@@ -377,7 +377,7 @@ static void AdvancePlayhead(u8 windowId)
 
 // Waveform segments are drawn in alternate vertical slices
 // Note that the waveform isnt put on screen until DrawWaveformWindow
-static void DrawWaveformSegment(u8 position, u8 amplitude)
+static void DrawWaveformSegment (u8 position, u8 amplitude)
 {
     // Position is a bitfield containing the play start pos, the playhead pos, and which vertical slice half to draw
     #define PLAY_START_POS (position >> 3)
@@ -418,7 +418,7 @@ static void DrawWaveformSegment(u8 position, u8 amplitude)
     sDexCryScreen->waveformPreviousY = currentPointY;
 }
 
-static void DrawWaveformWindow(u8 windowId)
+static void DrawWaveformWindow (u8 windowId)
 {
     CopyWindowToVram(windowId, 2);
 }
@@ -426,7 +426,7 @@ static void DrawWaveformWindow(u8 windowId)
 // rsVertical is leftover from a very different version of this function in RS
 // In RS, when TRUE it would use VOFS and when FALSE it would use HOFS (only FALSE was used)
 // Here when TRUE it does nothing
-static void ShiftWaveformOver(u8 windowId, s16 offset, bool8 rsVertical)
+static void ShiftWaveformOver (u8 windowId, s16 offset, bool8 rsVertical)
 {
     if (!rsVertical) {
         u8 bg = GetWindowAttribute(windowId, WINDOW_BG);
@@ -434,7 +434,7 @@ static void ShiftWaveformOver(u8 windowId, s16 offset, bool8 rsVertical)
     }
 }
 
-bool8 LoadCryMeter(struct CryScreenWindow *window, u8 windowId)
+bool8 LoadCryMeter (struct CryScreenWindow *window, u8 windowId)
 {
     bool8 finished = FALSE;
 
@@ -462,7 +462,7 @@ bool8 LoadCryMeter(struct CryScreenWindow *window, u8 windowId)
     return finished;
 }
 
-void FreeCryScreen(void)
+void FreeCryScreen (void)
 {
     FreeSpritePaletteByTag(GetSpritePaletteTagByPaletteNum(gSprites[sCryMeterNeedle->spriteId].oam.paletteNum));
     DestroySprite(gSprites + sCryMeterNeedle->spriteId);
@@ -470,7 +470,7 @@ void FreeCryScreen(void)
     FREE_AND_SET_NULL(sCryMeterNeedle);
 }
 
-static void SpriteCB_CryMeterNeedle(struct Sprite *sprite)
+static void SpriteCB_CryMeterNeedle (struct Sprite *sprite)
 {
     u16 i;
     s8 peakAmplitude;
@@ -541,7 +541,7 @@ static void SpriteCB_CryMeterNeedle(struct Sprite *sprite)
     sprite->pos2.y = y * 24 / 256;
 }
 
-static void SetCryMeterNeedleTarget(s8 offset)
+static void SetCryMeterNeedleTarget (s8 offset)
 {
     u16 rotation = (MIN_NEEDLE_POS - offset) & 0xFF;
 

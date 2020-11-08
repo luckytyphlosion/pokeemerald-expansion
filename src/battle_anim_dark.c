@@ -257,7 +257,7 @@ const struct SpriteTemplate gPunishmentImpactSpriteTemplate =
     .callback = AnimPunishment,
 };
 
-static void AnimPunishment(struct Sprite *sprite)
+static void AnimPunishment (struct Sprite *sprite)
 {
     StartSpriteAffineAnim(sprite, gBattleAnimArgs[3]);
     if (gBattleAnimArgs[2] == 0) {
@@ -270,7 +270,7 @@ static void AnimPunishment(struct Sprite *sprite)
     StoreSpriteCallbackInData6(sprite, DestroyAnimSprite);
 }
 
-void AnimTask_AttackerFadeToInvisible(u8 taskId)
+void AnimTask_AttackerFadeToInvisible (u8 taskId)
 {
     int battler;
     gTasks[taskId].data[0] = gBattleAnimArgs[0];
@@ -286,7 +286,7 @@ void AnimTask_AttackerFadeToInvisible(u8 taskId)
     gTasks[taskId].func = AnimTask_AttackerFadeToInvisible_Step;
 }
 
-static void AnimTask_AttackerFadeToInvisible_Step(u8 taskId)
+static void AnimTask_AttackerFadeToInvisible_Step (u8 taskId)
 {
     u8 blendA = gTasks[taskId].data[1] >> 8;
     u8 blendB = gTasks[taskId].data[1];
@@ -305,7 +305,7 @@ static void AnimTask_AttackerFadeToInvisible_Step(u8 taskId)
     }
 }
 
-void AnimTask_AttackerFadeFromInvisible(u8 taskId)
+void AnimTask_AttackerFadeFromInvisible (u8 taskId)
 {
     gTasks[taskId].data[0] = gBattleAnimArgs[0];
     gTasks[taskId].data[1] = BLDALPHA_BLEND(0, 16);
@@ -313,7 +313,7 @@ void AnimTask_AttackerFadeFromInvisible(u8 taskId)
     SetGpuReg(REG_OFFSET_BLDALPHA, gTasks[taskId].data[1]);
 }
 
-static void AnimTask_AttackerFadeFromInvisible_Step(u8 taskId)
+static void AnimTask_AttackerFadeFromInvisible_Step (u8 taskId)
 {
     u8 blendA = gTasks[taskId].data[1] >> 8;
     u8 blendB = gTasks[taskId].data[1];
@@ -333,7 +333,7 @@ static void AnimTask_AttackerFadeFromInvisible_Step(u8 taskId)
     }
 }
 
-void AnimTask_InitAttackerFadeFromInvisible(u8 taskId)
+void AnimTask_InitAttackerFadeFromInvisible (u8 taskId)
 {
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(0, 16));
     if (GetBattlerSpriteBGPriorityRank(gBattleAnimAttacker) == 1) {
@@ -345,7 +345,7 @@ void AnimTask_InitAttackerFadeFromInvisible(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-static void sub_81138D4(struct Sprite *sprite)
+static void sub_81138D4 (struct Sprite *sprite)
 {
     sprite->data[1] = GetBattlerSpriteCoord(gBattleAnimTarget, BATTLER_COORD_X_2);
     sprite->data[2] = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
@@ -360,7 +360,7 @@ static void sub_81138D4(struct Sprite *sprite)
     sprite->callback(sprite);
 }
 
-static void sub_8113950(struct Sprite *sprite)
+static void sub_8113950 (struct Sprite *sprite)
 {
     sprite->data[3] += sprite->data[1];
     sprite->data[4] += sprite->data[2];
@@ -388,7 +388,7 @@ static void sub_8113950(struct Sprite *sprite)
 }
 
 // Move sprite inward for Bite/Crunch and Clamp
-void AnimBite(struct Sprite *sprite)
+void AnimBite (struct Sprite *sprite)
 {
     sprite->pos1.x += gBattleAnimArgs[0];
     sprite->pos1.y += gBattleAnimArgs[1];
@@ -399,7 +399,7 @@ void AnimBite(struct Sprite *sprite)
     sprite->callback = AnimBite_Step1;
 }
 
-static void AnimBite_Step1(struct Sprite *sprite)
+static void AnimBite_Step1 (struct Sprite *sprite)
 {
     sprite->data[4] += sprite->data[0];
     sprite->data[5] += sprite->data[1];
@@ -410,7 +410,7 @@ static void AnimBite_Step1(struct Sprite *sprite)
     }
 }
 
-static void AnimBite_Step2(struct Sprite *sprite)
+static void AnimBite_Step2 (struct Sprite *sprite)
 {
     sprite->data[4] -= sprite->data[0];
     sprite->data[5] -= sprite->data[1];
@@ -422,7 +422,7 @@ static void AnimBite_Step2(struct Sprite *sprite)
 }
 
 // Launches a tear drop away from the battler. Used by Fake Tears
-void AnimTearDrop(struct Sprite *sprite)
+void AnimTearDrop (struct Sprite *sprite)
 {
     u8 battler;
     s8 xOffset;
@@ -468,14 +468,14 @@ void AnimTearDrop(struct Sprite *sprite)
     sprite->callback = AnimTearDrop_Step;
 }
 
-static void AnimTearDrop_Step(struct Sprite *sprite)
+static void AnimTearDrop_Step (struct Sprite *sprite)
 {
     if (TranslateAnimHorizontalArc(sprite)) {
         DestroySpriteAndMatrix(sprite);
     }
 }
 
-void AnimTask_MoveAttackerMementoShadow(u8 taskId)
+void AnimTask_MoveAttackerMementoShadow (u8 taskId)
 {
     struct ScanlineEffectParams scanlineParams;
     struct BattleAnimBgData animBg;
@@ -545,7 +545,7 @@ void AnimTask_MoveAttackerMementoShadow(u8 taskId)
     task->func = AnimTask_MoveAttackerMementoShadow_Step;
 }
 
-static void AnimTask_MoveAttackerMementoShadow_Step(u8 taskId)
+static void AnimTask_MoveAttackerMementoShadow_Step (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -604,7 +604,7 @@ static void AnimTask_MoveAttackerMementoShadow_Step(u8 taskId)
     }
 }
 
-void AnimTask_MoveTargetMementoShadow(u8 taskId)
+void AnimTask_MoveTargetMementoShadow (u8 taskId)
 {
     struct BattleAnimBgData animBg;
     struct ScanlineEffectParams scanlineParams;
@@ -704,7 +704,7 @@ void AnimTask_MoveTargetMementoShadow(u8 taskId)
     }
 }
 
-static void AnimTask_MoveTargetMementoShadow_Step(u8 taskId)
+static void AnimTask_MoveTargetMementoShadow_Step (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -774,7 +774,7 @@ static void AnimTask_MoveTargetMementoShadow_Step(u8 taskId)
     }
 }
 
-static void sub_8114244(struct Task *task)
+static void sub_8114244 (struct Task *task)
 {
     int var0, var1;
     s16 var2;
@@ -816,7 +816,7 @@ static void sub_8114244(struct Task *task)
     }
 }
 
-static void sub_8114374(u8 priority)
+static void sub_8114374 (u8 priority)
 {
     u16 i;
 
@@ -828,7 +828,7 @@ static void sub_8114374(u8 priority)
     }
 }
 
-void AnimTask_InitMementoShadow(u8 taskId)
+void AnimTask_InitMementoShadow (u8 taskId)
 {
     u8 toBG2 = GetBattlerSpriteBGPriorityRank(gBattleAnimAttacker) ^ 1 ? 1 : 0;
     MoveBattlerSpriteToBG(gBattleAnimAttacker, toBG2, TRUE);
@@ -842,7 +842,7 @@ void AnimTask_InitMementoShadow(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-void sub_8114470(u8 taskId)
+void sub_8114470 (u8 taskId)
 {
     u8 toBG2 = GetBattlerSpriteBGPriorityRank(gBattleAnimAttacker) ^ 1 ? 1 : 0;
     sub_80A477C(toBG2);
@@ -855,7 +855,7 @@ void sub_8114470(u8 taskId)
 }
 
 // Animates a deep slash from a claw. Used by Metal Claw, Dragon Claw, and Crush Claw
-void AnimClawSlash(struct Sprite *sprite)
+void AnimClawSlash (struct Sprite *sprite)
 {
     sprite->pos1.x += gBattleAnimArgs[0];
     sprite->pos1.y += gBattleAnimArgs[1];
@@ -870,7 +870,7 @@ void AnimClawSlash(struct Sprite *sprite)
 // arg1: if true, use custom color
 // arg2: custom color
 // Custom color argument is used in MOVE_POISON_TAIL to make the mon turn purplish/pinkish as if became cloaked in poison.
-void AnimTask_MetallicShine(u8 taskId)
+void AnimTask_MetallicShine (u8 taskId)
 {
     u16 species;
     u8 spriteId;
@@ -938,7 +938,7 @@ void AnimTask_MetallicShine(u8 taskId)
     gTasks[taskId].func = AnimTask_MetallicShine_Step;
 }
 
-static void AnimTask_MetallicShine_Step(u8 taskId)
+static void AnimTask_MetallicShine_Step (u8 taskId)
 {
     struct BattleAnimBgData animBg;
     u16 paletteNum;
@@ -983,7 +983,7 @@ static void AnimTask_MetallicShine_Step(u8 taskId)
 // Changes battler's palette to either greyscale or original.
 // arg0: which battler
 // arg1: FALSE grayscale, TRUE original
-void AnimTask_SetGreyscaleOrOriginalPal(u8 taskId)
+void AnimTask_SetGreyscaleOrOriginalPal (u8 taskId)
 {
     u8 spriteId;
     u8 battler;
@@ -1034,7 +1034,7 @@ void AnimTask_SetGreyscaleOrOriginalPal(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-void GetIsDoomDesireHitTurn(u8 taskId)
+void GetIsDoomDesireHitTurn (u8 taskId)
 {
     if (gAnimMoveTurn < 2) {
         gBattleAnimArgs[ARG_RET_ID] = FALSE;

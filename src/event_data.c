@@ -34,14 +34,14 @@ EWRAM_DATA static u8 gSpecialFlags[SPECIAL_FLAGS_SIZE] = {0};
 
 extern u16 *const gSpecialVars[];
 
-void InitEventData(void)
+void InitEventData (void)
 {
     memset(gSaveBlock1Ptr->flags, 0, sizeof(gSaveBlock1Ptr->flags));
     memset(gSaveBlock1Ptr->vars, 0, sizeof(gSaveBlock1Ptr->vars));
     memset(gSpecialFlags, 0, sizeof(gSpecialFlags));
 }
 
-void ClearTempFieldEventData(void)
+void ClearTempFieldEventData (void)
 {
     memset(gSaveBlock1Ptr->flags + (TEMP_FLAGS_START / 8), 0, TEMP_FLAGS_SIZE);
     memset(gSaveBlock1Ptr->vars + ((TEMP_VARS_START - VARS_START) * 2), 0, TEMP_VARS_SIZE);
@@ -52,12 +52,12 @@ void ClearTempFieldEventData(void)
     FlagClear(FLAG_NURSE_UNION_ROOM_REMINDER);
 }
 
-void ClearDailyFlags(void)
+void ClearDailyFlags (void)
 {
     memset(gSaveBlock1Ptr->flags + (DAILY_FLAGS_START / 8), 0, DAILY_FLAGS_SIZE);
 }
 
-void DisableNationalPokedex(void)
+void DisableNationalPokedex (void)
 {
     u16 *nationalDexVar = GetVarPointer(VAR_NATIONAL_DEX);
     gSaveBlock2Ptr->pokedex.nationalMagic = 0;
@@ -65,7 +65,7 @@ void DisableNationalPokedex(void)
     FlagClear(FLAG_SYS_NATIONAL_DEX);
 }
 
-void EnableNationalPokedex(void)
+void EnableNationalPokedex (void)
 {
     u16 *nationalDexVar = GetVarPointer(VAR_NATIONAL_DEX);
     gSaveBlock2Ptr->pokedex.nationalMagic = 0xDA;
@@ -76,7 +76,7 @@ void EnableNationalPokedex(void)
     ResetPokedexScrollPositions();
 }
 
-bool32 IsNationalPokedexEnabled(void)
+bool32 IsNationalPokedexEnabled (void)
 {
     if (gSaveBlock2Ptr->pokedex.nationalMagic == 0xDA && VarGet(VAR_NATIONAL_DEX) == 0x302 && FlagGet(FLAG_SYS_NATIONAL_DEX)) {
         return TRUE;
@@ -85,37 +85,37 @@ bool32 IsNationalPokedexEnabled(void)
     }
 }
 
-void DisableMysteryEvent(void)
+void DisableMysteryEvent (void)
 {
     FlagClear(FLAG_SYS_MYSTERY_EVENT_ENABLE);
 }
 
-void EnableMysteryEvent(void)
+void EnableMysteryEvent (void)
 {
     FlagSet(FLAG_SYS_MYSTERY_EVENT_ENABLE);
 }
 
-bool32 IsMysteryEventEnabled(void)
+bool32 IsMysteryEventEnabled (void)
 {
     return FlagGet(FLAG_SYS_MYSTERY_EVENT_ENABLE);
 }
 
-void DisableMysteryGift(void)
+void DisableMysteryGift (void)
 {
     FlagClear(FLAG_SYS_MYSTERY_GIFT_ENABLE);
 }
 
-void EnableMysteryGift(void)
+void EnableMysteryGift (void)
 {
     FlagSet(FLAG_SYS_MYSTERY_GIFT_ENABLE);
 }
 
-bool32 IsMysteryGiftEnabled(void)
+bool32 IsMysteryGiftEnabled (void)
 {
     return FlagGet(FLAG_SYS_MYSTERY_GIFT_ENABLE);
 }
 
-void ClearMysteryEventFlags(void)
+void ClearMysteryEventFlags (void)
 {
     FlagClear(FLAG_MYSTERY_EVENT_DONE);
     FlagClear(FLAG_MYSTERY_EVENT_1);
@@ -135,7 +135,7 @@ void ClearMysteryEventFlags(void)
     FlagClear(FLAG_MYSTERY_EVENT_15);
 }
 
-void ClearMysteryEventVars(void)
+void ClearMysteryEventVars (void)
 {
     VarSet(VAR_EVENT_PICHU_SLOT, 0);
     VarSet(VAR_NEVER_READ_0x40DE, 0);
@@ -147,19 +147,19 @@ void ClearMysteryEventVars(void)
     VarSet(VAR_NEVER_READ_0x40E4, 0);
 }
 
-void DisableResetRTC(void)
+void DisableResetRTC (void)
 {
     VarSet(VAR_RESET_RTC_ENABLE, 0);
     FlagClear(FLAG_SYS_RESET_RTC_ENABLE);
 }
 
-void EnableResetRTC(void)
+void EnableResetRTC (void)
 {
     VarSet(VAR_RESET_RTC_ENABLE, 0x920);
     FlagSet(FLAG_SYS_RESET_RTC_ENABLE);
 }
 
-bool32 CanResetRTC(void)
+bool32 CanResetRTC (void)
 {
     if (FlagGet(FLAG_SYS_RESET_RTC_ENABLE) && VarGet(VAR_RESET_RTC_ENABLE) == 0x920) {
         return TRUE;
@@ -168,7 +168,7 @@ bool32 CanResetRTC(void)
     }
 }
 
-u16 * GetVarPointer(u16 id)
+u16 * GetVarPointer (u16 id)
 {
     if (id < VARS_START) {
         return NULL;
@@ -179,7 +179,7 @@ u16 * GetVarPointer(u16 id)
     }
 }
 
-u16 VarGet(u16 id)
+u16 VarGet (u16 id)
 {
     u16 *ptr = GetVarPointer(id);
     if (!ptr) {
@@ -188,7 +188,7 @@ u16 VarGet(u16 id)
     return *ptr;
 }
 
-bool8 VarSet(u16 id, u16 value)
+bool8 VarSet (u16 id, u16 value)
 {
     u16 *ptr = GetVarPointer(id);
     if (!ptr) {
@@ -198,12 +198,12 @@ bool8 VarSet(u16 id, u16 value)
     return TRUE;
 }
 
-u8 VarGetObjectEventGraphicsId(u8 id)
+u8 VarGetObjectEventGraphicsId (u8 id)
 {
     return VarGet(VAR_OBJ_GFX_ID_0 + id);
 }
 
-u8 * GetFlagPointer(u16 id)
+u8 * GetFlagPointer (u16 id)
 {
     if (id == 0) {
         return NULL;
@@ -214,7 +214,7 @@ u8 * GetFlagPointer(u16 id)
     }
 }
 
-u8 FlagSet(u16 id)
+u8 FlagSet (u16 id)
 {
     u8 *ptr = GetFlagPointer(id);
     if (ptr) {
@@ -223,7 +223,7 @@ u8 FlagSet(u16 id)
     return 0;
 }
 
-u8 FlagClear(u16 id)
+u8 FlagClear (u16 id)
 {
     u8 *ptr = GetFlagPointer(id);
     if (ptr) {
@@ -232,7 +232,7 @@ u8 FlagClear(u16 id)
     return 0;
 }
 
-bool8 FlagGet(u16 id)
+bool8 FlagGet (u16 id)
 {
     u8 *ptr = GetFlagPointer(id);
 

@@ -76,19 +76,19 @@ static void DisableGpioPortRead();
 
 static const char AgbLibRtcVersion[] = "SIIRTC_V001";
 
-void SiiRtcUnprotect(void)
+void SiiRtcUnprotect (void)
 {
     EnableGpioPortRead();
     sLocked = FALSE;
 }
 
-void SiiRtcProtect(void)
+void SiiRtcProtect (void)
 {
     DisableGpioPortRead();
     sLocked = TRUE;
 }
 
-u8 SiiRtcProbe(void)
+u8 SiiRtcProbe (void)
 {
     u8 errorCode;
     struct SiiRtcInfo rtc;
@@ -130,7 +130,7 @@ u8 SiiRtcProbe(void)
     return (errorCode << 4) | 1;
 }
 
-bool8 SiiRtcReset(void)
+bool8 SiiRtcReset (void)
 {
     u8 result;
     struct SiiRtcInfo rtc;
@@ -160,7 +160,7 @@ bool8 SiiRtcReset(void)
     return result;
 }
 
-bool8 SiiRtcGetStatus(struct SiiRtcInfo *rtc)
+bool8 SiiRtcGetStatus (struct SiiRtcInfo *rtc)
 {
     u8 statusData;
 
@@ -194,7 +194,7 @@ bool8 SiiRtcGetStatus(struct SiiRtcInfo *rtc)
     return TRUE;
 }
 
-bool8 SiiRtcSetStatus(struct SiiRtcInfo *rtc)
+bool8 SiiRtcSetStatus (struct SiiRtcInfo *rtc)
 {
     u8 statusData;
 
@@ -226,7 +226,7 @@ bool8 SiiRtcSetStatus(struct SiiRtcInfo *rtc)
     return TRUE;
 }
 
-bool8 SiiRtcGetDateTime(struct SiiRtcInfo *rtc)
+bool8 SiiRtcGetDateTime (struct SiiRtcInfo *rtc)
 {
     u8 i;
 
@@ -259,7 +259,7 @@ bool8 SiiRtcGetDateTime(struct SiiRtcInfo *rtc)
     return TRUE;
 }
 
-bool8 SiiRtcSetDateTime(struct SiiRtcInfo *rtc)
+bool8 SiiRtcSetDateTime (struct SiiRtcInfo *rtc)
 {
     u8 i;
 
@@ -288,7 +288,7 @@ bool8 SiiRtcSetDateTime(struct SiiRtcInfo *rtc)
     return TRUE;
 }
 
-bool8 SiiRtcGetTime(struct SiiRtcInfo *rtc)
+bool8 SiiRtcGetTime (struct SiiRtcInfo *rtc)
 {
     u8 i;
 
@@ -321,7 +321,7 @@ bool8 SiiRtcGetTime(struct SiiRtcInfo *rtc)
     return TRUE;
 }
 
-bool8 SiiRtcSetTime(struct SiiRtcInfo *rtc)
+bool8 SiiRtcSetTime (struct SiiRtcInfo *rtc)
 {
     u8 i;
 
@@ -350,7 +350,7 @@ bool8 SiiRtcSetTime(struct SiiRtcInfo *rtc)
     return TRUE;
 }
 
-bool8 SiiRtcSetAlarm(struct SiiRtcInfo *rtc)
+bool8 SiiRtcSetAlarm (struct SiiRtcInfo *rtc)
 {
     u8 i;
     u8 alarmData[2];
@@ -393,7 +393,7 @@ bool8 SiiRtcSetAlarm(struct SiiRtcInfo *rtc)
     return TRUE;
 }
 
-static int WriteCommand(u8 value)
+static int WriteCommand (u8 value)
 {
     u8 i;
     u8 temp;
@@ -409,7 +409,7 @@ static int WriteCommand(u8 value)
     // control reaches end of non-void function
 }
 
-static int WriteData(u8 value)
+static int WriteData (u8 value)
 {
     u8 i;
     u8 temp;
@@ -425,7 +425,7 @@ static int WriteData(u8 value)
     // control reaches end of non-void function
 }
 
-static u8 ReadData()
+static u8 ReadData ()
 {
     u8 i;
     u8 temp;
@@ -446,12 +446,12 @@ static u8 ReadData()
     return value;
 }
 
-static void EnableGpioPortRead()
+static void EnableGpioPortRead ()
 {
     GPIO_PORT_READ_ENABLE = 1;
 }
 
-static void DisableGpioPortRead()
+static void DisableGpioPortRead ()
 {
     GPIO_PORT_READ_ENABLE = 0;
 }

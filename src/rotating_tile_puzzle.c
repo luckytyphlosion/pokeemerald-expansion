@@ -89,7 +89,7 @@ static void TurnUnsavedRotatingTileObject(u8 eventTemplateId, u8 arg1);
 EWRAM_DATA static struct RotatingTilePuzzle *sRotatingTilePuzzle = NULL;
 
 // code
-void InitRotatingTilePuzzle(bool8 isTrickHouse)
+void InitRotatingTilePuzzle (bool8 isTrickHouse)
 {
     if (sRotatingTilePuzzle == NULL) {
         sRotatingTilePuzzle = AllocZeroed(sizeof(*sRotatingTilePuzzle));
@@ -98,7 +98,7 @@ void InitRotatingTilePuzzle(bool8 isTrickHouse)
     sRotatingTilePuzzle->isTrickHouse = isTrickHouse;
 }
 
-void FreeRotatingTilePuzzle(void)
+void FreeRotatingTilePuzzle (void)
 {
     u8 id;
 
@@ -111,7 +111,7 @@ void FreeRotatingTilePuzzle(void)
     ScriptMovement_UnfreezeObjectEvents();
 }
 
-u16 MoveRotatingTileObjects(u8 puzzleNumber)
+u16 MoveRotatingTileObjects (u8 puzzleNumber)
 {
     u8 i;
     struct ObjectEventTemplate *objectEvents = gSaveBlock1Ptr->objectEventTemplates;
@@ -192,7 +192,7 @@ u16 MoveRotatingTileObjects(u8 puzzleNumber)
     return localId;
 }
 
-void TurnRotatingTileObjects(void)
+void TurnRotatingTileObjects (void)
 {
     u8 i;
     s32 puzzleTileStart;
@@ -303,7 +303,7 @@ void TurnRotatingTileObjects(void)
     }
 }
 
-static void SaveRotatingTileObject(u8 eventTemplateId, u8 puzzleTileNum)
+static void SaveRotatingTileObject (u8 eventTemplateId, u8 puzzleTileNum)
 {
     sRotatingTilePuzzle->objects[sRotatingTilePuzzle->numObjects].eventTemplateId = eventTemplateId;
     sRotatingTilePuzzle->objects[sRotatingTilePuzzle->numObjects].prevPuzzleTileNum = puzzleTileNum;
@@ -311,7 +311,7 @@ static void SaveRotatingTileObject(u8 eventTemplateId, u8 puzzleTileNum)
 }
 
 // Functionally unused
-static void TurnUnsavedRotatingTileObject(u8 eventTemplateId, u8 puzzleTileNum)
+static void TurnUnsavedRotatingTileObject (u8 eventTemplateId, u8 puzzleTileNum)
 {
     s8 tileDifference;
     s32 rotation;

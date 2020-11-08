@@ -171,7 +171,7 @@ const struct SpriteTemplate gSpriteTemplate_RtcArrow =
 };
 
 // code
-static void SpriteCB_ResetRtcCursor0(struct Sprite *sprite)
+static void SpriteCB_ResetRtcCursor0 (struct Sprite *sprite)
 {
     int state = gTasks[sprite->data[0]].data[2];
     if (state != sprite->data[1]) {
@@ -219,7 +219,7 @@ static void SpriteCB_ResetRtcCursor0(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_ResetRtcCursor1(struct Sprite *sprite)
+static void SpriteCB_ResetRtcCursor1 (struct Sprite *sprite)
 {
     int state = gTasks[sprite->data[0]].data[2];
     if (state != sprite->data[1]) {
@@ -263,7 +263,7 @@ static void SpriteCB_ResetRtcCursor1(struct Sprite *sprite)
     }
 }
 
-static void CreateCursor(u8 taskId)
+static void CreateCursor (u8 taskId)
 {
     u32 spriteId;
 
@@ -280,19 +280,19 @@ static void CreateCursor(u8 taskId)
     gSprites[spriteId].data[1] = -1;
 }
 
-static void FreeCursorPalette(void)
+static void FreeCursorPalette (void)
 {
     FreeSpritePaletteByTag(gSpritePalette_RtcArrow.tag);
 }
 
-static void HideChooseTimeWindow(u8 windowId)
+static void HideChooseTimeWindow (u8 windowId)
 {
     ClearStdWindowAndFrameToTransparent(windowId, FALSE);
     RemoveWindow(windowId);
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void PrintTime(u8 windowId, u8 x, u8 y, u16 days, u8 hours, u8 minutes, u8 seconds)
+static void PrintTime (u8 windowId, u8 x, u8 y, u16 days, u8 hours, u8 minutes, u8 seconds)
 {
     u8 *dest = gStringVar4;
 
@@ -314,7 +314,7 @@ static void PrintTime(u8 windowId, u8 x, u8 y, u16 days, u8 hours, u8 minutes, u
     AddTextPrinterParameterized(windowId, 1, gStringVar4, x, y, TEXT_SPEED_FF, NULL);
 }
 
-static void ShowChooseTimeWindow(u8 windowId, u16 days, u8 hours, u8 minutes, u8 seconds)
+static void ShowChooseTimeWindow (u8 windowId, u16 days, u8 hours, u8 minutes, u8 seconds)
 {
     DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, 0x214, 0xE);
     PrintTime(windowId, 0, 1, days, hours, minutes, seconds);
@@ -322,7 +322,7 @@ static void ShowChooseTimeWindow(u8 windowId, u16 days, u8 hours, u8 minutes, u8
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static bool32 MoveTimeUpDown(s16 *val, int minVal, int maxVal, u16 keys)
+static bool32 MoveTimeUpDown (s16 *val, int minVal, int maxVal, u16 keys)
 {
     if (keys & DPAD_DOWN) {
         *val -= 1;
@@ -351,12 +351,12 @@ static bool32 MoveTimeUpDown(s16 *val, int minVal, int maxVal, u16 keys)
     return TRUE;
 }
 
-static void Task_ResetRtc_3(u8 taskId)
+static void Task_ResetRtc_3 (u8 taskId)
 {
     gTasks[taskId].data[0] = 1;
 }
 
-static void Task_ResetRtc_2(u8 taskId)
+static void Task_ResetRtc_2 (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -365,7 +365,7 @@ static void Task_ResetRtc_2(u8 taskId)
     gTasks[taskId].func = Task_ResetRtc_3;
 }
 
-static void Task_ResetRtc_1(u8 taskId)
+static void Task_ResetRtc_1 (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     u8 selection = data[2];
@@ -413,7 +413,7 @@ static void Task_ResetRtc_1(u8 taskId)
     }
 }
 
-static void Task_ResetRtc_0(u8 taskId)
+static void Task_ResetRtc_0 (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     data[0] = 0;
@@ -428,7 +428,7 @@ static void Task_ResetRtc_0(u8 taskId)
     gTasks[taskId].func = Task_ResetRtc_1;
 }
 
-void CB2_InitResetRtcScreen(void)
+void CB2_InitResetRtcScreen (void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     SetVBlankCallback(NULL);
@@ -447,7 +447,7 @@ void CB2_InitResetRtcScreen(void)
     CreateTask(Task_ResetRtcScreen, 80);
 }
 
-static void sub_809F048(void)
+static void sub_809F048 (void)
 {
     ClearScheduledBgCopiesToVram();
     ResetBgsAndClearDma3BusyFlags(0);
@@ -460,7 +460,7 @@ static void sub_809F048(void)
     LoadMessageBoxAndBorderGfx();
 }
 
-static void CB2_ResetRtcScreen(void)
+static void CB2_ResetRtcScreen (void)
 {
     RunTasks();
     AnimateSprites();
@@ -469,21 +469,21 @@ static void CB2_ResetRtcScreen(void)
     UpdatePaletteFade();
 }
 
-static void VBlankCB(void)
+static void VBlankCB (void)
 {
     ProcessSpriteCopyRequests();
     LoadOam();
     TransferPlttBuffer();
 }
 
-static void ShowMessage(const u8 *str)
+static void ShowMessage (const u8 *str)
 {
     DrawDialogFrameWithCustomTileAndPalette(1, FALSE, 0x200, 0xF);
     AddTextPrinterParameterized(1, 1, str, 0, 1, 0, NULL);
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void Task_ShowResetRtcPrompt(u8 taskId)
+static void Task_ShowResetRtcPrompt (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -524,7 +524,7 @@ static void Task_ShowResetRtcPrompt(u8 taskId)
     }
 }
 
-static void Task_ResetRtcScreen(u8 taskId)
+static void Task_ResetRtcScreen (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 

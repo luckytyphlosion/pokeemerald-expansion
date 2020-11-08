@@ -5,7 +5,7 @@
 
 static EWRAM_DATA const u8 *sStringPointers[8] = {};
 
-void DynamicPlaceholderTextUtil_Reset(void)
+void DynamicPlaceholderTextUtil_Reset (void)
 {
     const u8 **ptr;
     u8 *fillval;
@@ -19,14 +19,14 @@ void DynamicPlaceholderTextUtil_Reset(void)
     } while ((int)ptr2 >= (int)ptr);
 }
 
-void DynamicPlaceholderTextUtil_SetPlaceholderPtr(u8 idx, const u8 *ptr)
+void DynamicPlaceholderTextUtil_SetPlaceholderPtr (u8 idx, const u8 *ptr)
 {
     if (idx < ARRAY_COUNT(sStringPointers)) {
         sStringPointers[idx] = ptr;
     }
 }
 
-u8 * DynamicPlaceholderTextUtil_ExpandPlaceholders(u8 *dest, const u8 *src)
+u8 * DynamicPlaceholderTextUtil_ExpandPlaceholders (u8 *dest, const u8 *src)
 {
     while (*src != EOS) {
         if (*src != CHAR_DYNAMIC) {
@@ -43,7 +43,7 @@ u8 * DynamicPlaceholderTextUtil_ExpandPlaceholders(u8 *dest, const u8 *src)
     return dest;
 }
 
-const u8 * DynamicPlaceholderTextUtil_GetPlaceholderPtr(u8 idx)
+const u8 * DynamicPlaceholderTextUtil_GetPlaceholderPtr (u8 idx)
 {
     return sStringPointers[idx];
 }

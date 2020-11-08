@@ -143,7 +143,7 @@ static const u8 sActivityGroupInfo[][3] = {
     {ACTIVITY_BATTLE_TOWER_OPEN,             GROUPTYPE_BATTLE, 2}
 };
 
-static void CB2_RunWirelessCommunicationScreen(void)
+static void CB2_RunWirelessCommunicationScreen (void)
 {
     if (!IsDma3ManagerBusyWithBgCopy()) {
         RunTasks();
@@ -154,19 +154,19 @@ static void CB2_RunWirelessCommunicationScreen(void)
     }
 }
 
-static void VBlankCB_WirelessCommunicationScreen(void)
+static void VBlankCB_WirelessCommunicationScreen (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-void ShowWirelessCommunicationScreen(void)
+void ShowWirelessCommunicationScreen (void)
 {
     SetMainCallback2(CB2_InitWirelessCommunicationScreen);
 }
 
-static void CB2_InitWirelessCommunicationScreen(void)
+static void CB2_InitWirelessCommunicationScreen (void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     sStatusScreen = AllocZeroed(sizeof(struct WirelessCommunicationStatusScreen));
@@ -205,7 +205,7 @@ static void CB2_InitWirelessCommunicationScreen(void)
     UpdatePaletteFade();
 }
 
-static void CB2_ExitWirelessCommunicationStatusScreen(void)
+static void CB2_ExitWirelessCommunicationStatusScreen (void)
 {
     s32 i;
     FreeAllWindowBuffers();
@@ -216,7 +216,7 @@ static void CB2_ExitWirelessCommunicationStatusScreen(void)
     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
 }
 
-static void WCSS_CyclePalette(s16 * counter, s16 * palIdx)
+static void WCSS_CyclePalette (s16 * counter, s16 * palIdx)
 {
     if (++(*counter) > 5) {
         if (++(*palIdx) == 14) {
@@ -228,7 +228,7 @@ static void WCSS_CyclePalette(s16 * counter, s16 * palIdx)
     LoadPalette(sBgTiles_Pal + 16 * (*palIdx + 2), 0, 0x10);
 }
 
-static void PrintHeaderTexts(void)
+static void PrintHeaderTexts (void)
 {
     s32 i;
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
@@ -247,7 +247,7 @@ static void PrintHeaderTexts(void)
 
 #define tState data[0]
 
-static void Task_WirelessCommunicationScreen(u8 taskId)
+static void Task_WirelessCommunicationScreen (u8 taskId)
 {
     s32 i;
     switch (gTasks[taskId].tState) {
@@ -303,7 +303,7 @@ static void Task_WirelessCommunicationScreen(u8 taskId)
 
 #undef tState
 
-static void WCSS_AddTextPrinterParameterized(u8 windowId, u8 fontId, const u8 * str, u8 x, u8 y, u8 mode)
+static void WCSS_AddTextPrinterParameterized (u8 windowId, u8 fontId, const u8 * str, u8 x, u8 y, u8 mode)
 {
     u8 color[3];
 
@@ -338,7 +338,7 @@ static void WCSS_AddTextPrinterParameterized(u8 windowId, u8 fontId, const u8 * 
     AddTextPrinterParameterized4(windowId, fontId, x, y, 0, 0, color, -1, str);
 }
 
-static u32 CountPlayersInGroupAndGetActivity(struct UnkStruct_x20 * unk20, u32 * groupCounts)
+static u32 CountPlayersInGroupAndGetActivity (struct UnkStruct_x20 * unk20, u32 * groupCounts)
 {
     int i, j, k;
     u32 activity = unk20->gname_uname.gname.activity;
@@ -370,7 +370,7 @@ static u32 CountPlayersInGroupAndGetActivity(struct UnkStruct_x20 * unk20, u32 *
     #undef group_players
 }
 
-static bool32 HaveCountsChanged(u32 * currCounts, u32 * prevCounts)
+static bool32 HaveCountsChanged (u32 * currCounts, u32 * prevCounts)
 {
     s32 i;
     for (i = 0; i < NUM_GROUPTYPES; i++) {
@@ -381,7 +381,7 @@ static bool32 HaveCountsChanged(u32 * currCounts, u32 * prevCounts)
     return FALSE;
 }
 
-static bool32 UpdateCommunicationCounts(u32 * groupCounts, u32 * prevGroupCounts, u32 * activities, u8 taskId)
+static bool32 UpdateCommunicationCounts (u32 * groupCounts, u32 * prevGroupCounts, u32 * activities, u8 taskId)
 {
     bool32 activitiesChanged = FALSE;
     u32 groupCountBuffer[NUM_GROUPTYPES] = {0, 0, 0, 0};

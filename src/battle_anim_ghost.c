@@ -270,7 +270,7 @@ const struct SpriteTemplate gFlashCannonBallMovementTemplate =
     .callback = AnimShadowBall
 };
 
-static void AnimConfuseRayBallBounce(struct Sprite *sprite)
+static void AnimConfuseRayBallBounce (struct Sprite *sprite)
 {
     InitSpritePosToAnimAttacker(sprite, 1);
     sprite->data[0] = gBattleAnimArgs[2];
@@ -285,7 +285,7 @@ static void AnimConfuseRayBallBounce(struct Sprite *sprite)
     SetGpuReg(REG_OFFSET_BLDALPHA, sprite->data[6]);
 }
 
-static void AnimConfuseRayBallBounce_Step1(struct Sprite *sprite)
+static void AnimConfuseRayBallBounce_Step1 (struct Sprite *sprite)
 {
     s16 r0;
     s16 r2;
@@ -309,7 +309,7 @@ static void AnimConfuseRayBallBounce_Step1(struct Sprite *sprite)
     PlaySE12WithPanning(SE_M_CONFUSE_RAY, gAnimCustomPanning);
 }
 
-static void AnimConfuseRayBallBounce_Step2(struct Sprite *sprite)
+static void AnimConfuseRayBallBounce_Step2 (struct Sprite *sprite)
 {
     s16 r2;
     s16 r0;
@@ -336,7 +336,7 @@ static void AnimConfuseRayBallBounce_Step2(struct Sprite *sprite)
     }
 }
 
-static void sub_8111764(struct Sprite *sprite)
+static void sub_8111764 (struct Sprite *sprite)
 {
     s16 r0;
     if (sprite->data[6] > 0xFF) {
@@ -367,14 +367,14 @@ static void sub_8111764(struct Sprite *sprite)
     }
 }
 
-static void AnimConfuseRayBallSpiral(struct Sprite *sprite)
+static void AnimConfuseRayBallSpiral (struct Sprite *sprite)
 {
     InitSpritePosToAnimTarget(sprite, TRUE);
     sprite->callback = AnimConfuseRayBallSpiral_Step;
     sprite->callback(sprite);
 }
 
-static void AnimConfuseRayBallSpiral_Step(struct Sprite *sprite)
+static void AnimConfuseRayBallSpiral_Step (struct Sprite *sprite)
 {
     u16 temp1;
     sprite->pos2.x = Sin(sprite->data[0], 32);
@@ -395,7 +395,7 @@ static void AnimConfuseRayBallSpiral_Step(struct Sprite *sprite)
 }
 
 // Creates a large transparent clone of the attacker centered on their position which shrinks to original size
-void AnimTask_NightShadeClone(u8 taskId)
+void AnimTask_NightShadeClone (u8 taskId)
 {
     u8 spriteId;
     SetGpuReg(REG_OFFSET_BLDCNT, (BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_ALL));
@@ -411,7 +411,7 @@ void AnimTask_NightShadeClone(u8 taskId)
     gTasks[taskId].func = AnimTask_NightShadeClone_Step1;
 }
 
-static void AnimTask_NightShadeClone_Step1(u8 taskId)
+static void AnimTask_NightShadeClone_Step1 (u8 taskId)
 {
     gTasks[taskId].data[10] += 1;
     if (gTasks[taskId].data[10] == 3) {
@@ -427,7 +427,7 @@ static void AnimTask_NightShadeClone_Step1(u8 taskId)
     }
 }
 
-static void AnimTask_NightShadeClone_Step2(u8 taskId)
+static void AnimTask_NightShadeClone_Step2 (u8 taskId)
 {
     u8 spriteId;
     if (gTasks[taskId].data[1] > 0) {
@@ -452,7 +452,7 @@ static void AnimTask_NightShadeClone_Step2(u8 taskId)
 // arg 0: duration step 1 (attacker -> center)
 // arg 1: duration step 2 (spin center)
 // arg 2: duration step 3 (center -> target)
-void AnimShadowBall(struct Sprite *sprite)
+void AnimShadowBall (struct Sprite *sprite)
 {
     s16 oldPosX = sprite->pos1.x;
     s16 oldPosY = sprite->pos1.y;
@@ -470,7 +470,7 @@ void AnimShadowBall(struct Sprite *sprite)
     sprite->callback = AnimShadowBall_Step;
 }
 
-static void AnimShadowBall_Step(struct Sprite *sprite)
+static void AnimShadowBall_Step (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -516,13 +516,13 @@ static void AnimShadowBall_Step(struct Sprite *sprite)
     }
 }
 
-static void AnimLick(struct Sprite *sprite)
+static void AnimLick (struct Sprite *sprite)
 {
     InitSpritePosToAnimTarget(sprite, TRUE);
     sprite->callback = AnimLick_Step;
 }
 
-static void AnimLick_Step(struct Sprite *sprite)
+static void AnimLick_Step (struct Sprite *sprite)
 {
     bool8 r5 = FALSE;
     bool8 r6 = FALSE;
@@ -565,7 +565,7 @@ static void AnimLick_Step(struct Sprite *sprite)
 }
 
 // Creates a transparent clone of the target which drifts up and away to the side
-void AnimTask_NightmareClone(u8 taskId)
+void AnimTask_NightmareClone (u8 taskId)
 {
     struct Task *task;
 
@@ -596,7 +596,7 @@ void AnimTask_NightmareClone(u8 taskId)
     task->func = AnimTask_NightmareClone_Step;
 }
 
-static void AnimTask_NightmareClone_Step(u8 taskId)
+static void AnimTask_NightmareClone_Step (u8 taskId)
 {
     struct Task *task;
 
@@ -640,7 +640,7 @@ static void AnimTask_NightmareClone_Step(u8 taskId)
 }
 
 // Creates a blended copy of the target that wavers in front of them
-void AnimTask_SpiteTargetShadow(u8 taskId)
+void AnimTask_SpiteTargetShadow (u8 taskId)
 {
     struct Task *task;
 
@@ -650,7 +650,7 @@ void AnimTask_SpiteTargetShadow(u8 taskId)
     task->func(taskId);
 }
 
-static void AnimTask_SpiteTargetShadow_Step1(u8 taskId)
+static void AnimTask_SpiteTargetShadow_Step1 (u8 taskId)
 {
     s16 startLine;
     struct Task *task = &gTasks[taskId];
@@ -735,7 +735,7 @@ static void AnimTask_SpiteTargetShadow_Step1(u8 taskId)
     }
 }
 
-static void AnimTask_SpiteTargetShadow_Step2(u8 taskId)
+static void AnimTask_SpiteTargetShadow_Step2 (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     task->data[1]++;
@@ -756,7 +756,7 @@ static void AnimTask_SpiteTargetShadow_Step2(u8 taskId)
     }
 }
 
-static void AnimTask_SpiteTargetShadow_Step3(u8 taskId)
+static void AnimTask_SpiteTargetShadow_Step3 (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     u8 rank = GetBattlerSpriteBGPriorityRank(gBattleAnimTarget);
@@ -793,7 +793,7 @@ static void AnimTask_SpiteTargetShadow_Step3(u8 taskId)
     task->data[15]++;
 }
 
-static void AnimDestinyBondWhiteShadow(struct Sprite *sprite)
+static void AnimDestinyBondWhiteShadow (struct Sprite *sprite)
 {
     s16 battler1X, battler1Y;
     s16 battler2X, battler2Y;
@@ -827,7 +827,7 @@ static void AnimDestinyBondWhiteShadow(struct Sprite *sprite)
     sprite->invisible = TRUE;
 }
 
-static void AnimDestinyBondWhiteShadow_Step(struct Sprite *sprite)
+static void AnimDestinyBondWhiteShadow_Step (struct Sprite *sprite)
 {
     if (sprite->data[4]) {
         sprite->data[0] += sprite->data[2];
@@ -840,7 +840,7 @@ static void AnimDestinyBondWhiteShadow_Step(struct Sprite *sprite)
     }
 }
 
-void AnimTask_DestinyBondWhiteShadow(u8 taskId)
+void AnimTask_DestinyBondWhiteShadow (u8 taskId)
 {
     struct Task *task;
     s16 battler;
@@ -913,7 +913,7 @@ void AnimTask_DestinyBondWhiteShadow(u8 taskId)
     task->func = AnimTask_DestinyBondWhiteShadow_Step;
 }
 
-static void AnimTask_DestinyBondWhiteShadow_Step(u8 taskId)
+static void AnimTask_DestinyBondWhiteShadow_Step (u8 taskId)
 {
     u16 i;
     struct Task *task = &gTasks[taskId];
@@ -985,7 +985,7 @@ static void AnimTask_DestinyBondWhiteShadow_Step(u8 taskId)
     }
 }
 
-void AnimTask_CurseStretchingBlackBg(u8 taskId)
+void AnimTask_CurseStretchingBlackBg (u8 taskId)
 {
     s16 startX, startY;
     s16 leftDistance, topDistance, bottomDistance, rightDistance;
@@ -1022,7 +1022,7 @@ void AnimTask_CurseStretchingBlackBg(u8 taskId)
     gTasks[taskId].func = AnimTask_CurseStretchingBlackBg_Step1;
 }
 
-static void AnimTask_CurseStretchingBlackBg_Step1(u8 taskId)
+static void AnimTask_CurseStretchingBlackBg_Step1 (u8 taskId)
 {
     s16 step;
     s16 leftDistance, rightDistance, topDistance, bottomDistance;
@@ -1058,7 +1058,7 @@ static void AnimTask_CurseStretchingBlackBg_Step1(u8 taskId)
     gBattle_WIN0V = (top << 8) | bottom;
 }
 
-static void AnimTask_CurseStretchingBlackBg_Step2(u8 taskId)
+static void AnimTask_CurseStretchingBlackBg_Step2 (u8 taskId)
 {
     if (!gPaletteFade.active) {
         gBattle_WIN0H = 0;
@@ -1073,7 +1073,7 @@ static void AnimTask_CurseStretchingBlackBg_Step2(u8 taskId)
     }
 }
 
-static void AnimCurseNail(struct Sprite *sprite)
+static void AnimCurseNail (struct Sprite *sprite)
 {
     s16 xDelta;
     s16 xDelta2;
@@ -1094,7 +1094,7 @@ static void AnimCurseNail(struct Sprite *sprite)
     sprite->callback = AnimCurseNail_Step1;
 }
 
-static void AnimCurseNail_Step1(struct Sprite *sprite)
+static void AnimCurseNail_Step1 (struct Sprite *sprite)
 {
     u16 var0;
 
@@ -1118,7 +1118,7 @@ static void AnimCurseNail_Step1(struct Sprite *sprite)
     }
 }
 
-static void AnimCurseNail_Step2(struct Sprite *sprite)
+static void AnimCurseNail_Step2 (struct Sprite *sprite)
 {
     if (sprite->data[0] == 0) {
         SetGpuReg(REG_OFFSET_BLDCNT, (BLDCNT_EFFECT_BLEND | BLDCNT_TGT2_ALL));
@@ -1139,7 +1139,7 @@ static void AnimCurseNail_Step2(struct Sprite *sprite)
     }
 }
 
-static void AnimCurseNail_End(struct Sprite *sprite)
+static void AnimCurseNail_End (struct Sprite *sprite)
 {
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
@@ -1148,7 +1148,7 @@ static void AnimCurseNail_End(struct Sprite *sprite)
     DestroyAnimSprite(sprite);
 }
 
-void AnimGhostStatusSprite(struct Sprite *sprite)
+void AnimGhostStatusSprite (struct Sprite *sprite)
 {
     u16 coeffB;
     u16 coeffA;
@@ -1189,14 +1189,14 @@ void AnimGhostStatusSprite(struct Sprite *sprite)
     }
 }
 
-static void AnimGhostStatusSprite_Step(struct Sprite *sprite)
+static void AnimGhostStatusSprite_Step (struct Sprite *sprite)
 {
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
     DestroyAnimSprite(sprite);
 }
 
-void AnimTask_GrudgeFlames(u8 taskId)
+void AnimTask_GrudgeFlames (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -1216,7 +1216,7 @@ void AnimTask_GrudgeFlames(u8 taskId)
     task->func = AnimTask_GrudgeFlames_Step;
 }
 
-void AnimTask_GrudgeFlames_Step(u8 taskId)
+void AnimTask_GrudgeFlames_Step (u8 taskId)
 {
     u16 i;
     u8 spriteId;
@@ -1294,7 +1294,7 @@ void AnimTask_GrudgeFlames_Step(u8 taskId)
     }
 }
 
-static void AnimGrudgeFlame(struct Sprite *sprite)
+static void AnimGrudgeFlame (struct Sprite *sprite)
 {
     u16 index;
 
@@ -1323,7 +1323,7 @@ static void AnimGrudgeFlame(struct Sprite *sprite)
     }
 }
 
-static void sub_8112F60(struct Sprite *sprite)
+static void sub_8112F60 (struct Sprite *sprite)
 {
     sprite->invisible = TRUE;
     sprite->data[5] = gBattlerSpriteIds[gBattleAnimAttacker];
@@ -1336,7 +1336,7 @@ static void sub_8112F60(struct Sprite *sprite)
     gSprites[sprite->data[5]].pos1.y += 8;
 }
 
-static void sub_8112FB8(struct Sprite *sprite)
+static void sub_8112FB8 (struct Sprite *sprite)
 {
     if (sprite->data[3]) {
         sprite->data[3]--;

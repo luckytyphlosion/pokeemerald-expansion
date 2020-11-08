@@ -430,7 +430,7 @@ static const struct SpriteTemplate sSafariRockSpriteTemplate =
 extern const struct SpriteTemplate gWishStarSpriteTemplate;
 extern const struct SpriteTemplate gMiniTwinklingStarSpriteTemplate;
 
-void unref_sub_8170478(u8 taskId)
+void unref_sub_8170478 (u8 taskId)
 {
     struct BattleAnimBgData unknownStruct;
     u8 healthBoxSpriteId;
@@ -478,7 +478,7 @@ void unref_sub_8170478(u8 taskId)
     gTasks[taskId].func = sub_8170660;
 }
 
-static void sub_8170660(u8 taskId)
+static void sub_8170660 (u8 taskId)
 {
     u8 spriteId1, spriteId2;
     u8 battler;
@@ -537,7 +537,7 @@ static void sub_8170660(u8 taskId)
     }
 }
 
-static void LoadHealthboxPalsForLevelUp(u8 *paletteId1, u8 *paletteId2, u8 battler)
+static void LoadHealthboxPalsForLevelUp (u8 *paletteId1, u8 *paletteId2, u8 battler)
 {
     u8 healthBoxSpriteId;
     u8 spriteId1, spriteId2;
@@ -559,14 +559,14 @@ static void LoadHealthboxPalsForLevelUp(u8 *paletteId1, u8 *paletteId2, u8 battl
     gSprites[spriteId2].oam.paletteNum = *paletteId2;
 }
 
-void AnimTask_LoadHealthboxPalsForLevelUp(u8 taskId)
+void AnimTask_LoadHealthboxPalsForLevelUp (u8 taskId)
 {
     u8 paletteId1, paletteId2;
     LoadHealthboxPalsForLevelUp(&paletteId1, &paletteId2, gBattleAnimAttacker);
     DestroyAnimVisualTask(taskId);
 }
 
-static void FreeHealthboxPalsForLevelUp(u8 battler)
+static void FreeHealthboxPalsForLevelUp (u8 battler)
 {
     u8 healthBoxSpriteId;
     u8 spriteId1, spriteId2;
@@ -585,20 +585,20 @@ static void FreeHealthboxPalsForLevelUp(u8 battler)
     gSprites[spriteId2].oam.paletteNum = paletteId2;
 }
 
-void AnimTask_FreeHealthboxPalsForLevelUp(u8 taskId)
+void AnimTask_FreeHealthboxPalsForLevelUp (u8 taskId)
 {
     FreeHealthboxPalsForLevelUp(gBattleAnimAttacker);
     DestroyAnimVisualTask(taskId);
 }
 
-void AnimTask_FlashHealthboxOnLevelUp(u8 taskId)
+void AnimTask_FlashHealthboxOnLevelUp (u8 taskId)
 {
     gTasks[taskId].data[10] = gBattleAnimArgs[0];
     gTasks[taskId].data[11] = gBattleAnimArgs[1];
     gTasks[taskId].func = AnimTask_FlashHealthboxOnLevelUp_Step;
 }
 
-static void AnimTask_FlashHealthboxOnLevelUp_Step(u8 taskId)
+static void AnimTask_FlashHealthboxOnLevelUp_Step (u8 taskId)
 {
     u8 paletteNum;
     u32 paletteOffset, colorOffset;
@@ -637,7 +637,7 @@ static void AnimTask_FlashHealthboxOnLevelUp_Step(u8 taskId)
     }
 }
 
-void AnimTask_SwitchOutShrinkMon(u8 taskId)
+void AnimTask_SwitchOutShrinkMon (u8 taskId)
 {
     u8 spriteId;
 
@@ -664,7 +664,7 @@ void AnimTask_SwitchOutShrinkMon(u8 taskId)
     }
 }
 
-void AnimTask_SwitchOutBallEffect(u8 taskId)
+void AnimTask_SwitchOutBallEffect (u8 taskId)
 {
     u8 spriteId;
     u16 ball;
@@ -700,21 +700,21 @@ void AnimTask_SwitchOutBallEffect(u8 taskId)
     }
 }
 
-void AnimTask_LoadBallGfx(u8 taskId)
+void AnimTask_LoadBallGfx (u8 taskId)
 {
     u8 ballId = ItemIdToBallId(gLastUsedItem);
     LoadBallGfx(ballId);
     DestroyAnimVisualTask(taskId);
 }
 
-void AnimTask_FreeBallGfx(u8 taskId)
+void AnimTask_FreeBallGfx (u8 taskId)
 {
     u8 ballId = ItemIdToBallId(gLastUsedItem);
     FreeBallGfx(ballId);
     DestroyAnimVisualTask(taskId);
 }
 
-void AnimTask_IsBallBlockedByTrainer(u8 taskId)
+void AnimTask_IsBallBlockedByTrainer (u8 taskId)
 {
     if (gBattleSpritesDataPtr->animationData->ballThrowCaseId == BALL_TRAINER_BLOCK) {
         gBattleAnimArgs[ARG_RET_ID] = -1;
@@ -725,7 +725,7 @@ void AnimTask_IsBallBlockedByTrainer(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-u8 ItemIdToBallId(u16 ballItem)
+u8 ItemIdToBallId (u16 ballItem)
 {
     switch (ballItem) {
     case ITEM_MASTER_BALL:
@@ -762,7 +762,7 @@ u8 ItemIdToBallId(u16 ballItem)
 #define sTargetX  data[1]
 #define sTargetY  data[2]
 
-void AnimTask_ThrowBall(u8 taskId)
+void AnimTask_ThrowBall (u8 taskId)
 {
     u8 ballId;
     u8 spriteId;
@@ -778,7 +778,7 @@ void AnimTask_ThrowBall(u8 taskId)
     gTasks[taskId].func = AnimTask_ThrowBall_Step;
 }
 
-static void AnimTask_ThrowBall_Step(u8 taskId)
+static void AnimTask_ThrowBall_Step (u8 taskId)
 {
     u8 spriteId = gTasks[taskId].tSpriteId;
     if ((u16)gSprites[spriteId].sDuration == 0xFFFF) {
@@ -787,7 +787,7 @@ static void AnimTask_ThrowBall_Step(u8 taskId)
 }
 
 // Safari Zone throw / Wally's throw
-void AnimTask_ThrowBall_StandingTrainer(u8 taskId)
+void AnimTask_ThrowBall_StandingTrainer (u8 taskId)
 {
     s16 x, y;
     u8 ballId;
@@ -814,7 +814,7 @@ void AnimTask_ThrowBall_StandingTrainer(u8 taskId)
     gTasks[taskId].func = AnimTask_ThrowBall_StandingTrainer_Step;
 }
 
-static void AnimTask_ThrowBall_StandingTrainer_Step(u8 taskId)
+static void AnimTask_ThrowBall_StandingTrainer_Step (u8 taskId)
 {
     if (gSprites[gBattlerSpriteIds[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]].animCmdIndex == 1) {
         PlaySE12WithPanning(SE_BALL_THROW, 0);
@@ -830,7 +830,7 @@ static void AnimTask_ThrowBall_StandingTrainer_Step(u8 taskId)
 
 #undef tSpriteId
 
-static void Task_PlayerThrow_Wait(u8 taskId)
+static void Task_PlayerThrow_Wait (u8 taskId)
 {
     if (gSprites[gBattlerSpriteIds[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]].animEnded) {
         StartSpriteAnim(&gSprites[gBattlerSpriteIds[GetBattlerAtPosition(B_POSITION_PLAYER_LEFT)]], 0);
@@ -847,7 +847,7 @@ static void Task_PlayerThrow_Wait(u8 taskId)
 #define sTargetY   data[4]
 #define sAmplitude data[5]
 
-static void SpriteCB_Ball_Throw(struct Sprite *sprite)
+static void SpriteCB_Ball_Throw (struct Sprite *sprite)
 {
     u16 targetX = sprite->sTargetXArg;
     u16 targetY = sprite->sTargetYArg;
@@ -872,7 +872,7 @@ static void SpriteCB_Ball_Throw(struct Sprite *sprite)
 #define sTimer  data[5]
 #define sTaskId data[5] // re-use
 
-static void SpriteCB_Ball_Arc(struct Sprite *sprite)
+static void SpriteCB_Ball_Arc (struct Sprite *sprite)
 {
     s32 i;
     u8 ballId;
@@ -905,7 +905,7 @@ static void SpriteCB_Ball_Arc(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_Ball_MonShrink(struct Sprite *sprite)
+static void SpriteCB_Ball_MonShrink (struct Sprite *sprite)
 {
     if (++sprite->sTimer == 10) {
         sprite->sTaskId = CreateTask(TaskDummy, 50);
@@ -921,7 +921,7 @@ static void SpriteCB_Ball_MonShrink(struct Sprite *sprite)
 #define sTimer  data[1]
 #define sTaskId data[5]
 
-static void SpriteCB_Ball_MonShrink_Step(struct Sprite *sprite)
+static void SpriteCB_Ball_MonShrink_Step (struct Sprite *sprite)
 {
     u8 spriteId;
     u8 taskId;
@@ -977,7 +977,7 @@ static void SpriteCB_Ball_MonShrink_Step(struct Sprite *sprite)
 #define sAmplitude data[4]
 #define sPhase     data[5]
 
-static void SpriteCB_Ball_Bounce(struct Sprite *sprite)
+static void SpriteCB_Ball_Bounce (struct Sprite *sprite)
 {
     if (sprite->animEnded) {
         sprite->sState = 0;
@@ -1012,7 +1012,7 @@ static void SpriteCB_Ball_Bounce(struct Sprite *sprite)
 #define sTimer     data[5] // re-use
 
 // Animates the Poké Ball dropping to ground and bouncing.
-static void SpriteCB_Ball_Bounce_Step(struct Sprite *sprite)
+static void SpriteCB_Ball_Bounce_Step (struct Sprite *sprite)
 {
     bool8 lastBounce;
     s16 bounceCount;
@@ -1090,7 +1090,7 @@ static void SpriteCB_Ball_Bounce_Step(struct Sprite *sprite)
 #define sTimer data[3]
 #define sState data[3] // re-use
 
-static void SpriteCB_Ball_Wobble(struct Sprite *sprite)
+static void SpriteCB_Ball_Wobble (struct Sprite *sprite)
 {
     if (++sprite->sTimer == 31) {
         sprite->sState = 0;
@@ -1114,7 +1114,7 @@ static void SpriteCB_Ball_Wobble(struct Sprite *sprite)
 #define SHAKE_INC(state)   (state += 0x100)
 #define RESET_STATE(state) (state &= -0x100)
 
-static void SpriteCB_Ball_Wobble_Step(struct Sprite *sprite)
+static void SpriteCB_Ball_Wobble_Step (struct Sprite *sprite)
 {
     s8 shakes;
     u16 frame;
@@ -1257,7 +1257,7 @@ static void SpriteCB_Ball_Wobble_Step(struct Sprite *sprite)
 
 #define sTimer data[5]
 
-static void SpriteCB_Ball_Release(struct Sprite *sprite)
+static void SpriteCB_Ball_Release (struct Sprite *sprite)
 {
     if (++sprite->sTimer == 31) {
         sprite->data[5] = 0;
@@ -1269,7 +1269,7 @@ static void SpriteCB_Ball_Release(struct Sprite *sprite)
 #define sState data[0]
 #define sTimer data[4]
 
-static void SpriteCB_Ball_Capture(struct Sprite *sprite)
+static void SpriteCB_Ball_Capture (struct Sprite *sprite)
 {
     sprite->animPaused = TRUE;
     sprite->callback = SpriteCB_Ball_Capture_Step;
@@ -1279,7 +1279,7 @@ static void SpriteCB_Ball_Capture(struct Sprite *sprite)
 }
 
 // Fade and unfade ball, create star animations, play sound effects
-static void SpriteCB_Ball_Capture_Step(struct Sprite *sprite)
+static void SpriteCB_Ball_Capture_Step (struct Sprite *sprite)
 {
     u8 *battler = &gBattleAnimTarget;
 
@@ -1310,7 +1310,7 @@ static void SpriteCB_Ball_Capture_Step(struct Sprite *sprite)
 #define sState data[0]
 #define sFrame data[0] // re-use
 
-static void SpriteCB_Ball_FadeOut(struct Sprite *sprite)
+static void SpriteCB_Ball_FadeOut (struct Sprite *sprite)
 {
     u8 paletteIndex;
 
@@ -1356,7 +1356,7 @@ static void SpriteCB_Ball_FadeOut(struct Sprite *sprite)
 
 #define sFrame data[0]
 
-static void DestroySpriteAfterOneFrame(struct Sprite *sprite)
+static void DestroySpriteAfterOneFrame (struct Sprite *sprite)
 {
     if (sprite->sFrame == 0) {
         sprite->sFrame = -1;
@@ -1372,7 +1372,7 @@ static void DestroySpriteAfterOneFrame(struct Sprite *sprite)
 #define sTargetY   data[4]
 #define sAmplitude data[5]
 
-static void MakeCaptureStars(struct Sprite *sprite)
+static void MakeCaptureStars (struct Sprite *sprite)
 {
     u32 i;
     u8 subpriority;
@@ -1404,7 +1404,7 @@ static void MakeCaptureStars(struct Sprite *sprite)
 #undef sTargetY
 #undef sAmplitude
 
-static void SpriteCB_CaptureStar_Flicker(struct Sprite *sprite)
+static void SpriteCB_CaptureStar_Flicker (struct Sprite *sprite)
 {
     sprite->invisible = !sprite->invisible;
     if (TranslateAnimHorizontalArc(sprite)) {
@@ -1419,7 +1419,7 @@ static void SpriteCB_CaptureStar_Flicker(struct Sprite *sprite)
 // - Ball particle animations
 // - Wild mon fade to normal color
 // - Wild mon emerge from Poké Ball
-static void SpriteCB_Ball_Release_Step(struct Sprite *sprite)
+static void SpriteCB_Ball_Release_Step (struct Sprite *sprite)
 {
     u8 ballId;
 
@@ -1442,7 +1442,7 @@ static void SpriteCB_Ball_Release_Step(struct Sprite *sprite)
     gSprites[gBattlerSpriteIds[gBattleAnimTarget]].sOffsetY = 4096;
 }
 
-static void SpriteCB_Ball_Release_Wait(struct Sprite *sprite)
+static void SpriteCB_Ball_Release_Wait (struct Sprite *sprite)
 {
     bool8 released = FALSE;
 
@@ -1471,7 +1471,7 @@ static void SpriteCB_Ball_Release_Wait(struct Sprite *sprite)
 #undef sFrame
 #undef sOffsetY
 
-static void SpriteCB_Ball_Block(struct Sprite *sprite)
+static void SpriteCB_Ball_Block (struct Sprite *sprite)
 {
     s32 i;
 
@@ -1492,7 +1492,7 @@ static void SpriteCB_Ball_Block(struct Sprite *sprite)
 #define sFrame data[0] // re-use
 
 // Poké Ball moves down off screen after being blocked. The x-speed oscillates.
-static void SpriteCB_Ball_Block_Step(struct Sprite *sprite)
+static void SpriteCB_Ball_Block_Step (struct Sprite *sprite)
 {
     s16 dy = sprite->sDy + 0x800;
     s16 dx = sprite->sDx + 0x680;
@@ -1515,7 +1515,7 @@ static void SpriteCB_Ball_Block_Step(struct Sprite *sprite)
 
 #undef sFrame
 
-static void LoadBallParticleGfx(u8 ballId)
+static void LoadBallParticleGfx (u8 ballId)
 {
     u8 taskId;
 
@@ -1525,7 +1525,7 @@ static void LoadBallParticleGfx(u8 ballId)
     }
 }
 
-u8 AnimateBallOpenParticles(u8 x, u8 y, u8 priority, u8 subpriority, u8 ballId)
+u8 AnimateBallOpenParticles (u8 x, u8 y, u8 priority, u8 subpriority, u8 ballId)
 {
     u8 taskId;
 
@@ -1541,14 +1541,14 @@ u8 AnimateBallOpenParticles(u8 x, u8 y, u8 priority, u8 subpriority, u8 ballId)
     return taskId;
 }
 
-static void IncrBallParticleCount(void)
+static void IncrBallParticleCount (void)
 {
     if (gMain.inBattle) {
         gBattleSpritesDataPtr->animationData->numBallParticles++;
     }
 }
 
-static void PokeBallOpenParticleAnimation(u8 taskId)
+static void PokeBallOpenParticleAnimation (u8 taskId)
 {
     u8 spriteId;
     u8 x, y;
@@ -1591,7 +1591,7 @@ static void PokeBallOpenParticleAnimation(u8 taskId)
     gTasks[taskId].data[0]++;
 }
 
-static void PokeBallOpenParticleAnimation_Step1(struct Sprite *sprite)
+static void PokeBallOpenParticleAnimation_Step1 (struct Sprite *sprite)
 {
     if (sprite->data[1] == 0) {
         sprite->callback = PokeBallOpenParticleAnimation_Step2;
@@ -1600,7 +1600,7 @@ static void PokeBallOpenParticleAnimation_Step1(struct Sprite *sprite)
     }
 }
 
-static void PokeBallOpenParticleAnimation_Step2(struct Sprite *sprite)
+static void PokeBallOpenParticleAnimation_Step2 (struct Sprite *sprite)
 {
     sprite->pos2.x = Sin(sprite->data[0], sprite->data[1]);
     sprite->pos2.y = Cos(sprite->data[0], sprite->data[1]);
@@ -1610,7 +1610,7 @@ static void PokeBallOpenParticleAnimation_Step2(struct Sprite *sprite)
     }
 }
 
-static void TimerBallOpenParticleAnimation(u8 taskId)
+static void TimerBallOpenParticleAnimation (u8 taskId)
 {
     u8 i;
     u8 x, y, priority, subpriority, ballId;
@@ -1643,7 +1643,7 @@ static void TimerBallOpenParticleAnimation(u8 taskId)
     DestroyTask(taskId);
 }
 
-static void DiveBallOpenParticleAnimation(u8 taskId)
+static void DiveBallOpenParticleAnimation (u8 taskId)
 {
     u8 i;
     u8 x, y, priority, subpriority, ballId;
@@ -1677,7 +1677,7 @@ static void DiveBallOpenParticleAnimation(u8 taskId)
 }
 
 // Also used for Net Ball
-static void SafariBallOpenParticleAnimation(u8 taskId)
+static void SafariBallOpenParticleAnimation (u8 taskId)
 {
     u8 i;
     u8 x, y, priority, subpriority, ballId;
@@ -1711,7 +1711,7 @@ static void SafariBallOpenParticleAnimation(u8 taskId)
 }
 
 // Also used for Nest Ball
-static void UltraBallOpenParticleAnimation(u8 taskId)
+static void UltraBallOpenParticleAnimation (u8 taskId)
 {
     u8 i;
     u8 x, y, priority, subpriority, ballId;
@@ -1745,7 +1745,7 @@ static void UltraBallOpenParticleAnimation(u8 taskId)
 }
 
 // Also used for Luxury Ball
-static void GreatBallOpenParticleAnimation(u8 taskId)
+static void GreatBallOpenParticleAnimation (u8 taskId)
 {
     u8 i;
     u8 x, y, priority, subpriority, ballId;
@@ -1785,7 +1785,7 @@ static void GreatBallOpenParticleAnimation(u8 taskId)
     }
 }
 
-static void FanOutBallOpenParticles_Step1(struct Sprite *sprite)
+static void FanOutBallOpenParticles_Step1 (struct Sprite *sprite)
 {
     sprite->pos2.x = Sin(sprite->data[0], sprite->data[1]);
     sprite->pos2.y = Cos(sprite->data[0], sprite->data[2]);
@@ -1797,7 +1797,7 @@ static void FanOutBallOpenParticles_Step1(struct Sprite *sprite)
     }
 }
 
-static void RepeatBallOpenParticleAnimation(u8 taskId)
+static void RepeatBallOpenParticleAnimation (u8 taskId)
 {
     u8 i;
     u8 x, y, priority, subpriority, ballId;
@@ -1827,7 +1827,7 @@ static void RepeatBallOpenParticleAnimation(u8 taskId)
     DestroyTask(taskId);
 }
 
-static void RepeatBallOpenParticleAnimation_Step1(struct Sprite *sprite)
+static void RepeatBallOpenParticleAnimation_Step1 (struct Sprite *sprite)
 {
     sprite->pos2.x = Sin(sprite->data[0], sprite->data[1]);
     sprite->pos2.y = Cos(sprite->data[0], Sin(sprite->data[0], sprite->data[2]));
@@ -1839,7 +1839,7 @@ static void RepeatBallOpenParticleAnimation_Step1(struct Sprite *sprite)
     }
 }
 
-static void MasterBallOpenParticleAnimation(u8 taskId)
+static void MasterBallOpenParticleAnimation (u8 taskId)
 {
     u8 i, j;
     u8 x, y, priority, subpriority, ballId;
@@ -1880,7 +1880,7 @@ static void MasterBallOpenParticleAnimation(u8 taskId)
     DestroyTask(taskId);
 }
 
-static void PremierBallOpenParticleAnimation(u8 taskId)
+static void PremierBallOpenParticleAnimation (u8 taskId)
 {
     u8 i;
     u8 x, y, priority, subpriority, ballId;
@@ -1910,7 +1910,7 @@ static void PremierBallOpenParticleAnimation(u8 taskId)
     DestroyTask(taskId);
 }
 
-static void PremierBallOpenParticleAnimation_Step1(struct Sprite *sprite)
+static void PremierBallOpenParticleAnimation_Step1 (struct Sprite *sprite)
 {
     sprite->pos2.x = Sin(sprite->data[0], sprite->data[1]);
     sprite->pos2.y = Cos(sprite->data[0], Sin(sprite->data[0] & 0x3F, sprite->data[2]));
@@ -1922,7 +1922,7 @@ static void PremierBallOpenParticleAnimation_Step1(struct Sprite *sprite)
     }
 }
 
-static void DestroyBallOpenAnimationParticle(struct Sprite *sprite)
+static void DestroyBallOpenAnimationParticle (struct Sprite *sprite)
 {
     s32 i, j;
 
@@ -1963,7 +1963,7 @@ static void DestroyBallOpenAnimationParticle(struct Sprite *sprite)
 #define tPaletteHi data[11]
 #define tBallId    data[15]
 
-u8 LaunchBallFadeMonTask(bool8 unfadeLater, u8 battler, u32 selectedPalettes, u8 ballId)
+u8 LaunchBallFadeMonTask (bool8 unfadeLater, u8 battler, u32 selectedPalettes, u8 ballId)
 {
     u8 taskId;
 
@@ -1987,7 +1987,7 @@ u8 LaunchBallFadeMonTask(bool8 unfadeLater, u8 battler, u32 selectedPalettes, u8
     return taskId;
 }
 
-static void Task_FadeMon_ToBallColor(u8 taskId)
+static void Task_FadeMon_ToBallColor (u8 taskId)
 {
     u8 ballId = gTasks[taskId].tBallId;
 
@@ -2002,7 +2002,7 @@ static void Task_FadeMon_ToBallColor(u8 taskId)
     }
 }
 
-static void Task_FadeMon_ToNormal(u8 taskId)
+static void Task_FadeMon_ToNormal (u8 taskId)
 {
     if (!gPaletteFade.active) {
         u32 selectedPalettes = (u16)gTasks[taskId].tPaletteLo | ((u16)gTasks[taskId].tPaletteHi << 16);
@@ -2011,7 +2011,7 @@ static void Task_FadeMon_ToNormal(u8 taskId)
     }
 }
 
-static void Task_FadeMon_ToNormal_Step(u8 taskId)
+static void Task_FadeMon_ToNormal_Step (u8 taskId)
 {
     u8 ballId = gTasks[taskId].tBallId;
 
@@ -2033,7 +2033,7 @@ static void Task_FadeMon_ToNormal_Step(u8 taskId)
 #undef tBallId
 
 // arg0: TRUE to swap to mon, FALSE to swap to substitute
-void AnimTask_SwapMonSpriteToFromSubstitute(u8 taskId)
+void AnimTask_SwapMonSpriteToFromSubstitute (u8 taskId)
 {
     u8 spriteId;
     u32 x;
@@ -2089,7 +2089,7 @@ void AnimTask_SwapMonSpriteToFromSubstitute(u8 taskId)
     }
 }
 
-void AnimTask_SubstituteFadeToInvisible(u8 taskId)
+void AnimTask_SubstituteFadeToInvisible (u8 taskId)
 {
     u8 spriteId;
 
@@ -2123,13 +2123,13 @@ void AnimTask_SubstituteFadeToInvisible(u8 taskId)
     }
 }
 
-void AnimTask_IsAttackerBehindSubstitute(u8 taskId)
+void AnimTask_IsAttackerBehindSubstitute (u8 taskId)
 {
     gBattleAnimArgs[ARG_RET_ID] = gBattleSpritesDataPtr->battlerData[gBattleAnimAttacker].behindSubstitute;
     DestroyAnimVisualTask(taskId);
 }
 
-void AnimTask_SetTargetToEffectBattler(u8 taskId)
+void AnimTask_SetTargetToEffectBattler (u8 taskId)
 {
     gBattleAnimTarget = gEffectBattler;
     DestroyAnimVisualTask(taskId);
@@ -2146,7 +2146,7 @@ void AnimTask_SetTargetToEffectBattler(u8 taskId)
 #define sPhase  data[1] // For encircling stars
 #define sTimer  data[1] // For diagnoal stars
 
-void TryShinyAnimation(u8 battler, struct Pokemon *mon)
+void TryShinyAnimation (u8 battler, struct Pokemon *mon)
 {
     bool8 isShiny;
     u32 otId, personality;
@@ -2183,7 +2183,7 @@ void TryShinyAnimation(u8 battler, struct Pokemon *mon)
     gBattleSpritesDataPtr->healthBoxesData[battler].finishedShinyMonAnim = TRUE;
 }
 
-static void Task_ShinyStars(u8 taskId)
+static void Task_ShinyStars (u8 taskId)
 {
     u8 battler;
     u8 x, y;
@@ -2251,7 +2251,7 @@ static void Task_ShinyStars(u8 taskId)
     }
 }
 
-static void Task_ShinyStars_Wait(u8 taskId)
+static void Task_ShinyStars_Wait (u8 taskId)
 {
     u8 battler;
 
@@ -2265,7 +2265,7 @@ static void Task_ShinyStars_Wait(u8 taskId)
     }
 }
 
-static void SpriteCB_ShinyStars_Encircle(struct Sprite *sprite)
+static void SpriteCB_ShinyStars_Encircle (struct Sprite *sprite)
 {
     sprite->pos2.x = Sin(sprite->sPhase, 24);
     sprite->pos2.y = Cos(sprite->sPhase, 24);
@@ -2277,7 +2277,7 @@ static void SpriteCB_ShinyStars_Encircle(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_ShinyStars_Diagonal(struct Sprite *sprite)
+static void SpriteCB_ShinyStars_Diagonal (struct Sprite *sprite)
 {
     // Delayed four frames to de-sync from encircling stars
     if (sprite->sTimer < 4) {
@@ -2305,7 +2305,7 @@ static void SpriteCB_ShinyStars_Diagonal(struct Sprite *sprite)
 #undef sPhase
 #undef sTimer
 
-void AnimTask_LoadPokeblockGfx(u8 taskId)
+void AnimTask_LoadPokeblockGfx (u8 taskId)
 {
     u8 paletteIndex;
 
@@ -2315,7 +2315,7 @@ void AnimTask_LoadPokeblockGfx(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-void AnimTask_FreePokeblockGfx(u8 taskId)
+void AnimTask_FreePokeblockGfx (u8 taskId)
 {
     FreeSpriteTilesByTag(ANIM_TAG_POKEBLOCK);
     FreeSpritePaletteByTag(ANIM_TAG_POKEBLOCK);
@@ -2327,7 +2327,7 @@ void AnimTask_FreePokeblockGfx(u8 taskId)
 #define sTargetY data[4]
 #define sAmplitude data[5]
 
-static void SpriteCB_PokeBlock_Throw(struct Sprite *sprite)
+static void SpriteCB_PokeBlock_Throw (struct Sprite *sprite)
 {
     InitSpritePosToAnimAttacker(sprite, 0);
     sprite->sDuration = 30;
@@ -2344,14 +2344,14 @@ static void SpriteCB_PokeBlock_Throw(struct Sprite *sprite)
 #undef sTargetY
 #undef sAmplitude
 
-static void SpriteCB_PokeBlock_LiftArm(struct Sprite *sprite)
+static void SpriteCB_PokeBlock_LiftArm (struct Sprite *sprite)
 {
     if (gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].animCmdIndex == 1) {
         sprite->callback = SpriteCB_PokeBlock_Arc;
     }
 }
 
-static void SpriteCB_PokeBlock_Arc(struct Sprite *sprite)
+static void SpriteCB_PokeBlock_Arc (struct Sprite *sprite)
 {
     if (TranslateAnimHorizontalArc(sprite)) {
         sprite->data[0] = 0;
@@ -2361,7 +2361,7 @@ static void SpriteCB_PokeBlock_Arc(struct Sprite *sprite)
 }
 
 // Destroy after end of player animation
-static void SpriteCB_ThrowPokeBlock_Free(struct Sprite *sprite)
+static void SpriteCB_ThrowPokeBlock_Free (struct Sprite *sprite)
 {
     if (gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].animEnded) {
         if (++sprite->data[0] > 0) {
@@ -2371,7 +2371,7 @@ static void SpriteCB_ThrowPokeBlock_Free(struct Sprite *sprite)
     }
 }
 
-void AnimTask_SetAttackerTargetLeftPos(u8 taskId)
+void AnimTask_SetAttackerTargetLeftPos (u8 taskId)
 {
     switch (gBattleAnimArgs[0]) {
     case 0:
@@ -2387,7 +2387,7 @@ void AnimTask_SetAttackerTargetLeftPos(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-void AnimTask_GetTrappedMoveAnimId(u8 taskId)
+void AnimTask_GetTrappedMoveAnimId (u8 taskId)
 {
     if (gBattleSpritesDataPtr->animationData->animArg == MOVE_FIRE_SPIN) {
         gBattleAnimArgs[0] = TRAP_ANIM_FIRE_SPIN;
@@ -2404,19 +2404,19 @@ void AnimTask_GetTrappedMoveAnimId(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-void AnimTask_GetBattlersFromArg(u8 taskId)
+void AnimTask_GetBattlersFromArg (u8 taskId)
 {
     gBattleAnimAttacker = gBattleSpritesDataPtr->animationData->animArg;
     gBattleAnimTarget = gBattleSpritesDataPtr->animationData->animArg >> 8;
     DestroyAnimVisualTask(taskId);
 }
 
-bool32 IsCriticalCapture(void)
+bool32 IsCriticalCapture (void)
 {
     return gBattleSpritesDataPtr->animationData->isCriticalCapture;
 }
 
-static void CB_CriticalCaptureThrownBallMovement(struct Sprite *sprite)
+static void CB_CriticalCaptureThrownBallMovement (struct Sprite *sprite)
 {
     bool8 lastBounce = FALSE;
     u8 maxBounces = 6;

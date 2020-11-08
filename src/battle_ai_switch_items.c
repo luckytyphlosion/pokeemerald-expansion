@@ -17,7 +17,7 @@ static bool8 HasSuperEffectiveMoveAgainstOpponents(bool8 noRng);
 static bool8 FindMonWithFlagsAndSuperEffective(u16 flags, u8 moduloPercent);
 static bool8 ShouldUseItem(void);
 
-void GetAIPartyIndexes(u32 battlerId, s32 *firstId, s32 *lastId)
+void GetAIPartyIndexes (u32 battlerId, s32 *firstId, s32 *lastId)
 {
     if (BATTLE_TWO_VS_ONE_OPPONENT && (battlerId & BIT_SIDE) == B_SIDE_OPPONENT) {
         *firstId = 0, *lastId = 6;
@@ -32,7 +32,7 @@ void GetAIPartyIndexes(u32 battlerId, s32 *firstId, s32 *lastId)
     }
 }
 
-static bool8 ShouldSwitchIfAllBadMoves(void)
+static bool8 ShouldSwitchIfAllBadMoves (void)
 {
     if (gBattleResources->ai->switchMon) {
         gBattleResources->ai->switchMon = 0;
@@ -44,7 +44,7 @@ static bool8 ShouldSwitchIfAllBadMoves(void)
     }
 }
 
-static bool8 ShouldSwitchIfPerishSong(void)
+static bool8 ShouldSwitchIfPerishSong (void)
 {
     if (gStatuses3[gActiveBattler] & STATUS3_PERISH_SONG
         && gDisableStructs[gActiveBattler].perishSongTimer == 0) {
@@ -56,7 +56,7 @@ static bool8 ShouldSwitchIfPerishSong(void)
     }
 }
 
-static bool8 ShouldSwitchIfWonderGuard(void)
+static bool8 ShouldSwitchIfWonderGuard (void)
 {
     u8 opposingPosition;
     u8 opposingBattler;
@@ -126,7 +126,7 @@ static bool8 ShouldSwitchIfWonderGuard(void)
     return FALSE; // There is not a single Pokemon in the party that has a super effective move against a mon with Wonder Guard.
 }
 
-static bool8 FindMonThatAbsorbsOpponentsMove(void)
+static bool8 FindMonThatAbsorbsOpponentsMove (void)
 {
     u8 battlerIn1, battlerIn2;
     u8 absorbingTypeAbility;
@@ -226,7 +226,7 @@ static bool8 FindMonThatAbsorbsOpponentsMove(void)
     return FALSE;
 }
 
-static bool8 ShouldSwitchIfNaturalCure(void)
+static bool8 ShouldSwitchIfNaturalCure (void)
 {
     if (!(gBattleMons[gActiveBattler].status1 & STATUS1_SLEEP)) {
         return FALSE;
@@ -264,7 +264,7 @@ static bool8 ShouldSwitchIfNaturalCure(void)
     return FALSE;
 }
 
-static bool8 HasSuperEffectiveMoveAgainstOpponents(bool8 noRng)
+static bool8 HasSuperEffectiveMoveAgainstOpponents (bool8 noRng)
 {
     u8 opposingPosition;
     u8 opposingBattler;
@@ -318,7 +318,7 @@ static bool8 HasSuperEffectiveMoveAgainstOpponents(bool8 noRng)
     return FALSE;
 }
 
-static bool8 AreStatsRaised(void)
+static bool8 AreStatsRaised (void)
 {
     u8 buffedStatsValue = 0;
     s32 i;
@@ -332,7 +332,7 @@ static bool8 AreStatsRaised(void)
     return(buffedStatsValue > 3);
 }
 
-static bool8 FindMonWithFlagsAndSuperEffective(u16 flags, u8 moduloPercent)
+static bool8 FindMonWithFlagsAndSuperEffective (u16 flags, u8 moduloPercent)
 {
     u8 battlerIn1, battlerIn2;
     s32 firstId;
@@ -429,7 +429,7 @@ static bool8 FindMonWithFlagsAndSuperEffective(u16 flags, u8 moduloPercent)
     return FALSE;
 }
 
-static bool8 ShouldSwitch(void)
+static bool8 ShouldSwitch (void)
 {
     u8 battlerIn1, battlerIn2;
     s32 firstId;
@@ -530,7 +530,7 @@ static bool8 ShouldSwitch(void)
     return FALSE;
 }
 
-u32 AI_TrySwitchOrUseItem(void)
+u32 AI_TrySwitchOrUseItem (void)
 {
     struct Pokemon *party;
     u8 battlerIn1, battlerIn2;
@@ -596,7 +596,7 @@ u32 AI_TrySwitchOrUseItem(void)
 
 // If there are two(or more) mons to choose from, always choose one that has baton pass
 // as most often it can't do much on its own.
-static u32 GetBestMonBatonPass(struct Pokemon *party, int firstId, int lastId, u8 invalidMons, int aliveCount)
+static u32 GetBestMonBatonPass (struct Pokemon *party, int firstId, int lastId, u8 invalidMons, int aliveCount)
 {
     int i, j, bits = 0;
 
@@ -623,7 +623,7 @@ static u32 GetBestMonBatonPass(struct Pokemon *party, int firstId, int lastId, u
     return PARTY_SIZE;
 }
 
-static u32 GestBestMonOffensive(struct Pokemon *party, int firstId, int lastId, u8 invalidMons, u32 opposingBattler)
+static u32 GestBestMonOffensive (struct Pokemon *party, int firstId, int lastId, u8 invalidMons, u32 opposingBattler)
 {
     int i, bits = 0;
 
@@ -679,7 +679,7 @@ static u32 GestBestMonOffensive(struct Pokemon *party, int firstId, int lastId, 
     return PARTY_SIZE;
 }
 
-static u32 GetBestMonDmg(struct Pokemon *party, int firstId, int lastId, u8 invalidMons, u32 opposingBattler)
+static u32 GetBestMonDmg (struct Pokemon *party, int firstId, int lastId, u8 invalidMons, u32 opposingBattler)
 {
     int i, j;
     int bestDmg = 0;
@@ -707,7 +707,7 @@ static u32 GetBestMonDmg(struct Pokemon *party, int firstId, int lastId, u8 inva
     return bestMonId;
 }
 
-u8 GetMostSuitableMonToSwitchInto(void)
+u8 GetMostSuitableMonToSwitchInto (void)
 {
     u32 opposingBattler = 0;
     u32 bestDmg = 0;
@@ -785,7 +785,7 @@ u8 GetMostSuitableMonToSwitchInto(void)
     return PARTY_SIZE;
 }
 
-static u8 GetAI_ItemType(u16 itemId, const u8 *itemEffect)
+static u8 GetAI_ItemType (u16 itemId, const u8 *itemEffect)
 {
     if (itemId == ITEM_FULL_RESTORE) {
         return AI_ITEM_FULL_RESTORE;
@@ -802,7 +802,7 @@ static u8 GetAI_ItemType(u16 itemId, const u8 *itemEffect)
     }
 }
 
-static bool8 ShouldUseItem(void)
+static bool8 ShouldUseItem (void)
 {
     struct Pokemon *party;
     s32 i;

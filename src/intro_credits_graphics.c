@@ -704,7 +704,7 @@ static void sub_817B788(void);
 static void sub_817B7A4(void);
 static void sub_817B458(u8);
 
-void load_intro_part2_graphics(u8 a)
+void load_intro_part2_graphics (u8 a)
 {
     LZ77UnCompVram(gUnknown_085F0740, (void *)(BG_CHAR_ADDR(1)));
     LZ77UnCompVram(gUnknown_085F0BC0, (void *)(BG_SCREEN_ADDR(15)));
@@ -733,7 +733,7 @@ void load_intro_part2_graphics(u8 a)
 }
 
 // Note: This is only called with a=1.
-void sub_817B150(u8 a)
+void sub_817B150 (u8 a)
 {
     switch (a) {
     default:
@@ -809,7 +809,7 @@ void sub_817B150(u8 a)
     }
 }
 
-void sub_817B1C8(u8 a)
+void sub_817B1C8 (u8 a)
 {
     LZ77UnCompVram(gUnknown_085F0740, (void *)(BG_CHAR_ADDR(1)));
     LZ77UnCompVram(gUnknown_085F0BC0, (void *)(BG_SCREEN_ADDR(15)));
@@ -859,7 +859,7 @@ void sub_817B1C8(u8 a)
     gUnknown_0203BD28 = 0;
 }
 
-void sub_817B3A8(u8 a)
+void sub_817B3A8 (u8 a)
 {
     SetGpuReg(REG_OFFSET_BG3CNT, BGCNT_PRIORITY(3)
               | BGCNT_CHARBASE(0)
@@ -882,7 +882,7 @@ void sub_817B3A8(u8 a)
               | DISPCNT_OBJ_ON);
 }
 
-u8 CreateBicycleAnimationTask(u8 a, u16 b, u16 c, u16 d)
+u8 CreateBicycleAnimationTask (u8 a, u16 b, u16 c, u16 d)
 {
     u8 taskId = CreateTask(&sub_817B458, 0);
 
@@ -900,7 +900,7 @@ u8 CreateBicycleAnimationTask(u8 a, u16 b, u16 c, u16 d)
     return taskId;
 }
 
-static void sub_817B458(u8 taskId)
+static void sub_817B458 (u8 taskId)
 {
     s16 data1;
     s16 data4;
@@ -942,7 +942,7 @@ static void sub_817B458(u8 taskId)
     }
 }
 
-void sub_817B540(u8 mode)
+void sub_817B540 (u8 mode)
 {
     u16 x;
     u16 y;
@@ -982,7 +982,7 @@ void sub_817B540(u8 mode)
     }
 }
 
-static void sub_817B62C(struct Sprite *sprite)
+static void sub_817B62C (struct Sprite *sprite)
 {
     s32 var;
     s16 var2 = gUnknown_0203BD28;
@@ -1009,7 +1009,7 @@ static void sub_817B62C(struct Sprite *sprite)
     }
 }
 
-static void sub_817B698(u8 a, const struct IntroCreditsSpriteMetadata *b, const union AnimCmd *const *c, u8 d)
+static void sub_817B698 (u8 a, const struct IntroCreditsSpriteMetadata *b, const union AnimCmd *const *c, u8 d)
 {
     u8 i;
 
@@ -1028,26 +1028,26 @@ static void sub_817B698(u8 a, const struct IntroCreditsSpriteMetadata *b, const 
     }
 }
 
-static void sub_817B76C(void)
+static void sub_817B76C (void)
 {
     sub_817B698(0, gUnknown_085F50A4, gUnknown_085F5094, 9);
 }
 
-static void sub_817B788(void)
+static void sub_817B788 (void)
 {
     sub_817B698(1, gUnknown_085F5120, gUnknown_085F5114, 12);
 }
 
-static void sub_817B7A4(void)
+static void sub_817B7A4 (void)
 {
     sub_817B698(1, gUnknown_085F519C, gUnknown_085F5198, 6);
 }
 
-static void nullsub_65(struct Sprite *sprite)
+static void nullsub_65 (struct Sprite *sprite)
 {
 }
 
-static void sub_817B7C4(struct Sprite* sprite)
+static void sub_817B7C4 (struct Sprite* sprite)
 {
     sprite->invisible = gSprites[sprite->data[0]].invisible;
     sprite->pos1.x = gSprites[sprite->data[0]].pos1.x;
@@ -1056,7 +1056,7 @@ static void sub_817B7C4(struct Sprite* sprite)
     sprite->pos2.y = gSprites[sprite->data[0]].pos2.y;
 }
 
-u8 intro_create_brendan_sprite(s16 a, s16 b)
+u8 intro_create_brendan_sprite (s16 a, s16 b)
 {
     u8 sprite = CreateSprite(&gUnknown_085F51EC, a, b, 2);
     u8 brendan = CreateSprite(&gUnknown_085F523C, a, b + 8, 3);
@@ -1064,7 +1064,7 @@ u8 intro_create_brendan_sprite(s16 a, s16 b)
     return sprite;
 }
 
-u8 intro_create_may_sprite(s16 a, s16 b)
+u8 intro_create_may_sprite (s16 a, s16 b)
 {
     u8 sprite = CreateSprite(&gUnknown_085F5204, a, b, 2);
     u8 may = CreateSprite(&gUnknown_085F5254, a, b + 8, 3);
@@ -1072,11 +1072,11 @@ u8 intro_create_may_sprite(s16 a, s16 b)
     return sprite;
 }
 
-static void nullsub_66(struct Sprite *sprite)
+static void nullsub_66 (struct Sprite *sprite)
 {
 }
 
-static void sub_817B8E8(struct Sprite* sprite)
+static void sub_817B8E8 (struct Sprite* sprite)
 {
     sprite->invisible = gSprites[sprite->data[0]].invisible;
     sprite->pos1.y = gSprites[sprite->data[0]].pos1.y;
@@ -1084,7 +1084,7 @@ static void sub_817B8E8(struct Sprite* sprite)
     sprite->pos2.y = gSprites[sprite->data[0]].pos2.y;
 }
 
-static u8 sub_817B948(s16 a, s16 b)
+static u8 sub_817B948 (s16 a, s16 b)
 {
     u8 sprite = CreateSprite(&gUnknown_085F528C, a - 32, b, 5);
     u8 latios = CreateSprite(&gUnknown_085F528C, a + 32, b, 6);
@@ -1094,7 +1094,7 @@ static u8 sub_817B948(s16 a, s16 b)
     return sprite;
 }
 
-u8 intro_create_flygon_sprite(s16 a, s16 b)
+u8 intro_create_flygon_sprite (s16 a, s16 b)
 {
     u8 sprite = CreateSprite(&gUnknown_085F52A4, a - 32, b, 5);
     u8 flygon = CreateSprite(&gUnknown_085F52A4, a + 32, b, 6);

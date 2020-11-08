@@ -6,7 +6,7 @@ struct Task gTasks[NUM_TASKS];
 static void InsertTask(u8 newTaskId);
 static u8 FindFirstActiveTask(void);
 
-void ResetTasks(void)
+void ResetTasks (void)
 {
     u8 i;
 
@@ -23,7 +23,7 @@ void ResetTasks(void)
     gTasks[NUM_TASKS - 1].next = TAIL_SENTINEL;
 }
 
-u8 CreateTask(TaskFunc func, u8 priority)
+u8 CreateTask (TaskFunc func, u8 priority)
 {
     u8 i;
 
@@ -41,7 +41,7 @@ u8 CreateTask(TaskFunc func, u8 priority)
     return 0;
 }
 
-static void InsertTask(u8 newTaskId)
+static void InsertTask (u8 newTaskId)
 {
     u8 taskId = FindFirstActiveTask();
 
@@ -75,7 +75,7 @@ static void InsertTask(u8 newTaskId)
     }
 }
 
-void DestroyTask(u8 taskId)
+void DestroyTask (u8 taskId)
 {
     if (gTasks[taskId].isActive) {
         gTasks[taskId].isActive = FALSE;
@@ -95,7 +95,7 @@ void DestroyTask(u8 taskId)
     }
 }
 
-void RunTasks(void)
+void RunTasks (void)
 {
     u8 taskId = FindFirstActiveTask();
 
@@ -107,7 +107,7 @@ void RunTasks(void)
     }
 }
 
-static u8 FindFirstActiveTask(void)
+static u8 FindFirstActiveTask (void)
 {
     u8 taskId;
 
@@ -120,27 +120,27 @@ static u8 FindFirstActiveTask(void)
     return taskId;
 }
 
-void TaskDummy(u8 taskId)
+void TaskDummy (u8 taskId)
 {
 }
 
-#define TASK_DATA_OP(taskId, offset, op)                     \
-{                                                            \
-    u32 tasksAddr = (u32)gTasks;                             \
-    u32 addr = taskId * sizeof(struct Task) + offset;        \
-    u32 dataAddr = tasksAddr + offsetof(struct Task, data);  \
-    addr += dataAddr;                                        \
-    op;                                                      \
+#define TASK_DATA_OP(taskId, offset, op)                      \
+{                                                             \
+    u32 tasksAddr = (u32)gTasks;                              \
+    u32 addr = taskId * sizeof(struct Task) + offset;         \
+    u32 dataAddr = tasksAddr + offsetof(struct Task, data);   \
+    addr += dataAddr;                                         \
+    op;                                                       \
 }
 
-void SetTaskFuncWithFollowupFunc(u8 taskId, TaskFunc func, TaskFunc followupFunc)
+void SetTaskFuncWithFollowupFunc (u8 taskId, TaskFunc func, TaskFunc followupFunc)
 {
     TASK_DATA_OP(taskId, 28, *((u16 *)addr) = (u32)followupFunc)
     TASK_DATA_OP(taskId, 30, *((u16 *)addr) = (u32)followupFunc >> 16)
     gTasks[taskId].func = func;
 }
 
-void SwitchTaskToFollowupFunc(u8 taskId)
+void SwitchTaskToFollowupFunc (u8 taskId)
 {
     s32 func;
 
@@ -152,7 +152,7 @@ void SwitchTaskToFollowupFunc(u8 taskId)
     gTasks[taskId].func = (TaskFunc)func;
 }
 
-bool8 FuncIsActiveTask(TaskFunc func)
+bool8 FuncIsActiveTask (TaskFunc func)
 {
     u8 i;
 
@@ -165,7 +165,7 @@ bool8 FuncIsActiveTask(TaskFunc func)
     return FALSE;
 }
 
-u8 FindTaskIdByFunc(TaskFunc func)
+u8 FindTaskIdByFunc (TaskFunc func)
 {
     s32 i;
 
@@ -178,7 +178,7 @@ u8 FindTaskIdByFunc(TaskFunc func)
     return 0xFF;
 }
 
-u8 GetTaskCount(void)
+u8 GetTaskCount (void)
 {
     u8 i;
     u8 count = 0;
@@ -192,7 +192,7 @@ u8 GetTaskCount(void)
     return count;
 }
 
-void SetWordTaskArg(u8 taskId, u8 dataElem, u32 value)
+void SetWordTaskArg (u8 taskId, u8 dataElem, u32 value)
 {
     if (dataElem < NUM_TASK_DATA - 1) {
         gTasks[taskId].data[dataElem] = value;
@@ -200,7 +200,7 @@ void SetWordTaskArg(u8 taskId, u8 dataElem, u32 value)
     }
 }
 
-u32 GetWordTaskArg(u8 taskId, u8 dataElem)
+u32 GetWordTaskArg (u8 taskId, u8 dataElem)
 {
     if (dataElem < NUM_TASK_DATA - 1) {
         return (u16)gTasks[taskId].data[dataElem] | (gTasks[taskId].data[dataElem + 1] << 16);

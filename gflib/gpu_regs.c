@@ -18,7 +18,7 @@ static void CopyBufferedValueToGpuReg(u8 regOffset);
 static void SyncRegIE(void);
 static void UpdateRegDispstatIntrBits(u16 regIE);
 
-void InitGpuRegManager(void)
+void InitGpuRegManager (void)
 {
     s32 i;
 
@@ -32,7 +32,7 @@ void InitGpuRegManager(void)
     sRegIE = 0;
 }
 
-static void CopyBufferedValueToGpuReg(u8 regOffset)
+static void CopyBufferedValueToGpuReg (u8 regOffset)
 {
     if (regOffset == REG_OFFSET_DISPSTAT) {
         REG_DISPSTAT &= ~(DISPSTAT_HBLANK_INTR | DISPSTAT_VBLANK_INTR);
@@ -42,7 +42,7 @@ static void CopyBufferedValueToGpuReg(u8 regOffset)
     }
 }
 
-void CopyBufferedValuesToGpuRegs(void)
+void CopyBufferedValuesToGpuRegs (void)
 {
     if (!sGpuRegBufferLocked) {
         s32 i;
@@ -58,7 +58,7 @@ void CopyBufferedValuesToGpuRegs(void)
     }
 }
 
-void SetGpuReg(u8 regOffset, u16 value)
+void SetGpuReg (u8 regOffset, u16 value)
 {
     if (regOffset < GPU_REG_BUF_SIZE) {
         u16 vcount;
@@ -86,7 +86,7 @@ void SetGpuReg(u8 regOffset, u16 value)
     }
 }
 
-void SetGpuReg_ForcedBlank(u8 regOffset, u16 value)
+void SetGpuReg_ForcedBlank (u8 regOffset, u16 value)
 {
     if (regOffset < GPU_REG_BUF_SIZE) {
         GPU_REG_BUF(regOffset) = value;
@@ -111,7 +111,7 @@ void SetGpuReg_ForcedBlank(u8 regOffset, u16 value)
     }
 }
 
-u16 GetGpuReg(u8 regOffset)
+u16 GetGpuReg (u8 regOffset)
 {
     if (regOffset == REG_OFFSET_DISPSTAT) {
         return REG_DISPSTAT;
@@ -124,19 +124,19 @@ u16 GetGpuReg(u8 regOffset)
     return GPU_REG_BUF(regOffset);
 }
 
-void SetGpuRegBits(u8 regOffset, u16 mask)
+void SetGpuRegBits (u8 regOffset, u16 mask)
 {
     u16 regValue = GPU_REG_BUF(regOffset);
     SetGpuReg(regOffset, regValue | mask);
 }
 
-void ClearGpuRegBits(u8 regOffset, u16 mask)
+void ClearGpuRegBits (u8 regOffset, u16 mask)
 {
     u16 regValue = GPU_REG_BUF(regOffset);
     SetGpuReg(regOffset, regValue & ~mask);
 }
 
-static void SyncRegIE(void)
+static void SyncRegIE (void)
 {
     if (sShouldSyncRegIE) {
         u16 temp = REG_IME;
@@ -147,7 +147,7 @@ static void SyncRegIE(void)
     }
 }
 
-void EnableInterrupts(u16 mask)
+void EnableInterrupts (u16 mask)
 {
     sRegIE |= mask;
     sShouldSyncRegIE = TRUE;
@@ -155,7 +155,7 @@ void EnableInterrupts(u16 mask)
     UpdateRegDispstatIntrBits(sRegIE);
 }
 
-void DisableInterrupts(u16 mask)
+void DisableInterrupts (u16 mask)
 {
     sRegIE &= ~mask;
     sShouldSyncRegIE = TRUE;
@@ -163,7 +163,7 @@ void DisableInterrupts(u16 mask)
     UpdateRegDispstatIntrBits(sRegIE);
 }
 
-static void UpdateRegDispstatIntrBits(u16 regIE)
+static void UpdateRegDispstatIntrBits (u16 regIE)
 {
     u16 oldValue = GetGpuReg(REG_OFFSET_DISPSTAT) & (DISPSTAT_HBLANK_INTR | DISPSTAT_VBLANK_INTR);
     u16 newValue = 0;

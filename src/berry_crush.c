@@ -817,12 +817,12 @@ static const u8 gUnknown_082F4444[] = {5, 7, 9, 12};
 static const u8 gUnknown_082F4448[] = {3, 7, 15, 31};
 
 
-struct BerryCrushGame * sub_8020C00(void)
+struct BerryCrushGame * sub_8020C00 (void)
 {
     return gUnknown_02022C90;
 }
 
-u32 sub_8020C0C(MainCallback callback)
+u32 sub_8020C0C (MainCallback callback)
 {
     if (!gUnknown_02022C90) {
         return 2;
@@ -844,7 +844,7 @@ u32 sub_8020C0C(MainCallback callback)
     return 0;
 }
 
-void StartBerryCrush(MainCallback callback)
+void StartBerryCrush (MainCallback callback)
 {
     u8 playerCount = 0;
     u8 multiplayerId;
@@ -890,7 +890,7 @@ void StartBerryCrush(MainCallback callback)
     gTextFlags.autoScroll = 0;
 }
 
-static void sub_8020D8C(void)
+static void sub_8020D8C (void)
 {
     if (gSpecialVar_ItemId < FIRST_BERRY_INDEX || gSpecialVar_ItemId > LAST_BERRY_INDEX + 1) {
         gSpecialVar_ItemId = ITEM_CHERI_BERRY;
@@ -907,23 +907,23 @@ static void sub_8020D8C(void)
     SetMainCallback2(sub_8020F88);
 }
 
-void sub_8020E1C(void)
+void sub_8020E1C (void)
 {
     DestroyTask(gUnknown_02022C90->unkA);
     ChooseBerryForMachine(sub_8020D8C);
 }
 
-static void sub_8020E3C(void)
+static void sub_8020E3C (void)
 {
     SetVBlankCallback(sub_8020F74);
 }
 
-void sub_8020E4C(void)
+void sub_8020E4C (void)
 {
     SetVBlankCallback(NULL);
 }
 
-void sub_8020E58(void)
+void sub_8020E58 (void)
 {
     u32 var0, var1;
 
@@ -969,14 +969,14 @@ void sub_8020E58(void)
     gUnknown_02022C90->unk25_0 = 1;
 }
 
-static void sub_8020F74(void)
+static void sub_8020F74 (void)
 {
     TransferPlttBuffer();
     LoadOam();
     ProcessSpriteCopyRequests();
 }
 
-static void sub_8020F88(void)
+static void sub_8020F88 (void)
 {
     RunTasks();
     RunTextPrinters();
@@ -984,7 +984,7 @@ static void sub_8020F88(void)
     BuildOamBuffer();
 }
 
-static void sub_8020FA0(u8 taskId)
+static void sub_8020FA0 (u8 taskId)
 {
     if (gUnknown_02022C90->unk4) {
         gUnknown_02022C90->unk4(gUnknown_02022C90, gUnknown_02022C90->unk36);
@@ -993,13 +993,13 @@ static void sub_8020FA0(u8 taskId)
     sub_8021450(gUnknown_02022C90);
 }
 
-#define PLAYER_UNK14(game, i)                         \
-    ((u8 *)(game)                                     \
-    + offsetof(struct BerryCrushGame, unk68)          \
-    + offsetof(struct BerryCrushGame_68_x, unk30)     \
+#define PLAYER_UNK14(game, i)                          \
+    ((u8 *)(game)                                      \
+    + offsetof(struct BerryCrushGame, unk68)           \
+    + offsetof(struct BerryCrushGame_68_x, unk30)      \
     + sizeof(struct BerryCrushGame_Player) * (i))
 
-void sub_8020FC4(struct BerryCrushGame *arg0)
+void sub_8020FC4 (struct BerryCrushGame *arg0)
 {
     u8 i;
 
@@ -1024,7 +1024,7 @@ void sub_8020FC4(struct BerryCrushGame *arg0)
     }
 }
 
-int sub_802104C(void)
+int sub_802104C (void)
 {
     struct BerryCrushGame *var0 = sub_8020C00();
     if (!var0) {
@@ -1123,7 +1123,7 @@ int sub_802104C(void)
     return 0;
 }
 
-int sub_802130C(void)
+int sub_802130C (void)
 {
     struct BerryCrushGame *var0 = sub_8020C00();
     if (!var0) {
@@ -1185,7 +1185,7 @@ int sub_802130C(void)
     return 0;
 }
 
-static int sub_8021450(struct BerryCrushGame *arg0)
+static int sub_8021450 (struct BerryCrushGame *arg0)
 {
     gSpriteCoordOffsetY = arg0->unk2A + arg0->unk2C;
     SetGpuReg(REG_OFFSET_BG1VOFS, -gSpriteCoordOffsetY);
@@ -1196,7 +1196,7 @@ static int sub_8021450(struct BerryCrushGame *arg0)
     return 0;
 }
 
-void sub_8021488(struct BerryCrushGame *arg0)
+void sub_8021488 (struct BerryCrushGame *arg0)
 {
     arg0->unk2A = -104;
     arg0->unk2C = 0;
@@ -1204,7 +1204,7 @@ void sub_8021488(struct BerryCrushGame *arg0)
     gSpriteCoordOffsetY = -104;
 }
 
-void sub_80214A8(struct BerryCrushGame *arg0, struct BerryCrushGame_138 *arg1)
+void sub_80214A8 (struct BerryCrushGame *arg0, struct BerryCrushGame_138 *arg1)
 {
     u8 i;
     u8 spriteId;
@@ -1253,7 +1253,7 @@ void sub_80214A8(struct BerryCrushGame *arg0, struct BerryCrushGame_138 *arg1)
     }
 }
 
-void sub_8021608(struct Sprite *sprite)
+void sub_8021608 (struct Sprite *sprite)
 {
     s16 *data = sprite->data;
 
@@ -1277,7 +1277,7 @@ void sub_8021608(struct Sprite *sprite)
     }
 }
 
-void sub_80216A8(struct BerryCrushGame *arg0, __attribute__((unused)) struct BerryCrushGame_138 *arg1)
+void sub_80216A8 (struct BerryCrushGame *arg0, __attribute__((unused)) struct BerryCrushGame_138 *arg1)
 {
     u8 i;
     for (i = 0; i < arg0->unk9; i++) {
@@ -1286,7 +1286,7 @@ void sub_80216A8(struct BerryCrushGame *arg0, __attribute__((unused)) struct Ber
     }
 }
 
-void sub_80216E0(struct BerryCrushGame *arg0, struct BerryCrushGame_138 *arg1)
+void sub_80216E0 (struct BerryCrushGame *arg0, struct BerryCrushGame_138 *arg1)
 {
     u8 sp4;
     struct BerryCrushGame_4E *var4E;
@@ -1352,7 +1352,7 @@ void sub_80216E0(struct BerryCrushGame *arg0, struct BerryCrushGame_138 *arg1)
     }
 }
 
-bool32 sub_80218D4(struct BerryCrushGame *arg0, struct BerryCrushGame_138 *arg1)
+bool32 sub_80218D4 (struct BerryCrushGame *arg0, struct BerryCrushGame_138 *arg1)
 {
     u8 i;
 
@@ -1375,7 +1375,7 @@ bool32 sub_80218D4(struct BerryCrushGame *arg0, struct BerryCrushGame_138 *arg1)
     return TRUE;
 }
 
-void sub_8021944(struct BerryCrushGame_138 *arg0, u16 arg1)
+void sub_8021944 (struct BerryCrushGame_138 *arg0, u16 arg1)
 {
     u8 i = 0;
     u32 r7 = 0;
@@ -1394,13 +1394,13 @@ void sub_8021944(struct BerryCrushGame_138 *arg0, u16 arg1)
     arg0->unk8 = r7 / 1000000;
 }
 
-void sub_80219C8(u8 windowId, u8 left, u8 colorId, const u8 *string)
+void sub_80219C8 (u8 windowId, u8 left, u8 colorId, const u8 *string)
 {
     left = (left * 4) - (GetStringWidth(2, string, -1) / 2u);
     AddTextPrinterParameterized3(windowId, 2, left, 0, sBerryCrushTextColorTable[colorId], 0, string);
 }
 
-void sub_8021A28(struct BerryCrushGame * sp0C, u8 sp10, u8 sp14, u8 sp18)
+void sub_8021A28 (struct BerryCrushGame * sp0C, u8 sp10, u8 sp14, u8 sp18)
 {
     u8 r8;
     u8 sp1C = 0;
@@ -1476,7 +1476,7 @@ void sub_8021A28(struct BerryCrushGame * sp0C, u8 sp10, u8 sp14, u8 sp18)
     }
 }
 
-void sub_8021D34(struct BerryCrushGame *r8)
+void sub_8021D34 (struct BerryCrushGame *r8)
 {
     u8 r10 = 0;
     u8 r6 = 0;
@@ -1525,7 +1525,7 @@ void sub_8021D34(struct BerryCrushGame *r8)
     AddTextPrinterParameterized3(r8->unk138.unk82, 2, r6, r7, sBerryCrushTextColorTable[0], 0, gStringVar4);
 }
 
-bool32 sub_8022070(struct BerryCrushGame *r4, struct BerryCrushGame_138 *r6)
+bool32 sub_8022070 (struct BerryCrushGame *r4, struct BerryCrushGame_138 *r6)
 {
     u8 r5;
     struct WindowTemplate template;
@@ -1581,14 +1581,14 @@ bool32 sub_8022070(struct BerryCrushGame *r4, struct BerryCrushGame_138 *r6)
     return FALSE;
 }
 
-void sub_802222C(struct BerryCrushGame *r4)
+void sub_802222C (struct BerryCrushGame *r4)
 {
     ClearStdWindowAndFrameToTransparent(r4->unk138.unk82, 1);
     RemoveWindow(r4->unk138.unk82);
     sub_8022600(r4);
 }
 
-static void Task_ShowBerryCrushRankings(u8 taskId)
+static void Task_ShowBerryCrushRankings (u8 taskId)
 {
     u8 i = 0, j, xPos, yPos;
     u32 score = 0;
@@ -1689,7 +1689,7 @@ static void Task_ShowBerryCrushRankings(u8 taskId)
     ++data[0];
 }
 
-void ShowBerryCrushRankings(void)
+void ShowBerryCrushRankings (void)
 {
     u8 taskId;
 
@@ -1701,7 +1701,7 @@ void ShowBerryCrushRankings(void)
     gTasks[taskId].data[5] = gSaveBlock2Ptr->berryCrush.berryCrushResults[3];
 }
 
-void sub_8022524(struct BerryCrushGame_138 *r4, u16 r1)
+void sub_8022524 (struct BerryCrushGame_138 *r4, u16 r1)
 {
     sub_8021944(r4, r1);
     DigitObjUtil_PrintNumOn(0, r4->unk4);
@@ -1709,7 +1709,7 @@ void sub_8022524(struct BerryCrushGame_138 *r4, u16 r1)
     DigitObjUtil_PrintNumOn(2, r4->unk8);
 }
 
-void sub_8022554(struct BerryCrushGame_138 *r0)
+void sub_8022554 (struct BerryCrushGame_138 *r0)
 {
     r0->unk78[0]->invisible = TRUE;
     r0->unk78[1]->invisible = TRUE;
@@ -1718,7 +1718,7 @@ void sub_8022554(struct BerryCrushGame_138 *r0)
     DigitObjUtil_HideOrShow(0, 1);
 }
 
-void sub_8022588(struct BerryCrushGame *r5)
+void sub_8022588 (struct BerryCrushGame *r5)
 {
     u8 r6;
 
@@ -1730,7 +1730,7 @@ void sub_8022588(struct BerryCrushGame *r5)
     }
 }
 
-void sub_8022600(struct BerryCrushGame *r6)
+void sub_8022600 (struct BerryCrushGame *r6)
 {
     u8 r7, r2;
     u8 *r4;
@@ -1767,7 +1767,7 @@ void sub_8022600(struct BerryCrushGame *r6)
     CopyBgTilemapBufferToVram(0);
 }
 
-void sub_80226D0(struct BerryCrushGame *r6)
+void sub_80226D0 (struct BerryCrushGame *r6)
 {
     u8 r5 = 0;
     const u32 *r0 = gUnknown_08DE3FD4;
@@ -1794,7 +1794,7 @@ void sub_80226D0(struct BerryCrushGame *r6)
     CopyBgTilemapBufferToVram(3);
 }
 
-void sub_8022730(struct BerryCrushGame *r6)
+void sub_8022730 (struct BerryCrushGame *r6)
 {
     u8 r5 = 0;
     u8 r2;
@@ -1858,7 +1858,7 @@ void sub_8022730(struct BerryCrushGame *r6)
     }
 }
 
-void sub_8022960(struct BerryCrushGame *r5)
+void sub_8022960 (struct BerryCrushGame *r5)
 {
     u8 r4 = 0;
 
@@ -1886,7 +1886,7 @@ void sub_8022960(struct BerryCrushGame *r5)
     }
 }
 
-static void sub_8022A20(struct Sprite *sprite)
+static void sub_8022A20 (struct Sprite *sprite)
 {
     if (sprite->animEnded) {
         sprite->invisible = TRUE;
@@ -1894,7 +1894,7 @@ static void sub_8022A20(struct Sprite *sprite)
     }
 }
 
-void sub_8022A4C(struct Sprite *sprite)
+void sub_8022A4C (struct Sprite *sprite)
 {
     u8 r1 = 0;
     SpriteCallback r5 = SpriteCallbackDummy;
@@ -1909,7 +1909,7 @@ void sub_8022A4C(struct Sprite *sprite)
     sprite->callback = r5;
 }
 
-void sub_8022A94(struct Sprite *sprite)
+void sub_8022A94 (struct Sprite *sprite)
 {
     s16 *r4 = sprite->data;
 
@@ -1930,7 +1930,7 @@ void sub_8022A94(struct Sprite *sprite)
     }
 }
 
-void sub_8022B28(struct Sprite *sprite)
+void sub_8022B28 (struct Sprite *sprite)
 {
     s16 *r7 = sprite->data;
     s16 r4, r5;
@@ -1957,7 +1957,7 @@ void sub_8022B28(struct Sprite *sprite)
     sprite->invisible = FALSE;
 }
 
-void sub_8022BEC(u16 r5, u8 r4, u8 *r7)
+void sub_8022BEC (u16 r5, u8 r4, u8 *r7)
 {
     struct BerryCrushGame *r6 = sub_8020C00();
 
@@ -1980,7 +1980,7 @@ void sub_8022BEC(u16 r5, u8 r4, u8 *r7)
     }
 }
 
-static u32 BerryCrushCommand_BeginNormalPaletteFade(struct BerryCrushGame *game, u8 *params)
+static u32 BerryCrushCommand_BeginNormalPaletteFade (struct BerryCrushGame *game, u8 *params)
 {
     // params points to packed values:
     // bytes 0-3: selectedPals (bitfield)
@@ -2019,7 +2019,7 @@ static u32 BerryCrushCommand_BeginNormalPaletteFade(struct BerryCrushGame *game,
     return 0;
 }
 
-static u32 sub_8022CB0(struct BerryCrushGame *r4, u8 *r5)
+static u32 sub_8022CB0 (struct BerryCrushGame *r4, u8 *r5)
 {
     switch (r4->unkC) {
     case 0:
@@ -2052,7 +2052,7 @@ static u32 sub_8022CB0(struct BerryCrushGame *r4, u8 *r5)
     }
 }
 
-static u32 sub_8022D14(struct BerryCrushGame *r7, u8 *r5)
+static u32 sub_8022D14 (struct BerryCrushGame *r7, u8 *r5)
 {
     u16 r4 = r5[3];
 
@@ -2094,7 +2094,7 @@ static u32 sub_8022D14(struct BerryCrushGame *r7, u8 *r5)
     return 0;
 }
 
-static u32 sub_8022E1C(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
+static u32 sub_8022E1C (struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
 {
     if (sub_802104C() != 0) {
         sub_8022BEC(r4->unkE, 0, r4->unk36);
@@ -2102,7 +2102,7 @@ static u32 sub_8022E1C(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1
     return 0;
 }
 
-static u32 sub_8022E3C(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
+static u32 sub_8022E3C (struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
 {
     if (sub_802130C() != 0) {
         sub_8022BEC(r4->unkE, 0, r4->unk36);
@@ -2110,7 +2110,7 @@ static u32 sub_8022E3C(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1
     return 0;
 }
 
-static u32 sub_8022E5C(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
+static u32 sub_8022E5C (struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
 {
     switch (r4->unkC) {
     case 0:
@@ -2129,7 +2129,7 @@ static u32 sub_8022E5C(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1
     return 0;
 }
 
-static u32 sub_8022EAC(struct BerryCrushGame *r4, u8 *r5)
+static u32 sub_8022EAC (struct BerryCrushGame *r4, u8 *r5)
 {
     switch (r4->unkC) {
     default:
@@ -2150,14 +2150,14 @@ static u32 sub_8022EAC(struct BerryCrushGame *r4, u8 *r5)
     return 0;
 }
 
-static u32 sub_8022F04(struct BerryCrushGame *r0, __attribute__((unused)) u8 *r1)
+static u32 sub_8022F04 (struct BerryCrushGame *r0, __attribute__((unused)) u8 *r1)
 {
     r0->unk4 = NULL;
     SetMainCallback2(sub_8020E1C);
     return 0;
 }
 
-static u32 sub_8022F1C(struct BerryCrushGame *r5, u8 *r2)
+static u32 sub_8022F1C (struct BerryCrushGame *r5, u8 *r2)
 {
     u8 r3;
 
@@ -2211,7 +2211,7 @@ static u32 sub_8022F1C(struct BerryCrushGame *r5, u8 *r2)
     return 0;
 }
 
-static u32 sub_8023070(struct BerryCrushGame *r4,  __attribute__((unused)) u8 *r1)
+static u32 sub_8023070 (struct BerryCrushGame *r4,  __attribute__((unused)) u8 *r1)
 {
     switch (r4->unkC) {
     case 0:
@@ -2268,7 +2268,7 @@ static u32 sub_8023070(struct BerryCrushGame *r4,  __attribute__((unused)) u8 *r
     return 0;
 }
 
-static u32 sub_80231B8(struct BerryCrushGame *r4,  __attribute__((unused)) u8 *r1)
+static u32 sub_80231B8 (struct BerryCrushGame *r4,  __attribute__((unused)) u8 *r1)
 {
     switch (r4->unkC) {
     case 0:
@@ -2318,7 +2318,7 @@ static u32 sub_80231B8(struct BerryCrushGame *r4,  __attribute__((unused)) u8 *r
     return 0;
 }
 
-static u32 sub_80232EC(struct BerryCrushGame *r4,  __attribute__((unused)) u8 *r1)
+static u32 sub_80232EC (struct BerryCrushGame *r4,  __attribute__((unused)) u8 *r1)
 {
     switch (r4->unkC) {
     case 1:
@@ -2357,7 +2357,7 @@ static u32 sub_80232EC(struct BerryCrushGame *r4,  __attribute__((unused)) u8 *r
     return 0;
 }
 
-void sub_802339C(struct BerryCrushGame *r4)
+void sub_802339C (struct BerryCrushGame *r4)
 {
     u8 r8 = 0;
     u16 r3;
@@ -2423,7 +2423,7 @@ void sub_802339C(struct BerryCrushGame *r4)
     }
 }
 
-void sub_8023558(struct BerryCrushGame *r3)
+void sub_8023558 (struct BerryCrushGame *r3)
 {
     u8 r6 = 0;
     u16 r1 = 0;
@@ -2480,7 +2480,7 @@ void sub_8023558(struct BerryCrushGame *r3)
     r3->unk5C.unk06 = r3->unk26;
 }
 
-void sub_80236B8(struct BerryCrushGame *r5)
+void sub_80236B8 (struct BerryCrushGame *r5)
 {
     if (JOY_NEW(A_BUTTON)) {
         r5->unk5C.unk02_2 = 1;
@@ -2538,7 +2538,7 @@ void sub_80236B8(struct BerryCrushGame *r5)
     Rfu_SendPacket(r5->unk40.unk2);
 }
 
-void sub_802385C(struct BerryCrushGame *r5)
+void sub_802385C (struct BerryCrushGame *r5)
 {
     struct BerryCrushGame_4E *r4_;
 #ifndef NONMATCHING
@@ -2573,7 +2573,7 @@ void sub_802385C(struct BerryCrushGame *r5)
     }
 }
 
-static u32 sub_80238F0(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
+static u32 sub_80238F0 (struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
 {
     memset(&r4->unk5C, 0, sizeof(r4->unk5C));
     memset(&r4->unk40.unkE, 0, sizeof(r4->unk40.unkE));
@@ -2600,7 +2600,7 @@ static u32 sub_80238F0(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1
     }
 }
 
-static u32 sub_8023998(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
+static u32 sub_8023998 (struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
 {
     memset(&r4->unk5C, 0, sizeof(r4->unk5C));
     memset(&r4->unk40.unkE, 0, sizeof(r4->unk40.unkE));
@@ -2624,7 +2624,7 @@ static u32 sub_8023998(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1
     }
 }
 
-static u32 sub_8023A30(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
+static u32 sub_8023A30 (struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
 {
     switch (r4->unkC) {
     case 0:
@@ -2683,7 +2683,7 @@ static u32 sub_8023A30(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1
     return 0;
 }
 
-static u32 sub_8023BC0(struct BerryCrushGame *r5, u8 *r6)
+static u32 sub_8023BC0 (struct BerryCrushGame *r5, u8 *r6)
 {
     switch (r5->unkC) {
     case 0:
@@ -2725,7 +2725,7 @@ static u32 sub_8023BC0(struct BerryCrushGame *r5, u8 *r6)
     return 0;
 }
 
-static u32 sub_8023CAC(struct BerryCrushGame *r7, __attribute__((unused)) u8 *r1)
+static u32 sub_8023CAC (struct BerryCrushGame *r7, __attribute__((unused)) u8 *r1)
 {
     u8 r8, r4_;
     s32 r2;
@@ -2904,7 +2904,7 @@ static u32 sub_8023CAC(struct BerryCrushGame *r7, __attribute__((unused)) u8 *r1
     return 0;
 }
 
-static u32 sub_8024048(struct BerryCrushGame *r5, u8 *r6)
+static u32 sub_8024048 (struct BerryCrushGame *r5, u8 *r6)
 {
     switch (r5->unkC) {
     case 0:
@@ -2947,7 +2947,7 @@ static u32 sub_8024048(struct BerryCrushGame *r5, u8 *r6)
     return 0;
 }
 
-static u32 sub_8024134(struct BerryCrushGame *r5, u8 *r4)
+static u32 sub_8024134 (struct BerryCrushGame *r5, u8 *r4)
 {
     switch (r5->unkC) {
     case 0:
@@ -2986,7 +2986,7 @@ static u32 sub_8024134(struct BerryCrushGame *r5, u8 *r4)
     return 0;
 }
 
-static u32 sub_8024228(struct BerryCrushGame *r5, u8 *r6)
+static u32 sub_8024228 (struct BerryCrushGame *r5, u8 *r6)
 {
     s32 r4;
 #ifndef NONMATCHING
@@ -3030,7 +3030,7 @@ static u32 sub_8024228(struct BerryCrushGame *r5, u8 *r6)
     return 0;
 }
 
-static u32 sub_80242E0(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
+static u32 sub_80242E0 (struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1)
 {
     u8 r5 = 0;
 
@@ -3075,7 +3075,7 @@ static u32 sub_80242E0(struct BerryCrushGame *r4, __attribute__((unused)) u8 *r1
     return 0;
 }
 
-static u32 sub_80243BC(struct BerryCrushGame *r5, __attribute__((unused)) u8 *r1)
+static u32 sub_80243BC (struct BerryCrushGame *r5, __attribute__((unused)) u8 *r1)
 {
     switch (r5->unkC) {
     case 0:
@@ -3106,7 +3106,7 @@ static u32 sub_80243BC(struct BerryCrushGame *r5, __attribute__((unused)) u8 *r1
     return 0;
 }
 
-static u32 sub_8024444(struct BerryCrushGame *r5, __attribute__((unused)) u8 *r1)
+static u32 sub_8024444 (struct BerryCrushGame *r5, __attribute__((unused)) u8 *r1)
 {
     switch (r5->unkC) {
     case 0:
@@ -3137,7 +3137,7 @@ static u32 sub_8024444(struct BerryCrushGame *r5, __attribute__((unused)) u8 *r1
     return 0;
 }
 
-static u32 sub_8024508(struct BerryCrushGame *r5, __attribute__((unused)) u8 *r1)
+static u32 sub_8024508 (struct BerryCrushGame *r5, __attribute__((unused)) u8 *r1)
 {
     switch (r5->unkC) {
     case 0:
@@ -3162,7 +3162,7 @@ static u32 sub_8024508(struct BerryCrushGame *r5, __attribute__((unused)) u8 *r1
     return 0;
 }
 
-static u32 sub_8024568(__attribute__((unused)) struct BerryCrushGame *r0, __attribute__((unused)) u8 *r1)
+static u32 sub_8024568 (__attribute__((unused)) struct BerryCrushGame *r0, __attribute__((unused)) u8 *r1)
 {
     sub_8020C0C(NULL);
     return 0;
@@ -3173,7 +3173,7 @@ static u32 sub_8024568(__attribute__((unused)) struct BerryCrushGame *r0, __attr
 // add a UBFIX if required (code buggy?)
 __attribute__((optimize("no-aggressive-loop-optimizations")))
 #endif
-void sub_8024578(struct BerryCrushGame *r4)
+void sub_8024578 (struct BerryCrushGame *r4)
 {
     u8 r5 = 0;
 
@@ -3213,7 +3213,7 @@ void sub_8024578(struct BerryCrushGame *r4)
     }
 }
 
-static void BerryCrush_SetPaletteFadeParams(u8 *params, bool8 communicateAfter, u32 selectedPals, s8 delay, u8 startY, u8 targetY, u16 palette)
+static void BerryCrush_SetPaletteFadeParams (u8 *params, bool8 communicateAfter, u32 selectedPals, s8 delay, u8 startY, u8 targetY, u16 palette)
 {
     params[0] = ((u8 *)&selectedPals)[0];
     params[1] = ((u8 *)&selectedPals)[1];
@@ -3227,7 +3227,7 @@ static void BerryCrush_SetPaletteFadeParams(u8 *params, bool8 communicateAfter, 
     params[9] = communicateAfter;
 }
 
-void sub_8024644(u8 *r0, u8 r1, u8 r2, u16 r3, u8 r5)
+void sub_8024644 (u8 *r0, u8 r1, u8 r2, u16 r3, u8 r5)
 {
     r0[0] = r1;
     r0[1] = r2;

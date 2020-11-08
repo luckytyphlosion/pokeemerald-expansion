@@ -273,7 +273,7 @@ static const struct SpriteTemplate sTrainerPicSpriteTemplate =
     .callback = SpriteCallbackDummy,
 };
 
-bool32 OpenMatchCall(void)
+bool32 OpenMatchCall (void)
 {
     struct Pokenav4Struct *state = AllocSubstruct(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN, sizeof(struct Pokenav4Struct));
     if (!state) {
@@ -286,20 +286,20 @@ bool32 OpenMatchCall(void)
     return TRUE;
 }
 
-void CreateMatchCallLoopedTask(s32 index)
+void CreateMatchCallLoopedTask (s32 index)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     state->loopTaskId = CreateLoopedTask(sMatchCallLoopTaskFuncs[index], 1);
     state->isTaskActiveCB = GetCurrentLoopedTaskActive;
 }
 
-bool32 IsMatchCallLoopedTaskActive(void)
+bool32 IsMatchCallLoopedTaskActive (void)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     return state->isTaskActiveCB();
 }
 
-void FreeMatchCallSubstruct2(void)
+void FreeMatchCallSubstruct2 (void)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     RemoveMatchCallSprites();
@@ -310,13 +310,13 @@ void FreeMatchCallSubstruct2(void)
     FreePokenavSubstruct(6);
 }
 
-static bool32 GetCurrentLoopedTaskActive(void)
+static bool32 GetCurrentLoopedTaskActive (void)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     return IsLoopedTaskActive(state->loopTaskId);
 }
 
-static u32 LoopedTask_OpenMatchCall(s32 taskState)
+static u32 LoopedTask_OpenMatchCall (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -393,7 +393,7 @@ static u32 LoopedTask_OpenMatchCall(s32 taskState)
     }
 }
 
-u32 MatchCallListCursorDown(s32 taskState)
+u32 MatchCallListCursorDown (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -430,7 +430,7 @@ u32 MatchCallListCursorDown(s32 taskState)
     return LT_FINISH;
 }
 
-u32 MatchCallListCursorUp(s32 taskState)
+u32 MatchCallListCursorUp (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -467,7 +467,7 @@ u32 MatchCallListCursorUp(s32 taskState)
     return LT_FINISH;
 }
 
-u32 MatchCallListPageDown(s32 taskState)
+u32 MatchCallListPageDown (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -504,7 +504,7 @@ u32 MatchCallListPageDown(s32 taskState)
     return LT_FINISH;
 }
 
-u32 MatchCallListPageUp(s32 taskState)
+u32 MatchCallListPageUp (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -541,7 +541,7 @@ u32 MatchCallListPageUp(s32 taskState)
     return LT_FINISH;
 }
 
-u32 SelectMatchCallEntry(s32 taskState)
+u32 SelectMatchCallEntry (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -560,7 +560,7 @@ u32 SelectMatchCallEntry(s32 taskState)
     return LT_FINISH;
 }
 
-u32 MoveMatchCallOptionsCursor(s32 taskState)
+u32 MoveMatchCallOptionsCursor (s32 taskState)
 {
     struct Pokenav4Struct *state;
     u16 cursorPos;
@@ -572,7 +572,7 @@ u32 MoveMatchCallOptionsCursor(s32 taskState)
     return LT_FINISH;
 }
 
-u32 CancelMatchCallSelection(s32 taskState)
+u32 CancelMatchCallSelection (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -591,7 +591,7 @@ u32 CancelMatchCallSelection(s32 taskState)
     return LT_FINISH;
 }
 
-u32 DoMatchCallMessage(s32 taskState)
+u32 DoMatchCallMessage (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -625,7 +625,7 @@ u32 DoMatchCallMessage(s32 taskState)
     return LT_FINISH;
 }
 
-u32 DoTrainerCloseByMessage(s32 taskState)
+u32 DoTrainerCloseByMessage (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -652,7 +652,7 @@ u32 DoTrainerCloseByMessage(s32 taskState)
     return LT_FINISH;
 }
 
-u32 sub_81CB888(s32 taskState)
+u32 sub_81CB888 (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     u32 result = LT_INC_AND_PAUSE;
@@ -709,7 +709,7 @@ u32 sub_81CB888(s32 taskState)
     return result;
 }
 
-u32 ShowCheckPage(s32 taskState)
+u32 ShowCheckPage (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -739,7 +739,7 @@ u32 ShowCheckPage(s32 taskState)
     return LT_FINISH;
 }
 
-u32 ShowCheckPageDown(s32 taskState)
+u32 ShowCheckPageDown (s32 taskState)
 {
     int topId;
     int delta;
@@ -778,7 +778,7 @@ u32 ShowCheckPageDown(s32 taskState)
     return LT_FINISH;
 }
 
-u32 ExitCheckPage(s32 taskState)
+u32 ExitCheckPage (s32 taskState)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     switch (taskState) {
@@ -805,7 +805,7 @@ u32 ExitCheckPage(s32 taskState)
     return LT_FINISH;
 }
 
-u32 ShowCheckPageUp(s32 taskState)
+u32 ShowCheckPageUp (s32 taskState)
 {
     int topId;
     int delta;
@@ -844,7 +844,7 @@ u32 ShowCheckPageUp(s32 taskState)
     return LT_FINISH;
 }
 
-u32 ExitMatchCall(s32 taskState)
+u32 ExitMatchCall (s32 taskState)
 {
     switch (taskState) {
     case 0:
@@ -865,7 +865,7 @@ u32 ExitMatchCall(s32 taskState)
     return LT_FINISH;
 }
 
-static void InitMatchCallPokenavListMenuTemplate(void)
+static void InitMatchCallPokenavListMenuTemplate (void)
 {
     struct PokenavListTemplate template;
     template.list.matchCallEntries = sub_81CAE94();
@@ -884,13 +884,13 @@ static void InitMatchCallPokenavListMenuTemplate(void)
     CreateTask(sub_81CBC64, 7);
 }
 
-static void sub_81CBC1C(void)
+static void sub_81CBC1C (void)
 {
     sub_81C8234();
     DestroyTask(FindTaskIdByFunc(sub_81CBC64));
 }
 
-static void sub_81CBC38(int arg0)
+static void sub_81CBC38 (int arg0)
 {
     u8 taskId = FindTaskIdByFunc(sub_81CBC64);
     if (taskId != 0xFF) {
@@ -898,7 +898,7 @@ static void sub_81CBC38(int arg0)
     }
 }
 
-static void sub_81CBC64(u8 taskId)
+static void sub_81CBC64 (u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
     if (taskData[15]) {
@@ -912,7 +912,7 @@ static void sub_81CBC64(u8 taskId)
     }
 }
 
-static void TryDrawRematchPokeballIcon(u16 windowId, u32 rematchId, u32 arg2)
+static void TryDrawRematchPokeballIcon (u16 windowId, u32 rematchId, u32 arg2)
 {
     u8 bg = GetWindowAttribute(windowId, WINDOW_BG);
     u16 *tilemap = GetBgTilemapBuffer(bg);
@@ -926,7 +926,7 @@ static void TryDrawRematchPokeballIcon(u16 windowId, u32 rematchId, u32 arg2)
     }
 }
 
-void ClearRematchPokeballIcon(u16 windowId, u32 arg0)
+void ClearRematchPokeballIcon (u16 windowId, u32 arg0)
 {
     u8 bg = GetWindowAttribute(windowId, WINDOW_BG);
     u16 *tilemap = GetBgTilemapBuffer(bg);
@@ -935,7 +935,7 @@ void ClearRematchPokeballIcon(u16 windowId, u32 arg0)
     tilemap[0x20] = 0x5002;
 }
 
-static void DrawMatchCallLeftColumnWindows(struct Pokenav4Struct *state)
+static void DrawMatchCallLeftColumnWindows (struct Pokenav4Struct *state)
 {
     state->locWindowId = AddWindow(&sMatchCallLocationWindowTemplate);
     state->infoBoxWindowId = AddWindow(&sMatchCallInfoBoxWindowTemplate);
@@ -946,7 +946,7 @@ static void DrawMatchCallLeftColumnWindows(struct Pokenav4Struct *state)
     CopyWindowToVram(state->locWindowId, 1);
 }
 
-static void UpdateMatchCallInfoBox(struct Pokenav4Struct *state)
+static void UpdateMatchCallInfoBox (struct Pokenav4Struct *state)
 {
     FillWindowPixelBuffer(state->infoBoxWindowId, PIXEL_FILL(1));
     PrintNumberRegisteredLabel(state->infoBoxWindowId);
@@ -956,24 +956,24 @@ static void UpdateMatchCallInfoBox(struct Pokenav4Struct *state)
     CopyWindowToVram(state->infoBoxWindowId, 2);
 }
 
-static void PrintNumberRegisteredLabel(u16 windowId)
+static void PrintNumberRegisteredLabel (u16 windowId)
 {
     PrintMatchCallInfoLabel(windowId, gText_NumberRegistered, 0);
 }
 
-static void PrintNumberRegistered(u16 windowId)
+static void PrintNumberRegistered (u16 windowId)
 {
     u8 str[3];
     ConvertIntToDecimalStringN(str, GetNumberRegistered(), STR_CONV_MODE_LEFT_ALIGN, 3);
     PrintMatchCallInfoNumber(windowId, str, 1);
 }
 
-static void PrintNumberOfBattlesLabel(u16 windowId)
+static void PrintNumberOfBattlesLabel (u16 windowId)
 {
     PrintMatchCallInfoLabel(windowId, gText_NumberOfBattles, 2);
 }
 
-static void PrintNumberOfBattles(u16 windowId)
+static void PrintNumberOfBattles (u16 windowId)
 {
     u8 str[5];
     int numTrainerBattles = GetGameStat(GAME_STAT_TRAINER_BATTLES);
@@ -985,20 +985,20 @@ static void PrintNumberOfBattles(u16 windowId)
     PrintMatchCallInfoNumber(windowId, str, 3);
 }
 
-static void PrintMatchCallInfoLabel(u16 windowId, const u8 *str, int top)
+static void PrintMatchCallInfoLabel (u16 windowId, const u8 *str, int top)
 {
     int y = top * 16 + 1;
     AddTextPrinterParameterized(windowId, 7, str, 2, y, TEXT_SPEED_FF, NULL);
 }
 
-static void PrintMatchCallInfoNumber(u16 windowId, const u8 *str, int top)
+static void PrintMatchCallInfoNumber (u16 windowId, const u8 *str, int top)
 {
     int x = GetStringRightAlignXOffset(7, str, 86);
     int y = top * 16 + 1;
     AddTextPrinterParameterized(windowId, 7, str, x, y, TEXT_SPEED_FF, NULL);
 }
 
-static void PrintMatchCallLocation(struct Pokenav4Struct *state, int arg1)
+static void PrintMatchCallLocation (struct Pokenav4Struct *state, int arg1)
 {
     u8 mapName[32];
     int x;
@@ -1015,7 +1015,7 @@ static void PrintMatchCallLocation(struct Pokenav4Struct *state, int arg1)
     AddTextPrinterParameterized(state->locWindowId, 7, mapName, x, 1, 0, NULL);
 }
 
-static void PrintMatchCallSelectionOptions(struct Pokenav4Struct *state)
+static void PrintMatchCallSelectionOptions (struct Pokenav4Struct *state)
 {
     u32 i;
 
@@ -1032,7 +1032,7 @@ static void PrintMatchCallSelectionOptions(struct Pokenav4Struct *state)
     CopyWindowToVram(state->infoBoxWindowId, 2);
 }
 
-static bool32 sub_81CBFC4(struct Pokenav4Struct *state)
+static bool32 sub_81CBFC4 (struct Pokenav4Struct *state)
 {
     if (!IsDma3ManagerBusyWithBgCopy()) {
         sub_81CC2F0(state, GetMatchCallOptionCursorPos());
@@ -1042,32 +1042,32 @@ static bool32 sub_81CBFC4(struct Pokenav4Struct *state)
     return TRUE;
 }
 
-static void UpdateWindowsReturnToTrainerList(struct Pokenav4Struct *state)
+static void UpdateWindowsReturnToTrainerList (struct Pokenav4Struct *state)
 {
     CloseMatchCallSelectOptionsWindow(state);
     UpdateMatchCallInfoBox(state);
 }
 
-static bool32 IsDma3ManagerBusyWithBgCopy1(struct Pokenav4Struct *state)
+static bool32 IsDma3ManagerBusyWithBgCopy1 (struct Pokenav4Struct *state)
 {
     return IsDma3ManagerBusyWithBgCopy();
 }
 
-static void UpdateWindowsToShowCheckPage(struct Pokenav4Struct *state)
+static void UpdateWindowsToShowCheckPage (struct Pokenav4Struct *state)
 {
     CloseMatchCallSelectOptionsWindow(state);
     FillWindowPixelBuffer(state->infoBoxWindowId, PIXEL_FILL(1));
     CopyWindowToVram(state->infoBoxWindowId, 2);
 }
 
-static void sub_81CC034(struct Pokenav4Struct *state)
+static void sub_81CC034 (struct Pokenav4Struct *state)
 {
     state->msgBoxWindowId = AddWindow(&sCallMsgBoxWindowTemplate);
     sub_8197184(state->msgBoxWindowId, 1, 4);
     sub_81C7B40();
 }
 
-static void DrawMsgBoxForMatchCallMsg(struct Pokenav4Struct *state)
+static void DrawMsgBoxForMatchCallMsg (struct Pokenav4Struct *state)
 {
     struct Sprite *sprite;
     sub_8197184(state->msgBoxWindowId, 1, 4);
@@ -1081,7 +1081,7 @@ static void DrawMsgBoxForMatchCallMsg(struct Pokenav4Struct *state)
     sprite->pos2.y = 0;
 }
 
-static void DrawMsgBoxForCloseByMsg(struct Pokenav4Struct *state)
+static void DrawMsgBoxForCloseByMsg (struct Pokenav4Struct *state)
 {
     LoadUserWindowBorderGfx(state->msgBoxWindowId, 1, 0x40);
     DrawTextBorderOuter(state->msgBoxWindowId, 1, 4);
@@ -1090,34 +1090,34 @@ static void DrawMsgBoxForCloseByMsg(struct Pokenav4Struct *state)
     CopyWindowToVram(state->msgBoxWindowId, 3);
 }
 
-static bool32 IsDma3ManagerBusyWithBgCopy2(struct Pokenav4Struct *state)
+static bool32 IsDma3ManagerBusyWithBgCopy2 (struct Pokenav4Struct *state)
 {
     return IsDma3ManagerBusyWithBgCopy();
 }
 
-static void PrintCallingDots(struct Pokenav4Struct *state)
+static void PrintCallingDots (struct Pokenav4Struct *state)
 {
     AddTextPrinterParameterized(state->msgBoxWindowId, 1, sText_CallingDots, 32, 1, 1, NULL);
 }
 
-static bool32 WaitForCallingDotsText(struct Pokenav4Struct *state)
+static bool32 WaitForCallingDotsText (struct Pokenav4Struct *state)
 {
     RunTextPrinters();
     return IsTextPrinterActive(state->msgBoxWindowId);
 }
 
-static void PrintTrainerIsCloseBy(struct Pokenav4Struct *state)
+static void PrintTrainerIsCloseBy (struct Pokenav4Struct *state)
 {
     AddTextPrinterParameterized(state->msgBoxWindowId, 1, gText_TrainerCloseBy, 0, 1, 1, NULL);
 }
 
-static bool32 WaitForTrainerIsCloseByText(struct Pokenav4Struct *state)
+static bool32 WaitForTrainerIsCloseByText (struct Pokenav4Struct *state)
 {
     RunTextPrinters();
     return IsTextPrinterActive(state->msgBoxWindowId);
 }
 
-static void PrintMatchCallMessage(struct Pokenav4Struct *state)
+static void PrintMatchCallMessage (struct Pokenav4Struct *state)
 {
     int index = GetSelectedPokenavListIndex();
     const u8 *str = GetMatchCallMessageText(index, &state->unkF);
@@ -1125,7 +1125,7 @@ static void PrintMatchCallMessage(struct Pokenav4Struct *state)
     AddTextPrinterParameterized(state->msgBoxWindowId, 1, str, 32, 1, speed, NULL);
 }
 
-static bool32 WaitForMatchCallMessageText(struct Pokenav4Struct *state)
+static bool32 WaitForMatchCallMessageText (struct Pokenav4Struct *state)
 {
     if (JOY_HELD(A_BUTTON)) {
         gTextFlags.canABSpeedUpPrint = 1;
@@ -1137,19 +1137,19 @@ static bool32 WaitForMatchCallMessageText(struct Pokenav4Struct *state)
     return IsTextPrinterActive(state->msgBoxWindowId);
 }
 
-static void DrawSpinningPokenavForCall(struct Pokenav4Struct *state)
+static void DrawSpinningPokenavForCall (struct Pokenav4Struct *state)
 {
     ResumeSpinningPokenavSprite();
     FillBgTilemapBufferRect_Palette0(1, 0, 0, 0, 32, 20);
     CopyBgTilemapBufferToVram(1);
 }
 
-static bool32 WaitForSpinningPokenav(struct Pokenav4Struct *state)
+static bool32 WaitForSpinningPokenav (struct Pokenav4Struct *state)
 {
     return IsDma3ManagerBusyWithBgCopy();
 }
 
-static void sub_81CC214(void)
+static void sub_81CC214 (void)
 {
     int i;
     u8 paletteNum;
@@ -1172,7 +1172,7 @@ static void sub_81CC214(void)
     state->trainerPicSprite->invisible = TRUE;
 }
 
-static void RemoveMatchCallSprites(void)
+static void RemoveMatchCallSprites (void)
 {
     struct Pokenav4Struct *state = GetSubstructPtr(POKENAV_SUBSTRUCT_MATCH_CALL_OPEN);
     if (state->optionsCursorSprite) {
@@ -1188,7 +1188,7 @@ static void RemoveMatchCallSprites(void)
     FreeSpritePaletteByTag(13);
 }
 
-static void sub_81CC2F0(struct Pokenav4Struct *state, int top)
+static void sub_81CC2F0 (struct Pokenav4Struct *state, int top)
 {
     if (!state->optionsCursorSprite) {
         u8 spriteId = CreateSprite(&sOptionsCursorSpriteTemplate, 4, 80, 5);
@@ -1197,18 +1197,18 @@ static void sub_81CC2F0(struct Pokenav4Struct *state, int top)
     }
 }
 
-static void CloseMatchCallSelectOptionsWindow(struct Pokenav4Struct *state)
+static void CloseMatchCallSelectOptionsWindow (struct Pokenav4Struct *state)
 {
     DestroySprite(state->optionsCursorSprite);
     state->optionsCursorSprite = NULL;
 }
 
-static void UpdateCursorGfxPos(struct Pokenav4Struct *state, int top)
+static void UpdateCursorGfxPos (struct Pokenav4Struct *state, int top)
 {
     state->optionsCursorSprite->pos2.y = top * 16;
 }
 
-void SpriteCB_OptionsCursor(struct Sprite *sprite)
+void SpriteCB_OptionsCursor (struct Sprite *sprite)
 {
     if (++sprite->data[0] > 3) {
         sprite->data[0] = 0;
@@ -1216,13 +1216,13 @@ void SpriteCB_OptionsCursor(struct Sprite *sprite)
     }
 }
 
-static struct Sprite * CreateTrainerPicSprite(void)
+static struct Sprite * CreateTrainerPicSprite (void)
 {
     u8 spriteId = CreateSprite(&sTrainerPicSpriteTemplate, 44, 104, 6);
     return &gSprites[spriteId];
 }
 
-static void LoadCheckPageTrainerPic(struct Pokenav4Struct *state)
+static void LoadCheckPageTrainerPic (struct Pokenav4Struct *state)
 {
     u16 cursor;
     int trainerPic = GetMatchCallTrainerPic(GetSelectedPokenavListIndex());
@@ -1237,17 +1237,17 @@ static void LoadCheckPageTrainerPic(struct Pokenav4Struct *state)
     }
 }
 
-static void TrainerPicSlideOffscreen(struct Pokenav4Struct *state)
+static void TrainerPicSlideOffscreen (struct Pokenav4Struct *state)
 {
     state->trainerPicSprite->callback = SpriteCB_TrainerPicSlideOffscreen;
 }
 
-static bool32 WaitForTrainerPic(struct Pokenav4Struct *state)
+static bool32 WaitForTrainerPic (struct Pokenav4Struct *state)
 {
     return state->trainerPicSprite->callback != SpriteCallbackDummy;
 }
 
-static void SpriteCB_TrainerPicSlideOnscreen(struct Sprite *sprite)
+static void SpriteCB_TrainerPicSlideOnscreen (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -1267,7 +1267,7 @@ static void SpriteCB_TrainerPicSlideOnscreen(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_TrainerPicSlideOffscreen(struct Sprite *sprite)
+static void SpriteCB_TrainerPicSlideOffscreen (struct Sprite *sprite)
 {
     sprite->pos2.x -= 8;
     if (sprite->pos2.x <= -80) {

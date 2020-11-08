@@ -274,7 +274,7 @@ const struct SpriteTemplate gDragonPulseSpriteTemplate =
     .callback = TranslateAnimSpriteToTargetMonLocation,
 };
 
-static void AnimDragonRushStep(struct Sprite *sprite)
+static void AnimDragonRushStep (struct Sprite *sprite)
 {
     // These two cases are identical.
     if (GetBattlerSide(gBattleAnimTarget) == B_SIDE_PLAYER) {
@@ -294,7 +294,7 @@ static void AnimDragonRushStep(struct Sprite *sprite)
     sprite->data[2]++;
 }
 
-static void AnimSpinningDracoMeteorFinish(struct Sprite *sprite)
+static void AnimSpinningDracoMeteorFinish (struct Sprite *sprite)
 {
     StartSpriteAffineAnim(sprite, 0);
     sprite->affineAnimPaused = 1;
@@ -304,7 +304,7 @@ static void AnimSpinningDracoMeteorFinish(struct Sprite *sprite)
     StoreSpriteCallbackInData6(sprite, DestroyAnimSprite);
 }
 
-static void AnimSpinningDracoMeteor(struct Sprite *sprite)
+static void AnimSpinningDracoMeteor (struct Sprite *sprite)
 {
     InitSpritePosToAnimTarget(sprite, TRUE);
     StartSpriteAnim(sprite, gBattleAnimArgs[2]);
@@ -314,7 +314,7 @@ static void AnimSpinningDracoMeteor(struct Sprite *sprite)
     StoreSpriteCallbackInData6(sprite, AnimSpinningDracoMeteorFinish);
 }
 
-static void AnimOutrageFlame(struct Sprite *sprite)
+static void AnimOutrageFlame (struct Sprite *sprite)
 {
     sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimAttacker, 2);
     sprite->pos1.y = GetBattlerSpriteCoord(gBattleAnimAttacker, 3);
@@ -336,7 +336,7 @@ static void AnimOutrageFlame(struct Sprite *sprite)
     sprite->callback = TranslateSpriteLinearAndFlicker;
 }
 
-static void sub_8113100(struct Sprite *sprite)
+static void sub_8113100 (struct Sprite *sprite)
 {
     SetSpriteCoordsToAnimAttackerCoords(sprite);
     sprite->data[2] = GetBattlerSpriteCoord(gBattleAnimTarget, 2);
@@ -359,7 +359,7 @@ static void sub_8113100(struct Sprite *sprite)
     StoreSpriteCallbackInData6(sprite, DestroySpriteAndMatrix);
 }
 
-void AnimDragonRageFirePlume(struct Sprite *sprite)
+void AnimDragonRageFirePlume (struct Sprite *sprite)
 {
     if (gBattleAnimArgs[0] == 0) {
         sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimAttacker, 0);
@@ -376,7 +376,7 @@ void AnimDragonRageFirePlume(struct Sprite *sprite)
 }
 
 // For Dragon Breath and Dragon Rage
-void AnimDragonFireToTarget(struct Sprite *sprite)
+void AnimDragonFireToTarget (struct Sprite *sprite)
 {
     if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
         StartSpriteAffineAnim(sprite, 1);
@@ -385,7 +385,7 @@ void AnimDragonFireToTarget(struct Sprite *sprite)
     sub_8113100(sprite);
 }
 
-void AnimDragonDanceOrb(struct Sprite *sprite)
+void AnimDragonDanceOrb (struct Sprite *sprite)
 {
     u16 r5;
     u16 r0;
@@ -406,7 +406,7 @@ void AnimDragonDanceOrb(struct Sprite *sprite)
     sprite->callback = AnimDragonDanceOrb_Step;
 }
 
-static void AnimDragonDanceOrb_Step(struct Sprite *sprite)
+static void AnimDragonDanceOrb_Step (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -446,7 +446,7 @@ static void AnimDragonDanceOrb_Step(struct Sprite *sprite)
 
 // Wavers the attacker back and forth. Progressing vertical wave of scanline shifts
 // Used by Dragon Dance
-void AnimTask_DragonDanceWaver(u8 taskId)
+void AnimTask_DragonDanceWaver (u8 taskId)
 {
     struct ScanlineEffectParams sp;
     struct Task *task = &gTasks[taskId];
@@ -479,7 +479,7 @@ void AnimTask_DragonDanceWaver(u8 taskId)
     task->func = AnimTask_DragonDanceWaver_Step;
 }
 
-static void AnimTask_DragonDanceWaver_Step(u8 taskId)
+static void AnimTask_DragonDanceWaver_Step (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     switch (task->data[0]) {
@@ -517,7 +517,7 @@ static void AnimTask_DragonDanceWaver_Step(u8 taskId)
     }
 }
 
-static void sub_8113574(struct Task *task)
+static void sub_8113574 (struct Task *task)
 {
     u16 r3 = task->data[5];
     u16 i;
@@ -529,7 +529,7 @@ static void sub_8113574(struct Task *task)
     task->data[5] = (task->data[5] + 9) & 0xFF;
 }
 
-void AnimOverheatFlame(struct Sprite *sprite)
+void AnimOverheatFlame (struct Sprite *sprite)
 {
     int r6 = (gBattleAnimArgs[2] * 3) / 5;
     int i;
@@ -546,7 +546,7 @@ void AnimOverheatFlame(struct Sprite *sprite)
     }
 }
 
-static void AnimOverheatFlame_Step(struct Sprite *sprite)
+static void AnimOverheatFlame_Step (struct Sprite *sprite)
 {
     sprite->data[4] += sprite->data[1];
     sprite->data[5] += sprite->data[2];

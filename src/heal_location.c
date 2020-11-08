@@ -5,7 +5,7 @@
 
 #include "data/heal_locations.h"
 
-u32 GetHealLocationIndexByMap(u16 mapGroup, u16 mapNum)
+u32 GetHealLocationIndexByMap (u16 mapGroup, u16 mapNum)
 {
     u32 i;
 
@@ -17,7 +17,7 @@ u32 GetHealLocationIndexByMap(u16 mapGroup, u16 mapNum)
     return 0;
 }
 
-const struct HealLocation * GetHealLocationByMap(u16 mapGroup, u16 mapNum)
+const struct HealLocation * GetHealLocationByMap (u16 mapGroup, u16 mapNum)
 {
     u32 index = GetHealLocationIndexByMap(mapGroup, mapNum);
 
@@ -28,7 +28,7 @@ const struct HealLocation * GetHealLocationByMap(u16 mapGroup, u16 mapNum)
     }
 }
 
-const struct HealLocation * GetHealLocation(u32 index)
+const struct HealLocation * GetHealLocation (u32 index)
 {
     if (index == 0) {
         return NULL;

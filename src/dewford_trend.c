@@ -19,7 +19,7 @@ static bool8 IsEasyChatPairEqual(u16 *words1, u16 *words2);
 static s16 GetEqualEasyChatPairIndex(struct EasyChatPair *s, struct EasyChatPair *a, u16 b);
 
 // text
-void InitDewfordTrend(void)
+void InitDewfordTrend (void)
 {
     u16 i;
 
@@ -38,7 +38,7 @@ void InitDewfordTrend(void)
     sub_8122804(gSaveBlock1Ptr->easyChatPairs, 5, 0);
 }
 
-void UpdateDewfordTrendPerDay(u16 a)
+void UpdateDewfordTrendPerDay (u16 a)
 {
     u16 i;
 
@@ -86,7 +86,7 @@ void UpdateDewfordTrendPerDay(u16 a)
 }
 
 
-bool8 sub_81226D8(u16 *a)
+bool8 sub_81226D8 (u16 *a)
 {
     struct EasyChatPair s = {0};
     u16 i;
@@ -128,7 +128,7 @@ bool8 sub_81226D8(u16 *a)
 }
 
 
-static void sub_8122804(struct EasyChatPair *s, u16 b, u8 c)
+static void sub_8122804 (struct EasyChatPair *s, u16 b, u8 c)
 {
     u16 h;
 
@@ -147,7 +147,7 @@ static void sub_8122804(struct EasyChatPair *s, u16 b, u8 c)
     }
 }
 
-void ReceiveEasyChatPairsData(struct EasyChatPair *a, size_t size, u8 unused)
+void ReceiveEasyChatPairsData (struct EasyChatPair *a, size_t size, u8 unused)
 {
     u16 i, j, r3, players;
     struct EasyChatPair *buffer1, *buffer2, *src, *dst, *foo_of_buffer2;
@@ -192,7 +192,7 @@ void ReceiveEasyChatPairsData(struct EasyChatPair *a, size_t size, u8 unused)
     }
 }
 
-void BufferTrendyPhraseString(void)
+void BufferTrendyPhraseString (void)
 {
     struct EasyChatPair *s = &gSaveBlock1Ptr->easyChatPairs[gSpecialVar_0x8004];
 
@@ -200,7 +200,7 @@ void BufferTrendyPhraseString(void)
 }
 
 
-void TrendyPhraseIsOld(void)
+void TrendyPhraseIsOld (void)
 {
     u8 result = 0;
 
@@ -220,12 +220,12 @@ void TrendyPhraseIsOld(void)
     gSpecialVar_Result = result;
 }
 
-void GetDewfordHallPaintingNameIndex(void)
+void GetDewfordHallPaintingNameIndex (void)
 {
     gSpecialVar_Result = (gSaveBlock1Ptr->easyChatPairs[0].words[0] + gSaveBlock1Ptr->easyChatPairs[0].words[1]) & 7;
 }
 
-static bool8 sub_8122A58(struct EasyChatPair *a, struct EasyChatPair *b, u8 c)
+static bool8 sub_8122A58 (struct EasyChatPair *a, struct EasyChatPair *b, u8 c)
 {
     switch (c) {
     case 0:
@@ -292,7 +292,7 @@ static bool8 sub_8122A58(struct EasyChatPair *a, struct EasyChatPair *b, u8 c)
     return Random() & 1;
 }
 
-static void sub_8122B28(struct EasyChatPair *s)
+static void sub_8122B28 (struct EasyChatPair *s)
 {
     u16 r4;
 
@@ -308,7 +308,7 @@ static void sub_8122B28(struct EasyChatPair *s)
     s->unk2 = Random();
 }
 
-static bool8 SB1ContainsWords(u16 *a)
+static bool8 SB1ContainsWords (u16 *a)
 {
     u16 i;
 
@@ -320,7 +320,7 @@ static bool8 SB1ContainsWords(u16 *a)
     return FALSE;
 }
 
-static bool8 IsEasyChatPairEqual(u16 *words1, u16 *words2)
+static bool8 IsEasyChatPairEqual (u16 *words1, u16 *words2)
 {
     u16 i;
 
@@ -332,7 +332,7 @@ static bool8 IsEasyChatPairEqual(u16 *words1, u16 *words2)
     return TRUE;
 }
 
-static s16 GetEqualEasyChatPairIndex(struct EasyChatPair*s, struct EasyChatPair *a, u16 b)
+static s16 GetEqualEasyChatPairIndex (struct EasyChatPair*s, struct EasyChatPair *a, u16 b)
 {
     s16 i;
 

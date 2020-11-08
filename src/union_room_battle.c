@@ -51,7 +51,7 @@ static const struct WindowTemplate sWindowTemplates[] = {
 
 static const u8 sTextColors[] = {TEXT_COLOR_WHITE, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY};
 
-static void CB2_SetUpPartiesAndStartBattle(void)
+static void CB2_SetUpPartiesAndStartBattle (void)
 {
     s32 i;
     StartUnionRoomBattle(BATTLE_TYPE_LINK | BATTLE_TYPE_TRAINER);
@@ -70,7 +70,7 @@ static void CB2_SetUpPartiesAndStartBattle(void)
     SetMainCallback2(CB2_InitBattle);
 }
 
-static void AddTextPrinterForUnionRoomBattle(u8 windowId, const u8 * str, u8 x, u8 y, s32 speed)
+static void AddTextPrinterForUnionRoomBattle (u8 windowId, const u8 * str, u8 x, u8 y, s32 speed)
 {
     s32 letterSpacing = 0;
     s32 lineSpacing = 1;
@@ -78,7 +78,7 @@ static void AddTextPrinterForUnionRoomBattle(u8 windowId, const u8 * str, u8 x, 
     AddTextPrinterParameterized4(windowId, 1, x, y, letterSpacing, lineSpacing, sTextColors, speed, str);
 }
 
-static bool32 PrintUnionRoomBattleMessage(s16 * state, const u8 * str, s32 speed)
+static bool32 PrintUnionRoomBattleMessage (s16 * state, const u8 * str, s32 speed)
 {
     switch (*state) {
     case 0:
@@ -98,14 +98,14 @@ static bool32 PrintUnionRoomBattleMessage(s16 * state, const u8 * str, s32 speed
     return FALSE;
 }
 
-static void VBlankCB_UnionRoomBattle(void)
+static void VBlankCB_UnionRoomBattle (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-void CB2_UnionRoomBattle(void)
+void CB2_UnionRoomBattle (void)
 {
     switch (gMain.state) {
     case 0:

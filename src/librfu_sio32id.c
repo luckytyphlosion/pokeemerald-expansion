@@ -20,7 +20,7 @@ struct RfuSIO32Id gRfuSIO32Id;
 static const u16 Sio32ConnectionData[] = {0x494e, 0x544e, 0x4e45, 0x4f44};   // NINTENDO
 static const char Sio32IDLib_Var[] = "Sio32ID_030820";
 
-s32 AgbRFU_checkID(u8 maxTries)
+s32 AgbRFU_checkID (u8 maxTries)
 {
     u16 ieBak;
     vu16 *regTMCNTL;
@@ -58,7 +58,7 @@ s32 AgbRFU_checkID(u8 maxTries)
     return id;
 }
 
-static void Sio32IDInit(void)
+static void Sio32IDInit (void)
 {
     REG_IME = 0;
     REG_IE &= ~((8 << gSTWIStatus->timerSelect) | INTR_FLAG_SERIAL);
@@ -70,7 +70,7 @@ static void Sio32IDInit(void)
     REG_IF = INTR_FLAG_SERIAL;
 }
 
-static s32 Sio32IDMain(void)
+static s32 Sio32IDMain (void)
 {
     switch (gRfuSIO32Id.state) {
     case 0:
@@ -113,7 +113,7 @@ static s32 Sio32IDMain(void)
     return 0;
 }
 
-static void Sio32IDIntr(void)
+static void Sio32IDIntr (void)
 {
     u32 regSIODATA32;
     u16 delay;

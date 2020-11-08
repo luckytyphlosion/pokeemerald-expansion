@@ -174,14 +174,14 @@ static void TryChangeDisplayedBerry(u8 taskId, s8 toMove);
 static void HandleBagCursorPositionChange(s8 toMove);
 
 // code
-void DoBerryTagScreen(void)
+void DoBerryTagScreen (void)
 {
     sBerryTag = AllocZeroed(sizeof(*sBerryTag));
     sBerryTag->berryId = ItemIdToBerryType(gSpecialVar_ItemId);
     SetMainCallback2(CB2_InitBerryTagScreen);
 }
 
-static void CB2_BerryTagScreen(void)
+static void CB2_BerryTagScreen (void)
 {
     RunTasks();
     AnimateSprites();
@@ -190,14 +190,14 @@ static void CB2_BerryTagScreen(void)
     UpdatePaletteFade();
 }
 
-static void VblankCB(void)
+static void VblankCB (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void CB2_InitBerryTagScreen(void)
+static void CB2_InitBerryTagScreen (void)
 {
     while (1) {
         if (MenuHelpers_CallLinkSomething() == TRUE) {
@@ -212,7 +212,7 @@ static void CB2_InitBerryTagScreen(void)
     }
 }
 
-static bool8 InitBerryTagScreen(void)
+static bool8 InitBerryTagScreen (void)
 {
     switch (gMain.state) {
     case 0:
@@ -297,7 +297,7 @@ static bool8 InitBerryTagScreen(void)
     return FALSE;
 }
 
-static void HandleInitBackgrounds(void)
+static void HandleInitBackgrounds (void)
 {
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sBackgroundTemplates, ARRAY_COUNT(sBackgroundTemplates));
@@ -314,7 +314,7 @@ static void HandleInitBackgrounds(void)
     ShowBg(3);
 }
 
-static bool8 LoadBerryTagGfx(void)
+static bool8 LoadBerryTagGfx (void)
 {
     u16 i;
 
@@ -362,7 +362,7 @@ static bool8 LoadBerryTagGfx(void)
     return FALSE;
 }
 
-static void HandleInitWindows(void)
+static void HandleInitWindows (void)
 {
     u16 i;
 
@@ -376,12 +376,12 @@ static void HandleInitWindows(void)
     ScheduleBgCopyTilemapToVram(1);
 }
 
-static void PrintTextInBerryTagScreen(u8 windowId, const u8 *text, u8 x, u8 y, s32 speed, u8 colorStructId)
+static void PrintTextInBerryTagScreen (u8 windowId, const u8 *text, u8 x, u8 y, s32 speed, u8 colorStructId)
 {
     AddTextPrinterParameterized4(windowId, 1, x, y, 0, 0, sTextColors[colorStructId], speed, text);
 }
 
-static void AddBerryTagTextToBg0(void)
+static void AddBerryTagTextToBg0 (void)
 {
     memcpy(GetBgTilemapBuffer(0), sBerryTag->tilemapBuffers[2], sizeof(sBerryTag->tilemapBuffers[2]));
     FillWindowPixelBuffer(WIN_BERRY_TAG, PIXEL_FILL(15));
@@ -390,7 +390,7 @@ static void AddBerryTagTextToBg0(void)
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void PrintAllBerryData(void)
+static void PrintAllBerryData (void)
 {
     PrintBerryNumberAndName();
     PrintBerrySize();
@@ -399,7 +399,7 @@ static void PrintAllBerryData(void)
     PrintBerryDescription2();
 }
 
-static void PrintBerryNumberAndName(void)
+static void PrintBerryNumberAndName (void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
     ConvertIntToDecimalStringN(gStringVar1, sBerryTag->berryId, STR_CONV_MODE_LEADING_ZEROS, 2);
@@ -408,7 +408,7 @@ static void PrintBerryNumberAndName(void)
     PrintTextInBerryTagScreen(WIN_BERRY_NAME, gStringVar4, 0, 1, 0, 0);
 }
 
-static void PrintBerrySize(void)
+static void PrintBerrySize (void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
     AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gText_SizeSlash, 0, 1, TEXT_SPEED_FF, NULL);
@@ -431,7 +431,7 @@ static void PrintBerrySize(void)
     }
 }
 
-static void PrintBerryFirmness(void)
+static void PrintBerryFirmness (void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
     AddTextPrinterParameterized(WIN_SIZE_FIRM, 1, gText_FirmSlash, 0, 0x11, TEXT_SPEED_FF, NULL);
@@ -442,30 +442,30 @@ static void PrintBerryFirmness(void)
     }
 }
 
-static void PrintBerryDescription1(void)
+static void PrintBerryDescription1 (void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
     AddTextPrinterParameterized(WIN_DESC, 1, berry->description1, 0, 1, 0, NULL);
 }
 
-static void PrintBerryDescription2(void)
+static void PrintBerryDescription2 (void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
     AddTextPrinterParameterized(WIN_DESC, 1, berry->description2, 0, 0x11, 0, NULL);
 }
 
-static void CreateBerrySprite(void)
+static void CreateBerrySprite (void)
 {
     sBerryTag->berrySpriteId = CreateBerryTagSprite(sBerryTag->berryId - 1, 56, 64);
 }
 
-static void DestroyBerrySprite(void)
+static void DestroyBerrySprite (void)
 {
     DestroySprite(&gSprites[sBerryTag->berrySpriteId]);
     FreeBerryTagSpritePalette();
 }
 
-static void CreateFlavorCircleSprites(void)
+static void CreateFlavorCircleSprites (void)
 {
     sBerryTag->flavorCircleIds[FLAVOR_SPICY] = CreateBerryFlavorCircleSprite(64);
     sBerryTag->flavorCircleIds[FLAVOR_DRY] = CreateBerryFlavorCircleSprite(104);
@@ -474,7 +474,7 @@ static void CreateFlavorCircleSprites(void)
     sBerryTag->flavorCircleIds[FLAVOR_SOUR] = CreateBerryFlavorCircleSprite(224);
 }
 
-static void SetFlavorCirclesVisiblity(void)
+static void SetFlavorCirclesVisiblity (void)
 {
     const struct Berry *berry = GetBerryInfo(sBerryTag->berryId);
 
@@ -509,7 +509,7 @@ static void SetFlavorCirclesVisiblity(void)
     }
 }
 
-static void DestroyFlavorCircleSprites(void)
+static void DestroyFlavorCircleSprites (void)
 {
     u16 i;
 
@@ -518,14 +518,14 @@ static void DestroyFlavorCircleSprites(void)
     }
 }
 
-static void PrepareToCloseBerryTagScreen(u8 taskId)
+static void PrepareToCloseBerryTagScreen (u8 taskId)
 {
     PlaySE(SE_SELECT);
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_CloseBerryTagScreen;
 }
 
-static void Task_CloseBerryTagScreen(u8 taskId)
+static void Task_CloseBerryTagScreen (u8 taskId)
 {
     if (!gPaletteFade.active) {
         DestroyBerrySprite();
@@ -537,7 +537,7 @@ static void Task_CloseBerryTagScreen(u8 taskId)
     }
 }
 
-static void Task_HandleInput(u8 taskId)
+static void Task_HandleInput (u8 taskId)
 {
     if (!gPaletteFade.active) {
         u16 arrowKeys = JOY_REPEAT(DPAD_ANY);
@@ -551,7 +551,7 @@ static void Task_HandleInput(u8 taskId)
     }
 }
 
-static void TryChangeDisplayedBerry(u8 taskId, s8 toMove)
+static void TryChangeDisplayedBerry (u8 taskId, s8 toMove)
 {
     s16 *data = gTasks[taskId].data;
     s16 currPocketPosition = gBagPositionStruct.scrollPosition[3] + gBagPositionStruct.cursorPosition[3];
@@ -570,7 +570,7 @@ static void TryChangeDisplayedBerry(u8 taskId, s8 toMove)
     }
 }
 
-static void HandleBagCursorPositionChange(s8 toMove)
+static void HandleBagCursorPositionChange (s8 toMove)
 {
     u16 *scrollPos = &gBagPositionStruct.scrollPosition[3];
     u16 *cursorPos = &gBagPositionStruct.cursorPosition[3];
@@ -591,7 +591,7 @@ static void HandleBagCursorPositionChange(s8 toMove)
     sBerryTag->berryId = ItemIdToBerryType(BagGetItemIdByPocketPosition(POCKET_BERRIES, *scrollPos + *cursorPos));
 }
 
-static void Task_DisplayAnotherBerry(u8 taskId)
+static void Task_DisplayAnotherBerry (u8 taskId)
 {
     u16 i;
     s16 posY;

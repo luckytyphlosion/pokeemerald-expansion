@@ -307,7 +307,7 @@ static const struct SpriteTemplate sWirelessStatusIndicatorSpriteTemplate = {
     .callback = SpriteCallbackDummy
 };
 
-void RfuRecvQueue_Reset(struct RfuRecvQueue *queue)
+void RfuRecvQueue_Reset (struct RfuRecvQueue *queue)
 {
     s32 i, j;
 
@@ -322,7 +322,7 @@ void RfuRecvQueue_Reset(struct RfuRecvQueue *queue)
     queue->full = FALSE;
 }
 
-void RfuSendQueue_Reset(struct RfuSendQueue *queue)
+void RfuSendQueue_Reset (struct RfuSendQueue *queue)
 {
     s32 i, j;
 
@@ -337,7 +337,7 @@ void RfuSendQueue_Reset(struct RfuSendQueue *queue)
     queue->full = FALSE;
 }
 
-static void RfuUnusedQueue_Reset(struct RfuUnusedQueue *queue)
+static void RfuUnusedQueue_Reset (struct RfuUnusedQueue *queue)
 {
     s32 i, j;
 
@@ -352,7 +352,7 @@ static void RfuUnusedQueue_Reset(struct RfuUnusedQueue *queue)
     queue->full = FALSE;
 }
 
-void RfuRecvQueue_Enqueue(struct RfuRecvQueue *queue, u8 *data)
+void RfuRecvQueue_Enqueue (struct RfuRecvQueue *queue, u8 *data)
 {
     s32 i;
     u16 imeBak;
@@ -386,7 +386,7 @@ void RfuRecvQueue_Enqueue(struct RfuRecvQueue *queue, u8 *data)
     }
 }
 
-void RfuSendQueue_Enqueue(struct RfuSendQueue *queue, u8 *data)
+void RfuSendQueue_Enqueue (struct RfuSendQueue *queue, u8 *data)
 {
     s32 i;
     u16 imeBak;
@@ -417,7 +417,7 @@ void RfuSendQueue_Enqueue(struct RfuSendQueue *queue, u8 *data)
     }
 }
 
-bool8 RfuRecvQueue_Dequeue(struct RfuRecvQueue *queue, u8 *src)
+bool8 RfuRecvQueue_Dequeue (struct RfuRecvQueue *queue, u8 *src)
 {
     u16 imeBak;
     s32 i;
@@ -442,7 +442,7 @@ bool8 RfuRecvQueue_Dequeue(struct RfuRecvQueue *queue, u8 *src)
     return TRUE;
 }
 
-bool8 RfuSendQueue_Dequeue(struct RfuSendQueue *queue, u8 *src)
+bool8 RfuSendQueue_Dequeue (struct RfuSendQueue *queue, u8 *src)
 {
     s32 i;
     u16 imeBak;
@@ -464,7 +464,7 @@ bool8 RfuSendQueue_Dequeue(struct RfuSendQueue *queue, u8 *src)
     return TRUE;
 }
 
-void RfuBackupQueue_Enqueue(struct RfuBackupQueue *queue, const u8 *data)
+void RfuBackupQueue_Enqueue (struct RfuBackupQueue *queue, const u8 *data)
 {
     s32 i;
 
@@ -486,7 +486,7 @@ void RfuBackupQueue_Enqueue(struct RfuBackupQueue *queue, const u8 *data)
     }
 }
 
-bool8 RfuBackupQueue_Dequeue(struct RfuBackupQueue *queue, u8 *src)
+bool8 RfuBackupQueue_Dequeue (struct RfuBackupQueue *queue, u8 *src)
 {
     s32 i;
 
@@ -505,7 +505,7 @@ bool8 RfuBackupQueue_Dequeue(struct RfuBackupQueue *queue, u8 *src)
     return TRUE;
 }
 
-static void RfuUnusedQueue_Enqueue(struct RfuUnusedQueue *queue, u8 *data)
+static void RfuUnusedQueue_Enqueue (struct RfuUnusedQueue *queue, u8 *data)
 {
     s32 i;
 
@@ -522,7 +522,7 @@ static void RfuUnusedQueue_Enqueue(struct RfuUnusedQueue *queue, u8 *data)
     }
 }
 
-static bool8 RfuUnusedQueue_Dequeue(struct RfuUnusedQueue *queue, u8 *dest)
+static bool8 RfuUnusedQueue_Dequeue (struct RfuUnusedQueue *queue, u8 *dest)
 {
     s32 i;
 
@@ -541,7 +541,7 @@ static bool8 RfuUnusedQueue_Dequeue(struct RfuUnusedQueue *queue, u8 *dest)
 }
 
 // Unused
-static void sub_800DBF8(u8 *q1, u8 mode)
+static void sub_800DBF8 (u8 *q1, u8 mode)
 {
     s32 i;
     u8 rval;
@@ -582,7 +582,7 @@ static void sub_800DBF8(u8 *q1, u8 mode)
 
 // File boundary here maybe?
 
-static void PkmnStrToASCII(u8 *asciiStr, const u8 *pkmnStr)
+static void PkmnStrToASCII (u8 *asciiStr, const u8 *pkmnStr)
 {
     s32 i;
 
@@ -592,7 +592,7 @@ static void PkmnStrToASCII(u8 *asciiStr, const u8 *pkmnStr)
     asciiStr[i] = 0;
 }
 
-static void ASCIIToPkmnStr(u8 *pkmnStr, const u8 *asciiStr)
+static void ASCIIToPkmnStr (u8 *pkmnStr, const u8 *asciiStr)
 {
     s32 i;
 
@@ -602,7 +602,7 @@ static void ASCIIToPkmnStr(u8 *pkmnStr, const u8 *asciiStr)
     pkmnStr[i] = EOS;
 }
 
-static u8 GetConnectedChildStrength(u8 maxFlags)
+static u8 GetConnectedChildStrength (u8 maxFlags)
 {
     u8 flagCount = 0;
     u8 flags = gRfuLinkStatus->connSlotFlag;
@@ -630,7 +630,7 @@ static u8 GetConnectedChildStrength(u8 maxFlags)
     return 0;
 }
 
-void InitHostRFUtgtGname(struct GFtgtGname *data, u8 activity, bool32 started, s32 child_sprite_genders)
+void InitHostRFUtgtGname (struct GFtgtGname *data, u8 activity, bool32 started, s32 child_sprite_genders)
 {
     s32 i;
 
@@ -654,7 +654,7 @@ void InitHostRFUtgtGname(struct GFtgtGname *data, u8 activity, bool32 started, s
     data->unk_00.gameClear = FlagGet(FLAG_SYS_GAME_CLEAR);
 }
 
-bool8 LinkRfu_GetNameIfCompatible(struct GFtgtGname *buff1, u8 *buff2, u8 idx)
+bool8 LinkRfu_GetNameIfCompatible (struct GFtgtGname *buff1, u8 *buff2, u8 idx)
 {
     bool8 retVal;
 
@@ -680,7 +680,7 @@ bool8 LinkRfu_GetNameIfCompatible(struct GFtgtGname *buff1, u8 *buff2, u8 idx)
     return retVal;
 }
 
-bool8 LinkRfu_GetNameIfSerial7F7D(struct GFtgtGname *buff1, u8 *buff2, u8 idx)
+bool8 LinkRfu_GetNameIfSerial7F7D (struct GFtgtGname *buff1, u8 *buff2, u8 idx)
 {
     bool8 retVal = FALSE;
     if (gRfuLinkStatus->partner[idx].serialNo == RFU_SERIAL_7F7D) {
@@ -694,7 +694,7 @@ bool8 LinkRfu_GetNameIfSerial7F7D(struct GFtgtGname *buff1, u8 *buff2, u8 idx)
     return retVal;
 }
 
-void LinkRfu3_SetGnameUnameFromStaticBuffers(struct GFtgtGname *buff1, u8 *buff2)
+void LinkRfu3_SetGnameUnameFromStaticBuffers (struct GFtgtGname *buff1, u8 *buff2)
 {
     memcpy(buff1, &gHostRFUtgtGnameBuffer, RFU_GAME_NAME_LENGTH);
     memcpy(buff2, gHostRFUtgtUnameBuffer, PLAYER_NAME_LENGTH + 1);
@@ -709,7 +709,7 @@ void LinkRfu3_SetGnameUnameFromStaticBuffers(struct GFtgtGname *buff1, u8 *buff2
 #define sValidator    data[7]
 #define STATUS_INDICATOR_ACTIVE 0x1234 // Used to validate active indicator
 
-void CreateWirelessStatusIndicatorSprite(u8 x, u8 y)
+void CreateWirelessStatusIndicatorSprite (u8 x, u8 y)
 {
     u8 sprId;
 
@@ -731,7 +731,7 @@ void CreateWirelessStatusIndicatorSprite(u8 x, u8 y)
     }
 }
 
-void DestroyWirelessStatusIndicatorSprite(void)
+void DestroyWirelessStatusIndicatorSprite (void)
 {
     if (gSprites[gWirelessStatusIndicatorSpriteId].sValidator == STATUS_INDICATOR_ACTIVE) {
         gSprites[gWirelessStatusIndicatorSpriteId].sValidator = 0;
@@ -741,7 +741,7 @@ void DestroyWirelessStatusIndicatorSprite(void)
     }
 }
 
-void LoadWirelessStatusIndicatorSpriteGfx(void)
+void LoadWirelessStatusIndicatorSpriteGfx (void)
 {
     if (GetSpriteTileStartByTag(sWirelessStatusIndicatorSpriteSheet.tag) == 0xFFFF) {
         LoadCompressedSpriteSheet(&sWirelessStatusIndicatorSpriteSheet);
@@ -750,7 +750,7 @@ void LoadWirelessStatusIndicatorSpriteGfx(void)
     gWirelessStatusIndicatorSpriteId = 0xFF;
 }
 
-static u8 GetParentSignalStrength(void)
+static u8 GetParentSignalStrength (void)
 {
     u8 i;
     u8 flags = gRfuLinkStatus->connSlotFlag;
@@ -763,7 +763,7 @@ static u8 GetParentSignalStrength(void)
     return 0;
 }
 
-static void SetWirelessStatusIndicatorAnim(struct Sprite *sprite, s32 animNum)
+static void SetWirelessStatusIndicatorAnim (struct Sprite *sprite, s32 animNum)
 {
     if (sprite->sCurrAnimNum != animNum) {
         sprite->sCurrAnimNum = animNum;
@@ -772,7 +772,7 @@ static void SetWirelessStatusIndicatorAnim(struct Sprite *sprite, s32 animNum)
     }
 }
 
-void UpdateWirelessStatusIndicatorSprite(void)
+void UpdateWirelessStatusIndicatorSprite (void)
 {
     if (gWirelessStatusIndicatorSpriteId != 0xFF && gSprites[gWirelessStatusIndicatorSpriteId].sValidator == STATUS_INDICATOR_ACTIVE) {
         struct Sprite *sprite = &gSprites[gWirelessStatusIndicatorSpriteId];
@@ -831,13 +831,13 @@ void UpdateWirelessStatusIndicatorSprite(void)
 #undef sTileStart
 #undef sValidator
 
-static void CopyTrainerRecord(struct TrainerNameRecord *dest, u32 trainerId, const u8 *name)
+static void CopyTrainerRecord (struct TrainerNameRecord *dest, u32 trainerId, const u8 *name)
 {
     dest->trainerId = trainerId;
     StringCopy(dest->trainerName, name);
 }
 
-static bool32 NameIsNotEmpty(const u8 *name)
+static bool32 NameIsNotEmpty (const u8 *name)
 {
     s32 i;
 
@@ -850,7 +850,7 @@ static bool32 NameIsNotEmpty(const u8 *name)
 }
 
 // Save the currently connected players into the trainer records, shifting all previous records down.
-void RecordMixTrainerNames(void)
+void RecordMixTrainerNames (void)
 {
     if (gWirelessCommType != 0) {
         s32 i, j;
@@ -899,7 +899,7 @@ void RecordMixTrainerNames(void)
     }
 }
 
-bool32 PlayerHasMetTrainerBefore(u16 id, u8 *name)
+bool32 PlayerHasMetTrainerBefore (u16 id, u8 *name)
 {
     s32 i;
 
@@ -915,7 +915,7 @@ bool32 PlayerHasMetTrainerBefore(u16 id, u8 *name)
     return FALSE;
 }
 
-void WipeTrainerNameRecords(void)
+void WipeTrainerNameRecords (void)
 {
     s32 i;
 

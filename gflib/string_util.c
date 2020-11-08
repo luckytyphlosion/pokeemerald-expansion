@@ -25,7 +25,7 @@ static const s32 sPowersOfTen[] =
     1000000000,
 };
 
-u8 * StringCopy10(u8 *dest, const u8 *src)
+u8 * StringCopy10 (u8 *dest, const u8 *src)
 {
     u8 i;
     u32 limit = 10;
@@ -42,7 +42,7 @@ u8 * StringCopy10(u8 *dest, const u8 *src)
     return &dest[i];
 }
 
-u8 * StringGetEnd10(u8 *str)
+u8 * StringGetEnd10 (u8 *str)
 {
     u8 i;
     u32 limit = 10;
@@ -57,7 +57,7 @@ u8 * StringGetEnd10(u8 *str)
     return &str[i];
 }
 
-u8 * StringCopy7(u8 *dest, const u8 *src)
+u8 * StringCopy7 (u8 *dest, const u8 *src)
 {
     s32 i;
     s32 limit = 7;
@@ -74,7 +74,7 @@ u8 * StringCopy7(u8 *dest, const u8 *src)
     return &dest[i];
 }
 
-u8 * StringCopy(u8 *dest, const u8 *src)
+u8 * StringCopy (u8 *dest, const u8 *src)
 {
     while (*src != EOS) {
         *dest = *src;
@@ -86,7 +86,7 @@ u8 * StringCopy(u8 *dest, const u8 *src)
     return dest;
 }
 
-u8 * StringAppend(u8 *dest, const u8 *src)
+u8 * StringAppend (u8 *dest, const u8 *src)
 {
     while (*dest != EOS) {
         dest++;
@@ -95,7 +95,7 @@ u8 * StringAppend(u8 *dest, const u8 *src)
     return StringCopy(dest, src);
 }
 
-u8 * StringCopyN(u8 *dest, const u8 *src, u8 n)
+u8 * StringCopyN (u8 *dest, const u8 *src, u8 n)
 {
     u16 i;
 
@@ -106,7 +106,7 @@ u8 * StringCopyN(u8 *dest, const u8 *src, u8 n)
     return &dest[n];
 }
 
-u8 * StringAppendN(u8 *dest, const u8 *src, u8 n)
+u8 * StringAppendN (u8 *dest, const u8 *src, u8 n)
 {
     while (*dest != EOS) {
         dest++;
@@ -115,7 +115,7 @@ u8 * StringAppendN(u8 *dest, const u8 *src, u8 n)
     return StringCopyN(dest, src, n);
 }
 
-u16 StringLength(const u8 *str)
+u16 StringLength (const u8 *str)
 {
     u16 length = 0;
 
@@ -126,7 +126,7 @@ u16 StringLength(const u8 *str)
     return length;
 }
 
-s32 StringCompare(const u8 *str1, const u8 *str2)
+s32 StringCompare (const u8 *str1, const u8 *str2)
 {
     while (*str1 == *str2) {
         if (*str1 == EOS) {
@@ -139,7 +139,7 @@ s32 StringCompare(const u8 *str1, const u8 *str2)
     return *str1 - *str2;
 }
 
-s32 StringCompareN(const u8 *str1, const u8 *str2, u32 n)
+s32 StringCompareN (const u8 *str1, const u8 *str2, u32 n)
 {
     while (*str1 == *str2) {
         if (*str1 == EOS) {
@@ -155,7 +155,7 @@ s32 StringCompareN(const u8 *str1, const u8 *str2, u32 n)
     return *str1 - *str2;
 }
 
-bool8 IsStringLengthAtLeast(const u8 *str, s32 n)
+bool8 IsStringLengthAtLeast (const u8 *str, s32 n)
 {
     u8 i;
 
@@ -168,7 +168,7 @@ bool8 IsStringLengthAtLeast(const u8 *str, s32 n)
     return FALSE;
 }
 
-u8 * ConvertIntToDecimalStringN(u8 *dest, s32 value, enum StringConvertMode mode, u8 n)
+u8 * ConvertIntToDecimalStringN (u8 *dest, s32 value, enum StringConvertMode mode, u8 n)
 {
     enum { WAITING_FOR_NONZERO_DIGIT, WRITING_DIGITS, WRITING_SPACES } state;
     s32 powerOfTen;
@@ -222,7 +222,7 @@ u8 * ConvertIntToDecimalStringN(u8 *dest, s32 value, enum StringConvertMode mode
     return dest;
 }
 
-u8 * ConvertUIntToDecimalStringN(u8 *dest, u32 value, enum StringConvertMode mode, u8 n)
+u8 * ConvertUIntToDecimalStringN (u8 *dest, u32 value, enum StringConvertMode mode, u8 n)
 {
     enum { WAITING_FOR_NONZERO_DIGIT, WRITING_DIGITS, WRITING_SPACES } state;
     s32 powerOfTen;
@@ -276,7 +276,7 @@ u8 * ConvertUIntToDecimalStringN(u8 *dest, u32 value, enum StringConvertMode mod
     return dest;
 }
 
-u8 * ConvertIntToHexStringN(u8 *dest, s32 value, enum StringConvertMode mode, u8 n)
+u8 * ConvertIntToHexStringN (u8 *dest, s32 value, enum StringConvertMode mode, u8 n)
 {
     enum { WAITING_FOR_NONZERO_DIGIT, WRITING_DIGITS, WRITING_SPACES } state;
     u8 i;
@@ -335,7 +335,7 @@ u8 * ConvertIntToHexStringN(u8 *dest, s32 value, enum StringConvertMode mode, u8
     return dest;
 }
 
-u8 * StringExpandPlaceholders(u8 *dest, const u8 *src)
+u8 * StringExpandPlaceholders (u8 *dest, const u8 *src)
 {
     for (;;) {
         u8 c = *src++;
@@ -382,7 +382,7 @@ u8 * StringExpandPlaceholders(u8 *dest, const u8 *src)
     }
 }
 
-u8 * StringBraille(u8 *dest, const u8 *src)
+u8 * StringBraille (u8 *dest, const u8 *src)
 {
     const u8 setBrailleFont[] = {
         EXT_CTRL_CODE_BEGIN,
@@ -418,32 +418,32 @@ u8 * StringBraille(u8 *dest, const u8 *src)
     }
 }
 
-static const u8 * ExpandPlaceholder_UnknownStringVar(void)
+static const u8 * ExpandPlaceholder_UnknownStringVar (void)
 {
     return sUnknownStringVar;
 }
 
-static const u8 * ExpandPlaceholder_PlayerName(void)
+static const u8 * ExpandPlaceholder_PlayerName (void)
 {
     return gSaveBlock2Ptr->playerName;
 }
 
-static const u8 * ExpandPlaceholder_StringVar1(void)
+static const u8 * ExpandPlaceholder_StringVar1 (void)
 {
     return gStringVar1;
 }
 
-static const u8 * ExpandPlaceholder_StringVar2(void)
+static const u8 * ExpandPlaceholder_StringVar2 (void)
 {
     return gStringVar2;
 }
 
-static const u8 * ExpandPlaceholder_StringVar3(void)
+static const u8 * ExpandPlaceholder_StringVar3 (void)
 {
     return gStringVar3;
 }
 
-static const u8 * ExpandPlaceholder_KunChan(void)
+static const u8 * ExpandPlaceholder_KunChan (void)
 {
     if (gSaveBlock2Ptr->playerGender == MALE) {
         return gText_ExpandedPlaceholder_Kun;
@@ -452,7 +452,7 @@ static const u8 * ExpandPlaceholder_KunChan(void)
     }
 }
 
-static const u8 * ExpandPlaceholder_RivalName(void)
+static const u8 * ExpandPlaceholder_RivalName (void)
 {
     if (gSaveBlock2Ptr->playerGender == MALE) {
         return gText_ExpandedPlaceholder_May;
@@ -461,42 +461,42 @@ static const u8 * ExpandPlaceholder_RivalName(void)
     }
 }
 
-static const u8 * ExpandPlaceholder_Version(void)
+static const u8 * ExpandPlaceholder_Version (void)
 {
     return gText_ExpandedPlaceholder_Emerald;
 }
 
-static const u8 * ExpandPlaceholder_Aqua(void)
+static const u8 * ExpandPlaceholder_Aqua (void)
 {
     return gText_ExpandedPlaceholder_Aqua;
 }
 
-static const u8 * ExpandPlaceholder_Magma(void)
+static const u8 * ExpandPlaceholder_Magma (void)
 {
     return gText_ExpandedPlaceholder_Magma;
 }
 
-static const u8 * ExpandPlaceholder_Archie(void)
+static const u8 * ExpandPlaceholder_Archie (void)
 {
     return gText_ExpandedPlaceholder_Archie;
 }
 
-static const u8 * ExpandPlaceholder_Maxie(void)
+static const u8 * ExpandPlaceholder_Maxie (void)
 {
     return gText_ExpandedPlaceholder_Maxie;
 }
 
-static const u8 * ExpandPlaceholder_Kyogre(void)
+static const u8 * ExpandPlaceholder_Kyogre (void)
 {
     return gText_ExpandedPlaceholder_Kyogre;
 }
 
-static const u8 * ExpandPlaceholder_Groudon(void)
+static const u8 * ExpandPlaceholder_Groudon (void)
 {
     return gText_ExpandedPlaceholder_Groudon;
 }
 
-const u8 * GetExpandedPlaceholder(u32 id)
+const u8 * GetExpandedPlaceholder (u32 id)
 {
     typedef const u8 *(*ExpandPlaceholderFunc)(void);
 
@@ -525,7 +525,7 @@ const u8 * GetExpandedPlaceholder(u32 id)
     }
 }
 
-u8 * StringFill(u8 *dest, u8 c, u16 n)
+u8 * StringFill (u8 *dest, u8 c, u16 n)
 {
     u16 i;
 
@@ -537,7 +537,7 @@ u8 * StringFill(u8 *dest, u8 c, u16 n)
     return dest;
 }
 
-u8 * StringCopyPadded(u8 *dest, const u8 *src, u8 c, u16 n)
+u8 * StringCopyPadded (u8 *dest, const u8 *src, u8 c, u16 n)
 {
     while (*src != EOS) {
         *dest++ = *src++;
@@ -558,12 +558,12 @@ u8 * StringCopyPadded(u8 *dest, const u8 *src, u8 c, u16 n)
     return dest;
 }
 
-u8 * StringFillWithTerminator(u8 *dest, u16 n)
+u8 * StringFillWithTerminator (u8 *dest, u16 n)
 {
     return StringFill(dest, EOS, n);
 }
 
-u8 * StringCopyN_Multibyte(u8 *dest, u8 *src, u32 n)
+u8 * StringCopyN_Multibyte (u8 *dest, u8 *src, u32 n)
 {
     u32 i;
 
@@ -582,7 +582,7 @@ u8 * StringCopyN_Multibyte(u8 *dest, u8 *src, u32 n)
     return dest;
 }
 
-u32 StringLength_Multibyte(const u8 *str)
+u32 StringLength_Multibyte (const u8 *str)
 {
     u32 length = 0;
 
@@ -597,7 +597,7 @@ u32 StringLength_Multibyte(const u8 *str)
     return length;
 }
 
-u8 * WriteColorChangeControlCode(u8 *dest, u32 colorType, u8 color)
+u8 * WriteColorChangeControlCode (u8 *dest, u32 colorType, u8 color)
 {
     *dest = EXT_CTRL_CODE_BEGIN;
     dest++;
@@ -623,7 +623,7 @@ u8 * WriteColorChangeControlCode(u8 *dest, u32 colorType, u8 color)
     return dest;
 }
 
-bool32 IsStringJapanese(u8 *str)
+bool32 IsStringJapanese (u8 *str)
 {
     while (*str != EOS) {
         if (*str < CHAR_0) {
@@ -637,7 +637,7 @@ bool32 IsStringJapanese(u8 *str)
     return FALSE;
 }
 
-bool32 sub_800924C(u8 *str, s32 n)
+bool32 sub_800924C (u8 *str, s32 n)
 {
     s32 i;
 
@@ -653,7 +653,7 @@ bool32 sub_800924C(u8 *str, s32 n)
     return FALSE;
 }
 
-u8 GetExtCtrlCodeLength(u8 code)
+u8 GetExtCtrlCodeLength (u8 code)
 {
     static const u8 lengths[] =
     {
@@ -691,7 +691,7 @@ u8 GetExtCtrlCodeLength(u8 code)
     return length;
 }
 
-static const u8 * SkipExtCtrlCode(const u8 *s)
+static const u8 * SkipExtCtrlCode (const u8 *s)
 {
     while (*s == EXT_CTRL_CODE_BEGIN) {
         s++;
@@ -701,7 +701,7 @@ static const u8 * SkipExtCtrlCode(const u8 *s)
     return s;
 }
 
-s32 StringCompareWithoutExtCtrlCodes(const u8 *str1, const u8 *str2)
+s32 StringCompareWithoutExtCtrlCodes (const u8 *str1, const u8 *str2)
 {
     s32 retVal = 0;
 
@@ -737,7 +737,7 @@ s32 StringCompareWithoutExtCtrlCodes(const u8 *str1, const u8 *str2)
     return retVal;
 }
 
-void ConvertInternationalString(u8 *s, u8 language)
+void ConvertInternationalString (u8 *s, u8 language)
 {
     if (language == LANGUAGE_JAPANESE) {
         u8 i;
@@ -760,7 +760,7 @@ void ConvertInternationalString(u8 *s, u8 language)
     }
 }
 
-void StripExtCtrlCodes(u8 *str)
+void StripExtCtrlCodes (u8 *str)
 {
     u16 srcIndex = 0;
     u16 destIndex = 0;

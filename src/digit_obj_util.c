@@ -68,7 +68,7 @@ static const u8 sTilesPerImage[4][4] =
 };
 
 // code
-bool32 DigitObjUtil_Init(u32 count)
+bool32 DigitObjUtil_Init (u32 count)
 {
     u32 i;
 
@@ -96,7 +96,7 @@ bool32 DigitObjUtil_Init(u32 count)
     return TRUE;
 }
 
-void DigitObjUtil_Free(void)
+void DigitObjUtil_Free (void)
 {
     if (sOamWork != NULL) {
         if (sOamWork->array != NULL) {
@@ -113,7 +113,7 @@ void DigitObjUtil_Free(void)
     }
 }
 
-bool32 DigitObjUtil_CreatePrinter(u32 id, s32 num, const struct DigitObjUtilTemplate *template)
+bool32 DigitObjUtil_CreatePrinter (u32 id, s32 num, const struct DigitObjUtilTemplate *template)
 {
     u32 i;
 
@@ -176,7 +176,7 @@ bool32 DigitObjUtil_CreatePrinter(u32 id, s32 num, const struct DigitObjUtilTemp
     return TRUE;
 }
 
-static void CopyWorkToOam(struct DigitPrinter *objWork)
+static void CopyWorkToOam (struct DigitPrinter *objWork)
 {
     u32 i;
     u32 oamId = objWork->firstOamId;
@@ -202,7 +202,7 @@ static void CopyWorkToOam(struct DigitPrinter *objWork)
     gMain.oamBuffer[oamId].tileNum = objWork->tileStart + (objWork->tilesPerImage * 10);
 }
 
-void DigitObjUtil_PrintNumOn(u32 id, s32 num)
+void DigitObjUtil_PrintNumOn (u32 id, s32 num)
 {
     bool32 sign;
 
@@ -235,7 +235,7 @@ void DigitObjUtil_PrintNumOn(u32 id, s32 num)
     }
 }
 
-static void DrawNumObjsLeadingZeros(struct DigitPrinter *objWork, s32 num, bool32 sign)
+static void DrawNumObjsLeadingZeros (struct DigitPrinter *objWork, s32 num, bool32 sign)
 {
     u32 pow10 = objWork->pow10;
     u32 oamId = objWork->firstOamId;
@@ -256,7 +256,7 @@ static void DrawNumObjsLeadingZeros(struct DigitPrinter *objWork, s32 num, bool3
     }
 }
 
-static void DrawNumObjsMinusInFront(struct DigitPrinter *objWork, s32 num, bool32 sign)
+static void DrawNumObjsMinusInFront (struct DigitPrinter *objWork, s32 num, bool32 sign)
 {
     u32 pow10 = objWork->pow10;
     static int oamId;
@@ -295,7 +295,7 @@ static void DrawNumObjsMinusInFront(struct DigitPrinter *objWork, s32 num, bool3
     }
 }
 
-static void DrawNumObjsMinusInBack(struct DigitPrinter *objWork, s32 num, bool32 sign)
+static void DrawNumObjsMinusInBack (struct DigitPrinter *objWork, s32 num, bool32 sign)
 {
     u32 pow10 = objWork->pow10;
     u32 oamId = objWork->firstOamId;
@@ -330,7 +330,7 @@ static void DrawNumObjsMinusInBack(struct DigitPrinter *objWork, s32 num, bool32
     }
 }
 
-void DigitObjUtil_DeletePrinter(u32 id)
+void DigitObjUtil_DeletePrinter (u32 id)
 {
     s32 oamId, oamCount, i;
 
@@ -358,7 +358,7 @@ void DigitObjUtil_DeletePrinter(u32 id)
     sOamWork->array[id].isActive = FALSE;
 }
 
-void DigitObjUtil_HideOrShow(u32 id, bool32 hide)
+void DigitObjUtil_HideOrShow (u32 id, bool32 hide)
 {
     s32 oamId, oamCount, i;
 
@@ -384,7 +384,7 @@ void DigitObjUtil_HideOrShow(u32 id, bool32 hide)
     }
 }
 
-static u8 GetFirstOamId(u8 oamCount)
+static u8 GetFirstOamId (u8 oamCount)
 {
     u32 i;
     u16 firstOamId = 64;
@@ -406,7 +406,7 @@ static u8 GetFirstOamId(u8 oamCount)
     }
 }
 
-static bool32 SharesTileWithAnyActive(u32 id)
+static bool32 SharesTileWithAnyActive (u32 id)
 {
     u32 i;
 
@@ -420,7 +420,7 @@ static bool32 SharesTileWithAnyActive(u32 id)
     return FALSE;
 }
 
-static bool32 SharesPalWithAnyActive(u32 id)
+static bool32 SharesPalWithAnyActive (u32 id)
 {
     u32 i;
 
@@ -434,7 +434,7 @@ static bool32 SharesPalWithAnyActive(u32 id)
     return FALSE;
 }
 
-u8 GetTilesPerImage(u32 shape, u32 size)
+u8 GetTilesPerImage (u32 shape, u32 size)
 {
     return sTilesPerImage[shape][size];
 }

@@ -968,19 +968,19 @@ extern const u8 gBirchDexRatingText_AreYouCurious[];
 extern const u8 gBirchDexRatingText_SoYouveSeenAndCaught[];
 extern const u8 gBirchDexRatingText_OnANationwideBasis[];
 
-void InitMatchCallCounters(void)
+void InitMatchCallCounters (void)
 {
     RtcCalcLocalTime();
     gMatchCallState.minutes = GetCurrentTotalMinutes(&gLocalTime) + 10;
     gMatchCallState.stepCounter = 0;
 }
 
-static u32 GetCurrentTotalMinutes(struct Time *time)
+static u32 GetCurrentTotalMinutes (struct Time *time)
 {
     return time->days * 1440 + time->hours * 60 + time->minutes;
 }
 
-static bool32 UpdateMatchCallMinutesCounter(void)
+static bool32 UpdateMatchCallMinutesCounter (void)
 {
     int curMinutes;
     RtcCalcLocalTime();
@@ -993,7 +993,7 @@ static bool32 UpdateMatchCallMinutesCounter(void)
     return FALSE;
 }
 
-static bool32 CheckMatchCallChance(void)
+static bool32 CheckMatchCallChance (void)
 {
     int callChance = 1;
     if (!GetMonData(&gPlayerParty[0], MON_DATA_SANITY_IS_EGG) && GetMonAbility(&gPlayerParty[0]) == ABILITY_LIGHTNING_ROD) {
@@ -1007,7 +1007,7 @@ static bool32 CheckMatchCallChance(void)
     }
 }
 
-static bool32 MapAllowsMatchCall(void)
+static bool32 MapAllowsMatchCall (void)
 {
     if (!Overworld_MapTypeAllowsTeleportAndFly(gMapHeader.mapType) || gMapHeader.regionMapSectionId == MAPSEC_SAFARI_ZONE) {
         return FALSE;
@@ -1028,7 +1028,7 @@ static bool32 MapAllowsMatchCall(void)
     return TRUE;
 }
 
-static bool32 UpdateMatchCallStepCounter(void)
+static bool32 UpdateMatchCallStepCounter (void)
 {
     if (++gMatchCallState.stepCounter >= 10) {
         gMatchCallState.stepCounter = 0;
@@ -1038,7 +1038,7 @@ static bool32 UpdateMatchCallStepCounter(void)
     }
 }
 
-static bool32 SelectMatchCallTrainer(void)
+static bool32 SelectMatchCallTrainer (void)
 {
     u32 matchCallId;
     u32 numRegistered = GetNumRegisteredNPCs();
@@ -1060,7 +1060,7 @@ static bool32 SelectMatchCallTrainer(void)
     return TRUE;
 }
 
-static u32 GetNumRegisteredNPCs(void)
+static u32 GetNumRegisteredNPCs (void)
 {
     u32 i, count;
     for (i = 0, count = 0; i < REMATCH_SPECIAL_TRAINER_START; i++) {
@@ -1072,7 +1072,7 @@ static u32 GetNumRegisteredNPCs(void)
     return count;
 }
 
-static u32 GetActiveMatchCallTrainerId(u32 activeMatchCallId)
+static u32 GetActiveMatchCallTrainerId (u32 activeMatchCallId)
 {
     u32 i;
     for (i = 0; i < REMATCH_SPECIAL_TRAINER_START; i++) {
@@ -1088,7 +1088,7 @@ static u32 GetActiveMatchCallTrainerId(u32 activeMatchCallId)
     return REMATCH_TABLE_ENTRIES;
 }
 
-bool32 TryStartMatchCall(void)
+bool32 TryStartMatchCall (void)
 {
     if (FlagGet(FLAG_HAS_MATCH_CALL) && UpdateMatchCallStepCounter() && UpdateMatchCallMinutesCounter()
         && CheckMatchCallChance() && MapAllowsMatchCall() && SelectMatchCallTrainer()) {
@@ -1099,18 +1099,18 @@ bool32 TryStartMatchCall(void)
     return FALSE;
 }
 
-void StartMatchCallFromScript(const u8 *message)
+void StartMatchCallFromScript (const u8 *message)
 {
     gMatchCallState.triggeredFromScript = 1;
     StartMatchCall();
 }
 
-bool32 IsMatchCallTaskActive(void)
+bool32 IsMatchCallTaskActive (void)
 {
     return FuncIsActiveTask(ExecuteMatchCall);
 }
 
-static void StartMatchCall(void)
+static void StartMatchCall (void)
 {
     if (!gMatchCallState.triggeredFromScript) {
         ScriptContext2_Enable();
@@ -1142,7 +1142,7 @@ static bool32 (*const sMatchCallTaskFuncs[])(u8) =
     sub_81963F0,
 };
 
-static void ExecuteMatchCall(u8 taskId)
+static void ExecuteMatchCall (u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
     if (sMatchCallTaskFuncs[taskData[0]](taskId)) {
@@ -1165,7 +1165,7 @@ static const struct WindowTemplate sMatchCallTextWindow =
     .baseBlock = 0x200
 };
 
-static bool32 LoadMatchCallWindowGfx(u8 taskId)
+static bool32 LoadMatchCallWindowGfx (u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
     taskData[2] = AddWindow(&sMatchCallTextWindow);
@@ -1193,7 +1193,7 @@ static bool32 LoadMatchCallWindowGfx(u8 taskId)
     return TRUE;
 }
 
-static bool32 MoveMatchCallWindowToVram(u8 taskId)
+static bool32 MoveMatchCallWindowToVram (u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
     if (FreeTempTileDataBuffersIfPossible()) {
@@ -1209,7 +1209,7 @@ static bool32 MoveMatchCallWindowToVram(u8 taskId)
     return TRUE;
 }
 
-static bool32 PrintMatchCallIntroEllipsis(u8 taskId)
+static bool32 PrintMatchCallIntroEllipsis (u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
     if (!IsDma3ManagerBusyWithBgCopy()) {
@@ -1220,7 +1220,7 @@ static bool32 PrintMatchCallIntroEllipsis(u8 taskId)
     return FALSE;
 }
 
-static bool32 sub_81962B0(u8 taskId)
+static bool32 sub_81962B0 (u8 taskId)
 {
     if (ChangeBgY(0, 0x600, 1) >= 0) {
         ChangeBgY(0, 0, 0);
@@ -1230,7 +1230,7 @@ static bool32 sub_81962B0(u8 taskId)
     return FALSE;
 }
 
-static bool32 sub_81962D8(u8 taskId)
+static bool32 sub_81962D8 (u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
     if (!ExecuteMatchCallTextPrinter(taskData[2])) {
@@ -1246,7 +1246,7 @@ static bool32 sub_81962D8(u8 taskId)
     return FALSE;
 }
 
-static bool32 sub_8196330(u8 taskId)
+static bool32 sub_8196330 (u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
     if (!ExecuteMatchCallTextPrinter(taskData[2]) && !IsSEPlaying() && JOY_NEW(A_BUTTON | B_BUTTON)) {
@@ -1259,7 +1259,7 @@ static bool32 sub_8196330(u8 taskId)
     return FALSE;
 }
 
-static bool32 sub_8196390(u8 taskId)
+static bool32 sub_8196390 (u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
     if (ChangeBgY(0, 0x600, 2) <= -0x2000) {
@@ -1273,7 +1273,7 @@ static bool32 sub_8196390(u8 taskId)
     return FALSE;
 }
 
-static bool32 sub_81963F0(u8 taskId)
+static bool32 sub_81963F0 (u8 taskId)
 {
     u8 playerObjectId;
     if (!IsDma3ManagerBusyWithBgCopy() && !IsSEPlaying()) {
@@ -1293,7 +1293,7 @@ static bool32 sub_81963F0(u8 taskId)
     return FALSE;
 }
 
-static void DrawMatchCallTextBoxBorder(u32 windowId, u32 tileOffset, u32 paletteId)
+static void DrawMatchCallTextBoxBorder (u32 windowId, u32 tileOffset, u32 paletteId)
 {
     int bg, x, y, width, height;
     int tileNum;
@@ -1315,7 +1315,7 @@ static void DrawMatchCallTextBoxBorder(u32 windowId, u32 tileOffset, u32 palette
     FillBgTilemapBufferRect_Palette0(bg, ((paletteId << 12) & 0xF000) | (tileNum + 7), x + width, y + height, 1, 1);
 }
 
-static void InitMatchCallTextPrinter(int windowId, const u8 *str)
+static void InitMatchCallTextPrinter (int windowId, const u8 *str)
 {
     struct TextPrinterTemplate printerTemplate;
     printerTemplate.currentChar = str;
@@ -1336,7 +1336,7 @@ static void InitMatchCallTextPrinter(int windowId, const u8 *str)
     AddTextPrinter(&printerTemplate, GetPlayerTextSpeedDelay(), NULL);
 }
 
-static bool32 ExecuteMatchCallTextPrinter(int windowId)
+static bool32 ExecuteMatchCallTextPrinter (int windowId)
 {
     if (JOY_HELD(A_BUTTON)) {
         gTextFlags.canABSpeedUpPrint = 1;
@@ -1348,7 +1348,7 @@ static bool32 ExecuteMatchCallTextPrinter(int windowId)
     return IsTextPrinterActive(windowId);
 }
 
-static void sub_8196694(u8 taskId)
+static void sub_8196694 (u8 taskId)
 {
     s16 *taskData = gTasks[taskId].data;
     if (++taskData[0] > 8) {
@@ -1363,18 +1363,18 @@ static void sub_8196694(u8 taskId)
     }
 }
 
-static bool32 TrainerIsEligibleForRematch(int matchCallId)
+static bool32 TrainerIsEligibleForRematch (int matchCallId)
 {
     return gSaveBlock1Ptr->trainerRematches[matchCallId] > 0;
 }
 
-static u16 GetRematchTrainerLocation(int matchCallId)
+static u16 GetRematchTrainerLocation (int matchCallId)
 {
     const struct MapHeader *mapHeader = Overworld_GetMapHeaderByGroupAndId(gRematchTable[matchCallId].mapGroup, gRematchTable[matchCallId].mapNum);
     return mapHeader->regionMapSectionId;
 }
 
-static u32 GetNumRematchTrainersFought(void)
+static u32 GetNumRematchTrainersFought (void)
 {
     u32 i, count;
     for (i = 0, count = 0; i < REMATCH_SPECIAL_TRAINER_START; i++) {
@@ -1386,7 +1386,7 @@ static u32 GetNumRematchTrainersFought(void)
     return count;
 }
 
-static u32 sub_8196774(int arg0)
+static u32 sub_8196774 (int arg0)
 {
     u32 i, count;
 
@@ -1403,7 +1403,7 @@ static u32 sub_8196774(int arg0)
     return REMATCH_TABLE_ENTRIES;
 }
 
-bool32 SelectMatchCallMessage(int trainerId, u8 *str)
+bool32 SelectMatchCallMessage (int trainerId, u8 *str)
 {
     u32 matchCallId;
     const struct MatchCallText *matchCallText;
@@ -1428,7 +1428,7 @@ bool32 SelectMatchCallMessage(int trainerId, u8 *str)
     return retVal;
 }
 
-static int GetTrainerMatchCallId(int trainerId)
+static int GetTrainerMatchCallId (int trainerId)
 {
     int i = 0;
     while (1) {
@@ -1440,7 +1440,7 @@ static int GetTrainerMatchCallId(int trainerId)
     }
 }
 
-static const struct MatchCallText * GetSameRouteMatchCallText(int matchCallId, u8 *str)
+static const struct MatchCallText * GetSameRouteMatchCallText (int matchCallId, u8 *str)
 {
     u16 textId = sMatchCallTrainers[matchCallId].sameRouteMatchCallTextId;
     int mask = 0xFF;
@@ -1449,7 +1449,7 @@ static const struct MatchCallText * GetSameRouteMatchCallText(int matchCallId, u
     return &sMatchCallBattleRequestTopics[topic][id];
 }
 
-static const struct MatchCallText * GetDifferentRouteMatchCallText(int matchCallId, u8 *str)
+static const struct MatchCallText * GetDifferentRouteMatchCallText (int matchCallId, u8 *str)
 {
     u16 textId = sMatchCallTrainers[matchCallId].differentRouteMatchCallTextId;
     int mask = 0xFF;
@@ -1458,7 +1458,7 @@ static const struct MatchCallText * GetDifferentRouteMatchCallText(int matchCall
     return &sMatchCallBattleRequestTopics[topic][id];
 }
 
-static const struct MatchCallText * GetBattleMatchCallText(int matchCallId, u8 *str)
+static const struct MatchCallText * GetBattleMatchCallText (int matchCallId, u8 *str)
 {
     int mask;
     u32 textId, topic, id;
@@ -1474,7 +1474,7 @@ static const struct MatchCallText * GetBattleMatchCallText(int matchCallId, u8 *
     return &sMatchCallBattleTopics[topic][id];
 }
 
-static const struct MatchCallText * GetGeneralMatchCallText(int matchCallId, u8 *str)
+static const struct MatchCallText * GetGeneralMatchCallText (int matchCallId, u8 *str)
 {
     int i;
     int count;
@@ -1516,7 +1516,7 @@ static const struct MatchCallText * GetGeneralMatchCallText(int matchCallId, u8 
     return &sMatchCallGeneralTopics[topic][id];
 }
 
-static void BuildMatchCallString(int matchCallId, const struct MatchCallText *matchCallText, u8 *str)
+static void BuildMatchCallString (int matchCallId, const struct MatchCallText *matchCallText, u8 *str)
 {
     PopulateMatchCallStringVars(matchCallId, matchCallText->stringVarFuncIds);
     StringExpandPlaceholders(str, matchCallText->text);
@@ -1524,7 +1524,7 @@ static void BuildMatchCallString(int matchCallId, const struct MatchCallText *ma
 
 static u8 *const sMatchCallTextStringVars[] = {gStringVar1, gStringVar2, gStringVar3};
 
-static void PopulateMatchCallStringVars(int matchCallId, const s8 *stringVarFuncIds)
+static void PopulateMatchCallStringVars (int matchCallId, const s8 *stringVarFuncIds)
 {
     int i;
     for (i = 0; i < 3; i++) {
@@ -1544,7 +1544,7 @@ static void (*const sPopulateMatchCallStringVarFuncs[])(int, u8 *) =
     PopulateBattleFrontierStreak,
 };
 
-static void PopulateMatchCallStringVar(int matchCallId, int funcId, u8 *destStr)
+static void PopulateMatchCallStringVar (int matchCallId, int funcId, u8 *destStr)
 {
     sPopulateMatchCallStringVarFuncs[funcId](matchCallId, destStr);
 }
@@ -1559,7 +1559,7 @@ static const struct MultiTrainerMatchCallText sMultiTrainerMatchCallTexts[] =
     {.trainerId = TRAINER_ANNA_AND_MEG_1, .text = gText_Anna},
 };
 
-static void PopulateTrainerName(int matchCallId, u8 *destStr)
+static void PopulateTrainerName (int matchCallId, u8 *destStr)
 {
     u32 i;
     u16 trainerId = sMatchCallTrainers[matchCallId].trainerId;
@@ -1573,12 +1573,12 @@ static void PopulateTrainerName(int matchCallId, u8 *destStr)
     StringCopy(destStr, gTrainers[trainerId].trainerName);
 }
 
-static void PopulateMapName(int matchCallId, u8 *destStr)
+static void PopulateMapName (int matchCallId, u8 *destStr)
 {
     GetMapName(destStr, GetRematchTrainerLocation(matchCallId), 0);
 }
 
-static u8 GetLandEncounterSlot(void)
+static u8 GetLandEncounterSlot (void)
 {
     int rand = Random() % 100;
     if (rand < 20) {
@@ -1608,7 +1608,7 @@ static u8 GetLandEncounterSlot(void)
     }
 }
 
-static u8 GetWaterEncounterSlot(void)
+static u8 GetWaterEncounterSlot (void)
 {
     int rand = Random() % 100;
     if (rand < 60) {
@@ -1624,7 +1624,7 @@ static u8 GetWaterEncounterSlot(void)
     }
 }
 
-static void PopulateSpeciesFromTrainerLocation(int matchCallId, u8 *destStr)
+static void PopulateSpeciesFromTrainerLocation (int matchCallId, u8 *destStr)
 {
     u16 species[2];
     int numSpecies;
@@ -1665,7 +1665,7 @@ static void PopulateSpeciesFromTrainerLocation(int matchCallId, u8 *destStr)
     destStr[0] = EOS;
 }
 
-static void PopulateSpeciesFromTrainerParty(int matchCallId, u8 *destStr)
+static void PopulateSpeciesFromTrainerParty (int matchCallId, u8 *destStr)
 {
     u16 trainerId;
     union TrainerMonPtr party;
@@ -1706,12 +1706,12 @@ static const u8 *const sBattleFrontierFacilityNames[] =
     gText_BattlePyramid,
 };
 
-static void PopulateBattleFrontierFacilityName(int matchCallId, u8 *destStr)
+static void PopulateBattleFrontierFacilityName (int matchCallId, u8 *destStr)
 {
     StringCopy(destStr, sBattleFrontierFacilityNames[gBattleFrontierStreakInfo.facilityId]);
 }
 
-static void PopulateBattleFrontierStreak(int matchCallId, u8 *destStr)
+static void PopulateBattleFrontierStreak (int matchCallId, u8 *destStr)
 {
     int i = 0;
     int streak = gBattleFrontierStreakInfo.streak;
@@ -1735,7 +1735,7 @@ static const u16 sBadgeFlags[NUM_BADGES] =
     FLAG_BADGE08_GET,
 };
 
-static int GetNumOwnedBadges(void)
+static int GetNumOwnedBadges (void)
 {
     u32 i;
 
@@ -1748,7 +1748,7 @@ static int GetNumOwnedBadges(void)
     return i;
 }
 
-static bool32 sub_8196D74(int matchCallId)
+static bool32 sub_8196D74 (int matchCallId)
 {
     int dayCount;
     u32 otId;
@@ -1777,7 +1777,7 @@ static bool32 sub_8196D74(int matchCallId)
     return FALSE;
 }
 
-static u16 GetFrontierStreakInfo(u16 facilityId, u32 *topicTextId)
+static u16 GetFrontierStreakInfo (u16 facilityId, u32 *topicTextId)
 {
     int i;
     int j;
@@ -1855,7 +1855,7 @@ static u16 GetFrontierStreakInfo(u16 facilityId, u32 *topicTextId)
     return streak;
 }
 
-static u8 GetPokedexRatingLevel(u16 numSeen)
+static u8 GetPokedexRatingLevel (u16 numSeen)
 {
     if (numSeen < 10) {
         return 0;
@@ -1957,7 +1957,7 @@ static const u8 *const sBirchDexRatingTexts[] =
     gBirchDexRatingText_DexCompleted,
 };
 
-void BufferPokedexRatingForMatchCall(u8 *destStr)
+void BufferPokedexRatingForMatchCall (u8 *destStr)
 {
     int numSeen, numCaught;
     u8 *str;
@@ -1996,14 +1996,14 @@ void BufferPokedexRatingForMatchCall(u8 *destStr)
     Free(buffer);
 }
 
-void sub_8197184(u32 windowId, u32 destOffset, u32 paletteId)
+void sub_8197184 (u32 windowId, u32 destOffset, u32 paletteId)
 {
     u8 bg = GetWindowAttribute(windowId, WINDOW_BG);
     LoadBgTiles(bg, sUnknown_0860EA6C, 0x100, destOffset);
     LoadPalette(sUnknown_0860EA4C, paletteId << 4, 0x20);
 }
 
-void sub_81971C4(u32 windowId, u32 tileOffset, u32 paletteId)
+void sub_81971C4 (u32 windowId, u32 tileOffset, u32 paletteId)
 {
     DrawMatchCallTextBoxBorder(windowId, tileOffset, paletteId);
 }

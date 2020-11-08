@@ -310,22 +310,22 @@ static const struct SpriteTemplate sSpriteTemplate_RecordMixLights =
 };
 
 // For accessing pokemon storage PC or the Hall of Fame PC
-void ComputerScreenOpenEffect(u16 increment, u16 unused, u8 priority)
+void ComputerScreenOpenEffect (u16 increment, u16 unused, u8 priority)
 {
     CreateComputerScreenEffectTask(Task_ComputerScreenOpenEffect, increment, unused, priority);
 }
 
-void ComputerScreenCloseEffect(u16 increment, u16 unused, u8 priority)
+void ComputerScreenCloseEffect (u16 increment, u16 unused, u8 priority)
 {
     CreateComputerScreenEffectTask(Task_ComputerScreenCloseEffect, increment, unused, priority);
 }
 
-bool8 IsComputerScreenOpenEffectActive(void)
+bool8 IsComputerScreenOpenEffectActive (void)
 {
     return FuncIsActiveTask(Task_ComputerScreenOpenEffect);
 }
 
-bool8 IsComputerScreenCloseEffectActive(void)
+bool8 IsComputerScreenCloseEffectActive (void)
 {
     return FuncIsActiveTask(Task_ComputerScreenCloseEffect);
 }
@@ -340,7 +340,7 @@ bool8 IsComputerScreenCloseEffectActive(void)
 #define tBlendCnt      data[7]
 #define tBlendY        data[8]
 
-static void CreateComputerScreenEffectTask(void (*taskfunc)(u8), u16 increment, u16 unused, u8 priority)
+static void CreateComputerScreenEffectTask (void (*taskfunc)(u8), u16 increment, u16 unused, u8 priority)
 {
     u8 taskId = CreateTask(taskfunc, priority);
 
@@ -350,7 +350,7 @@ static void CreateComputerScreenEffectTask(void (*taskfunc)(u8), u16 increment, 
     gTasks[taskId].func(taskId);
 }
 
-static void Task_ComputerScreenOpenEffect(u8 taskId)
+static void Task_ComputerScreenOpenEffect (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -417,7 +417,7 @@ static void Task_ComputerScreenOpenEffect(u8 taskId)
     task->tState++;
 }
 
-static void Task_ComputerScreenCloseEffect(u8 taskId)
+static void Task_ComputerScreenCloseEffect (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -489,13 +489,13 @@ static void Task_ComputerScreenCloseEffect(u8 taskId)
 #undef tBlendCnt
 #undef tBlendY
 
-static void SetCurrentSecretBase(void)
+static void SetCurrentSecretBase (void)
 {
     SetCurSecretBaseIdFromPosition(&gPlayerFacingPosition, gMapHeader.events);
     TrySetCurSecretBaseIndex();
 }
 
-static void AdjustSecretPowerSpritePixelOffsets(void)
+static void AdjustSecretPowerSpritePixelOffsets (void)
 {
     if (gPlayerAvatar.flags & (PLAYER_AVATAR_FLAG_MACH_BIKE | PLAYER_AVATAR_FLAG_ACRO_BIKE)) {
         switch (gFieldEffectArguments[1]) {
@@ -538,7 +538,7 @@ static void AdjustSecretPowerSpritePixelOffsets(void)
     }
 }
 
-bool8 SetUpFieldMove_SecretPower(void)
+bool8 SetUpFieldMove_SecretPower (void)
 {
     u8 mb;
 
@@ -575,13 +575,13 @@ bool8 SetUpFieldMove_SecretPower(void)
     return FALSE;
 }
 
-static void FieldCallback_SecretBaseCave(void)
+static void FieldCallback_SecretBaseCave (void)
 {
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
     ScriptContext1_SetupScript(SecretBase_EventScript_CaveUseSecretPower);
 }
 
-bool8 FldEff_UseSecretPowerCave(void)
+bool8 FldEff_UseSecretPowerCave (void)
 {
     u8 taskId = CreateFieldMoveTask();
 
@@ -591,13 +591,13 @@ bool8 FldEff_UseSecretPowerCave(void)
     return FALSE;
 }
 
-static void StartSecretBaseCaveFieldEffect(void)
+static void StartSecretBaseCaveFieldEffect (void)
 {
     FieldEffectActiveListRemove(FLDEFF_USE_SECRET_POWER_CAVE);
     FieldEffectStart(FLDEFF_SECRET_POWER_CAVE);
 }
 
-bool8 FldEff_SecretPowerCave(void)
+bool8 FldEff_SecretPowerCave (void)
 {
     AdjustSecretPowerSpritePixelOffsets();
     CreateSprite(&sSpriteTemplate_SecretPowerCave,
@@ -607,7 +607,7 @@ bool8 FldEff_SecretPowerCave(void)
     return FALSE;
 }
 
-static void SpriteCB_CaveEntranceInit(struct Sprite *sprite)
+static void SpriteCB_CaveEntranceInit (struct Sprite *sprite)
 {
     PlaySE(SE_M_ROCK_THROW);
 
@@ -615,7 +615,7 @@ static void SpriteCB_CaveEntranceInit(struct Sprite *sprite)
     sprite->callback = SpriteCB_CaveEntranceOpen;
 }
 
-static void SpriteCB_CaveEntranceOpen(struct Sprite *sprite)
+static void SpriteCB_CaveEntranceOpen (struct Sprite *sprite)
 {
     if (sprite->data[0] < 40) {
         if (++sprite->data[0] == 20) {
@@ -627,19 +627,19 @@ static void SpriteCB_CaveEntranceOpen(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_CaveEntranceEnd(struct Sprite *sprite)
+static void SpriteCB_CaveEntranceEnd (struct Sprite *sprite)
 {
     FieldEffectStop(sprite, FLDEFF_SECRET_POWER_CAVE);
     EnableBothScriptContexts();
 }
 
-static void FieldCallback_SecretBaseTree(void)
+static void FieldCallback_SecretBaseTree (void)
 {
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
     ScriptContext1_SetupScript(SecretBase_EventScript_TreeUseSecretPower);
 }
 
-bool8 FldEff_UseSecretPowerTree(void)
+bool8 FldEff_UseSecretPowerTree (void)
 {
     u8 taskId = CreateFieldMoveTask();
 
@@ -649,13 +649,13 @@ bool8 FldEff_UseSecretPowerTree(void)
     return FALSE;
 }
 
-static void StartSecretBaseTreeFieldEffect(void)
+static void StartSecretBaseTreeFieldEffect (void)
 {
     FieldEffectActiveListRemove(FLDEFF_USE_SECRET_POWER_TREE);
     FieldEffectStart(FLDEFF_SECRET_POWER_TREE);
 }
 
-bool8 FldEff_SecretPowerTree(void)
+bool8 FldEff_SecretPowerTree (void)
 {
     s16 mb = MapGridGetMetatileBehaviorAt(gPlayerFacingPosition.x, gPlayerFacingPosition.y) & 0xFFF;
 
@@ -681,7 +681,7 @@ bool8 FldEff_SecretPowerTree(void)
     return FALSE;
 }
 
-static void SpriteCB_TreeEntranceInit(struct Sprite *sprite)
+static void SpriteCB_TreeEntranceInit (struct Sprite *sprite)
 {
     PlaySE(SE_M_SCRATCH);
 
@@ -690,7 +690,7 @@ static void SpriteCB_TreeEntranceInit(struct Sprite *sprite)
     sprite->callback = SpriteCB_TreeEntranceOpen;
 }
 
-static void SpriteCB_TreeEntranceOpen(struct Sprite *sprite)
+static void SpriteCB_TreeEntranceOpen (struct Sprite *sprite)
 {
     sprite->data[0]++;
 
@@ -704,19 +704,19 @@ static void SpriteCB_TreeEntranceOpen(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_TreeEntranceEnd(struct Sprite *sprite)
+static void SpriteCB_TreeEntranceEnd (struct Sprite *sprite)
 {
     FieldEffectStop(sprite, FLDEFF_SECRET_POWER_TREE);
     EnableBothScriptContexts();
 }
 
-static void FieldCallback_SecretBaseShrub(void)
+static void FieldCallback_SecretBaseShrub (void)
 {
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
     ScriptContext1_SetupScript(SecretBase_EventScript_ShrubUseSecretPower);
 }
 
-bool8 FldEff_UseSecretPowerShrub(void)
+bool8 FldEff_UseSecretPowerShrub (void)
 {
     u8 taskId = CreateFieldMoveTask();
 
@@ -726,13 +726,13 @@ bool8 FldEff_UseSecretPowerShrub(void)
     return FALSE;
 }
 
-static void StartSecretBaseShrubFieldEffect(void)
+static void StartSecretBaseShrubFieldEffect (void)
 {
     FieldEffectActiveListRemove(FLDEFF_USE_SECRET_POWER_SHRUB);
     FieldEffectStart(FLDEFF_SECRET_POWER_SHRUB);
 }
 
-bool8 FldEff_SecretPowerShrub(void)
+bool8 FldEff_SecretPowerShrub (void)
 {
     AdjustSecretPowerSpritePixelOffsets();
 
@@ -744,7 +744,7 @@ bool8 FldEff_SecretPowerShrub(void)
     return FALSE;
 }
 
-static void SpriteCB_ShrubEntranceInit(struct Sprite *sprite)
+static void SpriteCB_ShrubEntranceInit (struct Sprite *sprite)
 {
     PlaySE(SE_M_POISON_POWDER);
 
@@ -752,7 +752,7 @@ static void SpriteCB_ShrubEntranceInit(struct Sprite *sprite)
     sprite->callback = SpriteCB_ShrubEntranceOpen;
 }
 
-static void SpriteCB_ShrubEntranceOpen(struct Sprite *sprite)
+static void SpriteCB_ShrubEntranceOpen (struct Sprite *sprite)
 {
     if (sprite->data[0] < 40) {
         sprite->data[0]++;
@@ -766,7 +766,7 @@ static void SpriteCB_ShrubEntranceOpen(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_ShrubEntranceEnd(struct Sprite *sprite)
+static void SpriteCB_ShrubEntranceEnd (struct Sprite *sprite)
 {
     FieldEffectStop(sprite, FLDEFF_SECRET_POWER_SHRUB);
     EnableBothScriptContexts();
@@ -776,7 +776,7 @@ static void SpriteCB_ShrubEntranceEnd(struct Sprite *sprite)
 #define tY     data[1]
 #define tState data[2]
 
-bool8 FldEff_SecretBasePCTurnOn(void)
+bool8 FldEff_SecretBasePCTurnOn (void)
 {
     s16 x, y;
     u8 taskId;
@@ -791,7 +791,7 @@ bool8 FldEff_SecretBasePCTurnOn(void)
     return FALSE;
 }
 
-static void Task_SecretBasePCTurnOn(u8 taskId)
+static void Task_SecretBasePCTurnOn (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -822,7 +822,7 @@ static void Task_SecretBasePCTurnOn(u8 taskId)
 #undef tY
 #undef tState
 
-void DoSecretBasePCTurnOffEffect(void)
+void DoSecretBasePCTurnOffEffect (void)
 {
     s16 x, y;
 
@@ -838,7 +838,7 @@ void DoSecretBasePCTurnOffEffect(void)
     CurrentMapDrawMetatileAt(x, y);
 }
 
-void PopSecretBaseBalloon(s16 metatileId, s16 x, s16 y)
+void PopSecretBaseBalloon (s16 metatileId, s16 x, s16 y)
 {
     u8 taskId = CreateTask(Task_PopSecretBaseBalloon, 0);
 
@@ -849,7 +849,7 @@ void PopSecretBaseBalloon(s16 metatileId, s16 x, s16 y)
     gTasks[taskId].data[4] = 1;
 }
 
-static void Task_PopSecretBaseBalloon(u8 taskId)
+static void Task_PopSecretBaseBalloon (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -875,7 +875,7 @@ static void Task_PopSecretBaseBalloon(u8 taskId)
     }
 }
 
-static void DoBalloonSoundEffect(s16 metatileId)
+static void DoBalloonSoundEffect (s16 metatileId)
 {
     switch (metatileId) {
     case METATILE_SecretBase_RedBalloon:
@@ -893,17 +893,17 @@ static void DoBalloonSoundEffect(s16 metatileId)
     }
 }
 
-bool8 FldEff_Nop47(void)
+bool8 FldEff_Nop47 (void)
 {
     return FALSE;
 }
 
-bool8 FldEff_Nop48(void)
+bool8 FldEff_Nop48 (void)
 {
     return FALSE;
 }
 
-static void DoSecretBaseBreakableDoorEffect(s16 x, s16 y)
+static void DoSecretBaseBreakableDoorEffect (s16 x, s16 y)
 {
     PlaySE(SE_BREAKABLE_DOOR);
     MapGridSetMetatileIdAt(x, y, METATILE_SecretBase_BreakableDoor_BottomOpen);
@@ -912,7 +912,7 @@ static void DoSecretBaseBreakableDoorEffect(s16 x, s16 y)
     CurrentMapDrawMetatileAt(x, y - 1);
 }
 
-static void Task_ShatterSecretBaseBreakableDoor(u8 taskId)
+static void Task_ShatterSecretBaseBreakableDoor (u8 taskId)
 {
     if (gTasks[taskId].data[0] == 7) {
         DoSecretBaseBreakableDoorEffect(gTasks[taskId].data[1], gTasks[taskId].data[2]);
@@ -922,7 +922,7 @@ static void Task_ShatterSecretBaseBreakableDoor(u8 taskId)
     }
 }
 
-void ShatterSecretBaseBreakableDoor(s16 x, s16 y)
+void ShatterSecretBaseBreakableDoor (s16 x, s16 y)
 {
     u8 dir = GetPlayerFacingDirection();
 
@@ -937,7 +937,7 @@ void ShatterSecretBaseBreakableDoor(s16 x, s16 y)
 }
 
 #define tMetatileID data[0]
-static void Task_SecretBaseMusicNoteMatSound(u8 taskId)
+static void Task_SecretBaseMusicNoteMatSound (u8 taskId)
 {
     if (gTasks[taskId].data[1] == 7) {
         switch (gTasks[taskId].tMetatileID) {
@@ -973,7 +973,7 @@ static void Task_SecretBaseMusicNoteMatSound(u8 taskId)
     }
 }
 
-void PlaySecretBaseMusicNoteMatSound(s16 metatileId)
+void PlaySecretBaseMusicNoteMatSound (s16 metatileId)
 {
     u8 taskId = CreateTask(Task_SecretBaseMusicNoteMatSound, 5);
 
@@ -982,7 +982,7 @@ void PlaySecretBaseMusicNoteMatSound(s16 metatileId)
 }
 #undef tMetatileID
 
-static void SpriteCB_GlitterMatSparkle(struct Sprite *sprite)
+static void SpriteCB_GlitterMatSparkle (struct Sprite *sprite)
 {
     sprite->data[0]++;
 
@@ -995,7 +995,7 @@ static void SpriteCB_GlitterMatSparkle(struct Sprite *sprite)
     }
 }
 
-void DoSecretBaseGlitterMatSparkle(void)
+void DoSecretBaseGlitterMatSparkle (void)
 {
     s16 x = gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.x;
     s16 y = gObjectEvents[gPlayerAvatar.objectEventId].currentCoords.y;
@@ -1013,7 +1013,7 @@ void DoSecretBaseGlitterMatSparkle(void)
     }
 }
 
-bool8 FldEff_SandPillar(void)
+bool8 FldEff_SandPillar (void)
 {
     s16 x, y;
 
@@ -1060,7 +1060,7 @@ bool8 FldEff_SandPillar(void)
     return FALSE;
 }
 
-static void SpriteCB_SandPillar_BreakTop(struct Sprite *sprite)
+static void SpriteCB_SandPillar_BreakTop (struct Sprite *sprite)
 {
     PlaySE(SE_M_ROCK_THROW);
 
@@ -1078,7 +1078,7 @@ static void SpriteCB_SandPillar_BreakTop(struct Sprite *sprite)
     sprite->callback = SpriteCB_SandPillar_BreakBase;
 }
 
-static void SpriteCB_SandPillar_BreakBase(struct Sprite *sprite)
+static void SpriteCB_SandPillar_BreakBase (struct Sprite *sprite)
 {
     if (sprite->data[0] < 18) {
         sprite->data[0]++;
@@ -1090,13 +1090,13 @@ static void SpriteCB_SandPillar_BreakBase(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_SandPillar_End(struct Sprite *sprite)
+static void SpriteCB_SandPillar_End (struct Sprite *sprite)
 {
     FieldEffectStop(sprite, FLDEFF_SAND_PILLAR);
     EnableBothScriptContexts();
 }
 
-void InteractWithShieldOrTVDecoration(void)
+void InteractWithShieldOrTVDecoration (void)
 {
     s16 x, y;
     s32 metatileId;
@@ -1161,7 +1161,7 @@ void InteractWithShieldOrTVDecoration(void)
 }
 
 // As opposed to a small one (single metatile) like the balloons
-bool8 IsLargeBreakableDecoration(u16 metatileId, bool8 checkBase)
+bool8 IsLargeBreakableDecoration (u16 metatileId, bool8 checkBase)
 {
     if (!CurMapIsSecretBase()) {
         return FALSE;
@@ -1186,7 +1186,7 @@ bool8 IsLargeBreakableDecoration(u16 metatileId, bool8 checkBase)
     return FALSE;
 }
 
-static void Task_FieldPoisonEffect(u8 taskId)
+static void Task_FieldPoisonEffect (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -1210,23 +1210,23 @@ static void Task_FieldPoisonEffect(u8 taskId)
     SetGpuReg(REG_OFFSET_MOSAIC, (data[1] << 4) | data[1]);
 }
 
-void FldEffPoison_Start(void)
+void FldEffPoison_Start (void)
 {
     PlaySE(SE_FIELD_POISON);
     CreateTask(Task_FieldPoisonEffect, 80);
 }
 
-bool32 FldEffPoison_IsActive(void)
+bool32 FldEffPoison_IsActive (void)
 {
     return FuncIsActiveTask(Task_FieldPoisonEffect);
 }
 
-static void Task_WateringBerryTreeAnim(u8 taskId)
+static void Task_WateringBerryTreeAnim (u8 taskId)
 {
     gTasks[taskId].func = Task_WateringBerryTreeAnim_Start;
 }
 
-static void Task_WateringBerryTreeAnim_Start(u8 taskId)
+static void Task_WateringBerryTreeAnim_Start (u8 taskId)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
@@ -1239,7 +1239,7 @@ static void Task_WateringBerryTreeAnim_Start(u8 taskId)
     }
 }
 
-static void Task_WateringBerryTreeAnim_Continue(u8 taskId)
+static void Task_WateringBerryTreeAnim_Continue (u8 taskId)
 {
     struct ObjectEvent *playerObjEvent = &gObjectEvents[gPlayerAvatar.objectEventId];
 
@@ -1255,20 +1255,20 @@ static void Task_WateringBerryTreeAnim_Continue(u8 taskId)
     }
 }
 
-static void Task_WateringBerryTreeAnim_End(u8 taskId)
+static void Task_WateringBerryTreeAnim_End (u8 taskId)
 {
     SetPlayerAvatarTransitionFlags(GetPlayerAvatarFlags());
     DestroyTask(taskId);
     EnableBothScriptContexts();
 }
 
-void DoWateringBerryTreeAnim(void)
+void DoWateringBerryTreeAnim (void)
 {
     CreateTask(Task_WateringBerryTreeAnim, 80);
 }
 
 // The lights that blink on the counter when mixing records in the cable club
-u8 CreateRecordMixingLights(void)
+u8 CreateRecordMixingLights (void)
 {
     u8 spriteId;
 
@@ -1288,7 +1288,7 @@ u8 CreateRecordMixingLights(void)
     return spriteId;
 }
 
-void DestroyRecordMixingLights(void)
+void DestroyRecordMixingLights (void)
 {
     int i;
 

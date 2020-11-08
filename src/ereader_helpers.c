@@ -390,12 +390,12 @@ static const struct TrainerHillTrainer sTrainerHillTrainerTemplates_JP[] = {
     },
 };
 
-static u8 sub_81D38D4(void)
+static u8 sub_81D38D4 (void)
 {
     return (gSaveBlock1Ptr->trainerHill.unused + 1) % 256;
 }
 
-static bool32 Struct_EReaderTrainerHillTrainer_ValidateChecksum(struct EReaderTrainerHillTrainer *arg0)
+static bool32 Struct_EReaderTrainerHillTrainer_ValidateChecksum (struct EReaderTrainerHillTrainer *arg0)
 {
     int checksum = CalcByteArraySum((u8 *)arg0, 0x270);
     if (checksum != arg0->checksum) {
@@ -405,7 +405,7 @@ static bool32 Struct_EReaderTrainerHillTrainer_ValidateChecksum(struct EReaderTr
     return TRUE;
 }
 
-bool8 EReader_IsReceivedDataValid(struct EReaderTrainerHillSet *buffer)
+bool8 EReader_IsReceivedDataValid (struct EReaderTrainerHillSet *buffer)
 {
     u32 i;
     u32 checksum;
@@ -428,7 +428,7 @@ bool8 EReader_IsReceivedDataValid(struct EReaderTrainerHillSet *buffer)
     return TRUE;
 }
 
-static bool32 TrainerHill_VerifyChecksum(struct EReaderTrainerHillSet *buffer)
+static bool32 TrainerHill_VerifyChecksum (struct EReaderTrainerHillSet *buffer)
 {
     u32 checksum;
     int var0 = buffer->count;
@@ -444,7 +444,7 @@ static bool32 TrainerHill_VerifyChecksum(struct EReaderTrainerHillSet *buffer)
     return TRUE;
 }
 
-static bool32 TryWriteTrainerHill_r(struct EReaderTrainerHillSet *ttdata, struct TrHillTag *buffer2)
+static bool32 TryWriteTrainerHill_r (struct EReaderTrainerHillSet *ttdata, struct TrHillTag *buffer2)
 {
     int i;
 
@@ -479,7 +479,7 @@ static bool32 TryWriteTrainerHill_r(struct EReaderTrainerHillSet *ttdata, struct
     return TRUE;
 }
 
-bool32 TryWriteTrainerHill(struct EReaderTrainerHillSet *arg0)
+bool32 TryWriteTrainerHill (struct EReaderTrainerHillSet *arg0)
 {
     void *var0 = AllocZeroed(0x1000);
     bool32 result = TryWriteTrainerHill_r(arg0, var0);
@@ -487,7 +487,7 @@ bool32 TryWriteTrainerHill(struct EReaderTrainerHillSet *arg0)
     return result;
 }
 
-static bool32 TryReadTrainerHill_r(struct EReaderTrainerHillSet *dst, u8 *buffer)
+static bool32 TryReadTrainerHill_r (struct EReaderTrainerHillSet *dst, u8 *buffer)
 {
     if (TryReadSpecialSaveSection(SECTOR_ID_TRAINER_HILL, buffer) != SAVE_STATUS_OK) {
         return FALSE;
@@ -501,7 +501,7 @@ static bool32 TryReadTrainerHill_r(struct EReaderTrainerHillSet *dst, u8 *buffer
     return TRUE;
 }
 
-static bool32 TryReadTrainerHill(struct EReaderTrainerHillSet *arg0)
+static bool32 TryReadTrainerHill (struct EReaderTrainerHillSet *arg0)
 {
     u8 *var0 = AllocZeroed(0x1000);
     bool32 result = TryReadTrainerHill_r(arg0, var0);
@@ -509,7 +509,7 @@ static bool32 TryReadTrainerHill(struct EReaderTrainerHillSet *arg0)
     return result;
 }
 
-bool32 ReadTrainerHillAndValidate(void)
+bool32 ReadTrainerHillAndValidate (void)
 {
     struct EReaderTrainerHillSet *var0 = AllocZeroed(0x1000);
     bool32 result = TryReadTrainerHill(var0);
@@ -517,7 +517,7 @@ bool32 ReadTrainerHillAndValidate(void)
     return result;
 }
 
-int EReader_Send(int arg0, u32 *arg1)
+int EReader_Send (int arg0, u32 *arg1)
 {
     int result;
     u16 var0;
@@ -557,7 +557,7 @@ int EReader_Send(int arg0, u32 *arg1)
     return result;
 }
 
-int EReader_Recv(u32 *arg0)
+int EReader_Recv (u32 *arg0)
 {
     int result;
     u16 var0;
@@ -597,7 +597,7 @@ int EReader_Recv(u32 *arg0)
     return result;
 }
 
-static void sub_81D3C7C(void)
+static void sub_81D3C7C (void)
 {
     REG_IME = 0;
     REG_IE &= ~(INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
@@ -607,7 +607,7 @@ static void sub_81D3C7C(void)
     REG_IF = INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL;
 }
 
-static void sub_81D3CBC(void)
+static void sub_81D3CBC (void)
 {
     REG_IME = 0;
     REG_IE &= ~(INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
@@ -624,7 +624,7 @@ static void sub_81D3CBC(void)
     }
 }
 
-static void sub_81D3D34(void)
+static void sub_81D3D34 (void)
 {
     REG_RCNT = 0;
     REG_SIOCNT = SIO_32BIT_MODE | SIO_INTR_ENABLE;
@@ -634,7 +634,7 @@ static void sub_81D3D34(void)
     gUnknown_030012E8 = 0;
 }
 
-int EReaderHandleTransfer(u8 arg0, u32 arg1, u32 *arg2, u32 *arg3)
+int EReaderHandleTransfer (u8 arg0, u32 arg1, u32 *arg2, u32 *arg3)
 {
     switch (gUnknown_030012C8.unk0[1]) {
     case 0:
@@ -705,7 +705,7 @@ int EReaderHandleTransfer(u8 arg0, u32 arg1, u32 *arg2, u32 *arg3)
     return gUnknown_030012C8.unk0[2] | (gUnknown_030012C8.unk0[4] << 2) | (gUnknown_030012C8.unk0[3] << 4);
 }
 
-static u16 sub_81D3EE8(u8 arg0)
+static u16 sub_81D3EE8 (u8 arg0)
 {
     u16 terminal = (*(vu32 *)REG_ADDR_SIOCNT) & (SIO_MULTI_SI | SIO_MULTI_SD);
     if (terminal == SIO_MULTI_SD && arg0) {
@@ -717,7 +717,7 @@ static u16 sub_81D3EE8(u8 arg0)
     }
 }
 
-static void sub_81D3F1C(u32 arg0, u32 *arg1, u32 *arg2)
+static void sub_81D3F1C (u32 arg0, u32 *arg1, u32 *arg2)
 {
     if (gUnknown_030012C8.unk0[0]) {
         REG_SIOCNT |= SIO_38400_BPS;
@@ -731,7 +731,7 @@ static void sub_81D3F1C(u32 arg0, u32 *arg1, u32 *arg2)
     }
 }
 
-static void sub_81D3F68(void)
+static void sub_81D3F68 (void)
 {
     REG_TM3CNT_L = 0xFDA7;
     REG_TM3CNT_H = TIMER_INTR_ENABLE;
@@ -740,13 +740,13 @@ static void sub_81D3F68(void)
     REG_IME = 1;
 }
 
-void sub_81D3F9C(void)
+void sub_81D3F9C (void)
 {
     sub_81D414C();
     sub_81D413C();
 }
 
-void sub_81D3FAC(void)
+void sub_81D3FAC (void)
 {
     u16 i, playerCount, k;
     u32 value;
@@ -826,25 +826,25 @@ void sub_81D3FAC(void)
     }
 }
 
-static void sub_81D413C(void)
+static void sub_81D413C (void)
 {
     REG_SIOCNT |= SIO_ENABLE;
 }
 
-static void sub_81D414C(void)
+static void sub_81D414C (void)
 {
     REG_TM3CNT_H &= ~TIMER_ENABLE;
     REG_TM3CNT_L = 0xFDA7;
 }
 
-static void sub_81D4170(void)
+static void sub_81D4170 (void)
 {
     int keysMask = REG_KEYINPUT ^ KEYS_MASK;
     gUnknown_030012E2 = keysMask & ~gUnknown_030012E0;
     gUnknown_030012E0 = keysMask;
 }
 
-void EReaderHelper_SaveRegsState(void)
+void EReaderHelper_SaveRegsState (void)
 {
     gUnknown_030012EC = REG_IME;
     gUnknown_030012EE = REG_IE;
@@ -853,7 +853,7 @@ void EReaderHelper_SaveRegsState(void)
     gUnknown_030012F4 = REG_RCNT;
 }
 
-void EReaderHelper_RestoreRegsState(void)
+void EReaderHelper_RestoreRegsState (void)
 {
     REG_IME = gUnknown_030012EC;
     REG_IE = gUnknown_030012EE;
@@ -862,7 +862,7 @@ void EReaderHelper_RestoreRegsState(void)
     REG_RCNT = gUnknown_030012F4;
 }
 
-void sub_81D4238(void)
+void sub_81D4238 (void)
 {
     CpuFill32(0, &gUnknown_030012C8, sizeof(struct Unknown030012C8));
 }

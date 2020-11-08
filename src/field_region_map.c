@@ -89,7 +89,7 @@ static const struct WindowTemplate sFieldRegionMapWindowTemplates[] =
 
 // .text
 
-void FieldInitRegionMap(MainCallback callback)
+void FieldInitRegionMap (MainCallback callback)
 {
     SetVBlankCallback(NULL);
     sFieldRegionMapHandler = malloc(sizeof(*sFieldRegionMapHandler));
@@ -98,7 +98,7 @@ void FieldInitRegionMap(MainCallback callback)
     SetMainCallback2(MCB2_InitRegionMapRegisters);
 }
 
-static void MCB2_InitRegionMapRegisters(void)
+static void MCB2_InitRegionMapRegisters (void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     SetGpuReg(REG_OFFSET_BG0HOFS, 0);
@@ -121,14 +121,14 @@ static void MCB2_InitRegionMapRegisters(void)
     SetVBlankCallback(VBCB_FieldUpdateRegionMap);
 }
 
-static void VBCB_FieldUpdateRegionMap(void)
+static void VBCB_FieldUpdateRegionMap (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void MCB2_FieldUpdateRegionMap(void)
+static void MCB2_FieldUpdateRegionMap (void)
 {
     FieldUpdateRegionMap();
     AnimateSprites();
@@ -137,7 +137,7 @@ static void MCB2_FieldUpdateRegionMap(void)
     DoScheduledBgTilemapCopiesToVram();
 }
 
-static void FieldUpdateRegionMap(void)
+static void FieldUpdateRegionMap (void)
 {
     u8 offset;
 
@@ -197,7 +197,7 @@ static void FieldUpdateRegionMap(void)
     }
 }
 
-static void PrintRegionMapSecName(void)
+static void PrintRegionMapSecName (void)
 {
     if (sFieldRegionMapHandler->regionMap.mapSecType != MAPSECTYPE_NONE) {
         FillWindowPixelBuffer(0, PIXEL_FILL(1));

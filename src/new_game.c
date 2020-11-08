@@ -65,7 +65,7 @@ static const struct ContestWinner sContestWinnerPicDummy =
 };
 
 // code
-void SetTrainerId(u32 trainerId, u8 *dst)
+void SetTrainerId (u32 trainerId, u8 *dst)
 {
     dst[0] = trainerId;
     dst[1] = trainerId >> 8;
@@ -73,12 +73,12 @@ void SetTrainerId(u32 trainerId, u8 *dst)
     dst[3] = trainerId >> 24;
 }
 
-u32 GetTrainerId(u8 *trainerId)
+u32 GetTrainerId (u8 *trainerId)
 {
     return (trainerId[3] << 24) | (trainerId[2] << 16) | (trainerId[1] << 8) | (trainerId[0]);
 }
 
-void CopyTrainerId(u8 *dst, u8 *src)
+void CopyTrainerId (u8 *dst, u8 *src)
 {
     s32 i;
     for (i = 0; i < TRAINER_ID_LENGTH; i++) {
@@ -86,14 +86,14 @@ void CopyTrainerId(u8 *dst, u8 *src)
     }
 }
 
-static void InitPlayerTrainerId(void)
+static void InitPlayerTrainerId (void)
 {
     u32 trainerId = (Random() << 0x10) | GetGeneratedTrainerIdLower();
     SetTrainerId(trainerId, gSaveBlock2Ptr->playerTrainerId);
 }
 
 // L=A isnt set here for some reason.
-static void SetDefaultOptions(void)
+static void SetDefaultOptions (void)
 {
     gSaveBlock2Ptr->optionsTextSpeed = OPTIONS_TEXT_SPEED_MID;
     gSaveBlock2Ptr->optionsWindowFrameType = 0;
@@ -103,14 +103,14 @@ static void SetDefaultOptions(void)
     gSaveBlock2Ptr->regionMapZoom = FALSE;
 }
 
-static void ClearPokedexFlags(void)
+static void ClearPokedexFlags (void)
 {
     gUnusedPokedexU8 = 0;
     memset(&gSaveBlock2Ptr->pokedex.owned, 0, sizeof(gSaveBlock2Ptr->pokedex.owned));
     memset(&gSaveBlock2Ptr->pokedex.seen, 0, sizeof(gSaveBlock2Ptr->pokedex.seen));
 }
 
-void ClearAllContestWinnerPics(void)
+void ClearAllContestWinnerPics (void)
 {
     s32 i;
 
@@ -120,7 +120,7 @@ void ClearAllContestWinnerPics(void)
     }
 }
 
-static void ClearFrontierRecord(void)
+static void ClearFrontierRecord (void)
 {
     CpuFill32(0, &gSaveBlock2Ptr->frontier, sizeof(gSaveBlock2Ptr->frontier));
 
@@ -128,19 +128,19 @@ static void ClearFrontierRecord(void)
     gSaveBlock2Ptr->frontier.opponentNames[1][0] = EOS;
 }
 
-static void WarpToTruck(void)
+static void WarpToTruck (void)
 {
     SetWarpDestination(MAP_GROUP(INSIDE_OF_TRUCK), MAP_NUM(INSIDE_OF_TRUCK), -1, -1, -1);
     WarpIntoMap();
 }
 
-void Sav2_ClearSetDefault(void)
+void Sav2_ClearSetDefault (void)
 {
     ClearSav2();
     SetDefaultOptions();
 }
 
-void ResetMenuAndMonGlobals(void)
+void ResetMenuAndMonGlobals (void)
 {
     gDifferentSaveFile = 0;
     ResetPokedexScrollPositions();
@@ -150,7 +150,7 @@ void ResetMenuAndMonGlobals(void)
     ResetPokeblockScrollPositions();
 }
 
-void NewGameInitData(void)
+void NewGameInitData (void)
 {
     if (gSaveFileStatus == SAVE_STATUS_EMPTY || gSaveFileStatus == SAVE_STATUS_CORRUPT) {
         RtcReset();
@@ -211,7 +211,7 @@ void NewGameInitData(void)
     ResetContestLinkResults();
 }
 
-static void ResetMiniGamesResults(void)
+static void ResetMiniGamesResults (void)
 {
     CpuFill16(0, &gSaveBlock2Ptr->berryCrush, sizeof(struct BerryCrush));
     SetBerryPowder(&gSaveBlock2Ptr->berryCrush.berryPowderAmount, 0);

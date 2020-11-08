@@ -23,20 +23,20 @@ static void StartSweetScentFieldEffect(void);
 static void TrySweetScentEncounter(u8 taskId);
 static void FailSweetScentEncounter(u8 taskId);
 
-bool8 SetUpFieldMove_SweetScent(void)
+bool8 SetUpFieldMove_SweetScent (void)
 {
     gFieldCallback2 = FieldCallback_PrepareFadeInFromMenu;
     gPostMenuFieldCallback = FieldCallback_SweetScent;
     return TRUE;
 }
 
-static void FieldCallback_SweetScent(void)
+static void FieldCallback_SweetScent (void)
 {
     FieldEffectStart(FLDEFF_SWEET_SCENT);
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
 }
 
-bool8 FldEff_SweetScent(void)
+bool8 FldEff_SweetScent (void)
 {
     u8 taskId;
 
@@ -47,7 +47,7 @@ bool8 FldEff_SweetScent(void)
     return FALSE;
 }
 
-static void StartSweetScentFieldEffect(void)
+static void StartSweetScentFieldEffect (void)
 {
     u8 taskId;
 
@@ -60,7 +60,7 @@ static void StartSweetScentFieldEffect(void)
     FieldEffectActiveListRemove(FLDEFF_SWEET_SCENT);
 }
 
-static void TrySweetScentEncounter(u8 taskId)
+static void TrySweetScentEncounter (u8 taskId)
 {
     if (!gPaletteFade.active) {
         ClearMirageTowerPulseBlendEffect();
@@ -80,7 +80,7 @@ static void TrySweetScentEncounter(u8 taskId)
     }
 }
 
-static void FailSweetScentEncounter(u8 taskId)
+static void FailSweetScentEncounter (u8 taskId)
 {
     if (!gPaletteFade.active) {
         CpuFastSet(gPaletteDecompressionBuffer, gPlttBufferUnfaded, 0x100);

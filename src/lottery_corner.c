@@ -21,7 +21,7 @@ static const u16 sLotteryPrizes[] =
 
 static u8 GetMatchingDigits(u16, u16);
 
-void ResetLotteryCorner(void)
+void ResetLotteryCorner (void)
 {
     u16 rand = Random();
 
@@ -29,7 +29,7 @@ void ResetLotteryCorner(void)
     VarSet(VAR_POKELOT_PRIZE_ITEM, 0);
 }
 
-void SetRandomLotteryNumber(u16 i)
+void SetRandomLotteryNumber (u16 i)
 {
     u32 var = Random();
 
@@ -40,13 +40,13 @@ void SetRandomLotteryNumber(u16 i)
     SetLotteryNumber(var);
 }
 
-void RetrieveLotteryNumber(void)
+void RetrieveLotteryNumber (void)
 {
     u16 lottoNumber = GetLotteryNumber();
     gSpecialVar_Result = lottoNumber;
 }
 
-void PickLotteryCornerTicket(void)
+void PickLotteryCornerTicket (void)
 {
     u16 i;
     u16 j;
@@ -106,7 +106,7 @@ void PickLotteryCornerTicket(void)
     }
 }
 
-static u8 GetMatchingDigits(u16 winNumber, u16 otId)
+static u8 GetMatchingDigits (u16 winNumber, u16 otId)
 {
     u8 i;
     u8 matchingDigits = 0;
@@ -127,7 +127,7 @@ static u8 GetMatchingDigits(u16 winNumber, u16 otId)
 }
 
 // lottery numbers go from 0 to 99999, not 65535 (0xFFFF). interestingly enough, the function that calls GetLotteryNumber shifts to u16, so it cant be anything above 65535 anyway.
-void SetLotteryNumber(u32 lotteryNum)
+void SetLotteryNumber (u32 lotteryNum)
 {
     u16 lowNum = lotteryNum >> 16;
     u16 highNum = lotteryNum;
@@ -136,7 +136,7 @@ void SetLotteryNumber(u32 lotteryNum)
     VarSet(VAR_POKELOT_RND2, lowNum);
 }
 
-u32 GetLotteryNumber(void)
+u32 GetLotteryNumber (void)
 {
     u16 highNum = VarGet(VAR_POKELOT_RND1);
     u16 lowNum = VarGet(VAR_POKELOT_RND2);
@@ -145,7 +145,7 @@ u32 GetLotteryNumber(void)
 }
 
 // interestingly, this may have been the original lottery number set function, but GF tried to change it to 32-bit later but didnt finish changing all calls as one GetLotteryNumber still shifts to u16.
-void SetLotteryNumber16_Unused(u16 lotteryNum)
+void SetLotteryNumber16_Unused (u16 lotteryNum)
 {
     SetLotteryNumber(lotteryNum);
 }

@@ -694,7 +694,7 @@ static const struct BattleBackground gBattleTerrainTable[] =
 static void sub_8035648(void);
 
 // Unused
-static void sub_8035608(void)
+static void sub_8035608 (void)
 {
     u8 spriteId;
 
@@ -704,13 +704,13 @@ static void sub_8035608(void)
     SetMainCallback2(sub_8035648);
 }
 
-static void sub_8035648(void)
+static void sub_8035648 (void)
 {
     AnimateSprites();
     BuildOamBuffer();
 }
 
-void BattleInitBgsAndWindows(void)
+void BattleInitBgsAndWindows (void)
 {
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, gBattleBgTemplates, ARRAY_COUNT(gBattleBgTemplates));
@@ -727,7 +727,7 @@ void BattleInitBgsAndWindows(void)
     DeactivateAllTextPrinters();
 }
 
-void InitBattleBgsVideo(void)
+void InitBattleBgsVideo (void)
 {
     DisableInterrupts(INTR_FLAG_HBLANK);
     EnableInterrupts(INTR_FLAG_VBLANK | INTR_FLAG_VCOUNT | INTR_FLAG_TIMER3 | INTR_FLAG_SERIAL);
@@ -738,7 +738,7 @@ void InitBattleBgsVideo(void)
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJWIN_ON | DISPCNT_WIN0_ON | DISPCNT_OBJ_ON | DISPCNT_OBJ_1D_MAP);
 }
 
-void LoadBattleMenuWindowGfx(void)
+void LoadBattleMenuWindowGfx (void)
 {
     LoadUserWindowBorderGfx(2, 0x12, 0x10);
     LoadUserWindowBorderGfx(2, 0x22, 0x10);
@@ -753,7 +753,7 @@ void LoadBattleMenuWindowGfx(void)
     }
 }
 
-void DrawMainBattleBackground(void)
+void DrawMainBattleBackground (void)
 {
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_FRONTIER | BATTLE_TYPE_EREADER_TRAINER | BATTLE_TYPE_x2000000)) {
         LZDecompressVram(gBattleTerrainTiles_Building, (void*)(BG_CHAR_ADDR(2)));
@@ -838,7 +838,7 @@ void DrawMainBattleBackground(void)
     }
 }
 
-void LoadBattleTextboxAndBackground(void)
+void LoadBattleTextboxAndBackground (void)
 {
     LZDecompressVram(gBattleTextboxTiles, (void*)(BG_CHAR_ADDR(0)));
     CopyToBgTilemapBuffer(0, gBattleTextboxTilemap, 0, 0);
@@ -848,7 +848,7 @@ void LoadBattleTextboxAndBackground(void)
     DrawMainBattleBackground();
 }
 
-static void DrawLinkBattleParticipantPokeballs(u8 taskId, u8 multiplayerId, u8 bgId, u8 destX, u8 destY)
+static void DrawLinkBattleParticipantPokeballs (u8 taskId, u8 multiplayerId, u8 bgId, u8 destX, u8 destY)
 {
     s32 i;
     u16 pokeballStatuses = 0;
@@ -909,7 +909,7 @@ static void DrawLinkBattleParticipantPokeballs(u8 taskId, u8 multiplayerId, u8 b
     }
 }
 
-static void DrawLinkBattleVsScreenOutcomeText(void)
+static void DrawLinkBattleVsScreenOutcomeText (void)
 {
     if (gBattleOutcome == B_OUTCOME_DREW) {
         BattlePutTextOnWindow(gText_Draw, 0x15);
@@ -972,7 +972,7 @@ static void DrawLinkBattleVsScreenOutcomeText(void)
     }
 }
 
-void InitLinkBattleVsScreen(u8 taskId)
+void InitLinkBattleVsScreen (u8 taskId)
 {
     struct LinkPlayer *linkPlayer;
     u8 *name;
@@ -1070,7 +1070,7 @@ void InitLinkBattleVsScreen(u8 taskId)
     }
 }
 
-void DrawBattleEntryBackground(void)
+void DrawBattleEntryBackground (void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_LINK) {
         LZDecompressVram(gUnknown_08D778F0, (void*)(BG_CHAR_ADDR(1)));
@@ -1132,7 +1132,7 @@ void DrawBattleEntryBackground(void)
     }
 }
 
-bool8 LoadChosenBattleElement(u8 caseId)
+bool8 LoadChosenBattleElement (u8 caseId)
 {
     bool8 ret = FALSE;
 

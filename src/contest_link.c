@@ -19,7 +19,7 @@ static void Task_LinkContest_InitFlags(u8);
 #define tTimer         data[11]
 #define tStandbyState  data[12]
 
-bool32 LinkContest_SendBlock(void *src, u16 size)
+bool32 LinkContest_SendBlock (void *src, u16 size)
 {
     memcpy(gDecompressionBuffer, src, size);
     if (SendBlock(bitmask_all_link_players_but_self(), gDecompressionBuffer, size)) {
@@ -29,7 +29,7 @@ bool32 LinkContest_SendBlock(void *src, u16 size)
     }
 }
 
-bool8 LinkContest_GetBlockReceived(u8 flag)
+bool8 LinkContest_GetBlockReceived (u8 flag)
 {
     u8 mask = (1 << flag);
     if (!(GetBlockReceivedStatus() & mask)) {
@@ -40,7 +40,7 @@ bool8 LinkContest_GetBlockReceived(u8 flag)
     }
 }
 
-bool8 LinkContest_GetBlockReceivedFromAllPlayers(void)
+bool8 LinkContest_GetBlockReceivedFromAllPlayers (void)
 {
     if (GetBlockReceivedStatus() == GetLinkPlayerCountAsBitFlags()) {
         ResetBlockReceivedFlags();
@@ -50,7 +50,7 @@ bool8 LinkContest_GetBlockReceivedFromAllPlayers(void)
     }
 }
 
-void Task_LinkContest_Init(u8 taskId)
+void Task_LinkContest_Init (u8 taskId)
 {
     u8 i;
 
@@ -62,12 +62,12 @@ void Task_LinkContest_Init(u8 taskId)
     gTasks[taskId].func = Task_LinkContest_StartInitFlags;
 }
 
-static void Task_LinkContest_StartInitFlags(u8 taskId)
+static void Task_LinkContest_StartInitFlags (u8 taskId)
 {
     gTasks[taskId].func = Task_LinkContest_InitFlags;
 }
 
-static void Task_LinkContest_InitFlags(u8 taskId)
+static void Task_LinkContest_InitFlags (u8 taskId)
 {
     int i;
 
@@ -94,7 +94,7 @@ static void Task_LinkContest_InitFlags(u8 taskId)
     SwitchTaskToFollowupFunc(taskId);
 }
 
-bool32 LinkContest_TryLinkStandby(s16 *state)
+bool32 LinkContest_TryLinkStandby (s16 *state)
 {
     // Skip standby for RS cabled links
     if (gLinkContestFlags & LINK_CONTEST_FLAG_HAS_RS_PLAYER) {
@@ -120,7 +120,7 @@ bool32 LinkContest_TryLinkStandby(s16 *state)
     }
 }
 
-void Task_LinkContest_CommunicateMonsRS(u8 taskId)
+void Task_LinkContest_CommunicateMonsRS (u8 taskId)
 {
     int i;
 
@@ -168,7 +168,7 @@ void Task_LinkContest_CommunicateMonsRS(u8 taskId)
     }
 }
 
-void Task_LinkContest_CommunicateRngRS(u8 taskId)
+void Task_LinkContest_CommunicateRngRS (u8 taskId)
 {
     switch (gTasks[taskId].tState) {
     case 0:
@@ -194,7 +194,7 @@ void Task_LinkContest_CommunicateRngRS(u8 taskId)
     }
 }
 
-void Task_LinkContest_CommunicateCategoryRS(u8 taskId)
+void Task_LinkContest_CommunicateCategoryRS (u8 taskId)
 {
     int i;
 
@@ -237,7 +237,7 @@ void Task_LinkContest_CommunicateCategoryRS(u8 taskId)
     }
 }
 
-void Task_LinkContest_CommunicateMonIdxs(u8 taskId)
+void Task_LinkContest_CommunicateMonIdxs (u8 taskId)
 {
     switch (gTasks[taskId].tState) {
     case 0:
@@ -259,7 +259,7 @@ void Task_LinkContest_CommunicateMonIdxs(u8 taskId)
     }
 }
 
-void Task_LinkContest_CommunicateMoveSelections(u8 taskId)
+void Task_LinkContest_CommunicateMoveSelections (u8 taskId)
 {
     int i;
 
@@ -289,7 +289,7 @@ void Task_LinkContest_CommunicateMoveSelections(u8 taskId)
     }
 }
 
-void Task_LinkContest_CommunicateFinalStandings(u8 taskId)
+void Task_LinkContest_CommunicateFinalStandings (u8 taskId)
 {
     switch (gTasks[taskId].tState) {
     case 0:
@@ -360,7 +360,7 @@ void Task_LinkContest_CommunicateFinalStandings(u8 taskId)
     }
 }
 
-void Task_LinkContest_CommunicateAppealsState(u8 taskId)
+void Task_LinkContest_CommunicateAppealsState (u8 taskId)
 {
     switch (gTasks[taskId].tState) {
     case 0:
@@ -431,7 +431,7 @@ void Task_LinkContest_CommunicateAppealsState(u8 taskId)
     }
 }
 
-void Task_LinkContest_CommunicateLeaderIdsRS(u8 taskId)
+void Task_LinkContest_CommunicateLeaderIdsRS (u8 taskId)
 {
     int i;
 
@@ -474,7 +474,7 @@ void Task_LinkContest_CommunicateLeaderIdsRS(u8 taskId)
     }
 }
 
-void Task_LinkContest_CommunicateRound1Points(u8 taskId)
+void Task_LinkContest_CommunicateRound1Points (u8 taskId)
 {
     if (!LinkContest_TryLinkStandby(&gTasks[taskId].tStandbyState)) {
         return;
@@ -502,7 +502,7 @@ void Task_LinkContest_CommunicateRound1Points(u8 taskId)
     }
 }
 
-void Task_LinkContest_CommunicateTurnOrder(u8 taskId)
+void Task_LinkContest_CommunicateTurnOrder (u8 taskId)
 {
     if (!LinkContest_TryLinkStandby(&gTasks[taskId].tStandbyState)) {
         return;

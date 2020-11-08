@@ -48,7 +48,7 @@ extern const u8 gText_Marco[];
 
 #define CM_PER_INCH 2.54
 
-static u32 GetMonSizeHash(struct Pokemon *pkmn)
+static u32 GetMonSizeHash (struct Pokemon *pkmn)
 {
     u16 personality = GetMonData(pkmn, MON_DATA_PERSONALITY);
     u16 hpIV = GetMonData(pkmn, MON_DATA_HP_IV) & 0xF;
@@ -63,7 +63,7 @@ static u32 GetMonSizeHash(struct Pokemon *pkmn)
     return (hibyte << 8) + lobyte;
 }
 
-static u8 TranslateBigMonSizeTableIndex(u16 a)
+static u8 TranslateBigMonSizeTableIndex (u16 a)
 {
     u8 i;
 
@@ -75,7 +75,7 @@ static u8 TranslateBigMonSizeTableIndex(u16 a)
     return i;
 }
 
-static u32 GetMonSize(u16 species, u16 b)
+static u32 GetMonSize (u16 species, u16 b)
 {
     u64 unk2;
     u64 unk4;
@@ -92,7 +92,7 @@ static u32 GetMonSize(u16 species, u16 b)
     return height * unk0 / 10;
 }
 
-static void FormatMonSizeRecord(u8 *string, u32 size)
+static void FormatMonSizeRecord (u8 *string, u32 size)
 {
 #ifdef UNITS_IMPERIAL
     //Convert size from centimeters to inches
@@ -104,7 +104,7 @@ static void FormatMonSizeRecord(u8 *string, u32 size)
     ConvertIntToDecimalStringN(string, size % 10, STR_CONV_MODE_LEFT_ALIGN, 1);
 }
 
-static u8 CompareMonSize(u16 species, u16 *sizeRecord)
+static u8 CompareMonSize (u16 species, u16 *sizeRecord)
 {
     if (gSpecialVar_Result == 0xFF) {
         return 0;
@@ -133,7 +133,7 @@ static u8 CompareMonSize(u16 species, u16 *sizeRecord)
 }
 
 // Stores species name in gStringVar1, trainer's name in gStringVar2, and size in gStringVar3
-static void GetMonSizeRecordInfo(u16 species, u16 *sizeRecord)
+static void GetMonSizeRecordInfo (u16 species, u16 *sizeRecord)
 {
     u32 size = GetMonSize(species, *sizeRecord);
 
@@ -146,45 +146,45 @@ static void GetMonSizeRecordInfo(u16 species, u16 *sizeRecord)
     }
 }
 
-void InitSeedotSizeRecord(void)
+void InitSeedotSizeRecord (void)
 {
     VarSet(VAR_SEEDOT_SIZE_RECORD, DEFAULT_MAX_SIZE);
 }
 
-void GetSeedotSizeRecordInfo(void)
+void GetSeedotSizeRecordInfo (void)
 {
     u16 *sizeRecord = GetVarPointer(VAR_SEEDOT_SIZE_RECORD);
 
     GetMonSizeRecordInfo(SPECIES_SEEDOT, sizeRecord);
 }
 
-void CompareSeedotSize(void)
+void CompareSeedotSize (void)
 {
     u16 *sizeRecord = GetVarPointer(VAR_SEEDOT_SIZE_RECORD);
 
     gSpecialVar_Result = CompareMonSize(SPECIES_SEEDOT, sizeRecord);
 }
 
-void InitLotadSizeRecord(void)
+void InitLotadSizeRecord (void)
 {
     VarSet(VAR_LOTAD_SIZE_RECORD, DEFAULT_MAX_SIZE);
 }
 
-void GetLotadSizeRecordInfo(void)
+void GetLotadSizeRecordInfo (void)
 {
     u16 *sizeRecord = GetVarPointer(VAR_LOTAD_SIZE_RECORD);
 
     GetMonSizeRecordInfo(SPECIES_LOTAD, sizeRecord);
 }
 
-void CompareLotadSize(void)
+void CompareLotadSize (void)
 {
     u16 *sizeRecord = GetVarPointer(VAR_LOTAD_SIZE_RECORD);
 
     gSpecialVar_Result = CompareMonSize(SPECIES_LOTAD, sizeRecord);
 }
 
-void GiveGiftRibbonToParty(u8 index, u8 ribbonId)
+void GiveGiftRibbonToParty (u8 index, u8 ribbonId)
 {
     s32 i;
     bool32 gotRibbon = FALSE;

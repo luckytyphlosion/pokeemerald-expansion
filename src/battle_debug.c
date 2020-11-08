@@ -585,14 +585,14 @@ static bool32 TryMoveDigit(struct BattleDebugModifyArrows *modArrows, bool32 mov
 static void SwitchToDebugView(u8 taskId);
 
 // code
-static struct BattleDebugMenu * GetStructPtr(u8 taskId)
+static struct BattleDebugMenu * GetStructPtr (u8 taskId)
 {
     u8 *taskDataPtr = (u8*)(&gTasks[taskId].data[0]);
 
     return (struct BattleDebugMenu*)(T1_READ_PTR(taskDataPtr));
 }
 
-static void SetStructPtr(u8 taskId, void *ptr)
+static void SetStructPtr (u8 taskId, void *ptr)
 {
     u32 structPtr = (u32)(ptr);
     u8 *taskDataPtr = (u8*)(&gTasks[taskId].data[0]);
@@ -603,7 +603,7 @@ static void SetStructPtr(u8 taskId, void *ptr)
     taskDataPtr[3] = structPtr >> 24;
 }
 
-static void MainCB2(void)
+static void MainCB2 (void)
 {
     RunTasks();
     AnimateSprites();
@@ -611,14 +611,14 @@ static void MainCB2(void)
     UpdatePaletteFade();
 }
 
-static void VBlankCB(void)
+static void VBlankCB (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-void CB2_BattleDebugMenu(void)
+void CB2_BattleDebugMenu (void)
 {
     u8 taskId;
     struct BattleDebugMenu *data;
@@ -684,7 +684,7 @@ void CB2_BattleDebugMenu(void)
     }
 }
 
-static void PutMovesPointsText(struct BattleDebugMenu *data)
+static void PutMovesPointsText (struct BattleDebugMenu *data)
 {
     u32 i, j, count;
     u8 *text = malloc(0x50);
@@ -710,7 +710,7 @@ static void PutMovesPointsText(struct BattleDebugMenu *data)
     free(text);
 }
 
-static void Task_ShowAiPoints(u8 taskId)
+static void Task_ShowAiPoints (u8 taskId)
 {
     u32 i, count;
     struct WindowTemplate winTemplate;
@@ -769,13 +769,13 @@ static void Task_ShowAiPoints(u8 taskId)
     }
 }
 
-static void SwitchToAiPointsView(u8 taskId)
+static void SwitchToAiPointsView (u8 taskId)
 {
     gTasks[taskId].func = Task_ShowAiPoints;
     GetStructPtr(taskId)->aiViewState = 0;
 }
 
-static void SwitchToDebugView(u8 taskId)
+static void SwitchToDebugView (u8 taskId)
 {
     u32 i;
     struct BattleDebugMenu *data = GetStructPtr(taskId);
@@ -792,14 +792,14 @@ static void SwitchToDebugView(u8 taskId)
     gTasks[taskId].func = Task_DebugMenuProcessInput;
 }
 
-static void Task_DebugMenuFadeIn(u8 taskId)
+static void Task_DebugMenuFadeIn (u8 taskId)
 {
     if (!gPaletteFade.active) {
         gTasks[taskId].func = Task_DebugMenuProcessInput;
     }
 }
 
-static void Task_DebugMenuProcessInput(u8 taskId)
+static void Task_DebugMenuProcessInput (u8 taskId)
 {
     s32 listItemId = 0;
     struct BattleDebugMenu *data = GetStructPtr(taskId);
@@ -894,7 +894,7 @@ static void Task_DebugMenuProcessInput(u8 taskId)
     }
 }
 
-static void Task_DebugMenuFadeOut(u8 taskId)
+static void Task_DebugMenuFadeOut (u8 taskId)
 {
     if (!gPaletteFade.active) {
         struct BattleDebugMenu *data = GetStructPtr(taskId);
@@ -912,7 +912,7 @@ static void Task_DebugMenuFadeOut(u8 taskId)
     }
 }
 
-static void PrintOnBattlerWindow(u8 windowId, u8 battlerId)
+static void PrintOnBattlerWindow (u8 windowId, u8 battlerId)
 {
     u8 text[POKEMON_NAME_LENGTH + 10];
 
@@ -927,7 +927,7 @@ static void PrintOnBattlerWindow(u8 windowId, u8 battlerId)
     CopyWindowToVram(windowId, 3);
 }
 
-static void UpdateWindowsOnChangedBattler(struct BattleDebugMenu *data)
+static void UpdateWindowsOnChangedBattler (struct BattleDebugMenu *data)
 {
     PrintOnBattlerWindow(data->battlerWindowId, data->battlerId);
     if (data->secondaryListTaskId != 0xFF) {
@@ -945,7 +945,7 @@ static void UpdateWindowsOnChangedBattler(struct BattleDebugMenu *data)
 }
 
 
-static void CreateSecondaryListMenu(struct BattleDebugMenu *data)
+static void CreateSecondaryListMenu (struct BattleDebugMenu *data)
 {
     struct WindowTemplate winTemplate;
     struct ListMenuTemplate listTemplate;
@@ -1025,7 +1025,7 @@ static void CreateSecondaryListMenu(struct BattleDebugMenu *data)
     CopyWindowToVram(data->secondaryListWindowId, 3);
 }
 
-static void PadString(const u8 *src, u8 *dst)
+static void PadString (const u8 *src, u8 *dst)
 {
     u32 i;
 
@@ -1042,7 +1042,7 @@ static void PadString(const u8 *src, u8 *dst)
 
 static const u8 sTextAll[] = _("All");
 
-static void PrintSecondaryEntries(struct BattleDebugMenu *data)
+static void PrintSecondaryEntries (struct BattleDebugMenu *data)
 {
     u8 text[20];
     s32 i;
@@ -1132,7 +1132,7 @@ static void PrintSecondaryEntries(struct BattleDebugMenu *data)
     }
 }
 
-static void DestroyModifyArrows(struct BattleDebugMenu *data)
+static void DestroyModifyArrows (struct BattleDebugMenu *data)
 {
     FreeSpritePaletteByTag(gSpritePalette_RtcArrow.tag);
     if (data->modifyArrows.arrowSpriteId[0] != 0xFF) {
@@ -1143,7 +1143,7 @@ static void DestroyModifyArrows(struct BattleDebugMenu *data)
     }
 }
 
-static void PrintDigitChars(struct BattleDebugMenu *data)
+static void PrintDigitChars (struct BattleDebugMenu *data)
 {
     s32 i;
     u8 text[MAX_MODIFY_DIGITS + 1];
@@ -1157,7 +1157,7 @@ static void PrintDigitChars(struct BattleDebugMenu *data)
     AddTextPrinterParameterized(data->modifyWindowId, 1, text, 3, 0, 0, NULL);
 }
 
-static const u32 GetBitfieldToAndValue(u32 currBit, u32 bitsCount)
+static const u32 GetBitfieldToAndValue (u32 currBit, u32 bitsCount)
 {
     u32 i;
     u32 toAnd = 0;
@@ -1169,12 +1169,12 @@ static const u32 GetBitfieldToAndValue(u32 currBit, u32 bitsCount)
     return toAnd;
 }
 
-static const u32 GetBitfieldValue(u32 value, u32 currBit, u32 bitsCount)
+static const u32 GetBitfieldValue (u32 value, u32 currBit, u32 bitsCount)
 {
     return (value & (GetBitfieldToAndValue(currBit, bitsCount))) >> currBit;
 }
 
-static void UpdateBattlerValue(struct BattleDebugMenu *data)
+static void UpdateBattlerValue (struct BattleDebugMenu *data)
 {
     u32 i;
     switch (data->modifyArrows.typeOfVal) {
@@ -1243,7 +1243,7 @@ static void UpdateBattlerValue(struct BattleDebugMenu *data)
     data->battlerWasChanged[data->battlerId] = TRUE;
 }
 
-static u32 CharDigitsToValue(u8 *charDigits, u8 maxDigits)
+static u32 CharDigitsToValue (u8 *charDigits, u8 maxDigits)
 {
     s32 i;
     u8 id = 0;
@@ -1270,7 +1270,7 @@ static u32 CharDigitsToValue(u8 *charDigits, u8 maxDigits)
     return newValue;
 }
 
-static void ValueToCharDigits(u8 *charDigits, u32 newValue, u8 maxDigits)
+static void ValueToCharDigits (u8 *charDigits, u32 newValue, u8 maxDigits)
 {
     s32 i;
     u8 valueDigits[MAX_MODIFY_DIGITS];
@@ -1294,7 +1294,7 @@ static void ValueToCharDigits(u8 *charDigits, u32 newValue, u8 maxDigits)
     }
 }
 
-static u8 * GetSideStatusValue(struct BattleDebugMenu *data, bool32 changeStatus, bool32 statusTrue)
+static u8 * GetSideStatusValue (struct BattleDebugMenu *data, bool32 changeStatus, bool32 statusTrue)
 {
     struct SideTimer *sideTimer = &gSideTimers[GET_BATTLER_SIDE(data->battlerId)];
 
@@ -1410,7 +1410,7 @@ static u8 * GetSideStatusValue(struct BattleDebugMenu *data, bool32 changeStatus
     }
 }
 
-static void SetUpModifyArrows(struct BattleDebugMenu *data)
+static void SetUpModifyArrows (struct BattleDebugMenu *data)
 {
     LoadSpritePalette(&gSpritePalette_RtcArrow);
     data->modifyArrows.arrowSpriteId[0] = CreateSprite(&gSpriteTemplate_RtcArrow, 207, 12, 0);
@@ -1571,7 +1571,7 @@ static void SetUpModifyArrows(struct BattleDebugMenu *data)
     ValueToCharDigits(data->modifyArrows.charDigits, data->modifyArrows.currValue, data->modifyArrows.maxDigits);
 }
 
-static bool32 TryMoveDigit(struct BattleDebugModifyArrows *modArrows, bool32 moveUp)
+static bool32 TryMoveDigit (struct BattleDebugModifyArrows *modArrows, bool32 moveUp)
 {
     s32 i;
     u8 charDigits[MAX_MODIFY_DIGITS];
@@ -1607,7 +1607,7 @@ static bool32 TryMoveDigit(struct BattleDebugModifyArrows *modArrows, bool32 mov
     }
 }
 
-static void UpdateMonData(struct BattleDebugMenu *data)
+static void UpdateMonData (struct BattleDebugMenu *data)
 {
     s32 i, j;
 

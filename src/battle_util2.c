@@ -11,7 +11,7 @@
 #include "random.h"
 #include "battle_scripts.h"
 
-void AllocateBattleResources(void)
+void AllocateBattleResources (void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL) {
         InitTrainerHillBattleStruct();
@@ -41,7 +41,7 @@ void AllocateBattleResources(void)
     }
 }
 
-void FreeBattleResources(void)
+void FreeBattleResources (void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_TRAINER_HILL) {
         FreeTrainerHillBattleStruct();
@@ -68,7 +68,7 @@ void FreeBattleResources(void)
     }
 }
 
-void AdjustFriendshipOnBattleFaint(u8 battlerId)
+void AdjustFriendshipOnBattleFaint (u8 battlerId)
 {
     u8 opposingBattlerId;
 
@@ -96,7 +96,7 @@ void AdjustFriendshipOnBattleFaint(u8 battlerId)
     }
 }
 
-void SwitchPartyOrderInGameMulti(u8 battlerId, u8 arg1)
+void SwitchPartyOrderInGameMulti (u8 battlerId, u8 arg1)
 {
     if (GetBattlerSide(battlerId) != B_SIDE_OPPONENT) {
         s32 i;
@@ -115,7 +115,7 @@ void SwitchPartyOrderInGameMulti(u8 battlerId, u8 arg1)
     }
 }
 
-u32 sub_805725C(u8 battlerId)
+u32 sub_805725C (u8 battlerId)
 {
     u32 effect = 0;
 

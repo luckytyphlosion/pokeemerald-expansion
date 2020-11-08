@@ -18,7 +18,7 @@ EWRAM_DATA u16 gScanlineEffectRegBuffers[2][0x3C0] = {0};
 EWRAM_DATA struct ScanlineEffect gScanlineEffect = {0};
 EWRAM_DATA static bool8 sShouldStopWaveTask = FALSE;
 
-void ScanlineEffect_Stop(void)
+void ScanlineEffect_Stop (void)
 {
     gScanlineEffect.state = 0;
     DmaStop(0);
@@ -28,7 +28,7 @@ void ScanlineEffect_Stop(void)
     }
 }
 
-void ScanlineEffect_Clear(void)
+void ScanlineEffect_Clear (void)
 {
     CpuFill16(0, gScanlineEffectRegBuffers, sizeof(gScanlineEffectRegBuffers));
     gScanlineEffect.dmaSrcBuffers[0] = NULL;
@@ -42,7 +42,7 @@ void ScanlineEffect_Clear(void)
     gScanlineEffect.waveTaskId = 0xFF;
 }
 
-void ScanlineEffect_SetParams(struct ScanlineEffectParams params)
+void ScanlineEffect_SetParams (struct ScanlineEffectParams params)
 {
     if (params.dmaControl == SCANLINE_EFFECT_DMACNT_16BIT) { // 16-bit
         // Set the DMA src to the value for the second scanline because the
@@ -65,7 +65,7 @@ void ScanlineEffect_SetParams(struct ScanlineEffectParams params)
     gScanlineEffect.unused17   = params.unused9;
 }
 
-void ScanlineEffect_InitHBlankDmaTransfer(void)
+void ScanlineEffect_InitHBlankDmaTransfer (void)
 {
     if (gScanlineEffect.state == 0) {
         return;
@@ -89,7 +89,7 @@ void ScanlineEffect_InitHBlankDmaTransfer(void)
 // These two functions are used to copy the register for the first scanline,
 // depending whether it is a 16-bit register or a 32-bit register.
 
-static void CopyValue16Bit(void)
+static void CopyValue16Bit (void)
 {
     vu16 *dest = (vu16 *)gScanlineEffect.dmaDest;
     vu16 *src = (vu16 *)&gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer];
@@ -97,7 +97,7 @@ static void CopyValue16Bit(void)
     *dest = *src;
 }
 
-static void CopyValue32Bit(void)
+static void CopyValue32Bit (void)
 {
     vu32 *dest = (vu32 *)gScanlineEffect.dmaDest;
     vu32 *src = (vu32 *)&gScanlineEffectRegBuffers[gScanlineEffect.srcBuffer];
@@ -114,7 +114,7 @@ static void CopyValue32Bit(void)
 #define tRegOffset            data[6]
 #define tApplyBattleBgOffsets data[7]
 
-static void TaskFunc_UpdateWavePerFrame(u8 taskId)
+static void TaskFunc_UpdateWavePerFrame (u8 taskId)
 {
     int value = 0;
     int i;
@@ -176,7 +176,7 @@ static void TaskFunc_UpdateWavePerFrame(u8 taskId)
     }
 }
 
-static void GenerateWave(u16 *buffer, u8 frequency, u8 amplitude, u8 unused)
+static void GenerateWave (u16 *buffer, u8 frequency, u8 amplitude, u8 unused)
 {
     u16 i = 0;
     u8 theta = 0;
@@ -192,7 +192,7 @@ static void GenerateWave(u16 *buffer, u8 frequency, u8 amplitude, u8 unused)
 // 'frequency' and 'amplitude' control the frequency and amplitude of the wave.
 // 'delayInterval' controls how fast the wave travels up the screen. The wave will shift upwards one scanline every 'delayInterval'+1 frames.
 // 'regOffset' is the offset of the video register to modify.
-u8 ScanlineEffect_InitWave(u8 startLine, u8 endLine, u8 frequency, u8 amplitude, u8 delayInterval, u8 regOffset, bool8 applyBattleBgOffsets)
+u8 ScanlineEffect_InitWave (u8 startLine, u8 endLine, u8 frequency, u8 amplitude, u8 delayInterval, u8 regOffset, bool8 applyBattleBgOffsets)
 {
     int i;
     int offset;

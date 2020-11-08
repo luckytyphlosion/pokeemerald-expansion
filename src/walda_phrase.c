@@ -35,7 +35,7 @@ enum
     PHRASE_FIRST_ATTEMPT
 };
 
-u16 TryBufferWaldaPhrase(void)
+u16 TryBufferWaldaPhrase (void)
 {
     if (IsWaldaPhraseEmpty()) {
         return FALSE;
@@ -45,13 +45,13 @@ u16 TryBufferWaldaPhrase(void)
     return TRUE;
 }
 
-void DoWaldaNamingScreen(void)
+void DoWaldaNamingScreen (void)
 {
     StringCopy(gStringVar2, GetWaldaPhrasePtr());
     DoNamingScreen(NAMING_SCREEN_WALDA, gStringVar2, 0, 0, 0, CB2_HandleGivenWaldaPhrase);
 }
 
-static void CB2_HandleGivenWaldaPhrase(void)
+static void CB2_HandleGivenWaldaPhrase (void)
 {
     gSpecialVar_0x8004 = GetWaldaPhraseInputCase(gStringVar2);
 
@@ -75,7 +75,7 @@ static void CB2_HandleGivenWaldaPhrase(void)
     SetMainCallback2(CB2_ReturnToField);
 }
 
-static u32 GetWaldaPhraseInputCase(u8 *inputPtr)
+static u32 GetWaldaPhraseInputCase (u8 *inputPtr)
 {
     if (inputPtr[0] == EOS) {
         return PHRASE_FIRST_ATTEMPT;
@@ -87,7 +87,7 @@ static u32 GetWaldaPhraseInputCase(u8 *inputPtr)
     return PHRASE_GIVEN_NEW;
 }
 
-u16 TryGetWallpaperWithWaldaPhrase(void)
+u16 TryGetWallpaperWithWaldaPhrase (void)
 {
     u16 backgroundClr, foregroundClr;
     u8 patternId, iconId;
@@ -104,7 +104,7 @@ u16 TryGetWallpaperWithWaldaPhrase(void)
     return (bool8)(gSpecialVar_Result);
 }
 
-static u8 GetLetterTableId(u8 letter)
+static u8 GetLetterTableId (u8 letter)
 {
     s32 i;
 
@@ -117,7 +117,7 @@ static u8 GetLetterTableId(u8 letter)
     return ARRAY_COUNT(sWaldaLettersTable);
 }
 
-static bool32 TryCalculateWallpaper(u16* backgroundClr, u16 *foregroundClr, u8 *iconId, u8 *patternId, u16 trainerId, u8 *phrase)
+static bool32 TryCalculateWallpaper (u16* backgroundClr, u16 *foregroundClr, u8 *iconId, u8 *patternId, u16 trainerId, u8 *phrase)
 {
     s32 i;
     u8 array[9];
@@ -169,7 +169,7 @@ static bool32 TryCalculateWallpaper(u16* backgroundClr, u16 *foregroundClr, u8 *
     return TRUE;
 }
 
-static void sub_81D9C90(u8 *array, s32 arg1, s32 arg2)
+static void sub_81D9C90 (u8 *array, s32 arg1, s32 arg2)
 {
     s32 i, j;
     u8 var1, var2;
@@ -188,7 +188,7 @@ static void sub_81D9C90(u8 *array, s32 arg1, s32 arg2)
     }
 }
 
-static void sub_81D9CDC(u8 *array, u32 loopCount, u8 arg2)
+static void sub_81D9CDC (u8 *array, u32 loopCount, u8 arg2)
 {
     u32 i;
 
@@ -199,7 +199,7 @@ static void sub_81D9CDC(u8 *array, u32 loopCount, u8 arg2)
     }
 }
 
-static bool8 sub_81D9D0C(u8 *array, u32 arg1)
+static bool8 sub_81D9D0C (u8 *array, u32 arg1)
 {
     u32 arrayId = arg1 >> 3;
     u32 bits = 0x80 >> (7 & arg1);
@@ -207,7 +207,7 @@ static bool8 sub_81D9D0C(u8 *array, u32 arg1)
     return((array[arrayId] & bits) != 0);
 }
 
-static void sub_81D9D28(u8 *array, u32 arg1)
+static void sub_81D9D28 (u8 *array, u32 arg1)
 {
     u32 arrayId = arg1 >> 3;
     u8 bits = 0x80 >> (7 & arg1);
@@ -215,7 +215,7 @@ static void sub_81D9D28(u8 *array, u32 arg1)
     array[arrayId] |= bits;
 }
 
-static void sub_81D9D40(u8 *array, u32 arg1)
+static void sub_81D9D40 (u8 *array, u32 arg1)
 {
     u32 arrayId = arg1 >> 3;
     u8 bits = ~(0x80 >> (7 & arg1));
@@ -223,7 +223,7 @@ static void sub_81D9D40(u8 *array, u32 arg1)
     array[arrayId] &= bits;
 }
 
-static void sub_81D9D5C(u8 *array, u8 *letterTableIds, u32 arg2, u32 arg3, u32 loopCount)
+static void sub_81D9D5C (u8 *array, u8 *letterTableIds, u32 arg2, u32 arg3, u32 loopCount)
 {
     u32 i;
 
@@ -236,7 +236,7 @@ static void sub_81D9D5C(u8 *array, u8 *letterTableIds, u32 arg2, u32 arg3, u32 l
     }
 }
 
-static u32 sub_81D9DAC(u8 *array, u32 arg1, u32 loopCount)
+static u32 sub_81D9DAC (u8 *array, u32 arg1, u32 loopCount)
 {
     u32 ret, i;
 

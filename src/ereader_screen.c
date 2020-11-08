@@ -43,7 +43,7 @@ struct Unk03006370 gUnknown_03006370;
 extern const u8 gUnknown_089A3470[];
 extern const u8 gMultiBootProgram_BerryGlitchFix_Start[];
 
-static void sub_81D4D50(struct Unk03006370 *arg0, int arg1, u32 *arg2)
+static void sub_81D4D50 (struct Unk03006370 *arg0, int arg1, u32 *arg2)
 {
     volatile u16 backupIME = REG_IME;
     REG_IME = 0;
@@ -58,7 +58,7 @@ static void sub_81D4D50(struct Unk03006370 *arg0, int arg1, u32 *arg2)
     arg0->unk8 = arg2;
 }
 
-static void sub_81D4DB8(struct Unk03006370 *arg0)
+static void sub_81D4DB8 (struct Unk03006370 *arg0)
 {
     volatile u16 backupIME = REG_IME;
     REG_IME = 0;
@@ -68,7 +68,7 @@ static void sub_81D4DB8(struct Unk03006370 *arg0)
     REG_IME = backupIME;
 }
 
-static u8 sub_81D4DE8(struct Unk03006370 *arg0)
+static u8 sub_81D4DE8 (struct Unk03006370 *arg0)
 {
     u8 var0 = 0;
     arg0->unk0 = EReaderHandleTransfer(1, arg0->unk4, arg0->unk8, NULL);
@@ -88,7 +88,7 @@ static u8 sub_81D4DE8(struct Unk03006370 *arg0)
     return var0;
 }
 
-static void OpenEReaderLink(void)
+static void OpenEReaderLink (void)
 {
     memset(gDecompressionBuffer, 0, 0x2000);
     gLinkType = LINKTYPE_EREADER;
@@ -96,7 +96,7 @@ static void OpenEReaderLink(void)
     SetSuppressLinkErrorMessage(TRUE);
 }
 
-static bool32 sub_81D4E60(void)
+static bool32 sub_81D4E60 (void)
 {
     volatile u16 backupIME;
     u16 sp4[4];
@@ -113,7 +113,7 @@ static bool32 sub_81D4E60(void)
     return FALSE;
 }
 
-static bool32 sub_81D4EC0(void)
+static bool32 sub_81D4EC0 (void)
 {
     if (IsLinkMaster() && GetLinkPlayerCount_2() == 2) {
         return TRUE;
@@ -122,7 +122,7 @@ static bool32 sub_81D4EC0(void)
     return FALSE;
 }
 
-static u32 sub_81D4EE4(u8 *arg0, u16 *arg1)
+static u32 sub_81D4EE4 (u8 *arg0, u16 *arg1)
 {
     u8 var0;
 
@@ -194,7 +194,7 @@ static u32 sub_81D4EE4(u8 *arg0, u16 *arg1)
     return 0;
 }
 
-void task_add_00_ereader(void)
+void task_add_00_ereader (void)
 {
     int value;
     struct Unk81D5014 *data;
@@ -214,12 +214,12 @@ void task_add_00_ereader(void)
     data->unk10 = AllocZeroed(0x40);
 }
 
-static void sub_81D505C(u16 *arg0)
+static void sub_81D505C (u16 *arg0)
 {
     *arg0 = 0;
 }
 
-static bool32 sub_81D5064(u16 *arg0, u16 arg1)
+static bool32 sub_81D5064 (u16 *arg0, u16 arg1)
 {
     if (++(*arg0) > arg1) {
         *arg0 = 0;
@@ -229,7 +229,7 @@ static bool32 sub_81D5064(u16 *arg0, u16 arg1)
     return FALSE;
 }
 
-static void sub_81D5084(u8 taskId)
+static void sub_81D5084 (u8 taskId)
 {
     struct Unk81D5014 *data = (struct Unk81D5014 *)gTasks[taskId].data;
     switch (data->unk8) {

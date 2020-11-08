@@ -142,7 +142,7 @@ static const struct BgTemplate sOptionMenuBgTemplates[] =
 static const u16 sOptionMenuBg_Pal[] = {RGB(17, 18, 31)};
 
 // code
-static void MainCB2(void)
+static void MainCB2 (void)
 {
     RunTasks();
     AnimateSprites();
@@ -150,14 +150,14 @@ static void MainCB2(void)
     UpdatePaletteFade();
 }
 
-static void VBlankCB(void)
+static void VBlankCB (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-void CB2_InitOptionMenu(void)
+void CB2_InitOptionMenu (void)
 {
     switch (gMain.state) {
     default:
@@ -262,14 +262,14 @@ void CB2_InitOptionMenu(void)
     }
 }
 
-static void Task_OptionMenuFadeIn(u8 taskId)
+static void Task_OptionMenuFadeIn (u8 taskId)
 {
     if (!gPaletteFade.active) {
         gTasks[taskId].func = Task_OptionMenuProcessInput;
     }
 }
 
-static void Task_OptionMenuProcessInput(u8 taskId)
+static void Task_OptionMenuProcessInput (u8 taskId)
 {
     if (JOY_NEW(A_BUTTON)) {
         if (gTasks[taskId].data[TD_MENUSELECTION] == MENUITEM_CANCEL) {
@@ -354,7 +354,7 @@ static void Task_OptionMenuProcessInput(u8 taskId)
     }
 }
 
-static void Task_OptionMenuSave(u8 taskId)
+static void Task_OptionMenuSave (u8 taskId)
 {
     gSaveBlock2Ptr->optionsTextSpeed = gTasks[taskId].data[TD_TEXTSPEED];
     gSaveBlock2Ptr->optionsBattleSceneOff = gTasks[taskId].data[TD_BATTLESCENE];
@@ -367,7 +367,7 @@ static void Task_OptionMenuSave(u8 taskId)
     gTasks[taskId].func = Task_OptionMenuFadeOut;
 }
 
-static void Task_OptionMenuFadeOut(u8 taskId)
+static void Task_OptionMenuFadeOut (u8 taskId)
 {
     if (!gPaletteFade.active) {
         DestroyTask(taskId);
@@ -376,13 +376,13 @@ static void Task_OptionMenuFadeOut(u8 taskId)
     }
 }
 
-static void HighlightOptionMenuItem(u8 index)
+static void HighlightOptionMenuItem (u8 index)
 {
     SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(16, 224));
     SetGpuReg(REG_OFFSET_WIN0V, WIN_RANGE(index * 16 + 40, index * 16 + 56));
 }
 
-static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
+static void DrawOptionMenuChoice (const u8 *text, u8 x, u8 y, u8 style)
 {
     u8 dst[16];
     u16 i;
@@ -400,7 +400,7 @@ static void DrawOptionMenuChoice(const u8 *text, u8 x, u8 y, u8 style)
     AddTextPrinterParameterized(WIN_OPTIONS, 1, dst, x, y + 1, TEXT_SPEED_FF, NULL);
 }
 
-static u8 TextSpeed_ProcessInput(u8 selection)
+static u8 TextSpeed_ProcessInput (u8 selection)
 {
     if (JOY_NEW(DPAD_RIGHT)) {
         if (selection <= 1) {
@@ -423,7 +423,7 @@ static u8 TextSpeed_ProcessInput(u8 selection)
     return selection;
 }
 
-static void TextSpeed_DrawChoices(u8 selection)
+static void TextSpeed_DrawChoices (u8 selection)
 {
     u8 styles[3];
     s32 widthSlow, widthMid, widthFast, xMid;
@@ -446,7 +446,7 @@ static void TextSpeed_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_TextSpeedFast, GetStringRightAlignXOffset(1, gText_TextSpeedFast, 198), YPOS_TEXTSPEED, styles[2]);
 }
 
-static u8 BattleScene_ProcessInput(u8 selection)
+static u8 BattleScene_ProcessInput (u8 selection)
 {
     if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT)) {
         selection ^= 1;
@@ -456,7 +456,7 @@ static u8 BattleScene_ProcessInput(u8 selection)
     return selection;
 }
 
-static void BattleScene_DrawChoices(u8 selection)
+static void BattleScene_DrawChoices (u8 selection)
 {
     u8 styles[2];
 
@@ -468,7 +468,7 @@ static void BattleScene_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_BattleSceneOff, GetStringRightAlignXOffset(1, gText_BattleSceneOff, 198), YPOS_BATTLESCENE, styles[1]);
 }
 
-static u8 BattleStyle_ProcessInput(u8 selection)
+static u8 BattleStyle_ProcessInput (u8 selection)
 {
     if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT)) {
         selection ^= 1;
@@ -478,7 +478,7 @@ static u8 BattleStyle_ProcessInput(u8 selection)
     return selection;
 }
 
-static void BattleStyle_DrawChoices(u8 selection)
+static void BattleStyle_DrawChoices (u8 selection)
 {
     u8 styles[2];
 
@@ -490,7 +490,7 @@ static void BattleStyle_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_BattleStyleSet, GetStringRightAlignXOffset(1, gText_BattleStyleSet, 198), YPOS_BATTLESTYLE, styles[1]);
 }
 
-static u8 Sound_ProcessInput(u8 selection)
+static u8 Sound_ProcessInput (u8 selection)
 {
     if (JOY_NEW(DPAD_LEFT | DPAD_RIGHT)) {
         selection ^= 1;
@@ -501,7 +501,7 @@ static u8 Sound_ProcessInput(u8 selection)
     return selection;
 }
 
-static void Sound_DrawChoices(u8 selection)
+static void Sound_DrawChoices (u8 selection)
 {
     u8 styles[2];
 
@@ -513,7 +513,7 @@ static void Sound_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_SoundStereo, GetStringRightAlignXOffset(1, gText_SoundStereo, 198), YPOS_SOUND, styles[1]);
 }
 
-static u8 FrameType_ProcessInput(u8 selection)
+static u8 FrameType_ProcessInput (u8 selection)
 {
     if (JOY_NEW(DPAD_RIGHT)) {
         if (selection < WINDOW_FRAMES_COUNT - 1) {
@@ -540,7 +540,7 @@ static u8 FrameType_ProcessInput(u8 selection)
     return selection;
 }
 
-static void FrameType_DrawChoices(u8 selection)
+static void FrameType_DrawChoices (u8 selection)
 {
     u8 text[16];
     u8 n = selection + 1;
@@ -569,7 +569,7 @@ static void FrameType_DrawChoices(u8 selection)
     DrawOptionMenuChoice(text, 128, YPOS_FRAMETYPE, 1);
 }
 
-static u8 ButtonMode_ProcessInput(u8 selection)
+static u8 ButtonMode_ProcessInput (u8 selection)
 {
     if (JOY_NEW(DPAD_RIGHT)) {
         if (selection <= 1) {
@@ -592,7 +592,7 @@ static u8 ButtonMode_ProcessInput(u8 selection)
     return selection;
 }
 
-static void ButtonMode_DrawChoices(u8 selection)
+static void ButtonMode_DrawChoices (u8 selection)
 {
     s32 widthNormal, widthLR, widthLA, xLR;
     u8 styles[3];
@@ -615,14 +615,14 @@ static void ButtonMode_DrawChoices(u8 selection)
     DrawOptionMenuChoice(gText_ButtonTypeLEqualsA, GetStringRightAlignXOffset(1, gText_ButtonTypeLEqualsA, 198), YPOS_BUTTONMODE, styles[2]);
 }
 
-static void DrawTextOption(void)
+static void DrawTextOption (void)
 {
     FillWindowPixelBuffer(WIN_TEXT_OPTION, PIXEL_FILL(1));
     AddTextPrinterParameterized(WIN_TEXT_OPTION, 1, gText_Option, 8, 1, TEXT_SPEED_FF, NULL);
     CopyWindowToVram(WIN_TEXT_OPTION, 3);
 }
 
-static void DrawOptionMenuTexts(void)
+static void DrawOptionMenuTexts (void)
 {
     u8 i;
 
@@ -633,7 +633,7 @@ static void DrawOptionMenuTexts(void)
     CopyWindowToVram(WIN_OPTIONS, 3);
 }
 
-static void sub_80BB154(void)
+static void sub_80BB154 (void)
 {
     //                   bg, tileNum, x,    y,    width, height,  pal
     FillBgTilemapBufferRect(1, 0x1A2, 1,    0,      1,      1,      7);

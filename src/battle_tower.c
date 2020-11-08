@@ -348,11 +348,11 @@ static const u8 sRubyFacilityClassToEmerald[RS_FACILITY_CLASSES_COUNT - 2][2] =
     {RS_FACILITY_CLASS_SIS_AND_BRO, FACILITY_CLASS_SIS_AND_BRO},
 };
 
-#define PARTNER_TEXTS(name)                                              \
-    BattleFrontier_BattleTowerMultiPartnerRoom_Text_##name##Intro,       \
-    BattleFrontier_BattleTowerMultiPartnerRoom_Text_##name##Mon1,        \
-    BattleFrontier_BattleTowerMultiPartnerRoom_Text_##name##Mon2Ask,     \
-    BattleFrontier_BattleTowerMultiPartnerRoom_Text_##name##Accept,      \
+#define PARTNER_TEXTS(name)                                               \
+    BattleFrontier_BattleTowerMultiPartnerRoom_Text_##name##Intro,        \
+    BattleFrontier_BattleTowerMultiPartnerRoom_Text_##name##Mon1,         \
+    BattleFrontier_BattleTowerMultiPartnerRoom_Text_##name##Mon2Ask,      \
+    BattleFrontier_BattleTowerMultiPartnerRoom_Text_##name##Accept,       \
     BattleFrontier_BattleTowerMultiPartnerRoom_Text_##name##Reject
 
 static const u8 *const sPartnerApprenticeTexts1[] =
@@ -904,12 +904,12 @@ static const u16 sRecordTrainerSpeechLost[] =
 };
 
 // code
-void CallBattleTowerFunc(void)
+void CallBattleTowerFunc (void)
 {
     sBattleTowerFuncs[gSpecialVar_0x8004]();
 }
 
-static void InitTowerChallenge(void)
+static void InitTowerChallenge (void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -928,7 +928,7 @@ static void InitTowerChallenge(void)
     gTrainerBattleOpponent_A = 0;
 }
 
-static void GetTowerData(void)
+static void GetTowerData (void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -948,7 +948,7 @@ static void GetTowerData(void)
     }
 }
 
-static void SetTowerData(void)
+static void SetTowerData (void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -972,7 +972,7 @@ static void SetTowerData(void)
     }
 }
 
-static void SetTowerBattleWon(void)
+static void SetTowerBattleWon (void)
 {
     if (gTrainerBattleOpponent_A == TRAINER_EREADER) {
         ClearEReaderTrainer(&gSaveBlock2Ptr->frontier.ereaderTrainer);
@@ -988,7 +988,7 @@ static void SetTowerBattleWon(void)
     gSpecialVar_Result = gSaveBlock2Ptr->frontier.curChallengeBattleNum;
 }
 
-static bool8 ChooseSpecialBattleTowerTrainer(void)
+static bool8 ChooseSpecialBattleTowerTrainer (void)
 {
     s32 i, j, validMons;
     s32 trainerIds[9];
@@ -1048,7 +1048,7 @@ static bool8 ChooseSpecialBattleTowerTrainer(void)
     }
 }
 
-static void SetNextFacilityOpponent(void)
+static void SetNextFacilityOpponent (void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     if (lvlMode == FRONTIER_LVL_TENT) {
@@ -1094,7 +1094,7 @@ static void SetNextFacilityOpponent(void)
     }
 }
 
-u16 GetRandomScaledFrontierTrainerId(u8 challengeNum, u8 battleNum)
+u16 GetRandomScaledFrontierTrainerId (u8 challengeNum, u8 battleNum)
 {
     u16 trainerId;
 
@@ -1117,7 +1117,7 @@ u16 GetRandomScaledFrontierTrainerId(u8 challengeNum, u8 battleNum)
 }
 
 // Unused
-static void GetRandomScaledFrontierTrainerIdRange(u8 challengeNum, u8 battleNum, u16 *trainerIdPtr, u8 *rangePtr)
+static void GetRandomScaledFrontierTrainerIdRange (u8 challengeNum, u8 battleNum, u16 *trainerIdPtr, u8 *rangePtr)
 {
     u16 trainerId, range;
 
@@ -1140,7 +1140,7 @@ static void GetRandomScaledFrontierTrainerIdRange(u8 challengeNum, u8 battleNum,
     *rangePtr = range;
 }
 
-void SetBattleFacilityTrainerGfxId(u16 trainerId, u8 tempVarId)
+void SetBattleFacilityTrainerGfxId (u16 trainerId, u8 tempVarId)
 {
     u32 i;
     u8 facilityClass;
@@ -1218,12 +1218,12 @@ void SetBattleFacilityTrainerGfxId(u16 trainerId, u8 tempVarId)
     }
 }
 
-void SetEReaderTrainerGfxId(void)
+void SetEReaderTrainerGfxId (void)
 {
     SetBattleFacilityTrainerGfxId(TRAINER_EREADER, 0);
 }
 
-u8 GetBattleFacilityTrainerGfxId(u16 trainerId)
+u8 GetBattleFacilityTrainerGfxId (u16 trainerId)
 {
     u32 i;
     u8 facilityClass;
@@ -1265,7 +1265,7 @@ u8 GetBattleFacilityTrainerGfxId(u16 trainerId)
     }
 }
 
-void PutNewBattleTowerRecord(struct EmeraldBattleTowerRecord *newRecordEm)
+void PutNewBattleTowerRecord (struct EmeraldBattleTowerRecord *newRecordEm)
 {
     u16 slotValues[6];
     u16 slotIds[6];
@@ -1343,7 +1343,7 @@ void PutNewBattleTowerRecord(struct EmeraldBattleTowerRecord *newRecordEm)
     gSaveBlock2Ptr->frontier.towerRecords[slotIds[i]] = *newRecord;
 }
 
-u8 GetFrontierTrainerFrontSpriteId(u16 trainerId)
+u8 GetFrontierTrainerFrontSpriteId (u16 trainerId)
 {
     SetFacilityPtrsGetLevel();
 
@@ -1368,7 +1368,7 @@ u8 GetFrontierTrainerFrontSpriteId(u16 trainerId)
     }
 }
 
-u8 GetFrontierOpponentClass(u16 trainerId)
+u8 GetFrontierOpponentClass (u16 trainerId)
 {
     u8 trainerClass = 0;
     SetFacilityPtrsGetLevel();
@@ -1400,7 +1400,7 @@ u8 GetFrontierOpponentClass(u16 trainerId)
     return trainerClass;
 }
 
-static u8 GetFrontierTrainerFacilityClass(u16 trainerId)
+static u8 GetFrontierTrainerFacilityClass (u16 trainerId)
 {
     u8 facilityClass;
     SetFacilityPtrsGetLevel();
@@ -1426,7 +1426,7 @@ static u8 GetFrontierTrainerFacilityClass(u16 trainerId)
     return facilityClass;
 }
 
-void GetFrontierTrainerName(u8 *dst, u16 trainerId)
+void GetFrontierTrainerName (u8 *dst, u16 trainerId)
 {
     s32 i = 0;
     SetFacilityPtrsGetLevel();
@@ -1477,7 +1477,7 @@ void GetFrontierTrainerName(u8 *dst, u16 trainerId)
     dst[i] = EOS;
 }
 
-static bool8 IsFrontierTrainerFemale(u16 trainerId)
+static bool8 IsFrontierTrainerFemale (u16 trainerId)
 {
     u32 i;
     u8 facilityClass;
@@ -1508,26 +1508,26 @@ static bool8 IsFrontierTrainerFemale(u16 trainerId)
     }
 }
 
-void FillFrontierTrainerParty(u8 monsCount)
+void FillFrontierTrainerParty (u8 monsCount)
 {
     ZeroEnemyPartyMons();
     FillTrainerParty(gTrainerBattleOpponent_A, 0, monsCount);
 }
 
-void FillFrontierTrainersParties(u8 monsCount)
+void FillFrontierTrainersParties (u8 monsCount)
 {
     ZeroEnemyPartyMons();
     FillTrainerParty(gTrainerBattleOpponent_A, 0, monsCount);
     FillTrainerParty(gTrainerBattleOpponent_B, 3, monsCount);
 }
 
-static void FillTentTrainerParty(u8 monsCount)
+static void FillTentTrainerParty (u8 monsCount)
 {
     ZeroEnemyPartyMons();
     FillTentTrainerParty_(gTrainerBattleOpponent_A, 0, monsCount);
 }
 
-static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
+static void FillTrainerParty (u16 trainerId, u8 firstMonId, u8 monCount)
 {
     s32 i, j;
     u16 chosenMonIndices[4];
@@ -1644,7 +1644,7 @@ static void FillTrainerParty(u16 trainerId, u8 firstMonId, u8 monCount)
 }
 
 // Probably an early draft before the 'CreateApprenticeMon' was written.
-static void Unused_CreateApprenticeMons(u16 trainerId, u8 firstMonId)
+static void Unused_CreateApprenticeMons (u16 trainerId, u8 firstMonId)
 {
     s32 i, j;
     u8 friendship = MAX_FRIENDSHIP;
@@ -1677,7 +1677,7 @@ static void Unused_CreateApprenticeMons(u16 trainerId, u8 firstMonId)
     }
 }
 
-u16 GetRandomFrontierMonFromSet(u16 trainerId)
+u16 GetRandomFrontierMonFromSet (u16 trainerId)
 {
     u8 level = SetFacilityPtrsGetLevel();
     const u16 *monSet = gFacilityTrainers[trainerId].monSet;
@@ -1699,7 +1699,7 @@ u16 GetRandomFrontierMonFromSet(u16 trainerId)
     return monId;
 }
 
-static void FillFactoryTrainerParty(void)
+static void FillFactoryTrainerParty (void)
 {
     ZeroEnemyPartyMons();
     if (gSaveBlock2Ptr->frontier.lvlMode != FRONTIER_LVL_TENT) {
@@ -1709,7 +1709,7 @@ static void FillFactoryTrainerParty(void)
     }
 }
 
-static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId)
+static void FillFactoryFrontierTrainerParty (u16 trainerId, u8 firstMonId)
 {
     u8 i, j;
     u8 friendship;
@@ -1760,7 +1760,7 @@ static void FillFactoryFrontierTrainerParty(u16 trainerId, u8 firstMonId)
     }
 }
 
-static void FillFactoryTentTrainerParty(u16 trainerId, u8 firstMonId)
+static void FillFactoryTentTrainerParty (u16 trainerId, u8 firstMonId)
 {
     u8 i, j;
     u8 friendship;
@@ -1791,7 +1791,7 @@ static void FillFactoryTentTrainerParty(u16 trainerId, u8 firstMonId)
     }
 }
 
-void FrontierSpeechToString(const u16 *words)
+void FrontierSpeechToString (const u16 *words)
 {
     ConvertEasyChatWordsToString(gStringVar4, words, 3, 2);
     if (GetStringWidth(1, gStringVar4, -1) > 204u) {
@@ -1809,7 +1809,7 @@ void FrontierSpeechToString(const u16 *words)
     }
 }
 
-static void GetOpponentIntroSpeech(void)
+static void GetOpponentIntroSpeech (void)
 {
     u16 trainerId;
     SetFacilityPtrsGetLevel();
@@ -1831,7 +1831,7 @@ static void GetOpponentIntroSpeech(void)
     }
 }
 
-static void HandleSpecialTrainerBattleEnd(void)
+static void HandleSpecialTrainerBattleEnd (void)
 {
     s32 i;
 
@@ -1875,7 +1875,7 @@ static void HandleSpecialTrainerBattleEnd(void)
     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
 }
 
-static void Task_StartBattleAfterTransition(u8 taskId)
+static void Task_StartBattleAfterTransition (u8 taskId)
 {
     if (IsBattleTransitionDone() == TRUE) {
         gMain.savedCallback = HandleSpecialTrainerBattleEnd;
@@ -1884,7 +1884,7 @@ static void Task_StartBattleAfterTransition(u8 taskId)
     }
 }
 
-void DoSpecialTrainerBattle(void)
+void DoSpecialTrainerBattle (void)
 {
     s32 i;
 
@@ -2043,7 +2043,7 @@ void DoSpecialTrainerBattle(void)
     }
 }
 
-static void SaveCurrentWinStreak(void)
+static void SaveCurrentWinStreak (void)
 {
     u8 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u8 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -2054,7 +2054,7 @@ static void SaveCurrentWinStreak(void)
     }
 }
 
-static void sub_8163EE4(void)
+static void sub_8163EE4 (void)
 {
     s32 i;
     u8 lvlMode, battleMode, class;
@@ -2097,7 +2097,7 @@ static void sub_8163EE4(void)
     SaveCurrentWinStreak();
 }
 
-static void SaveTowerChallenge(void)
+static void SaveTowerChallenge (void)
 {
     u16 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u16 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -2113,15 +2113,15 @@ static void SaveTowerChallenge(void)
     SaveGameFrontier();
 }
 
-static void nullsub_61(void)
+static void nullsub_61 (void)
 {
 }
 
-static void nullsub_116(void)
+static void nullsub_116 (void)
 {
 }
 
-static void GetApprenticeMultiPartnerParty(u16 trainerId)
+static void GetApprenticeMultiPartnerParty (u16 trainerId)
 {
     s32 i, count;
     u32 validSpecies[MULTI_PARTY_SIZE];
@@ -2143,7 +2143,7 @@ static void GetApprenticeMultiPartnerParty(u16 trainerId)
     } while (gFrontierTempParty[0] == gFrontierTempParty[1]);
 }
 
-static void GetRecordMixFriendMultiPartnerParty(u16 trainerId)
+static void GetRecordMixFriendMultiPartnerParty (u16 trainerId)
 {
     s32 i, count;
     u32 validSpecies[3];
@@ -2168,7 +2168,7 @@ static void GetRecordMixFriendMultiPartnerParty(u16 trainerId)
     } while (gFrontierTempParty[2] == gFrontierTempParty[3]);
 }
 
-static void LoadMultiPartnerCandidatesData(void)
+static void LoadMultiPartnerCandidatesData (void)
 {
     s32 i, j, k;
     u32 spArray[5];
@@ -2301,7 +2301,7 @@ static void LoadMultiPartnerCandidatesData(void)
     }
 }
 
-static void sub_81646BC(u16 trainerId, u16 monId)
+static void sub_81646BC (u16 trainerId, u16 monId)
 {
     u16 move = 0;
     u16 species = 0;
@@ -2331,7 +2331,7 @@ static void sub_81646BC(u16 trainerId, u16 monId)
     StringCopy(gStringVar2, gSpeciesNames[species]);
 }
 
-static void ShowPartnerCandidateMessage(void)
+static void ShowPartnerCandidateMessage (void)
 {
     s32 i, j, partnerId;
     s32 monId;
@@ -2428,7 +2428,7 @@ static void ShowPartnerCandidateMessage(void)
     }
 }
 
-static void LoadLinkMultiOpponentsData(void)
+static void LoadLinkMultiOpponentsData (void)
 {
     s32 challengeNum;
     s32 i, j;
@@ -2509,20 +2509,20 @@ static void LoadLinkMultiOpponentsData(void)
     }
 }
 
-static void sub_8164DCC(void)
+static void sub_8164DCC (void)
 {
     if (gWirelessCommType != 0) {
         SetCloseLinkCallback();
     }
 }
 
-static void SetMultiPartnerGfx(void)
+static void SetMultiPartnerGfx (void)
 {
     // 0xF below means use VAR_OBJ_GFX_ID_E
     SetBattleFacilityTrainerGfxId(gSaveBlock2Ptr->frontier.trainerIds[17], 0xF);
 }
 
-static void SetTowerInterviewData(void)
+static void SetTowerInterviewData (void)
 {
     s32 i;
     u8 text[32];
@@ -2543,7 +2543,7 @@ static void SetTowerInterviewData(void)
     gSaveBlock2Ptr->frontier.towerBattleOutcome = gBattleOutcome;
 }
 
-static void ValidateBattleTowerRecordChecksums(void)
+static void ValidateBattleTowerRecordChecksums (void)
 {
     s32 i, j;
     u32 *record = (u32*)(&gSaveBlock2Ptr->frontier.towerPlayer);
@@ -2568,7 +2568,7 @@ static void ValidateBattleTowerRecordChecksums(void)
     }
 }
 
-void CalcEmeraldBattleTowerChecksum(struct EmeraldBattleTowerRecord *record)
+void CalcEmeraldBattleTowerChecksum (struct EmeraldBattleTowerRecord *record)
 {
     u32 i;
 
@@ -2578,7 +2578,7 @@ void CalcEmeraldBattleTowerChecksum(struct EmeraldBattleTowerRecord *record)
     }
 }
 
-void CalcRubyBattleTowerChecksum(struct RSBattleTowerRecord *record)
+void CalcRubyBattleTowerChecksum (struct RSBattleTowerRecord *record)
 {
     u32 i;
 
@@ -2588,7 +2588,7 @@ void CalcRubyBattleTowerChecksum(struct RSBattleTowerRecord *record)
     }
 }
 
-static void ClearBattleTowerRecord(struct EmeraldBattleTowerRecord *record)
+static void ClearBattleTowerRecord (struct EmeraldBattleTowerRecord *record)
 {
     u32 i;
 
@@ -2597,7 +2597,7 @@ static void ClearBattleTowerRecord(struct EmeraldBattleTowerRecord *record)
     }
 }
 
-u16 GetCurrentBattleTowerWinStreak(u8 lvlMode, u8 battleMode)
+u16 GetCurrentBattleTowerWinStreak (u8 lvlMode, u8 battleMode)
 {
     u16 winStreak = gSaveBlock2Ptr->frontier.towerWinStreaks[battleMode][lvlMode];
 
@@ -2608,7 +2608,7 @@ u16 GetCurrentBattleTowerWinStreak(u8 lvlMode, u8 battleMode)
     }
 }
 
-static u8 GetMonCountForBattleMode(u8 battleMode)
+static u8 GetMonCountForBattleMode (u8 battleMode)
 {
     u8 partySizes[ARRAY_COUNT(sBattleTowerPartySizes)];
     memcpy(partySizes, sBattleTowerPartySizes, sizeof(sBattleTowerPartySizes));
@@ -2626,7 +2626,7 @@ struct RibbonCounter
     u8 count;
 };
 
-static void AwardBattleTowerRibbons(void)
+static void AwardBattleTowerRibbons (void)
 {
     s32 i;
     u32 partyIndex;
@@ -2674,7 +2674,7 @@ static void AwardBattleTowerRibbons(void)
 
 // This is a leftover debugging function that is used to populate the E-Reader
 // trainer with the player's current data.
-static void FillEReaderTrainerWithPlayerData(void)
+static void FillEReaderTrainerWithPlayerData (void)
 {
     struct BattleTowerEReaderTrainer *ereaderTrainer = &gSaveBlock2Ptr->frontier.ereaderTrainer;
     s32 i, j;
@@ -2707,17 +2707,17 @@ static void FillEReaderTrainerWithPlayerData(void)
     SetEReaderTrainerChecksum(ereaderTrainer);
 }
 
-u8 GetEreaderTrainerFrontSpriteId(void)
+u8 GetEreaderTrainerFrontSpriteId (void)
 {
     return gFacilityClassToPicIndex[gSaveBlock2Ptr->frontier.ereaderTrainer.facilityClass];
 }
 
-u8 GetEreaderTrainerClassId(void)
+u8 GetEreaderTrainerClassId (void)
 {
     return gFacilityClassToTrainerClass[gSaveBlock2Ptr->frontier.ereaderTrainer.facilityClass];
 }
 
-void GetEreaderTrainerName(u8 *dst)
+void GetEreaderTrainerName (u8 *dst)
 {
     s32 i;
 
@@ -2729,7 +2729,7 @@ void GetEreaderTrainerName(u8 *dst)
 }
 
 // Checks if the saved E-Reader trainer is valid.
-void ValidateEReaderTrainer(void)
+void ValidateEReaderTrainer (void)
 {
     u32 i;
     u32 checksum;
@@ -2759,7 +2759,7 @@ void ValidateEReaderTrainer(void)
     }
 }
 
-static void SetEReaderTrainerChecksum(struct BattleTowerEReaderTrainer *ereaderTrainer)
+static void SetEReaderTrainerChecksum (struct BattleTowerEReaderTrainer *ereaderTrainer)
 {
     s32 i;
 
@@ -2769,7 +2769,7 @@ static void SetEReaderTrainerChecksum(struct BattleTowerEReaderTrainer *ereaderT
     }
 }
 
-void ClearEReaderTrainer(struct BattleTowerEReaderTrainer *ereaderTrainer)
+void ClearEReaderTrainer (struct BattleTowerEReaderTrainer *ereaderTrainer)
 {
     u32 i;
 
@@ -2778,12 +2778,12 @@ void ClearEReaderTrainer(struct BattleTowerEReaderTrainer *ereaderTrainer)
     }
 }
 
-void CopyEReaderTrainerGreeting(void)
+void CopyEReaderTrainerGreeting (void)
 {
     FrontierSpeechToString(gSaveBlock2Ptr->frontier.ereaderTrainer.greeting);
 }
 
-static void CopyEReaderTrainerFarewellMessage(void)
+static void CopyEReaderTrainerFarewellMessage (void)
 {
     if (gBattleOutcome == B_OUTCOME_DREW) {
         gStringVar4[0] = EOS;
@@ -2794,7 +2794,7 @@ static void CopyEReaderTrainerFarewellMessage(void)
     }
 }
 
-void TryHideBattleTowerReporter(void)
+void TryHideBattleTowerReporter (void)
 {
     if (gSaveBlock2Ptr->frontier.challengeStatus == CHALLENGE_STATUS_SAVING) {
         HideBattleTowerReporter();
@@ -2807,7 +2807,7 @@ void TryHideBattleTowerReporter(void)
 
 #define STEVEN_OTID 61226
 
-static void FillPartnerParty(u16 trainerId)
+static void FillPartnerParty (u16 trainerId)
 {
     s32 i, j;
     u32 ivs, level;
@@ -2962,7 +2962,7 @@ static void FillPartnerParty(u16 trainerId)
     }
 }
 
-bool32 RubyBattleTowerRecordToEmerald(struct RSBattleTowerRecord *src, struct EmeraldBattleTowerRecord *dst)
+bool32 RubyBattleTowerRecordToEmerald (struct RSBattleTowerRecord *src, struct EmeraldBattleTowerRecord *dst)
 {
     s32 i, validMons = 0;
 
@@ -3016,7 +3016,7 @@ bool32 RubyBattleTowerRecordToEmerald(struct RSBattleTowerRecord *src, struct Em
     }
 }
 
-bool32 EmeraldBattleTowerRecordToRuby(struct EmeraldBattleTowerRecord *src, struct RSBattleTowerRecord *dst)
+bool32 EmeraldBattleTowerRecordToRuby (struct EmeraldBattleTowerRecord *src, struct RSBattleTowerRecord *dst)
 {
     s32 i, validMons = 0;
 
@@ -3063,7 +3063,7 @@ bool32 EmeraldBattleTowerRecordToRuby(struct EmeraldBattleTowerRecord *src, stru
     }
 }
 
-void CalcApprenticeChecksum(struct Apprentice *apprentice)
+void CalcApprenticeChecksum (struct Apprentice *apprentice)
 {
     s32 i;
 
@@ -3073,7 +3073,7 @@ void CalcApprenticeChecksum(struct Apprentice *apprentice)
     }
 }
 
-static void ClearApprentice(struct Apprentice *apprentice)
+static void ClearApprentice (struct Apprentice *apprentice)
 {
     s32 i;
 
@@ -3083,7 +3083,7 @@ static void ClearApprentice(struct Apprentice *apprentice)
     ResetApprenticeStruct(apprentice);
 }
 
-static void ValidateApprenticesChecksums(void)
+static void ValidateApprenticesChecksums (void)
 {
     s32 i, j;
 
@@ -3099,7 +3099,7 @@ static void ValidateApprenticesChecksums(void)
     }
 }
 
-void GetBattleTowerTrainerLanguage(u8 *dst, u16 trainerId)
+void GetBattleTowerTrainerLanguage (u8 *dst, u16 trainerId)
 {
     if (trainerId == TRAINER_EREADER) {
         *dst = gGameLanguage;
@@ -3120,7 +3120,7 @@ void GetBattleTowerTrainerLanguage(u8 *dst, u16 trainerId)
     }
 }
 
-u8 SetFacilityPtrsGetLevel(void)
+u8 SetFacilityPtrsGetLevel (void)
 {
     if (gSaveBlock2Ptr->frontier.lvlMode == FRONTIER_LVL_TENT) {
         return SetTentPtrsGetLevel();
@@ -3131,7 +3131,7 @@ u8 SetFacilityPtrsGetLevel(void)
     }
 }
 
-u8 GetFrontierEnemyMonLevel(u8 lvlMode)
+u8 GetFrontierEnemyMonLevel (u8 lvlMode)
 {
     u8 level;
 
@@ -3151,7 +3151,7 @@ u8 GetFrontierEnemyMonLevel(u8 lvlMode)
     return level;
 }
 
-s32 GetHighestLevelInPlayerParty(void)
+s32 GetHighestLevelInPlayerParty (void)
 {
     s32 highestLevel = 0;
     s32 i;
@@ -3171,7 +3171,7 @@ s32 GetHighestLevelInPlayerParty(void)
 
 // Frontier Trainer parties are roughly scaled in difficulty with higher trainer IDs, so scale IVs as well
 // Duplicated in Battle Dome as GetDomeTrainerMonIvs
-static u8 GetFrontierTrainerFixedIvs(u16 trainerId)
+static u8 GetFrontierTrainerFixedIvs (u16 trainerId)
 {
     u8 fixedIv;
 
@@ -3196,7 +3196,7 @@ static u8 GetFrontierTrainerFixedIvs(u16 trainerId)
     return fixedIv;
 }
 
-static u16 sub_8165D40(void)
+static u16 sub_8165D40 (void)
 {
     u32 facility = VarGet(VAR_FRONTIER_FACILITY);
 
@@ -3213,7 +3213,7 @@ static u16 sub_8165D40(void)
     }
 }
 
-static u8 SetTentPtrsGetLevel(void)
+static u8 SetTentPtrsGetLevel (void)
 {
     u8 level = 30;
     u32 facility = VarGet(VAR_FRONTIER_FACILITY);
@@ -3240,7 +3240,7 @@ static u8 SetTentPtrsGetLevel(void)
     return level;
 }
 
-static void SetNextBattleTentOpponent(void)
+static void SetNextBattleTentOpponent (void)
 {
     s32 i;
     u16 trainerId;
@@ -3261,7 +3261,7 @@ static void SetNextBattleTentOpponent(void)
     }
 }
 
-static void FillTentTrainerParty_(u16 trainerId, u8 firstMonId, u8 monCount)
+static void FillTentTrainerParty_ (u16 trainerId, u8 firstMonId, u8 monCount)
 {
     s32 i, j;
     u16 chosenMonIndices[MAX_FRONTIER_PARTY_SIZE];
@@ -3351,7 +3351,7 @@ static void FillTentTrainerParty_(u16 trainerId, u8 firstMonId, u8 monCount)
     }
 }
 
-u8 FacilityClassToGraphicsId(u8 facilityClass)
+u8 FacilityClassToGraphicsId (u8 facilityClass)
 {
     u8 trainerObjectGfxId;
     u8 i;
@@ -3381,7 +3381,7 @@ u8 FacilityClassToGraphicsId(u8 facilityClass)
     }
 }
 
-bool32 ValidateBattleTowerRecord(u8 recordId) // unused
+bool32 ValidateBattleTowerRecord (u8 recordId) // unused
 {
     s32 i;
     u32 *record = (u32*)(&gSaveBlock2Ptr->frontier.towerRecords[recordId]);
@@ -3402,7 +3402,7 @@ bool32 ValidateBattleTowerRecord(u8 recordId) // unused
     }
 }
 
-void sub_8166188(void)
+void sub_8166188 (void)
 {
     if (gBattleTypeFlags & (BATTLE_TYPE_LINK | BATTLE_TYPE_x2000000)) {
         s32 i;

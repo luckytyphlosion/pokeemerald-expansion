@@ -29,7 +29,7 @@ static const u16 GymLeaderRematches_BeforeNewMauville[] = {
     REMATCH_JUAN
 };
 
-void UpdateGymLeaderRematch(void)
+void UpdateGymLeaderRematch (void)
 {
     if (FlagGet(FLAG_SYS_GAME_CLEAR) && (Random() % 100) <= 30) {
         if (FlagGet(FLAG_WATTSON_REMATCH_AVAILABLE)) {
@@ -40,7 +40,7 @@ void UpdateGymLeaderRematch(void)
     }
 }
 
-static void UpdateGymLeaderRematchFromArray(const u16 *data, size_t size, u32 maxRematch)
+static void UpdateGymLeaderRematchFromArray (const u16 *data, size_t size, u32 maxRematch)
 {
     s32 whichLeader = 0;
     s32 lowestRematchIndex = 5;
@@ -83,7 +83,7 @@ static void UpdateGymLeaderRematchFromArray(const u16 *data, size_t size, u32 ma
     }
 }
 
-static s32 GetRematchIndex(u32 trainerIdx)
+static s32 GetRematchIndex (u32 trainerIdx)
 {
     s32 i;
     for (i = 0; i < 5; i++) {

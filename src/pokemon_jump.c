@@ -399,7 +399,7 @@ static const struct PokemonJumpMons gPkmnJumpSpecies[] =
     {.species = SPECIES_BAGON,      .unk2 = 1, },
 };
 
-void StartPokemonJump(u16 partyIndex, MainCallback callback)
+void StartPokemonJump (u16 partyIndex, MainCallback callback)
 {
     u8 taskId;
 
@@ -423,13 +423,13 @@ void StartPokemonJump(u16 partyIndex, MainCallback callback)
     SetMainCallback2(callback);
 }
 
-static void sub_802AA48(void)
+static void sub_802AA48 (void)
 {
     sub_802D0AC();
     Free(gUnknown_02022CFC);
 }
 
-static void sub_802AA60(struct PokemonJump1 *arg0)
+static void sub_802AA60 (struct PokemonJump1 *arg0)
 {
     arg0->unk5 = GetLinkPlayerCount();
     arg0->unk70.unk0 = 5;
@@ -441,7 +441,7 @@ static void sub_802AA60(struct PokemonJump1 *arg0)
     }
 }
 
-static void sub_802AA94(struct PokemonJump1 *arg0)
+static void sub_802AA94 (struct PokemonJump1 *arg0)
 {
     int i;
 
@@ -480,7 +480,7 @@ static void sub_802AA94(struct PokemonJump1 *arg0)
     }
 }
 
-static void sub_802AB20(void)
+static void sub_802AB20 (void)
 {
     int i, index;
 
@@ -492,7 +492,7 @@ static void sub_802AB20(void)
     gUnknown_02022CFC->unk83AC = &gUnknown_02022CFC->unk82E4[gUnknown_02022CFC->unk6];
 }
 
-static void sub_802AB98(void)
+static void sub_802AB98 (void)
 {
     int i;
 
@@ -507,7 +507,7 @@ static void sub_802AB98(void)
     }
 }
 
-static s16 GetPokemonJumpSpeciesIdx(u16 species)
+static s16 GetPokemonJumpSpeciesIdx (u16 species)
 {
     u32 i;
     for (i = 0; i < ARRAY_COUNT(gPkmnJumpSpecies); i++) {
@@ -519,21 +519,21 @@ static s16 GetPokemonJumpSpeciesIdx(u16 species)
     return -1; // species isnt allowed
 }
 
-static void sub_802AC2C(struct PokemonJump1_MonInfo *monInfo, struct Pokemon *mon)
+static void sub_802AC2C (struct PokemonJump1_MonInfo *monInfo, struct Pokemon *mon)
 {
     monInfo->species = GetMonData(mon, MON_DATA_SPECIES);
     monInfo->otId = GetMonData(mon, MON_DATA_OT_ID);
     monInfo->personality = GetMonData(mon, MON_DATA_PERSONALITY);
 }
 
-static void sub_802AC58(void)
+static void sub_802AC58 (void)
 {
     TransferPlttBuffer();
     LoadOam();
     ProcessSpriteCopyRequests();
 }
 
-static void sub_802AC6C(void)
+static void sub_802AC6C (void)
 {
     RunTasks();
     AnimateSprites();
@@ -541,13 +541,13 @@ static void sub_802AC6C(void)
     UpdatePaletteFade();
 }
 
-static void sub_802AC84(TaskFunc func)
+static void sub_802AC84 (TaskFunc func)
 {
     gUnknown_02022CFC->unk4 = CreateTask(func, 1);
     gUnknown_02022CFC->unk8 = 0;
 }
 
-static void sub_802ACA0(u8 taskId)
+static void sub_802ACA0 (u8 taskId)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -603,7 +603,7 @@ static void sub_802ACA0(u8 taskId)
     }
 }
 
-static void sub_802AE14(int arg0)
+static void sub_802AE14 (int arg0)
 {
     if (arg0 == 0) {
         gUnknown_02022CFC->unk30 = 0x1111;
@@ -614,7 +614,7 @@ static void sub_802AE14(int arg0)
     }
 }
 
-static void sub_802AE50(u8 arg0)
+static void sub_802AE50 (u8 arg0)
 {
     int i;
 
@@ -628,7 +628,7 @@ static void sub_802AE50(u8 arg0)
     }
 }
 
-static void sub_802AEA4(void)
+static void sub_802AEA4 (void)
 {
     int i;
     int count;
@@ -667,7 +667,7 @@ static bool32 (*const gUnknown_082FB5F4[])(void) =
     sub_802B720,
 };
 
-static void sub_802AF80(u8 taskId)
+static void sub_802AF80 (u8 taskId)
 {
     sub_802AEA4();
     sub_802C43C();
@@ -687,7 +687,7 @@ static void sub_802AF80(u8 taskId)
     sub_802B008();
 }
 
-static void sub_802B008(void)
+static void sub_802B008 (void)
 {
     if (!gUnknown_02022CFC->unk2C) {
         sub_802E138(gUnknown_02022CFC->unk82E4, &gUnknown_02022CFC->unk70);
@@ -699,7 +699,7 @@ static void sub_802B008(void)
     }
 }
 
-static void sub_802B044(u8 arg0)
+static void sub_802B044 (u8 arg0)
 {
     gUnknown_02022CFC->unk70.unk0 = arg0;
     gUnknown_02022CFC->unk8 = 0;
@@ -708,7 +708,7 @@ static void sub_802B044(u8 arg0)
     gUnknown_02022CFC->unk82E4[gUnknown_02022CFC->unk6].unk18 = 0;
 }
 
-static void sub_802B078(void)
+static void sub_802B078 (void)
 {
     int i;
     u16 var0;
@@ -760,7 +760,7 @@ static bool32 (*const gUnknown_082FB618[])(void) =
     sub_802B720,
 };
 
-static void sub_802B194(u8 taskId)
+static void sub_802B194 (u8 taskId)
 {
     sub_802B078();
     if (gUnknown_02022CFC->unk48) {
@@ -775,7 +775,7 @@ static void sub_802B194(u8 taskId)
     sub_802B1FC();
 }
 
-static void sub_802B1FC(void)
+static void sub_802B1FC (void)
 {
     if (!gUnknown_02022CFC->unk2C) {
         sub_802E234(&gUnknown_02022CFC->unk82E4[gUnknown_02022CFC->unk6], gUnknown_02022CFC->unk70.unk0, gUnknown_02022CFC->unk42);
@@ -787,7 +787,7 @@ static void sub_802B1FC(void)
     }
 }
 
-static bool32 sub_802B248(void)
+static bool32 sub_802B248 (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -806,7 +806,7 @@ static bool32 sub_802B248(void)
     return TRUE;
 }
 
-static bool32 sub_802B29C(void)
+static bool32 sub_802B29C (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -821,7 +821,7 @@ static bool32 sub_802B29C(void)
     return TRUE;
 }
 
-static bool32 sub_802B2D4(void)
+static bool32 sub_802B2D4 (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -840,7 +840,7 @@ static bool32 sub_802B2D4(void)
     return TRUE;
 }
 
-static bool32 sub_802B31C(void)
+static bool32 sub_802B31C (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -859,7 +859,7 @@ static bool32 sub_802B31C(void)
     return TRUE;
 }
 
-static bool32 sub_802B368(void)
+static bool32 sub_802B368 (void)
 {
     if (!sub_802B8CC()) {
         gUnknown_02022CFC->unk70.unk2 = gUnknown_02022CFC->unk4A;
@@ -874,7 +874,7 @@ static bool32 sub_802B368(void)
     return FALSE;
 }
 
-static bool32 sub_802B3B4(void)
+static bool32 sub_802B3B4 (void)
 {
     if (!sub_802B8CC()) {
         ;
@@ -887,7 +887,7 @@ static bool32 sub_802B3B4(void)
     return FALSE;
 }
 
-static bool32 sub_802B3D4(void)
+static bool32 sub_802B3D4 (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -920,7 +920,7 @@ static bool32 sub_802B3D4(void)
     return TRUE;
 }
 
-static bool32 sub_802B470(void)
+static bool32 sub_802B470 (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -944,7 +944,7 @@ static bool32 sub_802B470(void)
     return TRUE;
 }
 
-static bool32 sub_802B4CC(void)
+static bool32 sub_802B4CC (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -976,7 +976,7 @@ static bool32 sub_802B4CC(void)
     return TRUE;
 }
 
-static bool32 sub_802B568(void)
+static bool32 sub_802B568 (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -995,7 +995,7 @@ static bool32 sub_802B568(void)
     return TRUE;
 }
 
-static bool32 sub_802B5C8(void)
+static bool32 sub_802B5C8 (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -1017,7 +1017,7 @@ static bool32 sub_802B5C8(void)
     return TRUE;
 }
 
-static bool32 sub_802B628(void)
+static bool32 sub_802B628 (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -1034,7 +1034,7 @@ static bool32 sub_802B628(void)
     return TRUE;
 }
 
-static bool32 sub_802B664(void)
+static bool32 sub_802B664 (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -1055,7 +1055,7 @@ static bool32 sub_802B664(void)
     return TRUE;
 }
 
-static bool32 sub_802B6B8(void)
+static bool32 sub_802B6B8 (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -1074,7 +1074,7 @@ static bool32 sub_802B6B8(void)
     return TRUE;
 }
 
-static bool32 sub_802B704(void)
+static bool32 sub_802B704 (void)
 {
     sub_802AE14(0);
     if (!sub_802BA58()) {
@@ -1084,7 +1084,7 @@ static bool32 sub_802B704(void)
     }
 }
 
-static bool32 sub_802B720(void)
+static bool32 sub_802B720 (void)
 {
     switch (gUnknown_02022CFC->unk8) {
     case 0:
@@ -1121,7 +1121,7 @@ static bool32 sub_802B720(void)
     return TRUE;
 }
 
-static bool32 sub_802B7E0(void)
+static bool32 sub_802B7E0 (void)
 {
     switch (gUnknown_02022CFC->unkA) {
     case 0:
@@ -1173,7 +1173,7 @@ static bool32 sub_802B7E0(void)
     return TRUE;
 }
 
-static bool32 sub_802B8CC(void)
+static bool32 sub_802B8CC (void)
 {
     sub_802BEE4();
     if (gUnknown_02022CFC->unk36) {
@@ -1211,7 +1211,7 @@ static bool32 sub_802B8CC(void)
     return TRUE;
 }
 
-static bool32 sub_802B964(void)
+static bool32 sub_802B964 (void)
 {
     int i;
 
@@ -1259,7 +1259,7 @@ static bool32 sub_802B964(void)
     return TRUE;
 }
 
-static bool32 sub_802BA58(void)
+static bool32 sub_802BA58 (void)
 {
     switch (gUnknown_02022CFC->unkA) {
     case 0:
@@ -1309,7 +1309,7 @@ static bool32 sub_802BA58(void)
     return TRUE;
 }
 
-static bool32 sub_802BB84(void)
+static bool32 sub_802BB84 (void)
 {
     s8 input;
 
@@ -1361,7 +1361,7 @@ static bool32 sub_802BB84(void)
     return TRUE;
 }
 
-static bool32 sub_802BC60(void)
+static bool32 sub_802BC60 (void)
 {
     int var0;
 
@@ -1405,7 +1405,7 @@ static bool32 sub_802BC60(void)
     return TRUE;
 }
 
-static bool32 sub_802BD30(void)
+static bool32 sub_802BD30 (void)
 {
     switch (gUnknown_02022CFC->unkA) {
     case 0:
@@ -1426,7 +1426,7 @@ static bool32 sub_802BD30(void)
     return TRUE;
 }
 
-static void sub_802BD84(u8 taskId)
+static void sub_802BD84 (u8 taskId)
 {
     int i;
     s16 *taskData = gTasks[taskId].data;
@@ -1458,13 +1458,13 @@ static void sub_802BD84(u8 taskId)
     }
 }
 
-static void sub_802BE60(TaskFunc func, u8 taskPriority)
+static void sub_802BE60 (TaskFunc func, u8 taskPriority)
 {
     u8 taskId = CreateTask(func, taskPriority);
     SetWordTaskArg(taskId, 14, (u32)gUnknown_02022CFC);
 }
 
-static void sub_802BE80(void)
+static void sub_802BE80 (void)
 {
     gUnknown_02022CFC->unk4A = 0;
     gUnknown_02022CFC->unk14 = 6;
@@ -1474,7 +1474,7 @@ static void sub_802BE80(void)
     gUnknown_02022CFC->unk10 = 0;
 }
 
-static void sub_802BEA0(void)
+static void sub_802BEA0 (void)
 {
     gUnknown_02022CFC->unk4A = 0;
     gUnknown_02022CFC->unk34 = 0x6FF;
@@ -1489,7 +1489,7 @@ static void sub_802BEA0(void)
     sub_802BF7C();
 }
 
-static void sub_802BEE4(void)
+static void sub_802BEE4 (void)
 {
     if (gUnknown_02022CFC->unk46) {
         gUnknown_02022CFC->unk4A++;
@@ -1507,7 +1507,7 @@ static void sub_802BEE4(void)
     }
 }
 
-static int sub_802BF48(void)
+static int sub_802BF48 (void)
 {
     int result;
 
@@ -1527,7 +1527,7 @@ static int sub_802BF48(void)
 static const u16 gUnknown_082FB63C[] = {0x1a, 0x1f, 0x24, 0x29, 0x2e, 0x33, 0x38, 0x3d};
 static const u16 gUnknown_082FB64C[] = {0, 1, 1, 2};
 
-static void sub_802BF7C(void)
+static void sub_802BF7C (void)
 {
     int var0;
 
@@ -1574,13 +1574,13 @@ static void sub_802BF7C(void)
     }
 }
 
-static int sub_802C098(void)
+static int sub_802C098 (void)
 {
     gUnknown_02022CFC->unk24 = ISO_RANDOMIZE1(gUnknown_02022CFC->unk24);
     return gUnknown_02022CFC->unk24 >> 16;
 }
 
-static void sub_802C0B8(void)
+static void sub_802C0B8 (void)
 {
     gUnknown_02022CFC->unk10 = 1;
     gUnknown_02022CFC->unk14 = 6;
@@ -1588,12 +1588,12 @@ static void sub_802C0B8(void)
     sub_802C270();
 }
 
-static int sub_802C0DC(void)
+static int sub_802C0DC (void)
 {
     return gUnknown_02022CFC->unk10;
 }
 
-static void sub_802C0E8(void)
+static void sub_802C0E8 (void)
 {
     int i;
     for (i = 0; i < MAX_RFU_PLAYERS; i++) {
@@ -1601,13 +1601,13 @@ static void sub_802C0E8(void)
     }
 }
 
-static void sub_802C114(void)
+static void sub_802C114 (void)
 {
     gUnknown_02022CFC->unk83AC->unk10 = 0;
     gUnknown_02022CFC->unk83AC->unk12 = 0;
 }
 
-static bool32 sub_802C130(u16 arg0)
+static bool32 sub_802C130 (u16 arg0)
 {
     if (gUnknown_02022CFC->unk82E4[gUnknown_02022CFC->unk6].unk10 == arg0) {
         return TRUE;
@@ -1616,14 +1616,14 @@ static bool32 sub_802C130(u16 arg0)
     }
 }
 
-static void sub_802C164(void)
+static void sub_802C164 (void)
 {
     gUnknown_02022CFC->unk83AC->unkE = gUnknown_02022CFC->unk4A;
     gUnknown_02022CFC->unk83AC->unk12 = gUnknown_02022CFC->unk83AC->unk10;
     gUnknown_02022CFC->unk83AC->unk10 = 1;
 }
 
-static void sub_802C18C(void)
+static void sub_802C18C (void)
 {
     gUnknown_02022CFC->unk83AC->unk12 = gUnknown_02022CFC->unk83AC->unk10;
     gUnknown_02022CFC->unk83AC->unk10 = 2;
@@ -1631,7 +1631,7 @@ static void sub_802C18C(void)
     gUnknown_02022CFC->unk83AC->unk14 = 2;
 }
 
-static void sub_802C1BC(void)
+static void sub_802C1BC (void)
 {
     gUnknown_02022CFC->unk83AC->unk12 = gUnknown_02022CFC->unk83AC->unk10;
     gUnknown_02022CFC->unk83AC->unk10 = 0;
@@ -1639,7 +1639,7 @@ static void sub_802C1BC(void)
 
 static const u16 gUnknown_082FB654[] = {SE_SHOP, SE_SHINY, SE_M_MORNING_SUN, SE_RG_POKE_JUMP_SUCCESS};
 
-static void sub_802C1DC(void)
+static void sub_802C1DC (void)
 {
     if (gUnknown_02022CFC->unk5C) {
         sub_802DD64(gUnknown_02022CFC->unk70.unk8);
@@ -1656,24 +1656,24 @@ static void sub_802C1DC(void)
     sub_802C240();
 }
 
-static void sub_802C240(void)
+static void sub_802C240 (void)
 {
     if (gUnknown_02022CFC->unk46) {
         sub_802DC9C(gUnknown_02022CFC->unk14);
     }
 }
 
-static void sub_802C260(void)
+static void sub_802C260 (void)
 {
     gUnknown_02022CFC->unk46 = 0;
 }
 
-static void sub_802C270(void)
+static void sub_802C270 (void)
 {
     gUnknown_02022CFC->unk46 = 1;
 }
 
-static void sub_802C280(void)
+static void sub_802C280 (void)
 {
     int i;
     int whichSound = 0;
@@ -1730,7 +1730,7 @@ static const s8 gUnknown_082FB65C[][48] =
      -12, -11, -9, -6, -4, -1},
 };
 
-static void sub_802C398(int multiplayerId)
+static void sub_802C398 (int multiplayerId)
 {
     int var0;
     int var1;
@@ -1773,7 +1773,7 @@ static void sub_802C398(int multiplayerId)
     player->unk0 = var1;
 }
 
-static void sub_802C43C(void)
+static void sub_802C43C (void)
 {
     if (gUnknown_02022CFC->unk14 == 8 && gUnknown_02022CFC->unk18 == 7) {
         if (gUnknown_02022CFC->unk58 == 0) {
@@ -1823,7 +1823,7 @@ static void sub_802C43C(void)
     }
 }
 
-static bool32 sub_802C538(void)
+static bool32 sub_802C538 (void)
 {
     int i;
 
@@ -1852,7 +1852,7 @@ static bool32 sub_802C538(void)
     return TRUE;
 }
 
-static bool32 sub_802C5DC(void)
+static bool32 sub_802C5DC (void)
 {
     int i;
     int numPlayers = gUnknown_02022CFC->unk5;
@@ -1866,7 +1866,7 @@ static bool32 sub_802C5DC(void)
     return count == numPlayers;
 }
 
-static bool32 sub_802C618(void)
+static bool32 sub_802C618 (void)
 {
     int i;
     for (i = 0; i < gUnknown_02022CFC->unk5; i++) {
@@ -1878,7 +1878,7 @@ static bool32 sub_802C618(void)
     return TRUE;
 }
 
-static bool32 sub_802C650(void)
+static bool32 sub_802C650 (void)
 {
     int i;
 
@@ -1895,7 +1895,7 @@ static bool32 sub_802C650(void)
     return TRUE;
 }
 
-static void sub_802C688(int arg0)
+static void sub_802C688 (int arg0)
 {
     gUnknown_02022CFC->unk70.unk8 += arg0;
     gUnknown_02022CFC->unk5C = 1;
@@ -1904,7 +1904,7 @@ static void sub_802C688(int arg0)
     }
 }
 
-static int sub_802C6B0(void)
+static int sub_802C6B0 (void)
 {
     int i;
     int count = 0;
@@ -1922,12 +1922,12 @@ static int sub_802C6B0(void)
     return count;
 }
 
-static bool32 AreLinkQueuesEmpty(void)
+static bool32 AreLinkQueuesEmpty (void)
 {
     return !Rfu.recvQueue.count && !Rfu.sendQueue.count;
 }
 
-static int sub_802C73C(u8 *arg0)
+static int sub_802C73C (u8 *arg0)
 {
     int i;
     int flags;
@@ -1948,19 +1948,19 @@ static int sub_802C73C(u8 *arg0)
     return count;
 }
 
-static void sub_802C780(void)
+static void sub_802C780 (void)
 {
     gUnknown_02022CFC->unk44 = 0;
 }
 
 static const int gUnknown_082FB6EC[] = {0, 0, 0x32, 0x64, 0xc8, 0x1f4};
 
-static int sub_802C790(int arg0)
+static int sub_802C790 (int arg0)
 {
     return gUnknown_082FB6EC[arg0];
 }
 
-static void sub_802C7A0(u16 arg0)
+static void sub_802C7A0 (u16 arg0)
 {
     if (arg0 > gUnknown_02022CFC->unkE) {
         gUnknown_02022CFC->unkE = arg0;
@@ -1977,7 +1977,7 @@ static const u32 gUnknown_082FB714[][2] =
     {0x4e20, 5},
 };
 
-static bool32 sub_802C7BC(void)
+static bool32 sub_802C7BC (void)
 {
     if (gUnknown_02022CFC->unk70.unk8 >= gUnknown_082FB714[0][0]) {
         return TRUE;
@@ -1986,26 +1986,26 @@ static bool32 sub_802C7BC(void)
     }
 }
 
-static u16 sub_802C7E0(void)
+static u16 sub_802C7E0 (void)
 {
     u16 lo = sub_802C818();
     u16 hi = sub_802C838();
     return (hi << 12) | (lo & 0xFFF);
 }
 
-static void sub_802C808(u16 arg0, u16 *arg1, u16 *arg2)
+static void sub_802C808 (u16 arg0, u16 *arg1, u16 *arg2)
 {
     *arg2 = arg0 >> 12;
     *arg1 = arg0 & 0xFFF;
 }
 
-static u16 sub_802C818(void)
+static u16 sub_802C818 (void)
 {
     u16 index = Random() % ARRAY_COUNT(gUnknown_082FB704);
     return gUnknown_082FB704[index];
 }
 
-static u16 sub_802C838(void)
+static u16 sub_802C838 (void)
 {
     u32 val, i;
 
@@ -2023,7 +2023,7 @@ static u16 sub_802C838(void)
     return val;
 }
 
-static u16 sub_802C880(u16 item, u16 quantity)
+static u16 sub_802C880 (u16 item, u16 quantity)
 {
     while (quantity && !CheckBagHasSpace(item, quantity)) {
         quantity--;
@@ -2032,32 +2032,32 @@ static u16 sub_802C880(u16 item, u16 quantity)
     return quantity;
 }
 
-static u16 sub_802C8AC(void)
+static u16 sub_802C8AC (void)
 {
     return GetLinkPlayerCount();
 }
 
-static u16 sub_802C8BC(void)
+static u16 sub_802C8BC (void)
 {
     return gUnknown_02022CFC->unk6;
 }
 
-static struct PokemonJump1_MonInfo * sub_802C8C8(u8 multiplayerId)
+static struct PokemonJump1_MonInfo * sub_802C8C8 (u8 multiplayerId)
 {
     return &gUnknown_02022CFC->unk82A8[multiplayerId];
 }
 
-static u8 * sub_802C8E8(u8 multiplayerId)
+static u8 * sub_802C8E8 (u8 multiplayerId)
 {
     return gUnknown_02022CFC->unk82E4[multiplayerId].unk1C;
 }
 
-bool32 IsSpeciesAllowedInPokemonJump(u16 species)
+bool32 IsSpeciesAllowedInPokemonJump (u16 species)
 {
     return GetPokemonJumpSpeciesIdx(species) > -1;
 }
 
-void IsPokemonJumpSpeciesInParty(void)
+void IsPokemonJumpSpeciesInParty (void)
 {
     int i;
 
@@ -2392,7 +2392,7 @@ static const struct SpriteTemplate gUnknown_082FC00C =
 };
 
 // Back to code
-static void sub_802C974(struct PokemonJump2 *arg0)
+static void sub_802C974 (struct PokemonJump2 *arg0)
 {
     int i;
 
@@ -2408,7 +2408,7 @@ static void sub_802C974(struct PokemonJump2 *arg0)
     arg0->unkF = IndexOfSpritePaletteTag(6);
 }
 
-static void sub_802C9BC(struct Sprite *sprite)
+static void sub_802C9BC (struct Sprite *sprite)
 {
     int i;
     for (i = 0; i < 8; i++) {
@@ -2416,7 +2416,7 @@ static void sub_802C9BC(struct Sprite *sprite)
     }
 }
 
-static void sub_802C9D4(struct PokemonJump2 *arg0, struct PokemonJump1_MonInfo *jumpMon, s16 x, s16 y, u8 multiplayerId)
+static void sub_802C9D4 (struct PokemonJump2 *arg0, struct PokemonJump1_MonInfo *jumpMon, s16 x, s16 y, u8 multiplayerId)
 {
     struct SpriteTemplate spriteTemplate;
     struct SpriteSheet spriteSheet;
@@ -2467,7 +2467,7 @@ static void sub_802C9D4(struct PokemonJump2 *arg0, struct PokemonJump1_MonInfo *
     arg0->unk81A8[multiplayerId] = NULL;
 }
 
-static void sub_802CB14(struct PokemonJump2 *arg0, int multiplayerId)
+static void sub_802CB14 (struct PokemonJump2 *arg0, int multiplayerId)
 {
     sub_802C9BC(arg0->unk81BC[multiplayerId]);
     arg0->unk81BC[multiplayerId]->data[7] = arg0->unk81A8[multiplayerId] - gSprites;
@@ -2477,7 +2477,7 @@ static void sub_802CB14(struct PokemonJump2 *arg0, int multiplayerId)
     StartSpriteAnim(arg0->unk81BC[multiplayerId], 1);
 }
 
-static void sub_802CB7C(struct Sprite *sprite)
+static void sub_802CB7C (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -2503,19 +2503,19 @@ static void sub_802CB7C(struct Sprite *sprite)
     }
 }
 
-static void sub_802CBF0(struct PokemonJump2 *arg0, int multiplayerId)
+static void sub_802CBF0 (struct PokemonJump2 *arg0, int multiplayerId)
 {
     arg0->unk81A8[multiplayerId]->callback = sub_802CC40;
     arg0->unk81A8[multiplayerId]->pos2.y = 0;
     sub_802C9BC(arg0->unk81A8[multiplayerId]);
 }
 
-static bool32 sub_802CC18(struct PokemonJump2 *arg0, int multiplayerId)
+static bool32 sub_802CC18 (struct PokemonJump2 *arg0, int multiplayerId)
 {
     return arg0->unk81A8[multiplayerId]->callback == sub_802CC40;
 }
 
-static void sub_802CC40(struct Sprite *sprite)
+static void sub_802CC40 (struct Sprite *sprite)
 {
     if (++sprite->data[1] > 1) {
         if (++sprite->data[2] & 1) {
@@ -2533,13 +2533,13 @@ static void sub_802CC40(struct Sprite *sprite)
     }
 }
 
-static void sub_802CC88(struct PokemonJump2 *arg0, int multiplayerId)
+static void sub_802CC88 (struct PokemonJump2 *arg0, int multiplayerId)
 {
     sub_802C9BC(arg0->unk81A8[multiplayerId]);
     arg0->unk81A8[multiplayerId]->callback = sub_802CD08;
 }
 
-static void sub_802CCB0(struct PokemonJump2 *arg0)
+static void sub_802CCB0 (struct PokemonJump2 *arg0)
 {
     int i;
     u16 numPlayers = sub_802C8AC();
@@ -2552,7 +2552,7 @@ static void sub_802CCB0(struct PokemonJump2 *arg0)
     }
 }
 
-static void sub_802CD08(struct Sprite *sprite)
+static void sub_802CD08 (struct Sprite *sprite)
 {
     if (++sprite->data[0] > 3) {
         sprite->data[0] = 0;
@@ -2560,7 +2560,7 @@ static void sub_802CD08(struct Sprite *sprite)
     }
 }
 
-static void sub_802CD3C(struct PokemonJump2 *arg0)
+static void sub_802CD3C (struct PokemonJump2 *arg0)
 {
     int i;
     u16 numPlayers = sub_802C8AC();
@@ -2569,13 +2569,13 @@ static void sub_802CD3C(struct PokemonJump2 *arg0)
     }
 }
 
-static void sub_802CD70(struct PokemonJump2 *arg0, int multiplayerId)
+static void sub_802CD70 (struct PokemonJump2 *arg0, int multiplayerId)
 {
     sub_802C9BC(arg0->unk81A8[multiplayerId]);
     arg0->unk81A8[multiplayerId]->callback = sub_802CDD4;
 }
 
-static bool32 sub_802CD98(struct PokemonJump2 *arg0)
+static bool32 sub_802CD98 (struct PokemonJump2 *arg0)
 {
     int i;
     u16 numPlayers = sub_802C8AC();
@@ -2588,7 +2588,7 @@ static bool32 sub_802CD98(struct PokemonJump2 *arg0)
     return FALSE;
 }
 
-static void sub_802CDD4(struct Sprite *sprite)
+static void sub_802CDD4 (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -2614,7 +2614,7 @@ static void sub_802CDD4(struct Sprite *sprite)
     }
 }
 
-static void sub_802CE48(struct PokemonJump2 *arg0, s16 x, s16 y, u8 multiplayerId)
+static void sub_802CE48 (struct PokemonJump2 *arg0, s16 x, s16 y, u8 multiplayerId)
 {
     u8 spriteId = CreateSprite(&gUnknown_082FC00C, x, y, 1);
     if (spriteId != MAX_SPRITES) {
@@ -2623,7 +2623,7 @@ static void sub_802CE48(struct PokemonJump2 *arg0, s16 x, s16 y, u8 multiplayerI
     }
 }
 
-static void sub_802CE9C(struct PokemonJump2 *arg0)
+static void sub_802CE9C (struct PokemonJump2 *arg0)
 {
     int i;
     int count;
@@ -2644,7 +2644,7 @@ static void sub_802CE9C(struct PokemonJump2 *arg0)
     }
 }
 
-static void sub_802CF50(struct PokemonJump2 *arg0, int arg1)
+static void sub_802CF50 (struct PokemonJump2 *arg0, int arg1)
 {
     int i, count, palNum;
     int priority;
@@ -2676,18 +2676,18 @@ static void sub_802CF50(struct PokemonJump2 *arg0, int arg1)
     }
 }
 
-static void sub_802D044(struct PokemonJump2 *arg0)
+static void sub_802D044 (struct PokemonJump2 *arg0)
 {
     StartMinigameCountdown(9, 7, 120, 80, 0);
     sub_802CD3C(arg0);
 }
 
-static bool32 sub_802D068(void)
+static bool32 sub_802D068 (void)
 {
     return IsMinigameCountdownRunning();
 }
 
-static void sub_802D074(struct PokemonJump2 *arg0)
+static void sub_802D074 (struct PokemonJump2 *arg0)
 {
     u8 taskId;
 
@@ -2699,13 +2699,13 @@ static void sub_802D074(struct PokemonJump2 *arg0)
     sub_802D108(sub_802D150);
 }
 
-static void sub_802D0AC(void)
+static void sub_802D0AC (void)
 {
     FreeAllWindowBuffers();
     DigitObjUtil_Free();
 }
 
-static void sub_802D0BC(struct PokemonJump2 *arg0)
+static void sub_802D0BC (struct PokemonJump2 *arg0)
 {
     arg0->unk4 = 0;
     arg0->unk0 = 0;
@@ -2808,7 +2808,7 @@ struct
     {0x08, sub_802D688},
 };
 
-static void sub_802D0C8(int arg0)
+static void sub_802D0C8 (int arg0)
 {
     int i;
 
@@ -2819,19 +2819,19 @@ static void sub_802D0C8(int arg0)
     }
 }
 
-static bool32 sub_802D0F0(void)
+static bool32 sub_802D0F0 (void)
 {
     return(gUnknown_02022D00->unk0 != 1);
 }
 
-static void sub_802D108(void (*func)(void))
+static void sub_802D108 (void (*func)(void))
 {
     SetWordTaskArg(gUnknown_02022D00->unk6, 0, (u32)func);
     gUnknown_02022D00->unk4 = 0;
     gUnknown_02022D00->unk0 = 0;
 }
 
-static void sub_802D12C(u8 taskId)
+static void sub_802D12C (u8 taskId)
 {
     if (!gUnknown_02022D00->unk0) {
         void (*func)(void) = (void *)(GetWordTaskArg(taskId, 0));
@@ -2840,7 +2840,7 @@ static void sub_802D12C(u8 taskId)
     }
 }
 
-static void sub_802D150(void)
+static void sub_802D150 (void)
 {
     switch (gUnknown_02022D00->unk4) {
     case 0:
@@ -2889,7 +2889,7 @@ static void sub_802D150(void)
     }
 }
 
-static void sub_802D2E4(void)
+static void sub_802D2E4 (void)
 {
     switch (gUnknown_02022D00->unk4) {
     case 0:
@@ -2916,7 +2916,7 @@ static void sub_802D2E4(void)
     }
 }
 
-static void sub_802D350(void)
+static void sub_802D350 (void)
 {
     switch (gUnknown_02022D00->unk4) {
     case 0:
@@ -2943,7 +2943,7 @@ static void sub_802D350(void)
     }
 }
 
-static void sub_802D3BC(void)
+static void sub_802D3BC (void)
 {
     int i, numPlayers;
 
@@ -2969,7 +2969,7 @@ static void sub_802D3BC(void)
     }
 }
 
-static void sub_802D448(void)
+static void sub_802D448 (void)
 {
     switch (gUnknown_02022D00->unk4) {
     case 0:
@@ -2995,7 +2995,7 @@ static void sub_802D448(void)
     }
 }
 
-static void sub_802D4F4(void)
+static void sub_802D4F4 (void)
 {
     switch (gUnknown_02022D00->unk4) {
     case 0:
@@ -3020,7 +3020,7 @@ static void sub_802D4F4(void)
     }
 }
 
-static void sub_802D598(void)
+static void sub_802D598 (void)
 {
     switch (gUnknown_02022D00->unk4) {
     case 0:
@@ -3037,7 +3037,7 @@ static void sub_802D598(void)
     }
 }
 
-static void sub_802D5E4(void)
+static void sub_802D5E4 (void)
 {
     switch (gUnknown_02022D00->unk4) {
     case 0:
@@ -3062,7 +3062,7 @@ static void sub_802D5E4(void)
     }
 }
 
-static void sub_802D688(void)
+static void sub_802D688 (void)
 {
     switch (gUnknown_02022D00->unk4) {
     case 0:
@@ -3087,7 +3087,7 @@ static void sub_802D688(void)
     }
 }
 
-static void sub_802D72C(void)
+static void sub_802D72C (void)
 {
     switch (gUnknown_02022D00->unk4) {
     case 0:
@@ -3102,7 +3102,7 @@ static void sub_802D72C(void)
     }
 }
 
-static void sub_802D764(void)
+static void sub_802D764 (void)
 {
     gUnknown_02022D00->unkA = 0;
     gUnknown_02022D00->unkB = 0;
@@ -3110,7 +3110,7 @@ static void sub_802D764(void)
     sub_802DC9C(gUnknown_02022D00->unkC);
 }
 
-static bool32 sub_802D788(void)
+static bool32 sub_802D788 (void)
 {
     switch (gUnknown_02022D00->unkA) {
     case 0:
@@ -3134,7 +3134,7 @@ static bool32 sub_802D788(void)
     return TRUE;
 }
 
-static void sub_802D7E8(u16 itemId, u16 quantity)
+static void sub_802D7E8 (u16 itemId, u16 quantity)
 {
     CopyItemNameHandlePlural(itemId, gUnknown_02022D00->txtBuff[0], quantity);
     ConvertIntToDecimalStringN(gUnknown_02022D00->txtBuff[1], quantity, STR_CONV_MODE_LEFT_ALIGN, 1);
@@ -3149,7 +3149,7 @@ static void sub_802D7E8(u16 itemId, u16 quantity)
     gUnknown_02022D00->unkD = 0;
 }
 
-static void sub_802D884(u16 itemId)
+static void sub_802D884 (u16 itemId)
 {
     CopyItemName(itemId, gUnknown_02022D00->txtBuff[0]);
     DynamicPlaceholderTextUtil_Reset();
@@ -3162,7 +3162,7 @@ static void sub_802D884(u16 itemId)
     gUnknown_02022D00->unkD = 0;
 }
 
-static void sub_802D8FC(u16 itemId)
+static void sub_802D8FC (u16 itemId)
 {
     CopyItemName(itemId, gUnknown_02022D00->txtBuff[0]);
     DynamicPlaceholderTextUtil_Reset();
@@ -3175,7 +3175,7 @@ static void sub_802D8FC(u16 itemId)
     gUnknown_02022D00->unkD = 0;
 }
 
-static bool32 sub_802D974(void)
+static bool32 sub_802D974 (void)
 {
     switch (gUnknown_02022D00->unkD) {
     case 0:
@@ -3208,7 +3208,7 @@ static bool32 sub_802D974(void)
     return TRUE;
 }
 
-static void sub_802DA14(void)
+static void sub_802DA14 (void)
 {
     if (gUnknown_02022D00->unk12 != 0xFF) {
         rbox_fill_rectangle(gUnknown_02022D00->unk12);
@@ -3218,7 +3218,7 @@ static void sub_802DA14(void)
 }
 
 // Can't match this without the ugly GOTO, oh well.
-static bool32 sub_802DA44(void)
+static bool32 sub_802DA44 (void)
 {
     if (gUnknown_02022D00->unk12 == 0xFF) {
  RET_FALSE:
@@ -3239,12 +3239,12 @@ static bool32 sub_802DA44(void)
     return TRUE;
 }
 
-static s8 sub_802DA8C(void)
+static s8 sub_802DA8C (void)
 {
     return Menu_ProcessInputNoWrapClearOnChoose();
 }
 
-static u32 sub_802DA9C(u32 left, u32 top, u32 width, u32 height)
+static u32 sub_802DA9C (u32 left, u32 top, u32 width, u32 height)
 {
     u32 windowId;
     struct WindowTemplate window;
@@ -3262,7 +3262,7 @@ static u32 sub_802DA9C(u32 left, u32 top, u32 width, u32 height)
     return windowId;
 }
 
-static void sub_802DB18(u16 left, u16 top, u8 cursorPos)
+static void sub_802DB18 (u16 left, u16 top, u8 cursorPos)
 {
     struct WindowTemplate window;
     u8 a = cursorPos;
@@ -3278,7 +3278,7 @@ static void sub_802DB18(u16 left, u16 top, u8 cursorPos)
     CreateYesNoMenu(&window, 1, 0xD, a);
 }
 
-static void sub_802DB8C(void)
+static void sub_802DB8C (void)
 {
     u8 color[] = {TEXT_COLOR_TRANSPARENT, TEXT_COLOR_DARK_GREY, TEXT_COLOR_LIGHT_GREY};
 
@@ -3321,7 +3321,7 @@ static const s16 *const gUnknown_082FE260[] =
     gUnknown_082FE256,
 };
 
-static void sub_802DBF8(void)
+static void sub_802DBF8 (void)
 {
     int i, y, playersCount = sub_802C8AC();
     const s16 *xCoords = gUnknown_082FE260[playersCount - 2];
@@ -3336,18 +3336,18 @@ static void sub_802DBF8(void)
     }
 }
 
-static void sub_802DC80(u32 id, s16 y)
+static void sub_802DC80 (u32 id, s16 y)
 {
     gUnknown_02022D00->unk81A8[id]->pos2.y = y;
 }
 
-static void sub_802DC9C(int id)
+static void sub_802DC9C (int id)
 {
     sub_802CF50(gUnknown_02022D00, id);
     ChangeBgY(2, (gUnknown_082FE1DF[id] * 5) << 0xD, 0);
 }
 
-static int sub_802DCCC(u8 flags)
+static int sub_802DCCC (u8 flags)
 {
     int i, count;
 
@@ -3363,7 +3363,7 @@ static int sub_802DCCC(u8 flags)
     return count;
 }
 
-static void sub_802DD08(void)
+static void sub_802DD08 (void)
 {
     struct DigitObjUtilTemplate template;
     struct DigitObjUtilTemplate *ptr = &template; // This temp variable is needed to match, don't ask me why.
@@ -3388,52 +3388,52 @@ static void sub_802DD08(void)
     DigitObjUtil_CreatePrinter(1, 0, &template);
 }
 
-static void sub_802DD64(int arg0)
+static void sub_802DD64 (int arg0)
 {
     DigitObjUtil_PrintNumOn(0, arg0);
 }
 
-static void sub_802DD74(u16 arg0)
+static void sub_802DD74 (u16 arg0)
 {
     DigitObjUtil_PrintNumOn(1, arg0);
 }
 
-static void sub_802DD88(u8 multiplayerId)
+static void sub_802DD88 (u8 multiplayerId)
 {
     sub_802CBF0(gUnknown_02022D00, multiplayerId);
 }
 
-static void sub_802DDA0(u8 multiplayerId)
+static void sub_802DDA0 (u8 multiplayerId)
 {
     sub_802CC88(gUnknown_02022D00, multiplayerId);
 }
 
-static int sub_802DDB8(int multiplayerId)
+static int sub_802DDB8 (int multiplayerId)
 {
     return sub_802CC18(gUnknown_02022D00, multiplayerId);
 }
 
-static void sub_802DDCC(void)
+static void sub_802DDCC (void)
 {
     sub_802CCB0(gUnknown_02022D00);
 }
 
-static void sub_802DDE0(void)
+static void sub_802DDE0 (void)
 {
     sub_802CD3C(gUnknown_02022D00);
 }
 
-static void sub_802DDF4(int multiplayerId)
+static void sub_802DDF4 (int multiplayerId)
 {
     sub_802CD70(gUnknown_02022D00, multiplayerId);
 }
 
-static int sub_802DE08(void)
+static int sub_802DE08 (void)
 {
     return sub_802CD98(gUnknown_02022D00);
 }
 
-static void sub_802DE1C(void)
+static void sub_802DE1C (void)
 {
     struct WindowTemplate window;
     int i, playersCount = sub_802C8AC();
@@ -3457,7 +3457,7 @@ static void sub_802DE1C(void)
     CopyBgTilemapBufferToVram(0);
 }
 
-static void sub_802DED8(int multiplayerId, u8 clr1, u8 clr2, u8 clr3)
+static void sub_802DED8 (int multiplayerId, u8 clr1, u8 clr2, u8 clr3)
 {
     u32 x;
     u8 colors[3] = {clr1, clr2, clr3};
@@ -3469,7 +3469,7 @@ static void sub_802DED8(int multiplayerId, u8 clr1, u8 clr2, u8 clr3)
     CopyWindowToVram(gUnknown_02022D00->unk1C[multiplayerId], 2);
 }
 
-static void sub_802DF70(bool32 arg0)
+static void sub_802DF70 (bool32 arg0)
 {
     int i, var, playersCount = sub_802C8AC();
 
@@ -3489,7 +3489,7 @@ static void sub_802DF70(bool32 arg0)
     }
 }
 
-static void sub_802DFD4(void)
+static void sub_802DFD4 (void)
 {
     int i, playersCount = sub_802C8AC();
 
@@ -3499,7 +3499,7 @@ static void sub_802DFD4(void)
     CopyBgTilemapBufferToVram(0);
 }
 
-static void sub_802E00C(u8 arg0)
+static void sub_802E00C (u8 arg0)
 {
     gUnknown_02022D00->unk18 = 0;
     ChangeBgX(1, (arg0 / 2) << 16, 0);
@@ -3508,7 +3508,7 @@ static void sub_802E00C(u8 arg0)
     CreateTask(sub_802E090, 4);
 }
 
-static bool32 sub_802E058(void)
+static bool32 sub_802E058 (void)
 {
     if (gUnknown_02022D00->unk18 >= 32) {
         return FALSE;
@@ -3521,7 +3521,7 @@ static bool32 sub_802E058(void)
     }
 }
 
-static void sub_802E090(u8 taskId)
+static void sub_802E090 (u8 taskId)
 {
     if (!sub_802E058()) {
         DestroyTask(taskId);
@@ -3536,7 +3536,7 @@ struct MonInfoPacket
     u32 otId;
 };
 
-static void sub_802E0AC(struct PokemonJump1_MonInfo *arg0)
+static void sub_802E0AC (struct PokemonJump1_MonInfo *arg0)
 {
     struct MonInfoPacket packet;
     packet.id = 1,
@@ -3546,7 +3546,7 @@ static void sub_802E0AC(struct PokemonJump1_MonInfo *arg0)
     Rfu_SendPacket(&packet);
 }
 
-static bool32 sub_802E0D0(int multiplayerId, struct PokemonJump1_MonInfo *arg0)
+static bool32 sub_802E0D0 (int multiplayerId, struct PokemonJump1_MonInfo *arg0)
 {
     struct MonInfoPacket packet;
 
@@ -3572,7 +3572,7 @@ struct UnkPacket2
     u32 unk8;
 };
 
-static void sub_802E120(u32 arg0)
+static void sub_802E120 (u32 arg0)
 {
     struct UnkPacket2 packet;
     packet.id = 2;
@@ -3593,7 +3593,7 @@ struct UnkPacket3
     u32 unk8_1:17;
 };
 
-static void sub_802E138(struct PokemonJump1_82E4 *arg0, struct PokemonJump1Sub *arg1)
+static void sub_802E138 (struct PokemonJump1_82E4 *arg0, struct PokemonJump1Sub *arg1)
 {
     struct UnkPacket3 packet;
     packet.id = 3;
@@ -3608,7 +3608,7 @@ static void sub_802E138(struct PokemonJump1_82E4 *arg0, struct PokemonJump1Sub *
     Rfu_SendPacket(&packet);
 }
 
-static bool32 sub_802E1BC(struct PokemonJump1_82E4 *arg0, struct PokemonJump1Sub *arg1)
+static bool32 sub_802E1BC (struct PokemonJump1_82E4 *arg0, struct PokemonJump1Sub *arg1)
 {
     struct UnkPacket3 packet;
 
@@ -3643,7 +3643,7 @@ struct UnkPacket4
     u16 unk8;
 };
 
-static void sub_802E234(struct PokemonJump1_82E4 *arg0, u8 arg1, u16 arg2)
+static void sub_802E234 (struct PokemonJump1_82E4 *arg0, u8 arg1, u16 arg2)
 {
     struct UnkPacket4 packet;
     packet.id = 4;
@@ -3656,7 +3656,7 @@ static void sub_802E234(struct PokemonJump1_82E4 *arg0, u8 arg1, u16 arg2)
     Rfu_SendPacket(&packet);
 }
 
-static bool32 sub_802E264(struct PokemonJump1_82E4 *arg0, int multiplayerId, u8 *arg2, u16 *arg3)
+static bool32 sub_802E264 (struct PokemonJump1_82E4 *arg0, int multiplayerId, u8 *arg2, u16 *arg3)
 {
     struct UnkPacket4 packet;
 
@@ -3678,7 +3678,7 @@ static bool32 sub_802E264(struct PokemonJump1_82E4 *arg0, int multiplayerId, u8 
     return TRUE;
 }
 
-static bool32 sub_802E2D0(struct PokemonJump1_82E4 *arg0, int multiplayerId)
+static bool32 sub_802E2D0 (struct PokemonJump1_82E4 *arg0, int multiplayerId)
 {
     struct UnkPacket4 packet;
 
@@ -3698,12 +3698,12 @@ static bool32 sub_802E2D0(struct PokemonJump1_82E4 *arg0, int multiplayerId)
     return TRUE;
 }
 
-static struct PokemonJumpResults * sub_802E32C(void)
+static struct PokemonJumpResults * sub_802E32C (void)
 {
     return &gSaveBlock2Ptr->pokeJump;
 }
 
-void ResetPokeJumpResults(void)
+void ResetPokeJumpResults (void)
 {
     struct PokemonJumpResults *pokeJump = sub_802E32C();
     pokeJump->jumpsInRow = 0;
@@ -3714,7 +3714,7 @@ void ResetPokeJumpResults(void)
     pokeJump->field2 = 0;
 }
 
-static bool32 sub_802E354(u32 jumpScore, u16 jumpsInRow, u16 excellentsInRow)
+static bool32 sub_802E354 (u32 jumpScore, u16 jumpsInRow, u16 excellentsInRow)
 {
     struct PokemonJumpResults *pokeJump = sub_802E32C();
     bool32 ret = FALSE;
@@ -3732,7 +3732,7 @@ static bool32 sub_802E354(u32 jumpScore, u16 jumpsInRow, u16 excellentsInRow)
     return ret;
 }
 
-static void sub_802E3A8(void)
+static void sub_802E3A8 (void)
 {
     struct PokemonJumpResults *pokeJump = sub_802E32C();
     if (pokeJump->field6 < 9999) {
@@ -3740,7 +3740,7 @@ static void sub_802E3A8(void)
     }
 }
 
-void ShowPokemonJumpRecords(void)
+void ShowPokemonJumpRecords (void)
 {
     u8 taskId = CreateTask(Task_ShowPokemonJumpRecords, 0);
     Task_ShowPokemonJumpRecords(taskId);
@@ -3759,7 +3759,7 @@ static const struct WindowTemplate gUnknown_082FE270 =
 
 static const u8 *const gUnknown_082FE278[] = {gText_JumpsInARow, gText_BestScore2, gText_ExcellentsInARow};
 
-static void Task_ShowPokemonJumpRecords(u8 taskId)
+static void Task_ShowPokemonJumpRecords (u8 taskId)
 {
     struct WindowTemplate window;
     int i, width, widthCurr;
@@ -3808,7 +3808,7 @@ static void Task_ShowPokemonJumpRecords(u8 taskId)
     }
 }
 
-static void sub_802E500(u16 windowId, int width)
+static void sub_802E500 (u16 windowId, int width)
 {
     int i, x;
     int results[3];
@@ -3831,7 +3831,7 @@ static void sub_802E500(u16 windowId, int width)
     PutWindowTilemap(windowId);
 }
 
-static void TruncateToFirstWordOnly(u8 *str)
+static void TruncateToFirstWordOnly (u8 *str)
 {
     for (; *str != EOS; str++) {
         if (*str == CHAR_SPACE) {

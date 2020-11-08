@@ -939,12 +939,12 @@ const struct UnkStruct_0858AB24 gUnknown_0858AB24[] = {
 const struct BerryTree gBlankBerryTree = {};
 
 // unused
-void ClearEnigmaBerries(void)
+void ClearEnigmaBerries (void)
 {
     CpuFill16(0, &gSaveBlock1Ptr->enigmaBerry, sizeof(gSaveBlock1Ptr->enigmaBerry));
 }
 
-void SetEnigmaBerry(u8 *src)
+void SetEnigmaBerry (u8 *src)
 {
     u32 i;
     u8 *dest = (u8*)&gSaveBlock1Ptr->enigmaBerry;
@@ -954,7 +954,7 @@ void SetEnigmaBerry(u8 *src)
     }
 }
 
-static u32 GetEnigmaBerryChecksum(struct EnigmaBerry *enigmaBerry)
+static u32 GetEnigmaBerryChecksum (struct EnigmaBerry *enigmaBerry)
 {
     u32 i;
     u32 checksum;
@@ -969,7 +969,7 @@ static u32 GetEnigmaBerryChecksum(struct EnigmaBerry *enigmaBerry)
     return checksum;
 }
 
-bool32 IsEnigmaBerryValid(void)
+bool32 IsEnigmaBerryValid (void)
 {
     if (!gSaveBlock1Ptr->enigmaBerry.berry.stageDuration) {
         return FALSE;
@@ -983,7 +983,7 @@ bool32 IsEnigmaBerryValid(void)
     return TRUE;
 }
 
-const struct Berry * GetBerryInfo(u8 berry)
+const struct Berry * GetBerryInfo (u8 berry)
 {
     if (berry == ITEM_TO_BERRY(ITEM_ENIGMA_BERRY) && IsEnigmaBerryValid()) {
         return (struct Berry*)(&gSaveBlock1Ptr->enigmaBerry.berry);
@@ -995,12 +995,12 @@ const struct Berry * GetBerryInfo(u8 berry)
     }
 }
 
-struct BerryTree * GetBerryTreeInfo(u8 id)
+struct BerryTree * GetBerryTreeInfo (u8 id)
 {
     return &gSaveBlock1Ptr->berryTrees[id];
 }
 
-bool32 ObjectEventInteractionWaterBerryTree(void)
+bool32 ObjectEventInteractionWaterBerryTree (void)
 {
     struct BerryTree *tree = GetBerryTreeInfo(GetObjectEventBerryTreeId(gSelectedObjectEvent));
 
@@ -1023,7 +1023,7 @@ bool32 ObjectEventInteractionWaterBerryTree(void)
     return TRUE;
 }
 
-bool8 IsPlayerFacingEmptyBerryTreePatch(void)
+bool8 IsPlayerFacingEmptyBerryTreePatch (void)
 {
     if (GetObjectEventScriptPointerPlayerFacing() == BerryTreeScript
         && GetStageByBerryTreeId(GetObjectEventBerryTreeId(gSelectedObjectEvent)) == BERRY_STAGE_NO_BERRY) {
@@ -1033,7 +1033,7 @@ bool8 IsPlayerFacingEmptyBerryTreePatch(void)
     }
 }
 
-bool8 TryToWaterBerryTree(void)
+bool8 TryToWaterBerryTree (void)
 {
     if (GetObjectEventScriptPointerPlayerFacing() != BerryTreeScript) {
         return FALSE;
@@ -1042,7 +1042,7 @@ bool8 TryToWaterBerryTree(void)
     }
 }
 
-void ClearBerryTrees(void)
+void ClearBerryTrees (void)
 {
     int i;
 
@@ -1051,7 +1051,7 @@ void ClearBerryTrees(void)
     }
 }
 
-static bool32 BerryTreeGrow(struct BerryTree *tree)
+static bool32 BerryTreeGrow (struct BerryTree *tree)
 {
     if (tree->growthSparkle) {
         return FALSE;
@@ -1081,7 +1081,7 @@ static bool32 BerryTreeGrow(struct BerryTree *tree)
     return TRUE;
 }
 
-void BerryTreeTimeUpdate(s32 minutes)
+void BerryTreeTimeUpdate (s32 minutes)
 {
     int i;
     struct BerryTree *tree;
@@ -1114,7 +1114,7 @@ void BerryTreeTimeUpdate(s32 minutes)
     }
 }
 
-void PlantBerryTree(u8 id, u8 berry, u8 stage, bool8 sparkle)
+void PlantBerryTree (u8 id, u8 berry, u8 stage, bool8 sparkle)
 {
     struct BerryTree *tree = GetBerryTreeInfo(id);
 
@@ -1132,22 +1132,22 @@ void PlantBerryTree(u8 id, u8 berry, u8 stage, bool8 sparkle)
     }
 }
 
-void RemoveBerryTree(u8 id)
+void RemoveBerryTree (u8 id)
 {
     gSaveBlock1Ptr->berryTrees[id] = gBlankBerryTree;
 }
 
-u8 GetBerryTypeByBerryTreeId(u8 id)
+u8 GetBerryTypeByBerryTreeId (u8 id)
 {
     return gSaveBlock1Ptr->berryTrees[id].berry;
 }
 
-u8 GetStageByBerryTreeId(u8 id)
+u8 GetStageByBerryTreeId (u8 id)
 {
     return gSaveBlock1Ptr->berryTrees[id].stage;
 }
 
-u8 ItemIdToBerryType(u16 item)
+u8 ItemIdToBerryType (u16 item)
 {
     u16 berry = item - FIRST_BERRY_INDEX;
 
@@ -1158,7 +1158,7 @@ u8 ItemIdToBerryType(u16 item)
     }
 }
 
-static u16 BerryTypeToItemId(u16 berry)
+static u16 BerryTypeToItemId (u16 berry)
 {
     u16 item = berry - 1;
 
@@ -1169,23 +1169,23 @@ static u16 BerryTypeToItemId(u16 berry)
     }
 }
 
-void GetBerryNameByBerryType(u8 berry, u8 *string)
+void GetBerryNameByBerryType (u8 berry, u8 *string)
 {
     memcpy(string, GetBerryInfo(berry)->name, BERRY_NAME_LENGTH);
     string[BERRY_NAME_LENGTH] = EOS;
 }
 
-void GetBerryCountStringByBerryType(u8 berry, u8* dest, u32 berryCount)
+void GetBerryCountStringByBerryType (u8 berry, u8* dest, u32 berryCount)
 {
     GetBerryCountString(dest, GetBerryInfo(berry)->name, berryCount);
 }
 
-void ResetBerryTreeSparkleFlag(u8 id)
+void ResetBerryTreeSparkleFlag (u8 id)
 {
     GetBerryTreeInfo(id)->growthSparkle = FALSE;
 }
 
-static u8 BerryTreeGetNumStagesWatered(struct BerryTree *tree)
+static u8 BerryTreeGetNumStagesWatered (struct BerryTree *tree)
 {
     u8 count = 0;
 
@@ -1204,7 +1204,7 @@ static u8 BerryTreeGetNumStagesWatered(struct BerryTree *tree)
     return count;
 }
 
-static u8 GetNumStagesWateredByBerryTreeId(u8 id)
+static u8 GetNumStagesWateredByBerryTreeId (u8 id)
 {
     return BerryTreeGetNumStagesWatered(GetBerryTreeInfo(id));
 }
@@ -1218,7 +1218,7 @@ static u8 GetNumStagesWateredByBerryTreeId(u8 id)
 //
 // See resulting yields: https://gist.github.com/hondew/2a099dbe54aa91414decdbfaa524327d,
 // and bug fix: https://gist.github.com/hondew/0f0164e5b9dadfd72d24f30f2c049a0b.
-static u8 CalcBerryYieldInternal(u16 max, u16 min, u8 water)
+static u8 CalcBerryYieldInternal (u16 max, u16 min, u8 water)
 {
     u32 randMin;
     u32 randMax;
@@ -1242,7 +1242,7 @@ static u8 CalcBerryYieldInternal(u16 max, u16 min, u8 water)
     }
 }
 
-static u8 CalcBerryYield(struct BerryTree *tree)
+static u8 CalcBerryYield (struct BerryTree *tree)
 {
     const struct Berry *berry = GetBerryInfo(tree->berry);
     u8 min = berry->minYield;
@@ -1251,17 +1251,17 @@ static u8 CalcBerryYield(struct BerryTree *tree)
     return CalcBerryYieldInternal(max, min, BerryTreeGetNumStagesWatered(tree));
 }
 
-static u8 GetBerryCountByBerryTreeId(u8 id)
+static u8 GetBerryCountByBerryTreeId (u8 id)
 {
     return gSaveBlock1Ptr->berryTrees[id].berryYield;
 }
 
-static u16 GetStageDurationByBerryType(u8 berry)
+static u16 GetStageDurationByBerryType (u8 berry)
 {
     return GetBerryInfo(berry)->stageDuration * 60;
 }
 
-void ObjectEventInteractionGetBerryTreeData(void)
+void ObjectEventInteractionGetBerryTreeData (void)
 {
     u8 id;
     u8 berry;
@@ -1285,13 +1285,13 @@ void ObjectEventInteractionGetBerryTreeData(void)
     GetBerryCountStringByBerryType(berry, gStringVar1, gSpecialVar_0x8006);
 }
 
-void ObjectEventInteractionGetBerryName(void)
+void ObjectEventInteractionGetBerryName (void)
 {
     u8 berryType = GetBerryTypeByBerryTreeId(GetObjectEventBerryTreeId(gSelectedObjectEvent));
     GetBerryNameByBerryType(berryType, gStringVar1);
 }
 
-void ObjectEventInteractionGetBerryCountString(void)
+void ObjectEventInteractionGetBerryCountString (void)
 {
     u8 treeId = GetObjectEventBerryTreeId(gSelectedObjectEvent);
     u8 berry = GetBerryTypeByBerryTreeId(treeId);
@@ -1299,12 +1299,12 @@ void ObjectEventInteractionGetBerryCountString(void)
     GetBerryCountStringByBerryType(berry, gStringVar1, count);
 }
 
-void Bag_ChooseBerry(void)
+void Bag_ChooseBerry (void)
 {
     SetMainCallback2(CB2_ChooseBerry);
 }
 
-void ObjectEventInteractionPlantBerryTree(void)
+void ObjectEventInteractionPlantBerryTree (void)
 {
     u8 berry = ItemIdToBerryType(gSpecialVar_ItemId);
 
@@ -1312,7 +1312,7 @@ void ObjectEventInteractionPlantBerryTree(void)
     ObjectEventInteractionGetBerryTreeData();
 }
 
-void ObjectEventInteractionPickBerryTree(void)
+void ObjectEventInteractionPickBerryTree (void)
 {
     u8 id = GetObjectEventBerryTreeId(gSelectedObjectEvent);
     u8 berry = GetBerryTypeByBerryTreeId(id);
@@ -1320,18 +1320,18 @@ void ObjectEventInteractionPickBerryTree(void)
     gSpecialVar_0x8004 = AddBagItem(BerryTypeToItemId(berry), GetBerryCountByBerryTreeId(id));
 }
 
-void ObjectEventInteractionRemoveBerryTree(void)
+void ObjectEventInteractionRemoveBerryTree (void)
 {
     RemoveBerryTree(GetObjectEventBerryTreeId(gSelectedObjectEvent));
     sub_8092EF0(gSpecialVar_LastTalked, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup);
 }
 
-bool8 PlayerHasBerries(void)
+bool8 PlayerHasBerries (void)
 {
     return IsBagPocketNonEmpty(POCKET_BERRIES);
 }
 
-void ResetBerryTreeSparkleFlags(void)
+void ResetBerryTreeSparkleFlags (void)
 {
     s16 cam_left;
     s16 cam_top;

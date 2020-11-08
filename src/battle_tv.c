@@ -203,7 +203,7 @@ static const u16 sUnknown_0860A8A4[] =
 };
 
 // code
-void BattleTv_SetDataBasedOnString(u16 stringId)
+void BattleTv_SetDataBasedOnString (u16 stringId)
 {
     struct BattleTv *tvPtr;
     u32 atkSide, defSide, effSide, scriptingSide;
@@ -613,7 +613,7 @@ void BattleTv_SetDataBasedOnString(u16 stringId)
     }
 }
 
-static bool8 sub_817E0B8(u16 stringId)
+static bool8 sub_817E0B8 (u16 stringId)
 {
     s32 i = 0;
 
@@ -631,7 +631,7 @@ static bool8 sub_817E0B8(u16 stringId)
     }
 }
 
-void BattleTv_SetDataBasedOnMove(u16 move, u16 weatherFlags, struct DisableStruct *disableStructPtr)
+void BattleTv_SetDataBasedOnMove (u16 move, u16 weatherFlags, struct DisableStruct *disableStructPtr)
 {
     struct BattleTv *tvPtr;
     u32 atkSide, defSide;
@@ -678,7 +678,7 @@ void BattleTv_SetDataBasedOnMove(u16 move, u16 weatherFlags, struct DisableStruc
     AddMovePoints(12, gBattleMoves[move].type, 0,                        0);
 }
 
-void BattleTv_SetDataBasedOnAnimation(u8 animationId)
+void BattleTv_SetDataBasedOnAnimation (u8 animationId)
 {
     struct BattleTv *tvPtr;
     u32 atkSide;
@@ -707,7 +707,7 @@ void BattleTv_SetDataBasedOnAnimation(u8 animationId)
     }
 }
 
-void TryPutLinkBattleTvShowOnAir(void)
+void TryPutLinkBattleTvShowOnAir (void)
 {
     u16 playerBestSpecies = 0, opponentBestSpecies = 0, moveId = 0;
     s16 sum = 0, playerBestSum = 0, opponentBestSum = SHRT_MAX;
@@ -794,7 +794,7 @@ void TryPutLinkBattleTvShowOnAir(void)
     }
 }
 
-static void AddMovePoints(u8 caseId, u16 arg1, u8 arg2, u8 arg3)
+static void AddMovePoints (u8 caseId, u16 arg1, u8 arg2, u8 arg3)
 {
     struct BattleTvMovePoints *movePoints = &gBattleStruct->tvMovePoints;
     struct BattleTv *tvPtr = &gBattleStruct->tv;
@@ -882,7 +882,7 @@ static void AddMovePoints(u8 caseId, u16 arg1, u8 arg2, u8 arg3)
     }
 }
 
-static void AddPointsOnFainting(bool8 targetFainted)
+static void AddPointsOnFainting (bool8 targetFainted)
 {
     struct BattleTv *tvPtr = &gBattleStruct->tv;
     u32 atkSide = GetBattlerSide(gBattlerAttacker);
@@ -1007,7 +1007,7 @@ static void AddPointsOnFainting(bool8 targetFainted)
     }
 }
 
-static void TrySetBattleSeminarShow(void)
+static void TrySetBattleSeminarShow (void)
 {
     s32 i;
     s32 dmgByMove[4];
@@ -1085,7 +1085,7 @@ static void TrySetBattleSeminarShow(void)
     gCurrentMove = currMoveSaved;
 }
 
-static bool8 ShouldCalculateDamage(u16 moveId, s32 *dmg, u16 *powerOverride)
+static bool8 ShouldCalculateDamage (u16 moveId, s32 *dmg, u16 *powerOverride)
 {
     if (gBattleMoves[moveId].power == 0) {
         *dmg = 0;
@@ -1115,7 +1115,7 @@ static bool8 ShouldCalculateDamage(u16 moveId, s32 *dmg, u16 *powerOverride)
     }
 }
 
-void BattleTv_ClearExplosionFaintCause(void)
+void BattleTv_ClearExplosionFaintCause (void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_LINK) {
         struct BattleTv *tvPtr = &gBattleStruct->tv;
@@ -1137,7 +1137,7 @@ void BattleTv_ClearExplosionFaintCause(void)
     }
 }
 
-u8 GetBattlerMoveSlotId(u8 battlerId, u16 moveId)
+u8 GetBattlerMoveSlotId (u8 battlerId, u16 moveId)
 {
     s32 i;
     struct Pokemon *party;
@@ -1162,7 +1162,7 @@ u8 GetBattlerMoveSlotId(u8 battlerId, u16 moveId)
     return i;
 }
 
-static void AddPointsBasedOnWeather(u16 weatherFlags, u16 moveId, u8 moveSlot)
+static void AddPointsBasedOnWeather (u16 weatherFlags, u16 moveId, u8 moveSlot)
 {
     if (weatherFlags & WEATHER_RAIN_ANY) {
         AddMovePoints(3, moveId, moveSlot, 0);

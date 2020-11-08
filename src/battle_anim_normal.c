@@ -305,7 +305,7 @@ const struct SpriteTemplate gPersistHitSplatSpriteTemplate =
     .callback = AnimHitSplatPersistent,
 };
 
-static void AnimMovePowerSwapGuardSwapWait(struct Sprite* sprite)
+static void AnimMovePowerSwapGuardSwapWait (struct Sprite* sprite)
 {
     if (TranslateAnimHorizontalArc(sprite)) {
         DestroyAnimSprite(sprite);
@@ -318,7 +318,7 @@ static void AnimMovePowerSwapGuardSwapWait(struct Sprite* sprite)
 // arg 3: from user to target / target to user
 // arg 4: wave period
 // arg 5: wave amplitude
-static void AnimMovePowerSwapGuardSwap(struct Sprite* sprite)
+static void AnimMovePowerSwapGuardSwap (struct Sprite* sprite)
 {
     StartSpriteAnim(sprite, gBattleAnimArgs[2]);
     if (gBattleAnimArgs[3] == 0) {
@@ -342,7 +342,7 @@ static void AnimMovePowerSwapGuardSwap(struct Sprite* sprite)
 // arg 2: initial wave offset
 // arg 3: wave period (higher means faster wave)
 // arg 4: duration
-static void AnimConfusionDuck(struct Sprite *sprite)
+static void AnimConfusionDuck (struct Sprite *sprite)
 {
     sprite->pos1.x += gBattleAnimArgs[0];
     sprite->pos1.y += gBattleAnimArgs[1];
@@ -361,7 +361,7 @@ static void AnimConfusionDuck(struct Sprite *sprite)
     sprite->callback(sprite);
 }
 
-static void AnimConfusionDuck_Step(struct Sprite *sprite)
+static void AnimConfusionDuck_Step (struct Sprite *sprite)
 {
     sprite->pos2.x = Cos(sprite->data[0], 30);
     sprite->pos2.y = Sin(sprite->data[0], 10);
@@ -384,7 +384,7 @@ static void AnimConfusionDuck_Step(struct Sprite *sprite)
 // arg 2: start blend amount
 // arg 3: end blend amount
 // arg 4: blend color
-static void AnimSimplePaletteBlend(struct Sprite *sprite)
+static void AnimSimplePaletteBlend (struct Sprite *sprite)
 {
     u32 selectedPalettes = UnpackSelectedBattleAnimPalettes(gBattleAnimArgs[0]);
     BeginNormalPaletteFade(selectedPalettes, gBattleAnimArgs[1], gBattleAnimArgs[2], gBattleAnimArgs[3], gBattleAnimArgs[4]);
@@ -401,7 +401,7 @@ static void AnimSimplePaletteBlend(struct Sprite *sprite)
 //   4: gBattleAnimTarget partner OBJ palette
 //   5: BG palette 4
 //   6: BG palette 5
-u32 UnpackSelectedBattleAnimPalettes(s16 selector)
+u32 UnpackSelectedBattleAnimPalettes (s16 selector)
 {
     u8 battleBackground = selector & 1;
     u8 attacker = (selector >> 1) & 1;
@@ -413,14 +413,14 @@ u32 UnpackSelectedBattleAnimPalettes(s16 selector)
     return sub_80A75AC(battleBackground, attacker, target, attackerPartner, targetPartner, arg5, arg6);
 }
 
-static void AnimSimplePaletteBlend_Step(struct Sprite *sprite)
+static void AnimSimplePaletteBlend_Step (struct Sprite *sprite)
 {
     if (!gPaletteFade.active) {
         DestroyAnimSprite(sprite);
     }
 }
 
-static void AnimComplexPaletteBlend(struct Sprite *sprite)
+static void AnimComplexPaletteBlend (struct Sprite *sprite)
 {
     u32 selectedPalettes;
 
@@ -439,7 +439,7 @@ static void AnimComplexPaletteBlend(struct Sprite *sprite)
     sprite->callback = AnimComplexPaletteBlend_Step1;
 }
 
-static void AnimComplexPaletteBlend_Step1(struct Sprite *sprite)
+static void AnimComplexPaletteBlend_Step1 (struct Sprite *sprite)
 {
     u32 selectedPalettes;
 
@@ -469,7 +469,7 @@ static void AnimComplexPaletteBlend_Step1(struct Sprite *sprite)
     sprite->data[2]--;
 }
 
-static void AnimComplexPaletteBlend_Step2(struct Sprite *sprite)
+static void AnimComplexPaletteBlend_Step2 (struct Sprite *sprite)
 {
     u32 selectedPalettes;
 
@@ -480,7 +480,7 @@ static void AnimComplexPaletteBlend_Step2(struct Sprite *sprite)
     }
 }
 
-static void sub_81159B4(struct Sprite *sprite)
+static void sub_81159B4 (struct Sprite *sprite)
 {
     sprite->pos1.x += gBattleAnimArgs[0];
     sprite->pos1.y += gBattleAnimArgs[1];
@@ -509,7 +509,7 @@ static void sub_81159B4(struct Sprite *sprite)
 
 // Blends mon/screen to designated color or back alternately tNumBlends times
 // Many uses of this task only set a tNumBlends of 2, which has the effect of blending to a color and back once
-void AnimTask_BlendColorCycle(u8 taskId)
+void AnimTask_BlendColorCycle (u8 taskId)
 {
     gTasks[taskId].tPalSelector = gBattleAnimArgs[0];
     gTasks[taskId].tDelay = gBattleAnimArgs[1];
@@ -522,7 +522,7 @@ void AnimTask_BlendColorCycle(u8 taskId)
     gTasks[taskId].func = AnimTask_BlendColorCycleLoop;
 }
 
-static void BlendColorCycle(u8 taskId, u8 startBlendAmount, u8 targetBlendAmount)
+static void BlendColorCycle (u8 taskId, u8 startBlendAmount, u8 targetBlendAmount)
 {
     u32 selectedPalettes = UnpackSelectedBattleAnimPalettes(gTasks[taskId].tPalSelector);
     BeginNormalPaletteFade(
@@ -536,7 +536,7 @@ static void BlendColorCycle(u8 taskId, u8 startBlendAmount, u8 targetBlendAmount
     gTasks[taskId].tRestoreBlend ^= 1;
 }
 
-static void AnimTask_BlendColorCycleLoop(u8 taskId)
+static void AnimTask_BlendColorCycleLoop (u8 taskId)
 {
     u8 startBlendAmount, targetBlendAmount;
     if (!gPaletteFade.active) {
@@ -563,7 +563,7 @@ static void AnimTask_BlendColorCycleLoop(u8 taskId)
 }
 
 // See AnimTask_BlendColorCycle. Same, but excludes Attacker and Target
-void AnimTask_BlendColorCycleExclude(u8 taskId)
+void AnimTask_BlendColorCycleExclude (u8 taskId)
 {
     int battler;
     u32 selectedPalettes = 0;
@@ -592,7 +592,7 @@ void AnimTask_BlendColorCycleExclude(u8 taskId)
     gTasks[taskId].func = AnimTask_BlendColorCycleExcludeLoop;
 }
 
-static void BlendColorCycleExclude(u8 taskId, u8 startBlendAmount, u8 targetBlendAmount)
+static void BlendColorCycleExclude (u8 taskId, u8 startBlendAmount, u8 targetBlendAmount)
 {
     u32 selectedPalettes = ((u16)gTasks[taskId].tPalSelectorHi << 16) | (u16)gTasks[taskId].tPalSelectorLo;
     BeginNormalPaletteFade(
@@ -606,7 +606,7 @@ static void BlendColorCycleExclude(u8 taskId, u8 startBlendAmount, u8 targetBlen
     gTasks[taskId].tRestoreBlend ^= 1;
 }
 
-static void AnimTask_BlendColorCycleExcludeLoop(u8 taskId)
+static void AnimTask_BlendColorCycleExcludeLoop (u8 taskId)
 {
     u8 startBlendAmount, targetBlendAmount;
     if (!gPaletteFade.active) {
@@ -633,7 +633,7 @@ static void AnimTask_BlendColorCycleExcludeLoop(u8 taskId)
 }
 
 // See AnimTask_BlendColorCycle. Same, but selects palette by ANIM_TAG_*
-void AnimTask_BlendColorCycleByTag(u8 taskId)
+void AnimTask_BlendColorCycleByTag (u8 taskId)
 {
     u8 paletteIndex;
 
@@ -649,7 +649,7 @@ void AnimTask_BlendColorCycleByTag(u8 taskId)
     gTasks[taskId].func = AnimTask_BlendColorCycleByTagLoop;
 }
 
-static void BlendColorCycleByTag(u8 taskId, u8 startBlendAmount, u8 targetBlendAmount)
+static void BlendColorCycleByTag (u8 taskId, u8 startBlendAmount, u8 targetBlendAmount)
 {
     u8 paletteIndex = IndexOfSpritePaletteTag(gTasks[taskId].tPalTag);
     BeginNormalPaletteFade(
@@ -663,7 +663,7 @@ static void BlendColorCycleByTag(u8 taskId, u8 startBlendAmount, u8 targetBlendA
     gTasks[taskId].tRestoreBlend ^= 1;
 }
 
-static void AnimTask_BlendColorCycleByTagLoop(u8 taskId)
+static void AnimTask_BlendColorCycleByTagLoop (u8 taskId)
 {
     u8 startBlendAmount, targetBlendAmount;
     if (!gPaletteFade.active) {
@@ -701,7 +701,7 @@ static void AnimTask_BlendColorCycleByTagLoop(u8 taskId)
 #undef tPalSelectorLo
 
 // Flashes the specified anim tag with given color. Used e.g. to flash the particles red in Hyper Beam
-void AnimTask_FlashAnimTagWithColor(u8 taskId)
+void AnimTask_FlashAnimTagWithColor (u8 taskId)
 {
     u8 paletteIndex;
 
@@ -725,7 +725,7 @@ void AnimTask_FlashAnimTagWithColor(u8 taskId)
     gTasks[taskId].func = AnimTask_FlashAnimTagWithColor_Step1;
 }
 
-static void AnimTask_FlashAnimTagWithColor_Step1(u8 taskId)
+static void AnimTask_FlashAnimTagWithColor_Step1 (u8 taskId)
 {
     u32 selectedPalettes;
 
@@ -765,7 +765,7 @@ static void AnimTask_FlashAnimTagWithColor_Step1(u8 taskId)
     gTasks[taskId].data[2]--;
 }
 
-static void AnimTask_FlashAnimTagWithColor_Step2(u8 taskId)
+static void AnimTask_FlashAnimTagWithColor_Step2 (u8 taskId)
 {
     u32 selectedPalettes;
 
@@ -776,7 +776,7 @@ static void AnimTask_FlashAnimTagWithColor_Step2(u8 taskId)
     }
 }
 
-void AnimTask_InvertScreenColor(u8 taskId)
+void AnimTask_InvertScreenColor (u8 taskId)
 {
     u32 selectedPalettes = 0;
 
@@ -800,7 +800,7 @@ void AnimTask_InvertScreenColor(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-void sub_8115F94(u8 taskId)
+void sub_8115F94 (u8 taskId)
 {
     u8 attackerBattler;
     u8 targetBattler;
@@ -845,7 +845,7 @@ void sub_8115F94(u8 taskId)
     }
 }
 
-static void AnimShakeMonOrBattleTerrain(struct Sprite *sprite)
+static void AnimShakeMonOrBattleTerrain (struct Sprite *sprite)
 {
     u16 var0;
 
@@ -880,7 +880,7 @@ static void AnimShakeMonOrBattleTerrain(struct Sprite *sprite)
     sprite->callback = AnimShakeMonOrBattleTerrain_Step;
 }
 
-static void AnimShakeMonOrBattleTerrain_Step(struct Sprite *sprite)
+static void AnimShakeMonOrBattleTerrain_Step (struct Sprite *sprite)
 {
     u8 i;
     u16 var0;
@@ -907,7 +907,7 @@ static void AnimShakeMonOrBattleTerrain_Step(struct Sprite *sprite)
     }
 }
 
-static void AnimShakeMonOrBattleTerrain_UpdateCoordOffsetEnabled(void)
+static void AnimShakeMonOrBattleTerrain_UpdateCoordOffsetEnabled (void)
 {
     gSprites[gBattlerSpriteIds[gBattleAnimAttacker]].coordOffsetEnabled = FALSE;
     gSprites[gBattlerSpriteIds[gBattleAnimTarget]].coordOffsetEnabled = FALSE;
@@ -936,7 +936,7 @@ static void AnimShakeMonOrBattleTerrain_UpdateCoordOffsetEnabled(void)
 // arg1: y offset of shake
 // arg2: number of shakes
 // arg3: time between shakes
-void AnimTask_ShakeBattleTerrain(u8 taskId)
+void AnimTask_ShakeBattleTerrain (u8 taskId)
 {
     gTasks[taskId].tXOffset = gBattleAnimArgs[0];
     gTasks[taskId].tYOffset = gBattleAnimArgs[1];
@@ -949,7 +949,7 @@ void AnimTask_ShakeBattleTerrain(u8 taskId)
     gTasks[taskId].func(taskId);
 }
 
-static void AnimTask_ShakeBattleTerrain_Step(u8 taskId)
+static void AnimTask_ShakeBattleTerrain_Step (u8 taskId)
 {
     if (gTasks[taskId].tTimer == 0) {
         if (gBattle_BG3_X == gTasks[taskId].tXOffset) {
@@ -981,7 +981,7 @@ static void AnimTask_ShakeBattleTerrain_Step(u8 taskId)
 #undef tTimer
 #undef tShakeDelay
 
-void AnimHitSplatBasic(struct Sprite *sprite)
+void AnimHitSplatBasic (struct Sprite *sprite)
 {
     StartSpriteAffineAnim(sprite, gBattleAnimArgs[3]);
     if (gBattleAnimArgs[2] == ANIM_ATTACKER) {
@@ -995,7 +995,7 @@ void AnimHitSplatBasic(struct Sprite *sprite)
 }
 
 // Same as basic hit splat but takes a length of time to persist for (arg4)
-static void AnimHitSplatPersistent(struct Sprite *sprite)
+static void AnimHitSplatPersistent (struct Sprite *sprite)
 {
     StartSpriteAffineAnim(sprite, gBattleAnimArgs[3]);
     if (gBattleAnimArgs[2] == ANIM_ATTACKER) {
@@ -1011,7 +1011,7 @@ static void AnimHitSplatPersistent(struct Sprite *sprite)
 
 // For paired hit splats whose position is inverted when used by the opponent on the player.
 // Used by Twineedle and Spike Cannon
-static void AnimHitSplatHandleInvert(struct Sprite *sprite)
+static void AnimHitSplatHandleInvert (struct Sprite *sprite)
 {
     if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER && !IsContest()) {
         gBattleAnimArgs[1] = -gBattleAnimArgs[1];
@@ -1020,7 +1020,7 @@ static void AnimHitSplatHandleInvert(struct Sprite *sprite)
     AnimHitSplatBasic(sprite);
 }
 
-void AnimHitSplatRandom(struct Sprite *sprite)
+void AnimHitSplatRandom (struct Sprite *sprite)
 {
     if (gBattleAnimArgs[1] == -1) {
         gBattleAnimArgs[1] = Random2() & 3;
@@ -1038,7 +1038,7 @@ void AnimHitSplatRandom(struct Sprite *sprite)
     sprite->callback = RunStoredCallbackWhenAffineAnimEnds;
 }
 
-void AnimHitSplatOnMonEdge(struct Sprite *sprite)
+void AnimHitSplatOnMonEdge (struct Sprite *sprite)
 {
     sprite->data[0] = GetAnimBattlerSpriteId(gBattleAnimArgs[0]);
     sprite->pos1.x = gSprites[sprite->data[0]].pos1.x + gSprites[sprite->data[0]].pos2.x;
@@ -1050,7 +1050,7 @@ void AnimHitSplatOnMonEdge(struct Sprite *sprite)
     sprite->callback = RunStoredCallbackWhenAffineAnimEnds;
 }
 
-void AnimCrossImpact(struct Sprite *sprite)
+void AnimCrossImpact (struct Sprite *sprite)
 {
     if (gBattleAnimArgs[2] == ANIM_ATTACKER) {
         InitSpritePosToAnimAttacker(sprite, 1);
@@ -1063,7 +1063,7 @@ void AnimCrossImpact(struct Sprite *sprite)
     sprite->callback = WaitAnimForDuration;
 }
 
-void AnimFlashingHitSplat(struct Sprite *sprite)
+void AnimFlashingHitSplat (struct Sprite *sprite)
 {
     StartSpriteAffineAnim(sprite, gBattleAnimArgs[3]);
     if (gBattleAnimArgs[2] == ANIM_ATTACKER) {
@@ -1075,7 +1075,7 @@ void AnimFlashingHitSplat(struct Sprite *sprite)
     sprite->callback = AnimFlashingHitSplat_Step;
 }
 
-void AnimFlashingHitSplat_Step(struct Sprite *sprite)
+void AnimFlashingHitSplat_Step (struct Sprite *sprite)
 {
     sprite->invisible ^= 1;
     if (sprite->data[0]++ > 12) {

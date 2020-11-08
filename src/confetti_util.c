@@ -10,7 +10,7 @@ static EWRAM_DATA struct
     struct ConfettiUtil *array;
 } *sWork = NULL;
 
-static void sub_81520A8(void *dest, u16 value, u8 left, u8 top, u8 width, u8 height) // Unused.
+static void sub_81520A8 (void *dest, u16 value, u8 left, u8 top, u8 width, u8 height) // Unused.
 {
     u8 i;
     u8 j;
@@ -26,7 +26,7 @@ static void sub_81520A8(void *dest, u16 value, u8 left, u8 top, u8 width, u8 hei
     }
 }
 
-static void sub_8152134(void *dest, const u16 *src, u8 left, u8 top, u8 width, u8 height) // Unused.
+static void sub_8152134 (void *dest, const u16 *src, u8 left, u8 top, u8 width, u8 height) // Unused.
 {
     u8 i, j;
     u8 x, y;
@@ -41,7 +41,7 @@ static void sub_8152134(void *dest, const u16 *src, u8 left, u8 top, u8 width, u
     }
 }
 
-bool32 ConfettiUtil_Init(u8 count)
+bool32 ConfettiUtil_Init (u8 count)
 {
     u8 i = 0;
 
@@ -71,7 +71,7 @@ bool32 ConfettiUtil_Init(u8 count)
     return TRUE;
 }
 
-bool32 ConfettiUtil_Free(void)
+bool32 ConfettiUtil_Free (void)
 {
     u8 i = 0;
 
@@ -91,7 +91,7 @@ bool32 ConfettiUtil_Free(void)
     return TRUE;
 }
 
-bool32 ConfettiUtil_Update(void)
+bool32 ConfettiUtil_Update (void)
 {
     u8 i = 0;
 
@@ -120,7 +120,7 @@ bool32 ConfettiUtil_Update(void)
     return TRUE;
 }
 
-static bool32 SetAnimAndTileNum(struct ConfettiUtil *structPtr, u8 animNum)
+static bool32 SetAnimAndTileNum (struct ConfettiUtil *structPtr, u8 animNum)
 {
     u16 tileStart;
 
@@ -138,7 +138,7 @@ static bool32 SetAnimAndTileNum(struct ConfettiUtil *structPtr, u8 animNum)
     return TRUE;
 }
 
-u8 ConfettiUtil_SetCallback(u8 id, void (*func)(struct ConfettiUtil *))
+u8 ConfettiUtil_SetCallback (u8 id, void (*func)(struct ConfettiUtil *))
 {
     if (sWork == NULL || id >= sWork->count) {
         return 0xFF;
@@ -150,7 +150,7 @@ u8 ConfettiUtil_SetCallback(u8 id, void (*func)(struct ConfettiUtil *))
     return id;
 }
 
-u8 ConfettiUtil_SetData(u8 id, u8 dataArrayId, s16 dataValue)
+u8 ConfettiUtil_SetData (u8 id, u8 dataArrayId, s16 dataValue)
 {
     if (sWork == NULL || id >= sWork->count) {
         return 0xFF;
@@ -162,7 +162,7 @@ u8 ConfettiUtil_SetData(u8 id, u8 dataArrayId, s16 dataValue)
     return id;
 }
 
-u8 ConfettiUtil_AddNew(const struct OamData *oam, u16 tileTag, u16 palTag, s16 x, s16 y, u8 animNum, u8 priority)
+u8 ConfettiUtil_AddNew (const struct OamData *oam, u16 tileTag, u16 palTag, s16 x, s16 y, u8 animNum, u8 priority)
 {
     struct ConfettiUtil *structPtr = NULL;
     u8 i;
@@ -201,7 +201,7 @@ u8 ConfettiUtil_AddNew(const struct OamData *oam, u16 tileTag, u16 palTag, s16 x
     return structPtr->id;
 }
 
-u8 ConfettiUtil_Remove(u8 id)
+u8 ConfettiUtil_Remove (u8 id)
 {
     if (sWork == NULL || !sWork->array[id].active) {
         return 0xFF;

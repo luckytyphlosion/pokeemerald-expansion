@@ -65,19 +65,19 @@ static const struct WindowTemplate sWindowTemplates[] =
 };
 
 // code
-static void VBlankCB(void)
+static void VBlankCB (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static bool8 CheckLanguageMatch(void)
+static bool8 CheckLanguageMatch (void)
 {
     return(gLinkPlayers[0].language == gLinkPlayers[1].language);
 }
 
-void CB2_InitMysteryEventMenu(void)
+void CB2_InitMysteryEventMenu (void)
 {
     ResetSpriteData();
     FreeAllSpritePalettes();
@@ -110,7 +110,7 @@ void CB2_InitMysteryEventMenu(void)
     }
 }
 
-static bool8 GetEventLoadMessage(u8 *dest, u32 status)
+static bool8 GetEventLoadMessage (u8 *dest, u32 status)
 {
     bool8 retVal = TRUE;
 
@@ -130,7 +130,7 @@ static bool8 GetEventLoadMessage(u8 *dest, u32 status)
     return retVal;
 }
 
-static void CB2_MysteryEventMenu(void)
+static void CB2_MysteryEventMenu (void)
 {
     switch (gMain.state) {
     case 0:
@@ -285,7 +285,7 @@ static void CB2_MysteryEventMenu(void)
     UpdatePaletteFade();
 }
 
-static void PrintMysteryMenuText(u8 windowId, const u8 *text, u8 x, u8 y, s32 speed)
+static void PrintMysteryMenuText (u8 windowId, const u8 *text, u8 x, u8 y, s32 speed)
 {
     u8 textColor[3];
     u8 letterSpacing = 0;

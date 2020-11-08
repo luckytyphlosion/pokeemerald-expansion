@@ -112,7 +112,7 @@ static const u16 sSpritePal_321Start[] = INCBIN_U16("graphics/link_games/321star
 static const u32 sSpriteSheet_321Start[] = INCBIN_U32("graphics/link_games/321start.4bpp.lz");
 
 // Unused
-static u32 sub_802E63C(u8 funcSetId, u8 taskPriority)
+static u32 sub_802E63C (u8 funcSetId, u8 taskPriority)
 {
     u8 taskId = CreateTask(sub_802E6D0, taskPriority);
     struct Task *task = &gTasks[taskId];
@@ -123,7 +123,7 @@ static u32 sub_802E63C(u8 funcSetId, u8 taskPriority)
     return taskId;
 }
 
-static bool32 sub_802E688(void)
+static bool32 sub_802E688 (void)
 {
     u8 taskId = FindTaskIdByFunc(sub_802E6D0);
     if (taskId == 0xFF) {
@@ -134,12 +134,12 @@ static bool32 sub_802E688(void)
     return TRUE;
 }
 
-static bool32 sub_802E6BC(void)
+static bool32 sub_802E6BC (void)
 {
     return FuncIsActiveTask(sub_802E6D0);
 }
 
-static void sub_802E6D0(u8 taskId)
+static void sub_802E6D0 (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -158,7 +158,7 @@ static void sub_802E6D0(u8 taskId)
     }
 }
 
-static void sub_802E75C(u8 taskId, s16 *data)
+static void sub_802E75C (u8 taskId, s16 *data)
 {
     u8 i;
     struct Sprite *sprite;
@@ -179,7 +179,7 @@ static void sub_802E75C(u8 taskId, s16 *data)
     }
 }
 
-static void sub_802E83C(u8 taskId)
+static void sub_802E83C (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     data[2] = 0;
@@ -200,7 +200,7 @@ static void sub_802E83C(u8 taskId)
     gSprites[data[15]].pos2.x = 32;
 }
 
-static void sub_802E8C8(u8 taskId)
+static void sub_802E8C8 (u8 taskId)
 {
     u8 i = 0;
     s16 *data = gTasks[taskId].data;
@@ -212,7 +212,7 @@ static void sub_802E8C8(u8 taskId)
     FreeSpritePaletteByTag(gUnknown_082FE6D8[data[4]].tag);
 }
 
-static void sub_802E938(struct Sprite *sprite)
+static void sub_802E938 (struct Sprite *sprite)
 {
     s16 *data = gTasks[sprite->data[3]].data;
 
@@ -248,7 +248,7 @@ static void sub_802E938(struct Sprite *sprite)
     sprite->data[2]++;
 }
 
-static void sub_802EA50(u8 taskId)
+static void sub_802EA50 (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     PlaySE(SE_BALL_BOUNCE_1);
@@ -257,7 +257,7 @@ static void sub_802EA50(u8 taskId)
     gTasks[taskId].data[0] = 3;
 }
 
-static void sub_802EAB0(u8 taskId)
+static void sub_802EAB0 (u8 taskId)
 {
     u16 packet[6];
     s16 *data = gTasks[taskId].data;
@@ -288,7 +288,7 @@ static void sub_802EAB0(u8 taskId)
 #define tSpriteId2   data[8]
 #define tSpriteId3   data[9]
 
-void StartMinigameCountdown(s16 tilesTag, s16 palTag, s16 x, s16 y, u8 subpriority)
+void StartMinigameCountdown (s16 tilesTag, s16 palTag, s16 x, s16 y, u8 subpriority)
 {
     u8 taskId = CreateTask(Task_MinigameCountdown, 80);
     gTasks[taskId].tTilesTag = tilesTag;
@@ -298,12 +298,12 @@ void StartMinigameCountdown(s16 tilesTag, s16 palTag, s16 x, s16 y, u8 subpriori
     gTasks[taskId].tSubpriority = subpriority;
 }
 
-bool32 IsMinigameCountdownRunning(void)
+bool32 IsMinigameCountdownRunning (void)
 {
     return FuncIsActiveTask(Task_MinigameCountdown);
 }
 
-static void Task_MinigameCountdown(u8 taskId)
+static void Task_MinigameCountdown (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -334,7 +334,7 @@ static void Task_MinigameCountdown(u8 taskId)
     }
 }
 
-static bool32 RunMinigameCountdownDigitsAnim(u8 spriteId)
+static bool32 RunMinigameCountdownDigitsAnim (u8 spriteId)
 {
     struct Sprite *sprite = &gSprites[spriteId];
 
@@ -400,7 +400,7 @@ static bool32 RunMinigameCountdownDigitsAnim(u8 spriteId)
 }
 
 // First argument is unused.
-static void InitStartGraphic(u8 spriteId1, u8 spriteId2, u8 spriteId3)
+static void InitStartGraphic (u8 spriteId1, u8 spriteId2, u8 spriteId3)
 {
     gSprites[spriteId2].pos2.y = -40;
     gSprites[spriteId3].pos2.y = -40;
@@ -410,12 +410,12 @@ static void InitStartGraphic(u8 spriteId1, u8 spriteId2, u8 spriteId3)
     gSprites[spriteId3].callback = SpriteCB_Start;
 }
 
-static bool32 IsStartGraphicAnimRunning(u8 spriteId)
+static bool32 IsStartGraphicAnimRunning (u8 spriteId)
 {
     return gSprites[spriteId].callback == SpriteCB_Start;
 }
 
-static void SpriteCB_Start(struct Sprite *sprite)
+static void SpriteCB_Start (struct Sprite *sprite)
 {
     int y;
     s16 *data = sprite->data;
@@ -462,7 +462,7 @@ static void SpriteCB_Start(struct Sprite *sprite)
     }
 }
 
-static void Load321StartGfx(u16 tileTag, u16 palTag)
+static void Load321StartGfx (u16 tileTag, u16 palTag)
 {
     struct CompressedSpriteSheet spriteSheet = {sSpriteSheet_321Start, 0xE00, 0};
     struct SpritePalette spritePalette = {sSpritePal_321Start, 0};
@@ -586,7 +586,7 @@ static const union AffineAnimCmd *const sAffineAnimTable_Numbers[] =
     sAffineAnim_Numbers_3
 };
 
-static u8 CreateNumberSprite(u16 tileTag, u16 palTag, s16 x, s16 y, u8 subpriority)
+static u8 CreateNumberSprite (u16 tileTag, u16 palTag, s16 x, s16 y, u8 subpriority)
 {
     struct SpriteTemplate spriteTemplate =
     {
@@ -601,7 +601,7 @@ static u8 CreateNumberSprite(u16 tileTag, u16 palTag, s16 x, s16 y, u8 subpriori
     return CreateSprite(&spriteTemplate, x, y, subpriority);
 }
 
-static void CreateStartSprite(u16 tileTag, u16 palTag, s16 x, s16 y, u8 subpriority, s16 *spriteId1, s16 *spriteId2)
+static void CreateStartSprite (u16 tileTag, u16 palTag, s16 x, s16 y, u8 subpriority, s16 *spriteId1, s16 *spriteId2)
 {
     struct SpriteTemplate spriteTemplate =
     {

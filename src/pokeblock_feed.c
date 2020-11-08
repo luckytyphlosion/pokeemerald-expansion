@@ -514,7 +514,7 @@ static const struct SpriteTemplate sThrownPokeblockSpriteTemplate =
 };
 
 // code
-static void CB2_PokeblockFeed(void)
+static void CB2_PokeblockFeed (void)
 {
     RunTasks();
     AnimateSprites();
@@ -523,14 +523,14 @@ static void CB2_PokeblockFeed(void)
     UpdatePaletteFade();
 }
 
-static void VBlankCB_PokeblockFeed(void)
+static void VBlankCB_PokeblockFeed (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static bool8 TransitionToPokeblockFeedScene(void)
+static bool8 TransitionToPokeblockFeedScene (void)
 {
     switch (gMain.state) {
     case 0:
@@ -602,7 +602,7 @@ static bool8 TransitionToPokeblockFeedScene(void)
     return FALSE;
 }
 
-void CB2_PreparePokeblockFeedScene(void)
+void CB2_PreparePokeblockFeedScene (void)
 {
     while (1) {
         if (MenuHelpers_CallLinkSomething() == TRUE) {
@@ -617,7 +617,7 @@ void CB2_PreparePokeblockFeedScene(void)
     }
 }
 
-static void HandleInitBackgrounds(void)
+static void HandleInitBackgrounds (void)
 {
     ResetVramOamAndBgCntRegs();
 
@@ -635,7 +635,7 @@ static void HandleInitBackgrounds(void)
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
 }
 
-static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
+static bool8 LoadMonAndSceneGfx (struct Pokemon *mon)
 {
     u16 species;
     u32 personality, trainerId;
@@ -695,7 +695,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
     return FALSE;
 }
 
-static void HandleInitWindows(void)
+static void HandleInitWindows (void)
 {
     InitWindows(sWindowTemplates);
     DeactivateAllTextPrinters();
@@ -706,7 +706,7 @@ static void HandleInitWindows(void)
     ScheduleBgCopyTilemapToVram(0);
 }
 
-static void SetPokeblockSpritePal(u8 pokeblockCaseId)
+static void SetPokeblockSpritePal (u8 pokeblockCaseId)
 {
     u8 colorId = GetPokeblockData(&gSaveBlock1Ptr->pokeblocks[pokeblockCaseId], PBLOCK_COLOR);
     sPokeblockSpritePal.data = sPokeblocksPals[colorId - 1];
@@ -718,7 +718,7 @@ static void SetPokeblockSpritePal(u8 pokeblockCaseId)
 #define tFrames     data[0]
 #define tData1      data[1]
 
-static void Task_HandlePokeblockFeed(u8 taskId)
+static void Task_HandlePokeblockFeed (u8 taskId)
 {
     if (!gPaletteFade.active) {
         switch (gTasks[taskId].tFrames) {
@@ -752,21 +752,21 @@ static void Task_HandlePokeblockFeed(u8 taskId)
     }
 }
 
-static void LaunchPokeblockFeedTask(void)
+static void LaunchPokeblockFeedTask (void)
 {
     u8 taskId = CreateTask(Task_HandlePokeblockFeed, 0);
     gTasks[taskId].tFrames = 0;
     gTasks[taskId].tData1 = 1;
 }
 
-static void Task_WaitForAtePokeblockText(u8 taskId)
+static void Task_WaitForAtePokeblockText (u8 taskId)
 {
     if (RunTextPrintersRetIsActive(0) != TRUE) {
         gTasks[taskId].func = Task_PaletteFadeToReturn;
     }
 }
 
-static void Task_HandleMonAtePokeblock(u8 taskId)
+static void Task_HandleMonAtePokeblock (u8 taskId)
 {
     struct Pokemon *mon = &gPlayerParty[gPokeblockMonId];
     struct Pokeblock *pokeblock = &gSaveBlock1Ptr->pokeblocks[gSpecialVar_ItemId];
@@ -788,7 +788,7 @@ static void Task_HandleMonAtePokeblock(u8 taskId)
     gTasks[taskId].func = Task_WaitForAtePokeblockText;
 }
 
-static void Task_ReturnAfterPaletteFade(u8 taskId)
+static void Task_ReturnAfterPaletteFade (u8 taskId)
 {
     if (!gPaletteFade.active) {
         ResetSpriteData();
@@ -802,7 +802,7 @@ static void Task_ReturnAfterPaletteFade(u8 taskId)
     }
 }
 
-static void Task_PaletteFadeToReturn(u8 taskId)
+static void Task_PaletteFadeToReturn (u8 taskId)
 {
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_ReturnAfterPaletteFade;
@@ -817,7 +817,7 @@ static void Task_PaletteFadeToReturn(u8 taskId)
 #define tDeltaMod       data[1]
 #define tSpecies        data[2]
 
-static u8 CreateMonSprite(struct Pokemon* mon)
+static u8 CreateMonSprite (struct Pokemon* mon)
 {
     u16 species = GetMonData(mon, MON_DATA_SPECIES2);
     u8 spriteId = CreateSprite(&gMultiuseSpriteTemplate, 48, 80, 2);
@@ -839,7 +839,7 @@ static u8 CreateMonSprite(struct Pokemon* mon)
     return spriteId;
 }
 
-static void PrepareMonToMoveToPokeblock(u8 spriteId)
+static void PrepareMonToMoveToPokeblock (u8 spriteId)
 {
     gSprites[spriteId].pos1.x = 48;
     gSprites[spriteId].pos1.y = 80;
@@ -848,7 +848,7 @@ static void PrepareMonToMoveToPokeblock(u8 spriteId)
     gSprites[spriteId].callback = sub_817A468;
 }
 
-static void sub_817A468(struct Sprite* sprite)
+static void sub_817A468 (struct Sprite* sprite)
 {
     sprite->pos1.x += 4;
     sprite->pos1.y += sprite->tDelta;
@@ -866,7 +866,7 @@ static void sub_817A468(struct Sprite* sprite)
 #undef tDeltaMod
 #undef tSpecies
 
-static u8 CreatePokeblockCaseSpriteForFeeding(void)
+static u8 CreatePokeblockCaseSpriteForFeeding (void)
 {
     u8 spriteId = CreatePokeblockCaseSprite(188, 100, 2);
     gSprites[spriteId].oam.affineMode = ST_OAM_AFFINE_NORMAL;
@@ -876,7 +876,7 @@ static u8 CreatePokeblockCaseSpriteForFeeding(void)
     return spriteId;
 }
 
-static void DoPokeblockCaseThrowEffect(u8 spriteId, bool8 a1)
+static void DoPokeblockCaseThrowEffect (u8 spriteId, bool8 a1)
 {
     FreeOamMatrix(gSprites[spriteId].oam.matrixNum);
     gSprites[spriteId].oam.affineMode = ST_OAM_AFFINE_DOUBLE;
@@ -894,7 +894,7 @@ static void DoPokeblockCaseThrowEffect(u8 spriteId, bool8 a1)
 #define tDelta          data[0]
 #define tDeltaMod       data[1]
 
-static u8 CreatePokeblockSprite(void)
+static u8 CreatePokeblockSprite (void)
 {
     u8 spriteId = CreateSprite(&sThrownPokeblockSpriteTemplate, 174, 84, 1);
     gSprites[spriteId].tDelta = -12;
@@ -902,7 +902,7 @@ static u8 CreatePokeblockSprite(void)
     return spriteId;
 }
 
-static void SpriteCB_ThrownPokeblock(struct Sprite* sprite)
+static void SpriteCB_ThrownPokeblock (struct Sprite* sprite)
 {
     sprite->pos1.x -= 4;
     sprite->pos1.y += sprite->tDelta;
@@ -915,7 +915,7 @@ static void SpriteCB_ThrownPokeblock(struct Sprite* sprite)
 #undef tDelta
 #undef tDeltaMod
 
-static void sub_817A5CC(void)
+static void sub_817A5CC (void)
 {
     u8 animId, i;
     struct PokeblockFeedStruct *pokeblockFeed;
@@ -931,7 +931,7 @@ static void sub_817A5CC(void)
     }
 }
 
-static void sub_817A634(void)
+static void sub_817A634 (void)
 {
     struct PokeblockFeedStruct *pokeblockFeed = sPokeblockFeed;
 
@@ -985,7 +985,7 @@ static void sub_817A634(void)
     }
 }
 
-static bool8 sub_817A91C(void)
+static bool8 sub_817A91C (void)
 {
     struct PokeblockFeedStruct *pokeblockFeed = sPokeblockFeed;
     u8 i;
@@ -1010,7 +1010,7 @@ static bool8 sub_817A91C(void)
     }
 }
 
-static bool8 sub_817A9E4(void)
+static bool8 sub_817A9E4 (void)
 {
     u16 var = sPokeblockFeed->field_1060[12] - sPokeblockFeed->field_1060[4];
 
@@ -1024,13 +1024,13 @@ static bool8 sub_817A9E4(void)
     }
 }
 
-static bool8 FreeMonSpriteOamMatrix(void)
+static bool8 FreeMonSpriteOamMatrix (void)
 {
     FreeSpriteOamMatrix(sPokeblockFeed->monSpritePtr);
     return FALSE;
 }
 
-static void sub_817AA54(void)
+static void sub_817AA54 (void)
 {
     struct PokeblockFeedStruct *pokeblockFeed = sPokeblockFeed;
     u16 i;
@@ -1051,7 +1051,7 @@ static void sub_817AA54(void)
     pokeblockFeed->field_C50[(r8 + r7) - 1] = r9;
 }
 
-static void sub_817AB68(void)
+static void sub_817AB68 (void)
 {
     struct PokeblockFeedStruct *pokeblockFeed = sPokeblockFeed;
     bool8 var_24 = FALSE;

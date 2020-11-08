@@ -123,7 +123,7 @@ static const u8 sText_MaleSymbol[] = _("{COLOR_HIGHLIGHT_SHADOW}{LIGHT_RED}{WHIT
 static const u8 sText_FemaleSymbol[] = _("{COLOR_HIGHLIGHT_SHADOW}{LIGHT_GREEN}{WHITE}{BLUE}♀{COLOR_HIGHLIGHT_SHADOW}{DARK_GREY}{WHITE}{LIGHT_GREY}");
 static const u8 sText_NoGenderSymbol[] = _("{UNK_SPACER}");
 
-bool32 PokenavCallback_Init_MonRibbonList(void)
+bool32 PokenavCallback_Init_MonRibbonList (void)
 {
     struct PokenavSub9 *structPtr = AllocSubstruct(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST, sizeof(struct PokenavSub9));
     if (structPtr == NULL) {
@@ -141,7 +141,7 @@ bool32 PokenavCallback_Init_MonRibbonList(void)
     return TRUE;
 }
 
-bool32 PokenavCallback_Init_RibbonsMonListFromSummary(void)
+bool32 PokenavCallback_Init_RibbonsMonListFromSummary (void)
 {
     struct PokenavSub9 *structPtr = AllocSubstruct(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST, sizeof(struct PokenavSub9));
     if (structPtr == NULL) {
@@ -154,13 +154,13 @@ bool32 PokenavCallback_Init_RibbonsMonListFromSummary(void)
     return TRUE;
 }
 
-u32 GetRibbonsMonListCallback(void)
+u32 GetRibbonsMonListCallback (void)
 {
     struct PokenavSub9 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST);
     return structPtr->callback(structPtr);
 }
 
-void FreeRibbonsMonList1(void)
+void FreeRibbonsMonList1 (void)
 {
     struct PokenavSub9 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST);
     if (!structPtr->saveMonList) {
@@ -169,7 +169,7 @@ void FreeRibbonsMonList1(void)
     FreePokenavSubstruct(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST);
 }
 
-static u32 HandleRibbonsMonListInput_WaitListInit(struct PokenavSub9 *structPtr)
+static u32 HandleRibbonsMonListInput_WaitListInit (struct PokenavSub9 *structPtr)
 {
     if (!IsLoopedTaskActive(structPtr->loopedTaskId)) {
         structPtr->callback = HandleRibbonsMonListInput;
@@ -177,7 +177,7 @@ static u32 HandleRibbonsMonListInput_WaitListInit(struct PokenavSub9 *structPtr)
     return 0;
 }
 
-static u32 HandleRibbonsMonListInput(struct PokenavSub9 *structPtr)
+static u32 HandleRibbonsMonListInput (struct PokenavSub9 *structPtr)
 {
     if (JOY_REPEAT(DPAD_UP)) {
         return RIBBONS_MON_LIST_FUNC_MOVE_UP;
@@ -205,54 +205,54 @@ static u32 HandleRibbonsMonListInput(struct PokenavSub9 *structPtr)
     return RIBBONS_MON_LIST_FUNC_NONE;
 }
 
-static u32 RibbonsMonMenu_ReturnToMainMenu(struct PokenavSub9 *structPtr)
+static u32 RibbonsMonMenu_ReturnToMainMenu (struct PokenavSub9 *structPtr)
 {
     return POKENAV_MAIN_MENU_CURSOR_ON_RIBBONS;
 }
 
-static u32 sub_81CFB10(struct PokenavSub9 *structPtr)
+static u32 sub_81CFB10 (struct PokenavSub9 *structPtr)
 {
     return POKENAV_RIBBONS_SUMMARY_SCREEN;
 }
 
-static u32 UpdateMonListBgs(void)
+static u32 UpdateMonListBgs (void)
 {
     struct PokenavSub9 *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST);
     return structPtr->changeBgs;
 }
 
-static struct PokenavMonList * GetMonRibbonMonListData(void)
+static struct PokenavMonList * GetMonRibbonMonListData (void)
 {
     struct PokenavSub9 * ptr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST);
     return ptr->monList->monData;
 }
 
-static s32 GetRibbonsMonListCount(void)
+static s32 GetRibbonsMonListCount (void)
 {
     struct PokenavSub9 * ptr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST);
     return ptr->monList->listCount;
 }
 
 //unused
-static s32 GetMonRibbonSelectedMonData(void)
+static s32 GetMonRibbonSelectedMonData (void)
 {
     struct PokenavSub9 * ptr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST);
     s32 idx = GetSelectedPokenavListIndex();
     return ptr->monList->monData[idx].data;
 }
 
-static s32 GetRibbonListMenuCurrIndex(void)
+static s32 GetRibbonListMenuCurrIndex (void)
 {
     struct PokenavSub9 * ptr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST);
     return ptr->monList->currIndex;
 }
 
-static u32 GetMonRibbonListLoopTaskFunc(s32 state)
+static u32 GetMonRibbonListLoopTaskFunc (s32 state)
 {
     return sMonRibbonListLoopTaskFuncs[state](state);
 }
 
-static u32 BuildPartyMonRibbonList(s32 state)
+static u32 BuildPartyMonRibbonList (s32 state)
 {
     s32 i;
     struct PokenavMonList item;
@@ -279,7 +279,7 @@ static u32 BuildPartyMonRibbonList(s32 state)
     return LT_INC_AND_CONTINUE;
 }
 
-static u32 InitBoxMonRibbonList(s32 state)
+static u32 InitBoxMonRibbonList (s32 state)
 {
     struct PokenavSub9 *ptr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST);
     ptr->monId = 0;
@@ -287,7 +287,7 @@ static u32 InitBoxMonRibbonList(s32 state)
     return LT_INC_AND_CONTINUE;
 }
 
-static u32 BuildBoxMonRibbonList(s32 state)
+static u32 BuildBoxMonRibbonList (s32 state)
 {
     struct PokenavSub9 * ptr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_LIST);
     s32 boxId = ptr->boxId;
@@ -322,7 +322,7 @@ static u32 BuildBoxMonRibbonList(s32 state)
     return LT_FINISH;
 }
 
-static void sub_81CFCEC(struct PokenavSub9 *structPtr, struct PokenavMonList *item)
+static void sub_81CFCEC (struct PokenavSub9 *structPtr, struct PokenavMonList *item)
 {
     u32 left = 0;
     u32 right = structPtr->monList->listCount;
@@ -344,7 +344,7 @@ static void sub_81CFCEC(struct PokenavSub9 *structPtr, struct PokenavMonList *it
 }
 
 //unused
-static bool32 Unused_PlayerHasRibbonsMon(void)
+static bool32 Unused_PlayerHasRibbonsMon (void)
 {
     s32 i, j;
 
@@ -375,7 +375,7 @@ static bool32 Unused_PlayerHasRibbonsMon(void)
     return FALSE;
 }
 
-bool32 OpenRibbonsMonList(void)
+bool32 OpenRibbonsMonList (void)
 {
     struct PokenavSub10 *ptr = AllocSubstruct(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU, sizeof(struct PokenavSub10));
     if (ptr == NULL) {
@@ -387,7 +387,7 @@ bool32 OpenRibbonsMonList(void)
     return TRUE;
 }
 
-bool32 OpenRibbonsMonListFromRibbonsSummary(void)
+bool32 OpenRibbonsMonListFromRibbonsSummary (void)
 {
     struct PokenavSub10 *monMenu = AllocSubstruct(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU, sizeof(struct PokenavSub10));
     if (monMenu == NULL) {
@@ -399,26 +399,26 @@ bool32 OpenRibbonsMonListFromRibbonsSummary(void)
     return TRUE;
 }
 
-void CreateRibbonsMonListLoopedTask(s32 idx)
+void CreateRibbonsMonListLoopedTask (s32 idx)
 {
     struct PokenavSub10 *monMenu = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU);
     monMenu->ltid = CreateLoopedTask(sRibbonsMonMenuLoopTaskFuncs[idx], 1);
     monMenu->callback = GetRibbonsMonCurrentLoopedTaskActive;
 }
 
-bool32 IsRibbonsMonListLoopedTaskActive(void)
+bool32 IsRibbonsMonListLoopedTaskActive (void)
 {
     struct PokenavSub10 *monMenu = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU);
     return monMenu->callback();
 }
 
-bool32 GetRibbonsMonCurrentLoopedTaskActive(void)
+bool32 GetRibbonsMonCurrentLoopedTaskActive (void)
 {
     struct PokenavSub10 * ptr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU);
     return IsLoopedTaskActive(ptr->ltid);
 }
 
-void FreeRibbonsMonList2(void)
+void FreeRibbonsMonList2 (void)
 {
     struct PokenavSub10 * ptr = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU);
     sub_81C8234();
@@ -426,7 +426,7 @@ void FreeRibbonsMonList2(void)
     FreePokenavSubstruct(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU);
 }
 
-static u32 LoopedTask_OpenRibbonsMonList(s32 state)
+static u32 LoopedTask_OpenRibbonsMonList (s32 state)
 {
     struct PokenavSub10 *monMenu = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU);
     switch (state) {
@@ -487,7 +487,7 @@ static u32 LoopedTask_OpenRibbonsMonList(s32 state)
     return LT_FINISH;
 }
 
-static u32 LoopedTask_RibbonsListMoveCursorUp(s32 state)
+static u32 LoopedTask_RibbonsListMoveCursorUp (s32 state)
 {
     struct PokenavSub10 *monMenu = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU);
     switch (state) {
@@ -520,7 +520,7 @@ static u32 LoopedTask_RibbonsListMoveCursorUp(s32 state)
     return LT_FINISH;
 }
 
-static u32 LoopedTask_RibbonsListMoveCursorDown(s32 state)
+static u32 LoopedTask_RibbonsListMoveCursorDown (s32 state)
 {
     struct PokenavSub10 *monMenu = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU);
     switch (state) {
@@ -553,7 +553,7 @@ static u32 LoopedTask_RibbonsListMoveCursorDown(s32 state)
     return LT_FINISH;
 }
 
-static u32 LoopedTask_RibbonsListMovePageUp(s32 state)
+static u32 LoopedTask_RibbonsListMovePageUp (s32 state)
 {
     struct PokenavSub10 *monMenu = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU);
     switch (state) {
@@ -586,7 +586,7 @@ static u32 LoopedTask_RibbonsListMovePageUp(s32 state)
     return LT_FINISH;
 }
 
-static u32 LoopedTask_RibbonsListMovePageDown(s32 state)
+static u32 LoopedTask_RibbonsListMovePageDown (s32 state)
 {
     struct PokenavSub10 *monMenu = GetSubstructPtr(POKENAV_SUBSTRUCT_RIBBONS_MON_MENU);
     switch (state) {
@@ -619,7 +619,7 @@ static u32 LoopedTask_RibbonsListMovePageDown(s32 state)
     return LT_FINISH;
 }
 
-static u32 LoopedTask_RibbonsListReturnToMainMenu(s32 state)
+static u32 LoopedTask_RibbonsListReturnToMainMenu (s32 state)
 {
     switch (state) {
     case 0:
@@ -640,7 +640,7 @@ static u32 LoopedTask_RibbonsListReturnToMainMenu(s32 state)
     return LT_FINISH;
 }
 
-static u32 LoopedTask_RibbonsListOpenSummary(s32 state)
+static u32 LoopedTask_RibbonsListOpenSummary (s32 state)
 {
     switch (state) {
     case 0:
@@ -656,7 +656,7 @@ static u32 LoopedTask_RibbonsListOpenSummary(s32 state)
     return LT_FINISH;
 }
 
-static void AddRibbonsMonListWindow(struct PokenavSub10 *monMenu)
+static void AddRibbonsMonListWindow (struct PokenavSub10 *monMenu)
 {
     s32 r2;
     monMenu->winid = AddWindow(&sRibbonsMonListWindowTemplate);
@@ -667,7 +667,7 @@ static void AddRibbonsMonListWindow(struct PokenavSub10 *monMenu)
     sub_81D0288(monMenu);
 }
 
-static void sub_81D0288(struct PokenavSub10 *monMenu)
+static void sub_81D0288 (struct PokenavSub10 *monMenu)
 {
     s32 r4 = GetSelectedPokenavListIndex();
     s32 r2 = GetRibbonsMonListCount();
@@ -675,7 +675,7 @@ static void sub_81D0288(struct PokenavSub10 *monMenu)
     CopyWindowToVram(monMenu->winid, 2);
 }
 
-static void sub_81D02B0(s32 windowId, s32 val1, s32 val2)
+static void sub_81D02B0 (s32 windowId, s32 val1, s32 val2)
 {
     u8 strbuf[16];
     u32 x;
@@ -688,7 +688,7 @@ static void sub_81D02B0(s32 windowId, s32 val1, s32 val2)
     AddTextPrinterParameterized(windowId, 1, strbuf, x, 1, 0xFF, NULL);
 }
 
-static void InitMonRibbonPokenavListMenuTemplate(void)
+static void InitMonRibbonPokenavListMenuTemplate (void)
 {
     struct PokenavListTemplate template;
     template.list.monList = GetMonRibbonMonListData();
@@ -707,7 +707,7 @@ static void InitMonRibbonPokenavListMenuTemplate(void)
 }
 
 // Buffers the "Nickname gender/level" text for the ribbon mon list
-static void BufferRibbonMonInfoText(struct PokenavMonList * item0, u8 * dest)
+static void BufferRibbonMonInfoText (struct PokenavMonList * item0, u8 * dest)
 {
     u8 gender;
     u8 level;

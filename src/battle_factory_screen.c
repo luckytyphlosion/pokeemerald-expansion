@@ -1037,7 +1037,7 @@ extern const u8 gText_SamePkmnInPartyAlready[];
 extern const u8 gText_Cancel3[];
 
 // code
-static void sub_819A44C(struct Sprite *sprite)
+static void sub_819A44C (struct Sprite *sprite)
 {
     if (sprite->oam.paletteNum == IndexOfSpritePaletteTag(TAG_PAL_BALL_SELECTED)) {
         if (sprite->animEnded) {
@@ -1057,7 +1057,7 @@ static void sub_819A44C(struct Sprite *sprite)
     }
 }
 
-static void Select_CB2(void)
+static void Select_CB2 (void)
 {
     AnimateSprites();
     BuildOamBuffer();
@@ -1066,20 +1066,20 @@ static void Select_CB2(void)
     RunTasks();
 }
 
-static void Select_VblankCb(void)
+static void Select_VblankCb (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-void DoBattleFactorySelectScreen(void)
+void DoBattleFactorySelectScreen (void)
 {
     sFactorySelectScreen = NULL;
     SetMainCallback2(CB2_InitSelectScreen);
 }
 
-static void CB2_InitSelectScreen(void)
+static void CB2_InitSelectScreen (void)
 {
     u8 taskId;
 
@@ -1215,7 +1215,7 @@ static void CB2_InitSelectScreen(void)
     }
 }
 
-static void Select_InitMonsData(void)
+static void Select_InitMonsData (void)
 {
     u8 i;
 
@@ -1238,7 +1238,7 @@ static void Select_InitMonsData(void)
     }
 }
 
-static void Select_InitAllSprites(void)
+static void Select_InitAllSprites (void)
 {
     u8 i, cursorPos;
     s16 x;
@@ -1263,7 +1263,7 @@ static void Select_InitAllSprites(void)
     gSprites[sFactorySelectScreen->menuCursor2SpriteId].centerToCornerVecY = 0;
 }
 
-static void Select_DestroyAllSprites(void)
+static void Select_DestroyAllSprites (void)
 {
     u8 i;
 
@@ -1276,7 +1276,7 @@ static void Select_DestroyAllSprites(void)
     DestroySprite(&gSprites[sFactorySelectScreen->menuCursor2SpriteId]);
 }
 
-static void Select_UpdateBallCursorPosition(s8 direction)
+static void Select_UpdateBallCursorPosition (s8 direction)
 {
     u8 cursorPos;
     if (direction > 0) { // Move cursor right.
@@ -1297,7 +1297,7 @@ static void Select_UpdateBallCursorPosition(s8 direction)
     gSprites[sFactorySelectScreen->cursorSpriteId].pos1.x = gSprites[sFactorySelectScreen->mons[cursorPos].spriteId].pos1.x;
 }
 
-static void Select_UpdateMenuCursorPosition(s8 direction)
+static void Select_UpdateMenuCursorPosition (s8 direction)
 {
     if (direction > 0) { // Move cursor down.
         if (sFactorySelectScreen->menuCursorPos != MENU_OPTIONS_COUNT - 1) {
@@ -1317,7 +1317,7 @@ static void Select_UpdateMenuCursorPosition(s8 direction)
     gSprites[sFactorySelectScreen->menuCursor2SpriteId].pos1.y = (sFactorySelectScreen->menuCursorPos * 16) + 112;
 }
 
-static void Select_UpdateYesNoCursorPosition(s8 direction)
+static void Select_UpdateYesNoCursorPosition (s8 direction)
 {
     if (direction > 0) { // Move cursor down.
         if (sFactorySelectScreen->yesNoCursorPos != 1) {
@@ -1337,7 +1337,7 @@ static void Select_UpdateYesNoCursorPosition(s8 direction)
     gSprites[sFactorySelectScreen->menuCursor2SpriteId].pos1.y = (sFactorySelectScreen->yesNoCursorPos * 16) + 112;
 }
 
-static void Select_HandleMonSelectionChange(void)
+static void Select_HandleMonSelectionChange (void)
 {
     u8 i, paletteNum;
     u8 cursorPos = sFactorySelectScreen->cursorPos;
@@ -1366,7 +1366,7 @@ static void Select_HandleMonSelectionChange(void)
     gSprites[sFactorySelectScreen->mons[cursorPos].spriteId].oam.paletteNum = paletteNum;
 }
 
-static void Select_SetBallSpritePaletteNum(u8 id)
+static void Select_SetBallSpritePaletteNum (u8 id)
 {
     u8 palNum;
 
@@ -1379,7 +1379,7 @@ static void Select_SetBallSpritePaletteNum(u8 id)
     gSprites[sFactorySelectScreen->mons[id].spriteId].oam.paletteNum = palNum;
 }
 
-static void Task_FromSelectScreenToSummaryScreen(u8 taskId)
+static void Task_FromSelectScreenToSummaryScreen (u8 taskId)
 {
     u8 i;
     u8 currMonId;
@@ -1417,7 +1417,7 @@ static void Task_FromSelectScreenToSummaryScreen(u8 taskId)
     }
 }
 
-static void Task_CloseSelectionScreen(u8 taskId)
+static void Task_CloseSelectionScreen (u8 taskId)
 {
     if (sFactorySelectScreen->unk2A0 != TRUE) {
         switch (gTasks[taskId].data[0]) {
@@ -1443,7 +1443,7 @@ static void Task_CloseSelectionScreen(u8 taskId)
     }
 }
 
-static void Task_HandleSelectionScreenYesNo(u8 taskId)
+static void Task_HandleSelectionScreenYesNo (u8 taskId)
 {
     if (sFactorySelectScreen->unk2A0 != TRUE) {
         switch (gTasks[taskId].data[0]) {
@@ -1488,7 +1488,7 @@ static void Task_HandleSelectionScreenYesNo(u8 taskId)
     }
 }
 
-static void Task_HandleSelectionScreenMenu(u8 taskId)
+static void Task_HandleSelectionScreenMenu (u8 taskId)
 {
     switch (gTasks[taskId].data[0]) {
     case 2:
@@ -1555,7 +1555,7 @@ static void Task_HandleSelectionScreenMenu(u8 taskId)
     }
 }
 
-static void Task_HandleSelectionScreenChooseMons(u8 taskId)
+static void Task_HandleSelectionScreenChooseMons (u8 taskId)
 {
     if (sFactorySelectScreen->unk2A0 != TRUE) {
         switch (gTasks[taskId].data[0]) {
@@ -1596,7 +1596,7 @@ static void Task_HandleSelectionScreenChooseMons(u8 taskId)
     }
 }
 
-static void CreateFrontierFactorySelectableMons(u8 firstMonId)
+static void CreateFrontierFactorySelectableMons (u8 firstMonId)
 {
     u8 i, j = 0;
     u8 ivs = 0;
@@ -1642,7 +1642,7 @@ static void CreateFrontierFactorySelectableMons(u8 firstMonId)
     }
 }
 
-static void CreateTentFactorySelectableMons(u8 firstMonId)
+static void CreateTentFactorySelectableMons (u8 firstMonId)
 {
     u8 i, j;
     u8 ivs = 0;
@@ -1672,7 +1672,7 @@ static void CreateTentFactorySelectableMons(u8 firstMonId)
     }
 }
 
-static void Select_CopyMonsToPlayerParty(void)
+static void Select_CopyMonsToPlayerParty (void)
 {
     u8 i, j;
 
@@ -1691,7 +1691,7 @@ static void Select_CopyMonsToPlayerParty(void)
     CalculatePlayerPartyCount();
 }
 
-static void Select_ShowMenuOptions(void)
+static void Select_ShowMenuOptions (void)
 {
     if (!sFactorySelectScreen->fromSummaryScreen) {
         sFactorySelectScreen->menuCursorPos = 0;
@@ -1708,7 +1708,7 @@ static void Select_ShowMenuOptions(void)
     Select_PrintMenuOptions();
 }
 
-static void Select_ShowYesNoOptions(void)
+static void Select_ShowYesNoOptions (void)
 {
     sFactorySelectScreen->yesNoCursorPos = 0;
 
@@ -1723,7 +1723,7 @@ static void Select_ShowYesNoOptions(void)
     Select_PrintYesNoOptions();
 }
 
-static void sub_819B958(u8 windowId)
+static void sub_819B958 (u8 windowId)
 {
     gSprites[sFactorySelectScreen->menuCursor1SpriteId].invisible = TRUE;
     gSprites[sFactorySelectScreen->menuCursor2SpriteId].invisible = TRUE;
@@ -1732,14 +1732,14 @@ static void sub_819B958(u8 windowId)
     ClearWindowTilemap(windowId);
 }
 
-static void Select_PrintRentalPkmnString(void)
+static void Select_PrintRentalPkmnString (void)
 {
     FillWindowPixelBuffer(0, PIXEL_FILL(0));
     AddTextPrinterParameterized(0, 1, gText_RentalPkmn2, 2, 1, 0, NULL);
     CopyWindowToVram(0, 3);
 }
 
-static void Select_PrintMonSpecies(void)
+static void Select_PrintMonSpecies (void)
 {
     u16 species;
     u8 x;
@@ -1753,7 +1753,7 @@ static void Select_PrintMonSpecies(void)
     CopyWindowToVram(1, 2);
 }
 
-static void Select_PrintSelectMonString(void)
+static void Select_PrintSelectMonString (void)
 {
     const u8 *str = NULL;
 
@@ -1772,14 +1772,14 @@ static void Select_PrintSelectMonString(void)
     CopyWindowToVram(2, 2);
 }
 
-static void Select_PrintCantSelectSameMon(void)
+static void Select_PrintCantSelectSameMon (void)
 {
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
     AddTextPrinterParameterized(2, 1, gText_CantSelectSamePkmn, 2, 5, 0, NULL);
     CopyWindowToVram(2, 2);
 }
 
-static void Select_PrintMenuOptions(void)
+static void Select_PrintMenuOptions (void)
 {
     u8 selectedId = sFactorySelectScreen->mons[sFactorySelectScreen->cursorPos].selectedId;
 
@@ -1796,7 +1796,7 @@ static void Select_PrintMenuOptions(void)
     CopyWindowToVram(3, 3);
 }
 
-static void Select_PrintYesNoOptions(void)
+static void Select_PrintYesNoOptions (void)
 {
     PutWindowTilemap(4);
     FillWindowPixelBuffer(4, PIXEL_FILL(0));
@@ -1805,13 +1805,13 @@ static void Select_PrintYesNoOptions(void)
     CopyWindowToVram(4, 3);
 }
 
-static u8 Select_RunMenuOptionFunc(void)
+static u8 Select_RunMenuOptionFunc (void)
 {
     gUnknown_030062E8 = sSelect_MenuOptionFuncs[sFactorySelectScreen->menuCursorPos];
     return gUnknown_030062E8();
 }
 
-static u8 Select_OptionRentDeselect(void)
+static u8 Select_OptionRentDeselect (void)
 {
     u8 selectedId = sFactorySelectScreen->mons[sFactorySelectScreen->cursorPos].selectedId;
     u16 monId  = sFactorySelectScreen->mons[sFactorySelectScreen->cursorPos].monId;
@@ -1832,7 +1832,7 @@ static u8 Select_OptionRentDeselect(void)
     }
 }
 
-static u8 sub_819BC9C(void)
+static u8 sub_819BC9C (void)
 {
     sub_819C568();
     Select_HandleMonSelectionChange();
@@ -1845,19 +1845,19 @@ static u8 sub_819BC9C(void)
     }
 }
 
-static u8 Select_OptionSummary(void)
+static u8 Select_OptionSummary (void)
 {
     return 0;
 }
 
-static u8 Select_OptionOthers(void)
+static u8 Select_OptionOthers (void)
 {
     sub_819F3F8(sFactorySelectScreen->unk294[1], &sFactorySelectScreen->unk2A0, FALSE);
     sub_819B958(3);
     return 1;
 }
 
-static void Select_PrintMonCategory(void)
+static void Select_PrintMonCategory (void)
 {
     u16 species;
     u8 text[30];
@@ -1874,7 +1874,7 @@ static void Select_PrintMonCategory(void)
     }
 }
 
-static void Summary_ShowMonSprite(void)
+static void Summary_ShowMonSprite (void)
 {
     u8 monId = sFactorySelectScreen->cursorPos;
     struct Pokemon *mon = &sFactorySelectScreen->mons[monId].monData;
@@ -1889,12 +1889,12 @@ static void Summary_ShowMonSprite(void)
     sFactorySelectScreen->unk2A0 = FALSE;
 }
 
-static void sub_819BE20(bool8 arg0)
+static void sub_819BE20 (bool8 arg0)
 {
     sFactorySelectScreen->unk2A0 = arg0;
 }
 
-static void Select_ShowSummaryMonSprite(void)
+static void Select_ShowSummaryMonSprite (void)
 {
     struct Pokemon *mon;
     u16 species;
@@ -1915,7 +1915,7 @@ static void Select_ShowSummaryMonSprite(void)
     gSprites[sFactorySelectScreen->unk294[1].field1].invisible = TRUE;
 }
 
-static void Select_ShowChosenMonsSprites(void)
+static void Select_ShowChosenMonsSprites (void)
 {
     u8 i, j;
 
@@ -1937,7 +1937,7 @@ static void Select_ShowChosenMonsSprites(void)
     sFactorySelectScreen->unk2A0 = FALSE;
 }
 
-static void sub_819C040(struct Sprite *sprite)
+static void sub_819C040 (struct Sprite *sprite)
 {
     u8 taskId;
 
@@ -1955,7 +1955,7 @@ static void sub_819C040(struct Sprite *sprite)
     }
 }
 
-static void sub_819C100(struct Sprite *sprite)
+static void sub_819C100 (struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded
         && gSprites[sFactorySelectScreen->unk294[0].field1].affineAnimEnded
@@ -1972,7 +1972,7 @@ static void sub_819C100(struct Sprite *sprite)
     }
 }
 
-static void sub_819C1D0(u8 taskId)
+static void sub_819C1D0 (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     switch (task->data[0]) {
@@ -2013,7 +2013,7 @@ static void sub_819C1D0(u8 taskId)
     task->data[0]++;
 }
 
-static void sub_819C2D4(u8 taskId)
+static void sub_819C2D4 (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     switch (task->data[0]) {
@@ -2058,7 +2058,7 @@ static void sub_819C2D4(u8 taskId)
     }
 }
 
-static void sub_819C4B4(void)
+static void sub_819C4B4 (void)
 {
     sFactorySelectScreen->unk294[1].field1 = CreateSprite(&gUnknown_08610638, 120, 64, 1);
     sFactorySelectScreen->unk294[0].field1 = CreateSprite(&gUnknown_08610638,  44, 64, 1);
@@ -2071,7 +2071,7 @@ static void sub_819C4B4(void)
     sFactorySelectScreen->unk2A0 = TRUE;
 }
 
-static void sub_819C568(void)
+static void sub_819C568 (void)
 {
     u8 taskId;
 
@@ -2085,7 +2085,7 @@ static void sub_819C568(void)
     sFactorySelectScreen->unk2A0 = TRUE;
 }
 
-static void Select_SetWinRegs(s16 mWin0H, s16 nWin0H, s16 mWin0V, s16 nWin0V)
+static void Select_SetWinRegs (s16 mWin0H, s16 nWin0H, s16 mWin0V, s16 nWin0V)
 {
     SetGpuRegBits(REG_OFFSET_DISPCNT, DISPCNT_WIN0_ON);
     SetGpuReg(REG_OFFSET_WIN0H, WIN_RANGE(mWin0H, nWin0H));
@@ -2094,7 +2094,7 @@ static void Select_SetWinRegs(s16 mWin0H, s16 nWin0H, s16 mWin0V, s16 nWin0V)
     SetGpuReg(REG_OFFSET_WINOUT, WINOUT_WIN01_BG0 | WINOUT_WIN01_BG1 | WINOUT_WIN01_BG2 | WINOUT_WIN01_CLR | WINOUT_WIN01_OBJ);
 }
 
-static bool32 Select_AreSpeciesValid(u16 monId)
+static bool32 Select_AreSpeciesValid (u16 monId)
 {
     u8 i, j;
     u32 species = gFacilityTrainerMons[monId].species;
@@ -2115,7 +2115,7 @@ static bool32 Select_AreSpeciesValid(u16 monId)
     return TRUE;
 }
 
-static void Task_SelectFadeSpeciesName(u8 taskId)
+static void Task_SelectFadeSpeciesName (u8 taskId)
 {
     switch (gTasks[taskId].data[0]) {
     case 0:
@@ -2161,7 +2161,7 @@ static void Task_SelectFadeSpeciesName(u8 taskId)
 
 // Swap Screen's section begins here.
 
-static void Swap_CB2(void)
+static void Swap_CB2 (void)
 {
     AnimateSprites();
     BuildOamBuffer();
@@ -2170,14 +2170,14 @@ static void Swap_CB2(void)
     RunTasks();
 }
 
-static void Swap_VblankCb(void)
+static void Swap_VblankCb (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void CopySwappedMonData(void)
+static void CopySwappedMonData (void)
 {
     u8 happiness;
 
@@ -2190,7 +2190,7 @@ static void CopySwappedMonData(void)
     gSaveBlock2Ptr->frontier.rentalMons[sFactorySwapScreen->playerMonId].abilityNum = GetBoxMonData(&gEnemyParty[sFactorySwapScreen->enemyMonId].box, MON_DATA_ABILITY_NUM, NULL);
 }
 
-static void Task_FromSwapScreenToSummaryScreen(u8 taskId)
+static void Task_FromSwapScreenToSummaryScreen (u8 taskId)
 {
     switch (gTasks[taskId].data[0]) {
     case 6:
@@ -2219,7 +2219,7 @@ static void Task_FromSwapScreenToSummaryScreen(u8 taskId)
     }
 }
 
-static void Task_CloseSwapScreen(u8 taskId)
+static void Task_CloseSwapScreen (u8 taskId)
 {
     if (sFactorySwapScreen->unk30 != TRUE) {
         switch (gTasks[taskId].data[0]) {
@@ -2261,7 +2261,7 @@ static void Task_CloseSwapScreen(u8 taskId)
     }
 }
 
-static void Task_HandleSwapScreenYesNo(u8 taskId)
+static void Task_HandleSwapScreenYesNo (u8 taskId)
 {
     u16 loPtr, hiPtr;
 
@@ -2305,7 +2305,7 @@ static void Task_HandleSwapScreenYesNo(u8 taskId)
     }
 }
 
-static void sub_819CBDC(u8 taskId)
+static void sub_819CBDC (u8 taskId)
 {
     if (gTasks[taskId].data[1] == 1) {
         gTasks[taskId].data[0] = 0;
@@ -2319,7 +2319,7 @@ static void sub_819CBDC(u8 taskId)
     }
 }
 
-static void sub_819CC24(u8 taskId)
+static void sub_819CC24 (u8 taskId)
 {
     if (gTasks[taskId].data[0] == 0) {
         Swap_PrintOnInfoWindow(gText_QuitSwapping);
@@ -2331,7 +2331,7 @@ static void sub_819CC24(u8 taskId)
     }
 }
 
-static void sub_819CC74(u8 taskId)
+static void sub_819CC74 (u8 taskId)
 {
     sub_819F3F8(sFactorySwapScreen->unk2C, &sFactorySwapScreen->unk30, TRUE);
     if (gTasks[taskId].data[1] == 1) {
@@ -2346,7 +2346,7 @@ static void sub_819CC74(u8 taskId)
     }
 }
 
-static void sub_819CCD4(u8 taskId)
+static void sub_819CCD4 (u8 taskId)
 {
     if (gTasks[taskId].data[0] == 0) {
         sub_819F2B4(&sFactorySwapScreen->unk2C.field1, &sFactorySwapScreen->unk30, TRUE);
@@ -2359,7 +2359,7 @@ static void sub_819CCD4(u8 taskId)
     }
 }
 
-static void Task_HandleSwapScreenMenu(u8 taskId)
+static void Task_HandleSwapScreenMenu (u8 taskId)
 {
     switch (gTasks[taskId].data[0]) {
     case 2:
@@ -2398,7 +2398,7 @@ static void Task_HandleSwapScreenMenu(u8 taskId)
     }
 }
 
-static void Task_HandleSwapScreenChooseMons(u8 taskId)
+static void Task_HandleSwapScreenChooseMons (u8 taskId)
 {
     switch (gTasks[taskId].data[0]) {
     case 0:
@@ -2445,7 +2445,7 @@ static void Task_HandleSwapScreenChooseMons(u8 taskId)
     }
 }
 
-static void Task_SwapFadeSpeciesName(u8 taskId)
+static void Task_SwapFadeSpeciesName (u8 taskId)
 {
     switch (gTasks[taskId].data[0]) {
     case 0:
@@ -2489,7 +2489,7 @@ static void Task_SwapFadeSpeciesName(u8 taskId)
     }
 }
 
-static void Task_SwapFadeSpeciesName2(u8 taskId)
+static void Task_SwapFadeSpeciesName2 (u8 taskId)
 {
     switch (gTasks[taskId].data[0]) {
     case 0:
@@ -2517,7 +2517,7 @@ static void Task_SwapFadeSpeciesName2(u8 taskId)
     }
 }
 
-static void sub_819D12C(u8 taskId)
+static void sub_819D12C (u8 taskId)
 {
     s8 i;
     u8 var_2C;
@@ -2578,7 +2578,7 @@ static void sub_819D12C(u8 taskId)
     }
 }
 
-static void sub_819D324(u8 taskId)
+static void sub_819D324 (u8 taskId)
 {
     u8 i, j;
     s32 posX = 0;
@@ -2664,7 +2664,7 @@ static void sub_819D324(u8 taskId)
     }
 }
 
-static void sub_819D588(u8 taskId)
+static void sub_819D588 (u8 taskId)
 {
     u8 anotherTaskId;
     u16 loPtr, hiPtr;
@@ -2733,7 +2733,7 @@ static void sub_819D588(u8 taskId)
     }
 }
 
-static void sub_819D770(u8 taskId)
+static void sub_819D770 (u8 taskId)
 {
     u8 anotherTaskId;
     u16 loPtr, hiPtr;
@@ -2828,7 +2828,7 @@ static void sub_819D770(u8 taskId)
     }
 }
 
-static void sub_819D9EC(u8 taskId)
+static void sub_819D9EC (u8 taskId)
 {
     u8 i;
     if (sFactorySwapScreen->unk30 == TRUE) {
@@ -2880,7 +2880,7 @@ static void sub_819D9EC(u8 taskId)
     }
 }
 
-static void Swap_InitStruct(void)
+static void Swap_InitStruct (void)
 {
     if (sFactorySwapScreen == NULL) {
         sFactorySwapScreen = AllocZeroed(sizeof(*sFactorySwapScreen));
@@ -2890,13 +2890,13 @@ static void Swap_InitStruct(void)
     }
 }
 
-void DoBattleFactorySwapScreen(void)
+void DoBattleFactorySwapScreen (void)
 {
     sFactorySwapScreen = NULL;
     SetMainCallback2(CB2_InitSwapScreen);
 }
 
-static void CB2_InitSwapScreen(void)
+static void CB2_InitSwapScreen (void)
 {
     u8 taskId;
 
@@ -3049,7 +3049,7 @@ static void CB2_InitSwapScreen(void)
     }
 }
 
-static void Swap_InitAllSprites(void)
+static void Swap_InitAllSprites (void)
 {
     u8 i;
     u8 x;
@@ -3139,7 +3139,7 @@ static void Swap_InitAllSprites(void)
     gSprites[sFactorySwapScreen->unk8[0][2]].invisible = FALSE;
 }
 
-static void Swap_DestroyAllSprites(void)
+static void Swap_DestroyAllSprites (void)
 {
     u8 i, j;
 
@@ -3161,7 +3161,7 @@ static void Swap_DestroyAllSprites(void)
     }
 }
 
-static void Swap_HandleActionCursorChange(u8 cursorId)
+static void Swap_HandleActionCursorChange (u8 cursorId)
 {
     if (cursorId < 3) {
         gSprites[sFactorySwapScreen->cursorSpriteId].invisible = FALSE;
@@ -3173,7 +3173,7 @@ static void Swap_HandleActionCursorChange(u8 cursorId)
     }
 }
 
-static void Swap_UpdateBallCursorPosition(s8 direction)
+static void Swap_UpdateBallCursorPosition (s8 direction)
 {
     u8 cursorPos;
     PlaySE(SE_SELECT);
@@ -3195,7 +3195,7 @@ static void Swap_UpdateBallCursorPosition(s8 direction)
     Swap_HandleActionCursorChange(cursorPos);
 }
 
-static void Swap_UpdateActionCursorPosition(s8 direction)
+static void Swap_UpdateActionCursorPosition (s8 direction)
 {
     u8 cursorPos;
     PlaySE(SE_SELECT);
@@ -3221,7 +3221,7 @@ static void Swap_UpdateActionCursorPosition(s8 direction)
     Swap_HandleActionCursorChange(cursorPos);
 }
 
-static void Swap_UpdateYesNoCursorPosition(s8 direction)
+static void Swap_UpdateYesNoCursorPosition (s8 direction)
 {
     if (direction > 0) { // Move cursor down.
         if (sFactorySwapScreen->yesNoCursorPos != 1) {
@@ -3241,7 +3241,7 @@ static void Swap_UpdateYesNoCursorPosition(s8 direction)
     gSprites[sFactorySwapScreen->menuCursor2SpriteId].pos1.y = (sFactorySwapScreen->yesNoCursorPos * 16) + 112;
 }
 
-static void Swap_UpdateMenuCursorPosition(s8 direction)
+static void Swap_UpdateMenuCursorPosition (s8 direction)
 {
     PlaySE(SE_SELECT);
     if (direction > 0) { // Move cursor down.
@@ -3262,7 +3262,7 @@ static void Swap_UpdateMenuCursorPosition(s8 direction)
     gSprites[sFactorySwapScreen->menuCursor2SpriteId].pos1.y = (sFactorySwapScreen->menuCursorPos * 16) + 112;
 }
 
-static void sub_819E838(u8 arg0)
+static void sub_819E838 (u8 arg0)
 {
     u8 i;
 
@@ -3281,7 +3281,7 @@ static void sub_819E838(u8 arg0)
     }
 }
 
-static void sub_819E8EC(void)
+static void sub_819E8EC (void)
 {
     u8 i;
 
@@ -3293,7 +3293,7 @@ static void sub_819E8EC(void)
     }
 }
 
-static void Swap_ShowMenuOptions(void)
+static void Swap_ShowMenuOptions (void)
 {
     if (sFactorySwapScreen->fromSummaryScreen == TRUE) {
         sFactorySwapScreen->fromSummaryScreen = FALSE;
@@ -3312,7 +3312,7 @@ static void Swap_ShowMenuOptions(void)
     Swap_PrintMenuOptions();
 }
 
-static void Swap_ShowYesNoOptions(void)
+static void Swap_ShowYesNoOptions (void)
 {
     sFactorySwapScreen->yesNoCursorPos = 0;
 
@@ -3327,7 +3327,7 @@ static void Swap_ShowYesNoOptions(void)
     Swap_PrintYesNoOptions();
 }
 
-static void sub_819EA64(u8 windowId)
+static void sub_819EA64 (u8 windowId)
 {
     gSprites[sFactorySwapScreen->menuCursor1SpriteId].invisible = TRUE;
     gSprites[sFactorySwapScreen->menuCursor2SpriteId].invisible = TRUE;
@@ -3336,21 +3336,21 @@ static void sub_819EA64(u8 windowId)
     ClearWindowTilemap(windowId);
 }
 
-static void sub_819EAC0(void)
+static void sub_819EAC0 (void)
 {
     PutWindowTilemap(1);
     FillWindowPixelBuffer(1, PIXEL_FILL(0));
     CopyWindowToVram(1, 2);
 }
 
-static void sub_819EADC(void)
+static void sub_819EADC (void)
 {
     PutWindowTilemap(7);
     FillWindowPixelBuffer(7, PIXEL_FILL(0));
     CopyWindowToVram(7, 2);
 }
 
-static void sub_819EAF8(void)
+static void sub_819EAF8 (void)
 {
     sub_819EAC0();
     PutWindowTilemap(5);
@@ -3358,14 +3358,14 @@ static void sub_819EAF8(void)
     CopyWindowToVram(5, 2);
 }
 
-static void Swap_PrintPkmnSwap(void)
+static void Swap_PrintPkmnSwap (void)
 {
     FillWindowPixelBuffer(0, PIXEL_FILL(1));
     AddTextPrinterParameterized(0, 1, gText_PkmnSwap, 2, 1, 0, NULL);
     CopyWindowToVram(0, 3);
 }
 
-static void Swap_PrintMonSpecies(void)
+static void Swap_PrintMonSpecies (void)
 {
     u16 species;
     u8 x;
@@ -3387,14 +3387,14 @@ static void Swap_PrintMonSpecies(void)
     }
 }
 
-static void Swap_PrintOnInfoWindow(const u8 *str)
+static void Swap_PrintOnInfoWindow (const u8 *str)
 {
     FillWindowPixelBuffer(2, PIXEL_FILL(0));
     AddTextPrinterParameterized(2, 1, str, 2, 5, 0, NULL);
     CopyWindowToVram(2, 2);
 }
 
-static void Swap_PrintMenuOptions(void)
+static void Swap_PrintMenuOptions (void)
 {
     PutWindowTilemap(3);
     FillWindowPixelBuffer(3, PIXEL_FILL(0));
@@ -3404,7 +3404,7 @@ static void Swap_PrintMenuOptions(void)
     CopyWindowToVram(3, 3);
 }
 
-static void Swap_PrintYesNoOptions(void)
+static void Swap_PrintYesNoOptions (void)
 {
     PutWindowTilemap(4);
     FillWindowPixelBuffer(4, PIXEL_FILL(0));
@@ -3413,13 +3413,13 @@ static void Swap_PrintYesNoOptions(void)
     CopyWindowToVram(4, 3);
 }
 
-static void Swap_PrintActionString(const u8 *str, u32 y, u32 windowId)
+static void Swap_PrintActionString (const u8 *str, u32 y, u32 windowId)
 {
     s32 x = GetStringRightAlignXOffset(0, str, 0x46);
     AddTextPrinterParameterized3(windowId, 0, x, y, sSwapMenuOptionsTextColors, 0, str);
 }
 
-static void Swap_PrintActionStrings(void)
+static void Swap_PrintActionStrings (void)
 {
     FillWindowPixelBuffer(5, PIXEL_FILL(0));
     switch (sFactorySwapScreen->inEnemyScreen) {
@@ -3432,7 +3432,7 @@ static void Swap_PrintActionStrings(void)
     CopyWindowToVram(5, 3);
 }
 
-static void Swap_PrintActionStrings2(void)
+static void Swap_PrintActionStrings2 (void)
 {
     FillWindowPixelBuffer(3, PIXEL_FILL(0));
     switch (sFactorySwapScreen->inEnemyScreen) {
@@ -3445,7 +3445,7 @@ static void Swap_PrintActionStrings2(void)
     CopyWindowToVram(3, 3);
 }
 
-static void Swap_PrintOneActionString(u8 which)
+static void Swap_PrintOneActionString (u8 which)
 {
     switch (which) {
     case 0:
@@ -3460,7 +3460,7 @@ static void Swap_PrintOneActionString(u8 which)
     CopyWindowToVram(3, 3);
 }
 
-static void Swap_PrintMonSpecies2(void)
+static void Swap_PrintMonSpecies2 (void)
 {
     u16 species;
     u8 x;
@@ -3492,7 +3492,7 @@ static void Swap_PrintMonSpecies2(void)
     }
 }
 
-static void Swap_PrintMonSpecies3(void)
+static void Swap_PrintMonSpecies3 (void)
 {
     u16 species;
     u8 x;
@@ -3516,7 +3516,7 @@ static void Swap_PrintMonSpecies3(void)
     }
 }
 
-static void Swap_PrintMonCategory(void)
+static void Swap_PrintMonCategory (void)
 {
     u16 species;
     u8 text[30];
@@ -3540,7 +3540,7 @@ static void Swap_PrintMonCategory(void)
     }
 }
 
-static void Swap_InitActions(u8 id)
+static void Swap_InitActions (u8 id)
 {
     if (sFactorySwapScreen->fromSummaryScreen != TRUE) {
         switch (id) {
@@ -3560,13 +3560,13 @@ static void Swap_InitActions(u8 id)
     }
 }
 
-static void Swap_RunMenuOptionFunc(u8 taskId)
+static void Swap_RunMenuOptionFunc (u8 taskId)
 {
     sSwap_CurrentTableFunc = sSwap_MenuOptionFuncs[sFactorySwapScreen->menuCursorPos];
     sSwap_CurrentTableFunc(taskId);
 }
 
-static void sub_819F0CC(u8 taskId)
+static void sub_819F0CC (u8 taskId)
 {
     sub_819F3F8(sFactorySwapScreen->unk2C, &sFactorySwapScreen->unk30, TRUE);
     sFactorySwapScreen->playerMonId = sFactorySwapScreen->cursorPos;
@@ -3575,13 +3575,13 @@ static void sub_819F0CC(u8 taskId)
     gTasks[taskId].func = sub_819D9EC;
 }
 
-static void sub_819F114(u8 taskId)
+static void sub_819F114 (u8 taskId)
 {
     gTasks[taskId].data[0] = 6;
     gTasks[taskId].func = Task_FromSwapScreenToSummaryScreen;
 }
 
-static void sub_819F134(u8 taskId)
+static void sub_819F134 (u8 taskId)
 {
     sub_819F3F8(sFactorySwapScreen->unk2C, &sFactorySwapScreen->unk30, TRUE);
     sub_819EA64(3);
@@ -3592,13 +3592,13 @@ static void sub_819F134(u8 taskId)
     gTasks[taskId].func = sub_819D770;
 }
 
-static void Swap_RunActionFunc(u8 taskId)
+static void Swap_RunActionFunc (u8 taskId)
 {
     sSwap_CurrentTableFunc = sFactorySwapScreen->actionsData[sFactorySwapScreen->cursorPos].func;
     sSwap_CurrentTableFunc(taskId);
 }
 
-static void Swap_ActionCancel(u8 taskId)
+static void Swap_ActionCancel (u8 taskId)
 {
     gTasks[taskId].data[6] = (u32)(sub_819CC24) >> 0x10;
     gTasks[taskId].data[7] = (u32)(sub_819CC24);
@@ -3607,7 +3607,7 @@ static void Swap_ActionCancel(u8 taskId)
     gTasks[taskId].func = sub_819D588;
 }
 
-static void Swap_ActionPkmnForSwap(u8 taskId)
+static void Swap_ActionPkmnForSwap (u8 taskId)
 {
     gTasks[taskId].data[6] = (u32)(sub_819D9EC) >> 0x10;
     gTasks[taskId].data[7] = (u32)(sub_819D9EC);
@@ -3616,7 +3616,7 @@ static void Swap_ActionPkmnForSwap(u8 taskId)
     gTasks[taskId].func = sub_819D588;
 }
 
-static void Swap_ActionMon(u8 taskId)
+static void Swap_ActionMon (u8 taskId)
 {
     if (!sFactorySwapScreen->inEnemyScreen) {
         gTasks[taskId].data[6] = (u32)(Task_HandleSwapScreenMenu) >> 0x10;
@@ -3637,7 +3637,7 @@ static void Swap_ActionMon(u8 taskId)
     gTasks[taskId].func = sub_819D588;
 }
 
-static void sub_819F2B4(u8 *arg0, bool8 *arg1, bool8 swapScreen)
+static void sub_819F2B4 (u8 *arg0, bool8 *arg1, bool8 swapScreen)
 {
     *arg0 = CreateSprite(&gUnknown_08610894, 120, 64, 1);
     gSprites[*arg0].callback = sub_819F600;
@@ -3645,7 +3645,7 @@ static void sub_819F2B4(u8 *arg0, bool8 *arg1, bool8 swapScreen)
     *arg1 = TRUE;
 }
 
-static void Swap_ShowSummaryMonSprite(void)
+static void Swap_ShowSummaryMonSprite (void)
 {
     struct Pokemon *mon;
     u16 species;
@@ -3666,7 +3666,7 @@ static void Swap_ShowSummaryMonSprite(void)
     gSprites[sFactorySwapScreen->unk2C.field1].invisible = TRUE;
 }
 
-static void sub_819F3F8(struct UnkFactoryStruct arg0, bool8 *arg1, bool8 swapScreen)
+static void sub_819F3F8 (struct UnkFactoryStruct arg0, bool8 *arg1, bool8 swapScreen)
 {
     u8 taskId;
 
@@ -3678,7 +3678,7 @@ static void sub_819F3F8(struct UnkFactoryStruct arg0, bool8 *arg1, bool8 swapScr
     *arg1 = TRUE;
 }
 
-static void sub_819F444(struct UnkFactoryStruct arg0, bool8 *arg1)
+static void sub_819F444 (struct UnkFactoryStruct arg0, bool8 *arg1)
 {
     FreeAndDestroyMonPicSprite(arg0.field0);
     FreeOamMatrix(gSprites[arg0.field1].oam.matrixNum);
@@ -3686,7 +3686,7 @@ static void sub_819F444(struct UnkFactoryStruct arg0, bool8 *arg1)
     *arg1 = FALSE;
 }
 
-static void Task_SwapCantHaveSameMons(u8 taskId)
+static void Task_SwapCantHaveSameMons (u8 taskId)
 {
     if (sFactorySwapScreen->unk30 == TRUE) {
         return;
@@ -3726,7 +3726,7 @@ static void Task_SwapCantHaveSameMons(u8 taskId)
     }
 }
 
-static bool8 Swap_AlreadyHasSameSpecies(u8 monId)
+static bool8 Swap_AlreadyHasSameSpecies (u8 monId)
 {
     u8 i;
     u16 species = GetMonData(&gEnemyParty[monId], MON_DATA_SPECIES, NULL);
@@ -3739,7 +3739,7 @@ static bool8 Swap_AlreadyHasSameSpecies(u8 monId)
     return FALSE;
 }
 
-static void sub_819F600(struct Sprite *sprite)
+static void sub_819F600 (struct Sprite *sprite)
 {
     u8 taskId;
 
@@ -3752,7 +3752,7 @@ static void sub_819F600(struct Sprite *sprite)
     }
 }
 
-static void sub_819F654(struct Sprite *sprite)
+static void sub_819F654 (struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded) {
         FreeOamMatrix(sprite->oam.matrixNum);
@@ -3765,7 +3765,7 @@ static void sub_819F654(struct Sprite *sprite)
     }
 }
 
-static void sub_819F69C(u8 taskId)
+static void sub_819F69C (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     switch (task->data[0]) {
@@ -3810,7 +3810,7 @@ static void sub_819F69C(u8 taskId)
     task->data[0]++;
 }
 
-static void sub_819F7B4(u8 taskId)
+static void sub_819F7B4 (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     switch (task->data[0]) {
@@ -3850,7 +3850,7 @@ static void sub_819F7B4(u8 taskId)
     }
 }
 
-static void Swap_ShowMonSprite(void)
+static void Swap_ShowMonSprite (void)
 {
     struct Pokemon *mon;
     u16 species;

@@ -10,7 +10,7 @@ static const u16 sFont6BrailleGlyphs[] = INCBIN_U16("graphics/fonts/font6.fwjpnf
 
 static void DecompressGlyphFont6(u16);
 
-u16 Font6Func(struct TextPrinter *textPrinter)
+u16 Font6Func (struct TextPrinter *textPrinter)
 {
     u16 char_;
     struct TextPrinterSubStruct *subStruct;
@@ -178,7 +178,7 @@ u16 Font6Func(struct TextPrinter *textPrinter)
     return 1;
 }
 
-static void DecompressGlyphFont6(u16 glyph)
+static void DecompressGlyphFont6 (u16 glyph)
 {
     const u16 *glyphs;
 
@@ -191,7 +191,7 @@ static void DecompressGlyphFont6(u16 glyph)
     gUnknown_03002F90.height = 0x10;
 }
 
-u32 GetGlyphWidthFont6(u16 glyphId, bool32 isJapanese)
+u32 GetGlyphWidthFont6 (u16 glyphId, bool32 isJapanese)
 {
     return 0x10;
 }

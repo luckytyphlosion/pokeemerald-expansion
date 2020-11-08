@@ -330,7 +330,7 @@ static const u16 sDiscouragedPowerfulMoveEffects[] =
 };
 
 // code
-void BattleAI_SetupItems(void)
+void BattleAI_SetupItems (void)
 {
     s32 i;
     u8 *data = (u8 *)BATTLE_HISTORY;
@@ -355,7 +355,7 @@ void BattleAI_SetupItems(void)
     }
 }
 
-void BattleAI_SetupFlags(void)
+void BattleAI_SetupFlags (void)
 {
     if (gBattleTypeFlags & BATTLE_TYPE_RECORDED) {
         AI_THINKING_STRUCT->aiFlags = GetAiScriptsInRecordedBattle();
@@ -380,7 +380,7 @@ void BattleAI_SetupFlags(void)
     }
 }
 
-void BattleAI_SetupAIData(u8 defaultScoreMoves)
+void BattleAI_SetupAIData (u8 defaultScoreMoves)
 {
     s32 i, move, dmg;
     u8 moveLimitations;
@@ -435,7 +435,7 @@ void BattleAI_SetupAIData(u8 defaultScoreMoves)
     gBattlerTarget = SetRandomTarget(sBattler_AI);
 }
 
-u8 BattleAI_ChooseMoveOrAction(void)
+u8 BattleAI_ChooseMoveOrAction (void)
 {
     u32 savedCurrentMove = gCurrentMove;
     u8 ret;
@@ -450,7 +450,7 @@ u8 BattleAI_ChooseMoveOrAction(void)
     return ret;
 }
 
-static u32 GetTotalBaseStat(u32 species)
+static u32 GetTotalBaseStat (u32 species)
 {
     return gBaseStats[species].baseHP
            + gBaseStats[species].baseAttack
@@ -460,7 +460,7 @@ static u32 GetTotalBaseStat(u32 species)
            + gBaseStats[species].baseSpDefense;
 }
 
-bool32 IsTruantMonVulnerable(u32 battlerAI, u32 opposingBattler)
+bool32 IsTruantMonVulnerable (u32 battlerAI, u32 opposingBattler)
 {
     int i;
 
@@ -476,7 +476,7 @@ bool32 IsTruantMonVulnerable(u32 battlerAI, u32 opposingBattler)
     return FALSE;
 }
 
-static u8 ChooseMoveOrAction_Singles(void)
+static u8 ChooseMoveOrAction_Singles (void)
 {
     u8 currentMoveArray[MAX_MON_MOVES];
     u8 consideredMoveArray[MAX_MON_MOVES];
@@ -547,7 +547,7 @@ static u8 ChooseMoveOrAction_Singles(void)
                 return AI_CHOICE_SWITCH;
             }
         }
-    }*/
+       }*/
 
     numOfBestMoves = 1;
     currentMoveArray[0] = AI_THINKING_STRUCT->score[0];
@@ -570,7 +570,7 @@ static u8 ChooseMoveOrAction_Singles(void)
     return consideredMoveArray[Random() % numOfBestMoves];
 }
 
-static u8 ChooseMoveOrAction_Doubles(void)
+static u8 ChooseMoveOrAction_Doubles (void)
 {
     s32 i, j;
     u32 flags;
@@ -671,7 +671,7 @@ static u8 ChooseMoveOrAction_Doubles(void)
     return actionOrMoveIndex[gBattlerTarget];
 }
 
-static void BattleAI_DoAIProcessing(void)
+static void BattleAI_DoAIProcessing (void)
 {
     while (AI_THINKING_STRUCT->aiState != AIState_FinishedProcessing) {
         switch (AI_THINKING_STRUCT->aiState) {
@@ -709,12 +709,12 @@ static void BattleAI_DoAIProcessing(void)
     }
 }
 
-static void RecordLastUsedMoveByTarget(void)
+static void RecordLastUsedMoveByTarget (void)
 {
     RecordKnownMove(gBattlerTarget, gLastMoves[gBattlerTarget]);
 }
 
-bool32 IsBattlerAIControlled(u32 battlerId)
+bool32 IsBattlerAIControlled (u32 battlerId)
 {
     switch (GetBattlerPosition(battlerId)) {
     case B_POSITION_PLAYER_LEFT:
@@ -729,14 +729,14 @@ bool32 IsBattlerAIControlled(u32 battlerId)
     }
 }
 
-void ClearBattlerMoveHistory(u8 battlerId)
+void ClearBattlerMoveHistory (u8 battlerId)
 {
     memset(BATTLE_HISTORY->usedMoves[battlerId], 0, sizeof(BATTLE_HISTORY->usedMoves[battlerId]));
     memset(BATTLE_HISTORY->moveHistory[battlerId], 0, sizeof(BATTLE_HISTORY->moveHistory[battlerId]));
     BATTLE_HISTORY->moveHistoryIndex[battlerId] = 0;
 }
 
-void RecordLastUsedMoveBy(u32 battlerId, u32 move)
+void RecordLastUsedMoveBy (u32 battlerId, u32 move)
 {
     u8 *index = &BATTLE_HISTORY->moveHistoryIndex[battlerId];
 
@@ -746,7 +746,7 @@ void RecordLastUsedMoveBy(u32 battlerId, u32 move)
     BATTLE_HISTORY->moveHistory[battlerId][*index] = move;
 }
 
-void RecordKnownMove(u8 battlerId, u32 move)
+void RecordKnownMove (u8 battlerId, u32 move)
 {
     s32 i;
     for (i = 0; i < MAX_MON_MOVES; i++) {
@@ -761,27 +761,27 @@ void RecordKnownMove(u8 battlerId, u32 move)
     }
 }
 
-void RecordAbilityBattle(u8 battlerId, u8 abilityId)
+void RecordAbilityBattle (u8 battlerId, u8 abilityId)
 {
     BATTLE_HISTORY->abilities[battlerId] = abilityId;
 }
 
-void ClearBattlerAbilityHistory(u8 battlerId)
+void ClearBattlerAbilityHistory (u8 battlerId)
 {
     BATTLE_HISTORY->abilities[battlerId] = ABILITY_NONE;
 }
 
-void RecordItemEffectBattle(u8 battlerId, u8 itemEffect)
+void RecordItemEffectBattle (u8 battlerId, u8 itemEffect)
 {
     BATTLE_HISTORY->itemEffects[battlerId] = itemEffect;
 }
 
-void ClearBattlerItemEffectHistory(u8 battlerId)
+void ClearBattlerItemEffectHistory (u8 battlerId)
 {
     BATTLE_HISTORY->itemEffects[battlerId] = 0;
 }
 
-static void SaveBattlerData(u8 battlerId)
+static void SaveBattlerData (u8 battlerId)
 {
     if (!IsBattlerAIControlled(battlerId)) {
         u32 i;
@@ -795,7 +795,7 @@ static void SaveBattlerData(u8 battlerId)
     }
 }
 
-static void SetBattlerData(u8 battlerId)
+static void SetBattlerData (u8 battlerId)
 {
     if (!IsBattlerAIControlled(battlerId)) {
         struct Pokemon *illusionMon;
@@ -832,7 +832,7 @@ static void SetBattlerData(u8 battlerId)
     }
 }
 
-static void RestoreBattlerData(u8 battlerId)
+static void RestoreBattlerData (u8 battlerId)
 {
     if (!IsBattlerAIControlled(battlerId)) {
         u32 i;
@@ -846,7 +846,7 @@ static void RestoreBattlerData(u8 battlerId)
     }
 }
 
-static bool32 AI_GetIfCrit(u32 move, u8 battlerAtk, u8 battlerDef)
+static bool32 AI_GetIfCrit (u32 move, u8 battlerAtk, u8 battlerDef)
 {
     bool32 isCrit;
 
@@ -882,7 +882,7 @@ static bool32 AI_GetIfCrit(u32 move, u8 battlerAtk, u8 battlerDef)
     return isCrit;
 }
 
-s32 AI_CalcDamage(u16 move, u8 battlerAtk, u8 battlerDef)
+s32 AI_CalcDamage (u16 move, u8 battlerAtk, u8 battlerDef)
 {
     s32 dmg, moveType;
 
@@ -903,7 +903,7 @@ s32 AI_CalcDamage(u16 move, u8 battlerAtk, u8 battlerDef)
     return dmg;
 }
 
-s32 AI_CalcPartyMonDamage(u16 move, u8 battlerAtk, u8 battlerDef, struct Pokemon *mon)
+s32 AI_CalcPartyMonDamage (u16 move, u8 battlerAtk, u8 battlerDef, struct Pokemon *mon)
 {
     s32 dmg;
     u32 i;
@@ -925,7 +925,7 @@ s32 AI_CalcPartyMonDamage(u16 move, u8 battlerAtk, u8 battlerDef, struct Pokemon
     return dmg;
 }
 
-u16 AI_GetTypeEffectiveness(u16 move, u8 battlerAtk, u8 battlerDef)
+u16 AI_GetTypeEffectiveness (u16 move, u8 battlerAtk, u8 battlerDef)
 {
     u16 typeEffectiveness, moveType;
 
@@ -946,7 +946,7 @@ u16 AI_GetTypeEffectiveness(u16 move, u8 battlerAtk, u8 battlerDef)
     return typeEffectiveness;
 }
 
-static void Cmd_if_random_less_than(void)
+static void Cmd_if_random_less_than (void)
 {
     u16 random = Random();
 
@@ -957,7 +957,7 @@ static void Cmd_if_random_less_than(void)
     }
 }
 
-static void Cmd_if_random_greater_than(void)
+static void Cmd_if_random_greater_than (void)
 {
     u16 random = Random();
 
@@ -968,7 +968,7 @@ static void Cmd_if_random_greater_than(void)
     }
 }
 
-static void Cmd_if_random_equal(void)
+static void Cmd_if_random_equal (void)
 {
     u16 random = Random();
 
@@ -979,7 +979,7 @@ static void Cmd_if_random_equal(void)
     }
 }
 
-static void Cmd_if_random_not_equal(void)
+static void Cmd_if_random_not_equal (void)
 {
     u16 random = Random();
 
@@ -990,7 +990,7 @@ static void Cmd_if_random_not_equal(void)
     }
 }
 
-static void Cmd_score(void)
+static void Cmd_score (void)
 {
     AI_THINKING_STRUCT->score[AI_THINKING_STRUCT->movesetIndex] += gAIScriptPtr[1]; // Add the result to the array of the move consider's score.
 
@@ -1001,7 +1001,7 @@ static void Cmd_score(void)
     gAIScriptPtr += 2; // AI return.
 }
 
-static u8 BattleAI_GetWantedBattler(u8 wantedBattler)
+static u8 BattleAI_GetWantedBattler (u8 wantedBattler)
 {
     switch (wantedBattler) {
     case AI_USER:
@@ -1016,7 +1016,7 @@ static u8 BattleAI_GetWantedBattler(u8 wantedBattler)
     }
 }
 
-static void Cmd_if_hp_less_than(void)
+static void Cmd_if_hp_less_than (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -1027,7 +1027,7 @@ static void Cmd_if_hp_less_than(void)
     }
 }
 
-static void Cmd_if_hp_more_than(void)
+static void Cmd_if_hp_more_than (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -1038,7 +1038,7 @@ static void Cmd_if_hp_more_than(void)
     }
 }
 
-static void Cmd_if_hp_equal(void)
+static void Cmd_if_hp_equal (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -1049,7 +1049,7 @@ static void Cmd_if_hp_equal(void)
     }
 }
 
-static void Cmd_if_hp_not_equal(void)
+static void Cmd_if_hp_not_equal (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -1060,7 +1060,7 @@ static void Cmd_if_hp_not_equal(void)
     }
 }
 
-static void Cmd_if_status(void)
+static void Cmd_if_status (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u32 status = T1_READ_32(gAIScriptPtr + 2);
@@ -1072,7 +1072,7 @@ static void Cmd_if_status(void)
     }
 }
 
-static void Cmd_if_not_status(void)
+static void Cmd_if_not_status (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u32 status = T1_READ_32(gAIScriptPtr + 2);
@@ -1084,7 +1084,7 @@ static void Cmd_if_not_status(void)
     }
 }
 
-static void Cmd_if_status2(void)
+static void Cmd_if_status2 (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u32 status = T1_READ_32(gAIScriptPtr + 2);
@@ -1096,7 +1096,7 @@ static void Cmd_if_status2(void)
     }
 }
 
-static void Cmd_if_not_status2(void)
+static void Cmd_if_not_status2 (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u32 status = T1_READ_32(gAIScriptPtr + 2);
@@ -1108,7 +1108,7 @@ static void Cmd_if_not_status2(void)
     }
 }
 
-static void Cmd_if_status3(void)
+static void Cmd_if_status3 (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u32 status = T1_READ_32(gAIScriptPtr + 2);
@@ -1120,7 +1120,7 @@ static void Cmd_if_status3(void)
     }
 }
 
-static void Cmd_if_not_status3(void)
+static void Cmd_if_not_status3 (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u32 status = T1_READ_32(gAIScriptPtr + 2);
@@ -1132,7 +1132,7 @@ static void Cmd_if_not_status3(void)
     }
 }
 
-static void Cmd_if_side_affecting(void)
+static void Cmd_if_side_affecting (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u32 status = T1_READ_32(gAIScriptPtr + 2);
@@ -1145,7 +1145,7 @@ static void Cmd_if_side_affecting(void)
     }
 }
 
-static void Cmd_if_not_side_affecting(void)
+static void Cmd_if_not_side_affecting (void)
 {
     u16 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u32 status = T1_READ_32(gAIScriptPtr + 2);
@@ -1158,7 +1158,7 @@ static void Cmd_if_not_side_affecting(void)
     }
 }
 
-static void Cmd_if_less_than(void)
+static void Cmd_if_less_than (void)
 {
     if (AI_THINKING_STRUCT->funcResult < gAIScriptPtr[1]) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 2);
@@ -1167,7 +1167,7 @@ static void Cmd_if_less_than(void)
     }
 }
 
-static void Cmd_if_more_than(void)
+static void Cmd_if_more_than (void)
 {
     if (AI_THINKING_STRUCT->funcResult > gAIScriptPtr[1]) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 2);
@@ -1176,7 +1176,7 @@ static void Cmd_if_more_than(void)
     }
 }
 
-static void Cmd_if_equal(void)
+static void Cmd_if_equal (void)
 {
     if (AI_THINKING_STRUCT->funcResult == gAIScriptPtr[1]) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 2);
@@ -1185,7 +1185,7 @@ static void Cmd_if_equal(void)
     }
 }
 
-static void Cmd_if_not_equal(void)
+static void Cmd_if_not_equal (void)
 {
     if (AI_THINKING_STRUCT->funcResult != gAIScriptPtr[1]) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 2);
@@ -1194,7 +1194,7 @@ static void Cmd_if_not_equal(void)
     }
 }
 
-static void Cmd_if_less_than_ptr(void)
+static void Cmd_if_less_than_ptr (void)
 {
     const u8 *value = T1_READ_PTR(gAIScriptPtr + 1);
 
@@ -1205,7 +1205,7 @@ static void Cmd_if_less_than_ptr(void)
     }
 }
 
-static void Cmd_if_more_than_ptr(void)
+static void Cmd_if_more_than_ptr (void)
 {
     const u8 *value = T1_READ_PTR(gAIScriptPtr + 1);
 
@@ -1216,7 +1216,7 @@ static void Cmd_if_more_than_ptr(void)
     }
 }
 
-static void Cmd_if_equal_ptr(void)
+static void Cmd_if_equal_ptr (void)
 {
     const u8 *value = T1_READ_PTR(gAIScriptPtr + 1);
 
@@ -1227,7 +1227,7 @@ static void Cmd_if_equal_ptr(void)
     }
 }
 
-static void Cmd_if_not_equal_ptr(void)
+static void Cmd_if_not_equal_ptr (void)
 {
     const u8 *value = T1_READ_PTR(gAIScriptPtr + 1);
 
@@ -1238,7 +1238,7 @@ static void Cmd_if_not_equal_ptr(void)
     }
 }
 
-static void Cmd_if_move(void)
+static void Cmd_if_move (void)
 {
     u16 move = T1_READ_16(gAIScriptPtr + 1);
 
@@ -1249,7 +1249,7 @@ static void Cmd_if_move(void)
     }
 }
 
-static void Cmd_if_not_move(void)
+static void Cmd_if_not_move (void)
 {
     u16 move = T1_READ_16(gAIScriptPtr + 1);
 
@@ -1260,7 +1260,7 @@ static void Cmd_if_not_move(void)
     }
 }
 
-static void Cmd_if_in_bytes(void)
+static void Cmd_if_in_bytes (void)
 {
     const u8 *ptr = T1_READ_PTR(gAIScriptPtr + 1);
 
@@ -1274,7 +1274,7 @@ static void Cmd_if_in_bytes(void)
     gAIScriptPtr += 9;
 }
 
-static void Cmd_if_not_in_bytes(void)
+static void Cmd_if_not_in_bytes (void)
 {
     const u8 *ptr = T1_READ_PTR(gAIScriptPtr + 1);
 
@@ -1288,7 +1288,7 @@ static void Cmd_if_not_in_bytes(void)
     gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 5);
 }
 
-static void Cmd_if_in_hwords(void)
+static void Cmd_if_in_hwords (void)
 {
     const u16 *ptr = (const u16 *)T1_READ_PTR(gAIScriptPtr + 1);
 
@@ -1302,7 +1302,7 @@ static void Cmd_if_in_hwords(void)
     gAIScriptPtr += 9;
 }
 
-static void Cmd_if_not_in_hwords(void)
+static void Cmd_if_not_in_hwords (void)
 {
     const u16 *ptr = (const u16 *)T1_READ_PTR(gAIScriptPtr + 1);
 
@@ -1316,7 +1316,7 @@ static void Cmd_if_not_in_hwords(void)
     gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 5);
 }
 
-static void Cmd_if_user_has_attacking_move(void)
+static void Cmd_if_user_has_attacking_move (void)
 {
     s32 i;
 
@@ -1334,7 +1334,7 @@ static void Cmd_if_user_has_attacking_move(void)
     }
 }
 
-static void Cmd_if_user_has_no_attacking_moves(void)
+static void Cmd_if_user_has_no_attacking_moves (void)
 {
     s32 i;
 
@@ -1352,13 +1352,13 @@ static void Cmd_if_user_has_no_attacking_moves(void)
     }
 }
 
-static void Cmd_get_turn_count(void)
+static void Cmd_get_turn_count (void)
 {
     AI_THINKING_STRUCT->funcResult = gBattleResults.battleTurnCounter;
     gAIScriptPtr += 1;
 }
 
-static void Cmd_get_type(void)
+static void Cmd_get_type (void)
 {
     u8 typeVar = gAIScriptPtr[1];
 
@@ -1382,7 +1382,7 @@ static void Cmd_get_type(void)
     gAIScriptPtr += 2;
 }
 
-static void Cmd_is_of_type(void)
+static void Cmd_is_of_type (void)
 {
     u8 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -1395,14 +1395,14 @@ static void Cmd_is_of_type(void)
     gAIScriptPtr += 3;
 }
 
-static void Cmd_get_considered_move_power(void)
+static void Cmd_get_considered_move_power (void)
 {
     AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->moveConsidered].power;
     gAIScriptPtr += 1;
 }
 
 // Checks if one of the moves has side effects or perks
-static u32 WhichMoveBetter(u32 move1, u32 move2)
+static u32 WhichMoveBetter (u32 move1, u32 move2)
 {
     s32 defAbility = AI_GetAbility(gBattlerTarget, FALSE);
 
@@ -1465,7 +1465,7 @@ static u32 WhichMoveBetter(u32 move1, u32 move2)
     return 2;
 }
 
-static void Cmd_get_how_powerful_move_is(void)
+static void Cmd_get_how_powerful_move_is (void)
 {
     s32 i, checkedMove, bestId, currId, hp;
     s32 moveDmgs[MAX_MON_MOVES];
@@ -1538,13 +1538,13 @@ static void Cmd_get_how_powerful_move_is(void)
     gAIScriptPtr++;
 }
 
-static void Cmd_get_last_used_battler_move(void)
+static void Cmd_get_last_used_battler_move (void)
 {
     AI_THINKING_STRUCT->funcResult = gLastMoves[BattleAI_GetWantedBattler(gAIScriptPtr[1])];
     gAIScriptPtr += 2;
 }
 
-static void Cmd_if_equal_u32(void)
+static void Cmd_if_equal_u32 (void)
 {
     if (T1_READ_32(&gAIScriptPtr[1]) == AI_THINKING_STRUCT->funcResult) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 5);
@@ -1553,7 +1553,7 @@ static void Cmd_if_equal_u32(void)
     }
 }
 
-static void Cmd_if_not_equal_u32(void)
+static void Cmd_if_not_equal_u32 (void)
 {
     if (T1_READ_32(&gAIScriptPtr[1]) != AI_THINKING_STRUCT->funcResult) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 5);
@@ -1562,7 +1562,7 @@ static void Cmd_if_not_equal_u32(void)
     }
 }
 
-static void Cmd_if_user_goes(void)
+static void Cmd_if_user_goes (void)
 {
     u32 fasterAI = 0, fasterPlayer = 0, i;
     s8 prioAI, prioPlayer;
@@ -1607,15 +1607,15 @@ static void Cmd_if_user_goes(void)
     }
 }
 
-static void Cmd_nullsub_2A(void)
+static void Cmd_nullsub_2A (void)
 {
 }
 
-static void Cmd_nullsub_2B(void)
+static void Cmd_nullsub_2B (void)
 {
 }
 
-static s32 CountUsablePartyMons(u8 battlerId)
+static s32 CountUsablePartyMons (u8 battlerId)
 {
     s32 battlerOnField1, battlerOnField2, i, ret;
     struct Pokemon *party;
@@ -1647,25 +1647,25 @@ static s32 CountUsablePartyMons(u8 battlerId)
     return ret;
 }
 
-static void Cmd_count_usable_party_mons(void)
+static void Cmd_count_usable_party_mons (void)
 {
     AI_THINKING_STRUCT->funcResult = CountUsablePartyMons(BattleAI_GetWantedBattler(gAIScriptPtr[1]));
     gAIScriptPtr += 2;
 }
 
-static void Cmd_get_considered_move(void)
+static void Cmd_get_considered_move (void)
 {
     AI_THINKING_STRUCT->funcResult = AI_THINKING_STRUCT->moveConsidered;
     gAIScriptPtr += 1;
 }
 
-static void Cmd_get_considered_move_effect(void)
+static void Cmd_get_considered_move_effect (void)
 {
     AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->moveConsidered].effect;
     gAIScriptPtr += 1;
 }
 
-static s32 AI_GetAbility(u32 battlerId, bool32 guess)
+static s32 AI_GetAbility (u32 battlerId, bool32 guess)
 {
     // The AI knows its own ability.
     if (IsBattlerAIControlled(battlerId)) {
@@ -1696,13 +1696,13 @@ static s32 AI_GetAbility(u32 battlerId, bool32 guess)
     return -1; // Unknown.
 }
 
-static void Cmd_get_ability(void)
+static void Cmd_get_ability (void)
 {
     AI_THINKING_STRUCT->funcResult = AI_GetAbility(BattleAI_GetWantedBattler(gAIScriptPtr[1]), TRUE);
     gAIScriptPtr += 2;
 }
 
-static void Cmd_check_ability(void)
+static void Cmd_check_ability (void)
 {
     u32 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u32 ability = AI_GetAbility(battlerId, FALSE);
@@ -1717,7 +1717,7 @@ static void Cmd_check_ability(void)
     gAIScriptPtr += 3;
 }
 
-static void Cmd_get_highest_type_effectiveness(void)
+static void Cmd_get_highest_type_effectiveness (void)
 {
     s32 i;
 
@@ -1759,7 +1759,7 @@ static void Cmd_get_highest_type_effectiveness(void)
     gAIScriptPtr += 1;
 }
 
-static void Cmd_if_type_effectiveness(void)
+static void Cmd_if_type_effectiveness (void)
 {
     u8 damageVar;
     u32 effectivenessMultiplier;
@@ -1796,15 +1796,15 @@ static void Cmd_if_type_effectiveness(void)
     }
 }
 
-static void Cmd_nullsub_32(void)
+static void Cmd_nullsub_32 (void)
 {
 }
 
-static void Cmd_nullsub_33(void)
+static void Cmd_nullsub_33 (void)
 {
 }
 
-static void Cmd_if_status_in_party(void)
+static void Cmd_if_status_in_party (void)
 {
     struct Pokemon *party;
     s32 i;
@@ -1829,7 +1829,7 @@ static void Cmd_if_status_in_party(void)
     gAIScriptPtr += 10;
 }
 
-static void Cmd_if_status_not_in_party(void)
+static void Cmd_if_status_not_in_party (void)
 {
     struct Pokemon *party;
     s32 i;
@@ -1854,7 +1854,7 @@ static void Cmd_if_status_not_in_party(void)
     gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 6);
 }
 
-static void Cmd_get_weather(void)
+static void Cmd_get_weather (void)
 {
     if (gBattleWeather & WEATHER_RAIN_ANY) {
         AI_THINKING_STRUCT->funcResult = AI_WEATHER_RAIN;
@@ -1871,7 +1871,7 @@ static void Cmd_get_weather(void)
     gAIScriptPtr += 1;
 }
 
-static void Cmd_if_effect(void)
+static void Cmd_if_effect (void)
 {
     if (gBattleMoves[AI_THINKING_STRUCT->moveConsidered].effect == T1_READ_16(gAIScriptPtr + 1)) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 3);
@@ -1880,7 +1880,7 @@ static void Cmd_if_effect(void)
     }
 }
 
-static void Cmd_if_not_effect(void)
+static void Cmd_if_not_effect (void)
 {
     if (gBattleMoves[AI_THINKING_STRUCT->moveConsidered].effect != T1_READ_16(gAIScriptPtr + 1)) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 3);
@@ -1889,7 +1889,7 @@ static void Cmd_if_not_effect(void)
     }
 }
 
-static void Cmd_if_stat_level_less_than(void)
+static void Cmd_if_stat_level_less_than (void)
 {
     u32 battlerId;
 
@@ -1906,7 +1906,7 @@ static void Cmd_if_stat_level_less_than(void)
     }
 }
 
-static void Cmd_if_stat_level_more_than(void)
+static void Cmd_if_stat_level_more_than (void)
 {
     u32 battlerId;
 
@@ -1923,7 +1923,7 @@ static void Cmd_if_stat_level_more_than(void)
     }
 }
 
-static void Cmd_if_stat_level_equal(void)
+static void Cmd_if_stat_level_equal (void)
 {
     u32 battlerId;
 
@@ -1940,7 +1940,7 @@ static void Cmd_if_stat_level_equal(void)
     }
 }
 
-static void Cmd_if_stat_level_not_equal(void)
+static void Cmd_if_stat_level_not_equal (void)
 {
     u32 battlerId;
 
@@ -1957,7 +1957,7 @@ static void Cmd_if_stat_level_not_equal(void)
     }
 }
 
-static void Cmd_if_can_faint(void)
+static void Cmd_if_can_faint (void)
 {
     s32 dmg;
 
@@ -1974,7 +1974,7 @@ static void Cmd_if_can_faint(void)
     }
 }
 
-static void Cmd_if_cant_faint(void)
+static void Cmd_if_cant_faint (void)
 {
     s32 dmg;
 
@@ -1991,7 +1991,7 @@ static void Cmd_if_cant_faint(void)
     }
 }
 
-static void Cmd_if_has_move(void)
+static void Cmd_if_has_move (void)
 {
     s32 i;
     const u16 *movePtr = (u16 *)(gAIScriptPtr + 2);
@@ -2042,7 +2042,7 @@ static void Cmd_if_has_move(void)
     }
 }
 
-static void Cmd_if_doesnt_have_move(void)
+static void Cmd_if_doesnt_have_move (void)
 {
     s32 i;
     const u16 *movePtr = (u16 *)(gAIScriptPtr + 2);
@@ -2077,7 +2077,7 @@ static void Cmd_if_doesnt_have_move(void)
     }
 }
 
-static void Cmd_if_has_move_with_effect(void)
+static void Cmd_if_has_move_with_effect (void)
 {
     s32 i;
 
@@ -2111,7 +2111,7 @@ static void Cmd_if_has_move_with_effect(void)
     }
 }
 
-static void Cmd_if_doesnt_have_move_with_effect(void)
+static void Cmd_if_doesnt_have_move_with_effect (void)
 {
     s32 i;
 
@@ -2145,7 +2145,7 @@ static void Cmd_if_doesnt_have_move_with_effect(void)
     }
 }
 
-static void Cmd_if_any_move_disabled_or_encored(void)
+static void Cmd_if_any_move_disabled_or_encored (void)
 {
     u8 battlerId;
 
@@ -2172,7 +2172,7 @@ static void Cmd_if_any_move_disabled_or_encored(void)
     }
 }
 
-static void Cmd_if_curr_move_disabled_or_encored(void)
+static void Cmd_if_curr_move_disabled_or_encored (void)
 {
     switch (gAIScriptPtr[1]) {
     case 0:
@@ -2195,12 +2195,12 @@ static void Cmd_if_curr_move_disabled_or_encored(void)
     }
 }
 
-static void Cmd_flee(void)
+static void Cmd_flee (void)
 {
     AI_THINKING_STRUCT->aiAction |= (AI_ACTION_DONE | AI_ACTION_FLEE | AI_ACTION_DO_NOT_ATTACK);
 }
 
-static void Cmd_if_random_safari_flee(void)
+static void Cmd_if_random_safari_flee (void)
 {
     u8 safariFleeRate = gBattleStruct->safariEscapeFactor * 5; // Safari flee rate, from 0-20.
 
@@ -2211,12 +2211,12 @@ static void Cmd_if_random_safari_flee(void)
     }
 }
 
-static void Cmd_watch(void)
+static void Cmd_watch (void)
 {
     AI_THINKING_STRUCT->aiAction |= (AI_ACTION_DONE | AI_ACTION_WATCH | AI_ACTION_DO_NOT_ATTACK);
 }
 
-static void Cmd_get_hold_effect(void)
+static void Cmd_get_hold_effect (void)
 {
     u32 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -2229,7 +2229,7 @@ static void Cmd_get_hold_effect(void)
     gAIScriptPtr += 2;
 }
 
-static void Cmd_if_holds_item(void)
+static void Cmd_if_holds_item (void)
 {
     u8 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u16 item;
@@ -2247,7 +2247,7 @@ static void Cmd_if_holds_item(void)
     }
 }
 
-static void Cmd_get_gender(void)
+static void Cmd_get_gender (void)
 {
     u8 battlerId;
 
@@ -2262,7 +2262,7 @@ static void Cmd_get_gender(void)
     gAIScriptPtr += 2;
 }
 
-static void Cmd_is_first_turn_for(void)
+static void Cmd_is_first_turn_for (void)
 {
     u8 battlerId;
 
@@ -2277,7 +2277,7 @@ static void Cmd_is_first_turn_for(void)
     gAIScriptPtr += 2;
 }
 
-static void Cmd_get_stockpile_count(void)
+static void Cmd_get_stockpile_count (void)
 {
     u8 battlerId;
 
@@ -2292,14 +2292,14 @@ static void Cmd_get_stockpile_count(void)
     gAIScriptPtr += 2;
 }
 
-static void Cmd_is_double_battle(void)
+static void Cmd_is_double_battle (void)
 {
     AI_THINKING_STRUCT->funcResult = gBattleTypeFlags & BATTLE_TYPE_DOUBLE;
 
     gAIScriptPtr += 1;
 }
 
-static void Cmd_get_used_held_item(void)
+static void Cmd_get_used_held_item (void)
 {
     u8 battlerId;
 
@@ -2314,28 +2314,28 @@ static void Cmd_get_used_held_item(void)
     gAIScriptPtr += 2;
 }
 
-static void Cmd_get_move_type_from_result(void)
+static void Cmd_get_move_type_from_result (void)
 {
     AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->funcResult].type;
 
     gAIScriptPtr += 1;
 }
 
-static void Cmd_get_move_power_from_result(void)
+static void Cmd_get_move_power_from_result (void)
 {
     AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->funcResult].power;
 
     gAIScriptPtr += 1;
 }
 
-static void Cmd_get_move_effect_from_result(void)
+static void Cmd_get_move_effect_from_result (void)
 {
     AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->funcResult].effect;
 
     gAIScriptPtr += 1;
 }
 
-static void Cmd_get_protect_count(void)
+static void Cmd_get_protect_count (void)
 {
     u8 battlerId;
 
@@ -2350,7 +2350,7 @@ static void Cmd_get_protect_count(void)
     gAIScriptPtr += 2;
 }
 
-static void Cmd_if_move_flag(void)
+static void Cmd_if_move_flag (void)
 {
     u32 flag = T1_READ_32(gAIScriptPtr + 1);
 
@@ -2361,7 +2361,7 @@ static void Cmd_if_move_flag(void)
     }
 }
 
-static void Cmd_if_field_status(void)
+static void Cmd_if_field_status (void)
 {
     u32 fieldFlags = T1_READ_32(gAIScriptPtr + 1);
 
@@ -2372,14 +2372,14 @@ static void Cmd_if_field_status(void)
     }
 }
 
-static void Cmd_get_move_accuracy(void)
+static void Cmd_get_move_accuracy (void)
 {
     AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->moveConsidered].accuracy;
 
     gAIScriptPtr++;
 }
 
-static void Cmd_call_if_eq(void)
+static void Cmd_call_if_eq (void)
 {
     if (AI_THINKING_STRUCT->funcResult == T1_READ_16(gAIScriptPtr + 1)) {
         AIStackPushVar(gAIScriptPtr + 7);
@@ -2389,7 +2389,7 @@ static void Cmd_call_if_eq(void)
     }
 }
 
-static void Cmd_call_if_move_flag(void)
+static void Cmd_call_if_move_flag (void)
 {
     u32 flag = T1_READ_32(gAIScriptPtr + 1);
 
@@ -2401,29 +2401,29 @@ static void Cmd_call_if_move_flag(void)
     }
 }
 
-static void Cmd_nullsub_57(void)
+static void Cmd_nullsub_57 (void)
 {
 }
 
-static void Cmd_call(void)
+static void Cmd_call (void)
 {
     AIStackPushVar(gAIScriptPtr + 5);
     gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 1);
 }
 
-static void Cmd_goto(void)
+static void Cmd_goto (void)
 {
     gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 1);
 }
 
-static void Cmd_end(void)
+static void Cmd_end (void)
 {
     if (AIStackPop() == 0) {
         AI_THINKING_STRUCT->aiAction |= AI_ACTION_DONE;
     }
 }
 
-static void Cmd_if_level_cond(void)
+static void Cmd_if_level_cond (void)
 {
     switch (gAIScriptPtr[1]) {
     case 0: // greater than
@@ -2450,7 +2450,7 @@ static void Cmd_if_level_cond(void)
     }
 }
 
-static void Cmd_if_target_taunted(void)
+static void Cmd_if_target_taunted (void)
 {
     if (gDisableStructs[gBattlerTarget].tauntTimer != 0) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 1);
@@ -2459,7 +2459,7 @@ static void Cmd_if_target_taunted(void)
     }
 }
 
-static void Cmd_if_target_not_taunted(void)
+static void Cmd_if_target_not_taunted (void)
 {
     if (gDisableStructs[gBattlerTarget].tauntTimer == 0) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 1);
@@ -2468,7 +2468,7 @@ static void Cmd_if_target_not_taunted(void)
     }
 }
 
-static void Cmd_if_target_is_ally(void)
+static void Cmd_if_target_is_ally (void)
 {
     if ((sBattler_AI & BIT_SIDE) == (gBattlerTarget & BIT_SIDE)) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 1);
@@ -2477,7 +2477,7 @@ static void Cmd_if_target_is_ally(void)
     }
 }
 
-static void Cmd_if_flash_fired(void)
+static void Cmd_if_flash_fired (void)
 {
     u8 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -2488,17 +2488,17 @@ static void Cmd_if_flash_fired(void)
     }
 }
 
-static void AIStackPushVar(const u8 *var)
+static void AIStackPushVar (const u8 *var)
 {
     gBattleResources->AI_ScriptsStack->ptr[gBattleResources->AI_ScriptsStack->size++] = var;
 }
 
-static void AIStackPushVar_cursor(void)
+static void AIStackPushVar_cursor (void)
 {
     gBattleResources->AI_ScriptsStack->ptr[gBattleResources->AI_ScriptsStack->size++] = gAIScriptPtr;
 }
 
-static bool8 AIStackPop(void)
+static bool8 AIStackPop (void)
 {
     if (gBattleResources->AI_ScriptsStack->size != 0) {
         --gBattleResources->AI_ScriptsStack->size;
@@ -2509,7 +2509,7 @@ static bool8 AIStackPop(void)
     }
 }
 
-static void Cmd_get_ally_chosen_move(void)
+static void Cmd_get_ally_chosen_move (void)
 {
     u8 partnerBattler = BATTLE_PARTNER(sBattler_AI);
     if (!IsBattlerAlive(partnerBattler) || !IsBattlerAIControlled(partnerBattler)) {
@@ -2523,7 +2523,7 @@ static void Cmd_get_ally_chosen_move(void)
     gAIScriptPtr++;
 }
 
-static void Cmd_if_has_no_attacking_moves(void)
+static void Cmd_if_has_no_attacking_moves (void)
 {
     s32 i;
     u8 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
@@ -2548,7 +2548,7 @@ static void Cmd_if_has_no_attacking_moves(void)
     }
 }
 
-static void Cmd_get_hazards_count(void)
+static void Cmd_get_hazards_count (void)
 {
     u8 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u8 side = GetBattlerSide(battlerId);
@@ -2565,7 +2565,7 @@ static void Cmd_get_hazards_count(void)
     gAIScriptPtr += 4;
 }
 
-static void Cmd_if_doesnt_hold_berry(void)
+static void Cmd_if_doesnt_hold_berry (void)
 {
     u8 battlerId = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u16 item;
@@ -2583,7 +2583,7 @@ static void Cmd_if_doesnt_hold_berry(void)
     }
 }
 
-static void Cmd_if_share_type(void)
+static void Cmd_if_share_type (void)
 {
     u8 battler1 = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u8 battler2 = BattleAI_GetWantedBattler(gAIScriptPtr[2]);
@@ -2595,7 +2595,7 @@ static void Cmd_if_share_type(void)
     }
 }
 
-static void Cmd_if_cant_use_last_resort(void)
+static void Cmd_if_cant_use_last_resort (void)
 {
     u8 battler = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -2606,7 +2606,7 @@ static void Cmd_if_cant_use_last_resort(void)
     }
 }
 
-static u16 * GetMovesArray(u32 battler)
+static u16 * GetMovesArray (u32 battler)
 {
     if (IsBattlerAIControlled(battler) || IsBattlerAIControlled(BATTLE_PARTNER(battler))) {
         return gBattleMons[battler].moves;
@@ -2615,7 +2615,7 @@ static u16 * GetMovesArray(u32 battler)
     }
 }
 
-static bool32 HasMoveWithSplit(u32 battler, u32 split)
+static bool32 HasMoveWithSplit (u32 battler, u32 split)
 {
     s32 i;
     u16 *moves = GetMovesArray(battler);
@@ -2629,7 +2629,7 @@ static bool32 HasMoveWithSplit(u32 battler, u32 split)
     return FALSE;
 }
 
-static void Cmd_if_has_move_with_split(void)
+static void Cmd_if_has_move_with_split (void)
 {
     if (HasMoveWithSplit(BattleAI_GetWantedBattler(gAIScriptPtr[1]), gAIScriptPtr[2])) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 3);
@@ -2638,7 +2638,7 @@ static void Cmd_if_has_move_with_split(void)
     }
 }
 
-static void Cmd_if_has_no_move_with_split(void)
+static void Cmd_if_has_no_move_with_split (void)
 {
     if (!HasMoveWithSplit(BattleAI_GetWantedBattler(gAIScriptPtr[1]), gAIScriptPtr[2])) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 3);
@@ -2649,7 +2649,7 @@ static void Cmd_if_has_no_move_with_split(void)
 
 // This function checks if all physical/special moves are either unusable or unreasonable to use.
 // Consider a pokemon boosting their attack against a ghost pokemon having only normal-type physical attacks.
-static bool32 MovesWithSplitUnusable(u32 attacker, u32 target, u32 split)
+static bool32 MovesWithSplitUnusable (u32 attacker, u32 target, u32 split)
 {
     s32 i, moveType;
     u32 usable = 0;
@@ -2672,7 +2672,7 @@ static bool32 MovesWithSplitUnusable(u32 attacker, u32 target, u32 split)
     return(usable == 0);
 }
 
-static void Cmd_if_physical_moves_unusable(void)
+static void Cmd_if_physical_moves_unusable (void)
 {
     if (MovesWithSplitUnusable(BattleAI_GetWantedBattler(gAIScriptPtr[1]), BattleAI_GetWantedBattler(gAIScriptPtr[2]), SPLIT_PHYSICAL)) {
         gAIScriptPtr = T1_READ_PTR(gAIScriptPtr + 3);
@@ -2682,7 +2682,7 @@ static void Cmd_if_physical_moves_unusable(void)
 }
 
 // Check if target has means to faint ai mon.
-static void Cmd_if_ai_can_go_down(void)
+static void Cmd_if_ai_can_go_down (void)
 {
     s32 i, dmg;
     u32 unusable = CheckMoveLimitations(gBattlerTarget, 0, 0xFF & ~MOVE_LIMITATION_PP);
@@ -2699,7 +2699,7 @@ static void Cmd_if_ai_can_go_down(void)
     gAIScriptPtr += 5;
 }
 
-static void Cmd_if_cant_use_belch(void)
+static void Cmd_if_cant_use_belch (void)
 {
     u32 battler = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -2710,7 +2710,7 @@ static void Cmd_if_cant_use_belch(void)
     }
 }
 
-static void Cmd_if_has_move_with_type(void)
+static void Cmd_if_has_move_with_type (void)
 {
     u32 i, moveType, battler = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u16 *moves = GetMovesArray(battler);
@@ -2734,7 +2734,7 @@ static void Cmd_if_has_move_with_type(void)
     }
 }
 
-static void Cmd_if_has_move_with_flag(void)
+static void Cmd_if_has_move_with_flag (void)
 {
     u32 i, flag, battler = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u16 *moves = GetMovesArray(battler);
@@ -2750,7 +2750,7 @@ static void Cmd_if_has_move_with_flag(void)
     gAIScriptPtr += 10;
 }
 
-static void Cmd_if_no_move_used(void)
+static void Cmd_if_no_move_used (void)
 {
     u32 i, battler = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -2767,7 +2767,7 @@ static void Cmd_if_no_move_used(void)
     }
 }
 
-static void Cmd_if_battler_absent(void)
+static void Cmd_if_battler_absent (void)
 {
     u32 battler = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -2778,7 +2778,7 @@ static void Cmd_if_battler_absent(void)
     }
 }
 
-static void Cmd_is_grounded(void)
+static void Cmd_is_grounded (void)
 {
     u32 battler = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
 
@@ -2789,7 +2789,7 @@ static void Cmd_is_grounded(void)
     }
 }
 
-static void Cmd_get_best_dmg_hp_percent(void)
+static void Cmd_get_best_dmg_hp_percent (void)
 {
     int i, bestDmg;
 
@@ -2804,7 +2804,7 @@ static void Cmd_get_best_dmg_hp_percent(void)
     gAIScriptPtr++;
 }
 
-static void Cmd_get_curr_dmg_hp_percent(void)
+static void Cmd_get_curr_dmg_hp_percent (void)
 {
     int bestDmg = gBattleResources->ai->simulatedDmg[sBattler_AI][gBattlerTarget][AI_THINKING_STRUCT->movesetIndex];
 
@@ -2812,25 +2812,25 @@ static void Cmd_get_curr_dmg_hp_percent(void)
     gAIScriptPtr++;
 }
 
-static void Cmd_get_move_split_from_result(void)
+static void Cmd_get_move_split_from_result (void)
 {
     AI_THINKING_STRUCT->funcResult = GetBattleMoveSplit(AI_THINKING_STRUCT->funcResult);
     gAIScriptPtr += 1;
 }
 
-static void Cmd_get_considered_move_split(void)
+static void Cmd_get_considered_move_split (void)
 {
     AI_THINKING_STRUCT->funcResult = GetBattleMoveSplit(AI_THINKING_STRUCT->moveConsidered);
     gAIScriptPtr += 1;
 }
 
-static void Cmd_get_considered_move_target(void)
+static void Cmd_get_considered_move_target (void)
 {
     AI_THINKING_STRUCT->funcResult = gBattleMoves[AI_THINKING_STRUCT->moveConsidered].target;
     gAIScriptPtr += 1;
 }
 
-static void Cmd_compare_speeds(void)
+static void Cmd_compare_speeds (void)
 {
     u8 battler1 = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     u8 battler2 = BattleAI_GetWantedBattler(gAIScriptPtr[2]);
@@ -2838,7 +2838,7 @@ static void Cmd_compare_speeds(void)
     gAIScriptPtr += 3;
 }
 
-static u32 FindMoveUsedXTurnsAgo(u32 battlerId, u32 x)
+static u32 FindMoveUsedXTurnsAgo (u32 battlerId, u32 x)
 {
     s32 i, index = BATTLE_HISTORY->moveHistoryIndex[battlerId];
     for (i = 0; i < x; i++) {
@@ -2849,7 +2849,7 @@ static u32 FindMoveUsedXTurnsAgo(u32 battlerId, u32 x)
     return BATTLE_HISTORY->moveHistory[battlerId][index];
 }
 
-static void Cmd_is_wakeup_turn(void)
+static void Cmd_is_wakeup_turn (void)
 {
     u32 battler = BattleAI_GetWantedBattler(gAIScriptPtr[1]);
     // Check if rest was used 2 turns ago
@@ -2862,7 +2862,7 @@ static void Cmd_is_wakeup_turn(void)
     gAIScriptPtr += 2;
 }
 
-static void Cmd_if_has_move_with_accuracy_lt(void)
+static void Cmd_if_has_move_with_accuracy_lt (void)
 {
     u32 i;
     u32 battler = BattleAI_GetWantedBattler(gAIScriptPtr[1]);

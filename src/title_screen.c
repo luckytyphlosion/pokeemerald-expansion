@@ -351,7 +351,7 @@ static const struct CompressedSpriteSheet sPokemonLogoShineSpriteSheet[] =
 };
 
 // code
-static void SpriteCB_VersionBannerLeft(struct Sprite *sprite)
+static void SpriteCB_VersionBannerLeft (struct Sprite *sprite)
 {
     if (gTasks[sprite->data[1]].data[1] != 0) {
         sprite->oam.objMode = ST_OAM_OBJ_NORMAL;
@@ -367,7 +367,7 @@ static void SpriteCB_VersionBannerLeft(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_VersionBannerRight(struct Sprite *sprite)
+static void SpriteCB_VersionBannerRight (struct Sprite *sprite)
 {
     if (gTasks[sprite->data[1]].data[1] != 0) {
         sprite->oam.objMode = ST_OAM_OBJ_NORMAL;
@@ -379,7 +379,7 @@ static void SpriteCB_VersionBannerRight(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_PressStartCopyrightBanner(struct Sprite *sprite)
+static void SpriteCB_PressStartCopyrightBanner (struct Sprite *sprite)
 {
     if (sprite->data[0] == 1) {
         sprite->data[1]++;
@@ -394,7 +394,7 @@ static void SpriteCB_PressStartCopyrightBanner(struct Sprite *sprite)
     }
 }
 
-static void CreatePressStartBanner(s16 x, s16 y)
+static void CreatePressStartBanner (s16 x, s16 y)
 {
     u8 i;
     u8 spriteId;
@@ -407,7 +407,7 @@ static void CreatePressStartBanner(s16 x, s16 y)
     }
 }
 
-static void CreateCopyrightBanner(s16 x, s16 y)
+static void CreateCopyrightBanner (s16 x, s16 y)
 {
     u8 i;
     u8 spriteId;
@@ -419,7 +419,7 @@ static void CreateCopyrightBanner(s16 x, s16 y)
     }
 }
 
-static void SpriteCB_PokemonLogoShine(struct Sprite *sprite)
+static void SpriteCB_PokemonLogoShine (struct Sprite *sprite)
 {
     if (sprite->pos1.x < 272) {
         if (sprite->data[0]) { // Flash background
@@ -460,7 +460,7 @@ static void SpriteCB_PokemonLogoShine(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_PokemonLogoShine2(struct Sprite *sprite)
+static void SpriteCB_PokemonLogoShine2 (struct Sprite *sprite)
 {
     if (sprite->pos1.x < 272) {
         sprite->pos1.x += 8;
@@ -469,7 +469,7 @@ static void SpriteCB_PokemonLogoShine2(struct Sprite *sprite)
     }
 }
 
-static void StartPokemonLogoShine(u8 flashBg)
+static void StartPokemonLogoShine (u8 flashBg)
 {
     u8 spriteId;
 
@@ -497,7 +497,7 @@ static void StartPokemonLogoShine(u8 flashBg)
     }
 }
 
-static void VBlankCB(void)
+static void VBlankCB (void)
 {
     ScanlineEffect_InitHBlankDmaTransfer();
     LoadOam();
@@ -509,7 +509,7 @@ static void VBlankCB(void)
 #define tCounter data[0]
 #define tSkipToNext data[1]
 
-void CB2_InitTitleScreen(void)
+void CB2_InitTitleScreen (void)
 {
     switch (gMain.state) {
     default:
@@ -612,7 +612,7 @@ void CB2_InitTitleScreen(void)
     }
 }
 
-static void MainCB2(void)
+static void MainCB2 (void)
 {
     RunTasks();
     AnimateSprites();
@@ -621,7 +621,7 @@ static void MainCB2(void)
 }
 
 // Shine the Pokemon logo two more times, and fade in the version banner
-static void Task_TitleScreenPhase1(u8 taskId)
+static void Task_TitleScreenPhase1 (u8 taskId)
 {
     // Skip to next phase when A, B, Start, or Select is pressed
     if ((gMain.newKeys & A_B_START_SELECT) || gTasks[taskId].data[1] != 0) {
@@ -663,7 +663,7 @@ static void Task_TitleScreenPhase1(u8 taskId)
 }
 
 // Create "Press Start" and copyright banners, and slide Pokemon logo up
-static void Task_TitleScreenPhase2(u8 taskId)
+static void Task_TitleScreenPhase2 (u8 taskId)
 {
     u32 yPos;
 
@@ -709,7 +709,7 @@ static void Task_TitleScreenPhase2(u8 taskId)
 }
 
 // Show Rayquaza silhouette and process main title screen input
-static void Task_TitleScreenPhase3(u8 taskId)
+static void Task_TitleScreenPhase3 (u8 taskId)
 {
     if ((JOY_NEW(A_BUTTON)) || (JOY_NEW(START_BUTTON))) {
         FadeOutBGM(4);
@@ -743,35 +743,35 @@ static void Task_TitleScreenPhase3(u8 taskId)
     }
 }
 
-static void CB2_GoToMainMenu(void)
+static void CB2_GoToMainMenu (void)
 {
     if (!UpdatePaletteFade()) {
         SetMainCallback2(CB2_InitMainMenu);
     }
 }
 
-static void CB2_GoToCopyrightScreen(void)
+static void CB2_GoToCopyrightScreen (void)
 {
     if (!UpdatePaletteFade()) {
         SetMainCallback2(CB2_InitCopyrightScreenAfterTitleScreen);
     }
 }
 
-static void CB2_GoToClearSaveDataScreen(void)
+static void CB2_GoToClearSaveDataScreen (void)
 {
     if (!UpdatePaletteFade()) {
         SetMainCallback2(CB2_InitClearSaveDataScreen);
     }
 }
 
-static void CB2_GoToResetRtcScreen(void)
+static void CB2_GoToResetRtcScreen (void)
 {
     if (!UpdatePaletteFade()) {
         SetMainCallback2(CB2_InitResetRtcScreen);
     }
 }
 
-static void CB2_GoToBerryFixScreen(void)
+static void CB2_GoToBerryFixScreen (void)
 {
     if (!UpdatePaletteFade()) {
         m4aMPlayAllStop();
@@ -779,7 +779,7 @@ static void CB2_GoToBerryFixScreen(void)
     }
 }
 
-static void UpdateLegendaryMarkingColor(u8 frameNum)
+static void UpdateLegendaryMarkingColor (u8 frameNum)
 {
     if ((frameNum % 4) == 0) { // Change color every 4th frame
         s32 intensity = Cos(frameNum, 128) + 128;

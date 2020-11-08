@@ -29,7 +29,7 @@ static void FieldCallback_RockSmash(void);
 static void FieldMove_RockSmash(void);
 
 // text
-bool8 CheckObjectGraphicsInFrontOfPlayer(u8 graphicsId)
+bool8 CheckObjectGraphicsInFrontOfPlayer (u8 graphicsId)
 {
     u8 objEventId;
 
@@ -44,13 +44,13 @@ bool8 CheckObjectGraphicsInFrontOfPlayer(u8 graphicsId)
     }
 }
 
-u8 CreateFieldMoveTask(void)
+u8 CreateFieldMoveTask (void)
 {
     GetXYCoordsOneStepInFrontOfPlayer(&gPlayerFacingPosition.x, &gPlayerFacingPosition.y);
     return CreateTask(Task_DoFieldMove_Init, 8);
 }
 
-static void Task_DoFieldMove_Init(u8 taskId)
+static void Task_DoFieldMove_Init (u8 taskId)
 {
     u8 objEventId;
 
@@ -72,7 +72,7 @@ static void Task_DoFieldMove_Init(u8 taskId)
     }
 }
 
-static void Task_DoFieldMove_ShowMonAfterPose(u8 taskId)
+static void Task_DoFieldMove_ShowMonAfterPose (u8 taskId)
 {
     if (ObjectEventCheckHeldMovementStatus(&gObjectEvents[gPlayerAvatar.objectEventId]) == TRUE) {
         FieldEffectStart(FLDEFF_FIELD_MOVE_SHOW_MON_INIT);
@@ -80,7 +80,7 @@ static void Task_DoFieldMove_ShowMonAfterPose(u8 taskId)
     }
 }
 
-static void Task_DoFieldMove_WaitForMon(u8 taskId)
+static void Task_DoFieldMove_WaitForMon (u8 taskId)
 {
     if (!FieldEffectActiveListContains(FLDEFF_FIELD_MOVE_SHOW_MON)) {
         gFieldEffectArguments[1] = GetPlayerFacingDirection();
@@ -103,7 +103,7 @@ static void Task_DoFieldMove_WaitForMon(u8 taskId)
     }
 }
 
-static void Task_DoFieldMove_RunFunc(u8 taskId)
+static void Task_DoFieldMove_RunFunc (u8 taskId)
 {
     // The function for the field move to do is stored in halves across data[8] and data[9]
     void (*fieldMoveFunc)(void) = (void (*)(void))(((u16)gTasks[taskId].data[8] << 16) | (u16)gTasks[taskId].data[9]);
@@ -115,7 +115,7 @@ static void Task_DoFieldMove_RunFunc(u8 taskId)
 
 // Called when Rock Smash is used from the party menu
 // For interacting with a smashable rock in the field, see EventScript_RockSmash
-bool8 SetUpFieldMove_RockSmash(void)
+bool8 SetUpFieldMove_RockSmash (void)
 {
     // In Ruby and Sapphire, Regirock's tomb is opened by using Strength. In Emerald,
     // it is opened by using Rock Smash.
@@ -133,13 +133,13 @@ bool8 SetUpFieldMove_RockSmash(void)
     }
 }
 
-static void FieldCallback_RockSmash(void)
+static void FieldCallback_RockSmash (void)
 {
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
     ScriptContext1_SetupScript(EventScript_UseRockSmash);
 }
 
-bool8 FldEff_UseRockSmash(void)
+bool8 FldEff_UseRockSmash (void)
 {
     u8 taskId = CreateFieldMoveTask();
 
@@ -150,7 +150,7 @@ bool8 FldEff_UseRockSmash(void)
 }
 
 // The actual rock smashing is handled by EventScript_SmashRock, so this function does very little
-static void FieldMove_RockSmash(void)
+static void FieldMove_RockSmash (void)
 {
     PlaySE(SE_M_ROCK_THROW);
     FieldEffectActiveListRemove(FLDEFF_USE_ROCK_SMASH);

@@ -48,7 +48,7 @@ static const u8 sSSTidalSailWestMovementScript[] =
 // .text
 static void Task_Truck3(u8);
 
-s16 GetTruckCameraBobbingY(int a1)
+s16 GetTruckCameraBobbingY (int a1)
 {
     if (!(a1 % 120)) {
         return -1;
@@ -59,7 +59,7 @@ s16 GetTruckCameraBobbingY(int a1)
     return 0;
 }
 
-s16 GetTruckBoxMovement(int a1) // for the box movement?
+s16 GetTruckBoxMovement (int a1) // for the box movement?
 {
     if (!((a1 + 120) % 180)) {
         return -1;
@@ -68,7 +68,7 @@ s16 GetTruckBoxMovement(int a1) // for the box movement?
     return 0;
 }
 
-void Task_Truck1(u8 taskId)
+void Task_Truck1 (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     s16 cameraXpan = 0, cameraYpan = 0;
@@ -88,7 +88,7 @@ void Task_Truck1(u8 taskId)
     SetCameraPanning(cameraXpan, cameraYpan);
 }
 
-void Task_Truck2(u8 taskId)
+void Task_Truck2 (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     s16 cameraYpan;
@@ -123,7 +123,7 @@ void Task_Truck2(u8 taskId)
     }
 }
 
-static void Task_Truck3(u8 taskId)
+static void Task_Truck3 (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     s16 cameraXpan;
@@ -148,7 +148,7 @@ static void Task_Truck3(u8 taskId)
     }
 }
 
-void Task_HandleTruckSequence(u8 taskId)
+void Task_HandleTruckSequence (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -215,7 +215,7 @@ void Task_HandleTruckSequence(u8 taskId)
     }
 }
 
-void ExecuteTruckSequence(void)
+void ExecuteTruckSequence (void)
 {
     MapGridSetMetatileIdAt(11, 8, METATILE_InsideOfTruck_DoorClosedFloor_Top);
     MapGridSetMetatileIdAt(11, 9, METATILE_InsideOfTruck_DoorClosedFloor_Mid);
@@ -226,7 +226,7 @@ void ExecuteTruckSequence(void)
     CreateTask(Task_HandleTruckSequence, 0xA);
 }
 
-void EndTruckSequence(u8 taskId)
+void EndTruckSequence (u8 taskId)
 {
     if (!FuncIsActiveTask(Task_HandleTruckSequence)) {
         SetObjectEventSpritePosByLocalIdAndMap(1, gSaveBlock1Ptr->location.mapNum, gSaveBlock1Ptr->location.mapGroup, 3, 3);
@@ -235,7 +235,7 @@ void EndTruckSequence(u8 taskId)
     }
 }
 
-bool8 TrySetPortholeWarpDestination(void)
+bool8 TrySetPortholeWarpDestination (void)
 {
     s8 mapGroup, mapNum;
     s16 x, y;
@@ -248,7 +248,7 @@ bool8 TrySetPortholeWarpDestination(void)
     }
 }
 
-void Task_HandlePorthole(u8 taskId)
+void Task_HandlePorthole (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     u16 *cruiseState = GetVarPointer(VAR_SS_TIDAL_STATE);
@@ -303,7 +303,7 @@ void Task_HandlePorthole(u8 taskId)
     }
 }
 
-static void ShowSSTidalWhileSailing(void)
+static void ShowSSTidalWhileSailing (void)
 {
     u8 spriteId = AddPseudoObjectEvent(OBJ_EVENT_GFX_SS_TIDAL, SpriteCallbackDummy, 112, 80, 0);
 
@@ -316,7 +316,7 @@ static void ShowSSTidalWhileSailing(void)
     }
 }
 
-void FieldCB_ShowPortholeView(void)
+void FieldCB_ShowPortholeView (void)
 {
     ShowSSTidalWhileSailing();
     gObjectEvents[gPlayerAvatar.objectEventId].invisible = TRUE;
@@ -325,7 +325,7 @@ void FieldCB_ShowPortholeView(void)
     ScriptContext2_Enable();
 }
 
-void LookThroughPorthole(void)
+void LookThroughPorthole (void)
 {
     FlagSet(FLAG_SYS_CRUISE_MODE);
     FlagSet(FLAG_DONT_TRANSITION_MUSIC);

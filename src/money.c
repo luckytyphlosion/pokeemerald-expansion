@@ -69,17 +69,17 @@ static const struct CompressedSpritePalette sSpritePalette_MoneyLabel =
     .tag = MONEY_LABEL_TAG
 };
 
-u32 GetMoney(u32* moneyPtr)
+u32 GetMoney (u32* moneyPtr)
 {
     return *moneyPtr ^ gSaveBlock2Ptr->encryptionKey;
 }
 
-void SetMoney(u32* moneyPtr, u32 newValue)
+void SetMoney (u32* moneyPtr, u32 newValue)
 {
     *moneyPtr = gSaveBlock2Ptr->encryptionKey ^ newValue;
 }
 
-bool8 IsEnoughMoney(u32* moneyPtr, u32 cost)
+bool8 IsEnoughMoney (u32* moneyPtr, u32 cost)
 {
     if (GetMoney(moneyPtr) >= cost) {
         return TRUE;
@@ -88,7 +88,7 @@ bool8 IsEnoughMoney(u32* moneyPtr, u32 cost)
     }
 }
 
-void AddMoney(u32* moneyPtr, u32 toAdd)
+void AddMoney (u32* moneyPtr, u32 toAdd)
 {
     u32 toSet = GetMoney(moneyPtr);
 
@@ -106,7 +106,7 @@ void AddMoney(u32* moneyPtr, u32 toAdd)
     SetMoney(moneyPtr, toSet);
 }
 
-void RemoveMoney(u32* moneyPtr, u32 toSub)
+void RemoveMoney (u32* moneyPtr, u32 toSub)
 {
     u32 toSet = GetMoney(moneyPtr);
 
@@ -120,22 +120,22 @@ void RemoveMoney(u32* moneyPtr, u32 toSub)
     SetMoney(moneyPtr, toSet);
 }
 
-bool8 IsEnoughForCostInVar0x8005(void)
+bool8 IsEnoughForCostInVar0x8005 (void)
 {
     return IsEnoughMoney(&gSaveBlock1Ptr->money, gSpecialVar_0x8005);
 }
 
-void SubtractMoneyFromVar0x8005(void)
+void SubtractMoneyFromVar0x8005 (void)
 {
     RemoveMoney(&gSaveBlock1Ptr->money, gSpecialVar_0x8005);
 }
 
-void PrintMoneyAmountInMoneyBox(u8 windowId, int amount, u8 speed)
+void PrintMoneyAmountInMoneyBox (u8 windowId, int amount, u8 speed)
 {
     PrintMoneyAmount(windowId, 0x26, 1, amount, speed);
 }
 
-void PrintMoneyAmount(u8 windowId, u8 x, u8 y, int amount, u8 speed)
+void PrintMoneyAmount (u8 windowId, u8 x, u8 y, int amount, u8 speed)
 {
     u8 *txtPtr;
     s32 strLength;
@@ -153,18 +153,18 @@ void PrintMoneyAmount(u8 windowId, u8 x, u8 y, int amount, u8 speed)
     AddTextPrinterParameterized(windowId, 1, gStringVar4, x, y, speed, NULL);
 }
 
-void PrintMoneyAmountInMoneyBoxWithBorder(u8 windowId, u16 tileStart, u8 pallete, int amount)
+void PrintMoneyAmountInMoneyBoxWithBorder (u8 windowId, u16 tileStart, u8 pallete, int amount)
 {
     DrawStdFrameWithCustomTileAndPalette(windowId, FALSE, tileStart, pallete);
     PrintMoneyAmountInMoneyBox(windowId, amount, 0);
 }
 
-void ChangeAmountInMoneyBox(int amount)
+void ChangeAmountInMoneyBox (int amount)
 {
     PrintMoneyAmountInMoneyBox(sMoneyBoxWindowId, amount, 0);
 }
 
-void DrawMoneyBox(int amount, u8 x, u8 y)
+void DrawMoneyBox (int amount, u8 x, u8 y)
 {
     struct WindowTemplate template;
 
@@ -177,7 +177,7 @@ void DrawMoneyBox(int amount, u8 x, u8 y)
     AddMoneyLabelObject((8 * x) + 19, (8 * y) + 11);
 }
 
-void HideMoneyBox(void)
+void HideMoneyBox (void)
 {
     RemoveMoneyLabelObject();
     ClearStdWindowAndFrameToTransparent(sMoneyBoxWindowId, FALSE);
@@ -185,14 +185,14 @@ void HideMoneyBox(void)
     RemoveWindow(sMoneyBoxWindowId);
 }
 
-void AddMoneyLabelObject(u16 x, u16 y)
+void AddMoneyLabelObject (u16 x, u16 y)
 {
     LoadCompressedSpriteSheet(&sSpriteSheet_MoneyLabel);
     LoadCompressedSpritePalette(&sSpritePalette_MoneyLabel);
     sMoneyLabelSpriteId = CreateSprite(&sSpriteTemplate_MoneyLabel, x, y, 0);
 }
 
-void RemoveMoneyLabelObject(void)
+void RemoveMoneyLabelObject (void)
 {
     DestroySpriteAndFreeResources(&gSprites[sMoneyLabelSpriteId]);
 }

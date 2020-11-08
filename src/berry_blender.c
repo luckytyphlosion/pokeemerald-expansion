@@ -931,12 +931,12 @@ static const struct WindowTemplate sBlenderRecordWindowTemplate =
     .baseBlock = 8
 };
 
-static void UpdateHitPitch(void)
+static void UpdateHitPitch (void)
 {
     m4aMPlayPitchControl(&gMPlayInfo_SE2, 0xFFFF, 2 * (sBerryBlender->speed - MIN_ARROW_SPEED));
 }
 
-static void VBlankCB_BerryBlender(void)
+static void VBlankCB_BerryBlender (void)
 {
     SetBgPos();
     SetBgAffine(2, sBerryBlender->bgAffineSrc.texX, sBerryBlender->bgAffineSrc.texY,
@@ -948,7 +948,7 @@ static void VBlankCB_BerryBlender(void)
     TransferPlttBuffer();
 }
 
-static bool8 LoadBerryBlenderGfx(void)
+static bool8 LoadBerryBlenderGfx (void)
 {
     switch (sBerryBlender->loadGfxState) {
     case 0:
@@ -1006,7 +1006,7 @@ static bool8 LoadBerryBlenderGfx(void)
     return FALSE;
 }
 
-static void DrawBlenderBg(void)
+static void DrawBlenderBg (void)
 {
     FillBgTilemapBufferRect_Palette0(0, 0, 0, 0, 0x1E, 0x14);
     CopyBgTilemapBufferToVram(0);
@@ -1019,7 +1019,7 @@ static void DrawBlenderBg(void)
     ChangeBgY(1, 0, 0);
 }
 
-static void InitBerryBlenderWindows(void)
+static void InitBerryBlenderWindows (void)
 {
     if (InitWindows(sWindowTemplates)) {
         s32 i;
@@ -1036,7 +1036,7 @@ static void InitBerryBlenderWindows(void)
 
 // gSpecialVar_0x8004 is the number of NPC opponents
 // Set to 0 indicates it's a link blender
-void DoBerryBlending(void)
+void DoBerryBlending (void)
 {
     if (sBerryBlender == NULL) {
         sBerryBlender = AllocZeroed(sizeof(*sBerryBlender));
@@ -1051,7 +1051,7 @@ void DoBerryBlending(void)
 }
 
 // Show the blender screen initially and prompt to choose a berry
-static void CB2_LoadBerryBlender(void)
+static void CB2_LoadBerryBlender (void)
 {
     s32 i;
 
@@ -1143,7 +1143,7 @@ static void CB2_LoadBerryBlender(void)
 #define sYDownSpeed    data[7]
 
 // For throwing berries into the machine
-static void SpriteCB_Berry(struct Sprite* sprite)
+static void SpriteCB_Berry (struct Sprite* sprite)
 {
     sprite->sX += sprite->sXSpeed;
     sprite->sY -= sprite->sYUpSpeed;
@@ -1164,7 +1164,7 @@ static void SpriteCB_Berry(struct Sprite* sprite)
     sprite->pos1.y = sprite->sY;
 }
 
-static void SetBerrySpriteData(struct Sprite* sprite, s16 x, s16 y, s16 bounceSpeed, s16 xSpeed, s16 ySpeed)
+static void SetBerrySpriteData (struct Sprite* sprite, s16 x, s16 y, s16 bounceSpeed, s16 xSpeed, s16 ySpeed)
 {
     sprite->sTargetY = y;
     sprite->sX = x;
@@ -1186,7 +1186,7 @@ static void SetBerrySpriteData(struct Sprite* sprite, s16 x, s16 y, s16 bounceSp
 #undef sXSpeed
 #undef sYDownSpeed
 
-static void CreateBerrySprite(u16 a0, u8 playerId)
+static void CreateBerrySprite (u16 a0, u8 playerId)
 {
     u8 spriteId = CreateSpinningBerrySprite(a0 + FIRST_BERRY_INDEX - 10, 0, 80, playerId & 1);
     SetBerrySpriteData(&gSprites[spriteId],
@@ -1197,7 +1197,7 @@ static void CreateBerrySprite(u16 a0, u8 playerId)
                        sBerrySpriteData[playerId][4]);
 }
 
-static void ConvertItemToBlenderBerry(struct BlenderBerry* berry, u16 itemId)
+static void ConvertItemToBlenderBerry (struct BlenderBerry* berry, u16 itemId)
 {
     const struct Berry *berryInfo = GetBerryInfo(ITEM_TO_BERRY(itemId));
 
@@ -1211,7 +1211,7 @@ static void ConvertItemToBlenderBerry(struct BlenderBerry* berry, u16 itemId)
     berry->flavors[FLAVOR_COUNT] = berryInfo->smoothness;
 }
 
-static void InitLocalPlayers(u8 opponentsNum)
+static void InitLocalPlayers (u8 opponentsNum)
 {
     switch (opponentsNum) {
     case 0: // Link games have 0 in-game opponents
@@ -1258,7 +1258,7 @@ static void InitLocalPlayers(u8 opponentsNum)
     }
 }
 
-static void StartBlender(void)
+static void StartBlender (void)
 {
     s32 i;
 
@@ -1283,7 +1283,7 @@ static void StartBlender(void)
     }
 }
 
-static void CB2_StartBlenderLink(void)
+static void CB2_StartBlenderLink (void)
 {
     s32 i, j;
 
@@ -1467,7 +1467,7 @@ static void CB2_StartBlenderLink(void)
     UpdatePaletteFade();
 }
 
-static void InitBlenderBgs(void)
+static void InitBlenderBgs (void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
 
@@ -1494,7 +1494,7 @@ static void InitBlenderBgs(void)
     sBerryBlender->bg_Y = 0;
 }
 
-static u8 GetArrowProximity(u16 arrowPos, u8 playerId)
+static u8 GetArrowProximity (u16 arrowPos, u8 playerId)
 {
     u32 pos = (arrowPos / 256) + 24;
     u8 arrowId = sBerryBlender->playerIdToArrowId[playerId];
@@ -1511,7 +1511,7 @@ static u8 GetArrowProximity(u16 arrowPos, u8 playerId)
     return PROXIMITY_MISS;
 }
 
-static void SetOpponentsBerryData(u16 playerBerryItemId, u8 playersNum, struct BlenderBerry* playerBerry)
+static void SetOpponentsBerryData (u16 playerBerryItemId, u8 playersNum, struct BlenderBerry* playerBerry)
 {
     u16 opponentSetId = 0;
     u16 opponentBerryId;
@@ -1548,7 +1548,7 @@ static void SetOpponentsBerryData(u16 playerBerryItemId, u8 playersNum, struct B
     }
 }
 
-static void SetPlayerIdMaps(void)
+static void SetPlayerIdMaps (void)
 {
     s32 i, j;
 
@@ -1565,7 +1565,7 @@ static void SetPlayerIdMaps(void)
     }
 }
 
-static void PrintPlayerNames(void)
+static void PrintPlayerNames (void)
 {
     s32 i, xPos;
     u32 playerId = 0;
@@ -1596,7 +1596,7 @@ static void PrintPlayerNames(void)
     }
 }
 
-static void CB2_StartBlenderLocal(void)
+static void CB2_StartBlenderLocal (void)
 {
     s32 i, j;
 
@@ -1761,7 +1761,7 @@ static void CB2_StartBlenderLocal(void)
     UpdatePaletteFade();
 }
 
-static void ResetLinkCmds(void)
+static void ResetLinkCmds (void)
 {
     s32 i;
     for (i = 0; i < BLENDER_MAX_PLAYERS; i++) {
@@ -1776,7 +1776,7 @@ static void ResetLinkCmds(void)
 #define tDelay    data[1]
 #define tPlayerId data[2]
 
-static void Task_OpponentMiss(u8 taskId)
+static void Task_OpponentMiss (u8 taskId)
 {
     if (++gTasks[taskId].tTimer > gTasks[taskId].tDelay) {
         gRecvCmds[gTasks[taskId].tPlayerId][BLENDER_COMM_SCORE] = LINKCMD_BLENDER_SCORE_MISS;
@@ -1784,7 +1784,7 @@ static void Task_OpponentMiss(u8 taskId)
     }
 }
 
-static void CreateOpponentMissTask(u8 playerId, u8 delay)
+static void CreateOpponentMissTask (u8 playerId, u8 delay)
 {
     u8 taskId = CreateTask(Task_OpponentMiss, 80);
     gTasks[taskId].tDelay = delay;
@@ -1797,7 +1797,7 @@ static void CreateOpponentMissTask(u8 playerId, u8 delay)
 
 #define tDidInput data[0]
 
-static void Task_HandleOpponent1(u8 taskId)
+static void Task_HandleOpponent1 (u8 taskId)
 {
     if (GetArrowProximity(sBerryBlender->arrowPos, 1) == PROXIMITY_BEST) {
         if (!gTasks[taskId].tDidInput) {
@@ -1844,7 +1844,7 @@ static void Task_HandleOpponent1(u8 taskId)
     }
 }
 
-static void Task_HandleOpponent2(u8 taskId)
+static void Task_HandleOpponent2 (u8 taskId)
 {
     u32 var1 = (sBerryBlender->arrowPos + 0x1800) & 0xFFFF;
     u32 arrowId = sBerryBlender->playerIdToArrowId[2] & 0xFF;
@@ -1883,7 +1883,7 @@ static void Task_HandleOpponent2(u8 taskId)
     }
 }
 
-static void Task_HandleOpponent3(u8 taskId)
+static void Task_HandleOpponent3 (u8 taskId)
 {
     u32 var1 = (sBerryBlender->arrowPos + 0x1800) & 0xFFFF;
     u32 arrowId = sBerryBlender->playerIdToArrowId[3] & 0xFF;
@@ -1922,7 +1922,7 @@ static void Task_HandleOpponent3(u8 taskId)
     }
 }
 
-static void Task_HandleBerryMaster(u8 taskId)
+static void Task_HandleBerryMaster (u8 taskId)
 {
     if (GetArrowProximity(sBerryBlender->arrowPos, 1) == PROXIMITY_BEST) {
         if (!gTasks[taskId].tDidInput) {
@@ -1936,7 +1936,7 @@ static void Task_HandleBerryMaster(u8 taskId)
 
 #undef tDidInput
 
-static void CreateScoreSymbolSprite(u16 cmd, u8 arrowId)
+static void CreateScoreSymbolSprite (u16 cmd, u8 arrowId)
 {
     u8 spriteId;
 
@@ -1958,7 +1958,7 @@ static void CreateScoreSymbolSprite(u16 cmd, u8 arrowId)
     CreateParticleSprites();
 }
 
-static void UpdateSpeedFromHit(u16 cmd)
+static void UpdateSpeedFromHit (u16 cmd)
 {
     UpdateHitPitch();
     switch (cmd) {
@@ -1986,7 +1986,7 @@ static void UpdateSpeedFromHit(u16 cmd)
 }
 
 // Return TRUE if the received command matches the corresponding Link or RFU command
-static bool32 CheckRecvCmdMatches(u16 recvCmd, u16 linkCmd, u16 rfuCmd)
+static bool32 CheckRecvCmdMatches (u16 recvCmd, u16 linkCmd, u16 rfuCmd)
 {
     if (gReceivedRemoteLinkPlayers && gWirelessCommType) {
         if ((recvCmd & 0xFF00) == rfuCmd) {
@@ -2001,7 +2001,7 @@ static bool32 CheckRecvCmdMatches(u16 recvCmd, u16 linkCmd, u16 rfuCmd)
     return FALSE;
 }
 
-static void UpdateOpponentScores(void)
+static void UpdateOpponentScores (void)
 {
     s32 i;
 
@@ -2066,7 +2066,7 @@ static void UpdateOpponentScores(void)
     }
 }
 
-static void HandlePlayerInput(void)
+static void HandlePlayerInput (void)
 {
     u8 arrowId;
     bool8 pressedA = FALSE;
@@ -2113,7 +2113,7 @@ static void HandlePlayerInput(void)
     }
 }
 
-static void CB2_PlayBlender(void)
+static void CB2_PlayBlender (void)
 {
     UpdateBlenderCenter();
 
@@ -2142,11 +2142,11 @@ static void CB2_PlayBlender(void)
     UpdatePaletteFade();
 }
 
-static void Blender_DummiedOutFunc(s16 a0, s16 a1)
+static void Blender_DummiedOutFunc (s16 a0, s16 a1)
 {
 }
 
-static bool8 AreBlenderBerriesSame(struct BlenderBerry* berries, u8 a, u8 b)
+static bool8 AreBlenderBerriesSame (struct BlenderBerry* berries, u8 a, u8 b)
 {
     // First check to itemId is pointless (and wrong anyway?), always false when this is called
     // Only used to determine if two enigma berries are equivalent
@@ -2164,7 +2164,7 @@ static bool8 AreBlenderBerriesSame(struct BlenderBerry* berries, u8 a, u8 b)
     }
 }
 
-static u32 CalculatePokeblockColor(struct BlenderBerry* berries, s16* _flavors, u8 numPlayers, u8 negativeFlavors)
+static u32 CalculatePokeblockColor (struct BlenderBerry* berries, s16* _flavors, u8 numPlayers, u8 negativeFlavors)
 {
     s16 flavors[FLAVOR_COUNT + 1];
     s32 i, j;
@@ -2282,29 +2282,29 @@ static u32 CalculatePokeblockColor(struct BlenderBerry* berries, s16* _flavors, 
     return PBLOCK_CLR_NONE;
 }
 
-static void Debug_SetMaxRPMStage(s16 value)
+static void Debug_SetMaxRPMStage (s16 value)
 {
     sDebug_MaxRPMStage = value;
 }
 
 // Unused
-static s16 Debug_GetMaxRPMStage(void)
+static s16 Debug_GetMaxRPMStage (void)
 {
     return sDebug_MaxRPMStage;
 }
 
-static void Debug_SetGameTimeStage(s16 value)
+static void Debug_SetGameTimeStage (s16 value)
 {
     sDebug_GameTimeStage = value;
 }
 
 // Unued
-static s16 Debug_GetGameTimeStage(void)
+static s16 Debug_GetGameTimeStage (void)
 {
     return sDebug_GameTimeStage;
 }
 
-static void CalculatePokeblock(struct BlenderBerry *berries, struct Pokeblock *pokeblock, u8 numPlayers, u8 *flavors, u16 maxRPM)
+static void CalculatePokeblock (struct BlenderBerry *berries, struct Pokeblock *pokeblock, u8 numPlayers, u8 *flavors, u16 maxRPM)
 {
     s32 i, j;
     s32 multiuseVar, var2;
@@ -2413,12 +2413,12 @@ static void CalculatePokeblock(struct BlenderBerry *berries, struct Pokeblock *p
 }
 
 // Unused
-static void Debug_CalculatePokeblock(struct BlenderBerry* berries, struct Pokeblock* pokeblock, u8 numPlayers, u8* flavors, u16 maxRPM)
+static void Debug_CalculatePokeblock (struct BlenderBerry* berries, struct Pokeblock* pokeblock, u8 numPlayers, u8* flavors, u16 maxRPM)
 {
     CalculatePokeblock(berries, pokeblock, numPlayers, flavors, maxRPM);
 }
 
-static void Debug_SetStageVars(void)
+static void Debug_SetStageVars (void)
 {
     u32 frames = (u16)(sBerryBlender->gameFrameTime);
     u16 maxRPM = sBerryBlender->maxRPM;
@@ -2466,7 +2466,7 @@ static void Debug_SetStageVars(void)
     Debug_SetMaxRPMStage(stage);
 }
 
-static void SendContinuePromptResponse(u16 *cmd)
+static void SendContinuePromptResponse (u16 *cmd)
 {
     if (gReceivedRemoteLinkPlayers && gWirelessCommType) {
         *cmd = RFUCMD_SEND_PACKET;
@@ -2475,7 +2475,7 @@ static void SendContinuePromptResponse(u16 *cmd)
     }
 }
 
-static void CB2_EndBlenderGame(void)
+static void CB2_EndBlenderGame (void)
 {
     u8 i, j;
 
@@ -2665,7 +2665,7 @@ static void CB2_EndBlenderGame(void)
     UpdatePaletteFade();
 }
 
-static bool8 LinkPlayAgainHandleSaving(void)
+static bool8 LinkPlayAgainHandleSaving (void)
 {
     switch (sBerryBlender->linkPlayAgainState) {
     case 0:
@@ -2715,7 +2715,7 @@ static bool8 LinkPlayAgainHandleSaving(void)
     return FALSE;
 }
 
-static void CB2_CheckPlayAgainLink(void)
+static void CB2_CheckPlayAgainLink (void)
 {
     switch (sBerryBlender->gameEndState) {
     case 0:
@@ -2819,7 +2819,7 @@ static void CB2_CheckPlayAgainLink(void)
     UpdatePaletteFade();
 }
 
-static void CB2_CheckPlayAgainLocal(void)
+static void CB2_CheckPlayAgainLocal (void)
 {
     switch (sBerryBlender->gameEndState) {
     case 0:
@@ -2877,7 +2877,7 @@ static void CB2_CheckPlayAgainLocal(void)
     UpdatePaletteFade();
 }
 
-static void ProcessLinkPlayerCmds(void)
+static void ProcessLinkPlayerCmds (void)
 {
     if (gReceivedRemoteLinkPlayers) {
         if (CheckRecvCmdMatches(gRecvCmds[0][BLENDER_COMM_INPUT_STATE], LINKCMD_SEND_PACKET, RFUCMD_SEND_PACKET)) {
@@ -2963,7 +2963,7 @@ static void ProcessLinkPlayerCmds(void)
     }
 }
 
-static void DrawBlenderCenter(struct BgAffineSrcData *dest)
+static void DrawBlenderCenter (struct BgAffineSrcData *dest)
 {
     struct BgAffineSrcData affineSrc;
 
@@ -2978,12 +2978,12 @@ static void DrawBlenderCenter(struct BgAffineSrcData *dest)
     *dest = affineSrc;
 }
 
-u16 GetBlenderArrowPosition(void)
+u16 GetBlenderArrowPosition (void)
 {
     return sBerryBlender->arrowPos;
 }
 
-static void UpdateBlenderCenter(void)
+static void UpdateBlenderCenter (void)
 {
     u8 playerId = 0;
 
@@ -3010,7 +3010,7 @@ static void UpdateBlenderCenter(void)
     }
 }
 
-static void SetBgPos(void)
+static void SetBgPos (void)
 {
     SetGpuReg(REG_OFFSET_BG1HOFS, sBerryBlender->bg_X);
     SetGpuReg(REG_OFFSET_BG1VOFS, sBerryBlender->bg_Y);
@@ -3019,7 +3019,7 @@ static void SetBgPos(void)
     SetGpuReg(REG_OFFSET_BG0VOFS, sBerryBlender->bg_Y);
 }
 
-static void SpriteCB_Particle(struct Sprite* sprite)
+static void SpriteCB_Particle (struct Sprite* sprite)
 {
     sprite->data[2] += sprite->data[0];
     sprite->data[3] += sprite->data[1];
@@ -3031,7 +3031,7 @@ static void SpriteCB_Particle(struct Sprite* sprite)
     }
 }
 
-static void CreateParticleSprites(void)
+static void CreateParticleSprites (void)
 {
     s32 limit = (Random() % 2) + 1;
     s32 i;
@@ -3054,7 +3054,7 @@ static void CreateParticleSprites(void)
     }
 }
 
-static void SpriteCB_ScoreSymbol(struct Sprite* sprite)
+static void SpriteCB_ScoreSymbol (struct Sprite* sprite)
 {
     sprite->data[0]++;
     sprite->pos2.y = -(sprite->data[0] / 3);
@@ -3064,7 +3064,7 @@ static void SpriteCB_ScoreSymbol(struct Sprite* sprite)
     }
 }
 
-static void SpriteCB_ScoreSymbolBest(struct Sprite* sprite)
+static void SpriteCB_ScoreSymbolBest (struct Sprite* sprite)
 {
     sprite->data[0]++;
     sprite->pos2.y = -(sprite->data[0] * 2);
@@ -3077,7 +3077,7 @@ static void SpriteCB_ScoreSymbolBest(struct Sprite* sprite)
     }
 }
 
-static void SetPlayerBerryData(u8 playerId, u16 itemId)
+static void SetPlayerBerryData (u8 playerId, u16 itemId)
 {
     sBerryBlender->chosenItemId[playerId] = itemId;
     ConvertItemToBlenderBerry(&sBerryBlender->blendedBerries[playerId], itemId);
@@ -3088,7 +3088,7 @@ static void SetPlayerBerryData(u8 playerId, u16 itemId)
 #define sDelay  data[2]
 #define sAnimId data[3]
 
-static void SpriteCB_CountdownNumber(struct Sprite* sprite)
+static void SpriteCB_CountdownNumber (struct Sprite* sprite)
 {
     switch (sprite->sState) {
     case 0:
@@ -3128,7 +3128,7 @@ static void SpriteCB_CountdownNumber(struct Sprite* sprite)
 #undef sDelay
 #undef sAnimId
 
-static void SpriteCB_Start(struct Sprite* sprite)
+static void SpriteCB_Start (struct Sprite* sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -3157,7 +3157,7 @@ static void SpriteCB_Start(struct Sprite* sprite)
     sprite->pos2.y = sprite->data[1];
 }
 
-static void TryUpdateProgressBar(u16 current, u16 limit)
+static void TryUpdateProgressBar (u16 current, u16 limit)
 {
     // Progress bar doesn't move unless it's going up
     if (sBerryBlender->maxProgressBarValue < current) {
@@ -3166,7 +3166,7 @@ static void TryUpdateProgressBar(u16 current, u16 limit)
     }
 }
 
-static void UpdateProgressBar(u16 value, u16 limit)
+static void UpdateProgressBar (u16 value, u16 limit)
 {
     s32 amountFilled, maxFilledSegment, subSegmentsFilled, i;
     u16 *vram;
@@ -3197,12 +3197,12 @@ static void UpdateProgressBar(u16 value, u16 limit)
     }
 }
 
-static u32 ArrowSpeedToRPM(u16 speed)
+static u32 ArrowSpeedToRPM (u16 speed)
 {
     return 60 * 60 * 100 * speed / MAX_ARROW_POS;
 }
 
-static void UpdateRPM(u16 speed)
+static void UpdateRPM (u16 speed)
 {
     u8 i;
     u8 digits[5];
@@ -3227,14 +3227,14 @@ static void UpdateRPM(u16 speed)
 
 // Passed a pointer to the bg x/y
 // Used when hitting a Best at high RPM
-static void ShakeBgCoordForHit(s16* coord, u16 speed)
+static void ShakeBgCoordForHit (s16* coord, u16 speed)
 {
     if (*coord == 0) {
         *coord = (Random() % speed) - (speed / 2);
     }
 }
 
-static void RestoreBgCoord(s16* coord)
+static void RestoreBgCoord (s16* coord)
 {
     if (*coord < 0) {
         (*coord)++;
@@ -3245,13 +3245,13 @@ static void RestoreBgCoord(s16* coord)
 }
 
 // For "unshaking" the screen after ShakeBgCoordForHit is called
-static void RestoreBgCoords(void)
+static void RestoreBgCoords (void)
 {
     RestoreBgCoord((s16 *)&sBerryBlender->bg_X);
     RestoreBgCoord((s16 *)&sBerryBlender->bg_Y);
 }
 
-static void BlenderLandShakeBgCoord(s16* coord, u16 timer)
+static void BlenderLandShakeBgCoord (s16* coord, u16 timer)
 {
     u8 strength;
 
@@ -3274,7 +3274,7 @@ static void BlenderLandShakeBgCoord(s16* coord, u16 timer)
 }
 
 // For shaking the screen when the blender lands after falling in at the start
-static bool8 UpdateBlenderLandScreenShake(void)
+static bool8 UpdateBlenderLandScreenShake (void)
 {
     if (sBerryBlender->framesToWait == 0) {
         sBerryBlender->bg_X = 0;
@@ -3294,20 +3294,20 @@ static bool8 UpdateBlenderLandScreenShake(void)
     return FALSE;
 }
 
-static void SpriteCB_PlayerArrow(struct Sprite* sprite)
+static void SpriteCB_PlayerArrow (struct Sprite* sprite)
 {
     sprite->pos2.x = -(sBerryBlender->bg_X);
     sprite->pos2.y = -(sBerryBlender->bg_Y);
 }
 
-static void TryUpdateBerryBlenderRecord(void)
+static void TryUpdateBerryBlenderRecord (void)
 {
     if (gSaveBlock1Ptr->berryBlenderRecords[sBerryBlender->numPlayers - 2] < sBerryBlender->maxRPM) {
         gSaveBlock1Ptr->berryBlenderRecords[sBerryBlender->numPlayers - 2] = sBerryBlender->maxRPM;
     }
 }
 
-static bool8 PrintBlendingResults(void)
+static bool8 PrintBlendingResults (void)
 {
     u16 i;
     s32 xPos, yPos;
@@ -3441,7 +3441,7 @@ static bool8 PrintBlendingResults(void)
     return FALSE;
 }
 
-static void PrintMadePokeblockString(struct Pokeblock *pokeblock, u8 *dst)
+static void PrintMadePokeblockString (struct Pokeblock *pokeblock, u8 *dst)
 {
     u8 text[12];
     u8 flavorLvl, feel;
@@ -3466,7 +3466,7 @@ static void PrintMadePokeblockString(struct Pokeblock *pokeblock, u8 *dst)
     StringAppend(dst, sText_NewParagraph);
 }
 
-static void SortBasedOnPoints(u8 *places, u8 playersNum, u32 *scores)
+static void SortBasedOnPoints (u8 *places, u8 playersNum, u32 *scores)
 {
     s32 i, j;
 
@@ -3480,7 +3480,7 @@ static void SortBasedOnPoints(u8 *places, u8 playersNum, u32 *scores)
     }
 }
 
-static void SortScores(void)
+static void SortScores (void)
 {
     u8 playerId;
     u8 i;
@@ -3513,7 +3513,7 @@ static void SortScores(void)
     }
 }
 
-static bool8 PrintBlendingRanking(void)
+static bool8 PrintBlendingRanking (void)
 {
     u16 i;
     s32 xPos, yPos;
@@ -3599,7 +3599,7 @@ static bool8 PrintBlendingRanking(void)
     return FALSE;
 }
 
-void ShowBerryBlenderRecordWindow(void)
+void ShowBerryBlenderRecordWindow (void)
 {
     s32 i;
     s32 xPos, yPos;
@@ -3634,7 +3634,7 @@ void ShowBerryBlenderRecordWindow(void)
     CopyWindowToVram(gRecordsWindowId, 3);
 }
 
-static void Task_PlayPokeblockFanfare(u8 taskId)
+static void Task_PlayPokeblockFanfare (u8 taskId)
 {
     if (gTasks[taskId].data[0] == 0) {
         PlayFanfare(MUS_LEVEL_UP);
@@ -3646,7 +3646,7 @@ static void Task_PlayPokeblockFanfare(u8 taskId)
     }
 }
 
-static bool32 TryAddContestLinkTvShow(struct Pokeblock *pokeblock, struct TvBlenderStruct *tvBlender)
+static bool32 TryAddContestLinkTvShow (struct Pokeblock *pokeblock, struct TvBlenderStruct *tvBlender)
 {
     u8 flavorLevel = GetHighestPokeblocksFlavorLevel(pokeblock);
     u16 sheen = (flavorLevel * 10) / GetPokeblocksFeel(pokeblock);
@@ -3684,7 +3684,7 @@ static bool32 TryAddContestLinkTvShow(struct Pokeblock *pokeblock, struct TvBlen
     return FALSE;
 }
 
-static void Blender_AddTextPrinter(u8 windowId, const u8 *string, u8 x, u8 y, s32 speed, s32 caseId)
+static void Blender_AddTextPrinter (u8 windowId, const u8 *string, u8 x, u8 y, s32 speed, s32 caseId)
 {
     u8 txtColor[3];
     u32 letterSpacing = 0;
@@ -3715,7 +3715,7 @@ static void Blender_AddTextPrinter(u8 windowId, const u8 *string, u8 x, u8 y, s3
     AddTextPrinterParameterized4(windowId, 1, x, y, letterSpacing, 1, txtColor, speed, string);
 }
 
-static bool32 Blender_PrintText(s16 *textState, const u8 *string, s32 textSpeed)
+static bool32 Blender_PrintText (s16 *textState, const u8 *string, s32 textSpeed)
 {
     switch (*textState) {
     case 0:

@@ -47,7 +47,7 @@ u16 gTotalCameraPixelOffsetY;
 u16 gTotalCameraPixelOffsetX;
 
 // text
-static void ResetCameraOffset(struct FieldCameraOffset *cameraOffset)
+static void ResetCameraOffset (struct FieldCameraOffset *cameraOffset)
 {
     cameraOffset->xTileOffset = 0;
     cameraOffset->yTileOffset = 0;
@@ -56,7 +56,7 @@ static void ResetCameraOffset(struct FieldCameraOffset *cameraOffset)
     cameraOffset->copyBGToVRAM = TRUE;
 }
 
-static void AddCameraTileOffset(struct FieldCameraOffset *cameraOffset, u32 xOffset, u32 yOffset)
+static void AddCameraTileOffset (struct FieldCameraOffset *cameraOffset, u32 xOffset, u32 yOffset)
 {
     cameraOffset->xTileOffset += xOffset;
     cameraOffset->xTileOffset %= 32;
@@ -64,18 +64,18 @@ static void AddCameraTileOffset(struct FieldCameraOffset *cameraOffset, u32 xOff
     cameraOffset->yTileOffset %= 32;
 }
 
-static void AddCameraPixelOffset(struct FieldCameraOffset *cameraOffset, u32 xOffset, u32 yOffset)
+static void AddCameraPixelOffset (struct FieldCameraOffset *cameraOffset, u32 xOffset, u32 yOffset)
 {
     cameraOffset->xPixelOffset += xOffset;
     cameraOffset->yPixelOffset += yOffset;
 }
 
-void ResetFieldCamera(void)
+void ResetFieldCamera (void)
 {
     ResetCameraOffset(&sFieldCameraOffset);
 }
 
-void FieldUpdateBgTilemapScroll(void)
+void FieldUpdateBgTilemapScroll (void)
 {
     u32 r4, r5;
     r5 = sFieldCameraOffset.xPixelOffset + sHorizontalCameraPan;
@@ -89,19 +89,19 @@ void FieldUpdateBgTilemapScroll(void)
     SetGpuReg(REG_OFFSET_BG3VOFS, r4);
 }
 
-void sub_8089C08(s16 *x, s16 *y)
+void sub_8089C08 (s16 *x, s16 *y)
 {
     *x = sFieldCameraOffset.xPixelOffset + sHorizontalCameraPan;
     *y = sFieldCameraOffset.yPixelOffset + sVerticalCameraPan + 8;
 }
 
-void DrawWholeMapView(void)
+void DrawWholeMapView (void)
 {
     DrawWholeMapViewInternal(gSaveBlock1Ptr->pos.x, gSaveBlock1Ptr->pos.y, gMapHeader.mapLayout);
     sFieldCameraOffset.copyBGToVRAM = TRUE;
 }
 
-static void DrawWholeMapViewInternal(int x, int y, const struct MapLayout *mapLayout)
+static void DrawWholeMapViewInternal (int x, int y, const struct MapLayout *mapLayout)
 {
     u8 i;
     u8 j;
@@ -124,7 +124,7 @@ static void DrawWholeMapViewInternal(int x, int y, const struct MapLayout *mapLa
     }
 }
 
-static void RedrawMapSlicesForCameraUpdate(struct FieldCameraOffset *cameraOffset, int x, int y)
+static void RedrawMapSlicesForCameraUpdate (struct FieldCameraOffset *cameraOffset, int x, int y)
 {
     const struct MapLayout *mapLayout = gMapHeader.mapLayout;
 
@@ -143,7 +143,7 @@ static void RedrawMapSlicesForCameraUpdate(struct FieldCameraOffset *cameraOffse
     cameraOffset->copyBGToVRAM = TRUE;
 }
 
-static void RedrawMapSliceNorth(struct FieldCameraOffset *cameraOffset, const struct MapLayout *mapLayout)
+static void RedrawMapSliceNorth (struct FieldCameraOffset *cameraOffset, const struct MapLayout *mapLayout)
 {
     u8 i;
     u8 temp;
@@ -163,7 +163,7 @@ static void RedrawMapSliceNorth(struct FieldCameraOffset *cameraOffset, const st
     }
 }
 
-static void RedrawMapSliceSouth(struct FieldCameraOffset *cameraOffset, const struct MapLayout *mapLayout)
+static void RedrawMapSliceSouth (struct FieldCameraOffset *cameraOffset, const struct MapLayout *mapLayout)
 {
     u8 i;
     u8 temp;
@@ -178,7 +178,7 @@ static void RedrawMapSliceSouth(struct FieldCameraOffset *cameraOffset, const st
     }
 }
 
-static void RedrawMapSliceEast(struct FieldCameraOffset *cameraOffset, const struct MapLayout *mapLayout)
+static void RedrawMapSliceEast (struct FieldCameraOffset *cameraOffset, const struct MapLayout *mapLayout)
 {
     u8 i;
     u8 temp;
@@ -193,7 +193,7 @@ static void RedrawMapSliceEast(struct FieldCameraOffset *cameraOffset, const str
     }
 }
 
-static void RedrawMapSliceWest(struct FieldCameraOffset *cameraOffset, const struct MapLayout *mapLayout)
+static void RedrawMapSliceWest (struct FieldCameraOffset *cameraOffset, const struct MapLayout *mapLayout)
 {
     u8 i;
     u8 temp;
@@ -211,7 +211,7 @@ static void RedrawMapSliceWest(struct FieldCameraOffset *cameraOffset, const str
     }
 }
 
-void CurrentMapDrawMetatileAt(int x, int y)
+void CurrentMapDrawMetatileAt (int x, int y)
 {
     int offset = MapPosToBgTilemapOffset(&sFieldCameraOffset, x, y);
 
@@ -221,7 +221,7 @@ void CurrentMapDrawMetatileAt(int x, int y)
     }
 }
 
-void DrawDoorMetatileAt(int x, int y, u16 *arr)
+void DrawDoorMetatileAt (int x, int y, u16 *arr)
 {
     int offset = MapPosToBgTilemapOffset(&sFieldCameraOffset, x, y);
 
@@ -231,7 +231,7 @@ void DrawDoorMetatileAt(int x, int y, u16 *arr)
     }
 }
 
-static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x, int y)
+static void DrawMetatileAt (const struct MapLayout *mapLayout, u16 offset, int x, int y)
 {
     u16 metatileId = MapGridGetMetatileIdAt(x, y);
     u16 *metatiles;
@@ -248,7 +248,7 @@ static void DrawMetatileAt(const struct MapLayout *mapLayout, u16 offset, int x,
     DrawMetatile(MapGridGetMetatileLayerTypeAt(x, y), metatiles + metatileId * 8, offset);
 }
 
-static void DrawMetatile(s32 metatileLayerType, u16 *metatiles, u16 offset)
+static void DrawMetatile (s32 metatileLayerType, u16 *metatiles, u16 offset)
 {
     switch (metatileLayerType) {
     case 2: // LAYER_TYPE_
@@ -314,7 +314,7 @@ static void DrawMetatile(s32 metatileLayerType, u16 *metatiles, u16 offset)
     ScheduleBgCopyTilemapToVram(3);
 }
 
-static s32 MapPosToBgTilemapOffset(struct FieldCameraOffset *cameraOffset, s32 x, s32 y)
+static s32 MapPosToBgTilemapOffset (struct FieldCameraOffset *cameraOffset, s32 x, s32 y)
 {
     x -= gSaveBlock1Ptr->pos.x;
     x *= 2;
@@ -338,7 +338,7 @@ static s32 MapPosToBgTilemapOffset(struct FieldCameraOffset *cameraOffset, s32 x
     return y * 32 + x;
 }
 
-static void CameraUpdateCallback(struct CameraObject *fieldCamera)
+static void CameraUpdateCallback (struct CameraObject *fieldCamera)
 {
     if (fieldCamera->spriteId != 0) {
         fieldCamera->movementSpeedX = gSprites[fieldCamera->spriteId].data[2];
@@ -346,7 +346,7 @@ static void CameraUpdateCallback(struct CameraObject *fieldCamera)
     }
 }
 
-void ResetCameraUpdateInfo(void)
+void ResetCameraUpdateInfo (void)
 {
     gFieldCamera.movementSpeedX = 0;
     gFieldCamera.movementSpeedY = 0;
@@ -356,7 +356,7 @@ void ResetCameraUpdateInfo(void)
     gFieldCamera.callback = NULL;
 }
 
-u32 InitCameraUpdateCallback(u8 trackedSpriteId)
+u32 InitCameraUpdateCallback (u8 trackedSpriteId)
 {
     if (gFieldCamera.spriteId != 0) {
         DestroySprite(&gSprites[gFieldCamera.spriteId]);
@@ -366,7 +366,7 @@ u32 InitCameraUpdateCallback(u8 trackedSpriteId)
     return 0;
 }
 
-void CameraUpdate(void)
+void CameraUpdate (void)
 {
     int deltaX;
     int deltaY;
@@ -434,7 +434,7 @@ void CameraUpdate(void)
     gTotalCameraPixelOffsetY -= movementSpeedY;
 }
 
-void MoveCameraAndRedrawMap(int deltaX, int deltaY) //unused
+void MoveCameraAndRedrawMap (int deltaX, int deltaY) //unused
 {
     CameraMove(deltaX, deltaY);
     UpdateObjectEventsForCameraUpdate(deltaX, deltaY);
@@ -443,18 +443,18 @@ void MoveCameraAndRedrawMap(int deltaX, int deltaY) //unused
     gTotalCameraPixelOffsetY -= deltaY * 16;
 }
 
-void SetCameraPanningCallback(void (*callback)(void))
+void SetCameraPanningCallback (void (*callback)(void))
 {
     sFieldCameraPanningCallback = callback;
 }
 
-void SetCameraPanning(s16 a, s16 b)
+void SetCameraPanning (s16 a, s16 b)
 {
     sHorizontalCameraPan = a;
     sVerticalCameraPan = b + 32;
 }
 
-void InstallCameraPanAheadCallback(void)
+void InstallCameraPanAheadCallback (void)
 {
     sFieldCameraPanningCallback = CameraPanningCB_PanAhead;
     gUnknown_03000E2C = FALSE;
@@ -462,7 +462,7 @@ void InstallCameraPanAheadCallback(void)
     sVerticalCameraPan = 32;
 }
 
-void UpdateCameraPanning(void)
+void UpdateCameraPanning (void)
 {
     if (sFieldCameraPanningCallback != NULL) {
         sFieldCameraPanningCallback();
@@ -472,7 +472,7 @@ void UpdateCameraPanning(void)
     gSpriteCoordOffsetY = gTotalCameraPixelOffsetY - sVerticalCameraPan - 8;
 }
 
-static void CameraPanningCB_PanAhead(void)
+static void CameraPanningCB_PanAhead (void)
 {
     u8 var;
 

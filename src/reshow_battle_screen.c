@@ -23,11 +23,11 @@ static void CreateBattlerSprite(u8 battlerId);
 static void CreateHealthboxSprite(u8 battlerId);
 static void sub_80A95F4(void);
 
-void nullsub_35(void)
+void nullsub_35 (void)
 {
 }
 
-void ReshowBattleScreenAfterMenu(void)
+void ReshowBattleScreenAfterMenu (void)
 {
     gPaletteFade.bufferTransferDisabled = 1;
     SetHBlankCallback(NULL);
@@ -38,7 +38,7 @@ void ReshowBattleScreenAfterMenu(void)
     SetMainCallback2(CB2_ReshowBattleScreenAfterMenu);
 }
 
-static void CB2_ReshowBattleScreenAfterMenu(void)
+static void CB2_ReshowBattleScreenAfterMenu (void)
 {
     switch (gBattleScripting.reshowMainState) {
     case 0:
@@ -166,7 +166,7 @@ static void CB2_ReshowBattleScreenAfterMenu(void)
     gBattleScripting.reshowMainState++;
 }
 
-static void sub_80A95F4(void)
+static void sub_80A95F4 (void)
 {
     struct BGCntrlBitfield *regBgcnt1, *regBgcnt2;
 
@@ -177,7 +177,7 @@ static void sub_80A95F4(void)
     regBgcnt2->charBaseBlock = 0;
 }
 
-static bool8 LoadBattlerSpriteGfx(u8 battler)
+static bool8 LoadBattlerSpriteGfx (u8 battler)
 {
     if (battler < gBattlersCount) {
         if (GetBattlerSide(battler) != B_SIDE_PLAYER) {
@@ -201,7 +201,7 @@ static bool8 LoadBattlerSpriteGfx(u8 battler)
     return TRUE;
 }
 
-static void CreateBattlerSprite(u8 battler)
+static void CreateBattlerSprite (u8 battler)
 {
     if (battler < gBattlersCount) {
         u8 posY;
@@ -269,7 +269,7 @@ static void CreateBattlerSprite(u8 battler)
     }
 }
 
-static void CreateHealthboxSprite(u8 battler)
+static void CreateHealthboxSprite (u8 battler)
 {
     if (battler < gBattlersCount) {
         u8 healthboxSpriteId;

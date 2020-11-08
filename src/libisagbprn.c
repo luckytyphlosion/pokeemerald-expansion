@@ -28,7 +28,7 @@ typedef void (*LPFN_PRINT_FLUSH)(void);
 
 void AGBPrintFlush1Block(void);
 
-void AGBPrintInit(void)
+void AGBPrintInit (void)
 {
     volatile struct AGBPrintStruct *pPrint = (struct AGBPrintStruct *)AGB_PRINT_STRUCT_ADDR;
     u16 *pWSCNT = (u16 *)REG_ADDR_WAITCNT;
@@ -42,7 +42,7 @@ void AGBPrintInit(void)
     *pWSCNT = nOldWSCNT;
 }
 
-static void AGBPutcInternal(const char cChr)
+static void AGBPutcInternal (const char cChr)
 {
     volatile struct AGBPrintStruct *pPrint = (struct AGBPrintStruct *)AGB_PRINT_STRUCT_ADDR;
     u16 *pPrintBuf = (u16 *)(0x8000000 + (pPrint->m_nBank << 16));
@@ -55,7 +55,7 @@ static void AGBPutcInternal(const char cChr)
     *pProtect = 0;
 }
 
-void AGBPutc(const char cChr)
+void AGBPutc (const char cChr)
 {
     u16 *pWSCNT = (u16 *)REG_ADDR_WAITCNT;
     u16 nOldWSCNT = *pWSCNT;
@@ -69,7 +69,7 @@ void AGBPutc(const char cChr)
     }
 }
 
-void AGBPrint(const char *pBuf)
+void AGBPrint (const char *pBuf)
 {
     volatile struct AGBPrintStruct *pPrint = (struct AGBPrintStruct *)AGB_PRINT_STRUCT_ADDR;
     u16 *pWSCNT = (u16 *)REG_ADDR_WAITCNT;
@@ -82,7 +82,7 @@ void AGBPrint(const char *pBuf)
     *pWSCNT = nOldWSCNT;
 }
 
-void AGBPrintf(const char *pBuf, ...)
+void AGBPrintf (const char *pBuf, ...)
 {
     char bufPrint[0x100];
     va_list vArgv;
@@ -92,7 +92,7 @@ void AGBPrintf(const char *pBuf, ...)
     AGBPrint(bufPrint);
 }
 
-static void AGBPrintTransferDataInternal(u32 bAllData)
+static void AGBPrintTransferDataInternal (u32 bAllData)
 {
     LPFN_PRINT_FLUSH lpfnFuncFlush;
     u16 *pIME;
@@ -128,17 +128,17 @@ static void AGBPrintTransferDataInternal(u32 bAllData)
     *pIME = nIME;
 }
 
-void AGBPrintFlush1Block(void)
+void AGBPrintFlush1Block (void)
 {
     AGBPrintTransferDataInternal(FALSE);
 }
 
-void AGBPrintFlush(void)
+void AGBPrintFlush (void)
 {
     AGBPrintTransferDataInternal(TRUE);
 }
 
-void AGBAssert(const char *pFile, int nLine, const char *pExpression, int nStopProgram)
+void AGBAssert (const char *pFile, int nLine, const char *pExpression, int nStopProgram)
 {
     if (nStopProgram) {
         AGBPrintf("ASSERTION FAILED  FILE=[%s] LINE=[%d]  EXP=[%s] \n", pFile, nLine, pExpression);

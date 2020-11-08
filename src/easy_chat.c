@@ -1081,7 +1081,7 @@ static const u16 sUnknown_0859E658[] = {
     SPECIES_DEOXYS,
 };
 
-void DoEasyChatScreen(u8 type, u16 *words, MainCallback callback, u8 displayedPersonType)
+void DoEasyChatScreen (u8 type, u16 *words, MainCallback callback, u8 displayedPersonType)
 {
     u8 taskId;
 
@@ -1094,7 +1094,7 @@ void DoEasyChatScreen(u8 type, u16 *words, MainCallback callback, u8 displayedPe
     SetMainCallback2(MainCallback_EasyChatScreen);
 }
 
-static void MainCallback_EasyChatScreen(void)
+static void MainCallback_EasyChatScreen (void)
 {
     RunTasks();
     AnimateSprites();
@@ -1102,20 +1102,20 @@ static void MainCallback_EasyChatScreen(void)
     UpdatePaletteFade();
 }
 
-static void VBlankCallback_EasyChatScreen(void)
+static void VBlankCallback_EasyChatScreen (void)
 {
     TransferPlttBuffer();
     LoadOam();
     ProcessSpriteCopyRequests();
 }
 
-static void sub_811A2A4(u8 taskId, TaskFunc taskFunc)
+static void sub_811A2A4 (u8 taskId, TaskFunc taskFunc)
 {
     gTasks[taskId].func = taskFunc;
     gTasks[taskId].data[EZCHAT_TASK_STATE] = 0;
 }
 
-static void sub_811A2C0(u8 taskId)
+static void sub_811A2C0 (u8 taskId)
 {
     if (!IsUpdateLinkStateCBActive()) {
         while (sub_811A428(taskId)) {
@@ -1129,7 +1129,7 @@ static void sub_811A2C0(u8 taskId)
     sub_811A2A4(taskId, sub_811A2FC);
 }
 
-static void sub_811A2FC(u8 taskId)
+static void sub_811A2FC (u8 taskId)
 {
     u16 v0;
     s16 *data;
@@ -1180,7 +1180,7 @@ static void sub_811A2FC(u8 taskId)
     }
 }
 
-static bool8 sub_811A428(u8 taskId)
+static bool8 sub_811A428 (u8 taskId)
 {
     s16 *data;
 
@@ -1219,7 +1219,7 @@ static bool8 sub_811A428(u8 taskId)
     return TRUE;
 }
 
-static void sub_811A4D0(MainCallback callback)
+static void sub_811A4D0 (MainCallback callback)
 {
     sub_811C13C();
     EasyChat_FreeResources();
@@ -1228,7 +1228,7 @@ static void sub_811A4D0(MainCallback callback)
     SetMainCallback2(callback);
 }
 
-void ShowEasyChatScreen(void)
+void ShowEasyChatScreen (void)
 {
     int i;
     u16 *words;
@@ -1322,7 +1322,7 @@ void ShowEasyChatScreen(void)
     DoEasyChatScreen(gSpecialVar_0x8004, words, CB2_ReturnToFieldContinueScript, displayedPersonType);
 }
 
-static void CB2_QuizLadyQuestion(void)
+static void CB2_QuizLadyQuestion (void)
 {
     LilycoveLady *lilycoveLady;
 
@@ -1343,12 +1343,12 @@ static void CB2_QuizLadyQuestion(void)
     gMain.state++;
 }
 
-void QuizLadyShowQuizQuestion(void)
+void QuizLadyShowQuizQuestion (void)
 {
     SetMainCallback2(CB2_QuizLadyQuestion);
 }
 
-static int sub_811A868(u16 word)
+static int sub_811A868 (u16 word)
 {
     int i;
 
@@ -1360,12 +1360,12 @@ static int sub_811A868(u16 word)
     return -1;
 }
 
-static bool32 sub_811A88C(u16 word)
+static bool32 sub_811A88C (u16 word)
 {
     return sub_811A868(word) == -1 ? FALSE : TRUE;
 }
 
-static void sub_811A8A4(u16 word)
+static void sub_811A8A4 (u16 word)
 {
     int i;
 
@@ -1374,7 +1374,7 @@ static void sub_811A8A4(u16 word)
     sub_811A4D0(sUnknown_08597530[i].callback);
 }
 
-static void DoQuizAnswerEasyChatScreen(void)
+static void DoQuizAnswerEasyChatScreen (void)
 {
     DoEasyChatScreen(
         EASY_CHAT_TYPE_QUIZ_ANSWER,
@@ -1383,7 +1383,7 @@ static void DoQuizAnswerEasyChatScreen(void)
         EASY_CHAT_PERSON_DISPLAY_NONE);
 }
 
-static void DoQuizQuestionEasyChatScreen(void)
+static void DoQuizQuestionEasyChatScreen (void)
 {
     DoEasyChatScreen(EASY_CHAT_TYPE_QUIZ_QUESTION,
                      gSaveBlock1Ptr->lilycoveLady.quiz.question,
@@ -1391,7 +1391,7 @@ static void DoQuizQuestionEasyChatScreen(void)
                      EASY_CHAT_PERSON_DISPLAY_NONE);
 }
 
-static void DoQuizSetAnswerEasyChatScreen(void)
+static void DoQuizSetAnswerEasyChatScreen (void)
 {
     DoEasyChatScreen(EASY_CHAT_TYPE_QUIZ_SET_ANSWER,
                      &gSaveBlock1Ptr->lilycoveLady.quiz.correctAnswer,
@@ -1399,7 +1399,7 @@ static void DoQuizSetAnswerEasyChatScreen(void)
                      EASY_CHAT_PERSON_DISPLAY_NONE);
 }
 
-static void DoQuizSetQuestionEasyChatScreen(void)
+static void DoQuizSetQuestionEasyChatScreen (void)
 {
     DoEasyChatScreen(EASY_CHAT_TYPE_QUIZ_SET_QUESTION,
                      gSaveBlock1Ptr->lilycoveLady.quiz.question,
@@ -1407,7 +1407,7 @@ static void DoQuizSetQuestionEasyChatScreen(void)
                      EASY_CHAT_PERSON_DISPLAY_NONE);
 }
 
-static bool8 EasyChat_AllocateResources(u8 type, u16 *words, u8 displayedPersonType)
+static bool8 EasyChat_AllocateResources (u8 type, u16 *words, u8 displayedPersonType)
 {
     u8 templateId;
     int i;
@@ -1456,14 +1456,14 @@ static bool8 EasyChat_AllocateResources(u8 type, u16 *words, u8 displayedPersonT
     return TRUE;
 }
 
-static void EasyChat_FreeResources(void)
+static void EasyChat_FreeResources (void)
 {
     if (sEasyChatScreen != NULL) {
         FREE_AND_SET_NULL(sEasyChatScreen);
     }
 }
 
-static u16 sub_811AAAC(void)
+static u16 sub_811AAAC (void)
 {
     switch (sEasyChatScreen->state) {
     case 0:
@@ -1492,7 +1492,7 @@ static u16 sub_811AAAC(void)
     return 0;
 }
 
-bool32 sub_811AB44(void)
+bool32 sub_811AB44 (void)
 {
     switch (GetEasyChatScreenFrameId()) {
     case 2:
@@ -1503,7 +1503,7 @@ bool32 sub_811AB44(void)
     return FALSE;
 }
 
-static u16 sub_811AB68(void)
+static u16 sub_811AB68 (void)
 {
     do {
         if (JOY_NEW(A_BUTTON)) {
@@ -1566,7 +1566,7 @@ static u16 sub_811AB68(void)
     return 2;
 }
 
-static u16 sub_811ACDC(void)
+static u16 sub_811ACDC (void)
 {
     do {
         if (JOY_NEW(A_BUTTON)) {
@@ -1633,7 +1633,7 @@ static u16 sub_811ACDC(void)
     return 2;
 }
 
-static u16 sub_811AE44(void)
+static u16 sub_811AE44 (void)
 {
     if (JOY_NEW(B_BUTTON)) {
         return sub_811B32C();
@@ -1677,7 +1677,7 @@ static u16 sub_811AE44(void)
     return 0;
 }
 
-static u16 sub_811AF00(void)
+static u16 sub_811AF00 (void)
 {
     if (JOY_NEW(B_BUTTON)) {
         sEasyChatScreen->state = 2;
@@ -1715,7 +1715,7 @@ static u16 sub_811AF00(void)
     return 0;
 }
 
-static u16 sub_811AF8C(void)
+static u16 sub_811AF8C (void)
 {
     u8 var0;
 
@@ -1737,7 +1737,7 @@ static u16 sub_811AF8C(void)
     }
 }
 
-static u16 sub_811AFEC(void)
+static u16 sub_811AFEC (void)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case MENU_B_PRESSED: // B Button
@@ -1754,7 +1754,7 @@ static u16 sub_811AFEC(void)
     }
 }
 
-static u16 sub_811B040(void)
+static u16 sub_811B040 (void)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case MENU_B_PRESSED: // B Button
@@ -1770,7 +1770,7 @@ static u16 sub_811B040(void)
     }
 }
 
-static u16 sub_811B08C(void)
+static u16 sub_811B08C (void)
 {
     if (JOY_NEW(A_BUTTON)) {
         return 26;
@@ -1783,7 +1783,7 @@ static u16 sub_811B08C(void)
     return 0;
 }
 
-static u16 sub_811B0BC(void)
+static u16 sub_811B0BC (void)
 {
     if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         sEasyChatScreen->state = sub_811B2A4();
@@ -1793,13 +1793,13 @@ static u16 sub_811B0BC(void)
     return 0;
 }
 
-static u16 sub_811B0E8(void)
+static u16 sub_811B0E8 (void)
 {
     sEasyChatScreen->state = 10;
     return 6;
 }
 
-static u16 sub_811B0F8(void)
+static u16 sub_811B0F8 (void)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case MENU_B_PRESSED: // B Button
@@ -1817,7 +1817,7 @@ static u16 sub_811B0F8(void)
     }
 }
 
-static u16 sub_811B150(void)
+static u16 sub_811B150 (void)
 {
     if (sEasyChatScreen->type == EASY_CHAT_TYPE_APPRENTICE
         || sEasyChatScreen->type == EASY_CHAT_TYPE_CONTEST_INTERVIEW) {
@@ -1831,7 +1831,7 @@ static u16 sub_811B150(void)
     }
 }
 
-static int sub_811B184(void)
+static int sub_811B184 (void)
 {
     sEasyChatScreen->stateBackup = sEasyChatScreen->state;
     if (sEasyChatScreen->type != EASY_CHAT_TYPE_BARD_SONG) {
@@ -1844,7 +1844,7 @@ static int sub_811B184(void)
     }
 }
 
-static u16 sub_811B1B4(void)
+static u16 sub_811B1B4 (void)
 {
     sEasyChatScreen->stateBackup = sEasyChatScreen->state;
     if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_QUESTION) {
@@ -1905,7 +1905,7 @@ static u16 sub_811B1B4(void)
     }
 }
 
-static int sub_811B264(void)
+static int sub_811B264 (void)
 {
     sEasyChatScreen->stateBackup = sEasyChatScreen->state;
     switch (sEasyChatScreen->type) {
@@ -1922,12 +1922,12 @@ static int sub_811B264(void)
     }
 }
 
-static u8 sub_811B2A4(void)
+static u8 sub_811B2A4 (void)
 {
     return sEasyChatScreen->stateBackup;
 }
 
-static int sub_811B2B0(void)
+static int sub_811B2B0 (void)
 {
     u16 var1;
 
@@ -1951,13 +1951,13 @@ static int sub_811B2B0(void)
     return 11;
 }
 
-static int sub_811B32C(void)
+static int sub_811B32C (void)
 {
     sEasyChatScreen->state = 0;
     return 10;
 }
 
-static int sub_811B33C(void)
+static int sub_811B33C (void)
 {
     sEasyChatScreen->unk_0a = 0;
     sEasyChatScreen->unk_0b = 0;
@@ -1971,7 +1971,7 @@ static int sub_811B33C(void)
     return 23;
 }
 
-static int sub_811B368(void)
+static int sub_811B368 (void)
 {
     if (sEasyChatScreen->type == EASY_CHAT_TYPE_BARD_SONG) {
         PlaySE(SE_FAILURE);
@@ -1982,7 +1982,7 @@ static int sub_811B368(void)
     }
 }
 
-static int sub_811B394(void)
+static int sub_811B394 (void)
 {
     u16 easyChatWord = sub_811F578(sub_811B940());
     if (sub_811BF88(easyChatWord)) {
@@ -2000,7 +2000,7 @@ static int sub_811B394(void)
     }
 }
 
-static void sub_811B3E4(void)
+static void sub_811B3E4 (void)
 {
     int i;
     for (i = 0; i < sEasyChatScreen->unk_07; i++) {
@@ -2008,7 +2008,7 @@ static void sub_811B3E4(void)
     }
 }
 
-static void sub_811B418(void)
+static void sub_811B418 (void)
 {
     int i;
     for (i = 0; i < sEasyChatScreen->unk_07; i++) {
@@ -2016,7 +2016,7 @@ static void sub_811B418(void)
     }
 }
 
-static void sub_811B454(void)
+static void sub_811B454 (void)
 {
     int i;
     for (i = 0; i < sEasyChatScreen->unk_07; i++) {
@@ -2024,13 +2024,13 @@ static void sub_811B454(void)
     }
 }
 
-static void sub_811B488(u16 easyChatWord)
+static void sub_811B488 (u16 easyChatWord)
 {
     u16 index = sub_811B8C8();
     sEasyChatScreen->ecWordBuffer[index] = easyChatWord;
 }
 
-static u8 sub_811B4AC(void)
+static u8 sub_811B4AC (void)
 {
     u16 i;
     for (i = 0; i < sEasyChatScreen->unk_07; i++) {
@@ -2042,7 +2042,7 @@ static u8 sub_811B4AC(void)
     return 0;
 }
 
-static int sub_811B4EC(void)
+static int sub_811B4EC (void)
 {
     u8 var0 = sEasyChatScreen->type - EASY_CHAT_TYPE_QUIZ_SET_QUESTION;
     if (var0 < 2) {
@@ -2060,7 +2060,7 @@ static int sub_811B4EC(void)
     }
 }
 
-static u16 sub_811B528(int arg0)
+static u16 sub_811B528 (int arg0)
 {
     if (sEasyChatScreen->unk_0a != -1) {
         if (sEasyChatScreen->unk_09 == 0) {
@@ -2073,7 +2073,7 @@ static u16 sub_811B528(int arg0)
     }
 }
 
-static int sub_811B568(u32 arg0)
+static int sub_811B568 (u32 arg0)
 {
     switch (arg0) {
     case 2:
@@ -2125,7 +2125,7 @@ static int sub_811B568(u32 arg0)
     return 0;
 }
 
-static int sub_811B634(u32 arg0)
+static int sub_811B634 (u32 arg0)
 {
     switch (arg0) {
     case 2:
@@ -2165,7 +2165,7 @@ static int sub_811B634(u32 arg0)
     return 0;
 }
 
-static int sub_811B6C4(u32 arg0)
+static int sub_811B6C4 (u32 arg0)
 {
     switch (arg0) {
     case 2:
@@ -2197,7 +2197,7 @@ static int sub_811B6C4(u32 arg0)
     return 0;
 }
 
-static void sub_811B744(void)
+static void sub_811B744 (void)
 {
     sEasyChatScreen->unk_0a = 0xFF;
     if (sEasyChatScreen->unk_0b) {
@@ -2205,7 +2205,7 @@ static void sub_811B744(void)
     }
 }
 
-static void sub_811B768(void)
+static void sub_811B768 (void)
 {
     if (sEasyChatScreen->unk_09 == 0) {
         sEasyChatScreen->unk_0a = 1;
@@ -2215,7 +2215,7 @@ static void sub_811B768(void)
     }
 }
 
-static u16 sub_811B794(u32 arg0)
+static u16 sub_811B794 (u32 arg0)
 {
     u16 result;
     switch (arg0) {
@@ -2293,29 +2293,29 @@ static u16 sub_811B794(u32 arg0)
     return 0;
 }
 
-static u16 sub_811B8C8(void)
+static u16 sub_811B8C8 (void)
 {
     return (sEasyChatScreen->mainCursorRow * sEasyChatScreen->numColumns) + sEasyChatScreen->mainCursorColumn;
 }
 
-static u16 sub_811B8E8(void)
+static u16 sub_811B8E8 (void)
 {
     return 2 * (sEasyChatScreen->unk_0b + sEasyChatScreen->unk_0c) + sEasyChatScreen->unk_0a;
 }
 
-static int sub_811B908(void)
+static int sub_811B908 (void)
 {
     int var0 = (u8)sEasyChatScreen->unk_0a < 7 ? sEasyChatScreen->unk_0a : 0;
     int var1 = (u8)sEasyChatScreen->unk_0b < 4 ? sEasyChatScreen->unk_0b : 0;
     return sUnknown_08597748[var1][var0];
 }
 
-static u16 sub_811B940(void)
+static u16 sub_811B940 (void)
 {
     return 2 * (sEasyChatScreen->unk_11 + sEasyChatScreen->unk_0e)  + sEasyChatScreen->unk_10;
 }
 
-static u8 sub_811B960(u8 arg0)
+static u8 sub_811B960 (u8 arg0)
 {
     switch (arg0) {
     case 0:
@@ -2326,7 +2326,7 @@ static u8 sub_811B960(u8 arg0)
     }
 }
 
-static void sub_811B978(void)
+static void sub_811B978 (void)
 {
     while (sub_811B9C8()) {
         if (sEasyChatScreen->unk_0a) {
@@ -2337,7 +2337,7 @@ static void sub_811B978(void)
     }
 }
 
-static void sub_811B9A0(void)
+static void sub_811B9A0 (void)
 {
     while (sub_811BA1C()) {
         if (sEasyChatScreen->unk_10) {
@@ -2348,7 +2348,7 @@ static void sub_811B9A0(void)
     }
 }
 
-static u8 sub_811B9C8(void)
+static u8 sub_811B9C8 (void)
 {
     if (sEasyChatScreen->unk_09 == 0) {
         return sub_811B8E8() >= sub_811F3AC() ? 1 : 0;
@@ -2357,69 +2357,69 @@ static u8 sub_811B9C8(void)
     }
 }
 
-static u8 sub_811BA1C(void)
+static u8 sub_811BA1C (void)
 {
     return sub_811B940() >= sub_811F5B0() ? 1 : 0;
 }
 
-static int FooterHasFourOptions(void)
+static int FooterHasFourOptions (void)
 {
     return sEasyChatScreenTemplates[sEasyChatScreen->templateId].fourFooterOptions;
 }
 
-static u8 GetEasyChatScreenType(void)
+static u8 GetEasyChatScreenType (void)
 {
     return sEasyChatScreen->type;
 }
 
-static u8 GetEasyChatScreenFrameId(void)
+static u8 GetEasyChatScreenFrameId (void)
 {
     return sEasyChatScreenTemplates[sEasyChatScreen->templateId].frameId;
 }
 
-const u8 * GetTitleText(void)
+const u8 * GetTitleText (void)
 {
     return sEasyChatScreen->titleText;
 }
 
-static u16 * GetEasyChatWordBuffer(void)
+static u16 * GetEasyChatWordBuffer (void)
 {
     return sEasyChatScreen->ecWordBuffer;
 }
 
-static u8 GetNumRows(void)
+static u8 GetNumRows (void)
 {
     return sEasyChatScreen->numRows;
 }
 
-static u8 GetNumColumns(void)
+static u8 GetNumColumns (void)
 {
     return sEasyChatScreen->numColumns;
 }
 
-static u8 GetMainCursorColumn(void)
+static u8 GetMainCursorColumn (void)
 {
     return sEasyChatScreen->mainCursorColumn;
 }
 
-static u8 GetMainCursorRow(void)
+static u8 GetMainCursorRow (void)
 {
     return sEasyChatScreen->mainCursorRow;
 }
 
-static void GetEasyChatInstructionsText(const u8 **str1, const u8 **str2)
+static void GetEasyChatInstructionsText (const u8 **str1, const u8 **str2)
 {
     *str1 = sEasyChatScreenTemplates[sEasyChatScreen->templateId].instructionsText1;
     *str2 = sEasyChatScreenTemplates[sEasyChatScreen->templateId].instructionsText2;
 }
 
-static void GetEasyChatConfirmText(const u8 **str1, const u8 **str2)
+static void GetEasyChatConfirmText (const u8 **str1, const u8 **str2)
 {
     *str1 = sEasyChatScreenTemplates[sEasyChatScreen->templateId].confirmText1;
     *str2 = sEasyChatScreenTemplates[sEasyChatScreen->templateId].confirmText2;
 }
 
-static void sub_811BB40(const u8 **str1, const u8 **str2)
+static void sub_811BB40 (const u8 **str1, const u8 **str2)
 {
     switch (sEasyChatScreen->type) {
     case EASY_CHAT_TYPE_MAIL:
@@ -2438,50 +2438,50 @@ static void sub_811BB40(const u8 **str1, const u8 **str2)
     }
 }
 
-static void GetEasyChatConfirmDeletionText(const u8 **str1, const u8 **str2)
+static void GetEasyChatConfirmDeletionText (const u8 **str1, const u8 **str2)
 {
     *str1 = gText_AllTextBeingEditedWill;
     *str2 = gText_BeDeletedThatOkay;
 }
 
-void sub_811BB9C(u8 *arg0, u8 *arg1)
+void sub_811BB9C (u8 *arg0, u8 *arg1)
 {
     *arg0 = sEasyChatScreen->unk_0a;
     *arg1 = sEasyChatScreen->unk_0b;
 }
 
-u8 sub_811BBB0(void)
+u8 sub_811BBB0 (void)
 {
     return sEasyChatScreen->unk_09;
 }
 
-u8 sub_811BBBC(void)
+u8 sub_811BBBC (void)
 {
     return sEasyChatScreen->unk_0c;
 }
 
-static void sub_811BBC8(s8 *arg0, s8 *arg1)
+static void sub_811BBC8 (s8 *arg0, s8 *arg1)
 {
     *arg0 = sEasyChatScreen->unk_10;
     *arg1 = sEasyChatScreen->unk_11;
 }
 
-u8 sub_811BBDC(void)
+u8 sub_811BBDC (void)
 {
     return sEasyChatScreen->unk_0e;
 }
 
-u8 sub_811BBE8(void)
+u8 sub_811BBE8 (void)
 {
     return sEasyChatScreen->unk_0f;
 }
 
-static u8 unref_sub_811BBF4(void)
+static u8 unref_sub_811BBF4 (void)
 {
     return 0;
 }
 
-int sub_811BBF8(void)
+int sub_811BBF8 (void)
 {
     switch (sEasyChatScreen->state) {
     case 2:
@@ -2499,7 +2499,7 @@ int sub_811BBF8(void)
     return 0;
 }
 
-int sub_811BC2C(void)
+int sub_811BC2C (void)
 {
     switch (sEasyChatScreen->state) {
     case 2:
@@ -2517,12 +2517,12 @@ int sub_811BC2C(void)
     return 0;
 }
 
-static int FooterHasFourOptions_(void)
+static int FooterHasFourOptions_ (void)
 {
     return FooterHasFourOptions();
 }
 
-static bool8 IsPhraseDifferentThanPlayerInput(const u16 *phrase, u8 phraseLength)
+static bool8 IsPhraseDifferentThanPlayerInput (const u16 *phrase, u8 phraseLength)
 {
     u8 i;
 
@@ -2535,12 +2535,12 @@ static bool8 IsPhraseDifferentThanPlayerInput(const u16 *phrase, u8 phraseLength
     return FALSE;
 }
 
-static u8 GetDisplayedPersonType(void)
+static u8 GetDisplayedPersonType (void)
 {
     return sEasyChatScreen->displayedPersonType;
 }
 
-static u8 GetEachChatScreenTemplateId(u8 type)
+static u8 GetEachChatScreenTemplateId (u8 type)
 {
     u32 i;
 
@@ -2553,7 +2553,7 @@ static u8 GetEachChatScreenTemplateId(u8 type)
     return 0;
 }
 
-static int sub_811BCF4(void)
+static int sub_811BCF4 (void)
 {
     int i;
 
@@ -2566,7 +2566,7 @@ static int sub_811BCF4(void)
     return 1;
 }
 
-static int sub_811BD2C(void)
+static int sub_811BD2C (void)
 {
     int i;
 
@@ -2579,7 +2579,7 @@ static int sub_811BD2C(void)
     return 1;
 }
 
-static int sub_811BD64(void)
+static int sub_811BD64 (void)
 {
     int i;
     struct SaveBlock1 *saveBlock1;
@@ -2598,7 +2598,7 @@ static int sub_811BD64(void)
     return 1;
 }
 
-static int sub_811BDB0(void)
+static int sub_811BDB0 (void)
 {
     struct LilycoveLadyQuiz *quiz;
     if (sEasyChatScreen->type == EASY_CHAT_TYPE_QUIZ_SET_ANSWER) {
@@ -2609,7 +2609,7 @@ static int sub_811BDB0(void)
     return quiz->correctAnswer == 0xFFFF ? 1 : 0;
 }
 
-static void sub_811BDF0(u8 *arg0)
+static void sub_811BDF0 (u8 *arg0)
 {
     u8 name[32];
     struct SaveBlock1 *saveBlock1 = gSaveBlock1Ptr;
@@ -2624,7 +2624,7 @@ static void sub_811BDF0(u8 *arg0)
     DynamicPlaceholderTextUtil_ExpandPlaceholders(arg0, gText_F700sQuiz);
 }
 
-static void sub_811BE54(void)
+static void sub_811BE54 (void)
 {
     int i;
     u16 *ecWord;
@@ -2645,7 +2645,7 @@ static void sub_811BE54(void)
     str[0] = 0xFF;
 }
 
-static void sub_811BE9C(void)
+static void sub_811BE9C (void)
 {
     switch (sEasyChatScreen->type) {
     case EASY_CHAT_TYPE_PROFILE:
@@ -2668,12 +2668,12 @@ static void sub_811BE9C(void)
     }
 }
 
-static int DidPlayerInputMysteryGiftPhrase(void)
+static int DidPlayerInputMysteryGiftPhrase (void)
 {
     return !IsPhraseDifferentThanPlayerInput(sMysteryGiftPhrase, ARRAY_COUNT(sMysteryGiftPhrase));
 }
 
-static u16 DidPlayerInputABerryMasterWifePhrase(void)
+static u16 DidPlayerInputABerryMasterWifePhrase (void)
 {
     int i;
     for (i = 0; i < (int)ARRAY_COUNT(sBerryMasterWifePhrases); i++) {
@@ -2685,17 +2685,17 @@ static u16 DidPlayerInputABerryMasterWifePhrase(void)
     return 0;
 }
 
-static void sub_811BF78(void)
+static void sub_811BF78 (void)
 {
     sEasyChatScreen->unk_13 = 0;
 }
 
-static int sub_811BF88(int easyChatWord)
+static int sub_811BF88 (int easyChatWord)
 {
     return 0;
 }
 
-static bool8 sub_811BF8C(void)
+static bool8 sub_811BF8C (void)
 {
     if (!sub_811CE94()) {
         return 0;
@@ -2704,7 +2704,7 @@ static bool8 sub_811BF8C(void)
     }
 }
 
-static bool8 sub_811BFA4(void)
+static bool8 sub_811BFA4 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -2771,21 +2771,21 @@ static bool8 sub_811BFA4(void)
     return TRUE;
 }
 
-static void sub_811C13C(void)
+static void sub_811C13C (void)
 {
     if (sUnknown_0203A11C) {
         FREE_AND_SET_NULL(sUnknown_0203A11C);
     }
 }
 
-static void sub_811C158(u16 arg0)
+static void sub_811C158 (u16 arg0)
 {
     sUnknown_0203A11C->unk4 = arg0;
     sUnknown_0203A11C->unk0 = 0;
     sub_811C170();
 }
 
-static bool8 sub_811C170(void)
+static bool8 sub_811C170 (void)
 {
     switch (sUnknown_0203A11C->unk4) {
     case 0:  return FALSE;
@@ -2827,7 +2827,7 @@ static bool8 sub_811C170(void)
     }
 }
 
-static bool8 sub_811C2D4(void)
+static bool8 sub_811C2D4 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -2841,7 +2841,7 @@ static bool8 sub_811C2D4(void)
     return TRUE;
 }
 
-static bool8 sub_811C30C(void)
+static bool8 sub_811C30C (void)
 {
     u8 i;
     u16 *ecWordBuffer;
@@ -2879,14 +2879,14 @@ static bool8 sub_811C30C(void)
     return FALSE;
 }
 
-static bool8 sub_811C3E4(void)
+static bool8 sub_811C3E4 (void)
 {
     u8 xOffset = GetFooterOptionXOffset(GetMainCursorColumn());
     sub_811DF60(xOffset, 96);
     return FALSE;
 }
 
-static bool8 sub_811C404(void)
+static bool8 sub_811C404 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -2902,7 +2902,7 @@ static bool8 sub_811C404(void)
     return TRUE;
 }
 
-static bool8 sub_811C448(void)
+static bool8 sub_811C448 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -2918,7 +2918,7 @@ static bool8 sub_811C448(void)
     return TRUE;
 }
 
-static bool8 sub_811C48C(void)
+static bool8 sub_811C48C (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -2934,7 +2934,7 @@ static bool8 sub_811C48C(void)
     return TRUE;
 }
 
-static bool8 sub_811C4D0(void)
+static bool8 sub_811C4D0 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -2951,7 +2951,7 @@ static bool8 sub_811C4D0(void)
     return TRUE;
 }
 
-static bool8 sub_811C518(void)
+static bool8 sub_811C518 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -2967,7 +2967,7 @@ static bool8 sub_811C518(void)
     return TRUE;
 }
 
-static bool8 sub_811C554(void)
+static bool8 sub_811C554 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3010,7 +3010,7 @@ static bool8 sub_811C554(void)
     return TRUE;
 }
 
-static bool8 sub_811C620(void)
+static bool8 sub_811C620 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3046,7 +3046,7 @@ static bool8 sub_811C620(void)
     return TRUE;
 }
 
-static bool8 sub_811C6C0(void)
+static bool8 sub_811C6C0 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3084,13 +3084,13 @@ static bool8 sub_811C6C0(void)
     return TRUE;
 }
 
-static bool8 sub_811C780(void)
+static bool8 sub_811C780 (void)
 {
     sub_811E088();
     return FALSE;
 }
 
-static bool8 sub_811C78C(void)
+static bool8 sub_811C78C (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3109,7 +3109,7 @@ static bool8 sub_811C78C(void)
     return TRUE;
 }
 
-static bool8 sub_811C7D4(void)
+static bool8 sub_811C7D4 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3130,7 +3130,7 @@ static bool8 sub_811C7D4(void)
     return TRUE;
 }
 
-static bool8 sub_811C830(void)
+static bool8 sub_811C830 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3174,7 +3174,7 @@ static bool8 sub_811C830(void)
     return TRUE;
 }
 
-static bool8 sub_811C8F0(void)
+static bool8 sub_811C8F0 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3214,7 +3214,7 @@ static bool8 sub_811C8F0(void)
     return TRUE;
 }
 
-static bool8 sub_811C99C(void)
+static bool8 sub_811C99C (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3260,7 +3260,7 @@ static bool8 sub_811C99C(void)
     return TRUE;
 }
 
-static bool8 sub_811CA5C(void)
+static bool8 sub_811CA5C (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3302,13 +3302,13 @@ static bool8 sub_811CA5C(void)
     return TRUE;
 }
 
-static bool8 sub_811CB18(void)
+static bool8 sub_811CB18 (void)
 {
     sub_811E30C();
     return FALSE;
 }
 
-static bool8 sub_811CB24(void)
+static bool8 sub_811CB24 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3337,7 +3337,7 @@ static bool8 sub_811CB24(void)
     return TRUE;
 }
 
-static bool8 sub_811CB98(void)
+static bool8 sub_811CB98 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3365,7 +3365,7 @@ static bool8 sub_811CB98(void)
     return TRUE;
 }
 
-static bool8 sub_811CC08(void)
+static bool8 sub_811CC08 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3395,7 +3395,7 @@ static bool8 sub_811CC08(void)
     return TRUE;
 }
 
-static bool8 sub_811CC90(void)
+static bool8 sub_811CC90 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3424,7 +3424,7 @@ static bool8 sub_811CC90(void)
     return TRUE;
 }
 
-static bool8 sub_811CD14(void)
+static bool8 sub_811CD14 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3439,7 +3439,7 @@ static bool8 sub_811CD14(void)
     return TRUE;
 }
 
-static bool8 sub_811CD54(void)
+static bool8 sub_811CD54 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3454,7 +3454,7 @@ static bool8 sub_811CD54(void)
     return TRUE;
 }
 
-static bool8 sub_811CD94(void)
+static bool8 sub_811CD94 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3469,7 +3469,7 @@ static bool8 sub_811CD94(void)
     return TRUE;
 }
 
-static bool8 sub_811CDD4(void)
+static bool8 sub_811CDD4 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3484,7 +3484,7 @@ static bool8 sub_811CDD4(void)
     return TRUE;
 }
 
-static bool8 sub_811CE14(void)
+static bool8 sub_811CE14 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3499,7 +3499,7 @@ static bool8 sub_811CE14(void)
     return TRUE;
 }
 
-static bool8 sub_811CE54(void)
+static bool8 sub_811CE54 (void)
 {
     switch (sUnknown_0203A11C->unk0) {
     case 0:
@@ -3514,7 +3514,7 @@ static bool8 sub_811CE54(void)
     return TRUE;
 }
 
-static bool8 sub_811CE94(void)
+static bool8 sub_811CE94 (void)
 {
     sUnknown_0203A11C = Alloc(sizeof(*sUnknown_0203A11C));
     if (!sUnknown_0203A11C) {
@@ -3536,7 +3536,7 @@ static bool8 sub_811CE94(void)
     return TRUE;
 }
 
-static void sub_811CF04(void)
+static void sub_811CF04 (void)
 {
     ChangeBgX(3, 0, 0);
     ChangeBgY(3, 0, 0);
@@ -3549,7 +3549,7 @@ static void sub_811CF04(void)
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_MODE_0 | DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON | DISPCNT_WIN0_ON);
 }
 
-static void sub_811CF64(void)
+static void sub_811CF64 (void)
 {
     ResetPaletteFade();
     LoadPalette(gEasyChatMode_Pal, 0, 32);
@@ -3561,7 +3561,7 @@ static void sub_811CF64(void)
     LoadPalette(sUnknown_08597C24, 3 * 16, 12);
 }
 
-static void sub_811CFCC(void)
+static void sub_811CFCC (void)
 {
     int xOffset;
     const u8 *titleText = GetTitleText();
@@ -3576,12 +3576,12 @@ static void sub_811CFCC(void)
     CopyWindowToVram(0, 3);
 }
 
-void sub_811D028(u8 windowId, u8 fontId, const u8 *str, u8 x, u8 y, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16))
+void sub_811D028 (u8 windowId, u8 fontId, const u8 *str, u8 x, u8 y, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16))
 {
     AddTextPrinterParameterized(windowId, fontId, str, x, y, speed, callback);
 }
 
-static void sub_811D058(u8 windowId, u8 fontId, const u8 *str, u8 left, u8 top, u8 speed, u8 bg, u8 fg, u8 shadow)
+static void sub_811D058 (u8 windowId, u8 fontId, const u8 *str, u8 left, u8 top, u8 speed, u8 bg, u8 fg, u8 shadow)
 {
     u8 color[3];
     color[0] = bg;
@@ -3590,7 +3590,7 @@ static void sub_811D058(u8 windowId, u8 fontId, const u8 *str, u8 left, u8 top, 
     AddTextPrinterParameterized3(windowId, fontId, left, top, color, speed, str);
 }
 
-static void sub_811D0BC(void)
+static void sub_811D0BC (void)
 {
     FillBgTilemapBufferRect(0, 0, 0, 0, 32, 20, 17);
     LoadUserWindowBorderGfx(1, 1, 0xE0);
@@ -3600,7 +3600,7 @@ static void sub_811D0BC(void)
     CopyBgTilemapBufferToVram(0);
 }
 
-static void sub_811D104(u8 arg0)
+static void sub_811D104 (u8 arg0)
 {
     const u8 *text2 = NULL;
     const u8 *text1 = NULL;
@@ -3651,12 +3651,12 @@ static void sub_811D104(u8 arg0)
     CopyWindowToVram(1, 3);
 }
 
-static void sub_811D214(u8 initialCursorPos)
+static void sub_811D214 (u8 initialCursorPos)
 {
     CreateYesNoMenu(&sEasyChatYesNoWindowTemplate, 1, 14, initialCursorPos);
 }
 
-static void sub_811D230(void)
+static void sub_811D230 (void)
 {
     u8 frameId;
     struct WindowTemplate template;
@@ -3673,7 +3673,7 @@ static void sub_811D230(void)
     PutWindowTilemap(sUnknown_0203A11C->windowId);
 }
 
-static void sub_811D2C8(void)
+static void sub_811D2C8 (void)
 {
     u8 spC[4];
     u16 *ecWord;
@@ -3738,7 +3738,7 @@ static void sub_811D2C8(void)
     CopyWindowToVram(sUnknown_0203A11C->windowId, 3);
 }
 
-static void sub_811D424(u16 *tilemap)
+static void sub_811D424 (u16 *tilemap)
 {
     u8 frameId;
     int right, bottom;
@@ -3794,7 +3794,7 @@ static void sub_811D424(u16 *tilemap)
     }
 }
 
-static void sub_811D60C(void)
+static void sub_811D60C (void)
 {
     u8 frameId;
     u16 *tilemap;
@@ -3816,13 +3816,13 @@ static void sub_811D60C(void)
     }
 }
 
-static void sub_811D684(void)
+static void sub_811D684 (void)
 {
     PutWindowTilemap(2);
     CopyBgTilemapBufferToVram(2);
 }
 
-static void sub_811D698(u32 arg0)
+static void sub_811D698 (u32 arg0)
 {
     sub_811DD84();
     FillWindowPixelBuffer(2, PIXEL_FILL(1));
@@ -3841,7 +3841,7 @@ static void sub_811D698(u32 arg0)
     CopyWindowToVram(2, 2);
 }
 
-static void sub_811D6D4(void)
+static void sub_811D6D4 (void)
 {
     if (!sub_811BBB0()) {
         sub_811D698(0);
@@ -3850,7 +3850,7 @@ static void sub_811D6D4(void)
     }
 }
 
-static void sub_811D6F4(void)
+static void sub_811D6F4 (void)
 {
     int i;
     int x, y;
@@ -3872,7 +3872,7 @@ static void sub_811D6F4(void)
     }
 }
 
-static void PrintEasyChatKeyboardText(void)
+static void PrintEasyChatKeyboardText (void)
 {
     u32 i;
 
@@ -3881,26 +3881,26 @@ static void PrintEasyChatKeyboardText(void)
     }
 }
 
-static void sub_811D794(void)
+static void sub_811D794 (void)
 {
     sub_811D864(0, 4);
 }
 
-static void sub_811D7A4(void)
+static void sub_811D7A4 (void)
 {
     u8 var0 = sub_811BBDC() + 3;
     sub_811D950(var0, 1);
     sub_811D864(var0, 1);
 }
 
-static void sub_811D7C8(void)
+static void sub_811D7C8 (void)
 {
     u8 var0 = sub_811BBDC();
     sub_811D950(var0, 1);
     sub_811D864(var0, 1);
 }
 
-static void sub_811D7EC(void)
+static void sub_811D7EC (void)
 {
     u8 var0 = sub_811BBDC();
     u8 var1 = var0 + 4;
@@ -3916,7 +3916,7 @@ static void sub_811D7EC(void)
     }
 }
 
-static void sub_811D830(void)
+static void sub_811D830 (void)
 {
     u8 var0 = sub_811BBDC();
     u8 var1 = sub_811DE48();
@@ -3927,7 +3927,7 @@ static void sub_811D830(void)
     }
 }
 
-static void sub_811D864(u8 arg0, u8 arg1)
+static void sub_811D864 (u8 arg0, u8 arg1)
 {
     int i, j;
     u16 easyChatWord;
@@ -3957,7 +3957,7 @@ static void sub_811D864(u8 arg0, u8 arg1)
     CopyWindowToVram(2, 2);
 }
 
-static void sub_811D950(u8 arg0, u8 arg1)
+static void sub_811D950 (u8 arg0, u8 arg1)
 {
     int y;
     int var0;
@@ -3980,13 +3980,13 @@ static void sub_811D950(u8 arg0, u8 arg1)
     }
 }
 
-static void sub_811D9B4(void)
+static void sub_811D9B4 (void)
 {
     FillWindowPixelBuffer(2, PIXEL_FILL(1));
     CopyWindowToVram(2, 2);
 }
 
-static void sub_811D9CC(int arg0)
+static void sub_811D9CC (int arg0)
 {
     switch (arg0) {
     case 0:
@@ -4022,7 +4022,7 @@ static void sub_811D9CC(int arg0)
     sUnknown_0203A11C->unk8 = sUnknown_0203A11C->unk6 < sUnknown_0203A11C->unk7 ? 1 : -1;
 }
 
-static bool8 sub_811DAA4(void)
+static bool8 sub_811DAA4 (void)
 {
     u8 var0, var1;
     if (sUnknown_0203A11C->unk6 == sUnknown_0203A11C->unk7) {
@@ -4036,7 +4036,7 @@ static bool8 sub_811DAA4(void)
     return (var0 ^ var1) > 0;
 }
 
-static void sub_811DADC(u8 arg0)
+static void sub_811DADC (u8 arg0)
 {
     FillBgTilemapBufferRect_Palette0(1, 0, 0, 10, 30, 10);
     switch (arg0) {
@@ -4105,7 +4105,7 @@ static void sub_811DADC(u8 arg0)
     CopyBgTilemapBufferToVram(1);
 }
 
-static void sub_811DC28(int left, int top, int width, int height)
+static void sub_811DC28 (int left, int top, int width, int height)
 {
     u16 *tilemap;
     int right;
@@ -4145,13 +4145,13 @@ static void sub_811DC28(int left, int top, int width, int height)
     sub_811DE5C((left + 1) * 8, (top + 1) * 8, (width - 2) * 8, (height - 2) * 8);
 }
 
-static void sub_811DD84(void)
+static void sub_811DD84 (void)
 {
     ChangeBgY(2, 0x800, 0);
     sUnknown_0203A11C->unk2CE = 0;
 }
 
-static void sub_811DDAC(s16 arg0, u8 arg1)
+static void sub_811DDAC (s16 arg0, u8 arg1)
 {
     int bgY;
     s16 var0;
@@ -4171,7 +4171,7 @@ static void sub_811DDAC(s16 arg0, u8 arg1)
     }
 }
 
-static bool8 sub_811DE10(void)
+static bool8 sub_811DE10 (void)
 {
     int bgY;
 
@@ -4184,12 +4184,12 @@ static bool8 sub_811DE10(void)
     }
 }
 
-static int sub_811DE48(void)
+static int sub_811DE48 (void)
 {
     return sUnknown_0203A11C->unk2CE;
 }
 
-static void sub_811DE5C(u8 left, u8 top, u8 width, u8 height)
+static void sub_811DE5C (u8 left, u8 top, u8 width, u8 height)
 {
     u16 horizontalDimensions = WIN_RANGE(left, left + width);
     u16 verticalDimensions = WIN_RANGE(top, top + height);
@@ -4197,7 +4197,7 @@ static void sub_811DE5C(u8 left, u8 top, u8 width, u8 height)
     SetGpuReg(REG_OFFSET_WIN0V, verticalDimensions);
 }
 
-static void sub_811DE90(void)
+static void sub_811DE90 (void)
 {
     u32 i;
 
@@ -4208,7 +4208,7 @@ static void sub_811DE90(void)
     }
 }
 
-static void sub_811DEC4(void)
+static void sub_811DEC4 (void)
 {
     u8 frameId = GetEasyChatScreenFrameId();
     int x = sPhraseFrameDimensions[frameId].left * 8 + 13;
@@ -4218,7 +4218,7 @@ static void sub_811DEC4(void)
     gSprites[spriteId].data[1] = 1;
 }
 
-static void sub_811DF28(struct Sprite *sprite)
+static void sub_811DF28 (struct Sprite *sprite)
 {
     if (sprite->data[1]) {
         if (++sprite->data[0] > 2) {
@@ -4230,7 +4230,7 @@ static void sub_811DF28(struct Sprite *sprite)
     }
 }
 
-static void sub_811DF60(u8 x, u8 y)
+static void sub_811DF60 (u8 x, u8 y)
 {
     sUnknown_0203A11C->unk2D8->pos1.x = x;
     sUnknown_0203A11C->unk2D8->pos1.y = y;
@@ -4238,19 +4238,19 @@ static void sub_811DF60(u8 x, u8 y)
     sUnknown_0203A11C->unk2D8->data[0] = 0;
 }
 
-static void sub_811DF90(void)
+static void sub_811DF90 (void)
 {
     sUnknown_0203A11C->unk2D8->data[0] = 0;
     sUnknown_0203A11C->unk2D8->data[1] = 0;
     sUnknown_0203A11C->unk2D8->pos2.x = 0;
 }
 
-static void sub_811DFB0(void)
+static void sub_811DFB0 (void)
 {
     sUnknown_0203A11C->unk2D8->data[1] = 1;
 }
 
-static void sub_811DFC8(void)
+static void sub_811DFC8 (void)
 {
     u8 spriteId = CreateSprite(&sUnknown_08597D68, 0, 0, 3);
     sUnknown_0203A11C->unk2DC = &gSprites[spriteId];
@@ -4264,7 +4264,7 @@ static void sub_811DFC8(void)
     sub_811E088();
 }
 
-static void sub_811E050(void)
+static void sub_811E050 (void)
 {
     DestroySprite(sUnknown_0203A11C->unk2DC);
     sUnknown_0203A11C->unk2DC = NULL;
@@ -4272,7 +4272,7 @@ static void sub_811E050(void)
     sUnknown_0203A11C->unk2E0 = NULL;
 }
 
-static void sub_811E088(void)
+static void sub_811E088 (void)
 {
     u8 var0;
     u8 var1;
@@ -4287,7 +4287,7 @@ static void sub_811E088(void)
     }
 }
 
-static void sub_811E0EC(s8 arg0, s8 arg1)
+static void sub_811E0EC (s8 arg0, s8 arg1)
 {
     if (arg0 != -1) {
         StartSpriteAnim(sUnknown_0203A11C->unk2DC, 0);
@@ -4308,7 +4308,7 @@ static void sub_811E0EC(s8 arg0, s8 arg1)
     }
 }
 
-static void sub_811E1A4(s8 arg0, s8 arg1)
+static void sub_811E1A4 (s8 arg0, s8 arg1)
 {
     int anim;
     int x, y;
@@ -4342,7 +4342,7 @@ static void sub_811E1A4(s8 arg0, s8 arg1)
     }
 }
 
-static void sub_811E288(void)
+static void sub_811E288 (void)
 {
     u8 spriteId = CreateSprite(&sUnknown_08597D18, 0, 0, 4);
     sUnknown_0203A11C->unk2E4 = &gSprites[spriteId];
@@ -4351,7 +4351,7 @@ static void sub_811E288(void)
     sub_811E30C();
 }
 
-static void sub_811E2DC(struct Sprite *sprite)
+static void sub_811E2DC (struct Sprite *sprite)
 {
     if (++sprite->data[0] > 2) {
         sprite->data[0] = 0;
@@ -4361,7 +4361,7 @@ static void sub_811E2DC(struct Sprite *sprite)
     }
 }
 
-static void sub_811E30C(void)
+static void sub_811E30C (void)
 {
     s8 var0, var1, x, y;
 
@@ -4372,7 +4372,7 @@ static void sub_811E30C(void)
     sub_811E34C((u8)x, (u8)y);
 }
 
-static void sub_811E34C(u8 x, u8 y)
+static void sub_811E34C (u8 x, u8 y)
 {
     if (!sUnknown_0203A11C->unk2E4) {
         return;
@@ -4384,7 +4384,7 @@ static void sub_811E34C(u8 x, u8 y)
     sUnknown_0203A11C->unk2E4->data[0] = 0;
 }
 
-static void sub_811E380(void)
+static void sub_811E380 (void)
 {
     if (sUnknown_0203A11C->unk2E4) {
         DestroySprite(sUnknown_0203A11C->unk2E4);
@@ -4392,7 +4392,7 @@ static void sub_811E380(void)
     }
 }
 
-static void sub_811E3AC(void)
+static void sub_811E3AC (void)
 {
     u8 spriteId = CreateSprite(&sUnknown_08597DF0, 208, 128, 6);
     sUnknown_0203A11C->unk2E8 = &gSprites[spriteId];
@@ -4403,7 +4403,7 @@ static void sub_811E3AC(void)
     sUnknown_0203A11C->unk9 = 0;
 }
 
-static bool8 sub_811E418(void)
+static bool8 sub_811E418 (void)
 {
     switch (sUnknown_0203A11C->unk9) {
     default:
@@ -4431,13 +4431,13 @@ static bool8 sub_811E418(void)
     return TRUE;
 }
 
-static void sub_811E4AC(void)
+static void sub_811E4AC (void)
 {
     sUnknown_0203A11C->unk9 = 0;
     StartSpriteAnim(sUnknown_0203A11C->unk2EC, 3);
 }
 
-static bool8 sub_811E4D0(void)
+static bool8 sub_811E4D0 (void)
 {
     switch (sUnknown_0203A11C->unk9) {
     default:
@@ -4462,12 +4462,12 @@ static bool8 sub_811E4D0(void)
     return TRUE;
 }
 
-static void sub_811E55C(void)
+static void sub_811E55C (void)
 {
     StartSpriteAnim(sUnknown_0203A11C->unk2EC, 4);
 }
 
-static void sub_811E578(void)
+static void sub_811E578 (void)
 {
     if (!sub_811BBB0()) {
         StartSpriteAnim(sUnknown_0203A11C->unk2EC, 1);
@@ -4476,12 +4476,12 @@ static void sub_811E578(void)
     }
 }
 
-static bool8 sub_811E5B8(void)
+static bool8 sub_811E5B8 (void)
 {
     return !sUnknown_0203A11C->unk2EC->animEnded;
 }
 
-static void sub_811E5D4(void)
+static void sub_811E5D4 (void)
 {
     u8 spriteId = CreateSprite(&sUnknown_08597E48, 96, 80, 0);
     if (spriteId != MAX_SPRITES) {
@@ -4497,19 +4497,19 @@ static void sub_811E5D4(void)
     sub_811E6B0();
 }
 
-static void sub_811E64C(void)
+static void sub_811E64C (void)
 {
     sUnknown_0203A11C->unk2F0->invisible = !sub_811BBF8();
     sUnknown_0203A11C->unk2F4->invisible = !sub_811BC2C();
 }
 
-static void sub_811E6B0(void)
+static void sub_811E6B0 (void)
 {
     sUnknown_0203A11C->unk2F0->invisible = 1;
     sUnknown_0203A11C->unk2F4->invisible = 1;
 }
 
-static void sub_811E6E0(int arg0)
+static void sub_811E6E0 (int arg0)
 {
     if (!arg0) {
         sUnknown_0203A11C->unk2F0->pos1.x = 96;
@@ -4520,7 +4520,7 @@ static void sub_811E6E0(int arg0)
     }
 }
 
-static void sub_811E720(void)
+static void sub_811E720 (void)
 {
     u8 spriteId = CreateSprite(&sUnknown_08597E30, 220, 84, 1);
     if (spriteId != MAX_SPRITES) {
@@ -4536,19 +4536,19 @@ static void sub_811E720(void)
     sub_811E7F8();
 }
 
-static void sub_811E794(void)
+static void sub_811E794 (void)
 {
     sUnknown_0203A11C->unk2F8->invisible = !sub_811BBF8();
     sUnknown_0203A11C->unk2FC->invisible = !sub_811BC2C();
 }
 
-static void sub_811E7F8(void)
+static void sub_811E7F8 (void)
 {
     sUnknown_0203A11C->unk2F8->invisible = 1;
     sUnknown_0203A11C->unk2FC->invisible = 1;
 }
 
-static void sub_811E828(void)
+static void sub_811E828 (void)
 {
     int graphicsId;
     u8 spriteId;
@@ -4590,7 +4590,7 @@ static void sub_811E828(void)
     }
 }
 
-int GetFooterIndex(void)
+int GetFooterIndex (void)
 {
     u8 frameId = GetEasyChatScreenFrameId();
     switch (sPhraseFrameDimensions[frameId].footerId) {
@@ -4605,7 +4605,7 @@ int GetFooterIndex(void)
     }
 }
 
-static int GetFooterOptionXOffset(int option)
+static int GetFooterOptionXOffset (int option)
 {
     int footerIndex = GetFooterIndex();
     if (footerIndex < 3) {
@@ -4615,7 +4615,7 @@ static int GetFooterOptionXOffset(int option)
     }
 }
 
-static void sub_811E948(void)
+static void sub_811E948 (void)
 {
     int i;
     u16 windowId;
@@ -4645,7 +4645,7 @@ static void sub_811E948(void)
     PutWindowTilemap(windowId);
 }
 
-static bool8 IsEasyChatGroupUnlocked(u8 groupId)
+static bool8 IsEasyChatGroupUnlocked (u8 groupId)
 {
     switch (groupId) {
     case EC_GROUP_TRENDY_SAYING:
@@ -4661,7 +4661,7 @@ static bool8 IsEasyChatGroupUnlocked(u8 groupId)
     }
 }
 
-u16 EasyChat_GetNumWordsInGroup(u8 groupId)
+u16 EasyChat_GetNumWordsInGroup (u8 groupId)
 {
     if (groupId == EC_GROUP_POKEMON) {
         return GetNationalPokedexCount(FLAG_GET_SEEN);
@@ -4674,7 +4674,7 @@ u16 EasyChat_GetNumWordsInGroup(u8 groupId)
     return 0;
 }
 
-bool8 sub_811EAA4(u16 easyChatWord)
+bool8 sub_811EAA4 (u16 easyChatWord)
 {
     u16 i;
     u8 groupId;
@@ -4713,7 +4713,7 @@ bool8 sub_811EAA4(u16 easyChatWord)
     }
 }
 
-bool8 ECWord_CheckIfOutsideOfValidRange(u16 easyChatWord)
+bool8 ECWord_CheckIfOutsideOfValidRange (u16 easyChatWord)
 {
     int numWordsInGroup;
     u8 groupId = EC_GROUP(easyChatWord);
@@ -4743,7 +4743,7 @@ bool8 ECWord_CheckIfOutsideOfValidRange(u16 easyChatWord)
     }
 }
 
-const u8 * GetEasyChatWord(u8 groupId, u16 index)
+const u8 * GetEasyChatWord (u8 groupId, u16 index)
 {
     switch (groupId) {
     case EC_GROUP_POKEMON:
@@ -4757,7 +4757,7 @@ const u8 * GetEasyChatWord(u8 groupId, u16 index)
     }
 }
 
-u8 * CopyEasyChatWord(u8 *dest, u16 easyChatWord)
+u8 * CopyEasyChatWord (u8 *dest, u16 easyChatWord)
 {
     u8 *resultStr;
     if (sub_811EAA4(easyChatWord)) {
@@ -4774,7 +4774,7 @@ u8 * CopyEasyChatWord(u8 *dest, u16 easyChatWord)
     return resultStr;
 }
 
-u8 * ConvertEasyChatWordsToString(u8 *dest, const u16 *src, u16 columns, u16 rows)
+u8 * ConvertEasyChatWordsToString (u8 *dest, const u16 *src, u16 columns, u16 rows)
 {
     u16 i, j;
     u16 numColumns = columns - 1;
@@ -4800,7 +4800,7 @@ u8 * ConvertEasyChatWordsToString(u8 *dest, const u16 *src, u16 columns, u16 row
     return dest;
 }
 
-u8 * unref_sub_811EC98(u8 *dest, const u16 *src, u16 columns, u16 rows)
+u8 * unref_sub_811EC98 (u8 *dest, const u16 *src, u16 columns, u16 rows)
 {
     u16 i, j, k;
     u16 numColumns;
@@ -4849,7 +4849,7 @@ u8 * unref_sub_811EC98(u8 *dest, const u16 *src, u16 columns, u16 rows)
     return dest;
 }
 
-static u16 GetEasyChatWordStringLength(u16 easyChatWord)
+static u16 GetEasyChatWordStringLength (u16 easyChatWord)
 {
     if (easyChatWord == 0xFFFF) {
         return 0;
@@ -4864,7 +4864,7 @@ static u16 GetEasyChatWordStringLength(u16 easyChatWord)
     }
 }
 
-static bool8 CanPhraseFitInXRowsYCols(const u16 *easyChatWords, u8 numRows, u8 numColumns, u16 maxLength)
+static bool8 CanPhraseFitInXRowsYCols (const u16 *easyChatWords, u8 numRows, u8 numColumns, u16 maxLength)
 {
     u8 i, j;
 
@@ -4882,7 +4882,7 @@ static bool8 CanPhraseFitInXRowsYCols(const u16 *easyChatWords, u8 numRows, u8 n
     return FALSE;
 }
 
-u16 GetRandomEasyChatWordFromGroup(u16 groupId)
+u16 GetRandomEasyChatWordFromGroup (u16 groupId)
 {
     u16 index = Random() % gEasyChatGroups[groupId].numWords;
     if (groupId == EC_GROUP_POKEMON
@@ -4895,7 +4895,7 @@ u16 GetRandomEasyChatWordFromGroup(u16 groupId)
     return EC_WORD(groupId, index);
 }
 
-u16 GetRandomEasyChatWordFromUnlockedGroup(u16 groupId)
+u16 GetRandomEasyChatWordFromUnlockedGroup (u16 groupId)
 {
     if (!IsEasyChatGroupUnlocked(groupId)) {
         return 0xFFFF;
@@ -4908,7 +4908,7 @@ u16 GetRandomEasyChatWordFromUnlockedGroup(u16 groupId)
     return GetRandomEasyChatWordFromGroup(groupId);
 }
 
-void ShowEasyChatProfile(void)
+void ShowEasyChatProfile (void)
 {
     u16 *easyChatWords;
     int columns, rows;
@@ -4947,21 +4947,21 @@ void ShowEasyChatProfile(void)
 }
 
 // The phrase that a man in Dewford Hall suggests has a "deep link" to the current trendy phrase
-void BufferDeepLinkPhrase(void)
+void BufferDeepLinkPhrase (void)
 {
     int groupId = Random() & 1 ? EC_GROUP_HOBBIES : EC_GROUP_LIFESTYLE;
     u16 easyChatWord = GetRandomEasyChatWordFromUnlockedGroup(groupId);
     CopyEasyChatWord(gStringVar2, easyChatWord);
 }
 
-static bool8 IsAdditionalPhraseUnlocked(u8 additionalPhraseId)
+static bool8 IsAdditionalPhraseUnlocked (u8 additionalPhraseId)
 {
     int byteOffset = additionalPhraseId / 8;
     int shift = additionalPhraseId % 8;
     return (gSaveBlock1Ptr->additionalPhrases[byteOffset] >> shift) & 1;
 }
 
-void UnlockAdditionalPhrase(u8 additionalPhraseId)
+void UnlockAdditionalPhrase (u8 additionalPhraseId)
 {
     if (additionalPhraseId < NUM_ADDITIONAL_PHRASES) {
         int byteOffset = additionalPhraseId / 8;
@@ -4970,7 +4970,7 @@ void UnlockAdditionalPhrase(u8 additionalPhraseId)
     }
 }
 
-static u8 GetNumAdditionalPhrasesUnlocked(void)
+static u8 GetNumAdditionalPhrasesUnlocked (void)
 {
     u8 i;
     u8 numAdditionalPhrasesUnlocked;
@@ -4984,7 +4984,7 @@ static u8 GetNumAdditionalPhrasesUnlocked(void)
     return numAdditionalPhrasesUnlocked;
 }
 
-u16 GetNewHipsterPhraseToTeach(void)
+u16 GetNewHipsterPhraseToTeach (void)
 {
     u16 i;
     u16 additionalPhraseId;
@@ -5009,7 +5009,7 @@ u16 GetNewHipsterPhraseToTeach(void)
 }
 
 // Unused
-u16 GetRandomTaughtHipsterPhrase(void)
+u16 GetRandomTaughtHipsterPhrase (void)
 {
     u16 i;
     u16 additionalPhraseId = GetNumAdditionalPhrasesUnlocked();
@@ -5031,12 +5031,12 @@ u16 GetRandomTaughtHipsterPhrase(void)
     return 0xFFFF;
 }
 
-static bool8 EasyChatIsNationalPokedexEnabled(void)
+static bool8 EasyChatIsNationalPokedexEnabled (void)
 {
     return IsNationalPokedexEnabled();
 }
 
-static u16 GetRandomUnlockedEasyChatPokemon(void)
+static u16 GetRandomUnlockedEasyChatPokemon (void)
 {
     u16 i;
     u16 numWords;
@@ -5065,7 +5065,7 @@ static u16 GetRandomUnlockedEasyChatPokemon(void)
     return 0xFFFF;
 }
 
-void InitEasyChatPhrases(void)
+void InitEasyChatPhrases (void)
 {
     u16 i, j;
 
@@ -5106,7 +5106,7 @@ void InitEasyChatPhrases(void)
 #endif
 }
 
-static bool8 sub_811F28C(void)
+static bool8 sub_811F28C (void)
 {
     sUnknown_0203A120 = Alloc(sizeof(*sUnknown_0203A120));
     if (!sUnknown_0203A120) {
@@ -5118,14 +5118,14 @@ static bool8 sub_811F28C(void)
     return TRUE;
 }
 
-static void sub_811F2B8(void)
+static void sub_811F2B8 (void)
 {
     if (sUnknown_0203A120) {
         FREE_AND_SET_NULL(sUnknown_0203A120);
     }
 }
 
-static void sub_811F2D4(void)
+static void sub_811F2D4 (void)
 {
     int i;
 
@@ -5153,12 +5153,12 @@ static void sub_811F2D4(void)
     }
 }
 
-static u8 sub_811F3AC(void)
+static u8 sub_811F3AC (void)
 {
     return sUnknown_0203A120->unk0;
 }
 
-static u8 sub_811F3B8(u8 index)
+static u8 sub_811F3B8 (u8 index)
 {
     if (index >= sUnknown_0203A120->unk0) {
         return EC_NUM_GROUPS;
@@ -5167,7 +5167,7 @@ static u8 sub_811F3B8(u8 index)
     }
 }
 
-u8 * unref_sub_811F3E0(u8 *dest, u8 groupId, u16 totalChars)
+u8 * unref_sub_811F3E0 (u8 *dest, u8 groupId, u16 totalChars)
 {
     u16 i;
     u8 *str = StringCopy(dest, gEasyChatGroupNamePointers[groupId]);
@@ -5180,12 +5180,12 @@ u8 * unref_sub_811F3E0(u8 *dest, u8 groupId, u16 totalChars)
     return str;
 }
 
-static const u8 * GetEasyChatWordGroupName(u8 groupId)
+static const u8 * GetEasyChatWordGroupName (u8 groupId)
 {
     return gEasyChatGroupNamePointers[groupId];
 }
 
-static u8 * CopyEasyChatWordPadded(u8 *dest, u16 easyChatWord, u16 totalChars)
+static u8 * CopyEasyChatWordPadded (u8 *dest, u16 easyChatWord, u16 totalChars)
 {
     u16 i;
     u8 *str = CopyEasyChatWord(dest, easyChatWord);
@@ -5198,7 +5198,7 @@ static u8 * CopyEasyChatWordPadded(u8 *dest, u16 easyChatWord, u16 totalChars)
     return str;
 }
 
-static void sub_811F46C(void)
+static void sub_811F46C (void)
 {
     int i, j, k;
     int numWords;
@@ -5234,7 +5234,7 @@ static void sub_811F46C(void)
     }
 }
 
-static void sub_811F548(int arg0, u16 groupId)
+static void sub_811F548 (int arg0, u16 groupId)
 {
     if (!arg0) {
         sUnknown_0203A120->unk3BA0 = sub_811F5C4(groupId);
@@ -5243,7 +5243,7 @@ static void sub_811F548(int arg0, u16 groupId)
     }
 }
 
-static u16 sub_811F578(u16 arg0)
+static u16 sub_811F578 (u16 arg0)
 {
     if (arg0 >= sUnknown_0203A120->unk3BA0) {
         return 0xFFFF;
@@ -5252,12 +5252,12 @@ static u16 sub_811F578(u16 arg0)
     }
 }
 
-static u16 sub_811F5B0(void)
+static u16 sub_811F5B0 (void)
 {
     return sUnknown_0203A120->unk3BA0;
 }
 
-static u16 sub_811F5C4(u16 groupId)
+static u16 sub_811F5C4 (u16 groupId)
 {
     u32 i;
     int totalWords;
@@ -5288,7 +5288,7 @@ static u16 sub_811F5C4(u16 groupId)
     }
 }
 
-static u16 sub_811F6B8(u16 alphabeticalGroup)
+static u16 sub_811F6B8 (u16 alphabeticalGroup)
 {
     u16 i;
     u16 totalWords;
@@ -5300,7 +5300,7 @@ static u16 sub_811F6B8(u16 alphabeticalGroup)
     return totalWords;
 }
 
-static bool8 sub_811F72C(u8 arg0)
+static bool8 sub_811F72C (u8 arg0)
 {
     int i;
     for (i = 0; i < sUnknown_0203A120->unk0; i++) {
@@ -5312,7 +5312,7 @@ static bool8 sub_811F72C(u8 arg0)
     return FALSE;
 }
 
-static bool8 sub_811F764(u16 wordIndex, u8 groupId)
+static bool8 sub_811F764 (u16 wordIndex, u8 groupId)
 {
     switch (groupId) {
     case EC_GROUP_POKEMON:
@@ -5332,7 +5332,7 @@ static bool8 sub_811F764(u16 wordIndex, u8 groupId)
     }
 }
 
-static int sub_811F838(u16 species)
+static int sub_811F838 (u16 species)
 {
     u32 i;
     for (i = 0; i < ARRAY_COUNT(sUnknown_0859E658); i++) {
@@ -5344,7 +5344,7 @@ static int sub_811F838(u16 species)
     return FALSE;
 }
 
-static u8 sub_811F860(u16 easyChatWord)
+static u8 sub_811F860 (u16 easyChatWord)
 {
     u8 groupId = EC_GROUP(easyChatWord);
     u32 index = EC_INDEX(easyChatWord);
@@ -5355,7 +5355,7 @@ static u8 sub_811F860(u16 easyChatWord)
     }
 }
 
-void InitializeEasyChatWordArray(u16 *words, u16 length)
+void InitializeEasyChatWordArray (u16 *words, u16 length)
 {
     u16 i;
     for (i = length - 1; i != 0xFFFF; i--) {
@@ -5363,7 +5363,7 @@ void InitializeEasyChatWordArray(u16 *words, u16 length)
     }
 }
 
-void sub_811F8BC(void)
+void sub_811F8BC (void)
 {
     int i;
     u16 *words = sub_801B058();
@@ -5372,7 +5372,7 @@ void sub_811F8BC(void)
     }
 }
 
-bool32 sub_811F8D8(int easyChatWord)
+bool32 sub_811F8D8 (int easyChatWord)
 {
     int groupId = EC_GROUP(easyChatWord);
     int mask = 0x7F;

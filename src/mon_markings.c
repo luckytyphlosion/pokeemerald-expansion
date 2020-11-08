@@ -284,12 +284,12 @@ static const union AnimCmd *const gUnknown_0859EFA4[] =
 
 static EWRAM_DATA struct PokemonMarkMenu *sMenu = NULL;
 
-void sub_811F90C(struct PokemonMarkMenu *ptr)
+void sub_811F90C (struct PokemonMarkMenu *ptr)
 {
     sMenu = ptr;
 }
 
-void sub_811F918(void)
+void sub_811F918 (void)
 {
     const struct TilesPal *frame = GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType);
     sMenu->frameTiles = frame->tiles;
@@ -298,7 +298,7 @@ void sub_811F918(void)
     CpuFill16(0, sMenu->menuWindowSpriteTiles, sizeof(sMenu->menuWindowSpriteTiles));
 }
 
-bool8 sub_811F960(void)
+bool8 sub_811F960 (void)
 {
     u16 i;
     u8 *dest = sMenu->menuWindowSpriteTiles + sMenu->tileLoadState * 0x100;
@@ -335,7 +335,7 @@ bool8 sub_811F960(void)
     return TRUE;
 }
 
-void sub_811FA90(void)
+void sub_811FA90 (void)
 {
     sub_811F918();
     while (sub_811F960()) {
@@ -343,7 +343,7 @@ void sub_811FA90(void)
     }
 }
 
-void sub_811FAA4(u8 markings, s16 x, s16 y)
+void sub_811FAA4 (u8 markings, s16 x, s16 y)
 {
     u16 i;
     sMenu->cursorPos = 0;
@@ -354,7 +354,7 @@ void sub_811FAA4(u8 markings, s16 x, s16 y)
     sub_811FC80(x, y, sMenu->baseTileTag, sMenu->basePaletteTag);
 }
 
-void sub_811FAF8(void)
+void sub_811FAF8 (void)
 {
     u16 i;
 
@@ -386,7 +386,7 @@ void sub_811FAF8(void)
     }
 }
 
-bool8 MonMarkingsMenuHandleInput(void)
+bool8 MonMarkingsMenuHandleInput (void)
 {
     u16 i;
 
@@ -436,7 +436,7 @@ bool8 MonMarkingsMenuHandleInput(void)
     return TRUE;
 }
 
-static void sub_811FC80(s16 x, s16 y, u16 baseTileTag, u16 basePaletteTag)
+static void sub_811FC80 (s16 x, s16 y, u16 baseTileTag, u16 basePaletteTag)
 {
     u16 i;
     u8 spriteId;
@@ -526,11 +526,11 @@ static void sub_811FC80(s16 x, s16 y, u16 baseTileTag, u16 basePaletteTag)
     }
 }
 
-static void TaskDummy7(struct Sprite *sprite)
+static void TaskDummy7 (struct Sprite *sprite)
 {
 }
 
-static void sub_811FF40(struct Sprite *sprite)
+static void sub_811FF40 (struct Sprite *sprite)
 {
     if (sMenu->markingsArray[sprite->data[0]]) {
         StartSpriteAnim(sprite, 2 * sprite->data[0] + 1);
@@ -539,12 +539,12 @@ static void sub_811FF40(struct Sprite *sprite)
     }
 }
 
-static void sub_811FF7C(struct Sprite *sprite)
+static void sub_811FF7C (struct Sprite *sprite)
 {
     sprite->pos1.y = (16 * sMenu->cursorPos) + sprite->data[0];
 }
 
-struct Sprite * CreateMonMarkingsSpriteWithPal(u16 tileTag, u16 paletteTag, const u16 *palette)
+struct Sprite * CreateMonMarkingsSpriteWithPal (u16 tileTag, u16 paletteTag, const u16 *palette)
 {
     if (!palette) {
         palette = gUnknown_0859E65C;
@@ -552,7 +552,7 @@ struct Sprite * CreateMonMarkingsSpriteWithPal(u16 tileTag, u16 paletteTag, cons
     return sub_811FFD4(tileTag, paletteTag, palette, 16);
 }
 
-struct Sprite * sub_811FFB4(u16 tileTag, u16 paletteTag, const u16 *palette)
+struct Sprite * sub_811FFB4 (u16 tileTag, u16 paletteTag, const u16 *palette)
 {
     if (!palette) {
         palette = gUnknown_0859E65C;
@@ -560,7 +560,7 @@ struct Sprite * sub_811FFB4(u16 tileTag, u16 paletteTag, const u16 *palette)
     return sub_811FFD4(tileTag, paletteTag, palette, 1);
 }
 
-static struct Sprite * sub_811FFD4(u16 tileTag, u16 paletteTag, const u16 *palette, u16 size)
+static struct Sprite * sub_811FFD4 (u16 tileTag, u16 paletteTag, const u16 *palette, u16 size)
 {
     u8 spriteId;
     struct SpriteTemplate sprTemplate;
@@ -588,7 +588,7 @@ static struct Sprite * sub_811FFD4(u16 tileTag, u16 paletteTag, const u16 *palet
     }
 }
 
-void sub_8120084(u8 markings, void *dest)
+void sub_8120084 (u8 markings, void *dest)
 {
     RequestDma3Copy(gUnknown_0859E67C + markings * 0x80, dest, 0x80, 0x10);
 }

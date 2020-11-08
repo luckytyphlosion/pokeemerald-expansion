@@ -9,7 +9,7 @@ static int MultiBootHandShake(struct MultiBootParam *mp);
 static void MultiBootWaitCycles(u32 cycles);
 static void MultiBootWaitSendDone(void);
 
-void MultiBootInit(struct MultiBootParam *mp)
+void MultiBootInit (struct MultiBootParam *mp)
 {
     mp->client_bit = 0;
     mp->probe_count = 0;
@@ -25,7 +25,7 @@ void MultiBootInit(struct MultiBootParam *mp)
     REG_SIODATA8 = 0;
 }
 
-int MultiBootMain(struct MultiBootParam *mp)
+int MultiBootMain (struct MultiBootParam *mp)
 {
     int i;
     int j;
@@ -242,7 +242,7 @@ int MultiBootMain(struct MultiBootParam *mp)
     }
 }
 
-static int MultiBootSend(struct MultiBootParam *mp, u16 data)
+static int MultiBootSend (struct MultiBootParam *mp, u16 data)
 {
     int i;
 
@@ -259,7 +259,7 @@ static int MultiBootSend(struct MultiBootParam *mp, u16 data)
     return 0;
 }
 
-void MultiBootStartProbe(struct MultiBootParam *mp)
+void MultiBootStartProbe (struct MultiBootParam *mp)
 {
     if (mp->probe_count != 0) {
         MultiBootInit(mp);
@@ -270,7 +270,7 @@ void MultiBootStartProbe(struct MultiBootParam *mp)
     mp->probe_count = 1;
 }
 
-void MultiBootStartMaster(struct MultiBootParam *mp, const u8 *srcp, int length, u8 palette_color, s8 palette_speed)
+void MultiBootStartMaster (struct MultiBootParam *mp, const u8 *srcp, int length, u8 palette_color, s8 palette_speed)
 {
     int i = 0;
 
@@ -312,7 +312,7 @@ void MultiBootStartMaster(struct MultiBootParam *mp, const u8 *srcp, int length,
     mp->probe_count = 0xd0;
 }
 
-int MultiBootCheckComplete(struct MultiBootParam *mp)
+int MultiBootCheckComplete (struct MultiBootParam *mp)
 {
     if (mp->probe_count == 0xe9) {
         return 1;
@@ -321,7 +321,7 @@ int MultiBootCheckComplete(struct MultiBootParam *mp)
     return 0;
 }
 
-static int MultiBootHandShake(struct MultiBootParam *mp)
+static int MultiBootHandShake (struct MultiBootParam *mp)
 {
     int i, j;
 
@@ -379,25 +379,25 @@ static int MultiBootHandShake(struct MultiBootParam *mp)
 }
 
 NAKED
-static void MultiBootWaitCycles(u32 cycles)
+static void MultiBootWaitCycles (u32 cycles)
 {
-    asm_unified(" \
-    mov  r2, pc\n \
-    lsrs r2, 24\n \
-    movs r1, 12\n \
-    cmp  r2, 2\n \
-    beq  MultiBootWaitCyclesLoop\n \
-    movs r1, 13\n \
-    cmp  r2, 8\n \
-    beq  MultiBootWaitCyclesLoop\n \
-    movs r1, 4\n \
-MultiBootWaitCyclesLoop:\n \
-    subs r0, r1\n \
-    bgt  MultiBootWaitCyclesLoop\n \
+    asm_unified("  \
+    mov  r2, pc\n  \
+    lsrs r2, 24\n  \
+    movs r1, 12\n  \
+    cmp  r2, 2\n  \
+    beq  MultiBootWaitCyclesLoop\n  \
+    movs r1, 13\n  \
+    cmp  r2, 8\n  \
+    beq  MultiBootWaitCyclesLoop\n  \
+    movs r1, 4\n  \
+MultiBootWaitCyclesLoop:\n  \
+    subs r0, r1\n  \
+    bgt  MultiBootWaitCyclesLoop\n  \
     bx   lr\n");
 }
 
-static void MultiBootWaitSendDone(void)
+static void MultiBootWaitSendDone (void)
 {
     int i;
 

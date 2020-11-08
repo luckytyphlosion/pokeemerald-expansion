@@ -233,7 +233,7 @@ static const struct SpriteTemplate sSpriteTemplate_Cable = {
     .callback = SpriteCB_Cable,
 };
 
-static void Task_LoadCableCar(u8 taskId)
+static void Task_LoadCableCar (u8 taskId)
 {
     if (!gPaletteFade.active) {
         SetMainCallback2(CB2_LoadCableCar);
@@ -241,14 +241,14 @@ static void Task_LoadCableCar(u8 taskId)
     }
 }
 
-void CableCar(void)
+void CableCar (void)
 {
     ScriptContext2_Enable();
     CreateTask(Task_LoadCableCar, 1);
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB(0, 0, 0));
 }
 
-static void CB2_LoadCableCar(void)
+static void CB2_LoadCableCar (void)
 {
     u16 imebak;
     u8 i = 0;
@@ -368,7 +368,7 @@ static void CB2_LoadCableCar(void)
     }
 }
 
-static void CB2_CableCar(void)
+static void CB2_CableCar (void)
 {
     RunTasks();
     AnimateSprites();
@@ -377,7 +377,7 @@ static void CB2_CableCar(void)
     MapMusicMain();
 }
 
-static void CB2_EndCableCar(void)
+static void CB2_EndCableCar (void)
 {
     u8 i = 0;
 
@@ -414,7 +414,7 @@ static void CB2_EndCableCar(void)
     SetMainCallback2(CB2_LoadMap);
 }
 
-static void Task_CableCar(u8 taskId)
+static void Task_CableCar (u8 taskId)
 {
     u8 i = 0;
 
@@ -477,7 +477,7 @@ static void Task_CableCar(u8 taskId)
     }
 }
 
-static void Task_AnimateBgGoingUp(u8 taskId)
+static void Task_AnimateBgGoingUp (u8 taskId)
 {
     if (sCableCar->state != STATE_END) {
         sCableCar->bg3HorizontalOffset--;
@@ -512,7 +512,7 @@ static void Task_AnimateBgGoingUp(u8 taskId)
     gSpriteCoordOffsetX = (gSpriteCoordOffsetX + 1) % 128;
 }
 
-static void Task_AnimateBgGoingDown(u8 taskId)
+static void Task_AnimateBgGoingDown (u8 taskId)
 {
     if (sCableCar->state != STATE_END) {
         sCableCar->bg3HorizontalOffset++;
@@ -555,7 +555,7 @@ static void Task_AnimateBgGoingDown(u8 taskId)
     }
 }
 
-static void VBlankCB_CableCar(void)
+static void VBlankCB_CableCar (void)
 {
     CopyBgTilemapBufferToVram(0);
     CopyBgTilemapBufferToVram(3);
@@ -570,14 +570,14 @@ static void VBlankCB_CableCar(void)
     TransferPlttBuffer();
 }
 
-static void SpriteCB_Cable(struct Sprite *sprite)
+static void SpriteCB_Cable (struct Sprite *sprite)
 {
 }
 
 #define sXPos  data[0]
 #define sYPos  data[1]
 
-static void SpriteCB_CableCar(struct Sprite *sprite)
+static void SpriteCB_CableCar (struct Sprite *sprite)
 {
     if (sCableCar->state != STATE_END) {
         if (!GOING_DOWN) {
@@ -593,7 +593,7 @@ static void SpriteCB_CableCar(struct Sprite *sprite)
 #define sState data[2]
 #define sTimer data[3]
 
-static void SpriteCB_Player(struct Sprite *sprite)
+static void SpriteCB_Player (struct Sprite *sprite)
 {
     if (sCableCar->state != STATE_END) {
         // Move along with cable car
@@ -632,7 +632,7 @@ static void SpriteCB_Player(struct Sprite *sprite)
 #define sSameDir    data[1] // Whether or not the hiker is headed the same dir as the Cable Car
 #define sDelay      data[2]
 
-static void SpriteCB_HikerGoingUp(struct Sprite *sprite)
+static void SpriteCB_HikerGoingUp (struct Sprite *sprite)
 {
     if (sprite->sTimer == 0) {
         sprite->pos1.x += 2 * sprite->centerToCornerVecX;
@@ -664,7 +664,7 @@ static void SpriteCB_HikerGoingUp(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_HikerGoingDown(struct Sprite *sprite)
+static void SpriteCB_HikerGoingDown (struct Sprite *sprite)
 {
     if (sprite->sTimer == 0) {
         sprite->pos1.y += 16 + sprite->centerToCornerVecY;
@@ -697,7 +697,7 @@ static void SpriteCB_HikerGoingDown(struct Sprite *sprite)
 
 #undef sTimer
 
-static void SetBgRegs(bool8 active)
+static void SetBgRegs (bool8 active)
 {
     switch (active) {
     case FALSE:
@@ -766,7 +766,7 @@ static void SetBgRegs(bool8 active)
     }
 }
 
-static void CreateCableCarSprites(void)
+static void CreateCableCarSprites (void)
 {
     u8 spriteId;
     u8 i;
@@ -892,7 +892,7 @@ static void CreateCableCarSprites(void)
     }
 }
 
-static void BufferNextGroundSegment(void)
+static void BufferNextGroundSegment (void)
 {
     u8 i, j, k;
     u8 offset;
@@ -909,7 +909,7 @@ static void BufferNextGroundSegment(void)
     sCableCar->groundTilemapOffset = (sCableCar->groundTilemapOffset + 1) % 3;
 }
 
-static void AnimateGroundGoingUp(void)
+static void AnimateGroundGoingUp (void)
 {
     sCableCar->groundTimer = (sCableCar->groundTimer + 1) % 96;
     sCableCar->bg0HorizontalOffset = sCableCar->groundXBase - sCableCar->groundXOffset;
@@ -924,7 +924,7 @@ static void AnimateGroundGoingUp(void)
     }
 }
 
-static void AnimateGroundGoingDown(void)
+static void AnimateGroundGoingDown (void)
 {
     sCableCar->groundTimer = (sCableCar->groundTimer + 1) % 96;
     sCableCar->bg0HorizontalOffset = sCableCar->groundXBase + sCableCar->groundXOffset;
@@ -939,7 +939,7 @@ static void AnimateGroundGoingDown(void)
     }
 }
 
-static void DrawNextGroundSegmentGoingUp(void)
+static void DrawNextGroundSegmentGoingUp (void)
 {
     u8 i = 0;
 
@@ -971,7 +971,7 @@ static void DrawNextGroundSegmentGoingUp(void)
     }
 }
 
-static void DrawNextGroundSegmentGoingDown(void)
+static void DrawNextGroundSegmentGoingDown (void)
 {
     u8 i = 0;
 
@@ -1001,7 +1001,7 @@ static void DrawNextGroundSegmentGoingDown(void)
     }
 }
 
-static void InitGroundTilemapData(bool8 goingDown)
+static void InitGroundTilemapData (bool8 goingDown)
 {
     switch (goingDown) {
     case FALSE:

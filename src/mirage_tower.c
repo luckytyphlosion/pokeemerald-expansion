@@ -259,7 +259,7 @@ EWRAM_DATA struct MirageTowerPulseBlend *sMirageTowerPulseBlend = NULL;
 
 static u16 gUnknown_030012A8[8];
 
-bool8 IsMirageTowerVisible(void)
+bool8 IsMirageTowerVisible (void)
 {
     if (!(gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(ROUTE111) && gSaveBlock1Ptr->location.mapNum == MAP_NUM(ROUTE111))) {
         return FALSE;
@@ -267,17 +267,17 @@ bool8 IsMirageTowerVisible(void)
     return FlagGet(FLAG_MIRAGE_TOWER_VISIBLE);
 }
 
-static void UpdateMirageTowerPulseBlend(u8 taskId)
+static void UpdateMirageTowerPulseBlend (u8 taskId)
 {
     UpdatePulseBlend(&sMirageTowerPulseBlend->pulseBlend);
 }
 
-void ClearMirageTowerPulseBlend(void)
+void ClearMirageTowerPulseBlend (void)
 {
     sMirageTowerPulseBlend = NULL;
 }
 
-void TryStartMirageTowerPulseBlendEffect(void)
+void TryStartMirageTowerPulseBlendEffect (void)
 {
     if (sMirageTowerPulseBlend) {
         sMirageTowerPulseBlend = NULL;
@@ -297,7 +297,7 @@ void TryStartMirageTowerPulseBlendEffect(void)
     sMirageTowerPulseBlend->taskId = CreateTask(UpdateMirageTowerPulseBlend, 0xFF);
 }
 
-void ClearMirageTowerPulseBlendEffect(void)
+void ClearMirageTowerPulseBlendEffect (void)
 {
     if (gSaveBlock1Ptr->location.mapGroup != MAP_GROUP(ROUTE111)
         || gSaveBlock1Ptr->location.mapNum   != MAP_NUM(ROUTE111)
@@ -315,7 +315,7 @@ void ClearMirageTowerPulseBlendEffect(void)
     FREE_AND_SET_NULL(sMirageTowerPulseBlend);
 }
 
-void SetMirageTowerVisibility(void)
+void SetMirageTowerVisibility (void)
 {
     u16 rand;
     bool8 visible;
@@ -340,12 +340,12 @@ void SetMirageTowerVisibility(void)
     FlagClear(FLAG_MIRAGE_TOWER_VISIBLE);
 }
 
-void StartPlayerDescendMirageTower(void)
+void StartPlayerDescendMirageTower (void)
 {
     CreateTask(PlayerDescendMirageTower, 8);
 }
 
-static void PlayerDescendMirageTower(u8 taskId)
+static void PlayerDescendMirageTower (u8 taskId)
 {
     u8 objectEventId;
     struct ObjectEvent *fakePlayerObjectEvent;
@@ -362,7 +362,7 @@ static void PlayerDescendMirageTower(u8 taskId)
     }
 }
 
-static void StartScreenShake(u8 yShakeOffset, u8 xShakeOffset, u8 numShakes, u8 shakeDelay)
+static void StartScreenShake (u8 yShakeOffset, u8 xShakeOffset, u8 numShakes, u8 shakeDelay)
 {
     u8 taskId = CreateTask(DoScreenShake, 9);
     gTasks[taskId].data[0] = xShakeOffset;
@@ -374,7 +374,7 @@ static void StartScreenShake(u8 yShakeOffset, u8 xShakeOffset, u8 numShakes, u8 
     PlaySE(SE_M_STRENGTH);
 }
 
-static void DoScreenShake(u8 taskId)
+static void DoScreenShake (u8 taskId)
 {
     s16 *data;
 
@@ -394,7 +394,7 @@ static void DoScreenShake(u8 taskId)
     }
 }
 
-static void IncrementCeilingCrumbleFinishedCount(void)
+static void IncrementCeilingCrumbleFinishedCount (void)
 {
     u8 taskId = FindTaskIdByFunc(WaitCeilingCrumble);
     if (taskId != 0xFF) {
@@ -402,7 +402,7 @@ static void IncrementCeilingCrumbleFinishedCount(void)
     }
 }
 
-void DoMirageTowerCeilingCrumble(void)
+void DoMirageTowerCeilingCrumble (void)
 {
     LoadSpriteSheets(gMirageTowerCeilingCrumbleSpriteSheets);
     CreateCeilingCrumbleSprites();
@@ -410,7 +410,7 @@ void DoMirageTowerCeilingCrumble(void)
     StartScreenShake(2, 1, 16, 3);
 }
 
-static void WaitCeilingCrumble(u8 taskId)
+static void WaitCeilingCrumble (u8 taskId)
 {
     u16 *data = (u16 *)gTasks[taskId].data;
     // Either wait 1000 frames, or until all 16 crumble sprites and the one screen-shake task are completed.
@@ -419,14 +419,14 @@ static void WaitCeilingCrumble(u8 taskId)
     }
 }
 
-static void FinishCeilingCrumbleTask(u8 taskId)
+static void FinishCeilingCrumbleTask (u8 taskId)
 {
     FreeSpriteTilesByTag(4000);
     DestroyTask(taskId);
     EnableBothScriptContexts();
 }
 
-static void CreateCeilingCrumbleSprites(void)
+static void CreateCeilingCrumbleSprites (void)
 {
     u8 i;
     u8 spriteId;
@@ -445,7 +445,7 @@ static void CreateCeilingCrumbleSprites(void)
     }
 }
 
-static void MoveCeilingCrumbleSprite(struct Sprite* sprite)
+static void MoveCeilingCrumbleSprite (struct Sprite* sprite)
 {
     sprite->data[1] += 2;
     sprite->pos2.y = sprite->data[1] / 2;
@@ -455,7 +455,7 @@ static void MoveCeilingCrumbleSprite(struct Sprite* sprite)
     }
 }
 
-static void SetInvisibleMirageTowerMetatiles(void)
+static void SetInvisibleMirageTowerMetatiles (void)
 {
     u8 i;
     for (i = 0; i < ARRAY_COUNT(sInvisibleMirageTowerMetatiles); i++) {
@@ -464,28 +464,28 @@ static void SetInvisibleMirageTowerMetatiles(void)
     DrawWholeMapView();
 }
 
-void StartMirageTowerDisintegration(void)
+void StartMirageTowerDisintegration (void)
 {
     CreateTask(DoMirageTowerDisintegration, 9);
 }
 
-void StartMirageTowerShake(void)
+void StartMirageTowerShake (void)
 {
     CreateTask(InitMirageTowerShake, 9);
 }
 
-void StartMirageTowerFossilFallAndSink(void)
+void StartMirageTowerFossilFallAndSink (void)
 {
     CreateTask(DoFossilFallAndSink, 9);
 }
 
-static void SetBgShakeOffsets(void)
+static void SetBgShakeOffsets (void)
 {
     SetGpuReg(REG_OFFSET_BG0HOFS, sBgShakeOffsets->bgHOFS);
     SetGpuReg(REG_OFFSET_BG0VOFS, sBgShakeOffsets->bgVOFS);
 }
 
-static void UpdateBgShake(u8 taskId)
+static void UpdateBgShake (u8 taskId)
 {
     if (!gTasks[taskId].data[0]) {
         sBgShakeOffsets->bgHOFS = -sBgShakeOffsets->bgHOFS;
@@ -496,7 +496,7 @@ static void UpdateBgShake(u8 taskId)
     }
 }
 
-static void InitMirageTowerShake(u8 taskId)
+static void InitMirageTowerShake (u8 taskId)
 {
     u8 zero;
 
@@ -546,7 +546,7 @@ static void InitMirageTowerShake(u8 taskId)
 
 #define OUTER_BUFFER_LENGTH 0x60
 #define INNER_BUFFER_LENGTH 0x30
-static void DoMirageTowerDisintegration(u8 taskId)
+static void DoMirageTowerDisintegration (u8 taskId)
 {
     u8 bgShakeTaskId, j;
     u16 i;
@@ -630,7 +630,7 @@ static void DoMirageTowerDisintegration(u8 taskId)
     gTasks[taskId].data[0]++;
 }
 
-static void DoFossilFallAndSink(u8 taskId)
+static void DoFossilFallAndSink (u8 taskId)
 {
     u16 i;
     u8 *buffer;
@@ -697,7 +697,7 @@ static void DoFossilFallAndSink(u8 taskId)
     gTasks[taskId].data[0]++;
 }
 
-static void sub_81BF248(struct Sprite *sprite)
+static void sub_81BF248 (struct Sprite *sprite)
 {
     if (sUnknown_0203CF0C->unk10 >= (ROOT_FOSSIL_GFX_RANDOMIZER_LENGTH)) {
         sprite->callback = SpriteCallbackDummy;
@@ -713,7 +713,7 @@ static void sub_81BF248(struct Sprite *sprite)
     }
 }
 
-static void sub_81BF2B8(u8* a, u16 b, u8 c, u8 d, u8 e)
+static void sub_81BF2B8 (u8* a, u16 b, u8 c, u8 d, u8 e)
 {
     u16 var, var2;
     u8 r0, r5, r4, r2;

@@ -290,7 +290,7 @@ static const struct SpriteTemplate sUnknown_0861FB44 =
     .callback = SpriteCallbackDummy
 };
 
-bool32 InitPokenavMainMenu(void)
+bool32 InitPokenavMainMenu (void)
 {
     struct PokenavMainMenuResources *structPtr;
 
@@ -305,20 +305,20 @@ bool32 InitPokenavMainMenu(void)
     return TRUE;
 }
 
-u32 PokenavMainMenuLoopedTaskIsActive(void)
+u32 PokenavMainMenuLoopedTaskIsActive (void)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
     return IsLoopedTaskActive(structPtr->currentTaskId);
 }
 
-void ShutdownPokenav(void)
+void ShutdownPokenav (void)
 {
     PlaySE(SE_POKENAV_OFF);
     ResetBldCnt_();
     BeginNormalPaletteFade(0xFFFFFFFF, -1, 0, 16, RGB_BLACK);
 }
 
-bool32 WaitForPokenavShutdownFade(void)
+bool32 WaitForPokenavShutdownFade (void)
 {
     if (!gPaletteFade.active) {
         FreeMenuHandlerSubstruct2();
@@ -330,7 +330,7 @@ bool32 WaitForPokenavShutdownFade(void)
     return TRUE;
 }
 
-static u32 LoopedTask_InitPokenavMenu(s32 a0)
+static u32 LoopedTask_InitPokenavMenu (s32 a0)
 {
     struct PokenavMainMenuResources *structPtr;
 
@@ -372,7 +372,7 @@ static u32 LoopedTask_InitPokenavMenu(s32 a0)
     }
 }
 
-void SetActiveMenuLoopTasks(void *createLoopTask, void *isLoopTaskActive) // Fix types later.
+void SetActiveMenuLoopTasks (void *createLoopTask, void *isLoopTaskActive) // Fix types later.
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
     structPtr->loopTask = createLoopTask;
@@ -380,38 +380,38 @@ void SetActiveMenuLoopTasks(void *createLoopTask, void *isLoopTaskActive) // Fix
     structPtr->unused = 0;
 }
 
-void RunMainMenuLoopedTask(u32 a0)
+void RunMainMenuLoopedTask (u32 a0)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
     structPtr->unused = 0;
     structPtr->loopTask(a0);
 }
 
-u32 IsActiveMenuLoopTaskActive(void)
+u32 IsActiveMenuLoopTaskActive (void)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
     return structPtr->isLoopTaskActiveFunc();
 }
 
-void SlideMenuHeaderUp(void)
+void SlideMenuHeaderUp (void)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
     structPtr->currentTaskId = CreateLoopedTask(LoopedTask_SlideMenuHeaderUp, 4);
 }
 
-void SlideMenuHeaderDown(void)
+void SlideMenuHeaderDown (void)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
     structPtr->currentTaskId = CreateLoopedTask(LoopedTask_SlideMenuHeaderDown, 4);
 }
 
-bool32 MainMenuLoopedTaskIsBusy(void)
+bool32 MainMenuLoopedTaskIsBusy (void)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
     return IsLoopedTaskActive(structPtr->currentTaskId);
 }
 
-static u32 LoopedTask_SlideMenuHeaderUp(s32 a0)
+static u32 LoopedTask_SlideMenuHeaderUp (s32 a0)
 {
     switch (a0) {
     default:
@@ -430,7 +430,7 @@ static u32 LoopedTask_SlideMenuHeaderUp(s32 a0)
     }
 }
 
-static u32 LoopedTask_SlideMenuHeaderDown(s32 a0)
+static u32 LoopedTask_SlideMenuHeaderDown (s32 a0)
 {
     if (ChangeBgY(0, 384, 2) <= 0) {
         ChangeBgY(0, 0, 0);
@@ -440,12 +440,12 @@ static u32 LoopedTask_SlideMenuHeaderDown(s32 a0)
     return LT_PAUSE;
 }
 
-void CopyPaletteIntoBufferUnfaded(const u16 *palette, u32 bufferOffset, u32 size)
+void CopyPaletteIntoBufferUnfaded (const u16 *palette, u32 bufferOffset, u32 size)
 {
     CpuCopy16(palette, gPlttBufferUnfaded + bufferOffset, size);
 }
 
-void Pokenav_AllocAndLoadPalettes(const struct SpritePalette *palettes)
+void Pokenav_AllocAndLoadPalettes (const struct SpritePalette *palettes)
 {
     const struct SpritePalette *current;
     u32 index;
@@ -461,12 +461,12 @@ void Pokenav_AllocAndLoadPalettes(const struct SpritePalette *palettes)
     }
 }
 
-void PokenavFillPalette(u32 palIndex, u16 fillValue)
+void PokenavFillPalette (u32 palIndex, u16 fillValue)
 {
     CpuFill16(fillValue, gPlttBufferFaded + 0x100 + (palIndex * 16), 16 * sizeof(u16));
 }
 
-void PokenavCopyPalette(const u16 *src, const u16 *dest, int size, int a3, int a4, u16 *palette)
+void PokenavCopyPalette (const u16 *src, const u16 *dest, int size, int a3, int a4, u16 *palette)
 {
     if (a4 == 0) {
         CpuCopy16(src, palette, size * 2);
@@ -496,7 +496,7 @@ void PokenavCopyPalette(const u16 *src, const u16 *dest, int size, int a3, int a
     }
 }
 
-void PokenavFadeScreen(s32 fadeType)
+void PokenavFadeScreen (s32 fadeType)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
 
@@ -516,17 +516,17 @@ void PokenavFadeScreen(s32 fadeType)
     }
 }
 
-bool32 IsPaletteFadeActive(void)
+bool32 IsPaletteFadeActive (void)
 {
     return gPaletteFade.active;
 }
 
-void sub_81C7B40(void)
+void sub_81C7B40 (void)
 {
     BlendPalettes(0xFFFEFFFE, 16, RGB_BLACK);
 }
 
-void InitBgTemplates(const struct BgTemplate *templates, int count)
+void InitBgTemplates (const struct BgTemplate *templates, int count)
 {
     int i;
 
@@ -535,7 +535,7 @@ void InitBgTemplates(const struct BgTemplate *templates, int count)
     }
 }
 
-static void InitHelpBar(void)
+static void InitHelpBar (void)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
 
@@ -546,7 +546,7 @@ static void InitHelpBar(void)
     CopyWindowToVram(structPtr->helpBarWindowId, 3); // TODO: Use a defined constant here.
 }
 
-void PrintHelpBarText(u32 textId)
+void PrintHelpBarText (u32 textId)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
 
@@ -554,18 +554,18 @@ void PrintHelpBarText(u32 textId)
     AddTextPrinterParameterized3(structPtr->helpBarWindowId, 1, 0, 1, sHelpBarTextColors, 0, sHelpBarTexts[textId]);
 }
 
-bool32 WaitForHelpBar(void)
+bool32 WaitForHelpBar (void)
 {
     return IsDma3ManagerBusyWithBgCopy();
 }
 
-static void DrawHelpBar(u32 windowId)
+static void DrawHelpBar (u32 windowId)
 {
     FillWindowPixelBuffer(windowId, PIXEL_FILL(4));
     FillWindowPixelRect(windowId, PIXEL_FILL(5), 0, 0, 0x80, 1);
 }
 
-static void InitPokenavMainMenuResources(void)
+static void InitPokenavMainMenuResources (void)
 {
     s32 i;
     u8 spriteId;
@@ -581,7 +581,7 @@ static void InitPokenavMainMenuResources(void)
     structPtr->spinningPokenav = &gSprites[spriteId];
 }
 
-static void CleanupPokenavMainMenuResources(void)
+static void CleanupPokenavMainMenuResources (void)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
 
@@ -590,13 +590,13 @@ static void CleanupPokenavMainMenuResources(void)
     FreeSpritePaletteByTag(0);
 }
 
-static void SpriteCB_SpinningPokenav(struct Sprite *sprite)
+static void SpriteCB_SpinningPokenav (struct Sprite *sprite)
 {
     // If the background starts scrolling, follow it.
     sprite->pos2.y = (GetBgY(0) / 256u) * -1;
 }
 
-struct Sprite * PauseSpinningPokenavSprite(void)
+struct Sprite * PauseSpinningPokenavSprite (void)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
 
@@ -604,7 +604,7 @@ struct Sprite * PauseSpinningPokenavSprite(void)
     return structPtr->spinningPokenav;
 }
 
-void ResumeSpinningPokenavSprite(void)
+void ResumeSpinningPokenavSprite (void)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
 
@@ -616,7 +616,7 @@ void ResumeSpinningPokenavSprite(void)
     structPtr->spinningPokenav->subpriority = 0;
 }
 
-static void InitHoennMapHeaderSprites(void)
+static void InitHoennMapHeaderSprites (void)
 {
     s32 i, spriteId;
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
@@ -639,7 +639,7 @@ static void InitHoennMapHeaderSprites(void)
     }
 }
 
-void LoadLeftHeaderGfxForIndex(u32 menuGfxId)
+void LoadLeftHeaderGfxForIndex (u32 menuGfxId)
 {
     if (menuGfxId < POKENAV_GFX_SUBMENUS_START) {
         LoadLeftHeaderGfxForMenu(menuGfxId);
@@ -648,7 +648,7 @@ void LoadLeftHeaderGfxForIndex(u32 menuGfxId)
     }
 }
 
-void UpdateRegionMapRightHeaderTiles(u32 menuGfxId)
+void UpdateRegionMapRightHeaderTiles (u32 menuGfxId)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
 
@@ -659,7 +659,7 @@ void UpdateRegionMapRightHeaderTiles(u32 menuGfxId)
     }
 }
 
-static void LoadLeftHeaderGfxForMenu(u32 menuGfxId)
+static void LoadLeftHeaderGfxForMenu (u32 menuGfxId)
 {
     struct PokenavMainMenuResources *structPtr;
     u32 size, tag;
@@ -683,7 +683,7 @@ static void LoadLeftHeaderGfxForMenu(u32 menuGfxId)
     }
 }
 
-static void LoadLeftHeaderGfxForSubMenu(u32 menuGfxId)
+static void LoadLeftHeaderGfxForSubMenu (u32 menuGfxId)
 {
     u32 size, tag;
 
@@ -698,7 +698,7 @@ static void LoadLeftHeaderGfxForSubMenu(u32 menuGfxId)
     RequestDma3Copy(&gDecompressionBuffer[0x1000], (void *)VRAM + 0x10800 + (GetSpriteTileStartByTag(2) * 32), size, 1);
 }
 
-void ShowLeftHeaderGfx(u32 menuGfxId, bool32 isMain, bool32 isOnRightSide)
+void ShowLeftHeaderGfx (u32 menuGfxId, bool32 isMain, bool32 isOnRightSide)
 {
     u32 tileTop;
 
@@ -715,7 +715,7 @@ void ShowLeftHeaderGfx(u32 menuGfxId, bool32 isMain, bool32 isOnRightSide)
     }
 }
 
-void HideMainOrSubMenuLeftHeader(u32 id, bool32 onRightSide)
+void HideMainOrSubMenuLeftHeader (u32 id, bool32 onRightSide)
 {
     if (id < POKENAV_GFX_PARTY_MENU) {
         HideLeftHeaderSprites(onRightSide);
@@ -724,7 +724,7 @@ void HideMainOrSubMenuLeftHeader(u32 id, bool32 onRightSide)
     }
 }
 
-void SetLeftHeaderSpritesInvisibility(void)
+void SetLeftHeaderSpritesInvisibility (void)
 {
     s32 i;
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
@@ -735,7 +735,7 @@ void SetLeftHeaderSpritesInvisibility(void)
     }
 }
 
-bool32 AreLeftHeaderSpritesMoving(void)
+bool32 AreLeftHeaderSpritesMoving (void)
 {
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
 
@@ -746,7 +746,7 @@ bool32 AreLeftHeaderSpritesMoving(void)
     }
 }
 
-static void ShowLeftHeaderSprites(u32 startY, bool32 isOnRightSide)
+static void ShowLeftHeaderSprites (u32 startY, bool32 isOnRightSide)
 {
     s32 start, end, i;
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
@@ -763,7 +763,7 @@ static void ShowLeftHeaderSprites(u32 startY, bool32 isOnRightSide)
     }
 }
 
-static void ShowLeftHeaderSubmenuSprites(u32 startY, bool32 isOnRightSide)
+static void ShowLeftHeaderSubmenuSprites (u32 startY, bool32 isOnRightSide)
 {
     s32 start, end, i;
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
@@ -780,7 +780,7 @@ static void ShowLeftHeaderSubmenuSprites(u32 startY, bool32 isOnRightSide)
     }
 }
 
-static void HideLeftHeaderSprites(bool32 isOnRightSide)
+static void HideLeftHeaderSprites (bool32 isOnRightSide)
 {
     s32 start, end, i;
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
@@ -796,7 +796,7 @@ static void HideLeftHeaderSprites(bool32 isOnRightSide)
     }
 }
 
-static void HideLeftHeaderSubmenuSprites(bool32 isOnRightSide)
+static void HideLeftHeaderSubmenuSprites (bool32 isOnRightSide)
 {
     s32 start, end, i;
     struct PokenavMainMenuResources *structPtr = GetSubstructPtr(POKENAV_SUBSTRUCT_MAIN_MENU);
@@ -812,7 +812,7 @@ static void HideLeftHeaderSubmenuSprites(bool32 isOnRightSide)
     }
 }
 
-static void MoveLeftHeader(struct Sprite *sprite, s32 startX, s32 endX, s32 duration)
+static void MoveLeftHeader (struct Sprite *sprite, s32 startX, s32 endX, s32 duration)
 {
     sprite->pos1.x = startX;
     sprite->data[0] = startX * 16;
@@ -822,7 +822,7 @@ static void MoveLeftHeader(struct Sprite *sprite, s32 startX, s32 endX, s32 dura
     sprite->callback = SpriteCB_MoveLeftHeader;
 }
 
-static void SpriteCB_MoveLeftHeader(struct Sprite *sprite)
+static void SpriteCB_MoveLeftHeader (struct Sprite *sprite)
 {
     if (sprite->data[2] != 0) {
         sprite->data[2]--;

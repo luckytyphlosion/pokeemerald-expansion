@@ -93,7 +93,7 @@ static const struct SpriteTemplate sCloudSpriteTemplate =
     .callback = UpdateCloudSprite,
 };
 
-void Clouds_InitVars(void)
+void Clouds_InitVars (void)
 {
     gWeatherPtr->gammaTargetIndex = 0;
     gWeatherPtr->gammaStepDelay = 20;
@@ -104,7 +104,7 @@ void Clouds_InitVars(void)
     }
 }
 
-void Clouds_InitAll(void)
+void Clouds_InitAll (void)
 {
     Clouds_InitVars();
     while (gWeatherPtr->weatherGfxLoaded == FALSE) {
@@ -112,7 +112,7 @@ void Clouds_InitAll(void)
     }
 }
 
-void Clouds_Main(void)
+void Clouds_Main (void)
 {
     switch (gWeatherPtr->initStep) {
     case 0:
@@ -132,7 +132,7 @@ void Clouds_Main(void)
     }
 }
 
-bool8 Clouds_Finish(void)
+bool8 Clouds_Finish (void)
 {
     switch (gWeatherPtr->finishStep) {
     case 0:
@@ -149,27 +149,27 @@ bool8 Clouds_Finish(void)
     return FALSE;
 }
 
-void Sunny_InitVars(void)
+void Sunny_InitVars (void)
 {
     gWeatherPtr->gammaTargetIndex = 0;
     gWeatherPtr->gammaStepDelay = 20;
 }
 
-void Sunny_InitAll(void)
+void Sunny_InitAll (void)
 {
     Sunny_InitVars();
 }
 
-void Sunny_Main(void)
+void Sunny_Main (void)
 {
 }
 
-bool8 Sunny_Finish(void)
+bool8 Sunny_Finish (void)
 {
     return FALSE;
 }
 
-static void CreateCloudSprites(void)
+static void CreateCloudSprites (void)
 {
     u16 i;
     u8 spriteId;
@@ -196,7 +196,7 @@ static void CreateCloudSprites(void)
     gWeatherPtr->cloudSpritesCreated = TRUE;
 }
 
-static void DestroyCloudSprites(void)
+static void DestroyCloudSprites (void)
 {
     u16 i;
 
@@ -214,7 +214,7 @@ static void DestroyCloudSprites(void)
     gWeatherPtr->cloudSpritesCreated = FALSE;
 }
 
-static void UpdateCloudSprite(struct Sprite *sprite)
+static void UpdateCloudSprite (struct Sprite *sprite)
 {
     // Move 1 pixel left every 2 frames.
     sprite->data[0] = (sprite->data[0] + 1) & 1;
@@ -229,7 +229,7 @@ static void UpdateCloudSprite(struct Sprite *sprite)
 
 static void UpdateDroughtBlend(u8);
 
-void Drought_InitVars(void)
+void Drought_InitVars (void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->weatherGfxLoaded = FALSE;
@@ -237,7 +237,7 @@ void Drought_InitVars(void)
     gWeatherPtr->gammaStepDelay = 0;
 }
 
-void Drought_InitAll(void)
+void Drought_InitAll (void)
 {
     Drought_InitVars();
     while (gWeatherPtr->weatherGfxLoaded == FALSE) {
@@ -245,7 +245,7 @@ void Drought_InitAll(void)
     }
 }
 
-void Drought_Main(void)
+void Drought_Main (void)
 {
     switch (gWeatherPtr->initStep) {
     case 0:
@@ -279,12 +279,12 @@ void Drought_Main(void)
     }
 }
 
-bool8 Drought_Finish(void)
+bool8 Drought_Finish (void)
 {
     return FALSE;
 }
 
-void StartDroughtWeatherBlend(void)
+void StartDroughtWeatherBlend (void)
 {
     CreateTask(UpdateDroughtBlend, 0x50);
 }
@@ -294,7 +294,7 @@ void StartDroughtWeatherBlend(void)
 #define tBlendDelay data[2]
 #define tWinRange   data[3]
 
-static void UpdateDroughtBlend(u8 taskId)
+static void UpdateDroughtBlend (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -466,7 +466,7 @@ static const struct SpriteSheet sRainSpriteSheet =
     .tag = 0x1206,
 };
 
-void Rain_InitVars(void)
+void Rain_InitVars (void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->weatherGfxLoaded = FALSE;
@@ -479,7 +479,7 @@ void Rain_InitVars(void)
     SetRainStrengthFromSoundEffect(SE_RAIN);
 }
 
-void Rain_InitAll(void)
+void Rain_InitAll (void)
 {
     Rain_InitVars();
     while (!gWeatherPtr->weatherGfxLoaded) {
@@ -487,7 +487,7 @@ void Rain_InitAll(void)
     }
 }
 
-void Rain_Main(void)
+void Rain_Main (void)
 {
     switch (gWeatherPtr->initStep) {
     case 0:
@@ -508,7 +508,7 @@ void Rain_Main(void)
     }
 }
 
-bool8 Rain_Finish(void)
+bool8 Rain_Finish (void)
 {
     switch (gWeatherPtr->finishStep) {
     case 0:
@@ -541,7 +541,7 @@ bool8 Rain_Finish(void)
 #define tActive  data[5]
 #define tWaiting data[6]
 
-static void StartRainSpriteFall(struct Sprite *sprite)
+static void StartRainSpriteFall (struct Sprite *sprite)
 {
     u32 rand;
     u16 numFallingFrames;
@@ -579,7 +579,7 @@ static void StartRainSpriteFall(struct Sprite *sprite)
     sprite->tCounter = numFallingFrames;
 }
 
-static void UpdateRainSprite(struct Sprite *sprite)
+static void UpdateRainSprite (struct Sprite *sprite)
 {
     if (sprite->tState == 0) {
         // Raindrop is in its "falling" motion.
@@ -611,7 +611,7 @@ static void UpdateRainSprite(struct Sprite *sprite)
     }
 }
 
-static void WaitRainSprite(struct Sprite *sprite)
+static void WaitRainSprite (struct Sprite *sprite)
 {
     if (sprite->tCounter == 0) {
         StartRainSpriteFall(sprite);
@@ -621,7 +621,7 @@ static void WaitRainSprite(struct Sprite *sprite)
     }
 }
 
-static void InitRainSpriteMovement(struct Sprite *sprite, u16 val)
+static void InitRainSpriteMovement (struct Sprite *sprite, u16 val)
 {
     u16 numFallingFrames = sRainSpriteFallingDurations[gWeatherPtr->isDownpour][0];
     u16 numAdvanceRng = val / (sRainSpriteFallingDurations[gWeatherPtr->isDownpour][1] + numFallingFrames);
@@ -644,12 +644,12 @@ static void InitRainSpriteMovement(struct Sprite *sprite, u16 val)
     }
 }
 
-static void LoadRainSpriteSheet(void)
+static void LoadRainSpriteSheet (void)
 {
     LoadSpriteSheet(&sRainSpriteSheet);
 }
 
-static bool8 CreateRainSprite(void)
+static bool8 CreateRainSprite (void)
 {
     u8 spriteIndex;
     u8 spriteId;
@@ -695,7 +695,7 @@ static bool8 CreateRainSprite(void)
     return TRUE;
 }
 
-static bool8 UpdateVisibleRainSprites(void)
+static bool8 UpdateVisibleRainSprites (void)
 {
     if (gWeatherPtr->curRainSpriteIndex == gWeatherPtr->targetRainSpriteCount) {
         return FALSE;
@@ -714,7 +714,7 @@ static bool8 UpdateVisibleRainSprites(void)
     return TRUE;
 }
 
-static void DestroyRainSprites(void)
+static void DestroyRainSprites (void)
 {
     u16 i;
 
@@ -745,7 +745,7 @@ static bool8 CreateSnowflakeSprite(void);
 static bool8 DestroySnowflakeSprite(void);
 static void InitSnowflakeSpriteMovement(struct Sprite *);
 
-void Snow_InitVars(void)
+void Snow_InitVars (void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->weatherGfxLoaded = FALSE;
@@ -755,7 +755,7 @@ void Snow_InitVars(void)
     gWeatherPtr->snowflakeVisibleCounter = 0;
 }
 
-void Snow_InitAll(void)
+void Snow_InitAll (void)
 {
     u16 i;
 
@@ -768,7 +768,7 @@ void Snow_InitAll(void)
     }
 }
 
-void Snow_Main(void)
+void Snow_Main (void)
 {
     if (gWeatherPtr->initStep == 0 && !UpdateVisibleSnowflakeSprites()) {
         gWeatherPtr->weatherGfxLoaded = TRUE;
@@ -776,7 +776,7 @@ void Snow_Main(void)
     }
 }
 
-bool8 Snow_Finish(void)
+bool8 Snow_Finish (void)
 {
     switch (gWeatherPtr->finishStep) {
     case 0:
@@ -795,7 +795,7 @@ bool8 Snow_Finish(void)
     return FALSE;
 }
 
-static bool8 UpdateVisibleSnowflakeSprites(void)
+static bool8 UpdateVisibleSnowflakeSprites (void)
 {
     if (gWeatherPtr->snowflakeSpriteCount == gWeatherPtr->targetSnowflakeSpriteCount) {
         return FALSE;
@@ -874,7 +874,7 @@ static const struct SpriteTemplate sSnowflakeSpriteTemplate =
 #define tFallDuration data[6]
 #define tDeltaY2      data[7]
 
-static bool8 CreateSnowflakeSprite(void)
+static bool8 CreateSnowflakeSprite (void)
 {
     u8 spriteId = CreateSpriteAtEnd(&sSnowflakeSpriteTemplate, 0, 0, 78);
     if (spriteId == MAX_SPRITES) {
@@ -888,7 +888,7 @@ static bool8 CreateSnowflakeSprite(void)
     return TRUE;
 }
 
-static bool8 DestroySnowflakeSprite(void)
+static bool8 DestroySnowflakeSprite (void)
 {
     if (gWeatherPtr->snowflakeSpriteCount) {
         DestroySprite(gWeatherPtr->sprites.s1.snowflakeSprites[--gWeatherPtr->snowflakeSpriteCount]);
@@ -898,7 +898,7 @@ static bool8 DestroySnowflakeSprite(void)
     return FALSE;
 }
 
-static void InitSnowflakeSpriteMovement(struct Sprite *sprite)
+static void InitSnowflakeSpriteMovement (struct Sprite *sprite)
 {
     u16 rand;
     u16 x = ((sprite->tSnowflakeId * 5) & 7) * 30 + (Random() % 30);
@@ -917,7 +917,7 @@ static void InitSnowflakeSpriteMovement(struct Sprite *sprite)
     sprite->tFallCounter = 0;
 }
 
-static void WaitSnowflakeSprite(struct Sprite *sprite)
+static void WaitSnowflakeSprite (struct Sprite *sprite)
 {
     if (gWeatherPtr->unknown_6E2 > 18) {
         sprite->invisible = FALSE;
@@ -928,7 +928,7 @@ static void WaitSnowflakeSprite(struct Sprite *sprite)
     }
 }
 
-static void UpdateSnowflakeSprite(struct Sprite *sprite)
+static void UpdateSnowflakeSprite (struct Sprite *sprite)
 {
     s16 x;
     s16 y;
@@ -986,7 +986,7 @@ static void UpdateSnowflakeSprite(struct Sprite *sprite)
 // WEATHER_RAIN_THUNDERSTORM
 //------------------------------------------------------------------------------
 
-void Thunderstorm_InitVars(void)
+void Thunderstorm_InitVars (void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->weatherGfxLoaded = FALSE;
@@ -1001,7 +1001,7 @@ void Thunderstorm_InitVars(void)
     SetRainStrengthFromSoundEffect(SE_THUNDERSTORM);
 }
 
-void Thunderstorm_InitAll(void)
+void Thunderstorm_InitAll (void)
 {
     Thunderstorm_InitVars();
     while (gWeatherPtr->weatherGfxLoaded == FALSE) {
@@ -1016,7 +1016,7 @@ void Thunderstorm_InitAll(void)
 static void UpdateThunderSound(void);
 static void SetThunderCounter(u16);
 
-void Downpour_InitVars(void)
+void Downpour_InitVars (void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->weatherGfxLoaded = FALSE;
@@ -1030,7 +1030,7 @@ void Downpour_InitVars(void)
     SetRainStrengthFromSoundEffect(SE_DOWNPOUR);
 }
 
-void Downpour_InitAll(void)
+void Downpour_InitAll (void)
 {
     Downpour_InitVars();
     while (gWeatherPtr->weatherGfxLoaded == FALSE) {
@@ -1038,7 +1038,7 @@ void Downpour_InitAll(void)
     }
 }
 
-void Thunderstorm_Main(void)
+void Thunderstorm_Main (void)
 {
     UpdateThunderSound();
     switch (gWeatherPtr->initStep) {
@@ -1136,7 +1136,7 @@ void Thunderstorm_Main(void)
     }
 }
 
-bool8 Thunderstorm_Finish(void)
+bool8 Thunderstorm_Finish (void)
 {
     switch (gWeatherPtr->finishStep) {
     case 0:
@@ -1170,7 +1170,7 @@ bool8 Thunderstorm_Finish(void)
     return TRUE;
 }
 
-static void SetThunderCounter(u16 max)
+static void SetThunderCounter (u16 max)
 {
     if (gWeatherPtr->thunderTriggered == 0) {
         gWeatherPtr->thunderCounter = Random() % max;
@@ -1178,7 +1178,7 @@ static void SetThunderCounter(u16 max)
     }
 }
 
-static void UpdateThunderSound(void)
+static void UpdateThunderSound (void)
 {
     if (gWeatherPtr->thunderTriggered == 1) {
         if (gWeatherPtr->thunderCounter == 0) {
@@ -1296,7 +1296,7 @@ void FogHorizontal_Main(void);
 static void CreateFogHorizontalSprites(void);
 static void DestroyFogHorizontalSprites(void);
 
-void FogHorizontal_InitVars(void)
+void FogHorizontal_InitVars (void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->weatherGfxLoaded = FALSE;
@@ -1310,7 +1310,7 @@ void FogHorizontal_InitVars(void)
     }
 }
 
-void FogHorizontal_InitAll(void)
+void FogHorizontal_InitAll (void)
 {
     FogHorizontal_InitVars();
     while (gWeatherPtr->weatherGfxLoaded == FALSE) {
@@ -1318,7 +1318,7 @@ void FogHorizontal_InitAll(void)
     }
 }
 
-void FogHorizontal_Main(void)
+void FogHorizontal_Main (void)
 {
     gWeatherPtr->fogHScrollPosX = (gSpriteCoordOffsetX - gWeatherPtr->fogHScrollOffset) & 0xFF;
     if (++gWeatherPtr->fogHScrollCounter > 3) {
@@ -1344,7 +1344,7 @@ void FogHorizontal_Main(void)
     }
 }
 
-bool8 FogHorizontal_Finish(void)
+bool8 FogHorizontal_Finish (void)
 {
     gWeatherPtr->fogHScrollPosX = (gSpriteCoordOffsetX - gWeatherPtr->fogHScrollOffset) & 0xFF;
     if (++gWeatherPtr->fogHScrollCounter > 3) {
@@ -1374,7 +1374,7 @@ bool8 FogHorizontal_Finish(void)
 
 #define tSpriteColumn data[0]
 
-static void FogHorizontalSpriteCallback(struct Sprite *sprite)
+static void FogHorizontalSpriteCallback (struct Sprite *sprite)
 {
     sprite->pos2.y = (u8)gSpriteCoordOffsetY;
     sprite->pos1.x = gWeatherPtr->fogHScrollPosX + 32 + sprite->tSpriteColumn * 64;
@@ -1384,7 +1384,7 @@ static void FogHorizontalSpriteCallback(struct Sprite *sprite)
     }
 }
 
-static void CreateFogHorizontalSprites(void)
+static void CreateFogHorizontalSprites (void)
 {
     u16 i;
     u8 spriteId;
@@ -1414,7 +1414,7 @@ static void CreateFogHorizontalSprites(void)
     }
 }
 
-static void DestroyFogHorizontalSprites(void)
+static void DestroyFogHorizontalSprites (void)
 {
     u16 i;
 
@@ -1441,7 +1441,7 @@ static void CreateAshSprites(void);
 static void DestroyAshSprites(void);
 static void UpdateAshSprite(struct Sprite *);
 
-void Ash_InitVars(void)
+void Ash_InitVars (void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->weatherGfxLoaded = FALSE;
@@ -1454,7 +1454,7 @@ void Ash_InitVars(void)
     }
 }
 
-void Ash_InitAll(void)
+void Ash_InitAll (void)
 {
     Ash_InitVars();
     while (gWeatherPtr->weatherGfxLoaded == FALSE) {
@@ -1462,7 +1462,7 @@ void Ash_InitAll(void)
     }
 }
 
-void Ash_Main(void)
+void Ash_Main (void)
 {
     gWeatherPtr->ashBaseSpritesX = gSpriteCoordOffsetX & 0x1FF;
     while (gWeatherPtr->ashBaseSpritesX >= 240) {
@@ -1494,7 +1494,7 @@ void Ash_Main(void)
     }
 }
 
-bool8 Ash_Finish(void)
+bool8 Ash_Finish (void)
 {
     switch (gWeatherPtr->finishStep) {
     case 0:
@@ -1524,7 +1524,7 @@ static const struct SpriteSheet sAshSpriteSheet =
     .tag = 0x1202,
 };
 
-static void LoadAshSpriteSheet(void)
+static void LoadAshSpriteSheet (void)
 {
     LoadSpriteSheet(&sAshSpriteSheet);
 }
@@ -1571,7 +1571,7 @@ static const struct SpriteTemplate sAshSpriteTemplate =
 #define tSpriteColumn data[2]
 #define tSpriteRow    data[3]
 
-static void CreateAshSprites(void)
+static void CreateAshSprites (void)
 {
     u8 i;
     u8 spriteId;
@@ -1596,7 +1596,7 @@ static void CreateAshSprites(void)
     }
 }
 
-static void DestroyAshSprites(void)
+static void DestroyAshSprites (void)
 {
     u16 i;
 
@@ -1612,7 +1612,7 @@ static void DestroyAshSprites(void)
     }
 }
 
-static void UpdateAshSprite(struct Sprite *sprite)
+static void UpdateAshSprite (struct Sprite *sprite)
 {
     if (++sprite->tCounterY > 5) {
         sprite->tCounterY = 0;
@@ -1641,7 +1641,7 @@ static void CreateFogDiagonalSprites(void);
 static void DestroyFogDiagonalSprites(void);
 static void UpdateFogDiagonalSprite(struct Sprite *);
 
-void FogDiagonal_InitVars(void)
+void FogDiagonal_InitVars (void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->weatherGfxLoaded = 0;
@@ -1660,7 +1660,7 @@ void FogDiagonal_InitVars(void)
     }
 }
 
-void FogDiagonal_InitAll(void)
+void FogDiagonal_InitAll (void)
 {
     FogDiagonal_InitVars();
     while (gWeatherPtr->weatherGfxLoaded == FALSE) {
@@ -1668,7 +1668,7 @@ void FogDiagonal_InitAll(void)
     }
 }
 
-void FogDiagonal_Main(void)
+void FogDiagonal_Main (void)
 {
     UpdateFogDiagonalMovement();
     switch (gWeatherPtr->initStep) {
@@ -1690,7 +1690,7 @@ void FogDiagonal_Main(void)
     }
 }
 
-bool8 FogDiagonal_Finish(void)
+bool8 FogDiagonal_Finish (void)
 {
     UpdateFogDiagonalMovement();
     switch (gWeatherPtr->finishStep) {
@@ -1714,7 +1714,7 @@ bool8 FogDiagonal_Finish(void)
     return TRUE;
 }
 
-static void UpdateFogDiagonalMovement(void)
+static void UpdateFogDiagonalMovement (void)
 {
     if (++gWeatherPtr->fogDScrollXCounter > 2) {
         gWeatherPtr->fogDXOffset++;
@@ -1776,7 +1776,7 @@ static const struct SpriteTemplate sFogDiagonalSpriteTemplate =
 #define tSpriteColumn data[0]
 #define tSpriteRow    data[1]
 
-static void CreateFogDiagonalSprites(void)
+static void CreateFogDiagonalSprites (void)
 {
     u16 i;
     struct SpriteSheet fogDiagonalSpriteSheet;
@@ -1802,7 +1802,7 @@ static void CreateFogDiagonalSprites(void)
     }
 }
 
-static void DestroyFogDiagonalSprites(void)
+static void DestroyFogDiagonalSprites (void)
 {
     u16 i;
 
@@ -1818,7 +1818,7 @@ static void DestroyFogDiagonalSprites(void)
     }
 }
 
-static void UpdateFogDiagonalSprite(struct Sprite *sprite)
+static void UpdateFogDiagonalSprite (struct Sprite *sprite)
 {
     sprite->pos2.y = gWeatherPtr->fogDPosY;
     sprite->pos1.x = gWeatherPtr->fogDBaseSpritesX + 32 + sprite->tSpriteColumn * 64;
@@ -1846,7 +1846,7 @@ static void UpdateSandstormSwirlSprite(struct Sprite *);
 
 #define MIN_SANDSTORM_WAVE_INDEX 0x20
 
-void Sandstorm_InitVars(void)
+void Sandstorm_InitVars (void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->weatherGfxLoaded = 0;
@@ -1865,7 +1865,7 @@ void Sandstorm_InitVars(void)
     }
 }
 
-void Sandstorm_InitAll(void)
+void Sandstorm_InitAll (void)
 {
     Sandstorm_InitVars();
     while (!gWeatherPtr->weatherGfxLoaded) {
@@ -1873,7 +1873,7 @@ void Sandstorm_InitAll(void)
     }
 }
 
-void Sandstorm_Main(void)
+void Sandstorm_Main (void)
 {
     UpdateSandstormMovement();
     UpdateSandstormWaveIndex();
@@ -1900,7 +1900,7 @@ void Sandstorm_Main(void)
     }
 }
 
-bool8 Sandstorm_Finish(void)
+bool8 Sandstorm_Finish (void)
 {
     UpdateSandstormMovement();
     UpdateSandstormWaveIndex();
@@ -1925,7 +1925,7 @@ bool8 Sandstorm_Finish(void)
     return TRUE;
 }
 
-static void UpdateSandstormWaveIndex(void)
+static void UpdateSandstormWaveIndex (void)
 {
     if (gWeatherPtr->sandstormWaveCounter++ > 4) {
         gWeatherPtr->sandstormWaveIndex++;
@@ -1933,7 +1933,7 @@ static void UpdateSandstormWaveIndex(void)
     }
 }
 
-static void UpdateSandstormMovement(void)
+static void UpdateSandstormMovement (void)
 {
     gWeatherPtr->sandstormXOffset -= gSineTable[gWeatherPtr->sandstormWaveIndex] * 4;
     gWeatherPtr->sandstormYOffset -= gSineTable[gWeatherPtr->sandstormWaveIndex];
@@ -1941,7 +1941,7 @@ static void UpdateSandstormMovement(void)
     gWeatherPtr->sandstormPosY = gSpriteCoordOffsetY + (gWeatherPtr->sandstormYOffset >> 8);
 }
 
-static void DestroySandstormSprites(void)
+static void DestroySandstormSprites (void)
 {
     u16 i;
 
@@ -2027,7 +2027,7 @@ static const struct SpriteSheet sSandstormSpriteSheet =
 #define tRadiusCounter data[2]
 #define tEntranceDelay data[3]
 
-static void CreateSandstormSprites(void)
+static void CreateSandstormSprites (void)
 {
     u16 i;
     u8 spriteId;
@@ -2052,7 +2052,7 @@ static void CreateSandstormSprites(void)
 
 static const u16 sSwirlEntranceDelays[] = {0, 120, 80, 160, 40, 0};
 
-static void CreateSwirlSandstormSprites(void)
+static void CreateSwirlSandstormSprites (void)
 {
     u16 i;
     u8 spriteId;
@@ -2080,7 +2080,7 @@ static void CreateSwirlSandstormSprites(void)
     }
 }
 
-static void UpdateSandstormSprite(struct Sprite *sprite)
+static void UpdateSandstormSprite (struct Sprite *sprite)
 {
     sprite->pos2.y = gWeatherPtr->sandstormPosY;
     sprite->pos1.x = gWeatherPtr->sandstormBaseSpritesX + 32 + sprite->tSpriteColumn * 64;
@@ -2090,14 +2090,14 @@ static void UpdateSandstormSprite(struct Sprite *sprite)
     }
 }
 
-static void WaitSandSwirlSpriteEntrance(struct Sprite *sprite)
+static void WaitSandSwirlSpriteEntrance (struct Sprite *sprite)
 {
     if (--sprite->tEntranceDelay == -1) {
         sprite->callback = UpdateSandstormSwirlSprite;
     }
 }
 
-static void UpdateSandstormSwirlSprite(struct Sprite *sprite)
+static void UpdateSandstormSwirlSprite (struct Sprite *sprite)
 {
     u32 x, y;
 
@@ -2129,23 +2129,23 @@ static void UpdateSandstormSwirlSprite(struct Sprite *sprite)
 // WEATHER_SHADE
 //------------------------------------------------------------------------------
 
-void Shade_InitVars(void)
+void Shade_InitVars (void)
 {
     gWeatherPtr->initStep = 0;
     gWeatherPtr->gammaTargetIndex = 3;
     gWeatherPtr->gammaStepDelay = 20;
 }
 
-void Shade_InitAll(void)
+void Shade_InitAll (void)
 {
     Shade_InitVars();
 }
 
-void Shade_Main(void)
+void Shade_Main (void)
 {
 }
 
-bool8 Shade_Finish(void)
+bool8 Shade_Finish (void)
 {
     return FALSE;
 }
@@ -2184,7 +2184,7 @@ static const s16 sBubbleStartCoords[][2] =
     {256, 160},
 };
 
-void Bubbles_InitVars(void)
+void Bubbles_InitVars (void)
 {
     FogHorizontal_InitVars();
     if (!gWeatherPtr->bubblesSpritesCreated) {
@@ -2196,7 +2196,7 @@ void Bubbles_InitVars(void)
     }
 }
 
-void Bubbles_InitAll(void)
+void Bubbles_InitAll (void)
 {
     Bubbles_InitVars();
     while (!gWeatherPtr->weatherGfxLoaded) {
@@ -2204,7 +2204,7 @@ void Bubbles_InitAll(void)
     }
 }
 
-void Bubbles_Main(void)
+void Bubbles_Main (void)
 {
     FogHorizontal_Main();
     if (++gWeatherPtr->bubblesDelayCounter > sBubbleStartDelays[gWeatherPtr->bubblesDelayIndex]) {
@@ -2220,7 +2220,7 @@ void Bubbles_Main(void)
     }
 }
 
-bool8 Bubbles_Finish(void)
+bool8 Bubbles_Finish (void)
 {
     if (!FogHorizontal_Finish()) {
         DestroyBubbleSprites();
@@ -2257,7 +2257,7 @@ static const struct SpriteTemplate sBubbleSpriteTemplate =
 #define tScrollXDir     data[1]
 #define tCounter        data[2]
 
-static void CreateBubbleSprite(u16 coordsIndex)
+static void CreateBubbleSprite (u16 coordsIndex)
 {
     s16 x = sBubbleStartCoords[coordsIndex][0];
     s16 y = sBubbleStartCoords[coordsIndex][1] - gSpriteCoordOffsetY;
@@ -2272,7 +2272,7 @@ static void CreateBubbleSprite(u16 coordsIndex)
     }
 }
 
-static void DestroyBubbleSprites(void)
+static void DestroyBubbleSprites (void)
 {
     u16 i;
 
@@ -2288,7 +2288,7 @@ static void DestroyBubbleSprites(void)
     }
 }
 
-static void UpdateBubbleSprite(struct Sprite *sprite)
+static void UpdateBubbleSprite (struct Sprite *sprite)
 {
     ++sprite->tScrollXCounter;
     if (++sprite->tScrollXCounter > 8) { // double increment
@@ -2317,13 +2317,13 @@ static void UpdateBubbleSprite(struct Sprite *sprite)
 //------------------------------------------------------------------------------
 
 // Unused function.
-static void UnusedSetCurrentAbnormalWeather(u32 a0, u32 a1)
+static void UnusedSetCurrentAbnormalWeather (u32 a0, u32 a1)
 {
     gCurrentAbnormalWeather = a0;
     gUnusedWeatherRelated = a1;
 }
 
-static void Task_DoAbnormalWeather(u8 taskId)
+static void Task_DoAbnormalWeather (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -2347,7 +2347,7 @@ static void Task_DoAbnormalWeather(u8 taskId)
     }
 }
 
-static void CreateAbnormalWeatherTask(void)
+static void CreateAbnormalWeatherTask (void)
 {
     u8 taskId = CreateTask(Task_DoAbnormalWeather, 0);
     s16 *data = gTasks[taskId].data;
@@ -2369,38 +2369,38 @@ static void CreateAbnormalWeatherTask(void)
 static u8 TranslateWeatherNum(u8);
 static void UpdateRainCounter(u8, u8);
 
-void SetSav1Weather(u32 weather)
+void SetSav1Weather (u32 weather)
 {
     u8 oldWeather = gSaveBlock1Ptr->weather;
     gSaveBlock1Ptr->weather = TranslateWeatherNum(weather);
     UpdateRainCounter(gSaveBlock1Ptr->weather, oldWeather);
 }
 
-u8 GetSav1Weather(void)
+u8 GetSav1Weather (void)
 {
     return gSaveBlock1Ptr->weather;
 }
 
-void SetSav1WeatherFromCurrMapHeader(void)
+void SetSav1WeatherFromCurrMapHeader (void)
 {
     u8 oldWeather = gSaveBlock1Ptr->weather;
     gSaveBlock1Ptr->weather = TranslateWeatherNum(gMapHeader.weather);
     UpdateRainCounter(gSaveBlock1Ptr->weather, oldWeather);
 }
 
-void SetWeather(u32 weather)
+void SetWeather (u32 weather)
 {
     SetSav1Weather(weather);
     SetNextWeather(GetSav1Weather());
 }
 
-void SetWeather_Unused(u32 weather)
+void SetWeather_Unused (u32 weather)
 {
     SetSav1Weather(weather);
     SetCurrentAndNextWeather(GetSav1Weather());
 }
 
-void DoCurrentWeather(void)
+void DoCurrentWeather (void)
 {
     u8 weather = GetSav1Weather();
 
@@ -2418,7 +2418,7 @@ void DoCurrentWeather(void)
     SetNextWeather(weather);
 }
 
-void ResumePausedWeather(void)
+void ResumePausedWeather (void)
 {
     u8 weather = GetSav1Weather();
 
@@ -2451,7 +2451,7 @@ static const u8 sWeatherCycleRoute123[] =
     WEATHER_SUNNY,
 };
 
-static u8 TranslateWeatherNum(u8 weather)
+static u8 TranslateWeatherNum (u8 weather)
 {
     switch (weather) {
     case WEATHER_NONE:               return WEATHER_NONE;
@@ -2476,14 +2476,14 @@ static u8 TranslateWeatherNum(u8 weather)
     }
 }
 
-void UpdateWeatherPerDay(u16 increment)
+void UpdateWeatherPerDay (u16 increment)
 {
     u16 weatherStage = gSaveBlock1Ptr->weatherCycleStage + increment;
     weatherStage %= 4;
     gSaveBlock1Ptr->weatherCycleStage = weatherStage;
 }
 
-static void UpdateRainCounter(u8 newWeather, u8 oldWeather)
+static void UpdateRainCounter (u8 newWeather, u8 oldWeather)
 {
     if (newWeather != oldWeather
         && (newWeather == WEATHER_RAIN || newWeather == WEATHER_RAIN_THUNDERSTORM)) {

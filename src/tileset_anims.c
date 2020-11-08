@@ -544,13 +544,13 @@ static const u16 *const gTilesetAnims_BattleDomeFloorLightPals[] = {
     gTilesetAnims_BattleDomePals0_3,
 };
 
-static void ResetTilesetAnimBuffer(void)
+static void ResetTilesetAnimBuffer (void)
 {
     sTilesetDMA3TransferBufferSize = 0;
     CpuFill32(0, sTilesetDMA3TransferBuffer, sizeof sTilesetDMA3TransferBuffer);
 }
 
-static void AppendTilesetAnimToBuffer(const u16 *src, u16 *dest, u16 size)
+static void AppendTilesetAnimToBuffer (const u16 *src, u16 *dest, u16 size)
 {
     if (sTilesetDMA3TransferBufferSize < 20) {
         sTilesetDMA3TransferBuffer[sTilesetDMA3TransferBufferSize].src = src;
@@ -560,7 +560,7 @@ static void AppendTilesetAnimToBuffer(const u16 *src, u16 *dest, u16 size)
     }
 }
 
-void TransferTilesetAnimsBuffer(void)
+void TransferTilesetAnimsBuffer (void)
 {
     int i;
 
@@ -571,19 +571,19 @@ void TransferTilesetAnimsBuffer(void)
     sTilesetDMA3TransferBufferSize = 0;
 }
 
-void InitTilesetAnimations(void)
+void InitTilesetAnimations (void)
 {
     ResetTilesetAnimBuffer();
     _InitPrimaryTilesetAnimation();
     _InitSecondaryTilesetAnimation();
 }
 
-void InitSecondaryTilesetAnimation(void)
+void InitSecondaryTilesetAnimation (void)
 {
     _InitSecondaryTilesetAnimation();
 }
 
-void UpdateTilesetAnimations(void)
+void UpdateTilesetAnimations (void)
 {
     ResetTilesetAnimBuffer();
     if (++sPrimaryTilesetAnimCounter >= sPrimaryTilesetAnimCounterMax) {
@@ -601,7 +601,7 @@ void UpdateTilesetAnimations(void)
     }
 }
 
-static void _InitPrimaryTilesetAnimation(void)
+static void _InitPrimaryTilesetAnimation (void)
 {
     sPrimaryTilesetAnimCounter = 0;
     sPrimaryTilesetAnimCounterMax = 0;
@@ -611,7 +611,7 @@ static void _InitPrimaryTilesetAnimation(void)
     }
 }
 
-static void _InitSecondaryTilesetAnimation(void)
+static void _InitSecondaryTilesetAnimation (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = 0;
@@ -621,21 +621,21 @@ static void _InitSecondaryTilesetAnimation(void)
     }
 }
 
-void InitTilesetAnim_General(void)
+void InitTilesetAnim_General (void)
 {
     sPrimaryTilesetAnimCounter = 0;
     sPrimaryTilesetAnimCounterMax = 256;
     sPrimaryTilesetAnimCallback = TilesetAnim_General;
 }
 
-void InitTilesetAnim_Building(void)
+void InitTilesetAnim_Building (void)
 {
     sPrimaryTilesetAnimCounter = 0;
     sPrimaryTilesetAnimCounterMax = 256;
     sPrimaryTilesetAnimCallback = TilesetAnim_Building;
 }
 
-static void TilesetAnim_General(u16 timer)
+static void TilesetAnim_General (u16 timer)
 {
     if (timer % 16 == 0) {
         QueueAnimTiles_General_Flower(timer >> 4);
@@ -654,199 +654,199 @@ static void TilesetAnim_General(u16 timer)
     }
 }
 
-static void TilesetAnim_Building(u16 timer)
+static void TilesetAnim_Building (u16 timer)
 {
     if (timer % 8 == 0) {
         QueueAnimTiles_Building_TVTurnedOn(timer >> 3);
     }
 }
 
-static void QueueAnimTiles_General_Flower(u16 timer)
+static void QueueAnimTiles_General_Flower (u16 timer)
 {
     u16 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_General_Flower[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(508)), 0x80);
 }
 
-static void QueueAnimTiles_General_Water(u16 timer)
+static void QueueAnimTiles_General_Water (u16 timer)
 {
     u8 i = timer % 8;
     AppendTilesetAnimToBuffer(gTilesetAnims_General_Water[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(432)), 0x3C0);
 }
 
-static void QueueAnimTiles_General_SandWaterEdge(u16 timer)
+static void QueueAnimTiles_General_SandWaterEdge (u16 timer)
 {
     u16 i = timer % 8;
     AppendTilesetAnimToBuffer(gTilesetAnims_General_SandWaterEdge[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(464)), 0x140);
 }
 
-static void QueueAnimTiles_General_Waterfall(u16 timer)
+static void QueueAnimTiles_General_Waterfall (u16 timer)
 {
     u16 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_General_Waterfall[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(496)), 0xc0);
 }
 
-void InitTilesetAnim_Petalburg(void)
+void InitTilesetAnim_Petalburg (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = NULL;
 }
 
-void InitTilesetAnim_Rustboro(void)
+void InitTilesetAnim_Rustboro (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_Rustboro;
 }
 
-void InitTilesetAnim_Dewford(void)
+void InitTilesetAnim_Dewford (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_Dewford;
 }
 
-void InitTilesetAnim_Slateport(void)
+void InitTilesetAnim_Slateport (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_Slateport;
 }
 
-void InitTilesetAnim_Mauville(void)
+void InitTilesetAnim_Mauville (void)
 {
     sSecondaryTilesetAnimCounter = sPrimaryTilesetAnimCounter;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_Mauville;
 }
 
-void InitTilesetAnim_Lavaridge(void)
+void InitTilesetAnim_Lavaridge (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_Lavaridge;
 }
 
-void InitTilesetAnim_Fallarbor(void)
+void InitTilesetAnim_Fallarbor (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = NULL;
 }
 
-void InitTilesetAnim_Fortree(void)
+void InitTilesetAnim_Fortree (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = NULL;
 }
 
-void InitTilesetAnim_Lilycove(void)
+void InitTilesetAnim_Lilycove (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = NULL;
 }
 
-void InitTilesetAnim_Mossdeep(void)
+void InitTilesetAnim_Mossdeep (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = NULL;
 }
 
-void InitTilesetAnim_EverGrande(void)
+void InitTilesetAnim_EverGrande (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_EverGrande;
 }
 
-void InitTilesetAnim_Pacifidlog(void)
+void InitTilesetAnim_Pacifidlog (void)
 {
     sSecondaryTilesetAnimCounter = sPrimaryTilesetAnimCounter;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_Pacifidlog;
 }
 
-void InitTilesetAnim_Sootopolis(void)
+void InitTilesetAnim_Sootopolis (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_Sootopolis;
 }
 
-void InitTilesetAnim_BattleFrontierOutsideWest(void)
+void InitTilesetAnim_BattleFrontierOutsideWest (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_BattleFrontierOutsideWest;
 }
 
-void InitTilesetAnim_BattleFrontierOutsideEast(void)
+void InitTilesetAnim_BattleFrontierOutsideEast (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_BattleFrontierOutsideEast;
 }
 
-void InitTilesetAnim_Underwater(void)
+void InitTilesetAnim_Underwater (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = 128;
     sSecondaryTilesetAnimCallback = TilesetAnim_Underwater;
 }
 
-void InitTilesetAnim_SootopolisGym(void)
+void InitTilesetAnim_SootopolisGym (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = 240;
     sSecondaryTilesetAnimCallback = TilesetAnim_SootopolisGym;
 }
 
-void InitTilesetAnim_Cave(void)
+void InitTilesetAnim_Cave (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_Cave;
 }
 
-void InitTilesetAnim_EliteFour(void)
+void InitTilesetAnim_EliteFour (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = 128;
     sSecondaryTilesetAnimCallback = TilesetAnim_EliteFour;
 }
 
-void InitTilesetAnim_MauvilleGym(void)
+void InitTilesetAnim_MauvilleGym (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_MauvilleGym;
 }
 
-void InitTilesetAnim_BikeShop(void)
+void InitTilesetAnim_BikeShop (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_BikeShop;
 }
 
-void InitTilesetAnim_BattlePyramid(void)
+void InitTilesetAnim_BattlePyramid (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_BattlePyramid;
 }
 
-void InitTilesetAnim_BattleDome(void)
+void InitTilesetAnim_BattleDome (void)
 {
     sSecondaryTilesetAnimCounter = 0;
     sSecondaryTilesetAnimCounterMax = sPrimaryTilesetAnimCounterMax;
     sSecondaryTilesetAnimCallback = TilesetAnim_BattleDome;
 }
 
-static void TilesetAnim_Rustboro(u16 timer)
+static void TilesetAnim_Rustboro (u16 timer)
 {
     if (timer % 8 == 0) {
         QueueAnimTiles_Rustboro_WindyWater(timer >> 3, 0);
@@ -875,21 +875,21 @@ static void TilesetAnim_Rustboro(u16 timer)
     }
 }
 
-static void TilesetAnim_Dewford(u16 timer)
+static void TilesetAnim_Dewford (u16 timer)
 {
     if (timer % 8 == 0) {
         QueueAnimTiles_Dewford_Flag(timer >> 3);
     }
 }
 
-static void TilesetAnim_Slateport(u16 timer)
+static void TilesetAnim_Slateport (u16 timer)
 {
     if (timer % 16 == 0) {
         QueueAnimTiles_Slateport_Balloons(timer >> 4);
     }
 }
 
-static void TilesetAnim_Mauville(u16 timer)
+static void TilesetAnim_Mauville (u16 timer)
 {
     if (timer % 8 == 0) {
         QueueAnimTiles_Mauville_Flowers(timer >> 3, 0);
@@ -917,7 +917,7 @@ static void TilesetAnim_Mauville(u16 timer)
     }
 }
 
-static void TilesetAnim_Lavaridge(u16 timer)
+static void TilesetAnim_Lavaridge (u16 timer)
 {
     if (timer % 16 == 0) {
         QueueAnimTiles_Lavaridge_Steam(timer >> 4);
@@ -927,7 +927,7 @@ static void TilesetAnim_Lavaridge(u16 timer)
     }
 }
 
-static void TilesetAnim_EverGrande(u16 timer)
+static void TilesetAnim_EverGrande (u16 timer)
 {
     if (timer % 8 == 0) {
         QueueAnimTiles_EverGrande_Flowers(timer >> 3, 0);
@@ -955,7 +955,7 @@ static void TilesetAnim_EverGrande(u16 timer)
     }
 }
 
-static void TilesetAnim_Pacifidlog(u16 timer)
+static void TilesetAnim_Pacifidlog (u16 timer)
 {
     if (timer % 16 == 0) {
         QueueAnimTiles_Pacifidlog_LogBridges(timer >> 4);
@@ -965,48 +965,48 @@ static void TilesetAnim_Pacifidlog(u16 timer)
     }
 }
 
-static void TilesetAnim_Sootopolis(u16 timer)
+static void TilesetAnim_Sootopolis (u16 timer)
 {
     if (timer % 16 == 0) {
         QueueAnimTiles_Sootopolis_StormyWater(timer >> 4);
     }
 }
 
-static void TilesetAnim_Underwater(u16 timer)
+static void TilesetAnim_Underwater (u16 timer)
 {
     if (timer % 16 == 0) {
         QueueAnimTiles_Underwater_Seaweed(timer >> 4);
     }
 }
 
-static void TilesetAnim_Cave(u16 timer)
+static void TilesetAnim_Cave (u16 timer)
 {
     if (timer % 16 == 1) {
         QueueAnimTiles_Cave_Lava(timer >> 4);
     }
 }
 
-static void TilesetAnim_BattleFrontierOutsideWest(u16 timer)
+static void TilesetAnim_BattleFrontierOutsideWest (u16 timer)
 {
     if (timer % 8 == 0) {
         QueueAnimTiles_BattleFrontierOutsideWest_Flag(timer >> 3);
     }
 }
 
-static void TilesetAnim_BattleFrontierOutsideEast(u16 timer)
+static void TilesetAnim_BattleFrontierOutsideEast (u16 timer)
 {
     if (timer % 8 == 0) {
         QueueAnimTiles_BattleFrontierOutsideEast_Flag(timer >> 3);
     }
 }
 
-static void QueueAnimTiles_General_LandWaterEdge(u16 timer)
+static void QueueAnimTiles_General_LandWaterEdge (u16 timer)
 {
     u16 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_General_LandWaterEdge[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(480)), 0x140);
 }
 
-static void QueueAnimTiles_Lavaridge_Steam(u8 timer)
+static void QueueAnimTiles_Lavaridge_Steam (u8 timer)
 {
     u8 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_Lavaridge_Steam[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 288)), 0x80);
@@ -1015,25 +1015,25 @@ static void QueueAnimTiles_Lavaridge_Steam(u8 timer)
     AppendTilesetAnimToBuffer(gTilesetAnims_Lavaridge_Steam[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 292)), 0x80);
 }
 
-static void QueueAnimTiles_Pacifidlog_LogBridges(u8 timer)
+static void QueueAnimTiles_Pacifidlog_LogBridges (u8 timer)
 {
     u8 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_Pacifidlog_LogBridges[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 464)), 0x3C0);
 }
 
-static void QueueAnimTiles_Underwater_Seaweed(u8 timer)
+static void QueueAnimTiles_Underwater_Seaweed (u8 timer)
 {
     u8 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_Underwater_Seaweed[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 496)), 0x80);
 }
 
-static void QueueAnimTiles_Pacifidlog_WaterCurrents(u8 timer)
+static void QueueAnimTiles_Pacifidlog_WaterCurrents (u8 timer)
 {
     u8 i = timer % 8;
     AppendTilesetAnimToBuffer(gTilesetAnims_Pacifidlog_WaterCurrents[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 496)), 0x100);
 }
 
-static void QueueAnimTiles_Mauville_Flowers(u16 timer_div, u8 timer_mod)
+static void QueueAnimTiles_Mauville_Flowers (u16 timer_div, u8 timer_mod)
 {
     timer_div -= timer_mod;
     if (timer_div < 12) { // almost certainly a typo
@@ -1047,7 +1047,7 @@ static void QueueAnimTiles_Mauville_Flowers(u16 timer_div, u8 timer_mod)
     }
 }
 
-static void QueueAnimTiles_Rustboro_WindyWater(u16 timer_div, u8 timer_mod)
+static void QueueAnimTiles_Rustboro_WindyWater (u16 timer_div, u8 timer_mod)
 {
     timer_div -= timer_mod;
     timer_div %= 8;
@@ -1056,19 +1056,19 @@ static void QueueAnimTiles_Rustboro_WindyWater(u16 timer_div, u8 timer_mod)
     }
 }
 
-static void QueueAnimTiles_Rustboro_Fountain(u16 timer)
+static void QueueAnimTiles_Rustboro_Fountain (u16 timer)
 {
     u16 i = timer % 2;
     AppendTilesetAnimToBuffer(gTilesetAnims_Rustboro_Fountain[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 448)), 0x80);
 }
 
-static void QueueAnimTiles_Lavaridge_Lava(u16 timer)
+static void QueueAnimTiles_Lavaridge_Lava (u16 timer)
 {
     u16 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_Lavaridge_Cave_Lava[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 160)), 0x80);
 }
 
-static void QueueAnimTiles_EverGrande_Flowers(u16 timer_div, u8 timer_mod)
+static void QueueAnimTiles_EverGrande_Flowers (u16 timer_div, u8 timer_mod)
 {
     timer_div -= timer_mod;
     timer_div %= 8;
@@ -1076,51 +1076,51 @@ static void QueueAnimTiles_EverGrande_Flowers(u16 timer_div, u8 timer_mod)
     AppendTilesetAnimToBuffer(gTilesetAnims_EverGrande_Flowers[timer_div], gTilesetAnims_EverGrande_VDests[timer_mod], 0x80);
 }
 
-static void QueueAnimTiles_Cave_Lava(u16 timer)
+static void QueueAnimTiles_Cave_Lava (u16 timer)
 {
     u16 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_Lavaridge_Cave_Lava[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 416)), 0x80);
 }
 
-static void QueueAnimTiles_Dewford_Flag(u16 timer)
+static void QueueAnimTiles_Dewford_Flag (u16 timer)
 {
     u16 id = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_Dewford_Flag[id], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 170)), 0xC0);
 }
 
-static void QueueAnimTiles_BattleFrontierOutsideWest_Flag(u16 timer)
+static void QueueAnimTiles_BattleFrontierOutsideWest_Flag (u16 timer)
 {
     u16 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_BattleFrontierOutsideWest_Flag[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 218)), 0xC0);
 }
 
-static void QueueAnimTiles_BattleFrontierOutsideEast_Flag(u16 timer)
+static void QueueAnimTiles_BattleFrontierOutsideEast_Flag (u16 timer)
 {
     u16 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_BattleFrontierOutsideEast_Flag[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 218)), 0xC0);
 }
 
-static void QueueAnimTiles_Slateport_Balloons(u16 timer)
+static void QueueAnimTiles_Slateport_Balloons (u16 timer)
 {
     u16 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_Slateport_Balloons[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 224)), 0x80);
 }
 
-static void TilesetAnim_MauvilleGym(u16 timer)
+static void TilesetAnim_MauvilleGym (u16 timer)
 {
     if (timer % 2 == 0) {
         QueueAnimTiles_MauvilleGym_ElectricGates(timer >> 1);
     }
 }
 
-static void TilesetAnim_SootopolisGym(u16 timer)
+static void TilesetAnim_SootopolisGym (u16 timer)
 {
     if (timer % 8 == 0) {
         QueueAnimTiles_SootopolisGym_Waterfalls(timer >> 3);
     }
 }
 
-static void TilesetAnim_EliteFour(u16 timer)
+static void TilesetAnim_EliteFour (u16 timer)
 {
     if (timer % 64 == 1) {
         QueueAnimTiles_EliteFour_GroundLights(timer >> 6);
@@ -1130,14 +1130,14 @@ static void TilesetAnim_EliteFour(u16 timer)
     }
 }
 
-static void TilesetAnim_BikeShop(u16 timer)
+static void TilesetAnim_BikeShop (u16 timer)
 {
     if (timer % 4 == 0) {
         QueueAnimTiles_BikeShop_BlinkingLights(timer >> 2);
     }
 }
 
-static void TilesetAnim_BattlePyramid(u16 timer)
+static void TilesetAnim_BattlePyramid (u16 timer)
 {
     if (timer % 8 == 0) {
         QueueAnimTiles_BattlePyramid_Torch(timer >> 3);
@@ -1145,76 +1145,76 @@ static void TilesetAnim_BattlePyramid(u16 timer)
     }
 }
 
-static void TilesetAnim_BattleDome(u16 timer)
+static void TilesetAnim_BattleDome (u16 timer)
 {
     if (timer % 4 == 0) {
         BlendAnimPalette_BattleDome_FloorLights(timer >> 2);
     }
 }
 
-static void TilesetAnim_BattleDome2(u16 timer)
+static void TilesetAnim_BattleDome2 (u16 timer)
 {
     if (timer % 4 == 0) {
         BlendAnimPalette_BattleDome_FloorLightsNoBlend(timer >> 2);
     }
 }
 
-static void QueueAnimTiles_Building_TVTurnedOn(u16 timer)
+static void QueueAnimTiles_Building_TVTurnedOn (u16 timer)
 {
     u16 i = timer % 2;
     AppendTilesetAnimToBuffer(gTilesetAnims_Building_TvTurnedOn[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(496)), 0x80);
 }
 
-static void QueueAnimTiles_SootopolisGym_Waterfalls(u16 timer)
+static void QueueAnimTiles_SootopolisGym_Waterfalls (u16 timer)
 {
     u16 i = timer % 3;
     AppendTilesetAnimToBuffer(gTilesetAnims_SootopolisGym_SideWaterfall[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 496)), 0x180);
     AppendTilesetAnimToBuffer(gTilesetAnims_SootopolisGym_FrontWaterfall[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 464)), 0x280);
 }
 
-static void QueueAnimTiles_EliteFour_WallLights(u16 timer)
+static void QueueAnimTiles_EliteFour_WallLights (u16 timer)
 {
     u16 i = timer % 4;
     AppendTilesetAnimToBuffer(gTilesetAnims_EliteFour_WallLights[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 504)), 0x20);
 }
 
-static void QueueAnimTiles_EliteFour_GroundLights(u16 timer)
+static void QueueAnimTiles_EliteFour_GroundLights (u16 timer)
 {
     u16 i = timer % 2;
     AppendTilesetAnimToBuffer(gTilesetAnims_EliteFour_FloorLight[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 480)), 0x80);
 }
 
-static void QueueAnimTiles_MauvilleGym_ElectricGates(u16 timer)
+static void QueueAnimTiles_MauvilleGym_ElectricGates (u16 timer)
 {
     u16 i = timer % 2;
     AppendTilesetAnimToBuffer(gTilesetAnims_MauvilleGym_ElectricGates[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 144)), 0x200);
 }
 
-static void QueueAnimTiles_BikeShop_BlinkingLights(u16 timer)
+static void QueueAnimTiles_BikeShop_BlinkingLights (u16 timer)
 {
     u16 i = timer % 2;
     AppendTilesetAnimToBuffer(gTilesetAnims_BikeShop_BlinkingLights[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 496)), 0x120);
 }
 
-static void QueueAnimTiles_Sootopolis_StormyWater(u16 timer)
+static void QueueAnimTiles_Sootopolis_StormyWater (u16 timer)
 {
     u16 i = timer % 8;
     AppendTilesetAnimToBuffer(gTilesetAnims_Sootopolis_StormyWater[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 240)), 0xc00);
 }
 
-static void QueueAnimTiles_BattlePyramid_Torch(u16 timer)
+static void QueueAnimTiles_BattlePyramid_Torch (u16 timer)
 {
     u16 i = timer % 3;
     AppendTilesetAnimToBuffer(gTilesetAnims_BattlePyramid_Torch[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 151)), 0x100);
 }
 
-static void QueueAnimTiles_BattlePyramid_StatueShadow(u16 timer)
+static void QueueAnimTiles_BattlePyramid_StatueShadow (u16 timer)
 {
     u16 i = timer % 3;
     AppendTilesetAnimToBuffer(gTilesetAnims_BattlePyramid_StatueShadow[i], (u16 *)(BG_VRAM + TILE_OFFSET_4BPP(NUM_TILES_IN_PRIMARY + 135)), 0x100);
 }
 
-static void BlendAnimPalette_BattleDome_FloorLights(u16 timer)
+static void BlendAnimPalette_BattleDome_FloorLights (u16 timer)
 {
     CpuCopy16(gTilesetAnims_BattleDomeFloorLightPals[timer % 4], gPlttBufferUnfaded + 0x80, 32);
     BlendPalette(0x80, 16, gPaletteFade.y, gPaletteFade.blendColor & 0x7FFF);
@@ -1224,7 +1224,7 @@ static void BlendAnimPalette_BattleDome_FloorLights(u16 timer)
     }
 }
 
-static void BlendAnimPalette_BattleDome_FloorLightsNoBlend(u16 timer)
+static void BlendAnimPalette_BattleDome_FloorLightsNoBlend (u16 timer)
 {
     CpuCopy16(gTilesetAnims_BattleDomeFloorLightPals[timer % 4], gPlttBufferUnfaded + 0x80, 32);
     if ((u8)FindTaskIdByFunc(TransitionPhase1_Task_RunFuncs) == 0xFF) {

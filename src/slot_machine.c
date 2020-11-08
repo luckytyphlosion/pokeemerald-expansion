@@ -871,7 +871,7 @@ static void (*const sDigitalDisplayActions[])(struct Task *task) =
 // code
 #define tState data[0]
 
-static void Task_FadeToSlotMachine(u8 taskId)
+static void Task_FadeToSlotMachine (u8 taskId)
 {
     switch (gTasks[taskId].tState) {
     case 0:
@@ -887,7 +887,7 @@ static void Task_FadeToSlotMachine(u8 taskId)
     }
 }
 
-void PlaySlotMachine(u8 slotMachineIndex, MainCallback exitCallback)
+void PlaySlotMachine (u8 slotMachineIndex, MainCallback exitCallback)
 {
     u8 taskId;
 
@@ -899,7 +899,7 @@ void PlaySlotMachine(u8 slotMachineIndex, MainCallback exitCallback)
 
 #undef tState
 
-static void CB2_SlotMachineSetup(void)
+static void CB2_SlotMachineSetup (void)
 {
     switch (gMain.state) {
     case 0:
@@ -959,7 +959,7 @@ static void CB2_SlotMachineSetup(void)
     }
 }
 
-static void CB2_SlotMachine(void)
+static void CB2_SlotMachine (void)
 {
     RunTasks();
     AnimateSprites();
@@ -967,7 +967,7 @@ static void CB2_SlotMachine(void)
     UpdatePaletteFade();
 }
 
-static void SlotMachine_VBlankCB(void)
+static void SlotMachine_VBlankCB (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
@@ -978,7 +978,7 @@ static void SlotMachine_VBlankCB(void)
     SetGpuReg(REG_OFFSET_WINOUT, sSlotMachine->winOut);
 }
 
-static void PlaySlotMachine_Internal(u8 slotMachineIndex, MainCallback exitCallback)
+static void PlaySlotMachine_Internal (u8 slotMachineIndex, MainCallback exitCallback)
 {
     struct Task *task = &gTasks[CreateTask(SlotMachineDummyTask, 0xFF)];
     task->data[0] = slotMachineIndex;
@@ -986,18 +986,18 @@ static void PlaySlotMachine_Internal(u8 slotMachineIndex, MainCallback exitCallb
 }
 
 
-static void SlotMachineInitDummyTask(void)
+static void SlotMachineInitDummyTask (void)
 {
     struct Task *task = &gTasks[FindTaskIdByFunc(SlotMachineDummyTask)];
     sSlotMachine->machineId = task->data[0];
     LoadWordFromTwoHalfwords((u16 *)&task->data[1], (u32 *)&sSlotMachine->prevMainCb);
 }
 
-static void SlotMachineDummyTask(u8 taskId)
+static void SlotMachineDummyTask (u8 taskId)
 {
 }
 
-static void SlotMachineSetup_InitBgsWindows(void)
+static void SlotMachineSetup_InitBgsWindows (void)
 {
     SetVBlankCallback(NULL);
     SetHBlankCallback(NULL);
@@ -1008,24 +1008,24 @@ static void SlotMachineSetup_InitBgsWindows(void)
     DeactivateAllTextPrinters();
 }
 
-static void SlotMachineSetup_InitVBlank(void)
+static void SlotMachineSetup_InitVBlank (void)
 {
     SetVBlankCallback(SlotMachine_VBlankCB);
     EnableInterrupts(INTR_FLAG_VBLANK);
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_OBJ_1D_MAP | DISPCNT_OBJ_ON | DISPCNT_WIN0_ON);
 }
 
-static void SlotMachineSetup_InitVRAM(void)
+static void SlotMachineSetup_InitVRAM (void)
 {
     DmaClearLarge16(3, (u16 *)(BG_VRAM), BG_VRAM_SIZE, 0x1000);
 }
 
-static void SlotMachineSetup_InitOAM(void)
+static void SlotMachineSetup_InitOAM (void)
 {
     DmaClear16(3, (u16 *)OAM, OAM_SIZE);
 }
 
-static void SlotMachineSetup_InitGpuRegs(void)
+static void SlotMachineSetup_InitGpuRegs (void)
 {
     SetGpuReg(REG_OFFSET_BG0CNT, 0);
     SetGpuReg(REG_OFFSET_BG1CNT, 0);
@@ -1046,7 +1046,7 @@ static void SlotMachineSetup_InitGpuRegs(void)
 }
 
 // set up initial state of slot machine
-static void SlotMachineSetup_InitSlotMachineStruct(void)
+static void SlotMachineSetup_InitSlotMachineStruct (void)
 {
     u8 i;
 
@@ -1079,7 +1079,7 @@ static void SlotMachineSetup_InitSlotMachineStruct(void)
     AlertTVThatPlayerPlayedSlotMachine(GetCoins());
 }
 
-static void SlotMachineSetup_InitPalsSpritesTasks(void)
+static void SlotMachineSetup_InitPalsSpritesTasks (void)
 {
     ResetPaletteFade();
     ResetSpriteData();
@@ -1088,7 +1088,7 @@ static void SlotMachineSetup_InitPalsSpritesTasks(void)
     ResetTasks();
 }
 
-static void SlotMachineSetup_InitTilemaps(void)
+static void SlotMachineSetup_InitTilemaps (void)
 {
     sSelectedPikaPowerTile = Alloc(8);
     sReelOverlay_Tilemap = AllocZeroed(14);
@@ -1104,7 +1104,7 @@ static void SlotMachineSetup_InitTilemaps(void)
     sReelOverlay_Tilemap[6] = 0x20BF;
 }
 
-static void SlotMachineSetup_LoadGfxAndTilemaps(void)
+static void SlotMachineSetup_LoadGfxAndTilemaps (void)
 {
     LoadMenuGfx();
     LoadMenuAndReelOverlayTilemaps();
@@ -1114,7 +1114,7 @@ static void SlotMachineSetup_LoadGfxAndTilemaps(void)
     PutWindowTilemap(0);
 }
 
-static void CreateSlotMachineSprites(void)
+static void CreateSlotMachineSprites (void)
 {
     CreateReelSymbolSprites();
     CreateCreditPayoutNumberSprites();
@@ -1122,7 +1122,7 @@ static void CreateSlotMachineSprites(void)
     CreateReelBackgroundSprite();
 }
 
-static void CreateGameplayTasks(void)
+static void CreateGameplayTasks (void)
 {
     CreatePikaPowerBoltTask();
     CreateSlotReelTasks();
@@ -1130,13 +1130,13 @@ static void CreateGameplayTasks(void)
     CreateSlotMachineTask();
 }
 
-static void CreateSlotMachineTask(void)
+static void CreateSlotMachineTask (void)
 {
     Task_SlotMachine(CreateTask(Task_SlotMachine, 0));
 }
 
 // task->data[0] is a timer
-static void Task_SlotMachine(u8 taskId)
+static void Task_SlotMachine (u8 taskId)
 {
     while (sSlotActions[sSlotMachine->state](&gTasks[taskId])) {
         ;
@@ -1144,7 +1144,7 @@ static void Task_SlotMachine(u8 taskId)
 }
 
 // SLOT_ACTION_UNFADE
-static bool8 SlotAction_UnfadeScreen(struct Task *task)
+static bool8 SlotAction_UnfadeScreen (struct Task *task)
 {
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB(0, 0, 0));
     LoadPikaPowerMeter(sSlotMachine->pikaPower);
@@ -1153,7 +1153,7 @@ static bool8 SlotAction_UnfadeScreen(struct Task *task)
 }
 
 // SLOT_ACTION_WAIT_FADE
-static bool8 SlotAction_WaitForUnfade(struct Task *task)
+static bool8 SlotAction_WaitForUnfade (struct Task *task)
 {
     if (!gPaletteFade.active) {
         sSlotMachine->state++;
@@ -1162,7 +1162,7 @@ static bool8 SlotAction_WaitForUnfade(struct Task *task)
 }
 
 // SLOT_ACTION_READY_NEW_SPIN
-static bool8 SlotAction_ReadyNewSpin(struct Task *task)
+static bool8 SlotAction_ReadyNewSpin (struct Task *task)
 {
     sSlotMachine->payout = 0;
     sSlotMachine->bet = 0;
@@ -1179,7 +1179,7 @@ static bool8 SlotAction_ReadyNewSpin(struct Task *task)
 }
 
 // SLOT_ACTION_READY_NEW_RT_SPIN
-static bool8 SlotAction_ReadyNewReelTimeSpin(struct Task *task)
+static bool8 SlotAction_ReadyNewReelTimeSpin (struct Task *task)
 {
     if (IsDigitalDisplayAnimFinished()) {
         sSlotMachine->state = SLOT_ACTION_ASK_INSERT_BET;
@@ -1188,7 +1188,7 @@ static bool8 SlotAction_ReadyNewReelTimeSpin(struct Task *task)
 }
 
 // SLOT_ACTION_ASK_INSERT_BET
-static bool8 SlotAction_AskInsertBet(struct Task *task)
+static bool8 SlotAction_AskInsertBet (struct Task *task)
 {
     CreateDigitalDisplayScene(DIG_DISPLAY_INSERT_BET);
     sSlotMachine->state = SLOT_ACTION_BET_INPUT;
@@ -1199,7 +1199,7 @@ static bool8 SlotAction_AskInsertBet(struct Task *task)
 }
 
 // SLOT_ACTION_BET_INPUT
-static bool8 SlotAction_HandleBetInput(struct Task *task)
+static bool8 SlotAction_HandleBetInput (struct Task *task)
 {
     s16 i;
 
@@ -1241,7 +1241,7 @@ static bool8 SlotAction_HandleBetInput(struct Task *task)
 }
 
 // SLOT_ACTION_NEED_3_COINS
-static bool8 SlotAction_PrintMsg_Need3Coins(struct Task *task)
+static bool8 SlotAction_PrintMsg_Need3Coins (struct Task *task)
 {
     DrawDialogueFrame(0, 0);
     AddTextPrinterParameterized(0, 1, gText_YouDontHaveThreeCoins, 0, 1, 0, 0);
@@ -1251,7 +1251,7 @@ static bool8 SlotAction_PrintMsg_Need3Coins(struct Task *task)
 }
 
 // SLOT_ACTION_WAIT_MSG_NEED_3_COINS
-static bool8 SlotAction_WaitMsg_Need3Coins(struct Task *task)
+static bool8 SlotAction_WaitMsg_Need3Coins (struct Task *task)
 {
     if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         ClearDialogWindowAndFrame(0, TRUE);
@@ -1261,7 +1261,7 @@ static bool8 SlotAction_WaitMsg_Need3Coins(struct Task *task)
 }
 
 // SLOT_ACTION_WAIT_INFO_BOX
-static bool8 SlotAction_WaitForInfoBox(struct Task *task)
+static bool8 SlotAction_WaitForInfoBox (struct Task *task)
 {
     if (IsInfoBoxClosed()) {
         sSlotMachine->state = SLOT_ACTION_BET_INPUT;
@@ -1270,7 +1270,7 @@ static bool8 SlotAction_WaitForInfoBox(struct Task *task)
 }
 
 // SLOT_ACTION_START_SPIN
-static bool8 SlotAction_StartSpin(struct Task *task)
+static bool8 SlotAction_StartSpin (struct Task *task)
 {
     DrawLuckyFlags();
     DestroyDigitalDisplayScene();
@@ -1297,7 +1297,7 @@ static bool8 SlotAction_StartSpin(struct Task *task)
 }
 
 // SLOT_ACTION_START_RT_SPIN
-static bool8 SlotAction_StartReelTimeSpin(struct Task *task)
+static bool8 SlotAction_StartReelTimeSpin (struct Task *task)
 {
     if (IsReelTimeTaskDone()) {
         CreateDigitalDisplayScene(DIG_DISPLAY_STOP_REEL);
@@ -1308,7 +1308,7 @@ static bool8 SlotAction_StartReelTimeSpin(struct Task *task)
 }
 
 // SLOT_ACTION_SET_LUCKY_SPINS
-static bool8 SlotAction_SetLuckySpins(struct Task *task)
+static bool8 SlotAction_SetLuckySpins (struct Task *task)
 {
     if (++task->data[0] >= 30) {
         SetLuckySpins();
@@ -1318,7 +1318,7 @@ static bool8 SlotAction_SetLuckySpins(struct Task *task)
 }
 
 // SLOT_ACTION_AWAIT_REEL_STOP
-static bool8 SlotAction_AwaitReelStop(struct Task *task)
+static bool8 SlotAction_AwaitReelStop (struct Task *task)
 {
     if (JOY_NEW(A_BUTTON)) {
         PlaySE(SE_CONTEST_PLACE);
@@ -1330,7 +1330,7 @@ static bool8 SlotAction_AwaitReelStop(struct Task *task)
 }
 
 // SLOT_ACTION_AWAIT_ALL_REELS_STOP
-static bool8 SlotAction_WaitForAllReelsToStop(struct Task *task)
+static bool8 SlotAction_WaitForAllReelsToStop (struct Task *task)
 {
     if (!IsSlotReelMoving(sSlotMachine->currReel)) {
         sSlotMachine->currReel++;
@@ -1344,7 +1344,7 @@ static bool8 SlotAction_WaitForAllReelsToStop(struct Task *task)
 }
 
 // SLOT_ACTION_CHECK_MATCHES
-static bool8 SlotAction_CheckMatches(struct Task *task)
+static bool8 SlotAction_CheckMatches (struct Task *task)
 {
     sSlotMachine->luckyFlags &= (LUCKY_BIAS_777 | LUCKY_BIAS_MIXED_777);
     CheckMatch();
@@ -1398,7 +1398,7 @@ static bool8 SlotAction_CheckMatches(struct Task *task)
 }
 
 // SLOT_ACTION_WAIT_PAYOUT
-static bool8 SlotAction_WaitForPayoutToBeAwarded(struct Task *task)
+static bool8 SlotAction_WaitForPayoutToBeAwarded (struct Task *task)
 {
     if (IsFinalTask_RunAwardPayoutActions()) {
         sSlotMachine->state = SLOT_ACTION_END_PAYOUT;
@@ -1407,7 +1407,7 @@ static bool8 SlotAction_WaitForPayoutToBeAwarded(struct Task *task)
 }
 
 // SLOT_ACTION_END_PAYOUT
-static bool8 SlotAction_EndPayout(struct Task *task)
+static bool8 SlotAction_EndPayout (struct Task *task)
 {
     if (TryStopSlotMachineLights()) {
         sSlotMachine->state = SLOT_ACTION_RESET_BET_TILES;
@@ -1434,7 +1434,7 @@ static bool8 SlotAction_EndPayout(struct Task *task)
 }
 
 // SLOT_ACTION_MATCHED_POWER
-static bool8 SlotAction_MatchedPower(struct Task *task)
+static bool8 SlotAction_MatchedPower (struct Task *task)
 {
     if (!IsPikaPowerBoltAnimating()) {
         sSlotMachine->state = SLOT_ACTION_RESET_BET_TILES;
@@ -1450,7 +1450,7 @@ static bool8 SlotAction_MatchedPower(struct Task *task)
 }
 
 // SLOT_ACTION_WAIT_RT_ANIM
-static bool8 SlotAction_WaitReelTimeAnim(struct Task *task)
+static bool8 SlotAction_WaitReelTimeAnim (struct Task *task)
 {
     if (IsDigitalDisplayAnimFinished()) {
         sSlotMachine->state = SLOT_ACTION_RESET_BET_TILES;
@@ -1462,7 +1462,7 @@ static bool8 SlotAction_WaitReelTimeAnim(struct Task *task)
 }
 
 // SLOT_ACTION_RESET_BET_TILES
-static bool8 SlotAction_ResetBetTiles(struct Task *task)
+static bool8 SlotAction_ResetBetTiles (struct Task *task)
 {
     DarkenBetTiles(0);
     DarkenBetTiles(1);
@@ -1472,7 +1472,7 @@ static bool8 SlotAction_ResetBetTiles(struct Task *task)
 }
 
 // SLOT_ACTION_NO_MATCHES
-static bool8 SlotAction_NoMatches(struct Task *task)
+static bool8 SlotAction_NoMatches (struct Task *task)
 {
     if (++task->data[1] > 64) {
         task->data[1] = 0;
@@ -1482,7 +1482,7 @@ static bool8 SlotAction_NoMatches(struct Task *task)
 }
 
 // SLOT_ACTION_ASK_QUIT
-static bool8 SlotAction_AskQuit(struct Task *task)
+static bool8 SlotAction_AskQuit (struct Task *task)
 {
     DrawDialogueFrame(0, 0);
     AddTextPrinterParameterized(0, 1, gText_QuitTheGame, 0, 1, 0, 0);
@@ -1493,7 +1493,7 @@ static bool8 SlotAction_AskQuit(struct Task *task)
 }
 
 // SLOT_ACTION_HANDLE_QUIT_INPUT
-static bool8 SlotAction_HandleQuitInput(struct Task *task)
+static bool8 SlotAction_HandleQuitInput (struct Task *task)
 {
     s8 input = Menu_ProcessInputNoWrapClearOnChoose();
     if (input == 0) { // player chooses to quit
@@ -1511,7 +1511,7 @@ static bool8 SlotAction_HandleQuitInput(struct Task *task)
 }
 
 // SLOT_ACTION_MSG_MAX_COINS
-static bool8 SlotAction_PrintMsg_9999Coins(struct Task *task)
+static bool8 SlotAction_PrintMsg_9999Coins (struct Task *task)
 {
     DrawDialogueFrame(0, 0);
     AddTextPrinterParameterized(0, 1, gText_YouveGot9999Coins, 0, 1, 0, 0);
@@ -1521,7 +1521,7 @@ static bool8 SlotAction_PrintMsg_9999Coins(struct Task *task)
 }
 
 // SLOT_ACTION_WAIT_MSG_MAX_COINS
-static bool8 SlotAction_WaitMsg_9999Coins(struct Task *task)
+static bool8 SlotAction_WaitMsg_9999Coins (struct Task *task)
 {
     if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         ClearDialogWindowAndFrame(0, TRUE);
@@ -1531,7 +1531,7 @@ static bool8 SlotAction_WaitMsg_9999Coins(struct Task *task)
 }
 
 // SLOT_ACTION_MSG_NO_MORE_COINS
-static bool8 SlotAction_PrintMsg_NoMoreCoins(struct Task *task)
+static bool8 SlotAction_PrintMsg_NoMoreCoins (struct Task *task)
 {
     DrawDialogueFrame(0, 0);
     AddTextPrinterParameterized(0, 1, gText_YouveRunOutOfCoins, 0, 1, 0, 0);
@@ -1541,7 +1541,7 @@ static bool8 SlotAction_PrintMsg_NoMoreCoins(struct Task *task)
 }
 
 // SLOT_ACTION_WAIT_MSG_NO_MORE_COINS
-static bool8 SlotAction_WaitMsg_NoMoreCoins(struct Task *task)
+static bool8 SlotAction_WaitMsg_NoMoreCoins (struct Task *task)
 {
     if (JOY_NEW(A_BUTTON | B_BUTTON)) {
         ClearDialogWindowAndFrame(0, TRUE);
@@ -1551,7 +1551,7 @@ static bool8 SlotAction_WaitMsg_NoMoreCoins(struct Task *task)
 }
 
 // SLOT_ACTION_END
-static bool8 SlotAction_EndGame(struct Task *task)
+static bool8 SlotAction_EndGame (struct Task *task)
 {
     SetCoins(sSlotMachine->coins);
     AlertTVOfNewCoinTotal(GetCoins());
@@ -1561,7 +1561,7 @@ static bool8 SlotAction_EndGame(struct Task *task)
 }
 
 // SLOT_ACTION_FREE
-static bool8 SlotAction_FreeDataStructures(struct Task *task)
+static bool8 SlotAction_FreeDataStructures (struct Task *task)
 {
     if (!gPaletteFade.active) {
         SetMainCallback2(sSlotMachine->prevMainCb);
@@ -1605,7 +1605,7 @@ static bool8 SlotAction_FreeDataStructures(struct Task *task)
     return FALSE;
 }
 
-static void DrawLuckyFlags(void)
+static void DrawLuckyFlags (void)
 {
     u8 attempts;
 
@@ -1630,7 +1630,7 @@ static void DrawLuckyFlags(void)
     }
 }
 
-static void SetLuckySpins(void)
+static void SetLuckySpins (void)
 {
     sSlotMachine->isLuckySpin = FALSE;
     if (sSlotMachine->luckyFlags) {
@@ -1638,7 +1638,7 @@ static void SetLuckySpins(void)
     }
 }
 
-static u8 GetBiasTag(u8 luckyFlags)
+static u8 GetBiasTag (u8 luckyFlags)
 {
     u8 i;
 
@@ -1652,7 +1652,7 @@ static u8 GetBiasTag(u8 luckyFlags)
 }
 
 // you have way more luck betting 3 coins than anything lower
-static bool8 IsThisRoundLucky(void)
+static bool8 IsThisRoundLucky (void)
 {
     u8 rval = Random();
     if (sLuckyRoundProbabilities[sSlotMachine->machineId][sSlotMachine->bet - 1] > rval) {
@@ -1661,7 +1661,7 @@ static bool8 IsThisRoundLucky(void)
     return FALSE;
 }
 
-static u8 AttemptsAtLuckyFlags_Top3(void)
+static u8 AttemptsAtLuckyFlags_Top3 (void)
 {
     s16 count;
 
@@ -1675,7 +1675,7 @@ static u8 AttemptsAtLuckyFlags_Top3(void)
     return count;
 }
 
-static u8 AttemptsAtLuckyFlags_NotTop3(void)
+static u8 AttemptsAtLuckyFlags_NotTop3 (void)
 {
     s16 count;
 
@@ -1703,7 +1703,7 @@ static u8 AttemptsAtLuckyFlags_NotTop3(void)
     return count;
 }
 
-static u8 GetReelTimeProbability(u8 reelTimeDraw)
+static u8 GetReelTimeProbability (u8 reelTimeDraw)
 {
     if (!sSlotMachine->luckyGame) {
         return sReelTimeProbabilities_UnluckyGame[reelTimeDraw][sSlotMachine->pikaPower];
@@ -1712,7 +1712,7 @@ static u8 GetReelTimeProbability(u8 reelTimeDraw)
     return sReelTimeProbabilities_LuckyGame[reelTimeDraw][sSlotMachine->pikaPower];
 }
 
-static void GetReelTimeDraw(void)
+static void GetReelTimeDraw (void)
 {
     u8 rval;
     s16 reelTimeDraw;
@@ -1731,7 +1731,7 @@ static void GetReelTimeDraw(void)
     sSlotMachine->reelTimeDraw = reelTimeDraw;
 }
 
-static bool8 ShouldReelTimeMachineExplode(u16 i)
+static bool8 ShouldReelTimeMachineExplode (u16 i)
 {
     u16 rval = Random() & 0xff;
     if (rval < sReelTimeExplodeProbability[i]) {
@@ -1740,7 +1740,7 @@ static bool8 ShouldReelTimeMachineExplode(u16 i)
     return FALSE;
 }
 
-static u16 SlowReelSpeed(void)
+static u16 SlowReelSpeed (void)
 {
     u8 i = 0;
     u8 rval, value;
@@ -1766,7 +1766,7 @@ static u16 SlowReelSpeed(void)
     return 8;
 }
 
-static void CheckMatch(void)
+static void CheckMatch (void)
 {
     sSlotMachine->matchedSymbols = 0;
     CheckMatch_CenterRow();
@@ -1778,7 +1778,7 @@ static void CheckMatch(void)
     }
 }
 
-static void CheckMatch_CenterRow(void)
+static void CheckMatch_CenterRow (void)
 {
     u8 c1, c2, c3, match;
 
@@ -1793,7 +1793,7 @@ static void CheckMatch_CenterRow(void)
     }
 }
 
-static void CheckMatch_TopAndBottom(void)
+static void CheckMatch_TopAndBottom (void)
 {
     u8 c1, c2, c3, match;
 
@@ -1823,7 +1823,7 @@ static void CheckMatch_TopAndBottom(void)
     }
 }
 
-static void CheckMatch_Diagonals(void)
+static void CheckMatch_Diagonals (void)
 {
     u8 c1, c2, c3, match;
 
@@ -1851,7 +1851,7 @@ static void CheckMatch_Diagonals(void)
     }
 }
 
-static u8 GetMatchFromSymbols(u8 c1, u8 c2, u8 c3)
+static u8 GetMatchFromSymbols (u8 c1, u8 c2, u8 c3)
 {
     if (c1 == c2 && c1 == c3) {
         return sSymToMatch[c1];
@@ -1868,12 +1868,12 @@ static u8 GetMatchFromSymbols(u8 c1, u8 c2, u8 c3)
     return MATCHED_NONE;
 }
 
-static void AwardPayout(void)
+static void AwardPayout (void)
 {
     RunAwardPayoutActions(CreateTask(RunAwardPayoutActions, 4));
 }
 
-static bool8 IsFinalTask_RunAwardPayoutActions(void)
+static bool8 IsFinalTask_RunAwardPayoutActions (void)
 {
     if (FindTaskIdByFunc(RunAwardPayoutActions) == TAIL_SENTINEL) {
         return TRUE;
@@ -1881,14 +1881,14 @@ static bool8 IsFinalTask_RunAwardPayoutActions(void)
     return FALSE;
 }
 
-static void RunAwardPayoutActions(u8 taskId)
+static void RunAwardPayoutActions (u8 taskId)
 {
     while (sAwardPayoutActions[gTasks[taskId].data[0]](&gTasks[taskId])) {
         ;
     }
 }
 
-static bool8 AwardPayoutAction0(struct Task *task)
+static bool8 AwardPayoutAction0 (struct Task *task)
 {
     if (IsMatchLineDoneFlashingBeforePayout()) {
         task->data[0]++;
@@ -1900,7 +1900,7 @@ static bool8 AwardPayoutAction0(struct Task *task)
     return FALSE;
 }
 // task->data[1]: timer
-static bool8 AwardPayoutAction_GivePayoutToPlayer(struct Task *task)
+static bool8 AwardPayoutAction_GivePayoutToPlayer (struct Task *task)
 {
     if (!task->data[1]--) {
         if (IsFanfareTaskInactive()) {
@@ -1929,7 +1929,7 @@ static bool8 AwardPayoutAction_GivePayoutToPlayer(struct Task *task)
     return FALSE;
 }
 
-static bool8 AwardPayoutAction_FreeTask(struct Task *task)
+static bool8 AwardPayoutAction_FreeTask (struct Task *task)
 {
     if (TryStopMatchLinesFlashing()) {
         DestroyTask(FindTaskIdByFunc(RunAwardPayoutActions));
@@ -1949,7 +1949,7 @@ static bool8 AwardPayoutAction_FreeTask(struct Task *task)
 //           | ... | ... | ... |
 //           | [ ] | [ ] | [ ] | <- offset = 20
 //           .-----------------.
-static u8 GetTagAtRest(u8 reel, s16 offset)
+static u8 GetTagAtRest (u8 reel, s16 offset)
 {
     s16 pos = (sSlotMachine->reelPositions[reel] + offset) % SYMBOLS_PER_REEL;
     if (pos < 0) {
@@ -1959,7 +1959,7 @@ static u8 GetTagAtRest(u8 reel, s16 offset)
 }
 
 // Calculates GetTagAtRest as if the reel were snapped downwards into place.
-static u8 GetTag(u8 reel, s16 offset)
+static u8 GetTag (u8 reel, s16 offset)
 {
     s16 inc = 0;
     s16 pixelOffset = sSlotMachine->reelPixelOffsets[reel] % REEL_SYMBOL_HEIGHT;
@@ -1969,7 +1969,7 @@ static u8 GetTag(u8 reel, s16 offset)
     return GetTagAtRest(reel, offset + inc);
 }
 
-static u8 GetNearbyReelTimeTag(s16 n)
+static u8 GetNearbyReelTimeTag (s16 n)
 {
     s16 newPosition = (sSlotMachine->reelTimePosition + n) % 6;
     if (newPosition < 0) {
@@ -1978,14 +1978,14 @@ static u8 GetNearbyReelTimeTag(s16 n)
     return sReelTimeTags[newPosition];
 }
 
-static void AdvanceSlotReel(u8 reelIndex, s16 value)
+static void AdvanceSlotReel (u8 reelIndex, s16 value)
 {
     sSlotMachine->reelPixelOffsets[reelIndex] += value;
     sSlotMachine->reelPixelOffsets[reelIndex] %= 504;
     sSlotMachine->reelPositions[reelIndex] = SYMBOLS_PER_REEL - sSlotMachine->reelPixelOffsets[reelIndex] / REEL_SYMBOL_HEIGHT;
 }
 
-s16 AdvanceSlotReelToNextTag(u8 reelIndex, s16 value)
+s16 AdvanceSlotReelToNextTag (u8 reelIndex, s16 value)
 {
     s16 offset = sSlotMachine->reelPixelOffsets[reelIndex] % REEL_SYMBOL_HEIGHT;
     if (offset != 0) {
@@ -1998,14 +1998,14 @@ s16 AdvanceSlotReelToNextTag(u8 reelIndex, s16 value)
     return offset;
 }
 
-static void AdvanceReelTimeReel(s16 value)
+static void AdvanceReelTimeReel (s16 value)
 {
     sSlotMachine->reelTimePixelOffset += value;
     sSlotMachine->reelTimePixelOffset %= 120;
     sSlotMachine->reelTimePosition = 6 - sSlotMachine->reelTimePixelOffset / 20;
 }
 
-s16 AdvanceReelTimeReelToNextTag(s16 value)
+s16 AdvanceReelTimeReelToNextTag (s16 value)
 {
     s16 offset = sSlotMachine->reelTimePixelOffset % 20;
     if (offset != 0) {
@@ -2022,7 +2022,7 @@ s16 AdvanceReelTimeReelToNextTag(s16 value)
 #define tMoving data[14]
 #define tReelId data[15]
 
-static void CreateSlotReelTasks(void)
+static void CreateSlotReelTasks (void)
 {
     u8 i;
     for (i = 0; i < NUM_REELS; i++) {
@@ -2033,23 +2033,23 @@ static void CreateSlotReelTasks(void)
     }
 }
 
-static void SpinSlotReel(u8 reelIndex)
+static void SpinSlotReel (u8 reelIndex)
 {
     gTasks[sSlotMachine->slotReelTasks[reelIndex]].tState = REEL_ACTION_SPIN;
     gTasks[sSlotMachine->slotReelTasks[reelIndex]].tMoving = TRUE;
 }
 
-static void StopSlotReel(u8 reelIndex)
+static void StopSlotReel (u8 reelIndex)
 {
     gTasks[sSlotMachine->slotReelTasks[reelIndex]].tState = REEL_ACTION_STOP;
 }
 
-static bool8 IsSlotReelMoving(u8 reelIndex)
+static bool8 IsSlotReelMoving (u8 reelIndex)
 {
     return gTasks[sSlotMachine->slotReelTasks[reelIndex]].tMoving;
 }
 
-static void Task_RunSlotReelActions(u8 taskId)
+static void Task_RunSlotReelActions (u8 taskId)
 {
     while (sSlotReelActions[gTasks[taskId].tState](&gTasks[taskId])) {
         ;
@@ -2057,19 +2057,19 @@ static void Task_RunSlotReelActions(u8 taskId)
 }
 
 // task->data[1]  reel turns
-static bool8 SlotReelAction_StayStill(struct Task *task)
+static bool8 SlotReelAction_StayStill (struct Task *task)
 {
     return FALSE;
 }
 
-static bool8 SlotReelAction_Spin(struct Task *task)
+static bool8 SlotReelAction_Spin (struct Task *task)
 {
     AdvanceSlotReel(task->tReelId, sSlotMachine->reelIncrement);
     return FALSE;
 }
 
 // As in previous generations, the slot machine often doesn't stop exactly when you press stop
-static bool8 SlotReelAction_DecideWhereToStop(struct Task *task)
+static bool8 SlotReelAction_DecideWhereToStop (struct Task *task)
 {
     task->tState++;
     // initialize data for that reel --> these will be changed if sBiasTags can be lined up
@@ -2085,7 +2085,7 @@ static bool8 SlotReelAction_DecideWhereToStop(struct Task *task)
 }
 
 // go to next tag and then do any additional turns
-static bool8 SlotReelAction_MoveToStop(struct Task *task)
+static bool8 SlotReelAction_MoveToStop (struct Task *task)
 {
     u16 reelStopShocks[ARRAY_COUNT(sReelStopShocks)];
     s16 reelPixelPos;
@@ -2108,7 +2108,7 @@ static bool8 SlotReelAction_MoveToStop(struct Task *task)
 }
 
 // make selected tag oscillate before it becomes still
-static bool8 SlotReelAction_OscillatingStop(struct Task *task)
+static bool8 SlotReelAction_OscillatingStop (struct Task *task)
 {
     sSlotMachine->reelPixelOffsetsWhileStopping[task->tReelId] = task->data[1];
     task->data[1] = -task->data[1];
@@ -2128,7 +2128,7 @@ static bool8 SlotReelAction_OscillatingStop(struct Task *task)
 #undef tMoving
 #undef tReelId
 
-static bool8 DecideReelTurns_BiasTag_Reel1(void)
+static bool8 DecideReelTurns_BiasTag_Reel1 (void)
 {
     u8 tag2 = GetBiasTag(sSlotMachine->luckyFlags);
     u8 tag1 = tag2;
@@ -2139,7 +2139,7 @@ static bool8 DecideReelTurns_BiasTag_Reel1(void)
     return sDecideReelTurns_BiasTag_Reel1_Bets[sSlotMachine->bet - 1](tag1, tag2);
 }
 
-static bool8 AreTagsAtPosition_Reel1(s16 pos, u8 tag1, u8 tag2)
+static bool8 AreTagsAtPosition_Reel1 (s16 pos, u8 tag1, u8 tag2)
 {
     u8 tag = GetTag(LEFT_REEL, pos);
     if (tag == tag1 || tag == tag2) {
@@ -2149,7 +2149,7 @@ static bool8 AreTagsAtPosition_Reel1(s16 pos, u8 tag1, u8 tag2)
     return FALSE;
 }
 
-static bool8 AreCherriesOnScreen_Reel1(s16 offsetFromCenter)
+static bool8 AreCherriesOnScreen_Reel1 (s16 offsetFromCenter)
 {
     if (GetTag(LEFT_REEL, 1 - offsetFromCenter) == GFXTAG_CHERRY
         || GetTag(LEFT_REEL, 2 - offsetFromCenter) == GFXTAG_CHERRY
@@ -2160,7 +2160,7 @@ static bool8 AreCherriesOnScreen_Reel1(s16 offsetFromCenter)
     }
 }
 
-static bool8 IsBiasTowardsCherryOr7s(void)
+static bool8 IsBiasTowardsCherryOr7s (void)
 {
     if (sSlotMachine->luckyFlags & (LUCKY_BIAS_777 | LUCKY_BIAS_MIXED_777 | LUCKY_BIAS_CHERRY)) {
         return TRUE;
@@ -2169,7 +2169,7 @@ static bool8 IsBiasTowardsCherryOr7s(void)
     }
 }
 
-static bool8 DecideReelTurns_BiasTag_Reel1_Bet1(u8 tag1, u8 tag2)
+static bool8 DecideReelTurns_BiasTag_Reel1_Bet1 (u8 tag1, u8 tag2)
 {
     s16 i;
 
@@ -2184,7 +2184,7 @@ static bool8 DecideReelTurns_BiasTag_Reel1_Bet1(u8 tag1, u8 tag2)
     return FALSE;
 }
 
-static bool8 DecideReelTurns_BiasTag_Reel1_Bet2or3(u8 tag1, u8 tag2)
+static bool8 DecideReelTurns_BiasTag_Reel1_Bet2or3 (u8 tag1, u8 tag2)
 {
     s16 i;
     bool8 biased = IsBiasTowardsCherryOr7s();
@@ -2227,12 +2227,12 @@ static bool8 DecideReelTurns_BiasTag_Reel1_Bet2or3(u8 tag1, u8 tag2)
     return FALSE;
 }
 
-static bool8 DecideReelTurns_BiasTag_Reel2(void)
+static bool8 DecideReelTurns_BiasTag_Reel2 (void)
 {
     return sDecideReelTurns_BiasTag_Reel2_Bets[sSlotMachine->bet - 1]();
 }
 
-static bool8 DecideReelTurns_BiasTag_Reel2_Bet1or2(void)
+static bool8 DecideReelTurns_BiasTag_Reel2_Bet1or2 (void)
 {
     s16 i;
     s16 biasTagLocation_Reel1 = sSlotMachine->winnerRows[0];
@@ -2248,7 +2248,7 @@ static bool8 DecideReelTurns_BiasTag_Reel2_Bet1or2(void)
     return FALSE;
 }
 
-static bool8 DecideReelTurns_BiasTag_Reel2_Bet3(void)
+static bool8 DecideReelTurns_BiasTag_Reel2_Bet3 (void)
 {
     s16 i;
     // if biasTag appears in the same row within 4 turns...
@@ -2280,7 +2280,7 @@ static bool8 DecideReelTurns_BiasTag_Reel2_Bet3(void)
     return FALSE;
 }
 
-static bool8 DecideReelTurns_BiasTag_Reel3(void)
+static bool8 DecideReelTurns_BiasTag_Reel3 (void)
 {
     u8 biasTag = sSlotMachine->biasTag;
     if (sSlotMachine->luckyFlags & LUCKY_BIAS_MIXED_777) {
@@ -2292,7 +2292,7 @@ static bool8 DecideReelTurns_BiasTag_Reel3(void)
     return sDecideReelTurns_BiasTag_Reel3_Bets[sSlotMachine->bet - 1](biasTag);
 }
 
-static bool8 DecideReelTurns_BiasTag_Reel3_Bet1or2(u8 biasTag)
+static bool8 DecideReelTurns_BiasTag_Reel3_Bet1or2 (u8 biasTag)
 {
     s16 i;
     s16 biasTagLocation_Reel2 = sSlotMachine->winnerRows[1];
@@ -2308,7 +2308,7 @@ static bool8 DecideReelTurns_BiasTag_Reel3_Bet1or2(u8 biasTag)
     return FALSE;
 }
 
-static bool8 DecideReelTurns_BiasTag_Reel3_Bet3(u8 biasTag)
+static bool8 DecideReelTurns_BiasTag_Reel3_Bet3 (u8 biasTag)
 {
     s16 i;
     s16 biasTagFinalPos;
@@ -2336,7 +2336,7 @@ static bool8 DecideReelTurns_BiasTag_Reel3_Bet3(u8 biasTag)
 
 // Advance until there are no cherries on screen in reel 1
 
-static void DecideReelTurns_NoBiasTag_Reel1(void)
+static void DecideReelTurns_NoBiasTag_Reel1 (void)
 {
     s16 i = 0;
 
@@ -2346,7 +2346,7 @@ static void DecideReelTurns_NoBiasTag_Reel1(void)
     sSlotMachine->reelExtraTurns[0] = i;
 }
 
-static bool8 IsBiasTag777_SwitchColor(u8 *biasTagPtr)
+static bool8 IsBiasTag777_SwitchColor (u8 *biasTagPtr)
 {
     if (*biasTagPtr == GFXTAG_7_RED) {
         *biasTagPtr = GFXTAG_7_BLUE;
@@ -2359,13 +2359,13 @@ static bool8 IsBiasTag777_SwitchColor(u8 *biasTagPtr)
     return FALSE;
 }
 
-static void DecideReelTurns_NoBiasTag_Reel2(void)
+static void DecideReelTurns_NoBiasTag_Reel2 (void)
 {
     sDecideReelTurns_NoBiasTag_Reel2_Bets[sSlotMachine->bet - 1]();
 }
 
 // only does stuff if the biasTag is one of the 7's, plus other conditions
-static void DecideReelTurns_NoBiasTag_Reel2_Bet1(void)
+static void DecideReelTurns_NoBiasTag_Reel2_Bet1 (void)
 {
     if (sSlotMachine->winnerRows[0] != 0 && sSlotMachine->luckyFlags & LUCKY_BIAS_777) {
         u8 biasTag = GetTag(LEFT_REEL, 2 - sSlotMachine->reelExtraTurns[0]);
@@ -2385,7 +2385,7 @@ static void DecideReelTurns_NoBiasTag_Reel2_Bet1(void)
     }
 }
 
-static void DecideReelTurns_NoBiasTag_Reel2_Bet2(void)
+static void DecideReelTurns_NoBiasTag_Reel2_Bet2 (void)
 {
     if (sSlotMachine->winnerRows[0] != 0 && sSlotMachine->luckyFlags & LUCKY_BIAS_777) {
         u8 biasTag = GetTag(LEFT_REEL, sSlotMachine->winnerRows[0] - sSlotMachine->reelExtraTurns[0]);
@@ -2405,7 +2405,7 @@ static void DecideReelTurns_NoBiasTag_Reel2_Bet2(void)
     }
 }
 
-static void DecideReelTurns_NoBiasTag_Reel2_Bet3(void)
+static void DecideReelTurns_NoBiasTag_Reel2_Bet3 (void)
 {
     s16 i;
     s16 j;
@@ -2457,7 +2457,7 @@ static void DecideReelTurns_NoBiasTag_Reel2_Bet3(void)
     }
 }
 
-static bool8 AreTagsMixed77(u8 tag1, u8 tag2)
+static bool8 AreTagsMixed77 (u8 tag1, u8 tag2)
 {
     if ((tag1 == GFXTAG_7_RED && tag2 == GFXTAG_7_BLUE) || (tag1 == GFXTAG_7_BLUE && tag2 == GFXTAG_7_RED)) {
         return TRUE;
@@ -2466,7 +2466,7 @@ static bool8 AreTagsMixed77(u8 tag1, u8 tag2)
     }
 }
 
-static bool8 AreTagsMixed777(u8 tag1, u8 tag2, u8 tag3)
+static bool8 AreTagsMixed777 (u8 tag1, u8 tag2, u8 tag3)
 {
     if ((tag1 == GFXTAG_7_RED && tag2 == GFXTAG_7_BLUE && tag3 == GFXTAG_7_RED) ||
         (tag1 == GFXTAG_7_BLUE && tag2 == GFXTAG_7_RED && tag3 == GFXTAG_7_BLUE)) {
@@ -2476,7 +2476,7 @@ static bool8 AreTagsMixed777(u8 tag1, u8 tag2, u8 tag3)
     }
 }
 
-static bool8 TagsDontMatchOrHaveAny7s(u8 tag1, u8 tag2, u8 tag3)
+static bool8 TagsDontMatchOrHaveAny7s (u8 tag1, u8 tag2, u8 tag3)
 {
     if ((tag1 == GFXTAG_7_RED && tag2 == GFXTAG_7_BLUE && tag3 == GFXTAG_7_RED) ||
         (tag1 == GFXTAG_7_BLUE && tag2 == GFXTAG_7_RED && tag3 == GFXTAG_7_BLUE) ||
@@ -2488,12 +2488,12 @@ static bool8 TagsDontMatchOrHaveAny7s(u8 tag1, u8 tag2, u8 tag3)
     return TRUE;
 }
 
-static void DecideReelTurns_NoBiasTag_Reel3(void)
+static void DecideReelTurns_NoBiasTag_Reel3 (void)
 {
     sDecideReelTurns_NoBiasTag_Reel3_Bets[sSlotMachine->bet - 1]();
 }
 
-static void DecideReelTurns_NoBiasTag_Reel3_Bet1(void)
+static void DecideReelTurns_NoBiasTag_Reel3_Bet1 (void)
 {
     s16 i = 0;
     u8 tag1 = GetTag(LEFT_REEL, 2 - sSlotMachine->reelExtraTurns[0]);
@@ -2530,7 +2530,7 @@ static void DecideReelTurns_NoBiasTag_Reel3_Bet1(void)
     sSlotMachine->reelExtraTurns[2] = i;
 }
 
-static void DecideReelTurns_NoBiasTag_Reel3_Bet2(void)
+static void DecideReelTurns_NoBiasTag_Reel3_Bet2 (void)
 {
     s16 extraTurns = 0;
     s16 i;
@@ -2574,7 +2574,7 @@ static void DecideReelTurns_NoBiasTag_Reel3_Bet2(void)
     sSlotMachine->reelExtraTurns[2] = extraTurns;
 }
 
-static void DecideReelTurns_NoBiasTag_Reel3_Bet3(void)
+static void DecideReelTurns_NoBiasTag_Reel3_Bet3 (void)
 {
     u8 tag1;
     u8 tag2;
@@ -2621,49 +2621,49 @@ static void DecideReelTurns_NoBiasTag_Reel3_Bet3(void)
     }
 }
 
-static void PressStopReelButton(u8 reelNum)
+static void PressStopReelButton (u8 reelNum)
 {
     u8 taskId = CreateTask(Task_PressStopReelButton, 5);
     gTasks[taskId].data[15] = reelNum;
     Task_PressStopReelButton(taskId);
 }
 
-static void Task_PressStopReelButton(u8 taskId)
+static void Task_PressStopReelButton (u8 taskId)
 {
     sReelStopButtonFuncs[gTasks[taskId].data[0]](&gTasks[taskId], taskId);
 }
 
-static void StopReelButton_Press(struct Task *task, u8 taskId)
+static void StopReelButton_Press (struct Task *task, u8 taskId)
 {
     SetReelButtonTilemap(sReelButtonOffsets[task->data[15]], 0x62, 0x63, 0x72, 0x73);
     task->data[0]++;
 }
 
-static void StopReelButton_Wait(struct Task *task, u8 taskId)
+static void StopReelButton_Wait (struct Task *task, u8 taskId)
 {
     if (++task->data[1] > 11) {
         task->data[0]++;
     }
 }
 
-static void StopReelButton_Unpress(struct Task *task, u8 taskId)
+static void StopReelButton_Unpress (struct Task *task, u8 taskId)
 {
     SetReelButtonTilemap(sReelButtonOffsets[task->data[15]], 0x42, 0x43, 0x52, 0x53);
     DestroyTask(taskId);
 }
 
-static void LightenMatchLine(u8 matchLineId)
+static void LightenMatchLine (u8 matchLineId)
 {
     LoadPalette(sLitMatchLinePalTable[matchLineId], sMatchLinePalOffsets[matchLineId], 2);
 }
 
-static void DarkenMatchLine(u8 matchLineId)
+static void DarkenMatchLine (u8 matchLineId)
 {
     LoadPalette(sDarkMatchLinePalTable[matchLineId], sMatchLinePalOffsets[matchLineId], 2);
 }
 
 // light up the match line for each bet by the player
-static void LightenBetTiles(u8 betVal)
+static void LightenBetTiles (u8 betVal)
 {
     u8 i;
     for (i = 0; i < sMatchLinesPerBet[betVal]; i++) {
@@ -2671,7 +2671,7 @@ static void LightenBetTiles(u8 betVal)
     }
 }
 
-static void DarkenBetTiles(u8 betVal)
+static void DarkenBetTiles (u8 betVal)
 {
     u8 i;
     for (i = 0; i < sMatchLinesPerBet[betVal]; i++) {
@@ -2689,7 +2689,7 @@ static void DarkenBetTiles(u8 betVal)
 
 // Creates invisible sprites that flash the bet lines/numbers where a match occurs
 // 5 are created, 1 for each possible match line (3 rows, 2 diagonals)
-static void CreateInvisibleFlashMatchLineSprites(void)
+static void CreateInvisibleFlashMatchLineSprites (void)
 {
     u8 i;
     for (i = 0; i < ARRAY_COUNT(sSlotMachine->flashMatchLineSpriteIds); i++) {
@@ -2699,7 +2699,7 @@ static void CreateInvisibleFlashMatchLineSprites(void)
     }
 }
 
-static void FlashMatchLine(u8 matchLineId)
+static void FlashMatchLine (u8 matchLineId)
 {
     struct Sprite *sprite = &gSprites[sSlotMachine->flashMatchLineSpriteIds[matchLineId]];
     sprite->sFlashing = TRUE;
@@ -2712,7 +2712,7 @@ static void FlashMatchLine(u8 matchLineId)
 
 // Match line flashes 4 times before the payout begins
 // After this it does half-brightness flashes until the payout finishes
-static bool8 IsMatchLineDoneFlashingBeforePayout(void)
+static bool8 IsMatchLineDoneFlashingBeforePayout (void)
 {
     u8 i;
     for (i = 0; i < ARRAY_COUNT(sSlotMachine->flashMatchLineSpriteIds); i++) {
@@ -2725,7 +2725,7 @@ static bool8 IsMatchLineDoneFlashingBeforePayout(void)
 }
 
 // When payout is finished, stop lines flashing (but not if they're in the middle of a flash)
-static bool8 TryStopMatchLinesFlashing(void)
+static bool8 TryStopMatchLinesFlashing (void)
 {
     u8 i;
     for (i = 0; i < ARRAY_COUNT(sSlotMachine->flashMatchLineSpriteIds); i++) {
@@ -2736,7 +2736,7 @@ static bool8 TryStopMatchLinesFlashing(void)
     return TRUE;
 }
 
-static bool8 TryStopMatchLineFlashing(u8 spriteId)
+static bool8 TryStopMatchLineFlashing (u8 spriteId)
 {
     struct Sprite *sprite = &gSprites[spriteId];
     if (!sprite->sFlashing) {
@@ -2749,7 +2749,7 @@ static bool8 TryStopMatchLineFlashing(u8 spriteId)
     return sprite->sAtOriginalColor;
 }
 
-static void SpriteCB_FlashMatchingLines(struct Sprite *sprite)
+static void SpriteCB_FlashMatchingLines (struct Sprite *sprite)
 {
     s16 maxColorChange;
     if (sprite->sFlashing) {
@@ -2792,14 +2792,14 @@ static void SpriteCB_FlashMatchingLines(struct Sprite *sprite)
 #define sFlashState data[2]
 #define sFlashDir   data[3]
 
-static void FlashSlotMachineLights(void)
+static void FlashSlotMachineLights (void)
 {
     u8 taskId = CreateTask(Task_FlashSlotMachineLights, 6);
     gTasks[taskId].sFlashDir = 1;
     Task_FlashSlotMachineLights(taskId);
 }
 
-static bool8 TryStopSlotMachineLights(void)
+static bool8 TryStopSlotMachineLights (void)
 {
     u8 taskId = FindTaskIdByFunc(Task_FlashSlotMachineLights);
     if (gTasks[taskId].sFlashState == 0) {
@@ -2810,7 +2810,7 @@ static bool8 TryStopSlotMachineLights(void)
     return FALSE;
 }
 
-static void Task_FlashSlotMachineLights(u8 taskId)
+static void Task_FlashSlotMachineLights (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     if (!task->sDelayTimer--) {
@@ -2833,12 +2833,12 @@ static void Task_FlashSlotMachineLights(u8 taskId)
 #define tTimer     data[2] // re-used
 #define tAnimating data[15]
 
-static void CreatePikaPowerBoltTask(void)
+static void CreatePikaPowerBoltTask (void)
 {
     sSlotMachine->pikaPowerBoltTaskId = CreateTask(Task_CreatePikaPowerBolt, 8);
 }
 
-static void AddPikaPowerBolt(u8 pikaPower)
+static void AddPikaPowerBolt (u8 pikaPower)
 {
     struct Task *task = &gTasks[sSlotMachine->pikaPowerBoltTaskId];
     ResetPikaPowerBoltTask(task);
@@ -2847,7 +2847,7 @@ static void AddPikaPowerBolt(u8 pikaPower)
     task->tAnimating = TRUE;
 }
 
-static void ResetPikaPowerBolts(void)
+static void ResetPikaPowerBolts (void)
 {
     struct Task *task = &gTasks[sSlotMachine->pikaPowerBoltTaskId];
     ResetPikaPowerBoltTask(task);
@@ -2855,21 +2855,21 @@ static void ResetPikaPowerBolts(void)
     task->tAnimating = TRUE;
 }
 
-static bool8 IsPikaPowerBoltAnimating(void)
+static bool8 IsPikaPowerBoltAnimating (void)
 {
     return gTasks[sSlotMachine->pikaPowerBoltTaskId].tAnimating;
 }
 
-static void Task_CreatePikaPowerBolt(u8 taskId)
+static void Task_CreatePikaPowerBolt (u8 taskId)
 {
     sPikaPowerBoltFuncs[gTasks[taskId].tState](&gTasks[taskId]);
 }
 
-static void PikaPowerBolt_Idle(struct Task *task)
+static void PikaPowerBolt_Idle (struct Task *task)
 {
 }
 
-static void PikaPowerBolt_AddBolt(struct Task *task)
+static void PikaPowerBolt_AddBolt (struct Task *task)
 {
     task->tSpriteId = CreatePikaPowerBoltSprite((task->tNumBolts << 3) + 20, 20);
     task->tState++;
@@ -2877,7 +2877,7 @@ static void PikaPowerBolt_AddBolt(struct Task *task)
 
 // The bolt sprite spins around as it appears
 // Once the anim is done, destroy the sprite and set the bolt in the tilemap instead
-static void PikaPowerBolt_WaitAnim(struct Task *task)
+static void PikaPowerBolt_WaitAnim (struct Task *task)
 {
     if (gSprites[task->tSpriteId].data[7]) {
         s16 r5 = task->tNumBolts + 2;
@@ -2896,7 +2896,7 @@ static void PikaPowerBolt_WaitAnim(struct Task *task)
     }
 }
 
-static void PikaPowerBolt_ClearAll(struct Task *task)
+static void PikaPowerBolt_ClearAll (struct Task *task)
 {
     s16 r5 = task->tNumBolts + 2;
     s16 r3 = 0;
@@ -2920,7 +2920,7 @@ static void PikaPowerBolt_ClearAll(struct Task *task)
     }
 }
 
-static void ResetPikaPowerBoltTask(struct Task *task)
+static void ResetPikaPowerBoltTask (struct Task *task)
 {
     u8 i;
 
@@ -2929,7 +2929,7 @@ static void ResetPikaPowerBoltTask(struct Task *task)
     }
 }
 
-static void LoadPikaPowerMeter(u8 pikaPower)
+static void LoadPikaPowerMeter (u8 pikaPower)
 {
     s16 i;
     s16 r3 = 0, r1 = 0;
@@ -2965,13 +2965,13 @@ static void LoadPikaPowerMeter(u8 pikaPower)
 
 #define tState data[0]
 
-static void BeginReelTime(void)
+static void BeginReelTime (void)
 {
     u8 taskId = CreateTask(Task_ReelTime, 7);
     Task_ReelTime(taskId);
 }
 
-static bool8 IsReelTimeTaskDone(void)
+static bool8 IsReelTimeTaskDone (void)
 {
     if (FindTaskIdByFunc(Task_ReelTime) == TAIL_SENTINEL) {
         return TRUE;
@@ -2979,7 +2979,7 @@ static bool8 IsReelTimeTaskDone(void)
     return FALSE;
 }
 
-static void Task_ReelTime(u8 taskId)
+static void Task_ReelTime (u8 taskId)
 {
     // task.data[1] has something to do with the threshold
     // task.data[4] says how many pixels to advance the reel
@@ -2987,7 +2987,7 @@ static void Task_ReelTime(u8 taskId)
     sReelTimeActions[gTasks[taskId].tState](&gTasks[taskId]);
 }
 
-static void ReelTime_Init(struct Task *task)
+static void ReelTime_Init (struct Task *task)
 {
     sSlotMachine->reelTimeSpinsLeft = 0;
     sSlotMachine->reelTimePixelOffset = 0;
@@ -3011,7 +3011,7 @@ static void ReelTime_Init(struct Task *task)
     PlayNewMapMusic(MUS_ROULETTE);
 }
 
-static void ReelTime_WindowEnter(struct Task *task)
+static void ReelTime_WindowEnter (struct Task *task)
 {
     s16 r3;
     gSpriteCoordOffsetX -= 8;
@@ -3030,7 +3030,7 @@ static void ReelTime_WindowEnter(struct Task *task)
     AdvanceReelTimeReel(task->data[4] >> 8);
 }
 
-static void ReelTime_WaitStartPikachu(struct Task *task)
+static void ReelTime_WaitStartPikachu (struct Task *task)
 {
     AdvanceReelTimeReel(task->data[4] >> 8);
     if (++task->data[5] >= 60) {
@@ -3040,7 +3040,7 @@ static void ReelTime_WaitStartPikachu(struct Task *task)
     }
 }
 
-static void ReelTime_PikachuSpeedUp1(struct Task *task)
+static void ReelTime_PikachuSpeedUp1 (struct Task *task)
 {
     int i;
     u8 pikachuAnimIds[ARRAY_COUNT(sReelTimePikachuAnimIds)];
@@ -3066,7 +3066,7 @@ static void ReelTime_PikachuSpeedUp1(struct Task *task)
     }
 }
 
-static void ReelTime_PikachuSpeedUp2(struct Task *task)
+static void ReelTime_PikachuSpeedUp2 (struct Task *task)
 {
     AdvanceReelTimeReel(task->data[4] >> 8);
     if (++task->data[5] >= 80) {
@@ -3077,7 +3077,7 @@ static void ReelTime_PikachuSpeedUp2(struct Task *task)
     }
 }
 
-static void ReelTime_WaitReel(struct Task *task)
+static void ReelTime_WaitReel (struct Task *task)
 {
     AdvanceReelTimeReel(task->data[4] >> 8);
     task->data[4] = (u8)task->data[4] + 0x80;
@@ -3087,7 +3087,7 @@ static void ReelTime_WaitReel(struct Task *task)
     }
 }
 
-static void ReelTime_CheckExplode(struct Task *task)
+static void ReelTime_CheckExplode (struct Task *task)
 {
     AdvanceReelTimeReel(task->data[4] >> 8);
     task->data[4] = (u8)task->data[4] + 0x40;
@@ -3106,7 +3106,7 @@ static void ReelTime_CheckExplode(struct Task *task)
     }
 }
 
-static void ReelTime_LandOnOutcome(struct Task *task)
+static void ReelTime_LandOnOutcome (struct Task *task)
 {
     s16 reelTimePixelOffset = sSlotMachine->reelTimePixelOffset % 20;
     if (reelTimePixelOffset) {
@@ -3123,7 +3123,7 @@ static void ReelTime_LandOnOutcome(struct Task *task)
     }
 }
 
-static void ReelTime_PikachuReact(struct Task *task)
+static void ReelTime_PikachuReact (struct Task *task)
 {
     if (++task->data[4] >= 60) {
         StopMapMusic();
@@ -3147,14 +3147,14 @@ static void ReelTime_PikachuReact(struct Task *task)
     }
 }
 
-static void ReelTime_WaitClearPikaPower(struct Task *task)
+static void ReelTime_WaitClearPikaPower (struct Task *task)
 {
     if ((task->data[4] == 0 || --task->data[4] == 0) && !IsPikaPowerBoltAnimating()) {
         task->tState++;
     }
 }
 
-static void ReelTime_CloseWindow(struct Task *task)
+static void ReelTime_CloseWindow (struct Task *task)
 {
     s16 r4;
     gSpriteCoordOffsetX -= 8;
@@ -3169,7 +3169,7 @@ static void ReelTime_CloseWindow(struct Task *task)
     }
 }
 
-static void ReelTime_DestroySprites(struct Task *task)
+static void ReelTime_DestroySprites (struct Task *task)
 {
     sSlotMachine->reelTimeSpinsUsed = 0;
     sSlotMachine->reelTimeSpinsLeft = sSlotMachine->reelTimeDraw;
@@ -3191,7 +3191,7 @@ static void ReelTime_DestroySprites(struct Task *task)
     }
 }
 
-static void ReelTime_SetReelIncrement(struct Task *task)
+static void ReelTime_SetReelIncrement (struct Task *task)
 {
     if (sSlotMachine->reelIncrement == task->data[1]) {
         task->tState++;
@@ -3200,14 +3200,14 @@ static void ReelTime_SetReelIncrement(struct Task *task)
     }
 }
 
-static void ReelTime_EndSuccess(struct Task *task)
+static void ReelTime_EndSuccess (struct Task *task)
 {
     if (IsDigitalDisplayAnimFinished()) {
         DestroyTask(FindTaskIdByFunc(Task_ReelTime));
     }
 }
 
-static void ReelTime_ExplodeMachine(struct Task *task)
+static void ReelTime_ExplodeMachine (struct Task *task)
 {
     DestroyReelTimeMachineSprites();
     DestroyReelTimeBoltSprites();
@@ -3223,7 +3223,7 @@ static void ReelTime_ExplodeMachine(struct Task *task)
     PlaySE(SE_M_EXPLOSION);
 }
 
-static void ReelTime_WaitExplode(struct Task *task)
+static void ReelTime_WaitExplode (struct Task *task)
 {
     gSpriteCoordOffsetY = task->data[4];
     SetGpuReg(REG_OFFSET_BG1VOFS, task->data[4]);
@@ -3244,7 +3244,7 @@ static void ReelTime_WaitExplode(struct Task *task)
     }
 }
 
-static void ReelTime_WaitSmoke(struct Task *task)
+static void ReelTime_WaitSmoke (struct Task *task)
 {
     gSpriteCoordOffsetY = 0;
     SetGpuReg(REG_OFFSET_BG1VOFS, 0);
@@ -3254,7 +3254,7 @@ static void ReelTime_WaitSmoke(struct Task *task)
     }
 }
 
-static void ReelTime_EndFailure(struct Task *task)
+static void ReelTime_EndFailure (struct Task *task)
 {
     gSpriteCoordOffsetX = 0;
     SetGpuReg(REG_OFFSET_BG1HOFS, 0);
@@ -3266,7 +3266,7 @@ static void ReelTime_EndFailure(struct Task *task)
     DestroyTask(FindTaskIdByFunc(Task_ReelTime));
 }
 
-static void LoadReelTimeWindowTilemap(s16 a0, s16 a1)
+static void LoadReelTimeWindowTilemap (s16 a0, s16 a1)
 {
     s16 i;
 
@@ -3275,7 +3275,7 @@ static void LoadReelTimeWindowTilemap(s16 a0, s16 a1)
     }
 }
 
-static void ClearReelTimeWindowTilemap(s16 a0)
+static void ClearReelTimeWindowTilemap (s16 a0)
 {
     u8 i;
 
@@ -3289,14 +3289,14 @@ static void ClearReelTimeWindowTilemap(s16 a0)
 #define tState data[0]
 
 // Info Box is the screen shown when Select is pressed
-static void OpenInfoBox(u8 digDisplayId)
+static void OpenInfoBox (u8 digDisplayId)
 {
     u8 taskId = CreateTask(RunInfoBoxActions, 1);
     gTasks[taskId].data[1] = digDisplayId;
     RunInfoBoxActions(taskId);
 }
 
-static bool8 IsInfoBoxClosed(void)
+static bool8 IsInfoBoxClosed (void)
 {
     if (FindTaskIdByFunc(RunInfoBoxActions) == 0xFF) {
         return TRUE;
@@ -3305,25 +3305,25 @@ static bool8 IsInfoBoxClosed(void)
     }
 }
 
-static void RunInfoBoxActions(u8 taskId)
+static void RunInfoBoxActions (u8 taskId)
 {
     sInfoBoxActions[gTasks[taskId].tState](&gTasks[taskId]);
 }
 
-static void InfoBox_FadeIn(struct Task *task)
+static void InfoBox_FadeIn (struct Task *task)
 {
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB(0, 0, 0));
     task->tState++;
 }
 
-static void InfoBox_WaitForFade(struct Task *task)
+static void InfoBox_WaitForFade (struct Task *task)
 {
     if (!gPaletteFade.active) {
         task->tState++;
     }
 }
 
-static void InfoBox_DrawWindow(struct Task *task)
+static void InfoBox_DrawWindow (struct Task *task)
 {
     DestroyDigitalDisplayScene();
     LoadInfoBoxTilemap();
@@ -3333,7 +3333,7 @@ static void InfoBox_DrawWindow(struct Task *task)
     task->tState++;
 }
 
-static void InfoBox_AddText(struct Task *task)
+static void InfoBox_AddText (struct Task *task)
 {
     AddTextPrinterParameterized3(1, 1, 2, 5, sColors_ReelTimeHelp, 0, gText_ReelTimeHelp);
     CopyWindowToVram(1, 3);
@@ -3341,7 +3341,7 @@ static void InfoBox_AddText(struct Task *task)
     task->tState++;
 }
 
-static void InfoBox_AwaitPlayerInput(struct Task *task)
+static void InfoBox_AwaitPlayerInput (struct Task *task)
 {
     if (JOY_NEW(B_BUTTON | SELECT_BUTTON)) {
         FillWindowPixelBuffer(1, PIXEL_FILL(0));
@@ -3353,27 +3353,27 @@ static void InfoBox_AwaitPlayerInput(struct Task *task)
     }
 }
 
-static void InfoBox_LoadSlotMachineTilemap(struct Task *task)
+static void InfoBox_LoadSlotMachineTilemap (struct Task *task)
 {
     LoadSlotMachineMenuTilemap();
     ShowBg(3);
     task->tState++;
 }
 
-static void InfoBox_CreateDigitalDisplay(struct Task *task)
+static void InfoBox_CreateDigitalDisplay (struct Task *task)
 {
     CreateDigitalDisplayScene(task->data[1]);
     task->tState++;
 }
 
-static void InfoBox_LoadPikaPowerMeter(struct Task *task)
+static void InfoBox_LoadPikaPowerMeter (struct Task *task)
 {
     LoadPikaPowerMeter(sSlotMachine->pikaPower);
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB(0, 0, 0));
     task->tState++;
 }
 
-static void InfoBox_FreeTask(struct Task *task)
+static void InfoBox_FreeTask (struct Task *task)
 {
     DestroyTask(FindTaskIdByFunc(RunInfoBoxActions));
 }
@@ -3382,7 +3382,7 @@ static void InfoBox_FreeTask(struct Task *task)
 
 #define sWaitForAnim data[7]
 
-static void CreateDigitalDisplayTask(void)
+static void CreateDigitalDisplayTask (void)
 {
     u8 i;
     struct Task *task;
@@ -3396,7 +3396,7 @@ static void CreateDigitalDisplayTask(void)
 }
 
 // For the panel on the right side of the slot screen
-static void CreateDigitalDisplayScene(u8 id)
+static void CreateDigitalDisplayScene (u8 id)
 {
     u8 i;
     struct Task *task;
@@ -3417,7 +3417,7 @@ static void CreateDigitalDisplayScene(u8 id)
     }
 }
 
-static void AddDigitalDisplaySprite(u8 templateIdx, SpriteCallback callback, s16 x, s16 y, s16 spriteId)
+static void AddDigitalDisplaySprite (u8 templateIdx, SpriteCallback callback, s16 x, s16 y, s16 spriteId)
 {
     u8 i;
     struct Task *task = &gTasks[sSlotMachine->digDisplayTaskId];
@@ -3429,7 +3429,7 @@ static void AddDigitalDisplaySprite(u8 templateIdx, SpriteCallback callback, s16
     }
 }
 
-static void DestroyDigitalDisplayScene(void)
+static void DestroyDigitalDisplayScene (void)
 {
     u8 i;
     struct Task *task = &gTasks[sSlotMachine->digDisplayTaskId];
@@ -3446,7 +3446,7 @@ static void DestroyDigitalDisplayScene(void)
     }
 }
 
-static bool8 IsDigitalDisplayAnimFinished(void)
+static bool8 IsDigitalDisplayAnimFinished (void)
 {
     u8 i;
     struct Task *task = &gTasks[sSlotMachine->digDisplayTaskId];
@@ -3460,16 +3460,16 @@ static bool8 IsDigitalDisplayAnimFinished(void)
     return TRUE;
 }
 
-static void Task_DigitalDisplay(u8 taskId)
+static void Task_DigitalDisplay (u8 taskId)
 {
     sDigitalDisplayActions[gTasks[taskId].data[0]](&gTasks[taskId]);
 }
 
-static void DigitalDisplay_Idle(struct Task *task)
+static void DigitalDisplay_Idle (struct Task *task)
 {
 }
 
-static void CreateReelSymbolSprites(void)
+static void CreateReelSymbolSprites (void)
 {
     s16 i;
     s16 j;
@@ -3485,7 +3485,7 @@ static void CreateReelSymbolSprites(void)
     }
 }
 
-static void SpriteCB_ReelSymbol(struct Sprite *sprite)
+static void SpriteCB_ReelSymbol (struct Sprite *sprite)
 {
     sprite->data[2] = sSlotMachine->reelPixelOffsets[sprite->data[0]] + sprite->data[1];
     sprite->data[2] %= 120;
@@ -3494,7 +3494,7 @@ static void SpriteCB_ReelSymbol(struct Sprite *sprite)
     SetSpriteSheetFrameTileNum(sprite);
 }
 
-static void CreateCreditPayoutNumberSprites(void)
+static void CreateCreditPayoutNumberSprites (void)
 {
     s16 i;
     s16 x;
@@ -3510,7 +3510,7 @@ static void CreateCreditPayoutNumberSprites(void)
     }
 }
 
-static void CreateCoinNumberSprite(s16 x, s16 y, bool8 isPayout, s16 a3)
+static void CreateCoinNumberSprite (s16 x, s16 y, bool8 isPayout, s16 a3)
 {
     struct Sprite *sprite = &gSprites[CreateSprite(&sSpriteTemplate_CoinNumber, x, y, 13)];
     sprite->oam.priority = 2;
@@ -3520,7 +3520,7 @@ static void CreateCoinNumberSprite(s16 x, s16 y, bool8 isPayout, s16 a3)
     sprite->data[3] = -1;
 }
 
-static void SpriteCB_CoinNumber(struct Sprite *sprite)
+static void SpriteCB_CoinNumber (struct Sprite *sprite)
 {
     u16 tag = sSlotMachine->coins;
     if (sprite->data[0]) {
@@ -3536,14 +3536,14 @@ static void SpriteCB_CoinNumber(struct Sprite *sprite)
     }
 }
 
-static void CreateReelBackgroundSprite(void)
+static void CreateReelBackgroundSprite (void)
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_ReelBackground, 88, 72, 15);
     gSprites[spriteId].oam.priority = 3;
     SetSubspriteTables(&gSprites[spriteId], sSubspriteTable_ReelBackground);
 }
 
-static void CreateReelTimePikachuSprite(void)
+static void CreateReelTimePikachuSprite (void)
 {
     struct SpriteTemplate spriteTemplate;
     u8 spriteId;
@@ -3570,7 +3570,7 @@ static void CreateReelTimePikachuSprite(void)
     sSlotMachine->reelTimePikachuSpriteId = spriteId;
 }
 
-static void DestroyReelTimePikachuSprite(void)
+static void DestroyReelTimePikachuSprite (void)
 {
     DestroySprite(&gSprites[sSlotMachine->reelTimePikachuSpriteId]);
     if (sImageTable_ReelTimePikachu != NULL) {
@@ -3578,7 +3578,7 @@ static void DestroyReelTimePikachuSprite(void)
     }
 }
 
-static void SpriteCB_ReelTimePikachu(struct Sprite *sprite)
+static void SpriteCB_ReelTimePikachu (struct Sprite *sprite)
 {
     sprite->pos2.y = sprite->pos2.x = 0;
     if (sprite->animNum == 4) {
@@ -3589,7 +3589,7 @@ static void SpriteCB_ReelTimePikachu(struct Sprite *sprite)
     }
 }
 
-static void CreateReelTimeMachineSprites(void)
+static void CreateReelTimeMachineSprites (void)
 {
     struct SpriteTemplate spriteTemplate;
     u8 spriteId;
@@ -3626,7 +3626,7 @@ static void CreateReelTimeMachineSprites(void)
     sSlotMachine->reelTimeMachineSpriteIds[1] = spriteId;
 }
 
-static void CreateBrokenReelTimeMachineSprite(void)
+static void CreateBrokenReelTimeMachineSprite (void)
 {
     struct SpriteTemplate spriteTemplate;
     u8 spriteId;
@@ -3648,7 +3648,7 @@ static void CreateBrokenReelTimeMachineSprite(void)
     sSlotMachine->reelTimeBrokenMachineSpriteId = spriteId;
 }
 
-static void CreateReelTimeNumberSprites(void)
+static void CreateReelTimeNumberSprites (void)
 {
     u8 i;
     s16 r5;
@@ -3662,7 +3662,7 @@ static void CreateReelTimeNumberSprites(void)
     }
 }
 
-static void SpriteCB_ReelTimeNumbers(struct Sprite *sprite)
+static void SpriteCB_ReelTimeNumbers (struct Sprite *sprite)
 {
     s16 r0 = (u16)(sSlotMachine->reelTimePixelOffset + sprite->data[7]);
     r0 %= 40;
@@ -3670,7 +3670,7 @@ static void SpriteCB_ReelTimeNumbers(struct Sprite *sprite)
     StartSpriteAnimIfDifferent(sprite, GetNearbyReelTimeTag(r0 / 20));
 }
 
-static void CreateReelTimeShadowSprites(void)
+static void CreateReelTimeShadowSprites (void)
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_ReelTimeShadow, 368, 100, 9);
     struct Sprite *sprite = &gSprites[spriteId];
@@ -3688,7 +3688,7 @@ static void CreateReelTimeShadowSprites(void)
 }
 
 // Creates a small black bar on the Reel Time machine to fill the gap between the numbers
-static void CreateReelTimeNumberGapSprite(void)
+static void CreateReelTimeNumberGapSprite (void)
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_ReelTimeNumberGap, 368, 76, 11);
     struct Sprite *sprite = &gSprites[spriteId];
@@ -3698,7 +3698,7 @@ static void CreateReelTimeNumberGapSprite(void)
     sSlotMachine->reelTimeNumberGapSpriteId = spriteId;
 }
 
-static void DestroyReelTimeMachineSprites(void)
+static void DestroyReelTimeMachineSprites (void)
 {
     u8 i;
 
@@ -3719,7 +3719,7 @@ static void DestroyReelTimeMachineSprites(void)
     }
 }
 
-static void DestroyReelTimeShadowSprites(void)
+static void DestroyReelTimeShadowSprites (void)
 {
     u8 i;
 
@@ -3728,7 +3728,7 @@ static void DestroyReelTimeShadowSprites(void)
     }
 }
 
-static void DestroyBrokenReelTimeMachineSprite(void)
+static void DestroyBrokenReelTimeMachineSprite (void)
 {
     DestroySprite(&gSprites[sSlotMachine->reelTimeBrokenMachineSpriteId]);
     if (sImageTable_BrokenReelTimeMachine != NULL) {
@@ -3742,7 +3742,7 @@ static void DestroyBrokenReelTimeMachineSprite(void)
 #define sCounter    data[3]
 #define sDelay      data[7]
 
-static void CreateReelTimeBoltSprites(void)
+static void CreateReelTimeBoltSprites (void)
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_ReelTimeBolt, 152, 32, 5);
     struct Sprite *sprite = &gSprites[spriteId];
@@ -3763,7 +3763,7 @@ static void CreateReelTimeBoltSprites(void)
     sprite->sDelay = 32;
 }
 
-static void SpriteCB_ReelTimeBolt(struct Sprite *sprite)
+static void SpriteCB_ReelTimeBolt (struct Sprite *sprite)
 {
     if (sprite->sDelayTimer != 0) {
         sprite->sDelayTimer--;
@@ -3781,13 +3781,13 @@ static void SpriteCB_ReelTimeBolt(struct Sprite *sprite)
     }
 }
 
-static void SetReelTimeBoltDelay(s16 delay)
+static void SetReelTimeBoltDelay (s16 delay)
 {
     gSprites[sSlotMachine->reelTimeBoltSpriteIds[0]].sDelay = delay;
     gSprites[sSlotMachine->reelTimeBoltSpriteIds[1]].sDelay = delay;
 }
 
-static void DestroyReelTimeBoltSprites(void)
+static void DestroyReelTimeBoltSprites (void)
 {
     u8 i;
 
@@ -3807,7 +3807,7 @@ static void DestroyReelTimeBoltSprites(void)
 #define sDelayTimer data[6]
 #define sDelay      data[7]
 
-static void CreateReelTimePikachuAuraSprites(void)
+static void CreateReelTimePikachuAuraSprites (void)
 {
     // Left half of electricity orb
     u8 spriteId = CreateSprite(&sSpriteTemplate_ReelTimePikachuAura, 72, 80, 3);
@@ -3825,7 +3825,7 @@ static void CreateReelTimePikachuAuraSprites(void)
     sSlotMachine->reelTimePikachuAuraSpriteIds[1] = spriteId;
 }
 
-static void SpriteCB_ReelTimePikachuAura(struct Sprite *sprite)
+static void SpriteCB_ReelTimePikachuAura (struct Sprite *sprite)
 {
     u8 colors[] = {16, 0};
     if (sprite->sFlashPal && --sprite->sDelayTimer <= 0) {
@@ -3836,12 +3836,12 @@ static void SpriteCB_ReelTimePikachuAura(struct Sprite *sprite)
     }
 }
 
-static void SetReelTimePikachuAuraFlashDelay(s16 delay)
+static void SetReelTimePikachuAuraFlashDelay (s16 delay)
 {
     gSprites[sSlotMachine->reelTimePikachuAuraSpriteIds[0]].sDelay = delay;
 }
 
-static void DestroyReelTimePikachuAuraSprites(void)
+static void DestroyReelTimePikachuAuraSprites (void)
 {
     u8 i;
     MultiplyInvertedPaletteRGBComponents((IndexOfSpritePaletteTag(PALTAG_PIKA_AURA) << 4) + 0x103, 0, 0, 0);
@@ -3855,25 +3855,25 @@ static void DestroyReelTimePikachuAuraSprites(void)
 #undef sDelayTimer
 #undef sDelay
 
-static void CreateReelTimeExplosionSprite(void)
+static void CreateReelTimeExplosionSprite (void)
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_ReelTimeExplosion, 168, 80, 6);
     gSprites[spriteId].oam.priority = 1;
     sSlotMachine->reelTimeExplosionSpriteId = spriteId;
 }
 
-static void SpriteCB_ReelTimeExplosion(struct Sprite *sprite)
+static void SpriteCB_ReelTimeExplosion (struct Sprite *sprite)
 {
     sprite->pos2.y = gSpriteCoordOffsetY;
 }
 
-static void DestroyReelTimeExplosionSprite(void)
+static void DestroyReelTimeExplosionSprite (void)
 {
     DestroySprite(&gSprites[sSlotMachine->reelTimeExplosionSpriteId]);
 }
 
 // The "confusion" ducks that circle Pikachu if the Reel Time machine explodes
-static void CreateReelTimeDuckSprites(void)
+static void CreateReelTimeDuckSprites (void)
 {
     u8 i;
     u16 sp[] = {0x0, 0x40, 0x80, 0xC0};
@@ -3887,7 +3887,7 @@ static void CreateReelTimeDuckSprites(void)
     }
 }
 
-static void SpriteCB_ReelTimeDuck(struct Sprite *sprite)
+static void SpriteCB_ReelTimeDuck (struct Sprite *sprite)
 {
     sprite->data[0] -= 2;
     sprite->data[0] &= 0xff;
@@ -3903,7 +3903,7 @@ static void SpriteCB_ReelTimeDuck(struct Sprite *sprite)
     }
 }
 
-static void DestroyReelTimeDuckSprites(void)
+static void DestroyReelTimeDuckSprites (void)
 {
     u8 i;
     for (i = 0; i < ARRAY_COUNT(sSlotMachine->reelTimeDuckSpriteIds); i++) {
@@ -3916,7 +3916,7 @@ static void DestroyReelTimeDuckSprites(void)
 #define sTimer        data[2]
 #define sAnimFinished data[7]
 
-static void CreateReelTimeSmokeSprite(void)
+static void CreateReelTimeSmokeSprite (void)
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_ReelTimeSmoke, 168, 60, 8);
     struct Sprite *sprite = &gSprites[spriteId];
@@ -3926,7 +3926,7 @@ static void CreateReelTimeSmokeSprite(void)
     sSlotMachine->reelTimeSmokeSpriteId = spriteId;
 }
 
-static void SpriteCB_ReelTimeSmoke(struct Sprite *sprite)
+static void SpriteCB_ReelTimeSmoke (struct Sprite *sprite)
 {
     if (sprite->sState == 0) {
         if (sprite->affineAnimEnded) {
@@ -3949,12 +3949,12 @@ static void SpriteCB_ReelTimeSmoke(struct Sprite *sprite)
     sprite->pos2.y -= (sprite->sMoveY >> 8);
 }
 
-static u8 IsReelTimeSmokeAnimFinished(void)
+static u8 IsReelTimeSmokeAnimFinished (void)
 {
     return gSprites[sSlotMachine->reelTimeSmokeSpriteId].sAnimFinished;
 }
 
-static void DestroyReelTimeSmokeSprite(void)
+static void DestroyReelTimeSmokeSprite (void)
 {
     struct Sprite *sprite = &gSprites[sSlotMachine->reelTimeSmokeSpriteId];
     FreeOamMatrix(sprite->oam.matrixNum);
@@ -3966,7 +3966,7 @@ static void DestroyReelTimeSmokeSprite(void)
 #undef sTimer
 #undef sAnimFinished
 
-static u8 CreatePikaPowerBoltSprite(s16 x, s16 y)
+static u8 CreatePikaPowerBoltSprite (s16 x, s16 y)
 {
     u8 spriteId = CreateSprite(&sSpriteTemplate_PikaPowerBolt, x, y, 12);
     struct Sprite *sprite = &gSprites[spriteId];
@@ -3976,21 +3976,21 @@ static u8 CreatePikaPowerBoltSprite(s16 x, s16 y)
     return spriteId;
 }
 
-static void SpriteCB_PikaPowerBolt(struct Sprite *sprite)
+static void SpriteCB_PikaPowerBolt (struct Sprite *sprite)
 {
     if (sprite->affineAnimEnded) {
         sprite->data[7] = TRUE;
     }
 }
 
-static void DestroyPikaPowerBoltSprite(u8 spriteId)
+static void DestroyPikaPowerBoltSprite (u8 spriteId)
 {
     struct Sprite *sprite = &gSprites[spriteId];
     FreeOamMatrix(sprite->oam.matrixNum);
     DestroySprite(sprite);
 }
 
-static u8 CreateStdDigitalDisplaySprite(u8 templateIdx, u8 dispInfoId, s16 spriteId)
+static u8 CreateStdDigitalDisplaySprite (u8 templateIdx, u8 dispInfoId, s16 spriteId)
 {
     return CreateDigitalDisplaySprite(templateIdx, sDigitalDisplay_SpriteCallbacks[dispInfoId], sDigitalDisplay_SpriteCoords[dispInfoId][0], sDigitalDisplay_SpriteCoords[dispInfoId][1], spriteId);
 }
@@ -3999,7 +3999,7 @@ static u8 CreateStdDigitalDisplaySprite(u8 templateIdx, u8 dispInfoId, s16 sprit
 #define sCounter     data[1]
 #define sSpriteId    data[6]
 
-static u8 CreateDigitalDisplaySprite(u8 templateIdx, SpriteCallback callback, s16 x, s16 y, s16 internalSpriteId)
+static u8 CreateDigitalDisplaySprite (u8 templateIdx, SpriteCallback callback, s16 x, s16 y, s16 internalSpriteId)
 {
     struct SpriteTemplate spriteTemplate;
     u8 spriteId;
@@ -4019,12 +4019,12 @@ static u8 CreateDigitalDisplaySprite(u8 templateIdx, SpriteCallback callback, s1
     return spriteId;
 }
 
-static void SpriteCB_DigitalDisplay_Static(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_Static (struct Sprite *sprite)
 {
     sprite->sWaitForAnim = FALSE;
 }
 
-static void SpriteCB_DigitalDisplay_Smoke(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_Smoke (struct Sprite *sprite)
 {
     s16 targetX[] = {4, -4, 4, -4};
     s16 targetY[] = {4, 4, -4, -4};
@@ -4041,19 +4041,19 @@ static void SpriteCB_DigitalDisplay_Smoke(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_DigitalDisplay_SmokeNE(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_SmokeNE (struct Sprite *sprite)
 {
     sprite->hFlip = TRUE;
     SpriteCB_DigitalDisplay_Smoke(sprite);
 }
 
-static void SpriteCB_DigitalDisplay_SmokeSW(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_SmokeSW (struct Sprite *sprite)
 {
     sprite->vFlip = TRUE;
     SpriteCB_DigitalDisplay_Smoke(sprite);
 }
 
-static void SpriteCB_DigitalDisplay_SmokeSE(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_SmokeSE (struct Sprite *sprite)
 {
     sprite->hFlip = TRUE;
     sprite->vFlip = TRUE;
@@ -4061,7 +4061,7 @@ static void SpriteCB_DigitalDisplay_SmokeSE(struct Sprite *sprite)
 }
 
 // The word "Reel" in Reel Time
-static void SpriteCB_DigitalDisplay_Reel(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_Reel (struct Sprite *sprite)
 {
     switch (sprite->sState) {
     case 0:
@@ -4089,7 +4089,7 @@ static void SpriteCB_DigitalDisplay_Reel(struct Sprite *sprite)
 }
 
 // The word "Time" in Reel Time
-static void SpriteCB_DigitalDisplay_Time(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_Time (struct Sprite *sprite)
 {
     switch (sprite->sState) {
     case 0:
@@ -4116,7 +4116,7 @@ static void SpriteCB_DigitalDisplay_Time(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_DigitalDisplay_ReelTimeNumber(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_ReelTimeNumber (struct Sprite *sprite)
 {
     switch (sprite->sState) {
     case 0:
@@ -4153,7 +4153,7 @@ static void SpriteCB_DigitalDisplay_ReelTimeNumber(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_DigitalDisplay_PokeballRocking(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_PokeballRocking (struct Sprite *sprite)
 {
     switch (sprite->sState) {
     case 0:
@@ -4188,7 +4188,7 @@ static void SpriteCB_DigitalDisplay_PokeballRocking(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_DigitalDisplay_Stop(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_Stop (struct Sprite *sprite)
 {
     switch (sprite->sState) {
     case 0:
@@ -4207,7 +4207,7 @@ static void SpriteCB_DigitalDisplay_Stop(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_DigitalDisplay_AButtonStop(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_AButtonStop (struct Sprite *sprite)
 {
     switch (sprite->sState) {
     case 0:
@@ -4239,7 +4239,7 @@ static void SpriteCB_DigitalDisplay_AButtonStop(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_DigitalDisplay_PokeballShining(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_PokeballShining (struct Sprite *sprite)
 {
     if (sprite->sCounter < 3) {
         LoadPalette(sPokeballShiningPalTable[sprite->sCounter], (IndexOfSpritePaletteTag(PALTAG_DIG_DISPLAY) << 4) + 0x100, 32);
@@ -4258,7 +4258,7 @@ static void SpriteCB_DigitalDisplay_PokeballShining(struct Sprite *sprite)
     sprite->sWaitForAnim = FALSE;
 }
 
-static void SpriteCB_DigitalDisplay_RegBonus(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_RegBonus (struct Sprite *sprite)
 {
     // Elements in array correspond to R E G B O N U S
     s16 letterXOffset[] = {0, -40,   0,   0, 48,   0,  24,   0};
@@ -4297,7 +4297,7 @@ static void SpriteCB_DigitalDisplay_RegBonus(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_DigitalDisplay_BigBonus(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_BigBonus (struct Sprite *sprite)
 {
     s16 sp0[] = {160, 192, 224, 104, 80, 64, 48, 24};
 
@@ -4314,7 +4314,7 @@ static void SpriteCB_DigitalDisplay_BigBonus(struct Sprite *sprite)
 
 // For the A Button prompt when inserting bet
 // Initially no sprite until after the first bet
-static void SpriteCB_DigitalDisplay_AButtonStart(struct Sprite *sprite)
+static void SpriteCB_DigitalDisplay_AButtonStart (struct Sprite *sprite)
 {
     switch (sprite->sState) {
     case 0:
@@ -4370,21 +4370,21 @@ static void SpriteCB_DigitalDisplay_AButtonStart(struct Sprite *sprite)
     }
 }
 
-static void EndDigitalDisplayScene_Dummy(void)
+static void EndDigitalDisplayScene_Dummy (void)
 {
 }
 
-static void EndDigitalDisplayScene_StopReel(void)
+static void EndDigitalDisplayScene_StopReel (void)
 {
     SetGpuReg(REG_OFFSET_MOSAIC, 0);
 }
 
-static void EndDigitalDisplayScene_Win(void)
+static void EndDigitalDisplayScene_Win (void)
 {
     LoadPalette(sDigitalDisplay_Pal, (IndexOfSpritePaletteTag(PALTAG_DIG_DISPLAY) << 4) + 0x100, 0x20);
 }
 
-static void EndDigitalDisplayScene_InsertBet(void)
+static void EndDigitalDisplayScene_InsertBet (void)
 {
     sSlotMachine->win0h = DISPLAY_WIDTH;
     sSlotMachine->win0v = DISPLAY_HEIGHT;
@@ -4392,7 +4392,7 @@ static void EndDigitalDisplayScene_InsertBet(void)
     sSlotMachine->winOut = WINOUT_WIN01_BG_ALL | WINOUT_WIN01_OBJ | WINOUT_WIN01_CLR;
 }
 
-static void LoadSlotMachineGfx(void)
+static void LoadSlotMachineGfx (void)
 {
     u8 i;
 
@@ -4415,7 +4415,7 @@ static void LoadSlotMachineGfx(void)
     LoadSpritePalettes(sSlotMachineSpritePalettes);
 }
 
-static void LoadReelBackground(void)
+static void LoadReelBackground (void)
 {
     u8 *dest;
     u8 i, j;
@@ -4434,7 +4434,7 @@ static void LoadReelBackground(void)
     LoadSpriteSheet(sReelBackgroundSpriteSheet);
 }
 
-static void LoadMenuGfx(void)
+static void LoadMenuGfx (void)
 {
     sMenuGfx = Alloc(0x2200);
     LZDecompressWram(gSlotMachineMenu_Gfx, sMenuGfx);
@@ -4443,18 +4443,18 @@ static void LoadMenuGfx(void)
     LoadPalette(sUnkPalette, 208, 32);
 }
 
-static void LoadMenuAndReelOverlayTilemaps(void)
+static void LoadMenuAndReelOverlayTilemaps (void)
 {
     LoadSlotMachineMenuTilemap();
     LoadSlotMachineReelOverlay();
 }
 
-static void LoadSlotMachineMenuTilemap(void)
+static void LoadSlotMachineMenuTilemap (void)
 {
     LoadBgTilemap(2, gSlotMachineMenu_Tilemap, 0x500, 0);
 }
 
-static void LoadSlotMachineReelOverlay(void)
+static void LoadSlotMachineReelOverlay (void)
 {
     s16 x, y, dx;
 
@@ -4476,7 +4476,7 @@ static void LoadSlotMachineReelOverlay(void)
 }
 
 // For (un)shading the gray button at the bottom of a reel when A is pressed. The button is colored in quadrants
-static void SetReelButtonTilemap(s16 offset, u16 topLeft, u16 topRight, u16 bottomLeft, u16 bottomRight)
+static void SetReelButtonTilemap (s16 offset, u16 topLeft, u16 topRight, u16 bottomLeft, u16 bottomRight)
 {
     sReelButtonPress_Tilemap[0] = topLeft;
     sReelButtonPress_Tilemap[1] = topRight;
@@ -4489,13 +4489,13 @@ static void SetReelButtonTilemap(s16 offset, u16 topLeft, u16 topRight, u16 bott
     LoadBgTilemap(2, sReelButtonPress_Tilemap + 3, 2, 16 * 32 + 1 + offset); // Bottom Right
 }
 
-static void LoadInfoBoxTilemap(void)
+static void LoadInfoBoxTilemap (void)
 {
     LoadBgTilemap(2, gSlotMachineInfoBox_Tilemap, 0x500, 0);
     HideBg(3);
 }
 
-static void SetDigitalDisplayImagePtrs(void)
+static void SetDigitalDisplayImagePtrs (void)
 {
     sImageTables_DigitalDisplay[DIG_SPRITE_REEL]      = sImageTable_DigitalDisplay_Reel;
     sImageTables_DigitalDisplay[DIG_SPRITE_TIME]      = sImageTable_DigitalDisplay_Time;
@@ -4525,7 +4525,7 @@ static void SetDigitalDisplayImagePtrs(void)
     sImageTables_DigitalDisplay[DIG_SPRITE_EMPTY]     = NULL;
 }
 
-static void AllocDigitalDisplayGfx(void)
+static void AllocDigitalDisplayGfx (void)
 {
     sImageTable_DigitalDisplay_Reel = AllocZeroed(sizeof(struct SpriteFrameImage) * 1);
     sImageTable_DigitalDisplay_Reel[0].data = sDigitalDisplayGfxPtr;

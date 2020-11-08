@@ -73,7 +73,7 @@ static const u32 gCaveTransitionTilemap[] = INCBIN_U32("graphics/misc/cave_trans
 static const u32 gCaveTransitionTiles[] = INCBIN_U32("graphics/misc/cave_transition.4bpp.lz");
 
 // text
-bool8 SetUpFieldMove_Flash(void)
+bool8 SetUpFieldMove_Flash (void)
 {
     // In Ruby and Sapphire, Registeel's tomb is opened by using Fly. In Emerald,
     // Flash is used instead.
@@ -91,7 +91,7 @@ bool8 SetUpFieldMove_Flash(void)
     return FALSE;
 }
 
-static void FieldCallback_Flash(void)
+static void FieldCallback_Flash (void)
 {
     u8 taskId = CreateFieldMoveTask();
     gFieldEffectArguments[0] = GetCursorSelectionMonId();
@@ -99,14 +99,14 @@ static void FieldCallback_Flash(void)
     gTasks[taskId].data[9] = (uintptr_t)FldEff_UseFlash;
 }
 
-static void FldEff_UseFlash(void)
+static void FldEff_UseFlash (void)
 {
     PlaySE(SE_M_REFLECT);
     FlagSet(FLAG_SYS_USE_FLASH);
     ScriptContext1_SetupScript(EventScript_UseFlash);
 }
 
-static void CB2_ChangeMapMain(void)
+static void CB2_ChangeMapMain (void)
 {
     RunTasks();
     AnimateSprites();
@@ -114,14 +114,14 @@ static void CB2_ChangeMapMain(void)
     UpdatePaletteFade();
 }
 
-static void VBC_ChangeMapVBlank(void)
+static void VBC_ChangeMapVBlank (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-void CB2_DoChangeMap(void)
+void CB2_DoChangeMap (void)
 {
     u16 ime;
 
@@ -153,7 +153,7 @@ void CB2_DoChangeMap(void)
     }
 }
 
-static bool8 TryDoMapTransition(void)
+static bool8 TryDoMapTransition (void)
 {
     u8 i;
     u8 fromType = GetLastUsedWarpMapType();
@@ -169,7 +169,7 @@ static bool8 TryDoMapTransition(void)
     return FALSE;
 }
 
-bool8 GetMapPairFadeToType(u8 _fromType, u8 _toType)
+bool8 GetMapPairFadeToType (u8 _fromType, u8 _toType)
 {
     u8 i;
     u8 fromType = _fromType;
@@ -184,7 +184,7 @@ bool8 GetMapPairFadeToType(u8 _fromType, u8 _toType)
     return FALSE;
 }
 
-bool8 GetMapPairFadeFromType(u8 _fromType, u8 _toType)
+bool8 GetMapPairFadeFromType (u8 _fromType, u8 _toType)
 {
     u8 i;
     u8 fromType = _fromType;
@@ -199,17 +199,17 @@ bool8 GetMapPairFadeFromType(u8 _fromType, u8 _toType)
     return FALSE;
 }
 
-static void DoExitCaveTransition(void)
+static void DoExitCaveTransition (void)
 {
     CreateTask(Task_ExitCaveTransition1, 0);
 }
 
-static void Task_ExitCaveTransition1(u8 taskId)
+static void Task_ExitCaveTransition1 (u8 taskId)
 {
     gTasks[taskId].func = Task_ExitCaveTransition2;
 }
 
-static void Task_ExitCaveTransition2(u8 taskId)
+static void Task_ExitCaveTransition2 (u8 taskId)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     LZ77UnCompVram(gCaveTransitionTiles, (void *)(VRAM + 0xC000));
@@ -239,7 +239,7 @@ static void Task_ExitCaveTransition2(u8 taskId)
     gTasks[taskId].data[1] = 0;
 }
 
-static void Task_ExitCaveTransition3(u8 taskId)
+static void Task_ExitCaveTransition3 (u8 taskId)
 {
     u16 count = gTasks[taskId].data[1];
     u16 blend = count + 0x1000;
@@ -253,7 +253,7 @@ static void Task_ExitCaveTransition3(u8 taskId)
     }
 }
 
-static void Task_ExitCaveTransition4(u8 taskId)
+static void Task_ExitCaveTransition4 (u8 taskId)
 {
     u16 count;
 
@@ -270,7 +270,7 @@ static void Task_ExitCaveTransition4(u8 taskId)
     }
 }
 
-static void Task_ExitCaveTransition5(u8 taskId)
+static void Task_ExitCaveTransition5 (u8 taskId)
 {
     if (gTasks[taskId].data[2]) {
         gTasks[taskId].data[2]--;
@@ -279,17 +279,17 @@ static void Task_ExitCaveTransition5(u8 taskId)
     }
 }
 
-static void DoEnterCaveTransition(void)
+static void DoEnterCaveTransition (void)
 {
     CreateTask(Task_EnterCaveTransition1, 0);
 }
 
-static void Task_EnterCaveTransition1(u8 taskId)
+static void Task_EnterCaveTransition1 (u8 taskId)
 {
     gTasks[taskId].func = Task_EnterCaveTransition2;
 }
 
-static void Task_EnterCaveTransition2(u8 taskId)
+static void Task_EnterCaveTransition2 (u8 taskId)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     LZ77UnCompVram(gCaveTransitionTiles, (void *)(VRAM + 0xC000));
@@ -314,7 +314,7 @@ static void Task_EnterCaveTransition2(u8 taskId)
     gTasks[taskId].data[2] = 0;
 }
 
-static void Task_EnterCaveTransition3(u8 taskId)
+static void Task_EnterCaveTransition3 (u8 taskId)
 {
     u16 count = gTasks[taskId].data[2];
 
@@ -335,7 +335,7 @@ static void Task_EnterCaveTransition3(u8 taskId)
     }
 }
 
-static void Task_EnterCaveTransition4(u8 taskId)
+static void Task_EnterCaveTransition4 (u8 taskId)
 {
     u16 count = 16 - gTasks[taskId].data[1];
     u16 blend = count + 0x1000;

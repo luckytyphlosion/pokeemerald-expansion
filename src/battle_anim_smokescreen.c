@@ -153,7 +153,7 @@ const struct SpriteTemplate gSpriteTemplate_EnemyShadow =
     .callback = SpriteCB_SetInvisible
 };
 
-u8 SmokescreenImpact(s16 x, s16 y, u8 a3)
+u8 SmokescreenImpact (s16 x, s16 y, u8 a3)
 {
     u8 mainSpriteId;
     u8 spriteId1, spriteId2, spriteId3, spriteId4;
@@ -194,7 +194,7 @@ u8 SmokescreenImpact(s16 x, s16 y, u8 a3)
     return mainSpriteId;
 }
 
-static void SmokescreenImpact_Callback(struct Sprite *sprite)
+static void SmokescreenImpact_Callback (struct Sprite *sprite)
 {
     if (!sprite->data[0]) {
         FreeSpriteTilesByTag(sSmokescreenImpactSpriteSheet.tag);
@@ -207,7 +207,7 @@ static void SmokescreenImpact_Callback(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_DestroySprite(struct Sprite *sprite)
+static void SpriteCB_DestroySprite (struct Sprite *sprite)
 {
     if (sprite->animEnded) {
         gSprites[sprite->data[0]].data[0]--;

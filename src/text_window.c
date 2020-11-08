@@ -83,7 +83,7 @@ static const struct TilesPal sWindowFrames[WINDOW_FRAMES_COUNT] =
 };
 
 // code
-const struct TilesPal * GetWindowFrameTilesPal(u8 id)
+const struct TilesPal * GetWindowFrameTilesPal (u8 id)
 {
     if (id >= WINDOW_FRAMES_COUNT) {
         return &sWindowFrames[0];
@@ -92,29 +92,29 @@ const struct TilesPal * GetWindowFrameTilesPal(u8 id)
     }
 }
 
-void LoadMessageBoxGfx(u8 windowId, u16 destOffset, u8 palOffset)
+void LoadMessageBoxGfx (u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), gMessageBox_Gfx, 0x1C0, destOffset);
     LoadPalette(GetOverworldTextboxPalettePtr(), palOffset, 0x20);
 }
 
-void LoadUserWindowBorderGfx_(u8 windowId, u16 destOffset, u8 palOffset)
+void LoadUserWindowBorderGfx_ (u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadUserWindowBorderGfx(windowId, destOffset, palOffset);
 }
 
-void LoadWindowGfx(u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
+void LoadWindowGfx (u8 windowId, u8 frameId, u16 destOffset, u8 palOffset)
 {
     LoadBgTiles(GetWindowAttribute(windowId, WINDOW_BG), sWindowFrames[frameId].tiles, 0x120, destOffset);
     LoadPalette(sWindowFrames[frameId].pal, palOffset, 0x20);
 }
 
-void LoadUserWindowBorderGfx(u8 windowId, u16 destOffset, u8 palOffset)
+void LoadUserWindowBorderGfx (u8 windowId, u16 destOffset, u8 palOffset)
 {
     LoadWindowGfx(windowId, gSaveBlock2Ptr->optionsWindowFrameType, destOffset, palOffset);
 }
 
-void DrawTextBorderOuter(u8 windowId, u16 tileNum, u8 palNum)
+void DrawTextBorderOuter (u8 windowId, u16 tileNum, u8 palNum)
 {
     u8 bgLayer = GetWindowAttribute(windowId, WINDOW_BG);
     u16 tilemapLeft = GetWindowAttribute(windowId, WINDOW_TILEMAP_LEFT);
@@ -132,7 +132,7 @@ void DrawTextBorderOuter(u8 windowId, u16 tileNum, u8 palNum)
     FillBgTilemapBufferRect(bgLayer, tileNum + 8, tilemapLeft + width,  tilemapTop + height,    1,      1,      palNum);
 }
 
-void DrawTextBorderInner(u8 windowId, u16 tileNum, u8 palNum)
+void DrawTextBorderInner (u8 windowId, u16 tileNum, u8 palNum)
 {
     u8 bgLayer = GetWindowAttribute(windowId, WINDOW_BG);
     u16 tilemapLeft = GetWindowAttribute(windowId, WINDOW_TILEMAP_LEFT);
@@ -150,7 +150,7 @@ void DrawTextBorderInner(u8 windowId, u16 tileNum, u8 palNum)
     FillBgTilemapBufferRect(bgLayer, tileNum + 8, tilemapLeft + width - 1,  tilemapTop + height - 1,    1,          1,          palNum);
 }
 
-void rbox_fill_rectangle(u8 windowId)
+void rbox_fill_rectangle (u8 windowId)
 {
     u8 bgLayer = GetWindowAttribute(windowId, WINDOW_BG);
     u16 tilemapLeft = GetWindowAttribute(windowId, WINDOW_TILEMAP_LEFT);
@@ -161,7 +161,7 @@ void rbox_fill_rectangle(u8 windowId)
     FillBgTilemapBufferRect(bgLayer, 0, tilemapLeft - 1, tilemapTop - 1, width + 2, height + 2, 0x11);
 }
 
-const u16 * GetTextWindowPalette(u8 id)
+const u16 * GetTextWindowPalette (u8 id)
 {
     switch (id) {
     case 0:
@@ -185,12 +185,12 @@ const u16 * GetTextWindowPalette(u8 id)
     return (const u16 *)(sTextWindowPalettes) + id;
 }
 
-const u16 * GetOverworldTextboxPalettePtr(void)
+const u16 * GetOverworldTextboxPalettePtr (void)
 {
     return gMessageBox_Pal;
 }
 
-void sub_8098C6C(u8 bg, u16 destOffset, u8 palOffset)
+void sub_8098C6C (u8 bg, u16 destOffset, u8 palOffset)
 {
     LoadBgTiles(bg, sWindowFrames[gSaveBlock2Ptr->optionsWindowFrameType].tiles, 0x120, destOffset);
     LoadPalette(GetWindowFrameTilesPal(gSaveBlock2Ptr->optionsWindowFrameType)->pal, palOffset, 0x20);

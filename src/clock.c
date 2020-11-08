@@ -15,7 +15,7 @@
 static void UpdatePerDay(struct Time *localTime);
 static void UpdatePerMinute(struct Time *localTime);
 
-static void InitTimeBasedEvents(void)
+static void InitTimeBasedEvents (void)
 {
     FlagSet(FLAG_SYS_CLOCK_SET);
     RtcCalcLocalTime();
@@ -23,7 +23,7 @@ static void InitTimeBasedEvents(void)
     VarSet(VAR_DAYS, gLocalTime.days);
 }
 
-void DoTimeBasedEvents(void)
+void DoTimeBasedEvents (void)
 {
     if (FlagGet(FLAG_SYS_CLOCK_SET) && !InPokemonCenter()) {
         RtcCalcLocalTime();
@@ -32,7 +32,7 @@ void DoTimeBasedEvents(void)
     }
 }
 
-static void UpdatePerDay(struct Time *localTime)
+static void UpdatePerDay (struct Time *localTime)
 {
     u16 *days = GetVarPointer(VAR_DAYS);
     u16 daysSince;
@@ -54,7 +54,7 @@ static void UpdatePerDay(struct Time *localTime)
     }
 }
 
-static void UpdatePerMinute(struct Time *localTime)
+static void UpdatePerMinute (struct Time *localTime)
 {
     struct Time difference;
     int minutes;
@@ -69,13 +69,13 @@ static void UpdatePerMinute(struct Time *localTime)
     }
 }
 
-static void ReturnFromStartWallClock(void)
+static void ReturnFromStartWallClock (void)
 {
     InitTimeBasedEvents();
     SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
 }
 
-void StartWallClock(void)
+void StartWallClock (void)
 {
     SetMainCallback2(CB2_StartWallClock);
     gMain.savedCallback = ReturnFromStartWallClock;

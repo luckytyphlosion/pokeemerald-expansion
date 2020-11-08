@@ -91,7 +91,7 @@ static const u8 sText_DashesNoPlayer[] = _("-------");
 static const u8 sText_DashesNoScore[] = _("----");
 
 // code
-static void ClearLinkBattleRecord(struct LinkBattleRecord *record)
+static void ClearLinkBattleRecord (struct LinkBattleRecord *record)
 {
     CpuFill16(0, record, sizeof(struct LinkBattleRecord));
     record->name[0] = EOS;
@@ -101,7 +101,7 @@ static void ClearLinkBattleRecord(struct LinkBattleRecord *record)
     record->draws = 0;
 }
 
-static void ClearLinkBattleRecords(struct LinkBattleRecord *records)
+static void ClearLinkBattleRecords (struct LinkBattleRecord *records)
 {
     s32 i;
     for (i = 0; i < LINK_B_RECORDS_COUNT; i++) {
@@ -112,12 +112,12 @@ static void ClearLinkBattleRecords(struct LinkBattleRecord *records)
     SetGameStat(GAME_STAT_LINK_BATTLE_DRAWS, 0);
 }
 
-static s32 GetLinkBattleRecordTotalBattles(struct LinkBattleRecord *record)
+static s32 GetLinkBattleRecordTotalBattles (struct LinkBattleRecord *record)
 {
     return record->wins + record->losses + record->draws;
 }
 
-static s32 FindLinkBattleRecord(struct LinkBattleRecord *records, const u8 *name, u16 trainerId)
+static s32 FindLinkBattleRecord (struct LinkBattleRecord *records, const u8 *name, u16 trainerId)
 {
     s32 i;
 
@@ -130,7 +130,7 @@ static s32 FindLinkBattleRecord(struct LinkBattleRecord *records, const u8 *name
     return LINK_B_RECORDS_COUNT;
 }
 
-static void SortLinkBattleRecords(struct LinkBattleRecords *records)
+static void SortLinkBattleRecords (struct LinkBattleRecords *records)
 {
     s32 i, j;
 
@@ -155,7 +155,7 @@ static void SortLinkBattleRecords(struct LinkBattleRecords *records)
     }
 }
 
-static void UpdateLinkBattleRecord(struct LinkBattleRecord *record, s32 battleOutcome)
+static void UpdateLinkBattleRecord (struct LinkBattleRecord *record, s32 battleOutcome)
 {
     switch (battleOutcome) {
     case B_OUTCOME_WON:
@@ -179,7 +179,7 @@ static void UpdateLinkBattleRecord(struct LinkBattleRecord *record, s32 battleOu
     }
 }
 
-static void UpdateLinkBattleGameStats(s32 battleOutcome)
+static void UpdateLinkBattleGameStats (s32 battleOutcome)
 {
     u8 stat;
 
@@ -202,7 +202,7 @@ static void UpdateLinkBattleGameStats(s32 battleOutcome)
     }
 }
 
-static void UpdateLinkBattleRecords(struct LinkBattleRecords *records, const u8 *name, u16 trainerId, s32 battleOutcome, u8 battlerId)
+static void UpdateLinkBattleRecords (struct LinkBattleRecords *records, const u8 *name, u16 trainerId, s32 battleOutcome, u8 battlerId)
 {
     s32 index;
 
@@ -220,12 +220,12 @@ static void UpdateLinkBattleRecords(struct LinkBattleRecords *records, const u8 
     SortLinkBattleRecords(records);
 }
 
-void ClearPlayerLinkBattleRecords(void)
+void ClearPlayerLinkBattleRecords (void)
 {
     ClearLinkBattleRecords(gSaveBlock1Ptr->linkBattleRecords.entries);
 }
 
-static void IncTrainerCardWins(s32 battlerId)
+static void IncTrainerCardWins (s32 battlerId)
 {
     u16 *wins = &gTrainerCards[battlerId].linkBattleWins;
     (*wins)++;
@@ -234,7 +234,7 @@ static void IncTrainerCardWins(s32 battlerId)
     }
 }
 
-static void IncTrainerCardLosses(s32 battlerId)
+static void IncTrainerCardLosses (s32 battlerId)
 {
     u16 *losses = &gTrainerCards[battlerId].linkBattleLosses;
     (*losses)++;
@@ -243,7 +243,7 @@ static void IncTrainerCardLosses(s32 battlerId)
     }
 }
 
-static void UpdateTrainerCardWinsLosses(s32 battlerId)
+static void UpdateTrainerCardWinsLosses (s32 battlerId)
 {
     switch (gBattleOutcome) {
     case B_OUTCOME_WON:
@@ -257,7 +257,7 @@ static void UpdateTrainerCardWinsLosses(s32 battlerId)
     }
 }
 
-void UpdatePlayerLinkBattleRecords(s32 battlerId)
+void UpdatePlayerLinkBattleRecords (s32 battlerId)
 {
     if (InUnionRoom() != TRUE) {
         UpdateTrainerCardWinsLosses(battlerId);
@@ -270,7 +270,7 @@ void UpdatePlayerLinkBattleRecords(s32 battlerId)
     }
 }
 
-static void PrintLinkBattleWinsLossesDraws(struct LinkBattleRecord *records)
+static void PrintLinkBattleWinsLossesDraws (struct LinkBattleRecord *records)
 {
     s32 x;
 
@@ -283,7 +283,7 @@ static void PrintLinkBattleWinsLossesDraws(struct LinkBattleRecord *records)
     AddTextPrinterParameterized(gRecordsWindowId, 1, gStringVar4, x, 0x11, 0, NULL);
 }
 
-static void PrintLinkBattleRecord(struct LinkBattleRecord *record, u8 y, s32 language)
+static void PrintLinkBattleRecord (struct LinkBattleRecord *record, u8 y, s32 language)
 {
     if (record->wins == 0 && record->losses == 0 && record->draws == 0) {
         // empty slot
@@ -309,7 +309,7 @@ static void PrintLinkBattleRecord(struct LinkBattleRecord *record, u8 y, s32 lan
     }
 }
 
-void ShowLinkBattleRecords(void)
+void ShowLinkBattleRecords (void)
 {
     s32 i, x;
 
@@ -333,20 +333,20 @@ void ShowLinkBattleRecords(void)
     CopyWindowToVram(gRecordsWindowId, 3);
 }
 
-void RemoveRecordsWindow(void)
+void RemoveRecordsWindow (void)
 {
     ClearStdWindowAndFrame(gRecordsWindowId, FALSE);
     RemoveWindow(gRecordsWindowId);
 }
 
-static void Task_TrainerHillWaitForPaletteFade(u8 taskId)
+static void Task_TrainerHillWaitForPaletteFade (u8 taskId)
 {
     if (!gPaletteFade.active) {
         gTasks[taskId].func = Task_CloseTrainerHillRecordsOnButton;
     }
 }
 
-static void Task_CloseTrainerHillRecordsOnButton(u8 taskId)
+static void Task_CloseTrainerHillRecordsOnButton (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -356,13 +356,13 @@ static void Task_CloseTrainerHillRecordsOnButton(u8 taskId)
     }
 }
 
-static void Task_BeginPaletteFade(u8 taskId)
+static void Task_BeginPaletteFade (u8 taskId)
 {
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 0x10, RGB_BLACK);
     gTasks[taskId].func = Task_ExitTrainerHillRecords;
 }
 
-static void Task_ExitTrainerHillRecords(u8 taskId)
+static void Task_ExitTrainerHillRecords (u8 taskId)
 {
     if (!gPaletteFade.active) {
         SetMainCallback2(CB2_ReturnToFieldContinueScriptPlayMapMusic);
@@ -373,7 +373,7 @@ static void Task_ExitTrainerHillRecords(u8 taskId)
     }
 }
 
-static void RemoveTrainerHillRecordsWindow(u8 windowId)
+static void RemoveTrainerHillRecordsWindow (u8 windowId)
 {
     FillWindowPixelBuffer(windowId, PIXEL_FILL(0));
     ClearWindowTilemap(windowId);
@@ -381,7 +381,7 @@ static void RemoveTrainerHillRecordsWindow(u8 windowId)
     RemoveWindow(windowId);
 }
 
-static void ClearVramOamPlttRegs(void)
+static void ClearVramOamPlttRegs (void)
 {
     DmaClearLarge16(3, (void*)(VRAM), VRAM_SIZE, 0x1000);
     DmaClear32(3, OAM, OAM_SIZE);
@@ -409,7 +409,7 @@ static void ClearVramOamPlttRegs(void)
     SetGpuReg(REG_OFFSET_BLDY, 0);
 }
 
-static void ClearTasksAndGraphicalStructs(void)
+static void ClearTasksAndGraphicalStructs (void)
 {
     ScanlineEffect_Stop();
     ResetTasks();
@@ -418,7 +418,7 @@ static void ClearTasksAndGraphicalStructs(void)
     FreeAllSpritePalettes();
 }
 
-static void ResetBgCoordinates(void)
+static void ResetBgCoordinates (void)
 {
     ChangeBgX(0, 0, 0);
     ChangeBgY(0, 0, 0);
@@ -430,26 +430,26 @@ static void ResetBgCoordinates(void)
     ChangeBgY(3, 0, 0);
 }
 
-static void SetDispcntReg(void)
+static void SetDispcntReg (void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, DISPCNT_BG0_ON | DISPCNT_BG3_ON | DISPCNT_OBJ_1D_MAP);
 }
 
-static void LoadTrainerHillRecordsWindowGfx(u8 bgId)
+static void LoadTrainerHillRecordsWindowGfx (u8 bgId)
 {
     LoadBgTiles(bgId, sTrainerHillWindowTileset, sizeof(sTrainerHillWindowTileset), 0);
     CopyToBgTilemapBufferRect(bgId, sTrainerHillWindowTilemap, 0, 0, 0x20, 0x20);
     LoadPalette(sTrainerHillWindowPalette, 0, 0x20);
 }
 
-static void VblankCB_TrainerHillRecords(void)
+static void VblankCB_TrainerHillRecords (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void MainCB2_TrainerHillRecords(void)
+static void MainCB2_TrainerHillRecords (void)
 {
     RunTasks();
     AnimateSprites();
@@ -457,13 +457,13 @@ static void MainCB2_TrainerHillRecords(void)
     UpdatePaletteFade();
 }
 
-void ShowTrainerHillRecords(void)
+void ShowTrainerHillRecords (void)
 {
     SetVBlankCallback(NULL);
     SetMainCallback2(CB2_ShowTrainerHillRecords);
 }
 
-static void CB2_ShowTrainerHillRecords(void)
+static void CB2_ShowTrainerHillRecords (void)
 {
     switch (gMain.state) {
     case 0:

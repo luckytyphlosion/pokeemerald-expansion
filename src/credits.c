@@ -1130,14 +1130,14 @@ static void sub_8176F90(struct Sprite *sprite);
 static u8 MakeMonSprite(u16 species, s16 x, s16 y, u16 position);
 static void DeterminePokemonToShow(void);
 
-static void CreditsVBlankCallback(void)
+static void CreditsVBlankCallback (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void CB2_RunCreditsSequence(void)
+static void CB2_RunCreditsSequence (void)
 {
     RunTasks();
     AnimateSprites();
@@ -1154,7 +1154,7 @@ static void CB2_RunCreditsSequence(void)
     UpdatePaletteFade();
 }
 
-static void sub_8175548(void)
+static void sub_8175548 (void)
 {
     ResetBgsAndClearDma3BusyFlags(0);
     InitBgsFromTemplates(0, sBackgroundTemplates, 1);
@@ -1167,7 +1167,7 @@ static void sub_8175548(void)
     ShowBg(0);
 }
 
-static void sub_81755A4(void)
+static void sub_81755A4 (void)
 {
     void *ptr;
     FreeAllWindowBuffers();
@@ -1177,7 +1177,7 @@ static void sub_81755A4(void)
     }
 }
 
-static void PrintCreditsText(const u8 *string, u8 y, bool8 isTitle)
+static void PrintCreditsText (const u8 *string, u8 y, bool8 isTitle)
 {
     u8 x;
     u8 color[3];
@@ -1196,7 +1196,7 @@ static void PrintCreditsText(const u8 *string, u8 y, bool8 isTitle)
     AddTextPrinterParameterized4(0, 1, x, y, 1, 0, color, -1, string);
 }
 
-void CB2_StartCreditsSequence(void)
+void CB2_StartCreditsSequence (void)
 {
     u8 taskIdA;
     s16 taskIdC;
@@ -1249,14 +1249,14 @@ void CB2_StartCreditsSequence(void)
     gUnknown_0203BCE2 = taskIdA;
 }
 
-static void Task_WaitPaletteFade(u8 taskIdA)
+static void Task_WaitPaletteFade (u8 taskIdA)
 {
     if (!gPaletteFade.active) {
         gTasks[taskIdA].func = Task_ProgressCreditTasks;
     }
 }
 
-static void Task_ProgressCreditTasks(u8 taskIdA)
+static void Task_ProgressCreditTasks (u8 taskIdA)
 {
     u16 data1;
 
@@ -1287,7 +1287,7 @@ static void Task_ProgressCreditTasks(u8 taskIdA)
     }
 }
 
-static void sub_8175808(u8 taskIdA)
+static void sub_8175808 (u8 taskIdA)
 {
     if (!gPaletteFade.active) {
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
@@ -1296,7 +1296,7 @@ static void sub_8175808(u8 taskIdA)
     }
 }
 
-static void c2_080C9BFC(u8 taskIdA)
+static void c2_080C9BFC (u8 taskIdA)
 {
     u16 backup;
 
@@ -1310,7 +1310,7 @@ static void c2_080C9BFC(u8 taskIdA)
     }
 }
 
-static void sub_81758A4(u8 taskIdA)
+static void sub_81758A4 (u8 taskIdA)
 {
     if (!gPaletteFade.active) {
         SetGpuReg(REG_OFFSET_DISPCNT, 0);
@@ -1319,7 +1319,7 @@ static void sub_81758A4(u8 taskIdA)
     }
 }
 
-static void Task_CreditsLoadGrassScene(u8 taskIdA)
+static void Task_CreditsLoadGrassScene (u8 taskIdA)
 {
     switch (gMain.state) {
     default:
@@ -1385,7 +1385,7 @@ static void Task_CreditsLoadGrassScene(u8 taskIdA)
     }
 }
 
-static void Task_CreditsTheEnd1(u8 taskIdA)
+static void Task_CreditsTheEnd1 (u8 taskIdA)
 {
     if (gTasks[taskIdA].data[TDA_12]) {
         gTasks[taskIdA].data[TDA_12] -= 1;
@@ -1396,7 +1396,7 @@ static void Task_CreditsTheEnd1(u8 taskIdA)
     gTasks[taskIdA].func = Task_CreditsTheEnd2;
 }
 
-static void Task_CreditsTheEnd2(u8 taskIdA)
+static void Task_CreditsTheEnd2 (u8 taskIdA)
 {
     if (!gPaletteFade.active) {
         ResetCreditsTasks(taskIdA);
@@ -1404,7 +1404,7 @@ static void Task_CreditsTheEnd2(u8 taskIdA)
     }
 }
 
-static void Task_CreditsTheEnd3(u8 taskIdA)
+static void Task_CreditsTheEnd3 (u8 taskIdA)
 {
     ResetGpuAndVram();
     ResetPaletteFade();
@@ -1427,7 +1427,7 @@ static void Task_CreditsTheEnd3(u8 taskIdA)
     gTasks[taskIdA].func = Task_CreditsTheEnd4;
 }
 
-static void Task_CreditsTheEnd4(u8 taskIdA)
+static void Task_CreditsTheEnd4 (u8 taskIdA)
 {
     if (gTasks[taskIdA].data[TDA_0]) {
         gTasks[taskIdA].data[TDA_0] -= 1;
@@ -1438,7 +1438,7 @@ static void Task_CreditsTheEnd4(u8 taskIdA)
     gTasks[taskIdA].func = Task_CreditsTheEnd5;
 }
 
-static void Task_CreditsTheEnd5(u8 taskIdA)
+static void Task_CreditsTheEnd5 (u8 taskIdA)
 {
     if (!gPaletteFade.active) {
         sub_8176E40(0x3800, 0);
@@ -1449,7 +1449,7 @@ static void Task_CreditsTheEnd5(u8 taskIdA)
     }
 }
 
-static void Task_CreditsTheEnd6(u8 taskIdA)
+static void Task_CreditsTheEnd6 (u8 taskIdA)
 {
     if (!gPaletteFade.active) {
         if (gTasks[taskIdA].data[TDA_0] == 0 || gMain.newKeys) {
@@ -1471,14 +1471,14 @@ static void Task_CreditsTheEnd6(u8 taskIdA)
     }
 }
 
-static void Task_CreditsSoftReset(u8 taskIdA)
+static void Task_CreditsSoftReset (u8 taskIdA)
 {
     if (!gPaletteFade.active) {
         SoftReset(0xFF);
     }
 }
 
-static void ResetGpuAndVram(void)
+static void ResetGpuAndVram (void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
 
@@ -1500,7 +1500,7 @@ static void ResetGpuAndVram(void)
     DmaFill16(3, 0, (void *)(PLTT + 2), PLTT_SIZE - 2);
 }
 
-static void sub_8175DA0(u8 taskIdB)
+static void sub_8175DA0 (u8 taskIdB)
 {
     int i;
 
@@ -1593,7 +1593,7 @@ static void sub_8175DA0(u8 taskIdB)
     }
 }
 
-static u8 CheckChangeScene(u8 page, u8 taskIdA)
+static u8 CheckChangeScene (u8 page, u8 taskIdA)
 {
     // Starts with bike + ocean + morning
 
@@ -1649,7 +1649,7 @@ static u8 CheckChangeScene(u8 page, u8 taskIdA)
     return FALSE;
 }
 
-static void sub_81760FC(u8 taskIdD)
+static void sub_81760FC (u8 taskIdD)
 {
     u8 r2;
 
@@ -1693,7 +1693,7 @@ static void sub_81760FC(u8 taskIdD)
     }
 }
 
-static void sub_817624C(u8 taskIdC)
+static void sub_817624C (u8 taskIdC)
 {
     switch (gTasks[taskIdC].data[TDC_0]) {
     case 0:
@@ -1763,7 +1763,7 @@ static void sub_817624C(u8 taskIdC)
     }
 }
 
-static void sub_817651C(u8 taskIdE)
+static void sub_817651C (u8 taskIdE)
 {
     s16 taskIdC;
 
@@ -1810,7 +1810,7 @@ static void sub_817651C(u8 taskIdE)
     }
 }
 
-static void sub_817664C(u8 data, u8 taskIdA)
+static void sub_817664C (u8 data, u8 taskIdA)
 {
     switch (data) {
     case 0:
@@ -1887,7 +1887,7 @@ static void sub_817664C(u8 data, u8 taskIdA)
     }
 }
 
-static bool8 sub_8176AB0(u8 data, u8 taskIdA)
+static bool8 sub_8176AB0 (u8 data, u8 taskIdA)
 {
     u8 spriteId;
 
@@ -1956,7 +1956,7 @@ static bool8 sub_8176AB0(u8 data, u8 taskIdA)
     return FALSE;
 }
 
-static void ResetCreditsTasks(u8 taskIdA)
+static void ResetCreditsTasks (u8 taskIdA)
 {
     if (gTasks[taskIdA].data[TDA_0] != 0) {
         DestroyTask(gTasks[taskIdA].data[TDA_0]);
@@ -1981,7 +1981,7 @@ static void ResetCreditsTasks(u8 taskIdA)
     gUnknown_0203BD28 = 1;
 }
 
-static void LoadTheEndScreen(u16 arg0, u16 arg1, u16 arg2)
+static void LoadTheEndScreen (u16 arg0, u16 arg1, u16 arg2)
 {
     u16 baseTile;
     u16 i;
@@ -1996,7 +1996,7 @@ static void LoadTheEndScreen(u16 arg0, u16 arg1, u16 arg2)
     }
 }
 
-static u16 sub_8176D78(u8 arg0)
+static u16 sub_8176D78 (u8 arg0)
 {
     u16 out = (arg0 & 0x3F) + 80;
 
@@ -2014,7 +2014,7 @@ static u16 sub_8176D78(u8 arg0)
     return out;
 }
 
-static void sub_8176DBC(const u8 arg0[], u8 baseX, u8 baseY, u16 arg3, u16 palette)
+static void sub_8176DBC (const u8 arg0[], u8 baseX, u8 baseY, u16 arg3, u16 palette)
 {
     u8 y, x;
     const u16 tileOffset = (palette / 16) << 12;
@@ -2026,7 +2026,7 @@ static void sub_8176DBC(const u8 arg0[], u8 baseX, u8 baseY, u16 arg3, u16 palet
     }
 }
 
-static void sub_8176E40(u16 arg0, u16 palette)
+static void sub_8176E40 (u16 arg0, u16 palette)
 {
     u16 pos;
     u16 baseTile = (palette / 16) << 12;
@@ -2043,7 +2043,7 @@ static void sub_8176E40(u16 arg0, u16 palette)
     sub_8176DBC(sTheEnd_LetterDMap, 24, 7, arg0, palette);
 }
 
-static void sub_8176EE8(struct Sprite *sprite)
+static void sub_8176EE8 (struct Sprite *sprite)
 {
     if (gUnknown_0203BD28 != 0) {
         DestroySprite(sprite);
@@ -2081,7 +2081,7 @@ static void sub_8176EE8(struct Sprite *sprite)
     }
 }
 
-static void sub_8176F90(struct Sprite *sprite)
+static void sub_8176F90 (struct Sprite *sprite)
 {
     if (gUnknown_0203BD28 != 0) {
         DestroySprite(sprite);
@@ -2120,7 +2120,7 @@ static void sub_8176F90(struct Sprite *sprite)
     }
 }
 
-static void sub_8177050(struct Sprite *sprite)
+static void sub_8177050 (struct Sprite *sprite)
 {
     if (gUnknown_0203BD28) {
         FreeAndDestroyMonPicSprite(sprite->data[6]);
@@ -2197,7 +2197,7 @@ static void sub_8177050(struct Sprite *sprite)
     }
 }
 
-static u8 MakeMonSprite(u16 nationalDexNum, s16 x, s16 y, u16 position)
+static u8 MakeMonSprite (u16 nationalDexNum, s16 x, s16 y, u16 position)
 {
     u8 spriteId;
     u8 spriteId2;
@@ -2217,7 +2217,7 @@ static u8 MakeMonSprite(u16 nationalDexNum, s16 x, s16 y, u16 position)
     return spriteId;
 }
 
-static void sub_81772B8(struct Sprite *sprite)
+static void sub_81772B8 (struct Sprite *sprite)
 {
     if (gSprites[sprite->data[0]].data[0] == 10 || gUnknown_0203BD28) {
         DestroySprite(sprite);
@@ -2232,7 +2232,7 @@ static void sub_81772B8(struct Sprite *sprite)
     sprite->pos1.y = gSprites[sprite->data[0]].pos1.y;
 }
 
-static void DeterminePokemonToShow(void)
+static void DeterminePokemonToShow (void)
 {
     u16 starter = SpeciesToNationalPokedexNum(GetStarterPokemon(VarGet(VAR_STARTER_MON)));
     u16 page;

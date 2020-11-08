@@ -1454,172 +1454,172 @@ static const u8 sTourneyTreePokeballCoords[DOME_TOURNAMENT_TRAINERS_COUNT + DOME
 
 // Each of these line sections define the position of the advancement line on the tourney tree for the victor of that round
 // The trainers here are numbered by tourney ID (rank/seed) and ordered according to where they start on the tourney tree
-#define LINESECTION_ROUND1_TRAINER1(lastSrc)  \
-    {.src = 0x6021,  .y = 0x04, .x = 0x09},   \
-    {.src = 0x6023,  .y = 0x04, .x = 0x0a},   \
-    {.src = 0x6047,  .y = 0x05, .x = 0x0a},   \
+#define LINESECTION_ROUND1_TRAINER1(lastSrc)   \
+    {.src = 0x6021,  .y = 0x04, .x = 0x09},    \
+    {.src = 0x6023,  .y = 0x04, .x = 0x0a},    \
+    {.src = 0x6047,  .y = 0x05, .x = 0x0a},    \
     {.src = lastSrc, .y = 0x05, .x = 0x0b},
 
-#define LINESECTION_ROUND1_TRAINER9(lastSrc)  \
-    {.src = 0x6021,  .y = 0x06, .x = 0x09},   \
-    {.src = 0x6021,  .y = 0x06, .x = 0x0a},   \
-    {.src = 0x6027,  .y = 0x05, .x = 0x0a},   \
+#define LINESECTION_ROUND1_TRAINER9(lastSrc)   \
+    {.src = 0x6021,  .y = 0x06, .x = 0x09},    \
+    {.src = 0x6021,  .y = 0x06, .x = 0x0a},    \
+    {.src = 0x6027,  .y = 0x05, .x = 0x0a},    \
     {.src = lastSrc, .y = 0x05, .x = 0x0b},
 
-#define LINESECTION_ROUND1_TRAINER13(lastSrc)  \
-    {.src = 0x6021,  .y = 0x08, .x = 0x09},    \
-    {.src = 0x6023,  .y = 0x08, .x = 0x0a},    \
-    {.src = 0x6047,  .y = 0x09, .x = 0x0a},    \
+#define LINESECTION_ROUND1_TRAINER13(lastSrc)   \
+    {.src = 0x6021,  .y = 0x08, .x = 0x09},     \
+    {.src = 0x6023,  .y = 0x08, .x = 0x0a},     \
+    {.src = 0x6047,  .y = 0x09, .x = 0x0a},     \
     {.src = lastSrc, .y = 0x09, .x = 0x0b},
 
-#define LINESECTION_ROUND1_TRAINER5(lastSrc)  \
-    {.src = 0x6021,  .y = 0x0a, .x = 0x09},   \
-    {.src = 0x6021,  .y = 0x0a, .x = 0x0a},   \
-    {.src = 0x6027,  .y = 0x09, .x = 0x0a},   \
+#define LINESECTION_ROUND1_TRAINER5(lastSrc)   \
+    {.src = 0x6021,  .y = 0x0a, .x = 0x09},    \
+    {.src = 0x6021,  .y = 0x0a, .x = 0x0a},    \
+    {.src = 0x6027,  .y = 0x09, .x = 0x0a},    \
     {.src = lastSrc, .y = 0x09, .x = 0x0b},
 
-#define LINESECTION_ROUND1_TRAINER8(lastSrc)  \
-    {.src = 0x6021,  .y = 0x0c, .x = 0x09},   \
-    {.src = 0x6023,  .y = 0x0c, .x = 0x0a},   \
-    {.src = 0x6047,  .y = 0x0d, .x = 0x0a},   \
+#define LINESECTION_ROUND1_TRAINER8(lastSrc)   \
+    {.src = 0x6021,  .y = 0x0c, .x = 0x09},    \
+    {.src = 0x6023,  .y = 0x0c, .x = 0x0a},    \
+    {.src = 0x6047,  .y = 0x0d, .x = 0x0a},    \
     {.src = lastSrc, .y = 0x0d, .x = 0x0b},
 
-#define LINESECTION_ROUND1_TRAINER16(lastSrc)  \
-    {.src = 0x6021,  .y = 0x0e, .x = 0x09},    \
-    {.src = 0x6021,  .y = 0x0e, .x = 0x0a},    \
-    {.src = 0x6027,  .y = 0x0d, .x = 0x0a},    \
+#define LINESECTION_ROUND1_TRAINER16(lastSrc)   \
+    {.src = 0x6021,  .y = 0x0e, .x = 0x09},     \
+    {.src = 0x6021,  .y = 0x0e, .x = 0x0a},     \
+    {.src = 0x6027,  .y = 0x0d, .x = 0x0a},     \
     {.src = lastSrc, .y = 0x0d, .x = 0x0b},
 
-#define LINESECTION_ROUND1_TRAINER12(lastSrc)  \
-    {.src = 0x6021,  .y = 0x10, .x = 0x09},    \
-    {.src = 0x6023,  .y = 0x10, .x = 0x0a},    \
-    {.src = 0x6047,  .y = 0x11, .x = 0x0a},    \
+#define LINESECTION_ROUND1_TRAINER12(lastSrc)   \
+    {.src = 0x6021,  .y = 0x10, .x = 0x09},     \
+    {.src = 0x6023,  .y = 0x10, .x = 0x0a},     \
+    {.src = 0x6047,  .y = 0x11, .x = 0x0a},     \
     {.src = lastSrc, .y = 0x11, .x = 0x0b},
 
-#define LINESECTION_ROUND1_TRAINER4(lastSrc)  \
-    {.src = 0x602b,  .y = 0x12, .x = 0x09},   \
-    {.src = 0x602b,  .y = 0x12, .x = 0x0a},   \
-    {.src = 0x6027,  .y = 0x11, .x = 0x0a},   \
+#define LINESECTION_ROUND1_TRAINER4(lastSrc)   \
+    {.src = 0x602b,  .y = 0x12, .x = 0x09},    \
+    {.src = 0x602b,  .y = 0x12, .x = 0x0a},    \
+    {.src = 0x6027,  .y = 0x11, .x = 0x0a},    \
     {.src = lastSrc, .y = 0x11, .x = 0x0b},
 
-#define LINESECTION_ROUND1_TRAINER3(lastSrc)  \
-    {.src = 0x6021,  .y = 0x04, .x = 0x14},   \
-    {.src = 0x6025,  .y = 0x04, .x = 0x13},   \
-    {.src = 0x6049,  .y = 0x05, .x = 0x13},   \
+#define LINESECTION_ROUND1_TRAINER3(lastSrc)   \
+    {.src = 0x6021,  .y = 0x04, .x = 0x14},    \
+    {.src = 0x6025,  .y = 0x04, .x = 0x13},    \
+    {.src = 0x6049,  .y = 0x05, .x = 0x13},    \
     {.src = lastSrc, .y = 0x05, .x = 0x12},
 
-#define LINESECTION_ROUND1_TRAINER11(lastSrc)  \
-    {.src = 0x6021,  .y = 0x06, .x = 0x14},    \
-    {.src = 0x6021,  .y = 0x06, .x = 0x13},    \
-    {.src = 0x6029,  .y = 0x05, .x = 0x13},    \
+#define LINESECTION_ROUND1_TRAINER11(lastSrc)   \
+    {.src = 0x6021,  .y = 0x06, .x = 0x14},     \
+    {.src = 0x6021,  .y = 0x06, .x = 0x13},     \
+    {.src = 0x6029,  .y = 0x05, .x = 0x13},     \
     {.src = lastSrc, .y = 0x05, .x = 0x12},
 
-#define LINESECTION_ROUND1_TRAINER15(lastSrc)  \
-    {.src = 0x6021,  .y = 0x08, .x = 0x14},    \
-    {.src = 0x6025,  .y = 0x08, .x = 0x13},    \
-    {.src = 0x6049,  .y = 0x09, .x = 0x13},    \
+#define LINESECTION_ROUND1_TRAINER15(lastSrc)   \
+    {.src = 0x6021,  .y = 0x08, .x = 0x14},     \
+    {.src = 0x6025,  .y = 0x08, .x = 0x13},     \
+    {.src = 0x6049,  .y = 0x09, .x = 0x13},     \
     {.src = lastSrc, .y = 0x09, .x = 0x12},
 
-#define LINESECTION_ROUND1_TRAINER7(lastSrc)  \
-    {.src = 0x6021,  .y = 0x0a, .x = 0x14},   \
-    {.src = 0x6021,  .y = 0x0a, .x = 0x13},   \
-    {.src = 0x6029,  .y = 0x09, .x = 0x13},   \
+#define LINESECTION_ROUND1_TRAINER7(lastSrc)   \
+    {.src = 0x6021,  .y = 0x0a, .x = 0x14},    \
+    {.src = 0x6021,  .y = 0x0a, .x = 0x13},    \
+    {.src = 0x6029,  .y = 0x09, .x = 0x13},    \
     {.src = lastSrc, .y = 0x09, .x = 0x12},
 
-#define LINESECTION_ROUND1_TRAINER6(lastSrc)  \
-    {.src = 0x6021,  .y = 0x0c, .x = 0x14},   \
-    {.src = 0x6025,  .y = 0x0c, .x = 0x13},   \
-    {.src = 0x6049,  .y = 0x0d, .x = 0x13},   \
+#define LINESECTION_ROUND1_TRAINER6(lastSrc)   \
+    {.src = 0x6021,  .y = 0x0c, .x = 0x14},    \
+    {.src = 0x6025,  .y = 0x0c, .x = 0x13},    \
+    {.src = 0x6049,  .y = 0x0d, .x = 0x13},    \
     {.src = lastSrc, .y = 0x0d, .x = 0x12},
 
-#define LINESECTION_ROUND1_TRAINER14(lastSrc)  \
-    {.src = 0x6021,  .y = 0x0e, .x = 0x14},    \
-    {.src = 0x6021,  .y = 0x0e, .x = 0x13},    \
-    {.src = 0x6029,  .y = 0x0d, .x = 0x13},    \
+#define LINESECTION_ROUND1_TRAINER14(lastSrc)   \
+    {.src = 0x6021,  .y = 0x0e, .x = 0x14},     \
+    {.src = 0x6021,  .y = 0x0e, .x = 0x13},     \
+    {.src = 0x6029,  .y = 0x0d, .x = 0x13},     \
     {.src = lastSrc, .y = 0x0d, .x = 0x12},
 
-#define LINESECTION_ROUND1_TRAINER10(lastSrc)  \
-    {.src = 0x6021,  .y = 0x10, .x = 0x14},    \
-    {.src = 0x6025,  .y = 0x10, .x = 0x13},    \
-    {.src = 0x6049,  .y = 0x11, .x = 0x13},    \
+#define LINESECTION_ROUND1_TRAINER10(lastSrc)   \
+    {.src = 0x6021,  .y = 0x10, .x = 0x14},     \
+    {.src = 0x6025,  .y = 0x10, .x = 0x13},     \
+    {.src = 0x6049,  .y = 0x11, .x = 0x13},     \
     {.src = lastSrc, .y = 0x11, .x = 0x12},
 
-#define LINESECTION_ROUND1_TRAINER2(lastSrc)  \
-    {.src = 0x602b,  .y = 0x12, .x = 0x14},   \
-    {.src = 0x602b,  .y = 0x12, .x = 0x13},   \
-    {.src = 0x6029,  .y = 0x11, .x = 0x13},   \
+#define LINESECTION_ROUND1_TRAINER2(lastSrc)   \
+    {.src = 0x602b,  .y = 0x12, .x = 0x14},    \
+    {.src = 0x602b,  .y = 0x12, .x = 0x13},    \
+    {.src = 0x6029,  .y = 0x11, .x = 0x13},    \
     {.src = lastSrc, .y = 0x11, .x = 0x12},
 
-#define LINESECTION_ROUND2_MATCH1(lastSrc)   \
-    {.src = 0x6027,  .y = 0x06, .x = 0x0b},  \
-    {.src = 0x6047,  .y = 0x07, .x = 0x0b},  \
+#define LINESECTION_ROUND2_MATCH1(lastSrc)    \
+    {.src = 0x6027,  .y = 0x06, .x = 0x0b},   \
+    {.src = 0x6047,  .y = 0x07, .x = 0x0b},   \
     {.src = lastSrc, .y = 0x07, .x = 0x0c},
 
-#define LINESECTION_ROUND2_MATCH2(lastSrc)   \
-    {.src = 0x6027,  .y = 0x08, .x = 0x0b},  \
-    {.src = 0x6027,  .y = 0x07, .x = 0x0b},  \
+#define LINESECTION_ROUND2_MATCH2(lastSrc)    \
+    {.src = 0x6027,  .y = 0x08, .x = 0x0b},   \
+    {.src = 0x6027,  .y = 0x07, .x = 0x0b},   \
     {.src = lastSrc, .y = 0x07, .x = 0x0c},
 
-#define LINESECTION_ROUND2_MATCH3(lastSrc)   \
-    {.src = 0x6027,  .y = 0x0e, .x = 0x0b},  \
-    {.src = 0x6047,  .y = 0x0f, .x = 0x0b},  \
+#define LINESECTION_ROUND2_MATCH3(lastSrc)    \
+    {.src = 0x6027,  .y = 0x0e, .x = 0x0b},   \
+    {.src = 0x6047,  .y = 0x0f, .x = 0x0b},   \
     {.src = lastSrc, .y = 0x0f, .x = 0x0c},
 
-#define LINESECTION_ROUND2_MATCH4(lastSrc)   \
-    {.src = 0x6027,  .y = 0x10, .x = 0x0b},  \
-    {.src = 0x6027,  .y = 0x0f, .x = 0x0b},  \
+#define LINESECTION_ROUND2_MATCH4(lastSrc)    \
+    {.src = 0x6027,  .y = 0x10, .x = 0x0b},   \
+    {.src = 0x6027,  .y = 0x0f, .x = 0x0b},   \
     {.src = lastSrc, .y = 0x0f, .x = 0x0c},
 
-#define LINESECTION_ROUND2_MATCH5(lastSrc)   \
-    {.src = 0x6029,  .y = 0x06, .x = 0x12},  \
-    {.src = 0x6049,  .y = 0x07, .x = 0x12},  \
+#define LINESECTION_ROUND2_MATCH5(lastSrc)    \
+    {.src = 0x6029,  .y = 0x06, .x = 0x12},   \
+    {.src = 0x6049,  .y = 0x07, .x = 0x12},   \
     {.src = lastSrc, .y = 0x07, .x = 0x11},
 
-#define LINESECTION_ROUND2_MATCH6(lastSrc)   \
-    {.src = 0x6029,  .y = 0x08, .x = 0x12},  \
-    {.src = 0x6029,  .y = 0x07, .x = 0x12},  \
+#define LINESECTION_ROUND2_MATCH6(lastSrc)    \
+    {.src = 0x6029,  .y = 0x08, .x = 0x12},   \
+    {.src = 0x6029,  .y = 0x07, .x = 0x12},   \
     {.src = lastSrc, .y = 0x07, .x = 0x11},
 
-#define LINESECTION_ROUND2_MATCH7(lastSrc)   \
-    {.src = 0x6029,  .y = 0x0e, .x = 0x12},  \
-    {.src = 0x6049,  .y = 0x0f, .x = 0x12},  \
+#define LINESECTION_ROUND2_MATCH7(lastSrc)    \
+    {.src = 0x6029,  .y = 0x0e, .x = 0x12},   \
+    {.src = 0x6049,  .y = 0x0f, .x = 0x12},   \
     {.src = lastSrc, .y = 0x0f, .x = 0x11},
 
-#define LINESECTION_ROUND2_MATCH8(lastSrc)   \
-    {.src = 0x6029,  .y = 0x10, .x = 0x12},  \
-    {.src = 0x6029,  .y = 0x0f, .x = 0x12},  \
+#define LINESECTION_ROUND2_MATCH8(lastSrc)    \
+    {.src = 0x6029,  .y = 0x10, .x = 0x12},   \
+    {.src = 0x6029,  .y = 0x0f, .x = 0x12},   \
     {.src = lastSrc, .y = 0x0f, .x = 0x11},
 
-#define LINESECTION_SEMIFINAL_TOP_LEFT      \
-    {.src = 0x6027, .y = 0x08, .x = 0x0c},  \
-    {.src = 0x6027, .y = 0x09, .x = 0x0c},  \
-    {.src = 0x6027, .y = 0x0a, .x = 0x0c},  \
+#define LINESECTION_SEMIFINAL_TOP_LEFT       \
+    {.src = 0x6027, .y = 0x08, .x = 0x0c},   \
+    {.src = 0x6027, .y = 0x09, .x = 0x0c},   \
+    {.src = 0x6027, .y = 0x0a, .x = 0x0c},   \
     {.src = 0x603b, .y = 0x0b, .x = 0x0c},
 
-#define LINESECTION_SEMIFINAL_BOTTOM_LEFT   \
-    {.src = 0x6033, .y = 0x0e, .x = 0x0c},  \
-    {.src = 0x6032, .y = 0x0d, .x = 0x0c},  \
-    {.src = 0x6031, .y = 0x0c, .x = 0x0c},  \
+#define LINESECTION_SEMIFINAL_BOTTOM_LEFT    \
+    {.src = 0x6033, .y = 0x0e, .x = 0x0c},   \
+    {.src = 0x6032, .y = 0x0d, .x = 0x0c},   \
+    {.src = 0x6031, .y = 0x0c, .x = 0x0c},   \
     {.src = 0x6030, .y = 0x0b, .x = 0x0c},
 
-#define LINESECTION_SEMIFINAL_TOP_RIGHT     \
-    {.src = 0x6029, .y = 0x08, .x = 0x11},  \
-    {.src = 0x6029, .y = 0x09, .x = 0x11},  \
-    {.src = 0x6029, .y = 0x0a, .x = 0x11},  \
+#define LINESECTION_SEMIFINAL_TOP_RIGHT      \
+    {.src = 0x6029, .y = 0x08, .x = 0x11},   \
+    {.src = 0x6029, .y = 0x09, .x = 0x11},   \
+    {.src = 0x6029, .y = 0x0a, .x = 0x11},   \
     {.src = 0x603c, .y = 0x0b, .x = 0x11},
 
-#define LINESECTION_SEMIFINAL_BOTTOM_RIGHT  \
-    {.src = 0x6038, .y = 0x0e, .x = 0x11},  \
-    {.src = 0x6037, .y = 0x0d, .x = 0x11},  \
-    {.src = 0x6036, .y = 0x0c, .x = 0x11},  \
+#define LINESECTION_SEMIFINAL_BOTTOM_RIGHT   \
+    {.src = 0x6038, .y = 0x0e, .x = 0x11},   \
+    {.src = 0x6037, .y = 0x0d, .x = 0x11},   \
+    {.src = 0x6036, .y = 0x0c, .x = 0x11},   \
     {.src = 0x6035, .y = 0x0b, .x = 0x11},
 
-#define LINESECTION_FINAL_LEFT              \
-    {.src = 0x602c, .y = 0x0b, .x = 0x0d},  \
+#define LINESECTION_FINAL_LEFT               \
+    {.src = 0x602c, .y = 0x0b, .x = 0x0d},   \
     {.src = 0x602d, .y = 0x0b, .x = 0x0e},
 
-#define LINESECTION_FINAL_RIGHT             \
-    {.src = 0x602f, .y = 0x0b, .x = 0x10},  \
+#define LINESECTION_FINAL_RIGHT              \
+    {.src = 0x602f, .y = 0x0b, .x = 0x10},   \
     {.src = 0x602e, .y = 0x0b, .x = 0x0f},
 
 
@@ -2080,12 +2080,12 @@ static const u8 sTourneyTreeLineSectionArrayCounts[DOME_TOURNAMENT_TRAINERS_COUN
 };
 
 // code
-void CallBattleDomeFunction(void)
+void CallBattleDomeFunction (void)
 {
     sBattleDomeFunctions[gSpecialVar_0x8004]();
 }
 
-static void InitDomeChallenge(void)
+static void InitDomeChallenge (void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -2102,7 +2102,7 @@ static void InitDomeChallenge(void)
     gTrainerBattleOpponent_A = 0;
 }
 
-static void GetDomeData(void)
+static void GetDomeData (void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -2167,7 +2167,7 @@ static void GetDomeData(void)
     }
 }
 
-static void SetDomeData(void)
+static void SetDomeData (void)
 {
     u32 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u32 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -2231,7 +2231,7 @@ static void SetDomeData(void)
     }
 }
 
-static void InitDomeTrainers(void)
+static void InitDomeTrainers (void)
 {
     int i, j, k;
     int monLevel;
@@ -2422,14 +2422,14 @@ static void InitDomeTrainers(void)
     Free(statValues);
 }
 
-#define CALC_STAT(base, statIndex)                                                           \
-{                                                                                            \
-    u8 baseStat = gBaseStats[species].base;                                                  \
-    stats[statIndex] = (((2 * baseStat + ivs + evs[statIndex] / 4) * level) / 100) + 5;      \
-    stats[statIndex] = (u8) ModifyStatByNature(nature, stats[statIndex], statIndex);         \
+#define CALC_STAT(base, statIndex)                                                            \
+{                                                                                             \
+    u8 baseStat = gBaseStats[species].base;                                                   \
+    stats[statIndex] = (((2 * baseStat + ivs + evs[statIndex] / 4) * level) / 100) + 5;       \
+    stats[statIndex] = (u8) ModifyStatByNature(nature, stats[statIndex], statIndex);          \
 }
 
-static void CalcDomeMonStats(u16 species, int level, int ivs, u8 evBits, u8 nature, int *stats)
+static void CalcDomeMonStats (u16 species, int level, int ivs, u8 evBits, u8 nature, int *stats)
 {
     int i, count;
     u8 bits;
@@ -2465,7 +2465,7 @@ static void CalcDomeMonStats(u16 species, int level, int ivs, u8 evBits, u8 natu
     CALC_STAT(baseSpDefense, STAT_SPDEF);
 }
 
-static void SwapDomeTrainers(int id1, int id2, u16 *statsArray)
+static void SwapDomeTrainers (int id1, int id2, u16 *statsArray)
 {
     int i;
     u16 temp;
@@ -2478,18 +2478,18 @@ static void SwapDomeTrainers(int id1, int id2, u16 *statsArray)
     }
 }
 
-static void BufferDomeRoundText(void)
+static void BufferDomeRoundText (void)
 {
     StringCopy(gStringVar1, gRoundsStringTable[gSaveBlock2Ptr->frontier.curChallengeBattleNum]);
 }
 
-static void BufferDomeOpponentName(void)
+static void BufferDomeOpponentName (void)
 {
     StringCopy(gStringVar1, gRoundsStringTable[gSaveBlock2Ptr->frontier.curChallengeBattleNum]);
     CopyDomeTrainerName(gStringVar2, gTrainerBattleOpponent_A);
 }
 
-static void InitDomeOpponentParty(void)
+static void InitDomeOpponentParty (void)
 {
     gPlayerPartyLostHP = 0;
     sPlayerPartyMaxHP =  GetMonData(&gPlayerParty[0], MON_DATA_MAX_HP, NULL);
@@ -2498,7 +2498,7 @@ static void InitDomeOpponentParty(void)
     CreateDomeOpponentMons(TrainerIdToTournamentId(gTrainerBattleOpponent_A));
 }
 
-static void CreateDomeOpponentMon(u8 monPartyId, u16 tournamentTrainerId, u8 tournamentMonId, u32 otId)
+static void CreateDomeOpponentMon (u8 monPartyId, u16 tournamentTrainerId, u8 tournamentMonId, u32 otId)
 {
     int i;
     u8 friendship = MAX_FRIENDSHIP;
@@ -2525,7 +2525,7 @@ static void CreateDomeOpponentMon(u8 monPartyId, u16 tournamentTrainerId, u8 tou
                &gBattleFrontierHeldItems[gFacilityTrainerMons[DOME_MONS[tournamentTrainerId][tournamentMonId]].itemTableId]);
 }
 
-static void CreateDomeOpponentMons(u16 tournamentTrainerId)
+static void CreateDomeOpponentMons (u16 tournamentTrainerId)
 {
     u8 monsCount = 0;
     u32 otId = 0;
@@ -2556,7 +2556,7 @@ static void CreateDomeOpponentMons(u16 tournamentTrainerId)
     }
 }
 
-int GetDomeTrainerSelectedMons(u16 tournamentTrainerId)
+int GetDomeTrainerSelectedMons (u16 tournamentTrainerId)
 {
     int selectedMonBits;
     if (Random() & 1) {
@@ -2576,7 +2576,7 @@ int GetDomeTrainerSelectedMons(u16 tournamentTrainerId)
 
 // Could probably use a better name once GetTypeEffectivenessPoints is clarified
 // Personality seems to be used to select a different weighting system for type effectiveness points
-static int SelectOpponentMonsUsingPersonality(u16 tournamentTrainerId, bool8 allowRandom)
+static int SelectOpponentMonsUsingPersonality (u16 tournamentTrainerId, bool8 allowRandom)
 {
     int i, moveId, playerMonId;
     int partyMovePoints[FRONTIER_PARTY_SIZE];
@@ -2599,7 +2599,7 @@ static int SelectOpponentMonsUsingPersonality(u16 tournamentTrainerId, bool8 all
 }
 
 // See above function, identical but uses MON_DATA_OT_ID
-static int SelectOpponentMonsUsingOtId(u16 tournamentTrainerId, bool8 allowRandom)
+static int SelectOpponentMonsUsingOtId (u16 tournamentTrainerId, bool8 allowRandom)
 {
     int i, moveId, playerMonId;
     int partyMovePoints[FRONTIER_PARTY_SIZE];
@@ -2621,7 +2621,7 @@ static int SelectOpponentMonsUsingOtId(u16 tournamentTrainerId, bool8 allowRando
     return SelectOpponentMonsFromParty(partyMovePoints, allowRandom);
 }
 
-static int SelectOpponentMonsFromParty(int *partyMovePoints, bool8 allowRandom)
+static int SelectOpponentMonsFromParty (int *partyMovePoints, bool8 allowRandom)
 {
     int i, j;
     int selectedMonBits = 0;
@@ -2677,7 +2677,7 @@ static int SelectOpponentMonsFromParty(int *partyMovePoints, bool8 allowRandom)
 #define TYPE_x4     80
 
 // arg2 is either 2, a personality, or an OTID
-static int GetTypeEffectivenessPoints(int move, int targetSpecies, int arg2)
+static int GetTypeEffectivenessPoints (int move, int targetSpecies, int arg2)
 {
     int defType1, defType2, defAbility, moveType;
     int i = 0;
@@ -2784,7 +2784,7 @@ static int GetTypeEffectivenessPoints(int move, int targetSpecies, int arg2)
 // Duplicate of GetFrontierTrainerFixedIvs
 // NOTE: In CreateDomeOpponentMon a tournament trainer ID (0-15) is passed instead, resulting in all IVs of 3
 //       To fix, see CreateDomeOpponentMon
-static u8 GetDomeTrainerMonIvs(u16 trainerId)
+static u8 GetDomeTrainerMonIvs (u16 trainerId)
 {
     u8 fixedIv;
 
@@ -2809,7 +2809,7 @@ static u8 GetDomeTrainerMonIvs(u16 trainerId)
     return fixedIv;
 }
 
-static int TournamentIdOfOpponent(int roundId, int trainerId)
+static int TournamentIdOfOpponent (int roundId, int trainerId)
 {
     int i, j, opponentMax;
 
@@ -2849,23 +2849,23 @@ static int TournamentIdOfOpponent(int roundId, int trainerId)
     }
 }
 
-static void SetDomeOpponentId(void)
+static void SetDomeOpponentId (void)
 {
     gTrainerBattleOpponent_A = TrainerIdOfPlayerOpponent();
 }
 
 // While not an issue in-game, this will overflow if called after the player's opponent for the current round has been eliminated
-static u16 TrainerIdOfPlayerOpponent(void)
+static u16 TrainerIdOfPlayerOpponent (void)
 {
     return DOME_TRAINERS[TournamentIdOfOpponent(gSaveBlock2Ptr->frontier.curChallengeBattleNum, TRAINER_PLAYER)].trainerId;
 }
 
-static void SetDomeOpponentGraphicsId(void)
+static void SetDomeOpponentGraphicsId (void)
 {
     SetBattleFacilityTrainerGfxId(gTrainerBattleOpponent_A, 0);
 }
 
-static void SaveDomeChallenge(void)
+static void SaveDomeChallenge (void)
 {
     gSaveBlock2Ptr->frontier.challengeStatus = gSpecialVar_0x8005;
     VarSet(VAR_TEMP_0, 0);
@@ -2873,7 +2873,7 @@ static void SaveDomeChallenge(void)
     SaveGameFrontier();
 }
 
-static void IncrementDomeStreaks(void)
+static void IncrementDomeStreaks (void)
 {
     u8 lvlMode = gSaveBlock2Ptr->frontier.lvlMode;
     u8 battleMode = VarGet(VAR_FRONTIER_BATTLE_MODE);
@@ -2891,7 +2891,7 @@ static void IncrementDomeStreaks(void)
 }
 
 // For showing the opponent info card of the upcoming trainer
-static void ShowDomeOpponentInfo(void)
+static void ShowDomeOpponentInfo (void)
 {
     u8 taskId = CreateTask(Task_ShowTourneyInfoCard, 0);
     gTasks[taskId].tState = 0;
@@ -2903,7 +2903,7 @@ static void ShowDomeOpponentInfo(void)
 }
 
 // For showing the opponent info card or the match info card
-static void Task_ShowTourneyInfoCard(u8 taskId)
+static void Task_ShowTourneyInfoCard (u8 taskId)
 {
     int i;
     int tournamentId = gTasks[taskId].tTournamentId;
@@ -3022,7 +3022,7 @@ static void Task_ShowTourneyInfoCard(u8 taskId)
 // Note: Card scrolling up means the current card goes down and another one appears from top.
 // The same is true for scrolling left.
 // That means that the sprite needs to move with the moving card in the opposite scrolling direction.
-static void SpriteCb_TrainerIconCardScrollUp(struct Sprite *sprite)
+static void SpriteCb_TrainerIconCardScrollUp (struct Sprite *sprite)
 {
     sprite->pos1.y += 4;
     if (sprite->data[0] != 0) {
@@ -3040,7 +3040,7 @@ static void SpriteCb_TrainerIconCardScrollUp(struct Sprite *sprite)
     }
 }
 
-static void SpriteCb_TrainerIconCardScrollDown(struct Sprite *sprite)
+static void SpriteCb_TrainerIconCardScrollDown (struct Sprite *sprite)
 {
     sprite->pos1.y -= 4;
     if (sprite->data[0] != 0) {
@@ -3058,7 +3058,7 @@ static void SpriteCb_TrainerIconCardScrollDown(struct Sprite *sprite)
     }
 }
 
-static void SpriteCb_TrainerIconCardScrollLeft(struct Sprite *sprite)
+static void SpriteCb_TrainerIconCardScrollLeft (struct Sprite *sprite)
 {
     sprite->pos1.x += 4;
     if (sprite->data[0] != 0) {
@@ -3076,7 +3076,7 @@ static void SpriteCb_TrainerIconCardScrollLeft(struct Sprite *sprite)
     }
 }
 
-static void SpriteCb_TrainerIconCardScrollRight(struct Sprite *sprite)
+static void SpriteCb_TrainerIconCardScrollRight (struct Sprite *sprite)
 {
     sprite->pos1.x -= 4;
     if (sprite->data[0] != 0) {
@@ -3096,14 +3096,14 @@ static void SpriteCb_TrainerIconCardScrollRight(struct Sprite *sprite)
 
 #define sMonIconStill data[3]
 
-static void SpriteCb_MonIcon(struct Sprite *sprite)
+static void SpriteCb_MonIcon (struct Sprite *sprite)
 {
     if (!sprite->sMonIconStill) {
         UpdateMonIconFrame(sprite);
     }
 }
 
-static void SpriteCb_MonIconCardScrollUp(struct Sprite *sprite)
+static void SpriteCb_MonIconCardScrollUp (struct Sprite *sprite)
 {
     if (!sprite->sMonIconStill) {
         UpdateMonIconFrame(sprite);
@@ -3124,7 +3124,7 @@ static void SpriteCb_MonIconCardScrollUp(struct Sprite *sprite)
     }
 }
 
-static void SpriteCb_MonIconCardScrollDown(struct Sprite *sprite)
+static void SpriteCb_MonIconCardScrollDown (struct Sprite *sprite)
 {
     if (!sprite->sMonIconStill) {
         UpdateMonIconFrame(sprite);
@@ -3145,7 +3145,7 @@ static void SpriteCb_MonIconCardScrollDown(struct Sprite *sprite)
     }
 }
 
-static void SpriteCb_MonIconCardScrollLeft(struct Sprite *sprite)
+static void SpriteCb_MonIconCardScrollLeft (struct Sprite *sprite)
 {
     if (!sprite->sMonIconStill) {
         UpdateMonIconFrame(sprite);
@@ -3166,7 +3166,7 @@ static void SpriteCb_MonIconCardScrollLeft(struct Sprite *sprite)
     }
 }
 
-static void SpriteCb_MonIconCardScrollRight(struct Sprite *sprite)
+static void SpriteCb_MonIconCardScrollRight (struct Sprite *sprite)
 {
     if (!sprite->sMonIconStill) {
         UpdateMonIconFrame(sprite);
@@ -3187,7 +3187,7 @@ static void SpriteCb_MonIconCardScrollRight(struct Sprite *sprite)
     }
 }
 
-static void SpriteCb_HorizontalScrollArrow(struct Sprite *sprite)
+static void SpriteCb_HorizontalScrollArrow (struct Sprite *sprite)
 {
     int taskId1 = sprite->data[0];
     int arrId = gTasks[gTasks[taskId1].data[4]].data[1];
@@ -3237,7 +3237,7 @@ static void SpriteCb_HorizontalScrollArrow(struct Sprite *sprite)
     }
 }
 
-static void SpriteCb_VerticalScrollArrow(struct Sprite *sprite)
+static void SpriteCb_VerticalScrollArrow (struct Sprite *sprite)
 {
     int taskId1 = sprite->data[0];
 
@@ -3273,7 +3273,7 @@ static void SpriteCb_VerticalScrollArrow(struct Sprite *sprite)
 
 #define tUsingAlternateSlot data[2] // CARD_ALTERNATE_SLOT
 
-static void Task_HandleInfoCardInput(u8 taskId)
+static void Task_HandleInfoCardInput (u8 taskId)
 {
     int i;
     int windowId = 0;
@@ -3855,7 +3855,7 @@ static void Task_HandleInfoCardInput(u8 taskId)
 #undef STATE_MOVE_RIGHT
 #undef STATE_CLOSE_CARD
 
-static u8 Task_GetInfoCardInput(u8 taskId)
+static u8 Task_GetInfoCardInput (u8 taskId)
 {
     u8 input = INFOCARD_INPUT_NONE;
     int taskId2 = gTasks[taskId].data[4];
@@ -3968,7 +3968,7 @@ static u8 Task_GetInfoCardInput(u8 taskId)
 // allocatedArray below needs to be large enough to hold stat totals for each mon, or totals of each type of move points
 #define ALLOC_ARRAY_SIZE (NUM_STATS * FRONTIER_PARTY_SIZE >= NUM_MOVE_POINT_TYPES ? (NUM_STATS * FRONTIER_PARTY_SIZE) :  NUM_MOVE_POINT_TYPES)
 
-static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
+static void DisplayTrainerInfoOnCard (u8 flags, u8 trainerTourneyId)
 {
     struct TextPrinterTemplate textPrinter;
     int i, j, k;
@@ -4327,7 +4327,7 @@ static void DisplayTrainerInfoOnCard(u8 flags, u8 trainerTourneyId)
     Free(allocatedArray);
 }
 
-static int BufferDomeWinString(u8 matchNum, u8 *tournamentIds)
+static int BufferDomeWinString (u8 matchNum, u8 *tournamentIds)
 {
     int i;
     u8 tournamentId;
@@ -4394,7 +4394,7 @@ static int BufferDomeWinString(u8 matchNum, u8 *tournamentIds)
     }
 }
 
-static void DisplayMatchInfoOnCard(u8 flags, u8 matchNo)
+static void DisplayMatchInfoOnCard (u8 flags, u8 matchNo)
 {
     struct TextPrinterTemplate textPrinter;
     int tournamentIds[2];
@@ -4604,7 +4604,7 @@ static void DisplayMatchInfoOnCard(u8 flags, u8 matchNo)
     AddTextPrinter(&textPrinter, 0, NULL);
 }
 
-static void ShowDomeTourneyTree(void)
+static void ShowDomeTourneyTree (void)
 {
     u8 taskId = CreateTask(Task_ShowTourneyTree, 0);
     gTasks[taskId].tState = 0;
@@ -4615,7 +4615,7 @@ static void ShowDomeTourneyTree(void)
 }
 
 // To show the results of the last tourney on the computer in the lobby
-static void ShowPreviousDomeTourneyTree(void)
+static void ShowPreviousDomeTourneyTree (void)
 {
     u8 taskId;
 
@@ -4638,7 +4638,7 @@ static void ShowPreviousDomeTourneyTree(void)
 #define STATE_SHOW_INFOCARD_MATCH   5
 #define STATE_CLOSE_TOURNEY_TREE    7
 
-static void Task_HandleTourneyTreeInput(u8 taskId)
+static void Task_HandleTourneyTreeInput (u8 taskId)
 {
     u8 newTaskId = 0;
     int spriteId = gTasks[taskId].data[1];
@@ -4738,7 +4738,7 @@ static void Task_HandleTourneyTreeInput(u8 taskId)
 
 // Move the tourney tree cursor
 // The 'cursor' is actually just which button sprite is currently doing the 'selected' animation
-static u8 UpdateTourneyTreeCursor(u8 taskId)
+static u8 UpdateTourneyTreeCursor (u8 taskId)
 {
     u8 selection = TOURNEY_TREE_NO_SELECTION;
     int direction = MOVE_DIR_NONE;
@@ -4786,7 +4786,7 @@ static u8 UpdateTourneyTreeCursor(u8 taskId)
 #undef MOVE_DIR_NONE
 
 // Shows the results of the just-completed round for the current tourney
-static void ShowNonInteractiveDomeTourneyTree(void)
+static void ShowNonInteractiveDomeTourneyTree (void)
 {
     u8 taskId = CreateTask(Task_ShowTourneyTree, 0);
     gTasks[taskId].tState = 0;
@@ -4796,7 +4796,7 @@ static void ShowNonInteractiveDomeTourneyTree(void)
     SetMainCallback2(CB2_TourneyTree);
 }
 
-static void ResolveDomeRoundWinners(void)
+static void ResolveDomeRoundWinners (void)
 {
     int i;
 
@@ -4826,7 +4826,7 @@ static void ResolveDomeRoundWinners(void)
 }
 
 // Decides the winning move of an NPC vs NPC match
-static u16 GetWinningMove(int winnerTournamentId, int loserTournamentId, u8 roundId)
+static u16 GetWinningMove (int winnerTournamentId, int loserTournamentId, u8 roundId)
 {
     int i, j, k;
     int moveScores[MAX_MON_MOVES * FRONTIER_PARTY_SIZE];
@@ -4938,7 +4938,7 @@ static u16 GetWinningMove(int winnerTournamentId, int loserTournamentId, u8 roun
     return moveIds[j];
 }
 
-static void Task_ShowTourneyTree(u8 taskId)
+static void Task_ShowTourneyTree (u8 taskId)
 {
     int i;
     struct TextPrinterTemplate textPrinter;
@@ -5143,7 +5143,7 @@ static void Task_ShowTourneyTree(u8 taskId)
     }
 }
 
-static void DrawTourneyAdvancementLine(u8 tournamentId, u8 roundId)
+static void DrawTourneyAdvancementLine (u8 tournamentId, u8 roundId)
 {
     int i;
     const struct TourneyTreeLineSection *lineSection = sTourneyTreeLineSections[tournamentId][roundId];
@@ -5162,7 +5162,7 @@ static void DrawTourneyAdvancementLine(u8 tournamentId, u8 roundId)
 #define STATE_CLOSE_TOURNEY_TREE  4
 
 // The non-interactive tourney tree that's shown when a round is completed
-static void Task_HandleStaticTourneyTreeInput(u8 taskId)
+static void Task_HandleStaticTourneyTreeInput (u8 taskId)
 {
     int i;
     struct TextPrinterTemplate textPrinter;
@@ -5235,7 +5235,7 @@ static void Task_HandleStaticTourneyTreeInput(u8 taskId)
 #undef STATE_WAIT_FOR_INPUT
 #undef STATE_CLOSE_TOURNEY_TREE
 
-static void CB2_TourneyTree(void)
+static void CB2_TourneyTree (void)
 {
     AnimateSprites();
     BuildOamBuffer();
@@ -5244,7 +5244,7 @@ static void CB2_TourneyTree(void)
     RunTasks();
 }
 
-static void VblankCb_TourneyInfoCard(void)
+static void VblankCb_TourneyInfoCard (void)
 {
     ChangeBgX(3, 0x80, 1);
     ChangeBgY(3, 0x80, 2);
@@ -5259,12 +5259,12 @@ static void VblankCb_TourneyInfoCard(void)
     TransferPlttBuffer();
 }
 
-#define SET_WIN0H_WIN1H(win0H, win1H)                        \
-{                                                            \
-    *(vu32*)(REG_ADDR_WIN0H) = ((win0H << 16) | (win1H));    \
+#define SET_WIN0H_WIN1H(win0H, win1H)                         \
+{                                                             \
+    *(vu32*)(REG_ADDR_WIN0H) = ((win0H << 16) | (win1H));     \
 }
 
-static void HblankCb_TourneyTree(void)
+static void HblankCb_TourneyTree (void)
 {
     u16 vCount = REG_VCOUNT;
 
@@ -5315,7 +5315,7 @@ static void HblankCb_TourneyTree(void)
     }
 }
 
-static void VblankCb_TourneyTree(void)
+static void VblankCb_TourneyTree (void)
 {
     SetGpuReg(REG_OFFSET_BG0HOFS, gBattle_BG0_X);
     SetGpuReg(REG_OFFSET_BG0VOFS, gBattle_BG0_Y);
@@ -5329,13 +5329,13 @@ static void VblankCb_TourneyTree(void)
     ScanlineEffect_InitHBlankDmaTransfer();
 }
 
-static void SetFacilityTrainerAndMonPtrs(void)
+static void SetFacilityTrainerAndMonPtrs (void)
 {
     gFacilityTrainerMons = gBattleFrontierMons;
     gFacilityTrainers = gBattleFrontierTrainers;
 }
 
-static void ResetSketchedMoves(void)
+static void ResetSketchedMoves (void)
 {
     int i, moveSlot;
 
@@ -5360,7 +5360,7 @@ static void ResetSketchedMoves(void)
     }
 }
 
-static void RestoreDomePlayerPartyHeldItems(void)
+static void RestoreDomePlayerPartyHeldItems (void)
 {
     int i;
 
@@ -5371,12 +5371,12 @@ static void RestoreDomePlayerPartyHeldItems(void)
     }
 }
 
-static void ReduceDomePlayerPartyToSelectedMons(void)
+static void ReduceDomePlayerPartyToSelectedMons (void)
 {
     ReducePlayerPartyToSelectedMons();
 }
 
-static void GetPlayerSeededBeforeOpponent(void)
+static void GetPlayerSeededBeforeOpponent (void)
 {
     // A higher tournament ID is a worse seed
     if (TrainerIdToTournamentId(gTrainerBattleOpponent_A) > TrainerIdToTournamentId(TRAINER_PLAYER)) {
@@ -5386,7 +5386,7 @@ static void GetPlayerSeededBeforeOpponent(void)
     }
 }
 
-static void BufferLastDomeWinnerName(void)
+static void BufferLastDomeWinnerName (void)
 {
     int i;
 
@@ -5400,7 +5400,7 @@ static void BufferLastDomeWinnerName(void)
 }
 
 // For showing the previous tourney results before the player has entered a challenge
-static void InitRandomTourneyTreeResults(void)
+static void InitRandomTourneyTreeResults (void)
 {
     int i, j, k;
     int monLevel;
@@ -5526,7 +5526,7 @@ static void InitRandomTourneyTreeResults(void)
     gSaveBlock2Ptr->frontier.lvlMode = lvlMode;
 }
 
-static int TrainerIdToTournamentId(u16 trainerId)
+static int TrainerIdToTournamentId (u16 trainerId)
 {
     int i;
 
@@ -5540,7 +5540,7 @@ static int TrainerIdToTournamentId(u16 trainerId)
 }
 
 // The same as the above one, but has global scope.
-int TrainerIdToDomeTournamentId(u16 trainerId)
+int TrainerIdToDomeTournamentId (u16 trainerId)
 {
     int i;
 
@@ -5553,7 +5553,7 @@ int TrainerIdToDomeTournamentId(u16 trainerId)
     return i;
 }
 
-static u8 sub_81953E8(u8 tournamentId, u8 round)
+static u8 sub_81953E8 (u8 tournamentId, u8 round)
 {
     u8 tournamentIds[2];
     BufferDomeWinString(gUnknown_0860D1A0[gUnknown_0860D1C0[tournamentId] / 2][round] - 16, tournamentIds);
@@ -5565,7 +5565,7 @@ static u8 sub_81953E8(u8 tournamentId, u8 round)
 }
 
 // Determines which trainers won in the NPC vs NPC battles
-static void DecideRoundWinners(u8 roundId)
+static void DecideRoundWinners (u8 roundId)
 {
     int i;
     int moveSlot, monId1, monId2;
@@ -5660,7 +5660,7 @@ static void DecideRoundWinners(u8 roundId)
     }
 }
 
-static void CopyDomeTrainerName(u8 *str, u16 trainerId)
+static void CopyDomeTrainerName (u8 *str, u16 trainerId)
 {
     int i = 0;
     SetFacilityPtrsGetLevel();
@@ -5681,17 +5681,17 @@ static void CopyDomeTrainerName(u8 *str, u16 trainerId)
     }
 }
 
-static u8 GetDomeBrainTrainerPicId(void)
+static u8 GetDomeBrainTrainerPicId (void)
 {
     return gTrainers[TRAINER_TUCKER].trainerPic;
 }
 
-static u8 GetDomeBrainTrainerClass(void)
+static u8 GetDomeBrainTrainerClass (void)
 {
     return gTrainers[TRAINER_TUCKER].trainerClass;
 }
 
-static void CopyDomeBrainTrainerName(u8 *str)
+static void CopyDomeBrainTrainerName (u8 *str)
 {
     int i;
 

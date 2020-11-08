@@ -696,7 +696,7 @@ static const struct MatchCallCheckPageOverride sCheckPageOverrides[] = {
 
 // .text
 
-static u32 MatchCallGetFunctionIndex(match_call_t matchCall)
+static u32 MatchCallGetFunctionIndex (match_call_t matchCall)
 {
     switch (matchCall.common->type) {
     default:
@@ -714,12 +714,12 @@ static u32 MatchCallGetFunctionIndex(match_call_t matchCall)
     }
 }
 
-u32 GetTrainerIdxByRematchIdx(u32 rematchIdx)
+u32 GetTrainerIdxByRematchIdx (u32 rematchIdx)
 {
     return gRematchTable[rematchIdx].trainerIds[0];
 }
 
-s32 GetRematchIdxByTrainerIdx(s32 trainerIdx)
+s32 GetRematchIdxByTrainerIdx (s32 trainerIdx)
 {
     s32 rematchIdx;
 
@@ -731,7 +731,7 @@ s32 GetRematchIdxByTrainerIdx(s32 trainerIdx)
     return -1;
 }
 
-bool32 MatchCall_GetEnabled(u32 idx)
+bool32 MatchCall_GetEnabled (u32 idx)
 {
     match_call_t matchCall;
     u32 i;
@@ -744,7 +744,7 @@ bool32 MatchCall_GetEnabled(u32 idx)
     return sMatchCallGetEnabledFuncs[i](matchCall);
 }
 
-static bool32 MatchCall_GetEnabled_NPC(match_call_t matchCall)
+static bool32 MatchCall_GetEnabled_NPC (match_call_t matchCall)
 {
     if (matchCall.npc->flag == 0xFFFF) {
         return TRUE;
@@ -752,7 +752,7 @@ static bool32 MatchCall_GetEnabled_NPC(match_call_t matchCall)
     return FlagGet(matchCall.npc->flag);
 }
 
-static bool32 MatchCall_GetEnabled_Trainer(match_call_t matchCall)
+static bool32 MatchCall_GetEnabled_Trainer (match_call_t matchCall)
 {
     if (matchCall.trainer->flag == 0xFFFF) {
         return TRUE;
@@ -760,7 +760,7 @@ static bool32 MatchCall_GetEnabled_Trainer(match_call_t matchCall)
     return FlagGet(matchCall.trainer->flag);
 }
 
-static bool32 MatchCall_GetEnabled_Wally(match_call_t matchCall)
+static bool32 MatchCall_GetEnabled_Wally (match_call_t matchCall)
 {
     if (matchCall.wally->flag == 0xFFFF) {
         return TRUE;
@@ -768,7 +768,7 @@ static bool32 MatchCall_GetEnabled_Wally(match_call_t matchCall)
     return FlagGet(matchCall.wally->flag);
 }
 
-static bool32 MatchCall_GetEnabled_Rival(match_call_t matchCall)
+static bool32 MatchCall_GetEnabled_Rival (match_call_t matchCall)
 {
     if (matchCall.rival->playerGender != gSaveBlock2Ptr->playerGender) {
         return FALSE;
@@ -779,12 +779,12 @@ static bool32 MatchCall_GetEnabled_Rival(match_call_t matchCall)
     return FlagGet(matchCall.rival->flag);
 }
 
-static bool32 MatchCall_GetEnabled_Birch(match_call_t matchCall)
+static bool32 MatchCall_GetEnabled_Birch (match_call_t matchCall)
 {
     return FlagGet(matchCall.birch->flag);
 }
 
-u8 MatchCall_GetMapSec(u32 idx)
+u8 MatchCall_GetMapSec (u32 idx)
 {
     match_call_t matchCall;
     u32 i;
@@ -797,17 +797,17 @@ u8 MatchCall_GetMapSec(u32 idx)
     return sMatchCallGetMapSecFuncs[i](matchCall);
 }
 
-static u8 MatchCall_GetMapSec_NPC(match_call_t matchCall)
+static u8 MatchCall_GetMapSec_NPC (match_call_t matchCall)
 {
     return matchCall.npc->mapSec;
 }
 
-static u8 MatchCall_GetMapSec_Trainer(match_call_t matchCall)
+static u8 MatchCall_GetMapSec_Trainer (match_call_t matchCall)
 {
     return matchCall.trainer->mapSec;
 }
 
-static u8 MatchCall_GetMapSec_Wally(match_call_t matchCall)
+static u8 MatchCall_GetMapSec_Wally (match_call_t matchCall)
 {
     s32 i;
 
@@ -819,17 +819,17 @@ static u8 MatchCall_GetMapSec_Wally(match_call_t matchCall)
     return matchCall.wally->locationData[i].mapSec;
 }
 
-static u8 MatchCall_GetMapSec_Rival(match_call_t matchCall)
+static u8 MatchCall_GetMapSec_Rival (match_call_t matchCall)
 {
     return MAPSEC_NONE;
 }
 
-static u8 MatchCall_GetMapSec_Birch(match_call_t matchCall)
+static u8 MatchCall_GetMapSec_Birch (match_call_t matchCall)
 {
     return MAPSEC_NONE;
 }
 
-bool32 MatchCall_IsRematchable(u32 idx)
+bool32 MatchCall_IsRematchable (u32 idx)
 {
     match_call_t matchCall;
     u32 i;
@@ -842,12 +842,12 @@ bool32 MatchCall_IsRematchable(u32 idx)
     return sMatchCall_IsRematchableFunctions[i](matchCall);
 }
 
-static bool32 MatchCall_IsRematchable_NPC(match_call_t matchCall)
+static bool32 MatchCall_IsRematchable_NPC (match_call_t matchCall)
 {
     return FALSE;
 }
 
-static bool32 MatchCall_IsRematchable_Trainer(match_call_t matchCall)
+static bool32 MatchCall_IsRematchable_Trainer (match_call_t matchCall)
 {
     if (matchCall.trainer->rematchTableIdx >= REMATCH_ELITE_FOUR_ENTRIES) {
         return FALSE;
@@ -855,22 +855,22 @@ static bool32 MatchCall_IsRematchable_Trainer(match_call_t matchCall)
     return gSaveBlock1Ptr->trainerRematches[matchCall.trainer->rematchTableIdx] ? TRUE : FALSE;
 }
 
-static bool32 MatchCall_IsRematchable_Wally(match_call_t matchCall)
+static bool32 MatchCall_IsRematchable_Wally (match_call_t matchCall)
 {
     return gSaveBlock1Ptr->trainerRematches[matchCall.wally->rematchTableIdx] ? TRUE : FALSE;
 }
 
-static bool32 MatchCall_IsRematchable_Rival(match_call_t matchCall)
+static bool32 MatchCall_IsRematchable_Rival (match_call_t matchCall)
 {
     return FALSE;
 }
 
-static bool32 MatchCall_IsRematchable_Birch(match_call_t matchCall)
+static bool32 MatchCall_IsRematchable_Birch (match_call_t matchCall)
 {
     return FALSE;
 }
 
-bool32 MatchCall_HasCheckPage(u32 idx)
+bool32 MatchCall_HasCheckPage (u32 idx)
 {
     match_call_t matchCall;
     u32 i;
@@ -891,32 +891,32 @@ bool32 MatchCall_HasCheckPage(u32 idx)
     return FALSE;
 }
 
-static bool32 MatchCall_HasCheckPage_NPC(match_call_t matchCall)
+static bool32 MatchCall_HasCheckPage_NPC (match_call_t matchCall)
 {
     return FALSE;
 }
 
-static bool32 MatchCall_HasCheckPage_Trainer(match_call_t matchCall)
+static bool32 MatchCall_HasCheckPage_Trainer (match_call_t matchCall)
 {
     return TRUE;
 }
 
-static bool32 MatchCall_HasCheckPage_Wally(match_call_t matchCall)
+static bool32 MatchCall_HasCheckPage_Wally (match_call_t matchCall)
 {
     return TRUE;
 }
 
-static bool32 MatchCall_HasCheckPage_Rival(match_call_t matchCall)
+static bool32 MatchCall_HasCheckPage_Rival (match_call_t matchCall)
 {
     return FALSE;
 }
 
-static bool32 MatchCall_HasCheckPage_Birch(match_call_t matchCall)
+static bool32 MatchCall_HasCheckPage_Birch (match_call_t matchCall)
 {
     return FALSE;
 }
 
-u32 MatchCall_GetRematchTableIdx(u32 idx)
+u32 MatchCall_GetRematchTableIdx (u32 idx)
 {
     match_call_t matchCall;
     u32 i;
@@ -929,32 +929,32 @@ u32 MatchCall_GetRematchTableIdx(u32 idx)
     return sMatchCall_GetRematchTableIdxFunctions[i](matchCall);
 }
 
-static u32 MatchCall_GetRematchTableIdx_NPC(match_call_t matchCall)
+static u32 MatchCall_GetRematchTableIdx_NPC (match_call_t matchCall)
 {
     return REMATCH_TABLE_ENTRIES;
 }
 
-static u32 MatchCall_GetRematchTableIdx_Trainer(match_call_t matchCall)
+static u32 MatchCall_GetRematchTableIdx_Trainer (match_call_t matchCall)
 {
     return matchCall.trainer->rematchTableIdx;
 }
 
-static u32 MatchCall_GetRematchTableIdx_Wally(match_call_t matchCall)
+static u32 MatchCall_GetRematchTableIdx_Wally (match_call_t matchCall)
 {
     return matchCall.wally->rematchTableIdx;
 }
 
-static u32 MatchCall_GetRematchTableIdx_Rival(match_call_t matchCall)
+static u32 MatchCall_GetRematchTableIdx_Rival (match_call_t matchCall)
 {
     return REMATCH_TABLE_ENTRIES;
 }
 
-static u32 MatchCall_GetRematchTableIdx_Birch(match_call_t matchCall)
+static u32 MatchCall_GetRematchTableIdx_Birch (match_call_t matchCall)
 {
     return REMATCH_TABLE_ENTRIES;
 }
 
-void MatchCall_GetMessage(u32 idx, u8 *dest)
+void MatchCall_GetMessage (u32 idx, u8 *dest)
 {
     match_call_t matchCall;
     u32 i;
@@ -967,13 +967,13 @@ void MatchCall_GetMessage(u32 idx, u8 *dest)
     sMatchCall_GetMessageFunctions[i](matchCall, dest);
 }
 
-static void MatchCall_GetMessage_NPC(match_call_t matchCall, u8 *dest)
+static void MatchCall_GetMessage_NPC (match_call_t matchCall, u8 *dest)
 {
     MatchCall_BufferCallMessageText(matchCall.npc->textData, dest);
 }
 
 // This is the one functional difference between MC_TYPE_TRAINER and MC_TYPE_LEADER
-static void MatchCall_GetMessage_Trainer(match_call_t matchCall, u8 *dest)
+static void MatchCall_GetMessage_Trainer (match_call_t matchCall, u8 *dest)
 {
     if (matchCall.common->type != MC_TYPE_LEADER) {
         MatchCall_BufferCallMessageText(matchCall.trainer->textData, dest);
@@ -982,22 +982,22 @@ static void MatchCall_GetMessage_Trainer(match_call_t matchCall, u8 *dest)
     }
 }
 
-static void MatchCall_GetMessage_Wally(match_call_t matchCall, u8 *dest)
+static void MatchCall_GetMessage_Wally (match_call_t matchCall, u8 *dest)
 {
     MatchCall_BufferCallMessageText(matchCall.wally->textData, dest);
 }
 
-static void MatchCall_GetMessage_Rival(match_call_t matchCall, u8 *dest)
+static void MatchCall_GetMessage_Rival (match_call_t matchCall, u8 *dest)
 {
     MatchCall_BufferCallMessageText(matchCall.rival->textData, dest);
 }
 
-static void MatchCall_GetMessage_Birch(match_call_t matchCall, u8 *dest)
+static void MatchCall_GetMessage_Birch (match_call_t matchCall, u8 *dest)
 {
     BufferPokedexRatingForMatchCall(dest);
 }
 
-static void MatchCall_BufferCallMessageText(const match_call_text_data_t *textData, u8 *dest)
+static void MatchCall_BufferCallMessageText (const match_call_text_data_t *textData, u8 *dest)
 {
     u32 i;
     for (i = 0; textData[i].text != NULL; i++) {
@@ -1018,7 +1018,7 @@ static void MatchCall_BufferCallMessageText(const match_call_text_data_t *textDa
     StringExpandPlaceholders(dest, textData[i].text);
 }
 
-static void MatchCall_BufferCallMessageTextByRematchTeam(const match_call_text_data_t *textData, u16 idx, u8 *dest)
+static void MatchCall_BufferCallMessageTextByRematchTeam (const match_call_text_data_t *textData, u16 idx, u8 *dest)
 {
     u32 i;
     for (i = 0; textData[i].text != NULL; i++) {
@@ -1054,7 +1054,7 @@ static void MatchCall_BufferCallMessageTextByRematchTeam(const match_call_text_d
     }
 }
 
-void MatchCall_GetNameAndDesc(u32 idx, const u8 **desc, const u8 **name)
+void MatchCall_GetNameAndDesc (u32 idx, const u8 **desc, const u8 **name)
 {
     match_call_t matchCall;
     u32 i;
@@ -1067,13 +1067,13 @@ void MatchCall_GetNameAndDesc(u32 idx, const u8 **desc, const u8 **name)
     sMatchCall_GetNameAndDescFunctions[i](matchCall, desc, name);
 }
 
-static void MatchCall_GetNameAndDesc_NPC(match_call_t matchCall, const u8 **desc, const u8 **name)
+static void MatchCall_GetNameAndDesc_NPC (match_call_t matchCall, const u8 **desc, const u8 **name)
 {
     *desc = matchCall.npc->desc;
     *name = matchCall.npc->name;
 }
 
-static void MatchCall_GetNameAndDesc_Trainer(match_call_t matchCall, const u8 **desc, const u8 **name)
+static void MatchCall_GetNameAndDesc_Trainer (match_call_t matchCall, const u8 **desc, const u8 **name)
 {
     match_call_t _matchCall = matchCall;
     if (_matchCall.trainer->name == NULL) {
@@ -1084,32 +1084,32 @@ static void MatchCall_GetNameAndDesc_Trainer(match_call_t matchCall, const u8 **
     *desc = _matchCall.trainer->desc;
 }
 
-static void MatchCall_GetNameAndDesc_Wally(match_call_t matchCall, const u8 **desc, const u8 **name)
+static void MatchCall_GetNameAndDesc_Wally (match_call_t matchCall, const u8 **desc, const u8 **name)
 {
     MatchCall_GetNameAndDescByRematchIdx(matchCall.wally->rematchTableIdx, desc, name);
     *desc = matchCall.wally->desc;
 }
 
-static void MatchCall_GetNameAndDesc_Rival(match_call_t matchCall, const u8 **desc, const u8 **name)
+static void MatchCall_GetNameAndDesc_Rival (match_call_t matchCall, const u8 **desc, const u8 **name)
 {
     *desc = matchCall.rival->desc;
     *name = matchCall.rival->name;
 }
 
-static void MatchCall_GetNameAndDesc_Birch(match_call_t matchCall, const u8 **desc, const u8 **name)
+static void MatchCall_GetNameAndDesc_Birch (match_call_t matchCall, const u8 **desc, const u8 **name)
 {
     *desc = matchCall.birch->desc;
     *name = matchCall.birch->name;
 }
 
-static void MatchCall_GetNameAndDescByRematchIdx(u32 idx, const u8 **desc, const u8 **name)
+static void MatchCall_GetNameAndDescByRematchIdx (u32 idx, const u8 **desc, const u8 **name)
 {
     const struct Trainer *trainer = gTrainers + GetTrainerIdxByRematchIdx(idx);
     *desc = gTrainerClassNames[trainer->trainerClass];
     *name = trainer->trainerName;
 }
 
-const u8 * MatchCall_GetOverrideFlavorText(u32 idx, u32 offset)
+const u8 * MatchCall_GetOverrideFlavorText (u32 idx, u32 offset)
 {
     u32 i;
 
@@ -1135,7 +1135,7 @@ const u8 * MatchCall_GetOverrideFlavorText(u32 idx, u32 offset)
     return NULL;
 }
 
-int MatchCall_GetOverrideFacilityClass(u32 idx)
+int MatchCall_GetOverrideFacilityClass (u32 idx)
 {
     u32 i;
 
@@ -1147,7 +1147,7 @@ int MatchCall_GetOverrideFacilityClass(u32 idx)
     return -1;
 }
 
-bool32 MatchCall_HasRematchId(u32 idx)
+bool32 MatchCall_HasRematchId (u32 idx)
 {
     int i;
 
@@ -1160,7 +1160,7 @@ bool32 MatchCall_HasRematchId(u32 idx)
     return FALSE;
 }
 
-void SetMatchCallRegisteredFlag(void)
+void SetMatchCallRegisteredFlag (void)
 {
     int r0 = GetRematchIdxByTrainerIdx(gSpecialVar_0x8004);
     if (r0 >= 0) {

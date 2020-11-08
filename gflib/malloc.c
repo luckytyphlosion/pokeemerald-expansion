@@ -26,7 +26,7 @@ struct MemBlock {
     u8 data[0];
 };
 
-void PutMemBlockHeader(void *block, struct MemBlock *prev, struct MemBlock *next, u32 size)
+void PutMemBlockHeader (void *block, struct MemBlock *prev, struct MemBlock *next, u32 size)
 {
     struct MemBlock *header = (struct MemBlock *)block;
 
@@ -37,12 +37,12 @@ void PutMemBlockHeader(void *block, struct MemBlock *prev, struct MemBlock *next
     header->next = next;
 }
 
-void PutFirstMemBlockHeader(void *block, u32 size)
+void PutFirstMemBlockHeader (void *block, u32 size)
 {
     PutMemBlockHeader(block, (struct MemBlock *)block, (struct MemBlock *)block, size - sizeof(struct MemBlock));
 }
 
-void * AllocInternal(void *heapStart, u32 size)
+void * AllocInternal (void *heapStart, u32 size)
 {
     struct MemBlock *pos = (struct MemBlock *)heapStart;
     struct MemBlock *head = pos;
@@ -97,7 +97,7 @@ void * AllocInternal(void *heapStart, u32 size)
     }
 }
 
-void FreeInternal(void *heapStart, void *pointer)
+void FreeInternal (void *heapStart, void *pointer)
 {
     if (pointer) {
         struct MemBlock *head = (struct MemBlock *)heapStart;
@@ -134,7 +134,7 @@ void FreeInternal(void *heapStart, void *pointer)
     }
 }
 
-void * AllocZeroedInternal(void *heapStart, u32 size)
+void * AllocZeroedInternal (void *heapStart, u32 size)
 {
     void *mem = AllocInternal(heapStart, size);
 
@@ -149,7 +149,7 @@ void * AllocZeroedInternal(void *heapStart, u32 size)
     return mem;
 }
 
-bool32 CheckMemBlockInternal(void *heapStart, void *pointer)
+bool32 CheckMemBlockInternal (void *heapStart, void *pointer)
 {
     struct MemBlock *head = (struct MemBlock *)heapStart;
     struct MemBlock *block = (struct MemBlock *)((u8 *)pointer - sizeof(struct MemBlock));
@@ -181,34 +181,34 @@ bool32 CheckMemBlockInternal(void *heapStart, void *pointer)
     return TRUE;
 }
 
-void InitHeap(void *heapStart, u32 heapSize)
+void InitHeap (void *heapStart, u32 heapSize)
 {
     sHeapStart = heapStart;
     sHeapSize = heapSize;
     PutFirstMemBlockHeader(heapStart, heapSize);
 }
 
-void * Alloc(u32 size)
+void * Alloc (u32 size)
 {
     return AllocInternal(sHeapStart, size);
 }
 
-void * AllocZeroed(u32 size)
+void * AllocZeroed (u32 size)
 {
     return AllocZeroedInternal(sHeapStart, size);
 }
 
-void Free(void *pointer)
+void Free (void *pointer)
 {
     FreeInternal(sHeapStart, pointer);
 }
 
-bool32 CheckMemBlock(void *pointer)
+bool32 CheckMemBlock (void *pointer)
 {
     return CheckMemBlockInternal(sHeapStart, pointer);
 }
 
-bool32 CheckHeap()
+bool32 CheckHeap ()
 {
     struct MemBlock *pos = (struct MemBlock *)sHeapStart;
 

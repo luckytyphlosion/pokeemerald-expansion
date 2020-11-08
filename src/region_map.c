@@ -504,7 +504,7 @@ static const struct SpriteTemplate sFlyDestIconSpriteTemplate =
 
 // .text
 
-void InitRegionMap(struct RegionMap *regionMap, bool8 zoomed)
+void InitRegionMap (struct RegionMap *regionMap, bool8 zoomed)
 {
     InitRegionMapData(regionMap, NULL, zoomed);
     while (LoadRegionMapGfx()) {
@@ -512,7 +512,7 @@ void InitRegionMap(struct RegionMap *regionMap, bool8 zoomed)
     }
 }
 
-void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *template, bool8 zoomed)
+void InitRegionMapData (struct RegionMap *regionMap, const struct BgTemplate *template, bool8 zoomed)
 {
     gRegionMap = regionMap;
     gRegionMap->initStep = 0;
@@ -531,7 +531,7 @@ void InitRegionMapData(struct RegionMap *regionMap, const struct BgTemplate *tem
     }
 }
 
-void ShowRegionMapForPokedexAreaScreen(struct RegionMap *regionMap)
+void ShowRegionMapForPokedexAreaScreen (struct RegionMap *regionMap)
 {
     gRegionMap = regionMap;
     InitMapBasedOnPlayerLocation();
@@ -539,7 +539,7 @@ void ShowRegionMapForPokedexAreaScreen(struct RegionMap *regionMap)
     gRegionMap->playerIconSpritePosY = gRegionMap->cursorPosY;
 }
 
-bool8 LoadRegionMapGfx(void)
+bool8 LoadRegionMapGfx (void)
 {
     switch (gRegionMap->initStep) {
     case 0:
@@ -611,13 +611,13 @@ bool8 LoadRegionMapGfx(void)
     return TRUE;
 }
 
-void sub_8123030(u16 color, u32 coeff)
+void sub_8123030 (u16 color, u32 coeff)
 {
     BlendPalettes(0x380, coeff, color);
     CpuCopy16(gPlttBufferFaded + 0x70, gPlttBufferUnfaded + 0x70, 0x60);
 }
 
-void FreeRegionMapIconResources(void)
+void FreeRegionMapIconResources (void)
 {
     if (gRegionMap->cursorSprite != NULL) {
         DestroySprite(gRegionMap->cursorSprite);
@@ -631,12 +631,12 @@ void FreeRegionMapIconResources(void)
     }
 }
 
-u8 DoRegionMapInputCallback(void)
+u8 DoRegionMapInputCallback (void)
 {
     return gRegionMap->inputCallback();
 }
 
-static u8 ProcessRegionMapInput_Full(void)
+static u8 ProcessRegionMapInput_Full (void)
 {
     u8 input;
 
@@ -671,7 +671,7 @@ static u8 ProcessRegionMapInput_Full(void)
     return input;
 }
 
-static u8 MoveRegionMapCursor_Full(void)
+static u8 MoveRegionMapCursor_Full (void)
 {
     u16 mapSecId;
 
@@ -703,7 +703,7 @@ static u8 MoveRegionMapCursor_Full(void)
     return MAP_INPUT_MOVE_END;
 }
 
-static u8 ProcessRegionMapInput_Zoomed(void)
+static u8 ProcessRegionMapInput_Zoomed (void)
 {
     u8 input;
 
@@ -739,7 +739,7 @@ static u8 ProcessRegionMapInput_Zoomed(void)
     return input;
 }
 
-static u8 MoveRegionMapCursor_Zoomed(void)
+static u8 MoveRegionMapCursor_Zoomed (void)
 {
     u16 x;
     u16 y;
@@ -770,7 +770,7 @@ static u8 MoveRegionMapCursor_Zoomed(void)
     return MAP_INPUT_MOVE_CONT;
 }
 
-void SetRegionMapDataForZoom(void)
+void SetRegionMapDataForZoom (void)
 {
     if (gRegionMap->zoomed == FALSE) {
         gRegionMap->scrollY = 0;
@@ -802,7 +802,7 @@ void SetRegionMapDataForZoom(void)
     HideRegionMapPlayerIcon();
 }
 
-bool8 UpdateRegionMapZoom(void)
+bool8 UpdateRegionMapZoom (void)
 {
     bool8 retVal;
 
@@ -852,7 +852,7 @@ bool8 UpdateRegionMapZoom(void)
     return retVal;
 }
 
-static void CalcZoomScrollParams(s16 scrollX, s16 scrollY, s16 c, s16 d, u16 e, u16 f, u8 rotation)
+static void CalcZoomScrollParams (s16 scrollX, s16 scrollY, s16 c, s16 d, u16 e, u16 f, u8 rotation)
 {
     s32 var1;
     s32 var2;
@@ -875,14 +875,14 @@ static void CalcZoomScrollParams(s16 scrollX, s16 scrollY, s16 c, s16 d, u16 e, 
     gRegionMap->needUpdateVideoRegs = TRUE;
 }
 
-static void RegionMap_SetBG2XAndBG2Y(s16 x, s16 y)
+static void RegionMap_SetBG2XAndBG2Y (s16 x, s16 y)
 {
     gRegionMap->bg2x = (x << 8) + 0x1c00;
     gRegionMap->bg2y = (y << 8) + 0x2400;
     gRegionMap->needUpdateVideoRegs = TRUE;
 }
 
-void UpdateRegionMapVideoRegs(void)
+void UpdateRegionMapVideoRegs (void)
 {
     if (gRegionMap->needUpdateVideoRegs) {
         SetGpuReg(REG_OFFSET_BG2PA, gRegionMap->bg2pa);
@@ -897,7 +897,7 @@ void UpdateRegionMapVideoRegs(void)
     }
 }
 
-void PokedexAreaScreen_UpdateRegionMapVariablesAndVideoRegs(s16 x, s16 y)
+void PokedexAreaScreen_UpdateRegionMapVariablesAndVideoRegs (s16 x, s16 y)
 {
     CalcZoomScrollParams(x, y, 0x38, 0x48, 0x100, 0x100, 0);
     UpdateRegionMapVideoRegs();
@@ -907,7 +907,7 @@ void PokedexAreaScreen_UpdateRegionMapVariablesAndVideoRegs(s16 x, s16 y)
     }
 }
 
-static u16 GetMapSecIdAt(u16 x, u16 y)
+static u16 GetMapSecIdAt (u16 x, u16 y)
 {
     if (y < MAPCURSOR_Y_MIN || y > MAPCURSOR_Y_MAX || x < MAPCURSOR_X_MIN || x > MAPCURSOR_X_MAX) {
         return MAPSEC_NONE;
@@ -917,7 +917,7 @@ static u16 GetMapSecIdAt(u16 x, u16 y)
     return sRegionMap_MapSectionLayout[x + y * MAP_WIDTH];
 }
 
-static void InitMapBasedOnPlayerLocation(void)
+static void InitMapBasedOnPlayerLocation (void)
 {
     const struct MapHeader *mapHeader;
     u16 mapWidth;
@@ -1069,7 +1069,7 @@ static void InitMapBasedOnPlayerLocation(void)
     gRegionMap->cursorPosY = gRegionMapEntries[gRegionMap->mapSecId].y + y + MAPCURSOR_Y_MIN;
 }
 
-static void RegionMap_InitializeStateBasedOnSSTidalLocation(void)
+static void RegionMap_InitializeStateBasedOnSSTidalLocation (void)
 {
     u16 y;
     u16 x;
@@ -1124,7 +1124,7 @@ static void RegionMap_InitializeStateBasedOnSSTidalLocation(void)
     gRegionMap->cursorPosY = gRegionMapEntries[gRegionMap->mapSecId].y + y + MAPCURSOR_Y_MIN;
 }
 
-static u8 GetMapsecType(u16 mapSecId)
+static u8 GetMapsecType (u16 mapSecId)
 {
     switch (mapSecId) {
     case MAPSEC_NONE:
@@ -1170,12 +1170,12 @@ static u8 GetMapsecType(u16 mapSecId)
     }
 }
 
-u16 GetRegionMapSecIdAt(u16 x, u16 y)
+u16 GetRegionMapSecIdAt (u16 x, u16 y)
 {
     return GetMapSecIdAt(x, y);
 }
 
-static u16 CorrectSpecialMapSecId_Internal(u16 mapSecId)
+static u16 CorrectSpecialMapSecId_Internal (u16 mapSecId)
 {
     u32 i;
 
@@ -1192,7 +1192,7 @@ static u16 CorrectSpecialMapSecId_Internal(u16 mapSecId)
     return mapSecId;
 }
 
-static u16 GetTerraOrMarineCaveMapSecId(void)
+static u16 GetTerraOrMarineCaveMapSecId (void)
 {
     s16 idx;
 
@@ -1205,7 +1205,7 @@ static u16 GetTerraOrMarineCaveMapSecId(void)
     return sTerraOrMarineCaveMapSecIds[idx];
 }
 
-static void GetMarineCaveCoords(u16 *x, u16 *y)
+static void GetMarineCaveCoords (u16 *x, u16 *y)
 {
     u16 idx;
 
@@ -1221,7 +1221,7 @@ static void GetMarineCaveCoords(u16 *x, u16 *y)
 
 // Probably meant to be an "IsPlayerInIndoorDungeon" function, but in practice it only has the one mapsec
 // Additionally, because the mapsec doesnt exist in Emerald, this function always returns FALSE
-static bool32 IsPlayerInAquaHideout(u8 mapSecId)
+static bool32 IsPlayerInAquaHideout (u8 mapSecId)
 {
     u32 i;
 
@@ -1233,12 +1233,12 @@ static bool32 IsPlayerInAquaHideout(u8 mapSecId)
     return FALSE;
 }
 
-u16 CorrectSpecialMapSecId(u16 mapSecId)
+u16 CorrectSpecialMapSecId (u16 mapSecId)
 {
     return CorrectSpecialMapSecId_Internal(mapSecId);
 }
 
-static void GetPositionOfCursorWithinMapSec(void)
+static void GetPositionOfCursorWithinMapSec (void)
 {
     u16 x;
     u16 y;
@@ -1274,7 +1274,7 @@ static void GetPositionOfCursorWithinMapSec(void)
     gRegionMap->posWithinMapSec = posWithinMapSec;
 }
 
-static bool8 RegionMap_IsMapSecIdInNextRow(u16 y)
+static bool8 RegionMap_IsMapSecIdInNextRow (u16 y)
 {
     u16 x;
 
@@ -1289,7 +1289,7 @@ static bool8 RegionMap_IsMapSecIdInNextRow(u16 y)
     return FALSE;
 }
 
-static void SpriteCB_CursorMapFull(struct Sprite *sprite)
+static void SpriteCB_CursorMapFull (struct Sprite *sprite)
 {
     if (gRegionMap->cursorMovementFrameCounter != 0) {
         sprite->pos1.x += 2 * gRegionMap->cursorDeltaX;
@@ -1298,11 +1298,11 @@ static void SpriteCB_CursorMapFull(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_CursorMapZoomed(struct Sprite *sprite)
+static void SpriteCB_CursorMapZoomed (struct Sprite *sprite)
 {
 }
 
-void CreateRegionMapCursor(u16 tileTag, u16 paletteTag)
+void CreateRegionMapCursor (u16 tileTag, u16 paletteTag)
 {
     u8 spriteId;
     struct SpriteTemplate template;
@@ -1347,7 +1347,7 @@ void CreateRegionMapCursor(u16 tileTag, u16 paletteTag)
     }
 }
 
-static void FreeRegionMapCursorSprite(void)
+static void FreeRegionMapCursorSprite (void)
 {
     if (gRegionMap->cursorSprite != NULL) {
         DestroySprite(gRegionMap->cursorSprite);
@@ -1357,18 +1357,18 @@ static void FreeRegionMapCursorSprite(void)
 }
 
 // Unused
-static void SetUnkCursorSpriteData(void)
+static void SetUnkCursorSpriteData (void)
 {
     gRegionMap->cursorSprite->data[3] = TRUE;
 }
 
 // Unused
-static void ClearUnkCursorSpriteData(void)
+static void ClearUnkCursorSpriteData (void)
 {
     gRegionMap->cursorSprite->data[3] = FALSE;
 }
 
-void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
+void CreateRegionMapPlayerIcon (u16 tileTag, u16 paletteTag)
 {
     u8 spriteId;
     struct SpriteSheet sheet = {sRegionMapPlayerIcon_BrendanGfx, 0x80, tileTag};
@@ -1398,7 +1398,7 @@ void CreateRegionMapPlayerIcon(u16 tileTag, u16 paletteTag)
     }
 }
 
-static void HideRegionMapPlayerIcon(void)
+static void HideRegionMapPlayerIcon (void)
 {
     if (gRegionMap->playerIconSprite != NULL) {
         gRegionMap->playerIconSprite->invisible = TRUE;
@@ -1406,7 +1406,7 @@ static void HideRegionMapPlayerIcon(void)
     }
 }
 
-static void UnhideRegionMapPlayerIcon(void)
+static void UnhideRegionMapPlayerIcon (void)
 {
     if (gRegionMap->playerIconSprite != NULL) {
         if (gRegionMap->zoomed == TRUE) {
@@ -1425,7 +1425,7 @@ static void UnhideRegionMapPlayerIcon(void)
     }
 }
 
-static void SpriteCB_PlayerIconMapZoomed(struct Sprite *sprite)
+static void SpriteCB_PlayerIconMapZoomed (struct Sprite *sprite)
 {
     sprite->pos2.x = -2 * gRegionMap->scrollX;
     sprite->pos2.y = -2 * gRegionMap->scrollY;
@@ -1443,12 +1443,12 @@ static void SpriteCB_PlayerIconMapZoomed(struct Sprite *sprite)
     }
 }
 
-static void SpriteCB_PlayerIconMapFull(struct Sprite *sprite)
+static void SpriteCB_PlayerIconMapFull (struct Sprite *sprite)
 {
     SpriteCB_PlayerIcon(sprite);
 }
 
-static void SpriteCB_PlayerIcon(struct Sprite *sprite)
+static void SpriteCB_PlayerIcon (struct Sprite *sprite)
 {
     if (gRegionMap->blinkPlayerIcon) {
         if (++sprite->data[7] > 16) {
@@ -1460,14 +1460,14 @@ static void SpriteCB_PlayerIcon(struct Sprite *sprite)
     }
 }
 
-void TrySetPlayerIconBlink(void)
+void TrySetPlayerIconBlink (void)
 {
     if (gRegionMap->playerIsInCave) {
         gRegionMap->blinkPlayerIcon = TRUE;
     }
 }
 
-u8 * GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
+u8 * GetMapName (u8 *dest, u16 regionMapId, u16 padLength)
 {
     u8 *str;
     u16 i;
@@ -1492,7 +1492,7 @@ u8 * GetMapName(u8 *dest, u16 regionMapId, u16 padLength)
 }
 
 // TODO: probably needs a better name
-u8 * GetMapNameGeneric(u8 *dest, u16 mapSecId)
+u8 * GetMapNameGeneric (u8 *dest, u16 mapSecId)
 {
     switch (mapSecId) {
     case MAPSEC_DYNAMIC:
@@ -1504,7 +1504,7 @@ u8 * GetMapNameGeneric(u8 *dest, u16 mapSecId)
     }
 }
 
-u8 * GetMapNameHandleAquaHideout(u8 *dest, u16 mapSecId)
+u8 * GetMapNameHandleAquaHideout (u8 *dest, u16 mapSecId)
 {
     if (mapSecId == MAPSEC_AQUA_HIDEOUT_OLD) {
         return StringCopy(dest, gText_Hideout);
@@ -1513,7 +1513,7 @@ u8 * GetMapNameHandleAquaHideout(u8 *dest, u16 mapSecId)
     }
 }
 
-static void GetMapSecDimensions(u16 mapSecId, u16 *x, u16 *y, u16 *width, u16 *height)
+static void GetMapSecDimensions (u16 mapSecId, u16 *x, u16 *y, u16 *width, u16 *height)
 {
     *x = gRegionMapEntries[mapSecId].x;
     *y = gRegionMapEntries[mapSecId].y;
@@ -1521,12 +1521,12 @@ static void GetMapSecDimensions(u16 mapSecId, u16 *x, u16 *y, u16 *width, u16 *h
     *height = gRegionMapEntries[mapSecId].height;
 }
 
-bool8 IsRegionMapZoomed(void)
+bool8 IsRegionMapZoomed (void)
 {
     return gRegionMap->zoomed;
 }
 
-bool32 IsEventIslandMapSecId(u8 mapSecId)
+bool32 IsEventIslandMapSecId (u8 mapSecId)
 {
     u32 i;
 
@@ -1538,7 +1538,7 @@ bool32 IsEventIslandMapSecId(u8 mapSecId)
     return FALSE;
 }
 
-void CB2_OpenFlyMap(void)
+void CB2_OpenFlyMap (void)
 {
     switch (gMain.state) {
     case 0:
@@ -1626,14 +1626,14 @@ void CB2_OpenFlyMap(void)
     }
 }
 
-static void VBlankCB_FlyMap(void)
+static void VBlankCB_FlyMap (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void CB2_FlyMap(void)
+static void CB2_FlyMap (void)
 {
     sFlyMap->callback();
     AnimateSprites();
@@ -1641,13 +1641,13 @@ static void CB2_FlyMap(void)
     DoScheduledBgTilemapCopiesToVram();
 }
 
-static void SetFlyMapCallback(void callback(void))
+static void SetFlyMapCallback (void callback(void))
 {
     sFlyMap->callback = callback;
     sFlyMap->state = 0;
 }
 
-static void DrawFlyDestTextWindow(void)
+static void DrawFlyDestTextWindow (void)
 {
     u16 i;
     bool32 namePrinted;
@@ -1695,7 +1695,7 @@ static void DrawFlyDestTextWindow(void)
 }
 
 
-static void LoadFlyDestIcons(void)
+static void LoadFlyDestIcons (void)
 {
     struct SpriteSheet sheet;
 
@@ -1713,7 +1713,7 @@ static void LoadFlyDestIcons(void)
 #define sIconMapSec   data[0]
 #define sFlickerTimer data[1]
 
-static void CreateFlyDestIcons(void)
+static void CreateFlyDestIcons (void)
 {
     u16 canFlyFlag;
     u16 mapSecId;
@@ -1757,7 +1757,7 @@ static void CreateFlyDestIcons(void)
 
 // Draw a red outline box on the mapsec if its corresponding flag has been set
 // Only used for Battle Frontier, but set up to handle more
-static void TryCreateRedOutlineFlyDestIcons(void)
+static void TryCreateRedOutlineFlyDestIcons (void)
 {
     u16 i;
     u16 x;
@@ -1785,7 +1785,7 @@ static void TryCreateRedOutlineFlyDestIcons(void)
 }
 
 // Flickers fly destination icon color (by hiding the fly icon sprite) if the cursor is currently on it
-static void SpriteCB_FlyDestIcon(struct Sprite *sprite)
+static void SpriteCB_FlyDestIcon (struct Sprite *sprite)
 {
     if (sFlyMap->regionMap.mapSecId == sprite->sIconMapSec) {
         if (++sprite->sFlickerTimer > 16) {
@@ -1801,7 +1801,7 @@ static void SpriteCB_FlyDestIcon(struct Sprite *sprite)
 #undef sIconMapSec
 #undef sFlickerTimer
 
-static void CB_FadeInFlyMap(void)
+static void CB_FadeInFlyMap (void)
 {
     switch (sFlyMap->state) {
     case 0:
@@ -1816,7 +1816,7 @@ static void CB_FadeInFlyMap(void)
     }
 }
 
-static void CB_HandleFlyMapInput(void)
+static void CB_HandleFlyMapInput (void)
 {
     if (sFlyMap->state == 0) {
         switch (DoRegionMapInputCallback()) {
@@ -1843,7 +1843,7 @@ static void CB_HandleFlyMapInput(void)
     }
 }
 
-static void CB_ExitFlyMap(void)
+static void CB_ExitFlyMap (void)
 {
     switch (sFlyMap->state) {
     case 0:

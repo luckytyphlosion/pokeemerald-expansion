@@ -4,7 +4,7 @@
 #include "pokedex.h"
 #include "strings.h"
 
-bool16 ScriptGetPokedexInfo(void)
+bool16 ScriptGetPokedexInfo (void)
 {
     if (gSpecialVar_0x8004 == 0) { // is national dex not present?
         gSpecialVar_0x8005 = GetHoennPokedexCount(FLAG_GET_SEEN);
@@ -18,7 +18,7 @@ bool16 ScriptGetPokedexInfo(void)
 }
 
 // This shows your Hoenn Pokedex rating and not your National Dex.
-const u8 * GetPokedexRatingText(u16 count)
+const u8 * GetPokedexRatingText (u16 count)
 {
     if (count < 10) {
         return gBirchDexRatingText_LessThan10;
@@ -100,7 +100,7 @@ const u8 * GetPokedexRatingText(u16 count)
     return gBirchDexRatingText_LessThan10;
 }
 
-void ShowPokedexRatingMessage(void)
+void ShowPokedexRatingMessage (void)
 {
     ShowFieldMessage(GetPokedexRatingText(gSpecialVar_0x8004));
 }

@@ -10,7 +10,7 @@ static u32 sub_801DD44(struct MysteryEventStruct *);
 static void sub_801DCD8(struct MysteryEventStruct *);
 static void sub_801DCCC(struct MysteryEventStruct *);
 
-void GenerateRandomNews(u32 a0)
+void GenerateRandomNews (u32 a0)
 {
     struct MysteryEventStruct *r5 = sub_801B044();
 
@@ -28,7 +28,7 @@ void GenerateRandomNews(u32 a0)
     }
 }
 
-void sub_801DBC0(void)
+void sub_801DBC0 (void)
 {
     struct MysteryEventStruct *r5 = sub_801B044();
 
@@ -39,7 +39,7 @@ void sub_801DBC0(void)
     VarSet(VAR_0x402E, 0);
 }
 
-void sub_801DBDC(void)
+void sub_801DBDC (void)
 {
     u16 *r4 = GetVarPointer(VAR_0x402E);
     struct MysteryEventStruct *r2 = sub_801B044();
@@ -52,7 +52,7 @@ void sub_801DBDC(void)
 }
 
 // Unused
-u16 sub_801DC20(void)
+u16 sub_801DC20 (void)
 {
     u16 *r6 = &gSpecialVar_Result;
     struct MysteryEventStruct *r4 = sub_801B044();
@@ -90,7 +90,7 @@ u16 sub_801DC20(void)
     return r5;
 }
 
-static u32 sub_801DCAC(struct MysteryEventStruct *a0)
+static u32 sub_801DCAC (struct MysteryEventStruct *a0)
 {
     u32 r4;
 
@@ -101,12 +101,12 @@ static u32 sub_801DCAC(struct MysteryEventStruct *a0)
     return r4;
 }
 
-static void sub_801DCCC(struct MysteryEventStruct *a0)
+static void sub_801DCCC (struct MysteryEventStruct *a0)
 {
     a0->unk_0_2 = 0;
 }
 
-static void sub_801DCD8(struct MysteryEventStruct *a0)
+static void sub_801DCD8 (struct MysteryEventStruct *a0)
 {
     a0->unk_0_2++;
     if ((u8)a0->unk_0_2 > 4) {
@@ -114,7 +114,7 @@ static void sub_801DCD8(struct MysteryEventStruct *a0)
     }
 }
 
-static void sub_801DD10(struct MysteryEventStruct *a0)
+static void sub_801DD10 (struct MysteryEventStruct *a0)
 {
     a0->unk_0_5++;
     if ((u8)a0->unk_0_5 > 5) {
@@ -122,7 +122,7 @@ static void sub_801DD10(struct MysteryEventStruct *a0)
     }
 }
 
-static u32 sub_801DD44(struct MysteryEventStruct *a0)
+static u32 sub_801DD44 (struct MysteryEventStruct *a0)
 {
     struct MysteryEventStruct r0;
     if ((u8)a0->unk_0_5 == 5) {

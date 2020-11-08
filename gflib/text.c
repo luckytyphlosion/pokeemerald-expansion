@@ -129,12 +129,12 @@ extern const u16 gFont1JapaneseGlyphs[];
 extern const u16 gFont2JapaneseGlyphs[];
 extern const u8 gFont2JapaneseGlyphWidths[];
 
-void SetFontsPointer(const struct FontInfo *fonts)
+void SetFontsPointer (const struct FontInfo *fonts)
 {
     gFonts = fonts;
 }
 
-void DeactivateAllTextPrinters(void)
+void DeactivateAllTextPrinters (void)
 {
     int printer;
     for (printer = 0; printer < NUM_TEXT_PRINTERS; ++printer) {
@@ -142,7 +142,7 @@ void DeactivateAllTextPrinters(void)
     }
 }
 
-u16 AddTextPrinterParameterized(u8 windowId, u8 fontId, const u8 *str, u8 x, u8 y, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16))
+u16 AddTextPrinterParameterized (u8 windowId, u8 fontId, const u8 *str, u8 x, u8 y, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16))
 {
     struct TextPrinterTemplate printerTemplate;
 
@@ -162,7 +162,7 @@ u16 AddTextPrinterParameterized(u8 windowId, u8 fontId, const u8 *str, u8 x, u8 
     return AddTextPrinter(&printerTemplate, speed, callback);
 }
 
-bool16 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16))
+bool16 AddTextPrinter (struct TextPrinterTemplate *printerTemplate, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16))
 {
     int i;
     u16 j;
@@ -208,7 +208,7 @@ bool16 AddTextPrinter(struct TextPrinterTemplate *printerTemplate, u8 speed, voi
     return TRUE;
 }
 
-void RunTextPrinters(void)
+void RunTextPrinters (void)
 {
     int i;
 
@@ -233,12 +233,12 @@ void RunTextPrinters(void)
     }
 }
 
-bool16 IsTextPrinterActive(u8 id)
+bool16 IsTextPrinterActive (u8 id)
 {
     return gTextPrinters[id].active;
 }
 
-u32 RenderFont(struct TextPrinter *textPrinter)
+u32 RenderFont (struct TextPrinter *textPrinter)
 {
     u32 ret;
     while (TRUE) {
@@ -249,7 +249,7 @@ u32 RenderFont(struct TextPrinter *textPrinter)
     }
 }
 
-void GenerateFontHalfRowLookupTable(u8 fgColor, u8 bgColor, u8 shadowColor)
+void GenerateFontHalfRowLookupTable (u8 fgColor, u8 bgColor, u8 shadowColor)
 {
     u32 fg12, bg12, shadow12;
     u32 temp;
@@ -400,19 +400,19 @@ void GenerateFontHalfRowLookupTable(u8 fgColor, u8 bgColor, u8 shadowColor)
     *(current++) = (shadow12) | temp;
 }
 
-void SaveTextColors(u8 *fgColor, u8 *bgColor, u8 *shadowColor)
+void SaveTextColors (u8 *fgColor, u8 *bgColor, u8 *shadowColor)
 {
     *bgColor = gLastTextBgColor;
     *fgColor = gLastTextFgColor;
     *shadowColor = gLastTextShadowColor;
 }
 
-void RestoreTextColors(u8 *fgColor, u8 *bgColor, u8 *shadowColor)
+void RestoreTextColors (u8 *fgColor, u8 *bgColor, u8 *shadowColor)
 {
     GenerateFontHalfRowLookupTable(*fgColor, *bgColor, *shadowColor);
 }
 
-void DecompressGlyphTile(const void *src_, void *dest_)
+void DecompressGlyphTile (const void *src_, void *dest_)
 {
     u32 temp;
     const u16 *src = src_;
@@ -443,7 +443,7 @@ void DecompressGlyphTile(const void *src_, void *dest_)
     *(dest++) = ((gFontHalfRowLookupTable[gFontHalfRowOffsets[temp & 0xFF]]) << 16) | (gFontHalfRowLookupTable[gFontHalfRowOffsets[temp >> 8]]);
 }
 
-u8 GetLastTextColor(u8 colorType)
+u8 GetLastTextColor (u8 colorType)
 {
     switch (colorType) {
     case COLOR_FOREGROUND:
@@ -457,7 +457,7 @@ u8 GetLastTextColor(u8 colorType)
     }
 }
 
-inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, u32 i, u32 *ptr, s32 width, s32 height)                                           //
+inline static void GLYPH_COPY (u8 *windowTiles, u32 widthOffset, u32 j, u32 i, u32 *ptr, s32 width, s32 height)                                           //
 {
     u32 xAdd, yAdd, r5, bits, toOrr, dummyX;
     u8 *dst;
@@ -478,7 +478,7 @@ inline static void GLYPH_COPY(u8 *windowTiles, u32 widthOffset, u32 j, u32 i, u3
     }
 }
 
-void CopyGlyphToWindow(struct TextPrinter *textPrinter)
+void CopyGlyphToWindow (struct TextPrinter *textPrinter)
 {
     struct Window *win;
     struct WindowTemplate *winTempl;
@@ -524,7 +524,7 @@ void CopyGlyphToWindow(struct TextPrinter *textPrinter)
     }
 }
 
-void ClearTextSpan(struct TextPrinter *textPrinter, u32 width)
+void ClearTextSpan (struct TextPrinter *textPrinter, u32 width)
 {
     struct Window *window;
     struct Bitmap pixels_data;
@@ -550,7 +550,7 @@ void ClearTextSpan(struct TextPrinter *textPrinter, u32 width)
     }
 }
 
-u16 Font0Func(struct TextPrinter *textPrinter)
+u16 Font0Func (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
@@ -561,7 +561,7 @@ u16 Font0Func(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
-u16 Font1Func(struct TextPrinter *textPrinter)
+u16 Font1Func (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
@@ -572,7 +572,7 @@ u16 Font1Func(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
-u16 Font2Func(struct TextPrinter *textPrinter)
+u16 Font2Func (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
@@ -583,7 +583,7 @@ u16 Font2Func(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
-u16 Font3Func(struct TextPrinter *textPrinter)
+u16 Font3Func (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
@@ -594,7 +594,7 @@ u16 Font3Func(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
-u16 Font4Func(struct TextPrinter *textPrinter)
+u16 Font4Func (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
@@ -605,7 +605,7 @@ u16 Font4Func(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
-u16 Font5Func(struct TextPrinter *textPrinter)
+u16 Font5Func (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
@@ -616,7 +616,7 @@ u16 Font5Func(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
-u16 Font7Func(struct TextPrinter *textPrinter)
+u16 Font7Func (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
@@ -627,7 +627,7 @@ u16 Font7Func(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
-u16 Font8Func(struct TextPrinter *textPrinter)
+u16 Font8Func (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
@@ -638,7 +638,7 @@ u16 Font8Func(struct TextPrinter *textPrinter)
     return RenderText(textPrinter);
 }
 
-void TextPrinterInitDownArrowCounters(struct TextPrinter *textPrinter)
+void TextPrinterInitDownArrowCounters (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
@@ -650,7 +650,7 @@ void TextPrinterInitDownArrowCounters(struct TextPrinter *textPrinter)
     }
 }
 
-void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
+void TextPrinterDrawDownArrow (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
     const u8 *arrowTiles;
@@ -696,7 +696,7 @@ void TextPrinterDrawDownArrow(struct TextPrinter *textPrinter)
     }
 }
 
-void TextPrinterClearDownArrow(struct TextPrinter *textPrinter)
+void TextPrinterClearDownArrow (struct TextPrinter *textPrinter)
 {
     FillWindowPixelRect(
         textPrinter->printerTemplate.windowId,
@@ -708,7 +708,7 @@ void TextPrinterClearDownArrow(struct TextPrinter *textPrinter)
     CopyWindowToVram(textPrinter->printerTemplate.windowId, 2);
 }
 
-bool8 TextPrinterWaitAutoMode(struct TextPrinter *textPrinter)
+bool8 TextPrinterWaitAutoMode (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
 
@@ -720,7 +720,7 @@ bool8 TextPrinterWaitAutoMode(struct TextPrinter *textPrinter)
     }
 }
 
-bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
+bool16 TextPrinterWaitWithDownArrow (struct TextPrinter *textPrinter)
 {
     bool8 result = FALSE;
     if (gTextFlags.autoScroll) {
@@ -735,7 +735,7 @@ bool16 TextPrinterWaitWithDownArrow(struct TextPrinter *textPrinter)
     return result;
 }
 
-bool16 TextPrinterWait(struct TextPrinter *textPrinter)
+bool16 TextPrinterWait (struct TextPrinter *textPrinter)
 {
     bool16 result = FALSE;
     if (gTextFlags.autoScroll) {
@@ -747,7 +747,7 @@ bool16 TextPrinterWait(struct TextPrinter *textPrinter)
     return result;
 }
 
-void DrawDownArrow(u8 windowId, u16 x, u16 y, u8 bgColor, bool8 drawArrow, u8 *counter, u8 *yCoordIndex)
+void DrawDownArrow (u8 windowId, u16 x, u16 y, u8 bgColor, bool8 drawArrow, u8 *counter, u8 *yCoordIndex)
 {
     const u8 *arrowTiles;
 
@@ -784,7 +784,7 @@ void DrawDownArrow(u8 windowId, u16 x, u16 y, u8 bgColor, bool8 drawArrow, u8 *c
     }
 }
 
-u16 RenderText(struct TextPrinter *textPrinter)
+u16 RenderText (struct TextPrinter *textPrinter)
 {
     struct TextPrinterSubStruct *subStruct = (struct TextPrinterSubStruct *)(&textPrinter->subStructFields);
     u16 currChar;
@@ -1061,7 +1061,7 @@ u16 RenderText(struct TextPrinter *textPrinter)
     return 1;
 }
 
-u32 GetStringWidthFixedWidthFont(const u8 *str, u8 fontId, u8 letterSpacing)
+u32 GetStringWidthFixedWidthFont (const u8 *str, u8 fontId, u8 letterSpacing)
 {
     int i;
     u8 width;
@@ -1161,7 +1161,7 @@ u32 (*GetFontWidthFunc(u8 glyphId))(u16, bool32)
     return NULL;
 }
 
-s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
+s32 GetStringWidth (u8 fontId, const u8 *str, s16 letterSpacing)
 {
     bool8 isJapanese;
     int minGlyphWidth;
@@ -1336,7 +1336,7 @@ s32 GetStringWidth(u8 fontId, const u8 *str, s16 letterSpacing)
     }
 }
 
-u8 RenderTextFont9(u8 *pixels, u8 fontId, u8 *str)
+u8 RenderTextFont9 (u8 *pixels, u8 fontId, u8 *str)
 {
     u8 shadowColor;
     u8 *strLocal;
@@ -1440,7 +1440,7 @@ u8 RenderTextFont9(u8 *pixels, u8 fontId, u8 *str)
     return 1;
 }
 
-u8 DrawKeypadIcon(u8 windowId, u8 keypadIconId, u16 x, u16 y)
+u8 DrawKeypadIcon (u8 windowId, u8 keypadIconId, u16 x, u16 y)
 {
     BlitBitmapRectToWindow(
         windowId,
@@ -1456,27 +1456,27 @@ u8 DrawKeypadIcon(u8 windowId, u8 keypadIconId, u16 x, u16 y)
     return gKeypadIcons[keypadIconId].width;
 }
 
-u8 GetKeypadIconTileOffset(u8 keypadIconId)
+u8 GetKeypadIconTileOffset (u8 keypadIconId)
 {
     return gKeypadIcons[keypadIconId].tileOffset;
 }
 
-u8 GetKeypadIconWidth(u8 keypadIconId)
+u8 GetKeypadIconWidth (u8 keypadIconId)
 {
     return gKeypadIcons[keypadIconId].width;
 }
 
-u8 GetKeypadIconHeight(u8 keypadIconId)
+u8 GetKeypadIconHeight (u8 keypadIconId)
 {
     return gKeypadIcons[keypadIconId].height;
 }
 
-void SetDefaultFontsPointer(void)
+void SetDefaultFontsPointer (void)
 {
     SetFontsPointer(&gFontInfos[0]);
 }
 
-u8 GetFontAttribute(u8 fontId, u8 attributeId)
+u8 GetFontAttribute (u8 fontId, u8 attributeId)
 {
     u8 result = 0;
     switch (attributeId) {
@@ -1508,12 +1508,12 @@ u8 GetFontAttribute(u8 fontId, u8 attributeId)
     return result;
 }
 
-u8 GetMenuCursorDimensionByFont(u8 fontId, u8 whichDimension)
+u8 GetMenuCursorDimensionByFont (u8 fontId, u8 whichDimension)
 {
     return gMenuCursorDimensions[fontId][whichDimension];
 }
 
-void DecompressGlyphFont0(u16 glyphId, bool32 isJapanese)
+void DecompressGlyphFont0 (u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
@@ -1541,7 +1541,7 @@ void DecompressGlyphFont0(u16 glyphId, bool32 isJapanese)
     }
 }
 
-u32 GetGlyphWidthFont0(u16 glyphId, bool32 isJapanese)
+u32 GetGlyphWidthFont0 (u16 glyphId, bool32 isJapanese)
 {
     if (isJapanese == TRUE) {
         return 8;
@@ -1550,7 +1550,7 @@ u32 GetGlyphWidthFont0(u16 glyphId, bool32 isJapanese)
     }
 }
 
-void DecompressGlyphFont7(u16 glyphId, bool32 isJapanese)
+void DecompressGlyphFont7 (u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
@@ -1579,7 +1579,7 @@ void DecompressGlyphFont7(u16 glyphId, bool32 isJapanese)
     }
 }
 
-u32 GetGlyphWidthFont7(u16 glyphId, bool32 isJapanese)
+u32 GetGlyphWidthFont7 (u16 glyphId, bool32 isJapanese)
 {
     if (isJapanese == TRUE) {
         return 8;
@@ -1588,7 +1588,7 @@ u32 GetGlyphWidthFont7(u16 glyphId, bool32 isJapanese)
     }
 }
 
-void DecompressGlyphFont8(u16 glyphId, bool32 isJapanese)
+void DecompressGlyphFont8 (u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
@@ -1616,7 +1616,7 @@ void DecompressGlyphFont8(u16 glyphId, bool32 isJapanese)
     }
 }
 
-u32 GetGlyphWidthFont8(u16 glyphId, bool32 isJapanese)
+u32 GetGlyphWidthFont8 (u16 glyphId, bool32 isJapanese)
 {
     if (isJapanese == TRUE) {
         return 8;
@@ -1625,7 +1625,7 @@ u32 GetGlyphWidthFont8(u16 glyphId, bool32 isJapanese)
     }
 }
 
-void DecompressGlyphFont2(u16 glyphId, bool32 isJapanese)
+void DecompressGlyphFont2 (u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
@@ -1655,7 +1655,7 @@ void DecompressGlyphFont2(u16 glyphId, bool32 isJapanese)
     }
 }
 
-u32 GetGlyphWidthFont2(u16 glyphId, bool32 isJapanese)
+u32 GetGlyphWidthFont2 (u16 glyphId, bool32 isJapanese)
 {
     if (isJapanese == TRUE) {
         return gFont2JapaneseGlyphWidths[glyphId];
@@ -1664,7 +1664,7 @@ u32 GetGlyphWidthFont2(u16 glyphId, bool32 isJapanese)
     }
 }
 
-void DecompressGlyphFont1(u16 glyphId, bool32 isJapanese)
+void DecompressGlyphFont1 (u16 glyphId, bool32 isJapanese)
 {
     const u16* glyphs;
 
@@ -1693,7 +1693,7 @@ void DecompressGlyphFont1(u16 glyphId, bool32 isJapanese)
     }
 }
 
-u32 GetGlyphWidthFont1(u16 glyphId, bool32 isJapanese)
+u32 GetGlyphWidthFont1 (u16 glyphId, bool32 isJapanese)
 {
     if (isJapanese == TRUE) {
         return 8;
@@ -1702,7 +1702,7 @@ u32 GetGlyphWidthFont1(u16 glyphId, bool32 isJapanese)
     }
 }
 
-void DecompressGlyphFont9(u16 glyphId)
+void DecompressGlyphFont9 (u16 glyphId)
 {
     const u16* glyphs;
 

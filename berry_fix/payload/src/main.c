@@ -58,7 +58,7 @@ const u16 sDebugPals[20] = {
 };
 const u16 sDebugDigitsGfx[] = INCBIN_U16("graphics/debug_digits.4bpp");
 
-void AgbMain(void)
+void AgbMain (void)
 {
     RegisterRamReset(0x1E);
     DmaCopy32(3, gIntrFuncPointers, gIntrTable, sizeof gIntrFuncPointers);
@@ -80,22 +80,22 @@ void AgbMain(void)
     }
 }
 
-void dummy_intr_1(void)
+void dummy_intr_1 (void)
 {
 }
 
-void dummy_intr_0(void)
+void dummy_intr_0 (void)
 {
 }
 
-void ReadKeys(void)
+void ReadKeys (void)
 {
     u16 keyInput = REG_KEYINPUT ^ KEYS_MASK;
     gNewKeys = keyInput & ~gHeldKeys;
     gHeldKeys = keyInput;
 }
 
-void fill_palette(const u8 * src, u16 * dest, u8 value)
+void fill_palette (const u8 * src, u16 * dest, u8 value)
 {
     s32 i;
     for (i = 0; src[i] != 0; i++) {
@@ -103,7 +103,7 @@ void fill_palette(const u8 * src, u16 * dest, u8 value)
     }
 }
 
-bool32 berry_fix_memcmp(const char * src1, const char * src2, size_t size)
+bool32 berry_fix_memcmp (const char * src1, const char * src2, size_t size)
 {
     s32 i;
     for (i = 0; i < size; i++) {
@@ -114,7 +114,7 @@ bool32 berry_fix_memcmp(const char * src1, const char * src2, size_t size)
     return TRUE;
 }
 
-s32 validate_rom_header_internal(void)
+s32 validate_rom_header_internal (void)
 {
     char languageCode = *(RomHeaderGameCode + 3);
     s32 softwareVersion = *RomHeaderSoftwareVersion;
@@ -150,7 +150,7 @@ s32 validate_rom_header_internal(void)
     return INVALID;
 }
 
-s32 validate_rom_header(void)
+s32 validate_rom_header (void)
 {
     if (*RomHeaderMakerCode == '0' && *(RomHeaderMakerCode + 1) == '1' && *RomHeaderMagic == 0x96) {
         return validate_rom_header_internal();
@@ -159,7 +159,7 @@ s32 validate_rom_header(void)
     }
 }
 
-void main_callback(u32 * state, void * unused1, void * unused2)
+void main_callback (u32 * state, void * unused1, void * unused2)
 {
     u8 year;
     switch (*state) {
@@ -259,7 +259,7 @@ void main_callback(u32 * state, void * unused1, void * unused2)
     }
 }
 
-void DBG_LoadDigitsPal(void)
+void DBG_LoadDigitsPal (void)
 {
     const u16 * src;
     s32 i;
@@ -273,7 +273,7 @@ void DBG_LoadDigitsPal(void)
     }
 }
 
-void DBG_LoadDigits(void)
+void DBG_LoadDigits (void)
 {
     DmaFill16(3, 0x1111, (void *)VRAM + 0x8420, 0x1800);
     DmaCopy32(3, sDebugDigitsGfx, (void *)VRAM + 0x8600, 0x200);

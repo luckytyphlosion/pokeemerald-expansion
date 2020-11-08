@@ -519,7 +519,7 @@ struct
 };
 
 // code
-static void ResetGpuRegsAndBgs(void)
+static void ResetGpuRegsAndBgs (void)
 {
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
     SetGpuReg(REG_OFFSET_BG3CNT, 0);
@@ -547,19 +547,19 @@ static void ResetGpuRegsAndBgs(void)
     CpuFill32(0, (void *)OAM, OAM_SIZE);
 }
 
-void ShowFrontierPass(void (*callback)(void))
+void ShowFrontierPass (void (*callback)(void))
 {
     AllocateFrontierPassData(callback);
     SetMainCallback2(CB2_InitFrontierPass);
 }
 
-static void LeaveFrontierPass(void)
+static void LeaveFrontierPass (void)
 {
     SetMainCallback2(sPassData->callback);
     FreeFrontierPassData();
 }
 
-static u32 AllocateFrontierPassData(void (*callback)(void))
+static u32 AllocateFrontierPassData (void (*callback)(void))
 {
     u8 i;
 
@@ -598,7 +598,7 @@ static u32 AllocateFrontierPassData(void (*callback)(void))
     return 0;
 }
 
-static u32 FreeFrontierPassData(void)
+static u32 FreeFrontierPassData (void)
 {
     if (sPassData == NULL) {
         return 1;
@@ -609,7 +609,7 @@ static u32 FreeFrontierPassData(void)
     return 0;
 }
 
-static u32 AllocateFrontierPassGfx(void)
+static u32 AllocateFrontierPassGfx (void)
 {
     if (sPassGfx != NULL) {
         return 1;
@@ -623,7 +623,7 @@ static u32 AllocateFrontierPassGfx(void)
     return 0;
 }
 
-static u32 FreeFrontierPassGfx(void)
+static u32 FreeFrontierPassGfx (void)
 {
     FreeAllWindowBuffers();
     if (sPassGfx == NULL) {
@@ -645,7 +645,7 @@ static u32 FreeFrontierPassGfx(void)
     return 0;
 }
 
-static void VblankCb_FrontierPass(void)
+static void VblankCb_FrontierPass (void)
 {
     if (sPassGfx->setAffine) {
         SetBgAffine(2,
@@ -662,14 +662,14 @@ static void VblankCb_FrontierPass(void)
     TransferPlttBuffer();
 }
 
-static void CB2_FrontierPass(void)
+static void CB2_FrontierPass (void)
 {
     RunTasks();
     AnimateSprites();
     BuildOamBuffer();
 }
 
-static void CB2_InitFrontierPass(void)
+static void CB2_InitFrontierPass (void)
 {
     if (InitFrontierPass()) {
         CreateTask(Task_HandleFrontierPassInput, 0);
@@ -677,14 +677,14 @@ static void CB2_InitFrontierPass(void)
     }
 }
 
-static void CB2_HideFrontierPass(void)
+static void CB2_HideFrontierPass (void)
 {
     if (HideFrontierPass()) {
         LeaveFrontierPass();
     }
 }
 
-static bool32 InitFrontierPass(void)
+static bool32 InitFrontierPass (void)
 {
     u32 sizeOut = 0;
 
@@ -774,7 +774,7 @@ static bool32 InitFrontierPass(void)
     return FALSE;
 }
 
-static bool32 HideFrontierPass(void)
+static bool32 HideFrontierPass (void)
 {
     switch (sPassData->state) {
     case 0:
@@ -821,7 +821,7 @@ static bool32 HideFrontierPass(void)
     return FALSE;
 }
 
-static u8 GetCursorAreaFromCoords(s16 x, s16 y)
+static u8 GetCursorAreaFromCoords (s16 x, s16 y)
 {
     u8 i;
 
@@ -840,7 +840,7 @@ static u8 GetCursorAreaFromCoords(s16 x, s16 y)
     return 0;
 }
 
-void CB2_ReshowFrontierPass(void)
+void CB2_ReshowFrontierPass (void)
 {
     u8 taskId;
 
@@ -864,7 +864,7 @@ void CB2_ReshowFrontierPass(void)
     SetMainCallback2(CB2_FrontierPass);
 }
 
-static void CB2_ReturnFromRecord(void)
+static void CB2_ReturnFromRecord (void)
 {
     AllocateFrontierPassData(sSavedPassData.callback);
     sPassData->cursorX = sSavedPassData.cursorX;
@@ -885,7 +885,7 @@ static void CB2_ReturnFromRecord(void)
     SetMainCallback2(CB2_ReshowFrontierPass);
 }
 
-static void CB2_ShowFrontierPassFeature(void)
+static void CB2_ShowFrontierPassFeature (void)
 {
     if (!HideFrontierPass()) {
         return;
@@ -908,7 +908,7 @@ static void CB2_ShowFrontierPassFeature(void)
     }
 }
 
-static bool32 TryCallPassAreaFunction(u8 taskId, u8 cursorArea)
+static bool32 TryCallPassAreaFunction (u8 taskId, u8 cursorArea)
 {
     switch (cursorArea) {
     case CURSOR_AREA_RECORD:
@@ -934,7 +934,7 @@ static bool32 TryCallPassAreaFunction(u8 taskId, u8 cursorArea)
     return TRUE;
 }
 
-static void Task_HandleFrontierPassInput(u8 taskId)
+static void Task_HandleFrontierPassInput (u8 taskId)
 {
     u8 var = FALSE; // Reused, first informs whether the cursor moves, then used as the new cursor area.
 
@@ -999,7 +999,7 @@ static void Task_HandleFrontierPassInput(u8 taskId)
     }
 }
 
-static void Task_DoFadeEffect(u8 taskId)
+static void Task_DoFadeEffect (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -1069,7 +1069,7 @@ static void Task_DoFadeEffect(u8 taskId)
     sPassData->state++;
 }
 
-static void ShowAndPrintWindows(void)
+static void ShowAndPrintWindows (void)
 {
     s32 x;
     u8 i;
@@ -1101,7 +1101,7 @@ static void ShowAndPrintWindows(void)
     CopyBgTilemapBufferToVram(0);
 }
 
-static void PrintAreaDescription(u8 cursorArea)
+static void PrintAreaDescription (u8 cursorArea)
 {
     FillWindowPixelBuffer(WINDOW_DESCRIPTION, PIXEL_FILL(0));
     if (cursorArea == CURSOR_AREA_RECORD && !sPassData->hasBattleRecord) {
@@ -1114,7 +1114,7 @@ static void PrintAreaDescription(u8 cursorArea)
     CopyBgTilemapBufferToVram(0);
 }
 
-static void sub_80C5F58(bool8 arg0, bool8 arg1)
+static void sub_80C5F58 (bool8 arg0, bool8 arg1)
 {
     switch (sPassData->unkE) {
     case 1:
@@ -1157,7 +1157,7 @@ static void sub_80C5F58(bool8 arg0, bool8 arg1)
     }
 }
 
-static void sub_80C6104(u8 cursorArea, u8 previousCursorArea)
+static void sub_80C6104 (u8 cursorArea, u8 previousCursorArea)
 {
     switch (previousCursorArea) {
     case CURSOR_AREA_MAP:
@@ -1209,7 +1209,7 @@ static void sub_80C6104(u8 cursorArea, u8 previousCursorArea)
     CopyBgTilemapBufferToVram(1);
 }
 
-static void sub_80C629C(void)
+static void sub_80C629C (void)
 {
     CopyToBgTilemapBuffer(1, gUnknown_08DE3060, 0, 0);
     sub_80C6104(sPassData->cursorArea, sPassData->previousCursorArea);
@@ -1218,7 +1218,7 @@ static void sub_80C629C(void)
     CopyBgTilemapBufferToVram(1);
 }
 
-static void LoadCursorAndSymbolSprites(void)
+static void LoadCursorAndSymbolSprites (void)
 {
     u8 spriteId;
     u8 i = 0;
@@ -1245,7 +1245,7 @@ static void LoadCursorAndSymbolSprites(void)
     }
 }
 
-static void FreeCursorAndSymbolSprites(void)
+static void FreeCursorAndSymbolSprites (void)
 {
     u8 i = 0;
 
@@ -1262,7 +1262,7 @@ static void FreeCursorAndSymbolSprites(void)
     FreeSpriteTilesByTag(0);
 }
 
-static void SpriteCb_Dummy(struct Sprite *sprite)
+static void SpriteCb_Dummy (struct Sprite *sprite)
 {
 }
 
@@ -1274,7 +1274,7 @@ static void PrintOnFrontierMap(void);
 static void InitFrontierMapSprites(void);
 static void HandleFrontierMapCursorMove(u8 direction);
 
-static void ShowFrontierMap(void (*callback)(void))
+static void ShowFrontierMap (void (*callback)(void))
 {
     if (sMapData != NULL) {
         SetMainCallback2(callback); // This line doesn't make sense at all, since it gets overwritten later anyway.
@@ -1286,7 +1286,7 @@ static void ShowFrontierMap(void (*callback)(void))
     SetMainCallback2(CB2_FrontierPass);
 }
 
-static void FreeFrontierMap(void)
+static void FreeFrontierMap (void)
 {
     ResetTasks();
     SetMainCallback2(sMapData->callback);
@@ -1294,7 +1294,7 @@ static void FreeFrontierMap(void)
     FREE_AND_SET_NULL(sMapData);
 }
 
-static bool32 InitFrontierMap(void)
+static bool32 InitFrontierMap (void)
 {
     switch (sPassData->state) {
     case 0:
@@ -1361,7 +1361,7 @@ static bool32 InitFrontierMap(void)
     return FALSE;
 }
 
-static bool32 ExitFrontierMap(void)
+static bool32 ExitFrontierMap (void)
 {
     switch (sPassData->state) {
     case 0:
@@ -1413,7 +1413,7 @@ static bool32 ExitFrontierMap(void)
     return FALSE;
 }
 
-static void Task_HandleFrontierMap(u8 taskId)
+static void Task_HandleFrontierMap (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
 
@@ -1475,7 +1475,7 @@ static void Task_HandleFrontierMap(u8 taskId)
     data[0]++;
 }
 
-static u8 MapNumToFrontierFacilityId(u16 mapNum) // id + 1, zero means not a frontier map number
+static u8 MapNumToFrontierFacilityId (u16 mapNum) // id + 1, zero means not a frontier map number
 {
     if ((mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_LOBBY) && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_BATTLE_ROOM))
         || (mapNum >= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_PARTNER_ROOM) && mapNum <= MAP_NUM(BATTLE_FRONTIER_BATTLE_TOWER_MULTI_BATTLE_ROOM))) {
@@ -1513,7 +1513,7 @@ static u8 MapNumToFrontierFacilityId(u16 mapNum) // id + 1, zero means not a fro
     }
 }
 
-static void InitFrontierMapSprites(void)
+static void InitFrontierMapSprites (void)
 {
     struct SpriteTemplate sprite;
     u8 spriteId;
@@ -1589,7 +1589,7 @@ static void InitFrontierMapSprites(void)
     }
 }
 
-static void PrintOnFrontierMap(void)
+static void PrintOnFrontierMap (void)
 {
     u8 i;
 
@@ -1615,7 +1615,7 @@ static void PrintOnFrontierMap(void)
     CopyBgTilemapBufferToVram(0);
 }
 
-static void HandleFrontierMapCursorMove(u8 direction)
+static void HandleFrontierMapCursorMove (u8 direction)
 {
     u8 oldCursorPos, i;
 

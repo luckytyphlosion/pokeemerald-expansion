@@ -14,19 +14,19 @@ static u32 mevent_srv_exec_common(struct mevent_srv_common *);
 extern const struct mevent_cmd s_mevent_wonder_news[];
 extern const struct mevent_cmd s_mevent_wonder_card[];
 
-void mevent_srv_init_wnews(void)
+void mevent_srv_init_wnews (void)
 {
     s_mevent_srv_common_ptr = AllocZeroed(sizeof(struct mevent_srv_common));
     mevent_srv_init_common(s_mevent_srv_common_ptr, s_mevent_wonder_news, 0, 1);
 }
 
-void mevent_srv_new_wcard(void)
+void mevent_srv_new_wcard (void)
 {
     s_mevent_srv_common_ptr = AllocZeroed(sizeof(struct mevent_srv_common));
     mevent_srv_init_common(s_mevent_srv_common_ptr, s_mevent_wonder_card, 0, 1);
 }
 
-u32 mevent_srv_common_do_exec(u16 * a0)
+u32 mevent_srv_common_do_exec (u16 * a0)
 {
     u32 result;
     if (s_mevent_srv_common_ptr == NULL) {
@@ -42,7 +42,7 @@ u32 mevent_srv_common_do_exec(u16 * a0)
     return result;
 }
 
-static void mevent_srv_init_common(struct mevent_srv_common * svr, const void * cmdBuffer, u32 sendPlayerNo, u32 recvPlayerNo)
+static void mevent_srv_init_common (struct mevent_srv_common * svr, const void * cmdBuffer, u32 sendPlayerNo, u32 recvPlayerNo)
 {
     svr->unk_00 = 0;
     svr->mainseqno = 0;
@@ -55,7 +55,7 @@ static void mevent_srv_init_common(struct mevent_srv_common * svr, const void * 
     mevent_srv_sub_init(&svr->manager, sendPlayerNo, recvPlayerNo);
 }
 
-static void mevent_srv_free_resources(struct mevent_srv_common * svr)
+static void mevent_srv_free_resources (struct mevent_srv_common * svr)
 {
     Free(svr->wonder_card);
     Free(svr->wonder_news);
@@ -63,13 +63,13 @@ static void mevent_srv_free_resources(struct mevent_srv_common * svr)
     Free(svr->mevent_unk1442cc);
 }
 
-void mevent_srv_common_init_send(struct mevent_srv_common * svr, u32 ident, const void * src, u32 size)
+void mevent_srv_common_init_send (struct mevent_srv_common * svr, u32 ident, const void * src, u32 size)
 {
     AGB_ASSERT(size <= ME_SEND_BUF_SIZE);
     mevent_srv_sub_init_send(&svr->manager, ident, src, size);
 }
 
-static const void * mevent_first_if_not_null_else_second(const void * a0, const void * a1)
+static const void * mevent_first_if_not_null_else_second (const void * a0, const void * a1)
 {
     if (a0 != NULL) {
         return a0;
@@ -78,7 +78,7 @@ static const void * mevent_first_if_not_null_else_second(const void * a0, const 
     }
 }
 
-static u32 mevent_compare_pointers(const void * a0, const void * a1)
+static u32 mevent_compare_pointers (const void * a0, const void * a1)
 {
     if (a1 < a0) {
         return 0;
@@ -89,20 +89,20 @@ static u32 mevent_compare_pointers(const void * a0, const void * a1)
     }
 }
 
-static u32 common_mainseq_0(struct mevent_srv_common * svr)
+static u32 common_mainseq_0 (struct mevent_srv_common * svr)
 {
     // start
     svr->mainseqno = 4;
     return 0;
 }
 
-static u32 common_mainseq_1(struct mevent_srv_common * svr)
+static u32 common_mainseq_1 (struct mevent_srv_common * svr)
 {
     // done
     return 3;
 }
 
-static u32 common_mainseq_2(struct mevent_srv_common * svr)
+static u32 common_mainseq_2 (struct mevent_srv_common * svr)
 {
     // do recv
     if (mevent_srv_sub_recv(&svr->manager)) {
@@ -111,7 +111,7 @@ static u32 common_mainseq_2(struct mevent_srv_common * svr)
     return 1;
 }
 
-static u32 common_mainseq_3(struct mevent_srv_common * svr)
+static u32 common_mainseq_3 (struct mevent_srv_common * svr)
 {
     // do send
     if (mevent_srv_sub_send(&svr->manager)) {
@@ -120,7 +120,7 @@ static u32 common_mainseq_3(struct mevent_srv_common * svr)
     return 1;
 }
 
-static u32 common_mainseq_4(struct mevent_srv_common * svr)
+static u32 common_mainseq_4 (struct mevent_srv_common * svr)
 {
     // process command
     const struct mevent_cmd * cmd = &svr->cmdBuffer[svr->cmdidx];
@@ -289,7 +289,7 @@ static u32 (*const func_tbl[])(struct mevent_srv_common *) = {
     common_mainseq_4
 };
 
-static u32 mevent_srv_exec_common(struct mevent_srv_common * svr)
+static u32 mevent_srv_exec_common (struct mevent_srv_common * svr)
 {
     u32 response;
     AGB_ASSERT(svr->mainseqno < NELEMS(func_tbl));

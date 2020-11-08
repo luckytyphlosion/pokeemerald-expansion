@@ -36,7 +36,7 @@ static bool8 IsPicboxClosed(void);
 static void CreateStartMenuForPokenavTutorial(void);
 static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 unusedCount, u8 windowId, u8 multichoiceId);
 
-bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress)
+bool8 ScriptMenu_Multichoice (u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress)
 {
     if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE) {
         return FALSE;
@@ -47,7 +47,7 @@ bool8 ScriptMenu_Multichoice(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPre
     }
 }
 
-bool8 ScriptMenu_MultichoiceWithDefault(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 defaultChoice)
+bool8 ScriptMenu_MultichoiceWithDefault (u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 defaultChoice)
 {
     if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE) {
         return FALSE;
@@ -59,7 +59,7 @@ bool8 ScriptMenu_MultichoiceWithDefault(u8 left, u8 top, u8 multichoiceId, bool8
 }
 
 // Unused
-static u16 GetLengthWithExpandedPlayerName(const u8 *str)
+static u16 GetLengthWithExpandedPlayerName (const u8 *str)
 {
     u16 length = 0;
 
@@ -79,7 +79,7 @@ static u16 GetLengthWithExpandedPlayerName(const u8 *str)
     return length;
 }
 
-static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos)
+static void DrawMultichoiceMenu (u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 cursorPos)
 {
     int i;
     u8 windowId;
@@ -111,7 +111,7 @@ static void DrawMultichoiceMenu(u8 left, u8 top, u8 multichoiceId, bool8 ignoreB
 #define tWindowId       data[6]
 #define tMultichoiceId  data[7]
 
-static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, u8 multichoiceId)
+static void InitMultichoiceCheckWrap (bool8 ignoreBPress, u8 count, u8 windowId, u8 multichoiceId)
 {
     u8 i;
     u8 taskId;
@@ -139,7 +139,7 @@ static void InitMultichoiceCheckWrap(bool8 ignoreBPress, u8 count, u8 windowId, 
     DrawLinkServicesMultichoiceMenu(multichoiceId);
 }
 
-static void Task_HandleMultichoiceInput(u8 taskId)
+static void Task_HandleMultichoiceInput (u8 taskId)
 {
     s8 selection;
     s16 *data = gTasks[taskId].data;
@@ -176,7 +176,7 @@ static void Task_HandleMultichoiceInput(u8 taskId)
     }
 }
 
-bool8 ScriptMenu_YesNo(u8 left, u8 top)
+bool8 ScriptMenu_YesNo (u8 left, u8 top)
 {
     u8 taskId;
 
@@ -191,7 +191,7 @@ bool8 ScriptMenu_YesNo(u8 left, u8 top)
 }
 
 // Unused
-bool8 IsScriptActive(void)
+bool8 IsScriptActive (void)
 {
     if (gSpecialVar_Result == 0xFF) {
         return FALSE;
@@ -200,7 +200,7 @@ bool8 IsScriptActive(void)
     }
 }
 
-static void Task_HandleYesNoInput(u8 taskId)
+static void Task_HandleYesNoInput (u8 taskId)
 {
     if (gTasks[taskId].tRight < 5) {
         gTasks[taskId].tRight++;
@@ -224,7 +224,7 @@ static void Task_HandleYesNoInput(u8 taskId)
     EnableBothScriptContexts();
 }
 
-bool8 ScriptMenu_MultichoiceGrid(u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 columnCount)
+bool8 ScriptMenu_MultichoiceGrid (u8 left, u8 top, u8 multichoiceId, bool8 ignoreBPress, u8 columnCount)
 {
     if (FuncIsActiveTask(Task_HandleMultichoiceGridInput) == TRUE) {
         return FALSE;
@@ -257,7 +257,7 @@ bool8 ScriptMenu_MultichoiceGrid(u8 left, u8 top, u8 multichoiceId, bool8 ignore
     }
 }
 
-static void Task_HandleMultichoiceGridInput(u8 taskId)
+static void Task_HandleMultichoiceGridInput (u8 taskId)
 {
     s16 *data = gTasks[taskId].data;
     s8 selection = Menu_ProcessInputGridLayout();
@@ -284,7 +284,7 @@ static void Task_HandleMultichoiceGridInput(u8 taskId)
 
 #undef tWindowId
 
-bool16 ScriptMenu_CreatePCMultichoice(void)
+bool16 ScriptMenu_CreatePCMultichoice (void)
 {
     if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE) {
         return FALSE;
@@ -295,7 +295,7 @@ bool16 ScriptMenu_CreatePCMultichoice(void)
     }
 }
 
-static void CreatePCMultichoice(void)
+static void CreatePCMultichoice (void)
 {
     u8 y = 8;
     u32 pixelWidth = 0;
@@ -342,13 +342,13 @@ static void CreatePCMultichoice(void)
     InitMultichoiceCheckWrap(FALSE, numChoices, windowId, MULTI_PC);
 }
 
-void ScriptMenu_DisplayPCStartupPrompt(void)
+void ScriptMenu_DisplayPCStartupPrompt (void)
 {
     sub_819786C(0, TRUE);
     AddTextPrinterParameterized2(0, 1, gText_WhichPCShouldBeAccessed, 0, NULL, 2, 1, 3);
 }
 
-bool8 ScriptMenu_CreateLilycoveSSTidalMultichoice(void)
+bool8 ScriptMenu_CreateLilycoveSSTidalMultichoice (void)
 {
     if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE) {
         return FALSE;
@@ -361,7 +361,7 @@ bool8 ScriptMenu_CreateLilycoveSSTidalMultichoice(void)
 
 // gSpecialVar_0x8004 is 1 if the Sailor was shown multiple event tickets at the same time
 // otherwise gSpecialVar_0x8004 is 0
-static void CreateLilycoveSSTidalMultichoice(void)
+static void CreateLilycoveSSTidalMultichoice (void)
 {
     u8 selectionCount = 0;
     u8 count;
@@ -477,7 +477,7 @@ static void CreateLilycoveSSTidalMultichoice(void)
     }
 }
 
-void GetLilycoveSSTidalSelection(void)
+void GetLilycoveSSTidalSelection (void)
 {
     if (gSpecialVar_Result != MULTI_B_PRESSED) {
         gSpecialVar_Result = sLilycoveSSTidalSelections[gSpecialVar_Result];
@@ -491,7 +491,7 @@ void GetLilycoveSSTidalSelection(void)
 #define tWindowY     data[4]
 #define tWindowId    data[5]
 
-static void Task_PokemonPicWindow(u8 taskId)
+static void Task_PokemonPicWindow (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -512,7 +512,7 @@ static void Task_PokemonPicWindow(u8 taskId)
     }
 }
 
-bool8 ScriptMenu_ShowPokemonPic(u16 species, u8 x, u8 y)
+bool8 ScriptMenu_ShowPokemonPic (u16 species, u8 x, u8 y)
 {
     u8 taskId;
     u8 spriteId;
@@ -545,7 +545,7 @@ bool8 (*ScriptMenu_GetPicboxWaitFunc(void))(void)
     return IsPicboxClosed;
 }
 
-static bool8 IsPicboxClosed(void)
+static bool8 IsPicboxClosed (void)
 {
     if (FindTaskIdByFunc(Task_PokemonPicWindow) == 0xFF) {
         return TRUE;
@@ -561,7 +561,7 @@ static bool8 IsPicboxClosed(void)
 #undef tWindowY
 #undef tWindowId
 
-u8 CreateWindowFromRect(u8 x, u8 y, u8 width, u8 height)
+u8 CreateWindowFromRect (u8 x, u8 y, u8 width, u8 height)
 {
     struct WindowTemplate template = CreateWindowTemplate(0, x + 1, y + 1, width, height, 15, 100);
     u8 windowId = AddWindow(&template);
@@ -569,13 +569,13 @@ u8 CreateWindowFromRect(u8 x, u8 y, u8 width, u8 height)
     return windowId;
 }
 
-void ClearToTransparentAndRemoveWindow(u8 windowId)
+void ClearToTransparentAndRemoveWindow (u8 windowId)
 {
     ClearStdWindowAndFrameToTransparent(windowId, TRUE);
     RemoveWindow(windowId);
 }
 
-static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId)
+static void DrawLinkServicesMultichoiceMenu (u8 multichoiceId)
 {
     switch (multichoiceId) {
     case MULTI_WIRELESS_NO_BERRY:
@@ -605,7 +605,7 @@ static void DrawLinkServicesMultichoiceMenu(u8 multichoiceId)
     }
 }
 
-bool16 ScriptMenu_CreateStartMenuForPokenavTutorial(void)
+bool16 ScriptMenu_CreateStartMenuForPokenavTutorial (void)
 {
     if (FuncIsActiveTask(Task_HandleMultichoiceInput) == TRUE) {
         return FALSE;
@@ -616,7 +616,7 @@ bool16 ScriptMenu_CreateStartMenuForPokenavTutorial(void)
     }
 }
 
-static void CreateStartMenuForPokenavTutorial(void)
+static void CreateStartMenuForPokenavTutorial (void)
 {
     u8 windowId = CreateWindowFromRect(21, 0, 7, 18);
     SetStandardWindowBorderStyle(windowId, 0);
@@ -635,7 +635,7 @@ static void CreateStartMenuForPokenavTutorial(void)
 
 #define tWindowId       data[6]
 
-static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 unusedCount, u8 windowId, u8 multichoiceId)
+static void InitMultichoiceNoWrap (bool8 ignoreBPress, u8 unusedCount, u8 windowId, u8 multichoiceId)
 {
     u8 taskId;
     sProcessInputDelay = 2;
@@ -655,14 +655,14 @@ static void InitMultichoiceNoWrap(bool8 ignoreBPress, u8 unusedCount, u8 windowI
 #undef tWindowId
 #undef tMultichoiceId
 
-static int DisplayTextAndGetWidthInternal(const u8 *str)
+static int DisplayTextAndGetWidthInternal (const u8 *str)
 {
     u8 temp[64];
     StringExpandPlaceholders(temp, str);
     return GetStringWidth(1, temp, 0);
 }
 
-int DisplayTextAndGetWidth(const u8 *str, int prevWidth)
+int DisplayTextAndGetWidth (const u8 *str, int prevWidth)
 {
     int width = DisplayTextAndGetWidthInternal(str);
     if (width < prevWidth) {
@@ -671,12 +671,12 @@ int DisplayTextAndGetWidth(const u8 *str, int prevWidth)
     return width;
 }
 
-int ConvertPixelWidthToTileWidth(int width)
+int ConvertPixelWidthToTileWidth (int width)
 {
     return (((width + 9) / 8) + 1) > MAX_MULTICHOICE_WIDTH ? MAX_MULTICHOICE_WIDTH : (((width + 9) / 8) + 1);
 }
 
-int ScriptMenu_AdjustLeftCoordFromWidth(int left, int width)
+int ScriptMenu_AdjustLeftCoordFromWidth (int left, int width)
 {
     int adjustedLeft = left;
 

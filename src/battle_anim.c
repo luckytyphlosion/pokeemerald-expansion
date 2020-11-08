@@ -2149,7 +2149,7 @@ static void (*const sScriptCmdTable[])(void) =
 };
 
 // code
-void ClearBattleAnimationVars(void)
+void ClearBattleAnimationVars (void)
 {
     s32 i;
 
@@ -2182,7 +2182,7 @@ void ClearBattleAnimationVars(void)
     gAnimCustomPanning = 0;
 }
 
-void DoMoveAnim(u16 move)
+void DoMoveAnim (u16 move)
 {
     gBattleAnimAttacker = gBattlerAttacker;
     gBattleAnimTarget = gBattlerTarget;
@@ -2197,7 +2197,7 @@ void DoMoveAnim(u16 move)
     LaunchBattleAnimation(gBattleAnims_Moves, move, TRUE);
 }
 
-void LaunchBattleAnimation(const u8 *const animsTable[], u16 tableId, bool8 isMoveAnim)
+void LaunchBattleAnimation (const u8 *const animsTable[], u16 tableId, bool8 isMoveAnim)
 {
     s32 i;
 
@@ -2253,26 +2253,26 @@ void LaunchBattleAnimation(const u8 *const animsTable[], u16 tableId, bool8 isMo
     gBattle_WIN1V = 0;
 }
 
-void DestroyAnimSprite(struct Sprite *sprite)
+void DestroyAnimSprite (struct Sprite *sprite)
 {
     FreeSpriteOamMatrix(sprite);
     DestroySprite(sprite);
     gAnimVisualTaskCount--;
 }
 
-void DestroyAnimVisualTask(u8 taskId)
+void DestroyAnimVisualTask (u8 taskId)
 {
     DestroyTask(taskId);
     gAnimVisualTaskCount--;
 }
 
-void DestroyAnimSoundTask(u8 taskId)
+void DestroyAnimSoundTask (u8 taskId)
 {
     DestroyTask(taskId);
     gAnimSoundTaskCount--;
 }
 
-static void AddSpriteIndex(u16 index)
+static void AddSpriteIndex (u16 index)
 {
     s32 i;
 
@@ -2284,7 +2284,7 @@ static void AddSpriteIndex(u16 index)
     }
 }
 
-static void ClearSpriteIndex(u16 index)
+static void ClearSpriteIndex (u16 index)
 {
     s32 i;
 
@@ -2296,7 +2296,7 @@ static void ClearSpriteIndex(u16 index)
     }
 }
 
-static void WaitAnimFrameCount(void)
+static void WaitAnimFrameCount (void)
 {
     if (gAnimFramesToWait <= 0) {
         gAnimScriptCallback = RunAnimScriptCommand;
@@ -2306,14 +2306,14 @@ static void WaitAnimFrameCount(void)
     }
 }
 
-static void RunAnimScriptCommand(void)
+static void RunAnimScriptCommand (void)
 {
     do {
         sScriptCmdTable[sBattleAnimScriptPtr[0]]();
     } while (gAnimFramesToWait == 0 && gAnimScriptActive);
 }
 
-static void ScriptCmd_loadspritegfx(void)
+static void ScriptCmd_loadspritegfx (void)
 {
     u16 index;
 
@@ -2327,7 +2327,7 @@ static void ScriptCmd_loadspritegfx(void)
     gAnimScriptCallback = WaitAnimFrameCount;
 }
 
-static void ScriptCmd_unloadspritegfx(void)
+static void ScriptCmd_unloadspritegfx (void)
 {
     u16 index;
 
@@ -2339,7 +2339,7 @@ static void ScriptCmd_unloadspritegfx(void)
     ClearSpriteIndex(GET_TRUE_SPRITE_INDEX(index));
 }
 
-static void ScriptCmd_createsprite(void)
+static void ScriptCmd_createsprite (void)
 {
     s32 i;
     const struct SpriteTemplate *template;
@@ -2392,7 +2392,7 @@ static void ScriptCmd_createsprite(void)
     gAnimVisualTaskCount++;
 }
 
-static void ScriptCmd_createvisualtask(void)
+static void ScriptCmd_createvisualtask (void)
 {
     TaskFunc taskFunc;
     u8 taskPriority;
@@ -2421,7 +2421,7 @@ static void ScriptCmd_createvisualtask(void)
     gAnimVisualTaskCount++;
 }
 
-static void ScriptCmd_delay(void)
+static void ScriptCmd_delay (void)
 {
     sBattleAnimScriptPtr++;
     gAnimFramesToWait = sBattleAnimScriptPtr[0];
@@ -2433,7 +2433,7 @@ static void ScriptCmd_delay(void)
 }
 
 // Wait for visual tasks to finish.
-static void ScriptCmd_waitforvisualfinish(void)
+static void ScriptCmd_waitforvisualfinish (void)
 {
     if (gAnimVisualTaskCount == 0) {
         sBattleAnimScriptPtr++;
@@ -2443,15 +2443,15 @@ static void ScriptCmd_waitforvisualfinish(void)
     }
 }
 
-static void ScriptCmd_hang1(void)
+static void ScriptCmd_hang1 (void)
 {
 }
 
-static void ScriptCmd_hang2(void)
+static void ScriptCmd_hang2 (void)
 {
 }
 
-static void ScriptCmd_end(void)
+static void ScriptCmd_end (void)
 {
     s32 i;
     bool32 continuousAnim = FALSE;
@@ -2496,7 +2496,7 @@ static void ScriptCmd_end(void)
     }
 }
 
-static void ScriptCmd_playse(void)
+static void ScriptCmd_playse (void)
 {
     sBattleAnimScriptPtr++;
     PlaySE(T1_READ_16(sBattleAnimScriptPtr));
@@ -2512,7 +2512,7 @@ static void ScriptCmd_playse(void)
 #define t2_MON_IN_BG2           5
 #define t2_MONBG_BATTLER        6
 
-static void sub_80A40F4(u8 taskId)
+static void sub_80A40F4 (u8 taskId)
 {
     u8 newTaskId;
 
@@ -2544,7 +2544,7 @@ static void sub_80A40F4(u8 taskId)
     DestroyAnimVisualTask(taskId);
 }
 
-static void ScriptCmd_monbg(void)
+static void ScriptCmd_monbg (void)
 {
     bool8 toBG_2;
     u8 taskId;
@@ -2600,7 +2600,7 @@ static void ScriptCmd_monbg(void)
     gAnimScriptCallback = WaitAnimFrameCount;
 }
 
-u8 GetAnimBattlerId(u8 wantedBattler)
+u8 GetAnimBattlerId (u8 wantedBattler)
 {
     if (wantedBattler == ANIM_ATTACKER) {
         return gBattleAnimAttacker;
@@ -2613,7 +2613,7 @@ u8 GetAnimBattlerId(u8 wantedBattler)
     }
 }
 
-bool8 IsBattlerSpriteVisible(u8 battlerId)
+bool8 IsBattlerSpriteVisible (u8 battlerId)
 {
     if (IsContest()) {
         if (battlerId == gBattleAnimAttacker) {
@@ -2635,7 +2635,7 @@ bool8 IsBattlerSpriteVisible(u8 battlerId)
     return FALSE;
 }
 
-void MoveBattlerSpriteToBG(u8 battlerId, bool8 toBG_2, bool8 setSpriteInvisible)
+void MoveBattlerSpriteToBG (u8 battlerId, bool8 toBG_2, bool8 setSpriteInvisible)
 {
     struct BattleAnimBgData animBg;
     u8 battlerSpriteId;
@@ -2717,7 +2717,7 @@ void MoveBattlerSpriteToBG(u8 battlerId, bool8 toBG_2, bool8 setSpriteInvisible)
     }
 }
 
-static void sub_80A46A0(void)
+static void sub_80A46A0 (void)
 {
     s32 i, j;
     struct BattleAnimBgData animBg;
@@ -2742,7 +2742,7 @@ static void sub_80A46A0(void)
     }
 }
 
-void sub_80A4720(u16 a, u16 *b, u32 c, u8 d)
+void sub_80A4720 (u16 a, u16 *b, u32 c, u8 d)
 {
     s32 i, j;
     s32 var;
@@ -2760,7 +2760,7 @@ void sub_80A4720(u16 a, u16 *b, u32 c, u8 d)
     }
 }
 
-void sub_80A477C(bool8 to_BG2)
+void sub_80A477C (bool8 to_BG2)
 {
     struct BattleAnimBgData animBg;
     sub_80A6B30(&animBg);
@@ -2776,7 +2776,7 @@ void sub_80A477C(bool8 to_BG2)
     }
 }
 
-static void task_pA_ma0A_obj_to_bg_pal(u8 taskId)
+static void task_pA_ma0A_obj_to_bg_pal (u8 taskId)
 {
     u8 spriteId, palIndex;
     s16 x, y;
@@ -2809,7 +2809,7 @@ static void task_pA_ma0A_obj_to_bg_pal(u8 taskId)
     }
 }
 
-static void ScriptCmd_clearmonbg(void)
+static void ScriptCmd_clearmonbg (void)
 {
     u8 animBattlerId;
     u8 battlerId;
@@ -2846,7 +2846,7 @@ static void ScriptCmd_clearmonbg(void)
     sBattleAnimScriptPtr++;
 }
 
-static void sub_80A4980(u8 taskId)
+static void sub_80A4980 (u8 taskId)
 {
     gTasks[taskId].data[1]++;
     if (gTasks[taskId].data[1] != 1) {
@@ -2872,7 +2872,7 @@ static void sub_80A4980(u8 taskId)
     }
 }
 
-static void ScriptCmd_monbg_22(void)
+static void ScriptCmd_monbg_22 (void)
 {
     bool8 toBG_2;
     u8 battlerId;
@@ -2920,7 +2920,7 @@ static void ScriptCmd_monbg_22(void)
     sBattleAnimScriptPtr++;
 }
 
-static void ScriptCmd_clearmonbg_23(void)
+static void ScriptCmd_clearmonbg_23 (void)
 {
     u8 animBattlerId;
     u8 battlerId;
@@ -2957,7 +2957,7 @@ static void ScriptCmd_clearmonbg_23(void)
     sBattleAnimScriptPtr++;
 }
 
-static void sub_80A4BB0(u8 taskId)
+static void sub_80A4BB0 (u8 taskId)
 {
     gTasks[taskId].data[1]++;
     if (gTasks[taskId].data[1] != 1) {
@@ -2990,7 +2990,7 @@ static void sub_80A4BB0(u8 taskId)
 #undef t2_MON_IN_BG2
 #undef t2_MONBG_BATTLER
 
-static void ScriptCmd_setalpha(void)
+static void ScriptCmd_setalpha (void)
 {
     u16 half1, half2;
 
@@ -3001,7 +3001,7 @@ static void ScriptCmd_setalpha(void)
     SetGpuReg(REG_OFFSET_BLDALPHA, half1 | half2);
 }
 
-static void ScriptCmd_setbldcnt(void)
+static void ScriptCmd_setbldcnt (void)
 {
     u16 half1, half2;
 
@@ -3011,26 +3011,26 @@ static void ScriptCmd_setbldcnt(void)
     SetGpuReg(REG_OFFSET_BLDCNT, half1 | half2);
 }
 
-static void ScriptCmd_blendoff(void)
+static void ScriptCmd_blendoff (void)
 {
     sBattleAnimScriptPtr++;
     SetGpuReg(REG_OFFSET_BLDCNT, 0);
     SetGpuReg(REG_OFFSET_BLDALPHA, 0);
 }
 
-static void ScriptCmd_call(void)
+static void ScriptCmd_call (void)
 {
     sBattleAnimScriptPtr++;
     sBattleAnimScriptRetAddr = sBattleAnimScriptPtr + 4;
     sBattleAnimScriptPtr = T2_READ_PTR(sBattleAnimScriptPtr);
 }
 
-static void ScriptCmd_return(void)
+static void ScriptCmd_return (void)
 {
     sBattleAnimScriptPtr = sBattleAnimScriptRetAddr;
 }
 
-static void ScriptCmd_setarg(void)
+static void ScriptCmd_setarg (void)
 {
     const u8 *addr = sBattleAnimScriptPtr;
     u16 value;
@@ -3044,7 +3044,7 @@ static void ScriptCmd_setarg(void)
     gBattleAnimArgs[argId] = value;
 }
 
-static void ScriptCmd_choosetwoturnanim(void)
+static void ScriptCmd_choosetwoturnanim (void)
 {
     sBattleAnimScriptPtr++;
     if (gAnimMoveTurn & 1) {
@@ -3053,7 +3053,7 @@ static void ScriptCmd_choosetwoturnanim(void)
     sBattleAnimScriptPtr = T2_READ_PTR(sBattleAnimScriptPtr);
 }
 
-static void ScriptCmd_jumpifmoveturn(void)
+static void ScriptCmd_jumpifmoveturn (void)
 {
     u8 toCheck;
     sBattleAnimScriptPtr++;
@@ -3067,7 +3067,7 @@ static void ScriptCmd_jumpifmoveturn(void)
     }
 }
 
-static void ScriptCmd_goto(void)
+static void ScriptCmd_goto (void)
 {
     sBattleAnimScriptPtr++;
     sBattleAnimScriptPtr = T2_READ_PTR(sBattleAnimScriptPtr);
@@ -3075,7 +3075,7 @@ static void ScriptCmd_goto(void)
 
 // Uses of this function that rely on a TRUE return are expecting inBattle to not be ticked as defined in contest behavior.
 // As a result, if misused, this function cannot reliably discern between field and contest status and could result in undefined behavior.
-bool8 IsContest(void)
+bool8 IsContest (void)
 {
     if (!gMain.inBattle) {
         return TRUE;
@@ -3087,7 +3087,7 @@ bool8 IsContest(void)
 #define tBackgroundId   data[0]
 #define tState          data[10]
 
-static void ScriptCmd_fadetobg(void)
+static void ScriptCmd_fadetobg (void)
 {
     u8 backgroundId;
     u8 taskId;
@@ -3100,7 +3100,7 @@ static void ScriptCmd_fadetobg(void)
     sAnimBackgroundFadeState = 1;
 }
 
-static void ScriptCmd_fadetobgfromset(void)
+static void ScriptCmd_fadetobgfromset (void)
 {
     u8 bg1, bg2, bg3;
     u8 taskId;
@@ -3123,7 +3123,7 @@ static void ScriptCmd_fadetobgfromset(void)
     sAnimBackgroundFadeState = 1;
 }
 
-static void Task_FadeToBg(u8 taskId)
+static void Task_FadeToBg (u8 taskId)
 {
     if (gTasks[taskId].tState == 0) {
         BeginHardwarePaletteFade(0xE8, 0, 0, 16, 0);
@@ -3158,7 +3158,7 @@ static void Task_FadeToBg(u8 taskId)
     }
 }
 
-static void LoadMoveBg(u16 bgId)
+static void LoadMoveBg (u16 bgId)
 {
     if (IsContest()) {
         const u32 *tilemap = gBattleAnimBackgroundTable[bgId].tilemap;
@@ -3179,7 +3179,7 @@ static void LoadMoveBg(u16 bgId)
     }
 }
 
-static void LoadDefaultBg(void)
+static void LoadDefaultBg (void)
 {
     if (IsContest()) {
         LoadContestBgAfterMoveAnim();
@@ -3188,7 +3188,7 @@ static void LoadDefaultBg(void)
     }
 }
 
-static void ScriptCmd_restorebg(void)
+static void ScriptCmd_restorebg (void)
 {
     u8 taskId;
 
@@ -3201,7 +3201,7 @@ static void ScriptCmd_restorebg(void)
 #undef tBackgroundId
 #undef tState
 
-static void ScriptCmd_waitbgfadeout(void)
+static void ScriptCmd_waitbgfadeout (void)
 {
     if (sAnimBackgroundFadeState == 2) {
         sBattleAnimScriptPtr++;
@@ -3211,7 +3211,7 @@ static void ScriptCmd_waitbgfadeout(void)
     }
 }
 
-static void ScriptCmd_waitbgfadein(void)
+static void ScriptCmd_waitbgfadein (void)
 {
     if (sAnimBackgroundFadeState == 0) {
         sBattleAnimScriptPtr++;
@@ -3221,14 +3221,14 @@ static void ScriptCmd_waitbgfadein(void)
     }
 }
 
-static void ScriptCmd_changebg(void)
+static void ScriptCmd_changebg (void)
 {
     sBattleAnimScriptPtr++;
     LoadMoveBg(sBattleAnimScriptPtr[0]);
     sBattleAnimScriptPtr++;
 }
 
-s8 BattleAnimAdjustPanning(s8 pan)
+s8 BattleAnimAdjustPanning (s8 pan)
 {
     if (!IsContest() && gBattleSpritesDataPtr->healthBoxesData[gBattleAnimAttacker].statusAnimActive) {
         if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
@@ -3265,7 +3265,7 @@ s8 BattleAnimAdjustPanning(s8 pan)
     return pan;
 }
 
-s8 BattleAnimAdjustPanning2(s8 pan)
+s8 BattleAnimAdjustPanning2 (s8 pan)
 {
     if (!IsContest() && gBattleSpritesDataPtr->healthBoxesData[gBattleAnimAttacker].statusAnimActive) {
         if (GetBattlerSide(gBattleAnimAttacker) != B_SIDE_PLAYER) {
@@ -3281,7 +3281,7 @@ s8 BattleAnimAdjustPanning2(s8 pan)
     return pan;
 }
 
-s16 KeepPanInRange(s16 panArg, int oldPan)
+s16 KeepPanInRange (s16 panArg, int oldPan)
 {
     s16 pan = panArg;
 
@@ -3294,7 +3294,7 @@ s16 KeepPanInRange(s16 panArg, int oldPan)
     return pan;
 }
 
-s16 CalculatePanIncrement(s16 sourcePan, s16 targetPan, s16 incrementPan)
+s16 CalculatePanIncrement (s16 sourcePan, s16 targetPan, s16 incrementPan)
 {
     s16 ret;
 
@@ -3309,7 +3309,7 @@ s16 CalculatePanIncrement(s16 sourcePan, s16 targetPan, s16 incrementPan)
     return ret;
 }
 
-static void ScriptCmd_playsewithpan(void)
+static void ScriptCmd_playsewithpan (void)
 {
     u16 songId;
     s8 pan;
@@ -3321,7 +3321,7 @@ static void ScriptCmd_playsewithpan(void)
     sBattleAnimScriptPtr += 3;
 }
 
-static void ScriptCmd_setpan(void)
+static void ScriptCmd_setpan (void)
 {
     s8 pan;
 
@@ -3338,7 +3338,7 @@ static void ScriptCmd_setpan(void)
 #define tCurrentPan     data[4]
 #define tFrameCounter   data[8]
 
-static void ScriptCmd_panse_1B(void)
+static void ScriptCmd_panse_1B (void)
 {
     u16 songNum;
     s8 currentPanArg, incrementPan, incrementPanArg, currentPan, targetPan;
@@ -3368,7 +3368,7 @@ static void ScriptCmd_panse_1B(void)
     sBattleAnimScriptPtr += 6;
 }
 
-void Task_PanFromInitialToTarget(u8 taskId)
+void Task_PanFromInitialToTarget (u8 taskId)
 {
     bool32 destroyTask = FALSE;
     if (gTasks[taskId].tFrameCounter++ >= gTasks[taskId].tFramesToWait) {
@@ -3405,7 +3405,7 @@ void Task_PanFromInitialToTarget(u8 taskId)
     }
 }
 
-static void ScriptCmd_panse_26(void)
+static void ScriptCmd_panse_26 (void)
 {
     u16 songId;
     s8 currentPan, targetPan, incrementPan;
@@ -3432,7 +3432,7 @@ static void ScriptCmd_panse_26(void)
     sBattleAnimScriptPtr += 6;
 }
 
-static void ScriptCmd_panse_27(void)
+static void ScriptCmd_panse_27 (void)
 {
     u16 songId;
     s8 targetPanArg, incrementPanArg, currentPanArg, currentPan, targetPan, incrementPan;
@@ -3476,7 +3476,7 @@ static void ScriptCmd_panse_27(void)
 #define tNumberOfPlays  data[3]
 #define tFrameCounter   data[8]
 
-static void ScriptCmd_loopsewithpan(void)
+static void ScriptCmd_loopsewithpan (void)
 {
     u16 songId;
     s8 panningArg, panning;
@@ -3502,7 +3502,7 @@ static void ScriptCmd_loopsewithpan(void)
     sBattleAnimScriptPtr += 5;
 }
 
-static void Task_LoopAndPlaySE(u8 taskId)
+static void Task_LoopAndPlaySE (u8 taskId)
 {
     if (gTasks[taskId].tFrameCounter++ >= gTasks[taskId].tFramesToWait) {
         u16 songId;
@@ -3531,7 +3531,7 @@ static void Task_LoopAndPlaySE(u8 taskId)
 #define tPanning        data[1]
 #define tFramesToWait   data[2]
 
-static void ScriptCmd_waitplaysewithpan(void)
+static void ScriptCmd_waitplaysewithpan (void)
 {
     u16 songId;
     s8 panningArg, panning;
@@ -3553,7 +3553,7 @@ static void ScriptCmd_waitplaysewithpan(void)
     sBattleAnimScriptPtr += 4;
 }
 
-static void Task_WaitAndPlaySE(u8 taskId)
+static void Task_WaitAndPlaySE (u8 taskId)
 {
     if (gTasks[taskId].tFramesToWait-- <= 0) {
         PlaySE12WithPanning(gTasks[taskId].tSongId, gTasks[taskId].tPanning);
@@ -3566,7 +3566,7 @@ static void Task_WaitAndPlaySE(u8 taskId)
 #undef tPanning
 #undef tFramesToWait
 
-static void ScriptCmd_createsoundtask(void)
+static void ScriptCmd_createsoundtask (void)
 {
     TaskFunc func;
     u8 numArgs, taskId;
@@ -3586,7 +3586,7 @@ static void ScriptCmd_createsoundtask(void)
     gAnimSoundTaskCount++;
 }
 
-static void ScriptCmd_waitsound(void)
+static void ScriptCmd_waitsound (void)
 {
     if (gAnimSoundTaskCount != 0) {
         sSoundAnimFramesToWait = 0;
@@ -3606,7 +3606,7 @@ static void ScriptCmd_waitsound(void)
     }
 }
 
-static void ScriptCmd_jumpargeq(void)
+static void ScriptCmd_jumpargeq (void)
 {
     u8 argId;
     s16 valueToCheck;
@@ -3622,7 +3622,7 @@ static void ScriptCmd_jumpargeq(void)
     }
 }
 
-static void ScriptCmd_jumpifcontest(void)
+static void ScriptCmd_jumpifcontest (void)
 {
     sBattleAnimScriptPtr++;
     if (IsContest()) {
@@ -3632,7 +3632,7 @@ static void ScriptCmd_jumpifcontest(void)
     }
 }
 
-static void ScriptCmd_monbgprio_28(void)
+static void ScriptCmd_monbgprio_28 (void)
 {
     u8 wantedBattler;
     u8 battlerId;
@@ -3654,7 +3654,7 @@ static void ScriptCmd_monbgprio_28(void)
     }
 }
 
-static void ScriptCmd_monbgprio_29(void)
+static void ScriptCmd_monbgprio_29 (void)
 {
     sBattleAnimScriptPtr++;
     if (!IsContest()) {
@@ -3663,7 +3663,7 @@ static void ScriptCmd_monbgprio_29(void)
     }
 }
 
-static void ScriptCmd_monbgprio_2A(void)
+static void ScriptCmd_monbgprio_2A (void)
 {
     u8 wantedBattler;
     u8 battlerPosition;
@@ -3686,7 +3686,7 @@ static void ScriptCmd_monbgprio_2A(void)
     }
 }
 
-static void ScriptCmd_invisible(void)
+static void ScriptCmd_invisible (void)
 {
     u8 spriteId;
 
@@ -3698,7 +3698,7 @@ static void ScriptCmd_invisible(void)
     sBattleAnimScriptPtr += 2;
 }
 
-static void ScriptCmd_visible(void)
+static void ScriptCmd_visible (void)
 {
     u8 spriteId;
 
@@ -3710,7 +3710,7 @@ static void ScriptCmd_visible(void)
     sBattleAnimScriptPtr += 2;
 }
 
-static void ScriptCmd_doublebattle_2D(void)
+static void ScriptCmd_doublebattle_2D (void)
 {
     u8 wantedBattler;
     u8 r4;
@@ -3742,7 +3742,7 @@ static void ScriptCmd_doublebattle_2D(void)
     }
 }
 
-static void ScriptCmd_doublebattle_2E(void)
+static void ScriptCmd_doublebattle_2E (void)
 {
     u8 wantedBattler;
     u8 r4;
@@ -3766,7 +3766,7 @@ static void ScriptCmd_doublebattle_2E(void)
     }
 }
 
-static void ScriptCmd_stopsound(void)
+static void ScriptCmd_stopsound (void)
 {
     m4aMPlayStop(&gMPlayInfo_SE1);
     m4aMPlayStop(&gMPlayInfo_SE2);

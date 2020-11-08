@@ -10,12 +10,12 @@
 #include "data/bard_music/default_sound.h"
 #include "data/bard_music/length_table.h"
 
-s16 CalcWordPitch(int arg0, int songPos)
+s16 CalcWordPitch (int arg0, int songPos)
 {
     return gBardSoundPitchTables[arg0][songPos];
 }
 
-const struct BardSound * GetWordSounds(u16 word)
+const struct BardSound * GetWordSounds (u16 word)
 {
     u32 category;
     u32 subword;
@@ -43,7 +43,7 @@ const struct BardSound * GetWordSounds(u16 word)
     return *ptr;
 }
 
-void GetWordPhonemes(struct BardSong *song, u16 word)
+void GetWordPhonemes (struct BardSong *song, u16 word)
 {
     int i;
     const struct BardSound *sound;

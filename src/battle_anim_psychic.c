@@ -469,7 +469,7 @@ const struct SpriteTemplate gPsychoCutSpriteTemplate =
     .callback = AnimPsychoCut,
 };
 
-static void AnimPsychoCut(struct Sprite *sprite)
+static void AnimPsychoCut (struct Sprite *sprite)
 {
     s16 lVarX, lVarY;
     u16 rot;
@@ -513,7 +513,7 @@ static void AnimPsychoCut(struct Sprite *sprite)
     StoreSpriteCallbackInData6(sprite, DestroyAnimSprite);
 }
 
-static void AnimateZenHeadbutt(struct Sprite *sprite)
+static void AnimateZenHeadbutt (struct Sprite *sprite)
 {
     if (gBattleAnimArgs[0] == 0) {
         sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimAttacker, 2);
@@ -528,7 +528,7 @@ static void AnimateZenHeadbutt(struct Sprite *sprite)
 }
 
 // For the rectangular wall sprite used by Reflect, Mirror Coat, etc
-static void AnimDefensiveWall(struct Sprite *sprite)
+static void AnimDefensiveWall (struct Sprite *sprite)
 {
     u8 isContest = IsContest();
 
@@ -582,7 +582,7 @@ static void AnimDefensiveWall(struct Sprite *sprite)
     }
 }
 
-static void AnimDefensiveWall_Step1(struct Sprite *sprite)
+static void AnimDefensiveWall_Step1 (struct Sprite *sprite)
 {
     u8 battler = GetBattlerAtPosition(B_POSITION_OPPONENT_LEFT);
     if (!sprite->data[7]) {
@@ -603,7 +603,7 @@ static void AnimDefensiveWall_Step1(struct Sprite *sprite)
     sprite->callback(sprite);
 }
 
-static void AnimDefensiveWall_Step2(struct Sprite *sprite)
+static void AnimDefensiveWall_Step2 (struct Sprite *sprite)
 {
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(sprite->data[3], 16 - sprite->data[3]));
     if (sprite->data[3] == 13) {
@@ -613,7 +613,7 @@ static void AnimDefensiveWall_Step2(struct Sprite *sprite)
     }
 }
 
-static void AnimDefensiveWall_Step3(struct Sprite *sprite)
+static void AnimDefensiveWall_Step3 (struct Sprite *sprite)
 {
     u16 color;
     u16 startOffset;
@@ -636,7 +636,7 @@ static void AnimDefensiveWall_Step3(struct Sprite *sprite)
     }
 }
 
-static void AnimDefensiveWall_Step4(struct Sprite *sprite)
+static void AnimDefensiveWall_Step4 (struct Sprite *sprite)
 {
     SetGpuReg(REG_OFFSET_BLDALPHA, BLDALPHA_BLEND(sprite->data[3], 16 - sprite->data[3]));
 
@@ -660,7 +660,7 @@ static void AnimDefensiveWall_Step4(struct Sprite *sprite)
     }
 }
 
-static void AnimDefensiveWall_Step5(struct Sprite *sprite)
+static void AnimDefensiveWall_Step5 (struct Sprite *sprite)
 {
     if (!IsContest()) {
         u8 battlerCopy;
@@ -683,7 +683,7 @@ static void AnimDefensiveWall_Step5(struct Sprite *sprite)
 }
 
 // Animates the sparkle that appears during Reflect or Light Screen/Mirror Coat
-static void AnimWallSparkle(struct Sprite *sprite)
+static void AnimWallSparkle (struct Sprite *sprite)
 {
     if (sprite->data[0] == 0) {
         int arg3 = gBattleAnimArgs[3];
@@ -716,7 +716,7 @@ static void AnimWallSparkle(struct Sprite *sprite)
     }
 }
 
-static void AnimBentSpoon(struct Sprite *sprite)
+static void AnimBentSpoon (struct Sprite *sprite)
 {
     sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
     sprite->pos1.y = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_Y_PIC_OFFSET);
@@ -737,7 +737,7 @@ static void AnimBentSpoon(struct Sprite *sprite)
 }
 
 // Used by Amnesia
-static void AnimQuestionMark(struct Sprite *sprite)
+static void AnimQuestionMark (struct Sprite *sprite)
 {
     s16 x = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_WIDTH) /  2;
     s16 y = GetBattlerSpriteCoordAttr(gBattleAnimAttacker, BATTLER_COORD_ATTR_HEIGHT) / -2;
@@ -757,7 +757,7 @@ static void AnimQuestionMark(struct Sprite *sprite)
     sprite->callback = RunStoredCallbackWhenAnimEnds;
 }
 
-static void AnimQuestionMark_Step1(struct Sprite *sprite)
+static void AnimQuestionMark_Step1 (struct Sprite *sprite)
 {
     sprite->oam.affineMode = ST_OAM_AFFINE_NORMAL;
     sprite->affineAnims = sAffineAnims_QuestionMark;
@@ -766,7 +766,7 @@ static void AnimQuestionMark_Step1(struct Sprite *sprite)
     sprite->callback = AnimQuestionMark_Step2;
 }
 
-static void AnimQuestionMark_Step2(struct Sprite *sprite)
+static void AnimQuestionMark_Step2 (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:
@@ -785,7 +785,7 @@ static void AnimQuestionMark_Step2(struct Sprite *sprite)
     }
 }
 
-void AnimTask_MeditateStretchAttacker(u8 taskId)
+void AnimTask_MeditateStretchAttacker (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     u8 spriteId = GetAnimBattlerSpriteId(ANIM_ATTACKER);
@@ -794,14 +794,14 @@ void AnimTask_MeditateStretchAttacker(u8 taskId)
     task->func = AnimTask_MeditateStretchAttacker_Step;
 }
 
-static void AnimTask_MeditateStretchAttacker_Step(u8 taskId)
+static void AnimTask_MeditateStretchAttacker_Step (u8 taskId)
 {
     if (!RunAffineAnimFromTaskData(&gTasks[taskId])) {
         DestroyAnimVisualTask(taskId);
     }
 }
 
-void AnimTask_Teleport(u8 taskId)
+void AnimTask_Teleport (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
     u8 spriteId = GetAnimBattlerSpriteId(ANIM_ATTACKER);
@@ -814,7 +814,7 @@ void AnimTask_Teleport(u8 taskId)
     task->func = AnimTask_Teleport_Step;
 }
 
-static void AnimTask_Teleport_Step(u8 taskId)
+static void AnimTask_Teleport_Step (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -839,7 +839,7 @@ static void AnimTask_Teleport_Step(u8 taskId)
     }
 }
 
-void AnimTask_ImprisonOrbs(u8 taskId)
+void AnimTask_ImprisonOrbs (u8 taskId)
 {
     u16 var0, var1;
 
@@ -860,7 +860,7 @@ void AnimTask_ImprisonOrbs(u8 taskId)
     task->func = AnimTask_ImprisonOrbs_Step;
 }
 
-static void AnimTask_ImprisonOrbs_Step(u8 taskId)
+static void AnimTask_ImprisonOrbs_Step (u8 taskId)
 {
     u16 i;
     u8 spriteId;
@@ -927,7 +927,7 @@ static void AnimTask_ImprisonOrbs_Step(u8 taskId)
     }
 }
 
-static void sub_810FB60(struct Sprite *sprite)
+static void sub_810FB60 (struct Sprite *sprite)
 {
     if (sprite->data[1] > sprite->data[0] - 10) {
         sprite->invisible = sprite->data[1] & 1;
@@ -940,7 +940,7 @@ static void sub_810FB60(struct Sprite *sprite)
     sprite->data[1]++;
 }
 
-static void AnimRedX(struct Sprite *sprite)
+static void AnimRedX (struct Sprite *sprite)
 {
     if (gBattleAnimArgs[0] == ANIM_ATTACKER) {
         sprite->pos1.x = GetBattlerSpriteCoord(gBattleAnimAttacker, BATTLER_COORD_X_2);
@@ -951,7 +951,7 @@ static void AnimRedX(struct Sprite *sprite)
     sprite->callback = sub_810FB60;
 }
 
-void AnimTask_SkillSwap(u8 taskId)
+void AnimTask_SkillSwap (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -989,7 +989,7 @@ void AnimTask_SkillSwap(u8 taskId)
     task->func = AnimTask_SkillSwap_Step;
 }
 
-static void AnimTask_SkillSwap_Step(u8 taskId)
+static void AnimTask_SkillSwap_Step (u8 taskId)
 {
     u8 spriteId;
     struct Task *task = &gTasks[taskId];
@@ -1022,7 +1022,7 @@ static void AnimTask_SkillSwap_Step(u8 taskId)
     }
 }
 
-static void AnimSkillSwapOrb(struct Sprite *sprite)
+static void AnimSkillSwapOrb (struct Sprite *sprite)
 {
     if (TranslateAnimHorizontalArc(sprite)) {
         FreeOamMatrix(sprite->oam.matrixNum);
@@ -1032,7 +1032,7 @@ static void AnimSkillSwapOrb(struct Sprite *sprite)
 
 // The scanline effect that distorts the target during Extrasensory by segmenting the mon vertically and shifting the slices
 // arg0: Stage. Stage 0 is a slight right distortion, 1 is a medium left distortion, and 2 is a severe right distortion
-void AnimTask_ExtrasensoryDistortion(u8 taskId)
+void AnimTask_ExtrasensoryDistortion (u8 taskId)
 {
     s16 i;
     u8 yOffset;
@@ -1089,7 +1089,7 @@ void AnimTask_ExtrasensoryDistortion(u8 taskId)
     task->func = AnimTask_ExtrasensoryDistortion_Step;
 }
 
-static void AnimTask_ExtrasensoryDistortion_Step(u8 taskId)
+static void AnimTask_ExtrasensoryDistortion_Step (u8 taskId)
 {
     s16 sineIndex, i;
     struct Task *task = &gTasks[taskId];
@@ -1128,7 +1128,7 @@ static void AnimTask_ExtrasensoryDistortion_Step(u8 taskId)
 
 // Creates a cloned transparent sprite of the battler that grows and then shrinks back to original size. Used by Extrasensory
 // arg0: battler
-void AnimTask_TransparentCloneGrowAndShrink(u8 taskId)
+void AnimTask_TransparentCloneGrowAndShrink (u8 taskId)
 {
     s16 spriteId;
     s16 matrixNum;
@@ -1160,7 +1160,7 @@ void AnimTask_TransparentCloneGrowAndShrink(u8 taskId)
     task->func = AnimTask_TransparentCloneGrowAndShrink_Step;
 }
 
-static void AnimTask_TransparentCloneGrowAndShrink_Step(u8 taskId)
+static void AnimTask_TransparentCloneGrowAndShrink_Step (u8 taskId)
 {
     struct Task *task = &gTasks[taskId];
 
@@ -1194,7 +1194,7 @@ static void AnimTask_TransparentCloneGrowAndShrink_Step(u8 taskId)
     }
 }
 
-void AnimPsychoBoost(struct Sprite *sprite)
+void AnimPsychoBoost (struct Sprite *sprite)
 {
     switch (sprite->data[0]) {
     case 0:

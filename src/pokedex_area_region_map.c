@@ -14,7 +14,7 @@ static const u32 sPokedexAreaMap_Tilemap[] = INCBIN_U32("graphics/interface/regi
 static const u32 sPokedexAreaMapAffine_Gfx[] = INCBIN_U32("graphics/interface/region_map_affine.8bpp.lz");
 static const u32 sPokedexAreaMapAffine_Tilemap[] = INCBIN_U32("graphics/interface/region_map_affine.bin.lz");
 
-void LoadPokedexAreaMapGfx(const struct PokedexAreaMapTemplate *template)
+void LoadPokedexAreaMapGfx (const struct PokedexAreaMapTemplate *template)
 {
     u8 mode;
     sPokedexAreaMapBgNum = Alloc(4);
@@ -38,7 +38,7 @@ void LoadPokedexAreaMapGfx(const struct PokedexAreaMapTemplate *template)
     *sPokedexAreaMapBgNum = template->bg;
 }
 
-bool32 sub_81C4E90(void)
+bool32 sub_81C4E90 (void)
 {
     if (!FreeTempTileDataBuffersIfPossible()) {
         ShowBg(*sPokedexAreaMapBgNum);
@@ -48,14 +48,14 @@ bool32 sub_81C4E90(void)
     }
 }
 
-void FreePokedexAreaMapBgNum(void)
+void FreePokedexAreaMapBgNum (void)
 {
     if (sPokedexAreaMapBgNum != NULL) {
         FREE_AND_SET_NULL(sPokedexAreaMapBgNum);
     }
 }
 
-void PokedexAreaMapChangeBgY(u32 a0)
+void PokedexAreaMapChangeBgY (u32 a0)
 {
     ChangeBgY(*sPokedexAreaMapBgNum, a0 * 0x100, 0);
 }

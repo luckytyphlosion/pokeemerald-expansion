@@ -613,14 +613,14 @@ static const s8 sClockHandCoords[][2] =
     {0x00, -0x19}
 };
 
-static void VBlankCB_WallClock(void)
+static void VBlankCB_WallClock (void)
 {
     LoadOam();
     ProcessSpriteCopyRequests();
     TransferPlttBuffer();
 }
 
-static void LoadWallClockGraphics(void)
+static void LoadWallClockGraphics (void)
 {
     SetVBlankCallback(NULL);
     SetGpuReg(REG_OFFSET_DISPCNT, 0);
@@ -664,7 +664,7 @@ static void LoadWallClockGraphics(void)
     LoadSpritePalettes(sSpritePalettes_Clock);
 }
 
-static void WallClockInit(void)
+static void WallClockInit (void)
 {
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 16, 0, RGB_BLACK);
     EnableInterrupts(INTR_FLAG_VBLANK);
@@ -679,7 +679,7 @@ static void WallClockInit(void)
     ShowBg(3);
 }
 
-void CB2_StartWallClock(void)
+void CB2_StartWallClock (void)
 {
     u8 taskId;
     u8 spriteId;
@@ -721,7 +721,7 @@ void CB2_StartWallClock(void)
     ScheduleBgCopyTilemapToVram(2);
 }
 
-void CB2_ViewWallClock(void)
+void CB2_ViewWallClock (void)
 {
     u8 taskId;
     u8 spriteId;
@@ -766,7 +766,7 @@ void CB2_ViewWallClock(void)
     ScheduleBgCopyTilemapToVram(2);
 }
 
-static void CB2_WallClock(void)
+static void CB2_WallClock (void)
 {
     RunTasks();
     AnimateSprites();
@@ -775,14 +775,14 @@ static void CB2_WallClock(void)
     UpdatePaletteFade();
 }
 
-static void Task_SetClock_WaitFadeIn(u8 taskId)
+static void Task_SetClock_WaitFadeIn (u8 taskId)
 {
     if (!gPaletteFade.active) {
         gTasks[taskId].func = Task_SetClock_HandleInput;
     }
 }
 
-static void Task_SetClock_HandleInput(u8 taskId)
+static void Task_SetClock_HandleInput (u8 taskId)
 {
     if (gTasks[taskId].tMinuteHandAngle % 6) {
         gTasks[taskId].tMinuteHandAngle = CalcNewMinHandAngle(gTasks[taskId].tMinuteHandAngle, gTasks[taskId].tMoveDir, gTasks[taskId].tMoveSpeed);
@@ -816,7 +816,7 @@ static void Task_SetClock_HandleInput(u8 taskId)
     }
 }
 
-static void Task_SetClock_AskConfirm(u8 taskId)
+static void Task_SetClock_AskConfirm (u8 taskId)
 {
     DrawStdFrameWithCustomTileAndPalette(0, FALSE, 0x250, 0x0d);
     AddTextPrinterParameterized(0, 1, gText_IsThisTheCorrectTime, 0, 1, 0, NULL);
@@ -826,7 +826,7 @@ static void Task_SetClock_AskConfirm(u8 taskId)
     gTasks[taskId].func = Task_SetClock_HandleConfirmInput;
 }
 
-static void Task_SetClock_HandleConfirmInput(u8 taskId)
+static void Task_SetClock_HandleConfirmInput (u8 taskId)
 {
     switch (Menu_ProcessInputNoWrapClearOnChoose()) {
     case 0: // YES
@@ -843,14 +843,14 @@ static void Task_SetClock_HandleConfirmInput(u8 taskId)
     }
 }
 
-static void Task_SetClock_Confirmed(u8 taskId)
+static void Task_SetClock_Confirmed (u8 taskId)
 {
     RtcInitLocalTimeOffset(gTasks[taskId].tHours, gTasks[taskId].tMinutes);
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_SetClock_Exit;
 }
 
-static void Task_SetClock_Exit(u8 taskId)
+static void Task_SetClock_Exit (u8 taskId)
 {
     if (!gPaletteFade.active) {
         FreeAllWindowBuffers();
@@ -858,14 +858,14 @@ static void Task_SetClock_Exit(u8 taskId)
     }
 }
 
-static void Task_ViewClock_WaitFadeIn(u8 taskId)
+static void Task_ViewClock_WaitFadeIn (u8 taskId)
 {
     if (!gPaletteFade.active) {
         gTasks[taskId].func = Task_ViewClock_HandleInput;
     }
 }
 
-static void Task_ViewClock_HandleInput(u8 taskId)
+static void Task_ViewClock_HandleInput (u8 taskId)
 {
     InitClockWithRtc(taskId);
     if (JOY_NEW(A_BUTTON | B_BUTTON)) {
@@ -873,20 +873,20 @@ static void Task_ViewClock_HandleInput(u8 taskId)
     }
 }
 
-static void Task_ViewClock_FadeOut(u8 taskId)
+static void Task_ViewClock_FadeOut (u8 taskId)
 {
     BeginNormalPaletteFade(0xFFFFFFFF, 0, 0, 16, RGB_BLACK);
     gTasks[taskId].func = Task_ViewClock_Exit;
 }
 
-static void Task_ViewClock_Exit(u8 taskId)
+static void Task_ViewClock_Exit (u8 taskId)
 {
     if (!gPaletteFade.active) {
         SetMainCallback2(gMain.savedCallback);
     }
 }
 
-static u8 CalcMinHandDelta(u16 speed)
+static u8 CalcMinHandDelta (u16 speed)
 {
     if (speed > 60) {
         return 6;
@@ -901,7 +901,7 @@ static u8 CalcMinHandDelta(u16 speed)
     return 1;
 }
 
-static u16 CalcNewMinHandAngle(u16 angle, u8 direction, u8 speed)
+static u16 CalcNewMinHandAngle (u16 angle, u8 direction, u8 speed)
 {
     u8 delta = CalcMinHandDelta(speed);
     switch (direction) {
@@ -923,7 +923,7 @@ static u16 CalcNewMinHandAngle(u16 angle, u8 direction, u8 speed)
     return angle;
 }
 
-static bool32 AdvanceClock(u8 taskId, u8 direction)
+static bool32 AdvanceClock (u8 taskId, u8 direction)
 {
     switch (direction) {
     case MOVE_BACKWARD:
@@ -960,7 +960,7 @@ static bool32 AdvanceClock(u8 taskId, u8 direction)
     return FALSE;
 }
 
-static void UpdateClockPeriod(u8 taskId, u8 direction)
+static void UpdateClockPeriod (u8 taskId, u8 direction)
 {
     u8 hours = gTasks[taskId].tHours;
     switch (direction) {
@@ -987,7 +987,7 @@ static void UpdateClockPeriod(u8 taskId, u8 direction)
     }
 }
 
-static void InitClockWithRtc(u8 taskId)
+static void InitClockWithRtc (u8 taskId)
 {
     RtcCalcLocalTime();
     gTasks[taskId].tHours = gLocalTime.hours;
@@ -1002,7 +1002,7 @@ static void InitClockWithRtc(u8 taskId)
     }
 }
 
-static void SpriteCB_MinuteHand(struct Sprite *sprite)
+static void SpriteCB_MinuteHand (struct Sprite *sprite)
 {
     u16 angle = gTasks[sprite->data[0]].tMinuteHandAngle;
     s16 sin = Sin2(angle) / 16;
@@ -1024,7 +1024,7 @@ static void SpriteCB_MinuteHand(struct Sprite *sprite)
     sprite->pos2.y = y;
 }
 
-static void SpriteCB_HourHand(struct Sprite *sprite)
+static void SpriteCB_HourHand (struct Sprite *sprite)
 {
     u16 angle = gTasks[sprite->data[0]].tHourHandAngle;
     s16 sin = Sin2(angle) / 16;
@@ -1046,7 +1046,7 @@ static void SpriteCB_HourHand(struct Sprite *sprite)
     sprite->pos2.y = y;
 }
 
-static void SpriteCB_PMIndicator(struct Sprite *sprite)
+static void SpriteCB_PMIndicator (struct Sprite *sprite)
 {
     if (gTasks[sprite->data[0]].tPeriod != PERIOD_AM) {
         if (sprite->data[1] >= 60 && sprite->data[1] < 90) {
@@ -1067,7 +1067,7 @@ static void SpriteCB_PMIndicator(struct Sprite *sprite)
     sprite->pos2.y = Sin2(sprite->data[1]) * 30 / 0x1000;
 }
 
-static void SpriteCB_AMIndicator(struct Sprite *sprite)
+static void SpriteCB_AMIndicator (struct Sprite *sprite)
 {
     if (gTasks[sprite->data[0]].tPeriod != PERIOD_AM) {
         if (sprite->data[1] >= 105 && sprite->data[1] < 135) {
