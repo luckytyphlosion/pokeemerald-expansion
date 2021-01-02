@@ -4078,6 +4078,7 @@ enum
     WEIGHT,
 };
 
+// USED BY AI DAMAGE CALC - THREAD SAFE
 u16 GetPokedexHeightWeight (u16 dexNum, u8 data)
 {
     switch (data) {

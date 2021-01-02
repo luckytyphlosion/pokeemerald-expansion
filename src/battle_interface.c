@@ -2491,6 +2491,7 @@ static u8 GetScaledExpFraction (s32 oldValue, s32 receivedValue, s32 maxValue, u
     return abs(result);
 }
 
+// USED BY AI DAMAGE CALC - THREAD SAFE
 u8 GetScaledHPFraction (s16 hp, s16 maxhp, u8 scale)
 {
     u8 result = hp * scale / maxhp;

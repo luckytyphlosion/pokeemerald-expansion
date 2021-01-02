@@ -31,6 +31,8 @@ typedef vu8  vbool8;
 typedef vu16 vbool16;
 typedef vu32 vbool32;
 
+typedef uint32_t uint;
+
 struct BgCnt
 {
     u16 priority:2;

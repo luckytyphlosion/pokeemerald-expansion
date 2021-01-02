@@ -138,6 +138,7 @@ EWRAM_DATA u8 gBattleTextBuff2[TEXT_BUFF_ARRAY_COUNT] = {0};
 EWRAM_DATA u8 gBattleTextBuff3[TEXT_BUFF_ARRAY_COUNT] = {0};
 EWRAM_DATA u32 gBattleTypeFlags = 0;
 EWRAM_DATA u8 gBattleTerrain = 0;
+EWRAM_DATA u8 gDontGenerateEnemyParty = 0;
 EWRAM_DATA u32 gUnknown_02022FF4 = 0;
 EWRAM_DATA struct UnknownPokemonStruct4 gMultiPartnerParty[MULTI_PARTY_SIZE] = {0};
 EWRAM_DATA static struct UnknownPokemonStruct4* sMultiPartnerPartyBuffer = NULL;
@@ -1666,6 +1667,11 @@ static u8 CreateNPCTrainerParty (struct Pokemon *party, u16 trainerNum, bool8 fi
     u8 fixedIV;
     s32 i, j;
     u8 monsCount;
+
+    if (gDontGenerateEnemyParty) {
+        gDontGenerateEnemyParty = FALSE;
+        return 0;
+    }
 
     if (trainerNum == TRAINER_SECRET_BASE) {
         return 0;

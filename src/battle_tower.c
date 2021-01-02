@@ -37,6 +37,7 @@
 #include "constants/moves.h"
 #include "constants/easy_chat.h"
 #include "constants/tv.h"
+#include "battle_ai/create_party.h"
 
 extern const u8 MossdeepCity_SpaceCenter_2F_EventScript_MaxieTrainer[];
 extern const u8 MossdeepCity_SpaceCenter_2F_EventScript_TabithaTrainer[];
@@ -2040,6 +2041,14 @@ void DoSpecialTrainerBattle (void)
             gBattleScripting.specialTrainerBattleType = 0xFF;
         }
         break;
+    case SPECIAL_TEST_AI:
+        gBattleTypeFlags = BATTLE_TYPE_TRAINER;
+        GiveEnemyRandomParty();
+        gTrainerBattleOpponent_A = TRAINER_RICK;
+        gDontGenerateEnemyParty = TRUE;
+        CreateTask(Task_StartBattleAfterTransition, 1);
+        PlayMapChosenOrBattleBGM(0);
+        BattleTransition_StartOnField(GetSpecialBattleTransition(6));
     }
 }
 

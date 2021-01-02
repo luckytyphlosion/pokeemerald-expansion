@@ -2934,16 +2934,37 @@ void GiveBoxMonInitialMoveset (struct BoxPokemon *boxMon)
 {
     u16 species = GetBoxMonData(boxMon, MON_DATA_SPECIES, NULL);
     s32 level = GetLevelFromBoxMonExp(boxMon);
-    s32 i;
+    s32 i, j;
+    u16 moves[MAX_MON_MOVES] = {MOVE_NONE};
+    u16 curMove;
+    const struct LevelUpMove * learnset;
 
-    for (i = 0; gLevelUpLearnsets[species][i].move != LEVEL_UP_END; i++) {
+    learnset = gLevelUpLearnsets[species];
+    for (i = 0, curMove = learnset[i].move; curMove != LEVEL_UP_END; i++) {
         // potential braces affecting compilation
-        if (gLevelUpLearnsets[species][i].level > level)
+        if (learnset[i].level > level) {
             break;
-
-        if (GiveMoveToBoxMon(boxMon, gLevelUpLearnsets[species][i].move) == MON_HAS_MAX_MOVES) {
-            DeleteFirstMoveAndGiveMoveToBoxMon(boxMon, gLevelUpLearnsets[species][i].move);
         }
+
+        for (j = 0; j < MAX_MON_MOVES; j++) {
+            if (moves[j] == curMove) {
+                break;
+            } else if (moves[j] == MOVE_NONE) {
+                moves[j] = curMove;
+                break;
+            }
+        }
+
+        if (j == MAX_MON_MOVES) {
+            moves[0] = moves[1];
+            moves[1] = moves[2];
+            moves[2] = moves[3];
+            moves[3] = curMove;
+        }
+    }
+
+    for (i = 0; moves[i] == MOVE_NONE || i < MAX_MON_MOVES; i++) {
+        GiveMoveToBoxMon(boxMon, moves[i]);
     }
 }
 
@@ -3109,6 +3130,7 @@ u8 GetBoxMonGender (struct BoxPokemon *boxMon)
     }
 }
 
+// USED BY AI DAMAGE CALC - THREAD SAFE
 u8 GetGenderFromSpeciesAndPersonality (u16 species, u32 personality)
 {
     switch (gBaseStats[species].genderRatio) {

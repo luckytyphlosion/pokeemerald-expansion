@@ -5679,6 +5679,7 @@ bool32 IsBattlerAlive (u8 battlerId)
     }
 }
 
+// USED BY AI DAMAGE CALC - THREAD SAFE
 u8 GetBattleMonMoveSlot (struct BattlePokemon *battleMon, u16 move)
 {
     u8 i;
@@ -6878,10 +6879,10 @@ s32 CalculateMoveDamage (u16 move, u8 battlerAtk, u8 battlerDef, u8 moveType, s3
     dmg = CalcFinalDmg(dmg, move, battlerAtk, battlerDef, moveType, typeEffectivenessModifier, isCrit, updateFlags);
 
     // Add a random factor.
-    if (randomFactor) {
+    /*if (randomFactor) {
         dmg *= 100 - (Random() % 16);
         dmg /= 100;
-    }
+    }*/
 
     if (dmg == 0) {
         dmg = 1;
@@ -7303,6 +7304,7 @@ bool32 SetIllusionMon (struct Pokemon *mon, u32 battlerId)
     return FALSE;
 }
 
+// USED BY AI DAMAGE CALC - THREAD SAFE FOR AI ONLY
 bool8 ShouldGetStatBadgeBoost (u16 badgeFlag, u8 battlerId)
 {
     if (B_BADGE_BOOST != GEN_3) {
@@ -7320,6 +7322,9 @@ bool8 ShouldGetStatBadgeBoost (u16 badgeFlag, u8 battlerId)
     }
 }
 
+// IS_MOVE_PHYSICAL
+// IS_MOVE_SPECIAL
+// USED BY AI DAMAGE CALC - THREAD SAFE
 u8 GetBattleMoveSplit (u32 moveId)
 {
     if (IS_MOVE_STATUS(moveId) || B_PHYSICAL_SPECIAL_SPLIT >= GEN_4) {

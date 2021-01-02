@@ -834,6 +834,7 @@ u16 ItemId_GetPrice (u16 itemId)
     return gItems[SanitizeItemId(itemId)].price;
 }
 
+// USED BY AI DAMAGE CALC - THREAD SAFE
 u8 ItemId_GetHoldEffect (u16 itemId)
 {
     return gItems[SanitizeItemId(itemId)].holdEffect;

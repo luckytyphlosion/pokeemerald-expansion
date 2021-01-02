@@ -33,6 +33,7 @@
 #include "constants/songs.h"
 #include "constants/trainers.h"
 #include "trainer_hill.h"
+#include "battle_ai/battle_ai_main.h"
 
 extern struct MusicPlayerInfo gMPlayInfo_BGM;
 
@@ -1448,7 +1449,9 @@ static void OpponentHandlePrintSelectionString (void)
 
 static void OpponentHandleChooseAction (void)
 {
-    if (!AI_TrySwitchOrUseItem()) {
+    if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE)) {
+        NewAI_Main();
+    } else if (!AI_TrySwitchOrUseItem()) {
         if (gBattleTypeFlags & BATTLE_TYPE_PALACE) {
             BtlController_EmitTwoReturnValues(1, B_ACTION_USE_MOVE, ChooseMoveAndTargetInBattlePalace());
             OpponentBufferExecCompleted();

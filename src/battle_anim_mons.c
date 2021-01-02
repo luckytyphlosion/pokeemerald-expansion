@@ -767,6 +767,7 @@ bool32 InitSpritePosToAnimBattler (u32 animBattlerId, struct Sprite *sprite, boo
     return TRUE;
 }
 
+// USED BY AI DAMAGE CALC - THREAD SAFE FOR AI ONLY
 u8 GetBattlerSide (u8 battlerId)
 {
     return GET_BATTLER_SIDE2(battlerId);

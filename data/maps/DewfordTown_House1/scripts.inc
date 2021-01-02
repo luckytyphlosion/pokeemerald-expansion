@@ -2,11 +2,15 @@ DewfordTown_House1_MapScripts:: @ 81FC3CD
 	.byte 0
 
 DewfordTown_House1_EventScript_Man:: @ 81FC3CE
-	msgbox DewfordTown_House1_Text_LotToBeSaidForLivingOnIsland, MSGBOX_NPC
+	setvar VAR_0x8004, SPECIAL_TEST_AI
+	special DoSpecialTrainerBattle
+	//trainerbattle_single TRAINER_RICK, Route102_Text_RickIntro, Route102_Text_RickDefeated
+	//msgbox DewfordTown_House1_Text_LotToBeSaidForLivingOnIsland, MSGBOX_NPC
 	end
 
 DewfordTown_House1_EventScript_Woman:: @ 81FC3D7
-	msgbox DewfordTown_House1_Text_LifeGoesSlowlyOnIsland, MSGBOX_NPC
+	callnative GivePlayerRandomParty
+	//msgbox DewfordTown_House1_Text_LifeGoesSlowlyOnIsland, MSGBOX_NPC
 	end
 
 DewfordTown_House1_EventScript_Zigzagoon:: @ 81FC3E0
