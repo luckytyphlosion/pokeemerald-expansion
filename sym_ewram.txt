@@ -149,3 +149,4 @@
 	.include "src/trainer_hill.o"
 	.include "src/rayquaza_scene.o"
 	.include "src/battle_ai/battle_ai_main.o"
+	.include "src/battle_ai/create_party.o"

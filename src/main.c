@@ -118,6 +118,7 @@ void AgbMain ()
     InitMainCallbacks();
     InitMapMusic();
     //SeedRngWithRtc(); see comment at SeedRngWithRtc declaration below
+    SeedRng3(42069 << 16 | 12345);
     ClearDma3Requests();
     ResetBgs();
     SetDefaultFontsPointer();

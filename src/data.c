@@ -438,3 +438,5 @@ const u32 gUnknown830AF4C[] =
 #include "data/trainers.h"
 #include "data/text/species_names.h"
 #include "data/text/move_names.h"
+#include "data/text/species_names_ascii.h"
+#include "data/text/move_names_ascii.h"

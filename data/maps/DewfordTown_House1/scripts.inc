@@ -2,6 +2,12 @@ DewfordTown_House1_MapScripts:: @ 81FC3CD
 	.byte 0
 
 DewfordTown_House1_EventScript_Man:: @ 81FC3CE
+	msgbox DewfordTown_House1_Text_Empty, MSGBOX_YESNO
+	compare VAR_RESULT, NO
+	setvar VAR_0x8005, TRUE
+	goto_if_eq DewfordTown_House1_EventScript_Man_UsePreviousSeed
+	setvar VAR_0x8005, FALSE
+DewfordTown_House1_EventScript_Man_UsePreviousSeed:
 	setvar VAR_0x8004, SPECIAL_TEST_AI
 	special DoSpecialTrainerBattle
 	//trainerbattle_single TRAINER_RICK, Route102_Text_RickIntro, Route102_Text_RickDefeated
@@ -38,3 +44,5 @@ DewfordTown_House1_Text_LifeGoesSlowlyOnIsland: @ 81FC45B
 DewfordTown_House1_Text_Zigzagoon: @ 81FC510
 	.string "ZIGZAGOON: Guguuh!$"
 
+DewfordTown_House1_Text_Empty:
+	.string "$"

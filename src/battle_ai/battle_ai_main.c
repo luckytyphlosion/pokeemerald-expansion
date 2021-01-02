@@ -36,11 +36,25 @@
 #include "malloc.h"
 #include "battle_ai/estimate_nash.h"
 #include "mgba.h"
+#include "printf.h"
+#include "decompress.h"
 
 #define NUM_SIDES 2
 #define B_SIDE_PLAYER_NZ B_SIDE_PLAYER + 1
 #define B_SIDE_OPPONENT_NZ B_SIDE_OPPONENT + 1
 #define B_NEITHER_SIDE_NZ B_SIDE_OPPONENT_NZ + 1
+
+static const u8 * const sDebug_SideNames[] = {
+    "B_SIDE_NONE",
+    "B_SIDE_PLAYER_NZ",
+    "B_SIDE_OPPONENT_NZ",
+    "B_NEITHER_SIDE_NZ"
+};
+
+static const u8 * const sDebug_BSideNames[] = {
+    "B_SIDE_PLAYER",
+    "B_SIDE_OPPONENT"
+};
 
 static void NewAI_CalculateAllDamages(void);
 static void NewAI_InitSomeFields(void);
@@ -68,6 +82,11 @@ static void NewAI_EmitChosenAction(uint chosenAction);
 // move1 -> mon1
 
 #define debug_printf mgba_printf
+#define SNPRINTF_E(printBufferCursor, format, ...) \
+    printBufferCursor += snprintf(gDecompressionBuffer + printBufferCursor, 0x4000 - printBufferCursor, format, __VA_ARGS__); \
+    if (printBufferCursor == -1 || printBufferCursor >= 0x4000) { \
+        while (1); \
+    }
 
 struct AIThinking
 {
@@ -115,8 +134,8 @@ void NewAI_Main (void)
     NewAI_PopulateAllBattleMons();
     NewAI_CalculateAllDamages();
     NewAI_CalculateWeights();
-    chosenAction = NewAI_RemoveInvalidLinesFromWeightsThenSolve();
     CpuCopy32(sAIThinkingPtr->savedBattleMons, gBattleMons, sizeof(gBattleMons));
+    chosenAction = NewAI_RemoveInvalidLinesFromWeightsThenSolve();
     NewAI_EmitChosenAction(chosenAction);
 
     free(sAIThinkingPtr);
@@ -142,6 +161,7 @@ static void NewAI_CalculateAllDamages (void)
     struct BattlePokemon * aiMon;
     uint invalidPlayerMons;
     uint invalidAiMons;
+    uint printBufferCursor;
 
     playerLeftPos = sAIThinkingPtr->playerLeftPos;
     oppLeftPos = sAIThinkingPtr->oppLeftPos;
@@ -198,6 +218,23 @@ static void NewAI_CalculateAllDamages (void)
             }
         }
     }
+
+    for (aiMonIndex = 0; aiMonIndex < PARTY_SIZE; aiMonIndex++) {
+        debug_printf("aiMon[%d]: %s", aiMonIndex, gSpeciesNamesAscii[sAIThinkingPtr->mons.side.aiMons[aiMonIndex].species]);
+        for (playerMonIndex = 0; playerMonIndex < PARTY_SIZE; playerMonIndex++) {
+            debug_printf("  playerMon[%d]: %s", playerMonIndex, gSpeciesNamesAscii[sAIThinkingPtr->mons.side.playerMons[playerMonIndex].species]);
+            for (whichSide = 0; whichSide < NUM_SIDES; whichSide++) {
+                printBufferCursor = 0;
+                SNPRINTF_E(printBufferCursor, "    %s: ", sDebug_BSideNames[whichSide]);
+
+                for (curMoveIndex = 0; curMoveIndex < MAX_MON_MOVES; curMoveIndex++) {
+                    SNPRINTF_E(printBufferCursor, "%04d ", sAIThinkingPtr->allDamages[aiMonIndex][playerMonIndex][whichSide][curMoveIndex]);
+                }
+                debug_printf("%s", gDecompressionBuffer);
+            }
+        }
+    }
+
 }
 
 static void NewAI_PopulateAllBattleMons (void)
@@ -355,6 +392,7 @@ static void NewAI_CalculateWeights (void)
                 curPlayerMon->hp = 0;
                 whoWon = B_SIDE_OPPONENT_NZ;
             } else {
+                curPlayerMon->hp -= aiDamage;
                 whoWon = NewAI_DealDamageUntilOneFaints(&curAiMon->hp, &curPlayerMon->hp, damagesForMonsOut, aiFaster);
             }
 
@@ -391,6 +429,7 @@ static void NewAI_CalculateWeights (void)
                 curAiMon->hp = 0;
                 whoWon = B_SIDE_PLAYER_NZ;
             } else {
+                curAiMon->hp -= playerDamage;
                 whoWon = NewAI_DealDamageUntilOneFaints(&curAiMon->hp, &curPlayerMon->hp, damagesForMonsOut, aiFaster);
             }
 
@@ -405,6 +444,7 @@ static void NewAI_CalculateWeights (void)
         s32 (* damagesForAiMonOut)[PARTY_SIZE][NUM_SIDES][MAX_MON_MOVES];
 
         if (sAIThinkingPtr->invalidAiActions & (1 << aiInitialAction)) {
+            debug_printf("double switch ai continue");
             continue;
         }
 
@@ -421,6 +461,7 @@ static void NewAI_CalculateWeights (void)
             uint whoWon;
 
             if (sAIThinkingPtr->invalidPlayerActions & (1 << playerInitialAction)) {
+                debug_printf("double switch player continue");
                 continue;
             }
 
@@ -430,10 +471,12 @@ static void NewAI_CalculateWeights (void)
             }
 
             curPlayerMon = &playerMons[playerSwitchIndex];
-            damagesForMonsOut = damagesForAiMonOut[playerSwitchIndex];
+            damagesForMonsOut = &((*damagesForAiMonOut)[playerSwitchIndex]);
+            //debug_printf("damagesForMonsOut: %p", damagesForMonsOut);
             aiFaster = curAiMon->speed > curPlayerMon->speed;
 
             whoWon = NewAI_DealDamageUntilOneFaints(&curAiMon->hp, &curPlayerMon->hp, damagesForMonsOut, aiFaster);
+            debug_printf("double switch ai %d pl %d whoWon: %s", aiInitialAction, playerInitialAction, sDebug_SideNames[whoWon]);
             NewAI_WriteWeightToMatrix(whoWon, &sAIThinkingPtr->weights[aiInitialAction][playerInitialAction], curAiMon, curPlayerMon);
             CpuCopy32(&sAIThinkingPtr->allMonsCopy, &sAIThinkingPtr->mons.allMons, sizeof(sAIThinkingPtr->allMonsCopy));
         }
@@ -598,17 +641,129 @@ static uint NewAI_RemoveInvalidLinesFromWeightsThenSolve (void)
     int chosenAction;
     uint invalidAiActions;
     uint curBit;
+    struct BattlePokemon * playerMon;
+    struct BattlePokemon * aiMon;
+    const u8 * aiMonName;
+    const u8 * playerMonName;
+    int printBufferCursor = 0;
+    //u8 * printBuffer;
+
+    //uint oppLeftPos, playerLeftPos;
 
     k = 0;
     weights = &sAIThinkingPtr->weights;
+    aiMon = &gBattleMons[sAIThinkingPtr->oppLeftPos];
+    playerMon = &gBattleMons[sAIThinkingPtr->playerLeftPos];
+    aiMonName = gSpeciesNamesAscii[aiMon->species];
+    playerMonName = gSpeciesNamesAscii[playerMon->species];
+
+    debug_printf("ai's attack vs player's attack");
+
+    for (i = 0; i < 4; i++) {
+        for (j = 0; j < 4; j++) {
+            s16 weight;
+            const u8 * aiMonMoveName = gMoveNamesAscii[aiMon->moves[i]];
+            const u8 * playerMonMoveName = gMoveNamesAscii[playerMon->moves[j]];
+            
+            weight = (*weights)[i][j];
+            // ai's attack vs player's attack
+            debug_printf("%s's \"%s\" vs %s's \"%s\": %d", aiMonName, aiMonMoveName, playerMonName, playerMonMoveName, weight);
+        }
+    }
+
+    debug_printf("\nai's attack vs player's switch");
+
+    for (j = 4; j < 9; j++) {
+        uint playerSwitchIndex;
+
+        playerSwitchIndex = j - 4;
+        if (playerSwitchIndex >= sAIThinkingPtr->playerMonPartyIndex) {
+            playerSwitchIndex++;
+        }
+
+        playerMonName = gSpeciesNamesAscii[sAIThinkingPtr->mons.side.playerMons[playerSwitchIndex].species];
+
+        for (i = 0; i < 4; i++) {
+            const u8 * aiMonMoveName;
+            
+            s16 weight;
+
+            aiMonMoveName = gMoveNamesAscii[aiMon->moves[i]];
+            weight = (*weights)[i][j];
+
+            // ai's attack vs player switch
+            debug_printf("%s's \"%s\" vs switch %s: %d", aiMonName, aiMonMoveName, playerMonName, weight);
+        }
+    }
+
+    debug_printf("\nai's switch vs player's attack");
+
+    playerMonName = gSpeciesNamesAscii[playerMon->species];
+
+    for (i = 4; i < 9; i++) {
+        uint aiSwitchIndex;
+
+        aiSwitchIndex = i - 4;
+        if (aiSwitchIndex >= sAIThinkingPtr->aiMonPartyIndex) {
+            aiSwitchIndex++;
+        }
+        aiMonName = gSpeciesNamesAscii[sAIThinkingPtr->mons.side.aiMons[aiSwitchIndex].species];
+
+        for (j = 0; j < 4; j++) {
+            const u8 * aiMonMoveName;
+            s16 weight;
+            const u8 * playerMonMoveName;
+
+            playerMonMoveName = gMoveNamesAscii[playerMon->moves[j]];
+            weight = (*weights)[i][j];
+
+            // ai switch vs player's attack
+            debug_printf("switch %s vs %s's \"%s\": %d", aiMonName, playerMonName, playerMonMoveName, weight);
+        }
+    }
+
+    debug_printf("\nai's switch vs player's switch");
+
+    for (i = 4; i < 9; i++) {
+        uint aiSwitchIndex;
+
+        aiSwitchIndex = i - 4;
+        if (aiSwitchIndex >= sAIThinkingPtr->aiMonPartyIndex) {
+            aiSwitchIndex++;
+        }
+        aiMonName = gSpeciesNamesAscii[sAIThinkingPtr->mons.side.aiMons[aiSwitchIndex].species];
+
+        for (j = 4; j < 9; j++) {
+            uint playerSwitchIndex;
+            s16 weight;
+
+            playerSwitchIndex = j - 4;
+            if (playerSwitchIndex >= sAIThinkingPtr->playerMonPartyIndex) {
+                playerSwitchIndex++;
+            }
+            playerMonName = gSpeciesNamesAscii[sAIThinkingPtr->mons.side.playerMons[playerSwitchIndex].species];
+            weight = (*weights)[i][j];
+
+            // ai's switch vs player's switch
+            debug_printf("switch %s vs switch %s: %d", aiMonName, playerMonName, weight);            
+        }
+    }
 
     for (i = 0; i < 9; i++) {
+        printBufferCursor = 0;
         for (j = 0; j < 9; j++) {
             s16 weight = (*weights)[i][j];
+
+            printBufferCursor += snprintf(gDecompressionBuffer + printBufferCursor, 0x4000 - printBufferCursor, "%04d ", weight);
+            if (printBufferCursor == -1 || printBufferCursor >= 0x4000) {
+                while (1);
+            }
+
             if (weight != -0x8000) {
                 matrix[k++] = weight;
             }
         }
+        debug_printf("%s", gDecompressionBuffer);
     }
 
     chosenAction = estimate_payoff_matrix(matrix, sAIThinkingPtr->numAiActions, sAIThinkingPtr->numPlayerActions);
