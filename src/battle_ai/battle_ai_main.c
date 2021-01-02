@@ -44,6 +44,11 @@
 #define B_SIDE_OPPONENT_NZ B_SIDE_OPPONENT + 1
 #define B_NEITHER_SIDE_NZ B_SIDE_OPPONENT_NZ + 1
 
+#define AI_1v1_UNDETERMINED 1
+#define AI_1v1_MON_1_WON 1
+#define AI_1v1_MON_2_WON 2
+#define AI_1v1_NEITHER_WON 3
+
 static const u8 * const sDebug_SideNames[] = {
     "B_SIDE_NONE",
     "B_SIDE_PLAYER_NZ",
@@ -56,19 +61,32 @@ static const u8 * const sDebug_BSideNames[] = {
     "B_SIDE_OPPONENT"
 };
 
+struct WinningLosingWeights
+{
+    s16 winningWeight;
+    s16 losingWeight;
+};
+
 static void NewAI_CalculateAllDamages(void);
 static void NewAI_InitSomeFields(void);
 static void NewAI_PopulateAllBattleMons(void);
 static void NewAI_PopulateBattleMonsForParty(struct Pokemon * srcParty, struct BattlePokemon * dstParty, u8 * invalidMons, uint monPartyIndex, uint monPos);
 static s32 NewAI_CalcDamage(u16 move, u8 battlerAtk, u8 battlerDef);
 static void NewAI_CalculateWeights(void);
-static uint NewAI_DealDamageUntilOneFaints(u16 * aiMonHp, u16 * playerMonHp, s32 (* damagesForMonsOut)[NUM_SIDES][MAX_MON_MOVES], uint aiFaster);
+static uint NewAI_DealDamageUntilOneFaints(struct BattlePokemon * mon1, struct BattlePokemon * mon2, s32 (* damagesForMonsOut)[NUM_SIDES][MAX_MON_MOVES], uint mon1isAI);
 static s32 NewAI_GetBestDamage(s32 * damages);
-static uint NewAI_DealOneTurnOfDamage_ReturnWhichIfOneFainted(u16 * aiMonHp, u16 * playerMonHp, s32 aiDamage, s32 playerDamage, uint aiFaster);
-static void NewAI_WriteWeightToMatrix(uint whoWon, s16 * weight, struct BattlePokemon * curAiMon, struct BattlePokemon * curPlayerMon);
+static uint NewAI_DealOneTurnOfDamage_ReturnWhichIfOneFainted(struct BattlePokemon * mon1, struct BattlePokemon * mon2, s32 mon1Damage, s32 mon2Damage);
 static void NewAI_InvalidateBadSwitches(uint monPartyIndex, uint invalidMons, u16 * invalidActions, u8 * numActions, uint whichSide);
 static uint NewAI_RemoveInvalidLinesFromWeightsThenSolve(void);
 static void NewAI_EmitChosenAction(uint chosenAction);
+static uint NewAI_CalculateBestSwitchIn(void);
+
+static struct WinningLosingWeights NewAI_CalculateWeightAfter1v1(struct BattlePokemon * winningMon, struct BattlePokemon * losingMon, u16 savedWinningMonHp, u16 savedLosingMonHp, uint winningMonPartyIndex, uint losingMonPartyIndex, uint winningMonSide);
+static s16 NewAI_GetWeightOfMonVsDefendingParty(struct BattlePokemon * winningMon, struct BattlePokemon * losingParty, uint winningMonIndex, uint losingInvalidMons, uint isWinningMonAI);
+static s16 NewAI_GetWeightFrom1v1Aftermath(uint whoWon, struct BattlePokemon * mon1, struct BattlePokemon * mon2);
+static s16 NewAI_GetWeightFrom1v1Aftermath2(uint whoWon, struct BattlePokemon * mon1, struct BattlePokemon * mon2, u16 mon1OldHp, u16 mon2OldHp);
+static uint NewAI_IsMon1Faster(struct BattlePokemon * mon1, struct BattlePokemon * mon2);
+static s16 NewAI_CalculateWeightAfter1v1BasedOnWhoWon(struct BattlePokemon * curAiMon, struct BattlePokemon * curPlayerMon, u16 savedAiMonHp, u16 savedPlayerMonHp, uint aiMonPartyIndex, uint playerMonPartyIndex, uint whoWon);
 
 // actions:
 // move1 move2 move3 move4 switch1 switch2 switch3 switch4 switch5
@@ -118,6 +136,11 @@ struct AIThinking
     s16 weights[9][9];
 };
 
+/*struct AIBestSwitch
+{
+    
+}*/
+
 EWRAM_DATA static struct AIThinking * sAIThinkingPtr = NULL;
 
 void NewAI_Main (void)
@@ -139,6 +162,26 @@ void NewAI_Main (void)
     NewAI_EmitChosenAction(chosenAction);
 
     free(sAIThinkingPtr);
+}
+
+uint NewAI_GetMostSuitableMonToSwitchInto (void)
+{
+    uint bestSwitchIn;
+
+    sAIThinkingPtr = AllocZeroed(sizeof(struct AIThinking));
+    if (sAIThinkingPtr == NULL) {
+        while (1);
+    }
+
+    CpuCopy32(gBattleMons, sAIThinkingPtr->savedBattleMons, sizeof(gBattleMons));
+    NewAI_InitSomeFields();
+    NewAI_PopulateAllBattleMons();
+    NewAI_CalculateAllDamages();
+    bestSwitchIn = NewAI_CalculateBestSwitchIn();
+    CpuCopy32(sAIThinkingPtr->savedBattleMons, gBattleMons, sizeof(gBattleMons));
+    free(sAIThinkingPtr);
+
+    return bestSwitchIn;
 }
 
 static void NewAI_InitSomeFields (void)
@@ -270,6 +313,15 @@ static void NewAI_PopulateBattleMonsForParty (struct Pokemon * srcParty, struct 
         dstMon = &dstParty[i];
 
         if (i == monPartyIndex) {
+            uint monSpecies = gBattleMons[monPos].species;
+
+            if (monSpecies == SPECIES_NONE
+            || monSpecies == SPECIES_EGG
+            || gBattleMons[monPos].hp == 0) {
+                *invalidMons |= 1 << i;
+                continue;
+            }
+
             CpuCopy32(&gBattleMons[monPos], dstMon, sizeof(struct BattlePokemon));
         } else {
             uint monSpecies;
@@ -308,7 +360,6 @@ static void NewAI_CalculateWeights (void)
     // 4-8: switch
     uint aiInitialAction;
     uint playerInitialAction;
-    uint aiFaster;
     uint aiMonPartyIndex;
     uint playerMonPartyIndex;
 
@@ -321,17 +372,21 @@ static void NewAI_CalculateWeights (void)
     s32 (* damagesForMonsOut)[NUM_SIDES][MAX_MON_MOVES];
     uint i, j;
 
+    u16 savedAiMonHp;
+    u16 savedPlayerMonHp;
+
+    struct WinningLosingWeights weights;
+
     // end declarations
 
     aiMons = sAIThinkingPtr->mons.side.aiMons;
     playerMons = sAIThinkingPtr->mons.side.playerMons;
 
-    aiMonPartyIndex = sAIThinkingPtr->aiMonPartyIndex;;
+    aiMonPartyIndex = sAIThinkingPtr->aiMonPartyIndex;
     playerMonPartyIndex = sAIThinkingPtr->playerMonPartyIndex;
 
     curAiMon = &aiMons[aiMonPartyIndex];
     curPlayerMon = &playerMons[playerMonPartyIndex];
-    aiFaster = curAiMon->speed > curPlayerMon->speed;
 
     damagesForMonsOut = &sAIThinkingPtr->allDamages[aiMonPartyIndex][playerMonPartyIndex];
 
@@ -340,14 +395,20 @@ static void NewAI_CalculateWeights (void)
             s32 aiDamage = (*damagesForMonsOut)[B_SIDE_OPPONENT][aiInitialAction];
             s32 playerDamage = (*damagesForMonsOut)[B_SIDE_PLAYER][playerInitialAction];
             uint whoWon;
+            s16 playerWeight;
+            s16 aiWeight;
+            s16 weight;
 
-            whoWon = NewAI_DealOneTurnOfDamage_ReturnWhichIfOneFainted(&curAiMon->hp, &curPlayerMon->hp, aiDamage, playerDamage, aiFaster);
+            savedAiMonHp = curAiMon->hp;
+            savedPlayerMonHp = curPlayerMon->hp;
+
+            whoWon = NewAI_DealOneTurnOfDamage_ReturnWhichIfOneFainted(curAiMon, curPlayerMon, aiDamage, playerDamage);
             if (!whoWon) {
-                whoWon = NewAI_DealDamageUntilOneFaints(&curAiMon->hp, &curPlayerMon->hp, damagesForMonsOut, aiFaster);
+                whoWon = NewAI_DealDamageUntilOneFaints(curAiMon, curPlayerMon, damagesForMonsOut, B_SIDE_OPPONENT);
             }
 
-            // do lazy heuristic for now
-            NewAI_WriteWeightToMatrix(whoWon, &sAIThinkingPtr->weights[aiInitialAction][playerInitialAction], curAiMon, curPlayerMon);
+            weight = NewAI_CalculateWeightAfter1v1BasedOnWhoWon(curAiMon, curPlayerMon, savedAiMonHp, savedPlayerMonHp, aiMonPartyIndex, playerMonPartyIndex, whoWon);
+            sAIThinkingPtr->weights[aiInitialAction][playerInitialAction] = weight;
 
             // lazy
             CpuCopy32(&sAIThinkingPtr->allMonsCopy, &sAIThinkingPtr->mons.allMons, sizeof(sAIThinkingPtr->allMonsCopy));
@@ -381,22 +442,25 @@ static void NewAI_CalculateWeights (void)
 
         curPlayerMon = &playerMons[playerSwitchIndex];
         damagesForMonsOut = &sAIThinkingPtr->allDamages[aiMonPartyIndex][playerSwitchIndex];
-
-        aiFaster = curAiMon->speed > curPlayerMon->speed;
         
         for (aiInitialAction = 0; aiInitialAction < 4; aiInitialAction++) {
             uint whoWon = 0;
             s32 aiDamage = (*damagesForMonsOut)[B_SIDE_OPPONENT][aiInitialAction];
+            s16 weight;
+
+            savedAiMonHp = curAiMon->hp;
+            savedPlayerMonHp = curPlayerMon->hp;
 
             if (curPlayerMon->hp <= aiDamage) {
                 curPlayerMon->hp = 0;
-                whoWon = B_SIDE_OPPONENT_NZ;
+                whoWon = AI_1v1_MON_1_WON;
             } else {
                 curPlayerMon->hp -= aiDamage;
-                whoWon = NewAI_DealDamageUntilOneFaints(&curAiMon->hp, &curPlayerMon->hp, damagesForMonsOut, aiFaster);
+                whoWon = NewAI_DealDamageUntilOneFaints(curAiMon, curPlayerMon, damagesForMonsOut, B_SIDE_OPPONENT);
             }
 
-            NewAI_WriteWeightToMatrix(whoWon, &sAIThinkingPtr->weights[aiInitialAction][playerInitialAction], curAiMon, curPlayerMon);
+            weight = NewAI_CalculateWeightAfter1v1BasedOnWhoWon(curAiMon, curPlayerMon, savedAiMonHp, savedPlayerMonHp, aiMonPartyIndex, playerSwitchIndex, whoWon);
+            sAIThinkingPtr->weights[aiInitialAction][playerInitialAction] = weight;
             CpuCopy32(&sAIThinkingPtr->allMonsCopy, &sAIThinkingPtr->mons.allMons, sizeof(sAIThinkingPtr->allMonsCopy));
         }
     }
@@ -419,21 +483,25 @@ static void NewAI_CalculateWeights (void)
         curAiMon = &aiMons[aiSwitchIndex];
         damagesForMonsOut = &sAIThinkingPtr->allDamages[aiSwitchIndex][playerMonPartyIndex];
 
-        aiFaster = curAiMon->speed > curPlayerMon->speed;
-
         for (playerInitialAction = 0; playerInitialAction < 4; playerInitialAction++) {
             uint whoWon = 0;
             s32 playerDamage = (*damagesForMonsOut)[B_SIDE_PLAYER][playerInitialAction];
+            s16 weight;
+
+            savedAiMonHp = curAiMon->hp;
+            savedPlayerMonHp = curPlayerMon->hp;
 
             if (curAiMon->hp <= playerDamage) {
                 curAiMon->hp = 0;
-                whoWon = B_SIDE_PLAYER_NZ;
+                whoWon = AI_1v1_MON_2_WON;
             } else {
                 curAiMon->hp -= playerDamage;
-                whoWon = NewAI_DealDamageUntilOneFaints(&curAiMon->hp, &curPlayerMon->hp, damagesForMonsOut, aiFaster);
+                whoWon = NewAI_DealDamageUntilOneFaints(curAiMon, curPlayerMon, damagesForMonsOut, B_SIDE_OPPONENT);
             }
 
-            NewAI_WriteWeightToMatrix(whoWon, &sAIThinkingPtr->weights[aiInitialAction][playerInitialAction], curAiMon, curPlayerMon);
+            weight = NewAI_CalculateWeightAfter1v1BasedOnWhoWon(curAiMon, curPlayerMon, savedAiMonHp, savedPlayerMonHp, aiSwitchIndex, playerMonPartyIndex, whoWon);
+
+            sAIThinkingPtr->weights[aiInitialAction][playerInitialAction] = weight;
             CpuCopy32(&sAIThinkingPtr->allMonsCopy, &sAIThinkingPtr->mons.allMons, sizeof(sAIThinkingPtr->allMonsCopy));
         }
     }
@@ -459,6 +527,7 @@ static void NewAI_CalculateWeights (void)
         for (playerInitialAction = 4; playerInitialAction < 9; playerInitialAction++) {
             uint playerSwitchIndex;
             uint whoWon;
+            s16 weight;
 
             if (sAIThinkingPtr->invalidPlayerActions & (1 << playerInitialAction)) {
                 debug_printf("double switch player continue");
@@ -472,68 +541,191 @@ static void NewAI_CalculateWeights (void)
 
             curPlayerMon = &playerMons[playerSwitchIndex];
             damagesForMonsOut = &((*damagesForAiMonOut)[playerSwitchIndex]);
-            //debug_printf("damagesForMonsOut: %p", damagesForMonsOut);
-            aiFaster = curAiMon->speed > curPlayerMon->speed;
 
-            whoWon = NewAI_DealDamageUntilOneFaints(&curAiMon->hp, &curPlayerMon->hp, damagesForMonsOut, aiFaster);
-            debug_printf("double switch ai %d pl %d whoWon: %s", aiInitialAction, playerInitialAction, sDebug_SideNames[whoWon]);
-            NewAI_WriteWeightToMatrix(whoWon, &sAIThinkingPtr->weights[aiInitialAction][playerInitialAction], curAiMon, curPlayerMon);
+            whoWon = NewAI_DealDamageUntilOneFaints(curAiMon, curPlayerMon, damagesForMonsOut, B_SIDE_OPPONENT);
+            weight = NewAI_CalculateWeightAfter1v1BasedOnWhoWon(curAiMon, curPlayerMon, savedAiMonHp, savedPlayerMonHp, aiSwitchIndex, playerSwitchIndex, whoWon);
+            sAIThinkingPtr->weights[aiInitialAction][playerInitialAction] = weight;
+
+            //debug_printf("damagesForMonsOut: %p", damagesForMonsOut);
+
+            //debug_printf("double switch ai %d pl %d whoWon: %s", aiInitialAction, playerInitialAction, sDebug_SideNames[whoWon]);
             CpuCopy32(&sAIThinkingPtr->allMonsCopy, &sAIThinkingPtr->mons.allMons, sizeof(sAIThinkingPtr->allMonsCopy));
         }
     }
 }
 
-static uint NewAI_DealDamageUntilOneFaints (u16 * aiMonHp, u16 * playerMonHp, s32 (* damagesForMonsOut)[NUM_SIDES][MAX_MON_MOVES], uint aiFaster)
+static s16 NewAI_CalculateWeightAfter1v1BasedOnWhoWon (struct BattlePokemon * curAiMon, struct BattlePokemon * curPlayerMon, u16 savedAiMonHp, u16 savedPlayerMonHp, uint aiMonPartyIndex, uint playerMonPartyIndex, uint whoWon)
 {
-    s32 aiBestDamage;
-    s32 playerBestDamage;
+    struct WinningLosingWeights weights;
+    s16 weight;
+
+    if (whoWon == AI_1v1_MON_1_WON) {
+        weights = NewAI_CalculateWeightAfter1v1(curAiMon, curPlayerMon, savedAiMonHp, savedPlayerMonHp, aiMonPartyIndex, playerMonPartyIndex, B_SIDE_OPPONENT);
+        weight = weights.winningWeight - weights.losingWeight;
+    } else if (whoWon == AI_1v1_MON_2_WON) {
+        weights = NewAI_CalculateWeightAfter1v1(curPlayerMon, curAiMon, savedPlayerMonHp, savedAiMonHp, playerMonPartyIndex, aiMonPartyIndex, B_SIDE_PLAYER);
+        weight = -weights.losingWeight + weights.winningWeight;
+    } else if (whoWon == AI_1v1_NEITHER_WON) {
+        weight = 0;
+    } else {
+        while (1);
+    }
+
+    return weight;
+}
+
+static struct WinningLosingWeights NewAI_CalculateWeightAfter1v1 (struct BattlePokemon * winningMon, struct BattlePokemon * losingMon, u16 savedWinningMonHp, u16 savedLosingMonHp, uint winningMonPartyIndex, uint losingMonPartyIndex, uint winningMonSide)
+{
+    u16 savedWinningMonHpAfter1v1;
+    s16 losingWeight;
+    s16 winningWeight;
+    struct BattlePokemon * winningMonParty;
+    struct BattlePokemon * losingMonParty;
+    uint invalidWinningPartyMons;
+    uint invalidLosingPartyMons;
+    uint losingMonSide;
+    struct WinningLosingWeights winningLosingWeights;
+
+    losingMon->hp = savedLosingMonHp;
+    savedWinningMonHpAfter1v1 = winningMon->hp;
+    winningMon->hp = savedWinningMonHp;
+
+    if (winningMonSide == B_SIDE_OPPONENT) {
+        winningMonParty = sAIThinkingPtr->mons.side.aiMons;
+        losingMonParty = sAIThinkingPtr->mons.side.playerMons;
+        invalidWinningPartyMons = sAIThinkingPtr->invalidAiMons;
+        invalidLosingPartyMons = sAIThinkingPtr->invalidPlayerMons;
+        losingMonSide = B_SIDE_PLAYER;
+    } else {
+        winningMonParty = sAIThinkingPtr->mons.side.playerMons;
+        losingMonParty = sAIThinkingPtr->mons.side.aiMons;
+        invalidWinningPartyMons = sAIThinkingPtr->invalidPlayerMons;
+        invalidLosingPartyMons = sAIThinkingPtr->invalidAiMons;
+        losingMonSide = B_SIDE_OPPONENT;
+    }
+
+    losingWeight = NewAI_GetWeightOfMonVsDefendingParty(losingMon, winningMonParty, losingMonPartyIndex, invalidWinningPartyMons, losingMonSide);
+
+    winningMon->hp = savedWinningMonHpAfter1v1;
+
+    winningWeight = NewAI_GetWeightOfMonVsDefendingParty(winningMon, losingMonParty, winningMonPartyIndex, invalidLosingPartyMons | (1 << losingMonPartyIndex), winningMonSide);
+
+    winningLosingWeights.winningWeight = winningWeight;
+    winningLosingWeights.losingWeight = losingWeight;
+    //debug_printf("winningWeight: %d, losingWeight: %d", winningWeight, losingWeight);
+
+    return winningLosingWeights;
+}
+
+static uint NewAI_CalculateBestSwitchIn (void)
+{
+    uint aiSwitchIndex;
+    s32 (* damagesForMonsOut)[NUM_SIDES][MAX_MON_MOVES];
+    struct BattlePokemon * curAiMon;
+    struct BattlePokemon * curPlayerMon;
+    uint playerMonPartyIndex;
+
+    struct BattlePokemon * aiMons;
+    struct BattlePokemon * playerMons;
+    s32 bestWeight;
+    uint bestSwitchIndex;
+    // end declarations
+
+    aiMons = sAIThinkingPtr->mons.side.aiMons;
+    playerMons = sAIThinkingPtr->mons.side.playerMons;
+
+    playerMonPartyIndex = sAIThinkingPtr->playerMonPartyIndex;
+    curPlayerMon = &playerMons[playerMonPartyIndex];
+    bestWeight = -2147483647;
+    bestSwitchIndex = PARTY_SIZE;
+
+    for (aiSwitchIndex = 0; aiSwitchIndex < PARTY_SIZE; aiSwitchIndex++) {
+        uint whoWon;
+        s16 weight;
+        u16 savedAiMonHp;
+        u16 savedPlayerMonHp;
+
+        if (sAIThinkingPtr->invalidAiMons & (1 << aiSwitchIndex)) {
+            continue;
+        }
+
+        curAiMon = &aiMons[aiSwitchIndex];
+        damagesForMonsOut = &sAIThinkingPtr->allDamages[aiSwitchIndex][playerMonPartyIndex];
+        savedAiMonHp = curAiMon->hp;
+        savedPlayerMonHp = curPlayerMon->hp;
+
+        //debug_printf("damagesForMonsOut: %p", damagesForMonsOut);
+
+        whoWon = NewAI_DealDamageUntilOneFaints(curAiMon, curPlayerMon, damagesForMonsOut, B_SIDE_OPPONENT);
+        weight = NewAI_CalculateWeightAfter1v1BasedOnWhoWon(curAiMon, curPlayerMon, savedAiMonHp, savedPlayerMonHp, aiSwitchIndex, playerMonPartyIndex, whoWon);
+
+        if (weight > bestWeight) {
+            bestWeight = weight;
+            bestSwitchIndex = aiSwitchIndex;
+        }
+
+        CpuCopy32(&sAIThinkingPtr->allMonsCopy, &sAIThinkingPtr->mons.allMons, sizeof(sAIThinkingPtr->allMonsCopy));
+    }
+
+    return bestSwitchIndex;
+}
+
+static uint NewAI_DealDamageUntilOneFaints (struct BattlePokemon * mon1, struct BattlePokemon * mon2, s32 (* damagesForMonsOut)[NUM_SIDES][MAX_MON_MOVES], uint mon1isAI)
+{
+    s32 mon1BestDamage;
+    s32 mon2BestDamage;
     uint whoWon = 0;
 
-    aiBestDamage = NewAI_GetBestDamage((*damagesForMonsOut)[B_SIDE_OPPONENT]);
-    playerBestDamage = NewAI_GetBestDamage((*damagesForMonsOut)[B_SIDE_PLAYER]);
+    if (mon1isAI == B_SIDE_OPPONENT) {
+        mon1BestDamage = NewAI_GetBestDamage((*damagesForMonsOut)[B_SIDE_OPPONENT]);
+        mon2BestDamage = NewAI_GetBestDamage((*damagesForMonsOut)[B_SIDE_PLAYER]);
+    } else {
+        mon1BestDamage = NewAI_GetBestDamage((*damagesForMonsOut)[B_SIDE_PLAYER]);
+        mon2BestDamage = NewAI_GetBestDamage((*damagesForMonsOut)[B_SIDE_OPPONENT]);
+    }
 
     // player gets off 4 hits
-    // i.e. numAiHits - 1
+    // i.e. numMon1Hits - 1
     // ai mon has 100 hp, player mon does 16 damage
     // player mon has 200 hp, ai mon does 40 damage
     // ai mon is faster
-    if (aiBestDamage != 0 && playerBestDamage != 0) {
-        uint numAiHits;
-        uint numPlayerHits;
+    if (mon1BestDamage != 0 && mon2BestDamage != 0) {
+        uint numMon1Hits;
+        uint numMon2Hits;
 
-        numAiHits = (*playerMonHp + (aiBestDamage - 1)) / aiBestDamage;
-        numPlayerHits = (*aiMonHp + (playerBestDamage - 1)) / playerBestDamage;
+        numMon1Hits = (mon2->hp + (mon1BestDamage - 1)) / mon1BestDamage;
+        numMon2Hits = (mon1->hp + (mon2BestDamage - 1)) / mon2BestDamage;
 
-        if (aiFaster) {
-            if (numAiHits <= numPlayerHits) {
-                *playerMonHp = 0;
-                *aiMonHp -= playerBestDamage * (numAiHits - 1);
-                whoWon = B_SIDE_OPPONENT_NZ;
+        if (NewAI_IsMon1Faster(mon1, mon2)) {
+            if (numMon1Hits <= numMon2Hits) {
+                mon2->hp = 0;
+                mon1->hp -= mon2BestDamage * (numMon1Hits - 1);
+                whoWon = AI_1v1_MON_1_WON;
             } else {
-                // (numAiHits > numPlayerHits)
-                *aiMonHp = 0;
-                *playerMonHp -= aiBestDamage * numPlayerHits;
-                whoWon = B_SIDE_PLAYER_NZ;
+                // (numMon1Hits > numMon2Hits)
+                mon1->hp = 0;
+                mon2->hp -= mon1BestDamage * numMon2Hits;
+                whoWon = AI_1v1_MON_2_WON;
             }
         } else {
-            if (numPlayerHits <= numAiHits) {
-                *aiMonHp = 0;
-                *playerMonHp -= aiBestDamage * (numPlayerHits - 1);
-                whoWon = B_SIDE_PLAYER_NZ;
+            if (numMon2Hits <= numMon1Hits) {
+                mon1->hp = 0;
+                mon2->hp -= mon1BestDamage * (numMon2Hits - 1);
+                whoWon = AI_1v1_MON_2_WON;
             } else {
-                *playerMonHp = 0;
-                *aiMonHp -= playerBestDamage * numAiHits;
-                whoWon = B_SIDE_OPPONENT_NZ;
+                mon2->hp = 0;
+                mon1->hp -= mon2BestDamage * numMon1Hits;
+                whoWon = AI_1v1_MON_1_WON;
             }
         }
-    } else if (aiBestDamage == 0 && playerBestDamage != 0) {
-        *aiMonHp = 0;
-        whoWon = B_SIDE_PLAYER_NZ;
-    } else if (aiBestDamage != 0 && playerBestDamage == 0) {
-        *playerMonHp = 0;
-        whoWon = B_SIDE_OPPONENT_NZ;
+    } else if (mon1BestDamage == 0 && mon2BestDamage != 0) {
+        mon1->hp = 0;
+        whoWon = AI_1v1_MON_2_WON;
+    } else if (mon1BestDamage != 0 && mon2BestDamage == 0) {
+        mon2->hp = 0;
+        whoWon = AI_1v1_MON_1_WON;
     } else {
-        whoWon = B_NEITHER_SIDE_NZ;
+        whoWon = AI_1v1_NEITHER_WON;
     }
 
     return whoWon;
@@ -553,51 +745,125 @@ static s32 NewAI_GetBestDamage (s32 * damages)
     return bestDamage;
 }
 
-static uint NewAI_DealOneTurnOfDamage_ReturnWhichIfOneFainted (u16 * aiMonHp, u16 * playerMonHp, s32 aiDamage, s32 playerDamage, uint aiFaster)
+static uint NewAI_IsMon1Faster (struct BattlePokemon * mon1, struct BattlePokemon * mon2)
 {
-    if (aiFaster) {
-        if (*playerMonHp <= aiDamage) {
-            *playerMonHp = 0;
-            return B_SIDE_OPPONENT_NZ;
-        } else {
-            *playerMonHp -= aiDamage;
+    uint mon1Faster;
+
+    if (mon1->speed != mon2->speed) {
+        mon1Faster = mon1->speed > mon2->speed;
+    } else {
+        mon1Faster = Random() & 1;
+    }
+
+    return mon1Faster;
+}
+
+static s16 NewAI_GetWeightOfMonVsDefendingParty (struct BattlePokemon * winningMon, struct BattlePokemon * losingParty, uint winningMonIndex, uint losingInvalidMons, uint isWinningMonAI)
+{
+    u16 savedWinningMonHp;
+    u16 savedLosingMonHp;
+    uint losingMonIndex;
+    uint numDefendingMons;
+    s32 (* damagesForMonsOut)[NUM_SIDES][MAX_MON_MOVES];
+    s32 cumulativeWeight;
+    int numLosingMons;
+
+    savedWinningMonHp = winningMon->hp;
+    numLosingMons = 0;
+    cumulativeWeight = 0;
+
+    for (losingMonIndex = 0; losingMonIndex < PARTY_SIZE; losingMonIndex++) {
+        struct BattlePokemon * losingMon;
+        uint whoWon;
+        s16 weight;
+
+        if (losingInvalidMons & (1 << losingMonIndex)) {
+            continue;
         }
 
-        if (*aiMonHp <= playerDamage) {
-            *aiMonHp = 0;
-            return B_SIDE_PLAYER_NZ;
+        losingMon = &losingParty[losingMonIndex];
+        savedLosingMonHp = losingMon->hp;
+
+        if (isWinningMonAI == B_SIDE_OPPONENT) {
+            damagesForMonsOut = &sAIThinkingPtr->allDamages[winningMonIndex][losingMonIndex];
         } else {
-            *aiMonHp -= playerDamage;
+            damagesForMonsOut = &sAIThinkingPtr->allDamages[losingMonIndex][winningMonIndex];
+        }
+
+        whoWon = NewAI_DealDamageUntilOneFaints(winningMon, losingMon, damagesForMonsOut, isWinningMonAI);
+        weight = NewAI_GetWeightFrom1v1Aftermath2(whoWon, winningMon, losingMon, savedWinningMonHp, savedLosingMonHp);
+        debug_printf("%s vs %s: %d", gSpeciesNamesAscii[winningMon->species], gSpeciesNamesAscii[losingMon->species], weight);
+        cumulativeWeight += weight;
+        numLosingMons++;
+
+        winningMon->hp = savedWinningMonHp;
+        losingMon->hp = savedLosingMonHp;
+    }
+
+    debug_printf("\n");
+
+    //debug_printf("cumulativeWeight: %d, numLosingMons: %d, cumulativeWeight/numLosingMons: %d", cumulativeWeight, numLosingMons, (s16)(cumulativeWeight/numLosingMons));
+    return (s16)(cumulativeWeight/numLosingMons);
+}
+
+static uint NewAI_DealOneTurnOfDamage_ReturnWhichIfOneFainted (struct BattlePokemon * mon1, struct BattlePokemon * mon2, s32 mon1Damage, s32 mon2Damage)
+{
+    if (NewAI_IsMon1Faster(mon1, mon2)) {
+        if (mon2->hp <= mon1Damage) {
+            mon2->hp = 0;
+            return AI_1v1_MON_1_WON;
+        } else {
+            mon2->hp -= mon1Damage;
+        }
+
+        if (mon1->hp <= mon2Damage) {
+            mon1->hp = 0;
+            return AI_1v1_MON_2_WON;
+        } else {
+            mon1->hp -= mon2Damage;
         }
 
         return 0;
     } else {
-        if (*aiMonHp <= playerDamage) {
-            *aiMonHp = 0;
-            return B_SIDE_PLAYER_NZ;
+        if (mon1->hp <= mon2Damage) {
+            mon1->hp = 0;
+            return AI_1v1_MON_2_WON;
         } else {
-            *aiMonHp -= playerDamage;
+            mon1->hp -= mon2Damage;
         }
 
-        if (*playerMonHp <= aiDamage) {
-            *playerMonHp = 0;
-            return B_SIDE_OPPONENT_NZ;
+        if (mon2->hp <= mon1Damage) {
+            mon2->hp = 0;
+            return AI_1v1_MON_1_WON;
         } else {
-            *playerMonHp -= aiDamage;
+            mon2->hp -= mon1Damage;
         }
 
-        return 0;
+        return AI_1v1_UNDETERMINED;
     }
 }
 
-static void NewAI_WriteWeightToMatrix (uint whoWon, s16 * weight, struct BattlePokemon * curAiMon, struct BattlePokemon * curPlayerMon)
+static s16 NewAI_GetWeightFrom1v1Aftermath (uint whoWon, struct BattlePokemon * mon1, struct BattlePokemon * mon2)
 {
-    if (whoWon == B_SIDE_OPPONENT_NZ) {
-        *weight = (curAiMon->hp * 256)/curAiMon->maxHP;
-    } else if (whoWon == B_SIDE_PLAYER_NZ) {
-        *weight = -(curPlayerMon->hp * 256)/curPlayerMon->maxHP;
-    } else if (whoWon == B_NEITHER_SIDE_NZ) {
-        *weight = 0;
+    if (whoWon == AI_1v1_MON_1_WON) {
+        return (mon1->hp * 256)/mon1->maxHP;
+    } else if (whoWon == AI_1v1_MON_2_WON) {
+        return -(mon2->hp * 256)/mon2->maxHP;
+    } else if (whoWon == AI_1v1_NEITHER_WON) {
+        return 0;
+    } else {
+        while (1);
+    }
+}
+
+static s16 NewAI_GetWeightFrom1v1Aftermath2 (uint whoWon, struct BattlePokemon * mon1, struct BattlePokemon * mon2, u16 mon1OldHp, u16 mon2OldHp)
+{
+    if (whoWon == AI_1v1_MON_1_WON) {
+        return 512 - ((mon1OldHp - mon1->hp) * 256)/mon1->maxHP;
+    } else if (whoWon == AI_1v1_MON_2_WON) {
+        return ((mon2OldHp - mon2->hp) * 256)/mon2->maxHP;
+    } else if (whoWon == AI_1v1_NEITHER_WON) {
+        return 256;
     } else {
         while (1);
     }
@@ -819,13 +1085,7 @@ static void NewAI_EmitChosenAction (uint chosenAction)
             aiSwitchIndex++;
         }
 
-        *(gBattleStruct->monToSwitchIntoId + gActiveBattler) = aiSwitchIndex;
+        *(gBattleStruct->AI_monToSwitchIntoId + gActiveBattler) = aiSwitchIndex;
         BtlController_EmitTwoReturnValues(1, B_ACTION_SWITCH, 0);
     }
 }
-
-//void NewAI_GetMostSuitableMonToSwitchInto
-
-
-
-

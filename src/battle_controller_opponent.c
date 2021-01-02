@@ -1533,7 +1533,11 @@ static void OpponentHandleChoosePokemon (void)
     s32 chosenMonId;
 
     if (*(gBattleStruct->AI_monToSwitchIntoId + gActiveBattler) == PARTY_SIZE) {
-        chosenMonId = GetMostSuitableMonToSwitchInto();
+        if (!(gBattleTypeFlags & BATTLE_TYPE_DOUBLE)) {
+            chosenMonId = NewAI_GetMostSuitableMonToSwitchInto();
+        } else {
+            chosenMonId = GetMostSuitableMonToSwitchInto();
+        }
 
         if (chosenMonId == PARTY_SIZE) {
             s32 battler1, battler2, firstId, lastId;

@@ -56,12 +56,15 @@ void GivePlayerRandomParty (void)
 void GiveEnemyRandomParty (void)
 {
     ZeroEnemyPartyMons();
-    if (gSpecialVar_0x8005) {
-        SeedRng3(sSavedRng3Value);
+    if (gSpecialVar_0x8005 == 0) {
+        CpuCopy32(gPlayerParty, gEnemyParty, sizeof(gPlayerParty));
+    } else {
+        if (gSpecialVar_0x8005 == 1) {
+            SeedRng3(sSavedRng3Value);
+        }
+        sSavedRng3Value = GetRng3Seed();
+        CreateRandomParty(gEnemyParty);
     }
-
-    sSavedRng3Value = GetRng3Seed();
-    CreateRandomParty(gEnemyParty);
 }
 
 static void CreateRandomParty (struct Pokemon * party)
@@ -96,7 +99,7 @@ static void CreateRandomParty (struct Pokemon * party)
 
                     if (BinarySearch(sAllowedMoveEffectsOrdered, 0, ARRAY_COUNT(sAllowedMoveEffectsOrdered) - 1, moveEffect) != -1) {
                     //if (IsInArray(sAllowedMoveEffectsOrdered, moveEffect)) {
-                        if (moveInfo->secondaryEffectChance < 100) {
+                        if (moveInfo->secondaryEffectChance < 50) {
                             break;
                         }
                     }

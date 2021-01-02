@@ -129,6 +129,8 @@ extern const u16 gFont1JapaneseGlyphs[];
 extern const u16 gFont2JapaneseGlyphs[];
 extern const u8 gFont2JapaneseGlyphWidths[];
 
+static void RunTextPrintersForInstantText(void);
+
 void SetFontsPointer (const struct FontInfo *fonts)
 {
     gFonts = fonts;
@@ -162,6 +164,11 @@ u16 AddTextPrinterParameterized (u8 windowId, u8 fontId, const u8 *str, u8 x, u8
     return AddTextPrinter(&printerTemplate, speed, callback);
 }
 
+u32 IsInstantText (void)
+{
+    return TRUE;
+}
+
 bool16 AddTextPrinter (struct TextPrinterTemplate *printerTemplate, u8 speed, void (*callback)(struct TextPrinterTemplate *, u16))
 {
     int i;
@@ -170,6 +177,10 @@ bool16 AddTextPrinter (struct TextPrinterTemplate *printerTemplate, u8 speed, vo
 
     if (!gFonts) {
         return FALSE;
+    }
+
+    if (IsInstantText() && speed != 0 && speed != TEXT_SPEED_FF) {
+        speed = 1;
     }
 
     gTempTextPrinter.active = 1;
@@ -212,6 +223,11 @@ void RunTextPrinters (void)
 {
     int i;
 
+    if (IsInstantText()) {
+        RunTextPrintersForInstantText();
+        return;
+    }
+
     if (!gUnknown_03002F84) {
         for (i = 0; i < NUM_TEXT_PRINTERS; ++i) {
             if (gTextPrinters[i].active) {
@@ -225,6 +241,42 @@ void RunTextPrinters (void)
                     }
                     break;
                 case 1:
+                    gTextPrinters[i].active = 0;
+                    break;
+                }
+            }
+        }
+    }
+}
+
+static void RunTextPrintersForInstantText (void)
+{
+    int i, j;
+    u16 result;
+
+    for (i = 0; i < 0x20; ++i)
+    {
+        if (gTextPrinters[i].active != 0)
+        {
+            for (j = 0; j < 0x400; j++) {
+                u32 oldState;
+                u32 newState;
+
+                oldState = gTextPrinters[i].state;
+                result = RenderFont(&gTextPrinters[i]);
+                newState = gTextPrinters[i].state;
+
+                if (result == 0) {
+                    if (gTextPrinters[i].callback != 0)
+                        gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, result);
+                } else if (result == 3) {
+                    if (gTextPrinters[i].callback != 0)
+                        gTextPrinters[i].callback(&gTextPrinters[i].printerTemplate, result);
+                    if (oldState == 0 && newState != 0)
+                        CopyWindowToVram(gTextPrinters[i].printerTemplate.windowId, 2);
+                    break;
+                } else if (result == 1) {
+                    CopyWindowToVram(gTextPrinters[i].printerTemplate.windowId, 2);
                     gTextPrinters[i].active = 0;
                     break;
                 }
